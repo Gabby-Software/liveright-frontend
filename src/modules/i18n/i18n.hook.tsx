@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useContext, ComponentType} from "react";
 import {I18nContext} from "./i18n.context";
 import {I18nTypeNotEmpty} from "./i18n.type";
 import {config} from "./i18n.config";
@@ -30,4 +30,8 @@ export const useTranslation = () => {
             getStr(strings[config.defaultLanguage], key, data) || key;
     };
     return {t, lang, setLang};
+};
+export const withTranslations = (Component: ComponentType) => (props: any) => {
+    const {t, lang, setLang} = useTranslation();
+    return <Component {...props} t={t} lang={lang} setLang={setLang}/>
 };
