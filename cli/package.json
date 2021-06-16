@@ -1,0 +1,23 @@
+{
+  "name": "liveright",
+  "version": "1.0.0",
+  "description": "Color Elephant CLI for typeform",
+  "main": "./index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "typeform",
+    "cli",
+    "package-manager"
+  ],
+  "author": "Yosef Tukachinsky",
+  "license": "ISC",
+  "bin": {
+    "lr": "./bin/index.js",
+    "liveright": "./bin/index.js"
+  },
+  "dependencies": {
+    "excel4node": "^1.7.2"
+  }
+}

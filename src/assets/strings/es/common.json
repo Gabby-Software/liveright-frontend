@@ -1,0 +1,6 @@
+{
+  "hello-world": "Hello world",
+  "test1": {
+    "test2": "test3 {{name}}"
+  }
+}
