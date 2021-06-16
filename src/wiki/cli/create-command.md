@@ -8,5 +8,5 @@ To create new CLI command, please go though following steps:
  * All words given with `-` prefix as key-value pairs.  
  **Example:** for command `lr change something -d example` will be triggered command `change` with params: {info:['something'], d: 'example'}
  * Export your function, and import it in `/bin/index.js`. add your function to the `commands` object at the top, such that `key` will be requested command name (in the above example is `change`), and the value - your function
- * Update `help` manager to list your command, and update `/wiki/cli/available-commands.md`
-3. Update your module using `liveright update` command, or `yarn add ./cli`
+3. Update `help` manager to list your command, and update `/wiki/cli/available-commands.md`
+4. Update your module using `liveright update` command, or `yarn add ./cli`
