@@ -45,5 +45,7 @@ no data yet
 There created a local cli to be used for this project.  
 Its installed automatically together with project dependencies.  
 Used as keyword `liveright` or just `lr`.  
-Details can be found in wiki
+Details can be found in wiki:
+* [Available commands](https://github.com/ColorElephantHQ/liveright-frontend/blob/master/src/wiki/cli/available-command.md)
+* [Creating new command](https://github.com/ColorElephantHQ/liveright-frontend/blob/master/src/wiki/cli/create-command.md)
 
