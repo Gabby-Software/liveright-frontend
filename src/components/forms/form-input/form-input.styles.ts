@@ -13,6 +13,8 @@ export default styled.div`
         font-size: 14px;
         top: 14px;
         left: 18px;
+        pointer-events:none;
+        touch-action: none;
     }
     &__input {
         display: block;
@@ -20,7 +22,7 @@ export default styled.div`
         padding: 20px 16px 8px 16px;
         border: 1px solid ${p => p.theme.vars.colors.inputBorder};
         color: ${p => p.theme.vars.colors.dark};
-        border-radius: 6px;
+        border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
         width: 100%;
         box-sizing: border-box;

@@ -10,12 +10,12 @@ export default styled.div`
             padding: 3px;
             border: 2px solid ${props => props.theme.vars.colors.light};
             color: ${props => props.theme.vars.colors.secondary};
-            border-radius 6px;
+            border-radius: ${p => p.theme.vars.sizes.borderRadius};
         }
         &__activon {
             background-color: ${props => props.theme.vars.colors.primary};
             position: absolute;
-            border-radius: 6px;
+            border-radius: ${p => p.theme.vars.sizes.borderRadius};
             top: 0;
             height: 100%;
             transition: ${p => p.theme.vars.defaults.transition};
@@ -35,7 +35,7 @@ export default styled.div`
             border: gray;
             margin: 3px;
             background-color: transparent;
-            border-radius 6px;
+            border-radius: ${p => p.theme.vars.sizes.borderRadius};
             &__active {
                 color: white; 
             }

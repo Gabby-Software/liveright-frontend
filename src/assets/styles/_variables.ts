@@ -12,7 +12,7 @@ const vars = {
         inputBorder: '#dfdfdf'
     },
     sizes: {
-        borderRadius: '4px'
+        borderRadius: '6px'
     },
     media: {
         desktop: '1300px',

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {Button} from 'antd';
 
 export default styled(Button)`
-border-radius:11px;
+border-radius: ${p => p.theme.vars.sizes.borderRadius};
 padding:15px 30px;
 height: auto;
 width:100%;
@@ -19,7 +19,7 @@ box-shadow:  0px 4px 8px 1px rgba(242, 96, 96, 0.15);
         background-color: ${p => p.theme.vars.colors.primaryLight};
     }
     &:disabled {
-        border-color: ${p => p.theme.vars.colors.secondary};
+        border-color: ${p => p.theme.vars.colors.light};
         background-color: ${p => p.theme.vars.colors.light};
         color: #bfbfbf;
     }    

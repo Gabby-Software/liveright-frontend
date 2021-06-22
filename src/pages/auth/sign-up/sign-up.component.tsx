@@ -40,6 +40,10 @@ const SignUp = () => {
         alert(`submitted!\n${JSON.stringify(form)}`);
         submitProps.setSubmitting(false);
     };
+    const userTypeOptions = [
+        {label: 'Client', value: userTypes.CLIENT},
+        {label: 'Trainer', value: userTypes.TRAINER},
+    ];
     return (
         <Modal visible footer={null} closeIcon={<div/>}>
             <Styles>
@@ -53,24 +57,13 @@ const SignUp = () => {
                                 password: Yup.string().required()
                             })}
                     >
-                        {({setSubmitting,values, isSubmitting, errors, setFieldValue, handleBlur, isValid, dirty, submitForm}: FormikProps<LoginDataType>) => (
-                            <Form
-                                // onSubmit={e => {e.preventDefault(); handleSubmit(values,{setSubmitting})}}
-                            >
-                                <FormSwitch name={'type'}
-                                            options={[
-                                                {label: 'Client', value: userTypes.CLIENT},
-                                                {label: 'Trainer', value: userTypes.TRAINER},
-                                            ]}
-                                />
+                        {(form: FormikProps<LoginDataType>) => (
+                            <Form>
+                                <FormSwitch name={'type'} options={userTypeOptions}/>
                                 <FormInput name={'name'} label={'Name'}/>
                                 <FormInput name={'email'} label={'Email'}/>
                                 <FormInput type={'password'} name={'password'} label={'Password'}/>
-                                <div className={'center'}>
-                                    <ButtonSubmit isSubmitting={isSubmitting}
-                                                  isValid={isValid}
-                                                  dirty={dirty}>Sign Up</ButtonSubmit>
-                                </div>
+                                <ButtonSubmit {...form}>Sign Up</ButtonSubmit>
                             </Form>
                         )}
                     </Formik>
