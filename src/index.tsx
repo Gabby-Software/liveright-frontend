@@ -9,13 +9,33 @@ import theme from "./assets/styles";
 import store from "./store/config.store";
 import {Provider} from "react-redux";
 import {I18nProvider} from "./modules/i18n/i18n.context";
+import {BrowserRouter} from 'react-router-dom';
+import { setLocale } from 'yup';
+import "antd/dist/antd.css";
 
+setLocale({
+    // use constant translation keys for messages without values
+    mixed: {
+        required: 'required-field',
+        default: 'invalid-input',
+    },
+    // use functions to generate an error object that includes the value from the schema
+    number: {
+        min: ({ min }:{min:number}) => ({ key: 'low-value', values: { min } }),
+        max: ({ max }:{max:number}) => ({ key: 'high-value', values: { max } }),
+    },
+    string: {
+        email: 'invalid-email'
+    }
+});
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <I18nProvider>
                 <ThemeProvider theme={theme}>
+                    <BrowserRouter>
                     <App/>
+                    </BrowserRouter>
                 </ThemeProvider>
             </I18nProvider>
         </Provider>

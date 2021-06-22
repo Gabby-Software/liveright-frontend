@@ -7,3 +7,5 @@
  * `lang` - current language (string)
  * `setLang` - function to update language (receive new language as a parameter) 
 Above values can be inserted into class component by wrapping the component in `withTranslation` function. In this case component will get the above values as props.
+***Export***
+At any point you can export existing translations into .xlsx file using the command `liveright export locales`

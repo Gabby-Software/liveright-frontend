@@ -1,0 +1,9 @@
+{
+  "invalid-input": "invalid input",
+  "required-field": "this field is required",
+  "field-too-short": "use at least {{num}} chars",
+  "field-too-long": "use at most {{num}} chars",
+  "invalid-email": "invalid email",
+  "low-value": "min is {{num}}",
+  "high-value": "max is {{num}}"
+}
