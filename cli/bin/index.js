@@ -5,11 +5,12 @@ const {create} = require('./managers/create');
 const {update} = require('./managers/update');
 const {logger} = require('./managers/logger');
 const {exportActions} = require('./managers/export');
+const {translations} = require('./managers/translations');
 
 const commands = {
     'init-env': initENV,
     'export': exportActions,
-    help, create, update
+    help, create, update, translations
 };
 const args = parseArgs();
 if (!args.command) return logger.error(`please specify a command`);

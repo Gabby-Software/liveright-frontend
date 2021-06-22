@@ -12,3 +12,5 @@
 * `lr export locales` - export translations to .excel
 * `lr export sitemap` - export routes list to .excel
 * `lr update` - update your project with latest cli version 
+* `lr translations add <-f | -file> {filename}` - add new translation file  
+* `lr translations populate <-f | -file> {filename} <-d | -dest> {destination-language}` - populate existing file from `en` to given language

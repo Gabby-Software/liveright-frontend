@@ -1,26 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {
-    Modal, Button, Form as AntForm,
-    Radio, Input, Typography
-} from 'antd';
 import Styles from './sign-up.styles';
 import userTypes from "../../../enums/user-types.enum";
 import * as Yup from 'yup';
 import {
-    useFormik,
     Formik,
-    FormikHelpers,
     FormikProps,
     Form,
-    Field,
-    FieldProps,
-    ErrorMessage
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormInput from "../../../components/forms/form-input/form-input.component";
-
-type LayoutType = Parameters<typeof AntForm>[0]['layout'];
+import logoCompact from '../../../assets/media/logo.compact.png';
+import {Link} from 'react-router-dom';
+import {useTranslation} from "../../../modules/i18n/i18n.hook";
 
 type LoginDataType = {
     type: string;
@@ -35,8 +27,9 @@ const initialValues: LoginDataType = {
     password: ''
 };
 const SignUp = () => {
+    const {t} = useTranslation();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
-        console.log(form)
+        console.log(form);
         alert(`submitted!\n${JSON.stringify(form)}`);
         submitProps.setSubmitting(false);
     };
@@ -45,9 +38,8 @@ const SignUp = () => {
         {label: 'Trainer', value: userTypes.TRAINER},
     ];
     return (
-        <Modal visible footer={null} closeIcon={<div/>}>
             <Styles>
-                <Typography.Title className={'center'}>Create an account</Typography.Title>
+                    <img className={'signup__logo'} alt={'liveright'} src={logoCompact}/>
                     <Formik initialValues={initialValues}
                             onSubmit={handleSubmit}
                             validationSchema={Yup.object({
@@ -67,8 +59,8 @@ const SignUp = () => {
                             </Form>
                         )}
                     </Formik>
+                <Link to={'/forget-password'}>{t('forget-password')}</Link>
             </Styles>
-        </Modal>
     );
 };
 

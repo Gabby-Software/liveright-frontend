@@ -1,5 +1,4 @@
 import {default as common} from './common.json';
 import {default as errors} from './errors.json';
-export default {
-    common,errors
-}
+import {default as auth} from './auth.json';
+export default {common,errors,auth};
