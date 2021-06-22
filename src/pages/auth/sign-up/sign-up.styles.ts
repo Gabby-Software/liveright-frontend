@@ -8,4 +8,10 @@ export default styled.div`
     .switch__wrapper {
         margin-bottom: 54px;
     }
+    .text_input__wrapper {
+        margin-bottom: 12px;
+    }
+    .ant-btn {
+        margin-top: 36px;
+    }
 `;

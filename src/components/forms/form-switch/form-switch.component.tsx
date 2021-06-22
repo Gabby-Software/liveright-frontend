@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Styles from './form-switch.styles';
 import {FormikProps, Field, FieldProps, ErrorMessage} from 'formik';
 import {classes} from "../../../pipes/classes.pipe";
-import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import FormError from "../form-error/form-error.component";
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
     options: { label: string, value: string }[];
 }
 const FormSwitch = ({name, options}: Props) => {
-    const {t} = useTranslation();
     return (
         <Field name={name}>
             {

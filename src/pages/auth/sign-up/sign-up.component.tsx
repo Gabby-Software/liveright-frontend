@@ -18,6 +18,7 @@ import {
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
+import FormInput from "../../../components/forms/form-input/form-input.component";
 
 type LayoutType = Parameters<typeof AntForm>[0]['layout'];
 
@@ -62,38 +63,9 @@ const SignUp = () => {
                                                 {label: 'Trainer', value: userTypes.TRAINER},
                                             ]}
                                 />
-
-                                {/*<AntForm.Item name="type">*/}
-                                {/*    <div className={'center'}>*/}
-                                {/*        <Radio.Group value={values.type} name={'type'}>*/}
-                                {/*            <Radio.Button value={userTypes.CLIENT}*/}
-                                {/*                          onChange={e => setFieldValue('type', e.target.value)}>Client</Radio.Button>*/}
-                                {/*            <Radio.Button value={userTypes.TRAINER}*/}
-                                {/*                          onChange={e => setFieldValue('type', e.target.value)}>Trainer</Radio.Button>*/}
-                                {/*        </Radio.Group>*/}
-                                {/*    </div>*/}
-                                {/*</AntForm.Item>*/}
-                                <AntForm.Item label="Name">
-                                    <div>
-                                        <Input placeholder="your full name" name={'name'} value={values.name}
-                                               onBlur={handleBlur}
-                                               onChange={e => setFieldValue('name', e.target.value)}/>
-                                    </div>
-                                </AntForm.Item>
-                                <AntForm.Item label="Email">
-                                    <div>
-                                        <Input placeholder="example@gmail.com" name={'email'} value={values.email}
-                                               onBlur={handleBlur}
-                                               onChange={e => setFieldValue('email', e.target.value)}/>
-                                    </div>
-                                </AntForm.Item>
-                                <AntForm.Item label="Password">
-                                    <div>
-                                        <Input type={'password'} name={'password'} value={values.password}
-                                               onBlur={handleBlur}
-                                               onChange={e => setFieldValue('password', e.target.value)}/>
-                                    </div>
-                                </AntForm.Item>
+                                <FormInput name={'name'} label={'Name'}/>
+                                <FormInput name={'email'} label={'Email'}/>
+                                <FormInput type={'password'} name={'password'} label={'Password'}/>
                                 <div className={'center'}>
                                     <ButtonSubmit isSubmitting={isSubmitting}
                                                   isValid={isValid}

@@ -8,7 +8,8 @@ const vars = {
         success: '#ff0000',
         danger: '#ff0000',
         warning: '#ff0000',
-        info: '#ff0000'
+        info: '#ff0000',
+        inputBorder: '#dfdfdf'
     },
     sizes: {
         borderRadius: '4px'
