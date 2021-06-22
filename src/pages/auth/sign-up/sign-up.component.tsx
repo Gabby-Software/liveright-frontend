@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Styles from './sign-up.styles';
 import userTypes from "../../../enums/user-types.enum";
 import * as Yup from 'yup';
 import {
@@ -10,9 +9,10 @@ import {
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormInput from "../../../components/forms/form-input/form-input.component";
-import logoCompact from '../../../assets/media/logo.compact.png';
+import logoCompact from '../../../assets/media/logo-compact.png';
 import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
+import Styles, {Wrapper, Logo, SwitchState} from '../styles';
 
 type LoginDataType = {
     type: string;
@@ -39,7 +39,8 @@ const SignUp = () => {
     ];
     return (
             <Styles>
-                    <img className={'signup__logo'} alt={'liveright'} src={logoCompact}/>
+                <Wrapper>
+                    <Logo alt={'liveright'} src={logoCompact}/>
                     <Formik initialValues={initialValues}
                             onSubmit={handleSubmit}
                             validationSchema={Yup.object({
@@ -55,11 +56,15 @@ const SignUp = () => {
                                 <FormInput name={'name'} label={'Name'}/>
                                 <FormInput name={'email'} label={'Email'}/>
                                 <FormInput type={'password'} name={'password'} label={'Password'}/>
-                                <ButtonSubmit {...form}>Sign Up</ButtonSubmit>
+                                <ButtonSubmit {...form}>{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}
                     </Formik>
-                <Link to={'/forget-password'}>{t('forget-password')}</Link>
+                {/*<Link className={'signup__forget-password'} to={'/forget-password'}>{t('auth:forgot-password')}</Link>*/}
+                <SwitchState>
+                    {t('auth:have-account')} <Link to={'/login'}>{t('auth:sign-in')}</Link>
+                </SwitchState>
+                </Wrapper>
             </Styles>
     );
 };

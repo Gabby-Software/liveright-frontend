@@ -14,11 +14,6 @@ function App() {
   useSeo();
   return (
     <Styles>
-        <Space>
-          <Link to={'/'}>Home</Link>
-          <Link to={'/test'}>Test</Link>
-          <Link to={'/login'}>Login</Link>
-        </Space>
         <Suspense fallback={<div/>}>
           <Switch>
             {

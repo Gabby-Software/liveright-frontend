@@ -20,7 +20,7 @@ export default styled.div`
         display: block;
         background-color: #fbfbfb;
         padding: 20px 16px 8px 16px;
-        border: 1px solid ${p => p.theme.vars.colors.inputBorder};
+        border: 1px solid #fbfbfb;
         color: ${p => p.theme.vars.colors.dark};
         border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
@@ -29,6 +29,9 @@ export default styled.div`
         &:focus~.text_input__label, &:not([value=""])~.text_input__label {
             top: 10px;
             font-size: 10px;
+        }
+        &:focus {
+            border-color:${p => p.theme.vars.colors.inputBorder};
         }
     }
 }
