@@ -1,9 +1,9 @@
 const vars = {
     colors: {
-        primary: '#ff0000',
+        primary: '#F74057',
         secondary: '#ff0000',
-        dark: '#ff0000',
-        light: '#ff0000',
+        dark: '#5A5A5A',
+        light: '#EBEBEB',
         success: '#ff0000',
         danger: '#ff0000',
         warning: '#ff0000',

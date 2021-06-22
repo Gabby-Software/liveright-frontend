@@ -4,11 +4,16 @@ import {Link, Route, Switch} from 'react-router-dom';
 import routes from "./config/routes.config";
 import {useSeo} from "./hooks/seo.hook";
 import {Space} from "antd";
+import styled from "styled-components";
+
+const Styles = styled.div`
+    font-family: 'Work Sans', sans-serif;
+`;
 
 function App() {
   useSeo();
   return (
-    <div className="App">
+    <Styles>
         <Space>
           <Link to={'/'}>Home</Link>
           <Link to={'/test'}>Test</Link>
@@ -25,7 +30,7 @@ function App() {
             }
           </Switch>
         </Suspense>
-    </div>
+    </Styles>
   );
 }
 
