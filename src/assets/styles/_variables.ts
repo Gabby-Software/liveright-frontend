@@ -1,6 +1,7 @@
 const vars = {
     colors: {
         primary: '#F74057',
+        primaryLight: '#F97081',
         secondary: '#BDBDBD',
         dark: '#5A5A5A',
         light: '#EBEBEB',
@@ -18,7 +19,8 @@ const vars = {
         mobile: '540px'
     },
     defaults: {
-        transition: 'all .3s ease'
+        transition: 'all .3s ease',
+        font: '\'Work Sans\', sans-serif'
     }
 };
 export default vars;

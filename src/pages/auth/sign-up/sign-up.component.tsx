@@ -17,6 +17,7 @@ import {
     ErrorMessage
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
+import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 
 type LayoutType = Parameters<typeof AntForm>[0]['layout'];
 
@@ -94,12 +95,9 @@ const SignUp = () => {
                                     </div>
                                 </AntForm.Item>
                                 <div className={'center'}>
-                                    <Button type={'primary'}
-                                            loading={isSubmitting}
-                                            // onClick={submitForm}
-                                            htmlType={'submit'}
-                                            disabled={!isValid || !dirty || isSubmitting}
-                                    >{'Sign Up'}</Button>
+                                    <ButtonSubmit isSubmitting={isSubmitting}
+                                                  isValid={isValid}
+                                                  dirty={dirty}>Sign Up</ButtonSubmit>
                                 </div>
                             </Form>
                         )}

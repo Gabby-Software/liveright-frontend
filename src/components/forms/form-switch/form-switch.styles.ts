@@ -26,7 +26,7 @@ export default styled.div`
             cursor: pointer;
             position: relative;
             z-index:1;
-            font-family: 'Work Sans', sans-serif;
+            font-family: ${p => p.theme.vars.defaults.font};
             letter-spacing: .8px;
             font-weight: 600;
             font-size: 14px;
@@ -37,8 +37,7 @@ export default styled.div`
             background-color: transparent;
             border-radius 6px;
             &__active {
-                color: white;
-                
+                color: white; 
             }
         }
     }
