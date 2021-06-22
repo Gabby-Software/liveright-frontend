@@ -58,7 +58,8 @@ const SignUp = () => {
                                 <FormSwitch name={'type'}
                                             options={[
                                                 {label: 'Client', value: userTypes.CLIENT},
-                                                {label: 'Trainer', value: userTypes.TRAINER}]}
+                                                {label: 'Trainer', value: userTypes.TRAINER},
+                                            ]}
                                 />
 
                                 {/*<AntForm.Item name="type">*/}
