@@ -7,7 +7,6 @@ export type AnimatorProps = {
     children: React.ComponentType<{value: number}>;
 };
 
-
 const Animator = ({value, duration, func, children: Children}: AnimatorProps) => {
     const [val, setVal] = useState(value);
     const [startTime, setStartTime] = useState(0);
@@ -25,9 +24,7 @@ const Animator = ({value, duration, func, children: Children}: AnimatorProps) =>
       setVal(val + (value-val) * (func || linear)(progress));
       requestAnimationFrame(frame);
     };
-    return (
-        <Children value={val}/>
-    );
+    return <Children value={val}/>;
 };
 Animator.LINEAR = (x:number) => x;
 Animator.EASE_OUT = (x:number) => +(Math.sin(x * Math.PI / 2)).toFixed(5);
