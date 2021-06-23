@@ -5,10 +5,13 @@
         username: `black@colorelephant.com`  
         password: `6038dc237b5ba`
  * [Sitemap](https://whimsical.com/liveright-sitemap-v1-KqFoCVEcYzE9Qo5iyHmEHv)
- * [Wireframes](https://whimsical.com/liveright-wireframes-BARUa1nRmkJFVrwutcd5pB)
+ * [Wireframes - client - mobile](https://whimsical.com/liveright-internal-mobile-wireframes-B7MqrKWWbERFtQbNqDVmm4)
+ * [Wireframes - client - desktop](https://whimsical.com/liveright-client-desktop-8eXNugWK65HZLNcGa5hfCf)
+ * [Wireframes - trainer - mobile](https://whimsical.com/liveright-internal-mobile-trainer-flow-4j7VgHPFHiaAC6ggcvdwLq)
  * [Scope document](https://docs.google.com/spreadsheets/d/1JhTL-g5SmKEvYVV4NrOSJcEsXZPU5IOcGU4hX-oZBnU/edit?usp=sharing)
  * [Clickup documentation](https://app.clickup.com/2164322/v/dc/221k2-2535/221k2-5160)
  * [Clickup board](https://app.clickup.com/2164322/v/b/221k2-2507)
+ * [API documentation](https://documenter.getpostman.com/view/8741108/Tzeak6s7)
 
 ### *Getting started*
  * Run `yarn setup`. this will install dependencies and init .env   

@@ -7,15 +7,16 @@ const vars = {
         secondary2: '#d5d5d5',
         dark: '#5A5A5A',
         light: '#EBEBEB',
-        success: '#ff0000',
-        danger: '#ff0000',
-        warning: '#ff0000',
-        info: '#ff0000',
         inputBorder: '#dfdfdf',
         background: '#fafafa',
     },
     sizes: {
         borderRadius: '6px'
+    },
+    zIndex: {
+        header: 40,
+        footer: 40,
+        modal: 50,
     },
     media: {
         desktop: '1300px',

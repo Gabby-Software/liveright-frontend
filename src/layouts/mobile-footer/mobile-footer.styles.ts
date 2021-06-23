@@ -10,6 +10,7 @@ export default styled.div`
     border: 1px solid #f5f5f5;
     box-sizing: border-box;
     display: flex;
+    z-index: ${p => p.theme.vars.zIndex.footer};
     .mobile-footer {
         &__cont {
             display: flex;

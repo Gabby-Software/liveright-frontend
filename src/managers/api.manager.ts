@@ -1,12 +1,14 @@
 import axios, {AxiosRequestConfig} from 'axios';
-
+import cookieManager from "./cookie.manager";
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
 });
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = localStorage.getItem('token');
+        const csrf = cookieManager.get('XSRF-TOKEN');
         if(token) config.headers.Authorization =  `Bearer ${token}`;
+        if(csrf) config.headers['X-XSRF-TOKEN'] = csrf;
         return config;
     },
     err => Promise.reject(err)

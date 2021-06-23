@@ -21,6 +21,11 @@ const extend = {
         left:0;
         width: 100%;
         height:100%;
+    `,
+    pseudo:`
+        content: '';
+        position: absolute;
+        display: block;
     `
 };
 
