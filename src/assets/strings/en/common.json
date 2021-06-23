@@ -12,5 +12,12 @@
   "plan": "Plan",
   "log": "Log",
   "progress": "Progress",
-  "more": "More"
+  "more": "More",
+  "menu": {
+    "profile": "Profile",
+    "library": "Library",
+    "invoices": "Invoices",
+    "sessions": "Sessions",
+    "settings": "Settings"
+  }
 }

@@ -13,7 +13,7 @@ import MobileMoreDrawer from "../../components/mobile-more-drawer/mobile-more-dr
 type MenuItemType = { Icon: React.ComponentType; title: string; className: string, url?: string, onClick?: ()=>void }
 const MobileFooter = () => {
     const {t} = useTranslation();
-    const [logDrawerOpen, setLogDrawerOpen] = useState(true);
+    const [logDrawerOpen, setLogDrawerOpen] = useState(false);
     const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
     const menuItems: MenuItemType[] = [
         {Icon: HomeIcon, title: 'home', className: 'mobile-footer__item', url: '/'},

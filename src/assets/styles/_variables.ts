@@ -7,8 +7,12 @@ const vars = {
         secondary2: '#d5d5d5',
         dark: '#5A5A5A',
         light: '#EBEBEB',
+        light2: '#a8a8a8',
         inputBorder: '#dfdfdf',
         background: '#fafafa',
+        success: '#56EC53',
+        info: '#2F86EC',
+        warning: '#FC7D08'
     },
     sizes: {
         borderRadius: '6px'
