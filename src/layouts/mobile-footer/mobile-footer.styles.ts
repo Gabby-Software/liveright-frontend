@@ -23,13 +23,25 @@ export default styled.div`
             ${p => p.theme.extend.flexCenter}
             text-align:center;
             cursor: pointer;
+            position: relative;
             svg {
                 height:22px;
                 display:block;
                 margin: 0 auto .5rem auto;
             }
             &__active {
-                color: ${p => p.theme.vars.colors.primaryDark}
+                color: ${p => p.theme.vars.colors.primaryDark};
+                &:before {
+                    ${p => p.theme.extend.pseudo}
+                    height: 3px;
+                    max-width: 42px;
+                    left: 0;
+                    right:0;
+                    margin:auto;
+                    top:0;
+                    background-color: ${p=>p.theme.vars.colors.primaryDark};
+                    border-radius: 0px 0px 1.5px 1.5px;
+                }
             }
         }
         &__add {

@@ -9,11 +9,11 @@ type Props = {
 }
 const MobileLayout = ({children}: Props) => {
     return (
-        <Layout>
+        <div>
             <Header/>
             <div>{children}</div>
             <MobileFooter/>
-        </Layout>
+        </div>
     );
 };
 

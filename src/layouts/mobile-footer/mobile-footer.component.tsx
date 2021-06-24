@@ -6,40 +6,44 @@ import {ReactComponent as ProgressIcon} from '../../assets/media/icons/progress.
 import {ReactComponent as MoreIcon} from '../../assets/media/icons/more.svg';
 import {ReactComponent as AddIcon} from '../../assets/media/icons/add.svg';
 import {useTranslation} from "../../modules/i18n/i18n.hook";
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import MobileLogDrawer from "../../components/mobile-log-drawer/mobile-log-drawer.component";
 import MobileMoreDrawer from "../../components/mobile-more-drawer/mobile-more-drawer.component";
+import {classes} from "../../pipes/classes.pipe";
 
-type MenuItemType = { Icon: React.ComponentType; title: string; className: string, url?: string, onClick?: ()=>void }
+type MenuItemType = { Icon: React.ComponentType; title: string; className: string, url?: string, onClick?: () => void }
 const MobileFooter = () => {
     const {t} = useTranslation();
     const [logDrawerOpen, setLogDrawerOpen] = useState(false);
     const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
+    const location = useLocation();
     const menuItems: MenuItemType[] = [
         {Icon: HomeIcon, title: 'home', className: 'mobile-footer__item', url: '/'},
         {Icon: PlanIcon, title: 'plan', className: 'mobile-footer__item', url: '/plan'},
         {Icon: AddIcon, title: 'log', className: 'mobile-footer__add', onClick: () => setLogDrawerOpen(true)},
         {Icon: ProgressIcon, title: 'progress', className: 'mobile-footer__item', url: '/progress'},
-        {Icon: MoreIcon, title: 'more', className: 'mobile-footer__item', onClick:() => setMoreDrawerOpen(true)},
+        {Icon: MoreIcon, title: 'more', className: 'mobile-footer__item', onClick: () => setMoreDrawerOpen(true)},
     ];
     return (
         <Styles>
             <div className={'mobile-footer__cont'}>
                 {
                     menuItems.map(({title, className, Icon, url, onClick}) => {
-                        const child =(
+                        const child = (
                             <div>
                                 <Icon/>
                                 <span className={'mobile-footer__label'}>{t(title)}</span>
                             </div>
                         );
-                        return url ? (<Link to={url} className={className}>{child}</Link>)
+                        return url ? (<Link to={url} className={
+                                classes(className, location.pathname === url && 'mobile-footer__item__active')
+                        }>{child}</Link>)
                             : (<div className={className} onClick={onClick}>{child}</div>)
                     })
                 }
             </div>
-           <MobileLogDrawer isOpen={logDrawerOpen} onClose={()=>setLogDrawerOpen(false)}/>
-           <MobileMoreDrawer isOpen={moreDrawerOpen} onClose={()=>setMoreDrawerOpen(false)}/>
+            <MobileLogDrawer isOpen={logDrawerOpen} onClose={() => setLogDrawerOpen(false)}/>
+            <MobileMoreDrawer isOpen={moreDrawerOpen} onClose={() => setMoreDrawerOpen(false)}/>
         </Styles>
     );
 };
