@@ -3,8 +3,8 @@ import Styles from './form-input.styles';
 import {Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
 
-type Props = {name:string, label: string, type?:string};
-const FormInput = ({name, label, type}:Props) => {
+type Props = {name:string, label: string, type?:string, onUpdate?:(name:string,value:string)=>void};
+const FormInput = ({name, label, type, onUpdate}:Props) => {
     return (
         <Field name={name}>
             {
@@ -13,7 +13,10 @@ const FormInput = ({name, label, type}:Props) => {
                         <div className={'text_input__cont'}>
                             <input className={'text_input__input'} type={type||'text'}
                                    value={field.value} onBlur={field.onBlur}
-                                   onChange={e => form.setFieldValue(name, e.target.value)}/>
+                                   onChange={e => {
+                                       form.setFieldValue(name, e.target.value);
+                                       onUpdate && onUpdate(name, e.target.value);
+                                   }}/>
                             <label className={'text_input__label'}>{label}</label>
                         </div>
                         <FormError name={name}/>

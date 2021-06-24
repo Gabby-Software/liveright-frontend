@@ -36,7 +36,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
                 <ul className={'more__menu'}>
                     {
                         menuItems.map(({Icon, url, name}) => (
-                            <li className={'more__item'}>
+                            <li className={'more__item'} key={url}>
                                 <Link to={url} onClick={onClose}>
                                     <Icon/>
                                     <span className={'more__label'}>{t(name)}</span>

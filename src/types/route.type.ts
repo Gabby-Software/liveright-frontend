@@ -1,4 +1,4 @@
-import {ComponentType} from "react";
+import {ComponentType, ReactNode, FC} from "react";
 
 export type RouteType = {
     title: string;

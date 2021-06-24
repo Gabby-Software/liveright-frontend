@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import userTypes from "../../../enums/user-types.enum";
 import * as Yup from 'yup';
 import {
@@ -13,6 +13,8 @@ import logoCompact from '../../../assets/media/logo-compact.png';
 import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import Styles, {Wrapper, Logo, SwitchState} from '../styles';
+import {AuthFormContext} from "../../../modules/auth/auth.context";
+import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 
 type LoginDataType = {
     type: string;
@@ -28,6 +30,7 @@ const initialValues: LoginDataType = {
 };
 const SignUp = () => {
     const {t} = useTranslation();
+    const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
         console.log(form);
         alert(`submitted!\n${JSON.stringify(form)}`);
@@ -41,7 +44,7 @@ const SignUp = () => {
             <Styles>
                 <Wrapper>
                     <Logo alt={'liveright'} src={logoCompact}/>
-                    <Formik initialValues={initialValues}
+                    <Formik initialValues={form}
                             onSubmit={handleSubmit}
                             validationSchema={Yup.object({
                                 type: Yup.string().required(),
@@ -53,9 +56,9 @@ const SignUp = () => {
                         {(form: FormikProps<LoginDataType>) => (
                             <Form>
                                 <FormSwitch name={'type'} options={userTypeOptions}/>
-                                <FormInput name={'name'} label={'Name'}/>
-                                <FormInput name={'email'} label={'Email'}/>
-                                <FormInput type={'password'} name={'password'} label={'Password'}/>
+                                <FormInput name={'name'} label={'Name'} onUpdate={update}/>
+                                <FormInput name={'email'} label={'Email'} onUpdate={update}/>
+                                <FormInput type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
                                 <ButtonSubmit {...form}>{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}

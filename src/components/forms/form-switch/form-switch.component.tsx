@@ -6,9 +6,10 @@ import FormError from "../form-error/form-error.component";
 
 type Props = {
     name: string;
+    onUpdate?:(name:string,value:string)=>void;
     options: { label: string, value: string }[];
 }
-const FormSwitch = ({name, options}: Props) => {
+const FormSwitch = ({name, options, onUpdate}: Props) => {
     return (
         <Field name={name}>
             {
@@ -23,7 +24,10 @@ const FormSwitch = ({name, options}: Props) => {
                                 {options.map(p => (
                                     <div key={p.value}
                                          className={classes('switch__item', field.value === p.value && 'switch__item__active')}
-                                         onClick={() => form.setFieldValue(name, p.value)}><span>{p.label}</span></div>
+                                         onClick={() => {
+                                             form.setFieldValue(name, p.value);
+                                             onUpdate && onUpdate(name, p.value);
+                                         }}><span>{p.label}</span></div>
                                 ))}
                             </div>
                         </div>
