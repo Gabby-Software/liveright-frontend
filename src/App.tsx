@@ -6,7 +6,6 @@ import {useSeo} from "./hooks/seo.hook";
 import {Space} from "antd";
 import styled from "styled-components";
 import MobileLayout from "./layouts/mobile-layout/mobile-layout.component";
-import AuthLayout from "./pages/auth/auth-layout/auth-layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
 
 const Styles = styled.div`

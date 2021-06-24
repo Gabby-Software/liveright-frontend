@@ -21,4 +21,16 @@ export default styled.div`
     .ant-btn {
         margin-top: 36px;
     }
+    .forgot-password {
+        &__title {
+            font-weight: 500;
+            font-size: 18px;
+            text-align:left;
+        }
+        &__desc {
+            font-size: 12px;
+            margin-bottom: 2rem;
+            text-align:left;
+        }
+    }
 `;

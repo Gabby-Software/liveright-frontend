@@ -12,6 +12,16 @@ export const authRoutes: RouteType[] = [
         url: '/sign-up',
         Component: lazy(() => import('../pages/auth/sign-up/sign-up.component'))
     },
+    {
+        title: 'Forget Password',
+        url: '/forgot-password',
+        Component: lazy(() => import('../pages/auth/forgot-password/forgot-password.component'))
+    },
+    {
+        title: 'Reset Password',
+        url: '/reset-password',
+        Component: lazy(() => import('../pages/auth/reset-password/reset-password.component'))
+    }
 ];
 export const routes: RouteType[] = [
     {

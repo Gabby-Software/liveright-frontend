@@ -1,5 +1,5 @@
 import React from 'react';
 
-test('AuthLayout initial test', () => {
+test('ResetPassword initial test', () => {
     expect(true).toBeTruthy();
 });

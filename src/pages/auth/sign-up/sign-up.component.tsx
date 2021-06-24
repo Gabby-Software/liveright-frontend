@@ -22,12 +22,6 @@ type LoginDataType = {
     email: string;
     password: string;
 };
-const initialValues: LoginDataType = {
-    type: userTypes.CLIENT,
-    name: '',
-    email: '',
-    password: ''
-};
 const SignUp = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;

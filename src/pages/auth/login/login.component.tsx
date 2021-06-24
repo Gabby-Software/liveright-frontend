@@ -59,7 +59,7 @@ const Login = () => {
                         </Form>
                     )}
                 </Formik>
-                <ForgetPassword to={'/forget-password'}>{t('auth:forgot-password')}</ForgetPassword>
+                <ForgetPassword to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
                 <SwitchState>
                     {t('auth:dont-have-account')} <Link to={'/sign-up'}>{t('auth:sign-up')}</Link>
                 </SwitchState>
