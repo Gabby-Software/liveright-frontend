@@ -19,7 +19,7 @@ const MobileFooter = () => {
     const location = useLocation();
     const menuItems: MenuItemType[] = [
         {Icon: HomeIcon, title: 'home', className: 'mobile-footer__item', url: '/'},
-        {Icon: PlanIcon, title: 'plan', className: 'mobile-footer__item', url: '/plan'},
+        {Icon: PlanIcon, title: 'plans', className: 'mobile-footer__item', url: '/plans'},
         {Icon: AddIcon, title: 'log', className: 'mobile-footer__add', onClick: () => setLogDrawerOpen(true)},
         {Icon: ProgressIcon, title: 'progress', className: 'mobile-footer__item', url: '/progress'},
         {Icon: MoreIcon, title: 'more', className: 'mobile-footer__item', onClick: () => setMoreDrawerOpen(true)},
@@ -32,13 +32,13 @@ const MobileFooter = () => {
                         const child = (
                             <div>
                                 <Icon/>
-                                <span className={'mobile-footer__label'}>{t(title)}</span>
+                                <span className={'mobile-footer__label'}>{t(`menu.${title}`)}</span>
                             </div>
                         );
-                        return url ? (<Link to={url} className={
+                        return url ? (<Link key={title} to={url} className={
                                 classes(className, location.pathname === url && 'mobile-footer__item__active')
                         }>{child}</Link>)
-                            : (<div className={className} onClick={onClick}>{child}</div>)
+                            : (<div key={title} className={className} onClick={onClick}>{child}</div>)
                     })
                 }
             </div>

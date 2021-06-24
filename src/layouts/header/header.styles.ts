@@ -31,8 +31,12 @@ export default styled.header`
         }
         &__icon {
             color: ${p => p.theme.vars.colors.primaryDark};
+            transition: ${p => p.theme.vars.defaults.transition};
             &:not(:last-child){
                 margin-right: 34px;
+            }
+            &__active {
+                color: ${p => p.theme.vars.colors.primary};
             }
         }
         &__space {
@@ -45,6 +49,8 @@ export default styled.header`
             width: 100%;
             text-align: center;
             margin:0;
+            pointer-events: none;
+            touch-action: none;
         }
     }
 `;

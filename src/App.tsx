@@ -5,7 +5,7 @@ import {routes, authRoutes} from "./config/routes.config";
 import {useSeo} from "./hooks/seo.hook";
 import {Space} from "antd";
 import styled from "styled-components";
-import MobileLayout from "./layouts/mobile-layout/mobile-layout.component";
+import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
 
 const Styles = styled.div`
@@ -30,7 +30,7 @@ function App() {
                         </AuthFormProvider>
                     </Route>
                     <Route path={routes.map(r => r.url)}>
-                        <MobileLayout>
+                        <Layout>
                             {
                                 routes.map(R => (
                                     <Route path={R.url} key={R.url} {...R.props}>
@@ -38,7 +38,7 @@ function App() {
                                     </Route>
                                 ))
                             }
-                        </MobileLayout>
+                        </Layout>
                     </Route>
                 </Switch>
             </Suspense>
