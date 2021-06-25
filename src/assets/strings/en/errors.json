@@ -6,5 +6,6 @@
   "invalid-email": "Invalid email",
   "low-value": "Min is {{num}}",
   "high-value": "Max is {{num}}",
-  "invalid-name": "Only english characters allowed"
+  "invalid-name": "Only english characters allowed",
+  "passwords-not-match": "Passwords not match"
 }

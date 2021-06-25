@@ -5,15 +5,17 @@ Yup.addMethod(Yup.string, 'name', function() {
         name: 'name',
         message: 'invalid-name',
         test: (value) => {
-            return /^[A-Za-z]*$/.test(String(value));
+            return /^[A-Za-z]*$/.test(value || '');
         }
     });
 });
+
 Yup.setLocale({
     // use constant translation keys for messages without values
     mixed: {
         required: 'required-field',
         default: 'invalid-input',
+        equals: 'passwords-not-match'
     },
     // use functions to generate an error object that includes the value from the schema
     number: {
@@ -21,6 +23,7 @@ Yup.setLocale({
         max: ({ max }:{max:number}) => ({ key: 'high-value', values: { max } }),
     },
     string: {
-        email: 'invalid-email'
+        email: 'invalid-email',
+        equals: 'passwords-not-match'
     }
 });

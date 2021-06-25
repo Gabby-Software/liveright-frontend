@@ -10,6 +10,8 @@ export const AuthFormProvider = ({children}:{children: any}) => {
       last_name: '',
       email: '',
       password: '',
+      new_password: '',
+      confirm_new_password: '',
   });
   const update = (name: string, value: string) => setForm({...form, [name]:value});
   return (

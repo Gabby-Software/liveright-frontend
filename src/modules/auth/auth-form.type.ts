@@ -4,6 +4,8 @@ export type AuthFormFieldsType = {
     last_name:string;
     email:string;
     password: string;
+    new_password: string;
+    confirm_new_password: string;
 }
 export type AuthFormTypeNotNull = {
     form: AuthFormFieldsType;
