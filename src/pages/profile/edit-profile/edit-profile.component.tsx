@@ -31,7 +31,6 @@ const EditProfile = () => {
                         first_name: Yup.string().required().name(),
                         last_name: Yup.string().required().name(),
                         email: Yup.string().required().email(),
-                        // birth_date: Yup.date(),
                     })}
             >
                 {(form: FormikProps<ProfileDataType>) => (
@@ -41,6 +40,7 @@ const EditProfile = () => {
                         <FormDatepicker name={'birth_date'} label={t('profile:birth-date')}/>
                         <FormInputLabeled name={'email'} label={t('profile:email')}/>
                         <FormInputLabeled name={'phone'} label={t('profile:phone')}/>
+                        <FormInputLabeled name={'address'} label={t('profile:address')}/>
                         <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
                         <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
                         <ButtonSubmit {...form}>{t('profile:save-changes')}</ButtonSubmit>
