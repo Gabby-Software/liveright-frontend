@@ -12,13 +12,15 @@ import FormInput from "../../../components/forms/form-input/form-input.component
 import logoCompact from '../../../assets/media/logo-compact.png';
 import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import Styles, {Wrapper, Logo, SwitchState} from '../styles';
+import Styles, {Wrapper, Logo, SwitchState, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
+import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 
 type LoginDataType = {
     type: string;
-    name: string;
+    first_name: string;
+    last_name: string;
     email: string;
     password: string;
 };
@@ -38,11 +40,17 @@ const SignUp = () => {
             <Styles>
                 <Wrapper>
                     <Logo alt={'liveright'} src={logoCompact}/>
+                    <Title>
+                        <div className={'title__hr'}/>
+                        <h1 className={'title__h1'}>{t('auth:sign-up-title')}</h1>
+                        <h2 className={'title__h2'}>{t('auth:sign-up-subtitle')}</h2>
+                    </Title>
                     <Formik initialValues={form}
                             onSubmit={handleSubmit}
                             validationSchema={Yup.object({
                                 type: Yup.string().required(),
-                                name: Yup.string().required(),
+                                first_name: Yup.string().required().name(),
+                                last_name: Yup.string().required().name(),
                                 email: Yup.string().required().email(),
                                 password: Yup.string().required()
                             })}
@@ -50,14 +58,16 @@ const SignUp = () => {
                         {(form: FormikProps<LoginDataType>) => (
                             <Form>
                                 <FormSwitch name={'type'} options={userTypeOptions}/>
-                                <FormInput name={'name'} label={'Name'} onUpdate={update}/>
-                                <FormInput name={'email'} label={'Email'} onUpdate={update}/>
-                                <FormInput type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
+                                <div className={'sign-up__name'}>
+                                    <FormInputLabeled name={'first_name'} label={'First Name'} onUpdate={update}/>
+                                    <FormInputLabeled name={'last_name'} label={'Last Name'} onUpdate={update}/>
+                                </div>
+                                <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
+                                <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
                                 <ButtonSubmit {...form}>{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}
                     </Formik>
-                {/*<Link className={'signup__forget-password'} to={'/forget-password'}>{t('auth:forgot-password')}</Link>*/}
                 <SwitchState>
                     {t('auth:have-account')} <Link to={'/login'}>{t('auth:sign-in')}</Link>
                 </SwitchState>

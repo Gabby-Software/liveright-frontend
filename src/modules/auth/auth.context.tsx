@@ -6,7 +6,8 @@ export const AuthFormContext = createContext<AuthFormType>(null);
 export const AuthFormProvider = ({children}:{children: any}) => {
   const [form, setForm] = useState<AuthFormFieldsType>({
       type: userTypes.CLIENT,
-      name:'',
+      first_name:'',
+      last_name: '',
       email: '',
       password: '',
   });

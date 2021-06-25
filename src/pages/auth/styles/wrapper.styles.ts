@@ -5,6 +5,6 @@ export default styled.div`
     padding: 20px 31px;
     text-align:center;
     width: 100%;
-    max-width: 400px;
+    max-width: 435px;
     min-height: 100vh;
 `;

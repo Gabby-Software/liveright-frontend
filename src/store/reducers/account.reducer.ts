@@ -6,6 +6,7 @@ const initialState: ProfileDataType = {
     image: profilePlaceholder,
     first_name: 'Chris',
     last_name: 'Hemsingworth',
+    birth_date: '12/03/2021',
     join_date: '13-04-2021',
     email: 'Chrisheming@gmail.com',
     phone: '+333 020392093',

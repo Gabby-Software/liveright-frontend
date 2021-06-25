@@ -12,19 +12,15 @@ import FormInput from "../../../components/forms/form-input/form-input.component
 import logoCompact from '../../../assets/media/logo-compact.png';
 import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import Styles, {Wrapper, Logo, SwitchState,ForgetPassword} from '../styles';
+import Styles, {Wrapper, Logo, SwitchState,ForgetPassword, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
+import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 
 type LoginDataType = {
     type: string;
     email: string;
     password: string;
-};
-const initialValues: LoginDataType = {
-    type: userTypes.CLIENT,
-    email: '',
-    password: ''
 };
 const Login = () => {
     const {t} = useTranslation();
@@ -42,6 +38,11 @@ const Login = () => {
         <Styles>
             <Wrapper>
                 <Logo alt={'liveright'} src={logoCompact}/>
+                <Title>
+                    <div className={'title__hr'}/>
+                    <h1 className={'title__h1'}>{t('auth:sign-in-title')}</h1>
+                    <h2 className={'title__h2'}>{t('auth:sign-in-subtitle')}</h2>
+                </Title>
                 <Formik initialValues={form}
                         onSubmit={handleSubmit}
                         validationSchema={Yup.object({
@@ -53,13 +54,14 @@ const Login = () => {
                     {(form: FormikProps<LoginDataType>) => (
                         <Form>
                             <FormSwitch name={'type'} options={userTypeOptions} onUpdate={update}/>
-                            <FormInput name={'email'} label={'Email'} onUpdate={update}/>
-                            <FormInput type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
+                            <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
+                            <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
+                            <ForgetPassword className={'desktop'} to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
                             <ButtonSubmit {...form}>{t('auth:sign-in')}</ButtonSubmit>
                         </Form>
                     )}
                 </Formik>
-                <ForgetPassword to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
+                <ForgetPassword className={'mobile'} to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
                 <SwitchState>
                     {t('auth:dont-have-account')} <Link to={'/sign-up'}>{t('auth:sign-up')}</Link>
                 </SwitchState>

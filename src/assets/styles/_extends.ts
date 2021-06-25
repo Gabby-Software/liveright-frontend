@@ -1,4 +1,4 @@
-// import vars from "./_variables";
+import vars from "./_variables";
 // import mixin from "./_mixins";
 
 const extend = {
@@ -26,6 +26,20 @@ const extend = {
         content: '';
         position: absolute;
         display: block;
+    `,
+    onlyDesktop:`
+        margin-left: auto;
+        width: fit-content;
+        position: relative;
+        bottom: 5px;
+        @media all and (max-width: ${vars.media.tablet-1}px) {
+            display: none;
+        }
+    `,
+    onlyMobile:`
+        @media all and (min-width: ${vars.media.tablet}px) {
+            display: none;
+        }
     `
 };
 

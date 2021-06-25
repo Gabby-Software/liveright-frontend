@@ -26,9 +26,9 @@ const vars = {
         modal: 50,
     },
     media: {
-        desktop: '1300px',
-        tablet: '920px',
-        mobile: '540px'
+        desktop: 1100,
+        tablet: 720,
+        mobile: 540
     },
     defaults: {
         transition: 'all .3s ease',

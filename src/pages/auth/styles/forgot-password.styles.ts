@@ -5,10 +5,16 @@ export default styled(Link)`
     display: block;
     font-weight: 500;
     color: #333333;
-    margin-top: 24px;
     font-size:14px;
     &:hover {
         color: #333333;
         text-decoration: underline;
+    }
+    &.desktop {
+        ${p => p.theme.extend.onlyDesktop}
+    }
+    &.mobile {
+        margin-top: 24px;
+        ${p => p.theme.extend.onlyMobile}
     }
 `
