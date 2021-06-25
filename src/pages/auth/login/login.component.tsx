@@ -16,6 +16,7 @@ import Styles, {Wrapper, Logo, SwitchState,ForgetPassword, Title} from '../style
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
+import {Routes} from "../../../enums/routes.enum";
 
 type LoginDataType = {
     type: string;
@@ -63,7 +64,7 @@ const Login = () => {
                 </Formik>
                 <ForgetPassword className={'mobile'} to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
                 <SwitchState>
-                    {t('auth:dont-have-account')} <Link to={'/sign-up'}>{t('auth:sign-up')}</Link>
+                    {t('auth:dont-have-account')} <Link to={Routes.REGISTER}>{t('auth:sign-up')}</Link>
                 </SwitchState>
             </Wrapper>
         </Styles>

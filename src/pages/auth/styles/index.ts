@@ -4,6 +4,7 @@ export {default as SwitchState} from './switch-state.styles';
 export {default as Wrapper} from './wrapper.styles';
 export {default as ForgetPassword} from './forgot-password.styles';
 export {default as Title} from './title';
+export {default as ResendEmail} from './resend-email.styles';
 
 export default styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -36,14 +37,31 @@ export default styled.div`
     }
     .forgot-password {
         &__title {
-            font-weight: 500;
-            font-size: 18px;
-            text-align:left;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0 0 25px 0;
+            @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
+                font-size: 36px;
+                margin-top: min(190px, 15vh);
+            }
         }
         &__desc {
-            font-size: 12px;
-            margin-bottom: 2rem;
-            text-align:left;
+            font-size: 14px;
+            margin: 25px 0 50px 0;
+            @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
+                font-size: 18px;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                >span {white-space:nowrap;}
+            }
+        }
+        &__hr {
+            @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
+                border-bottom: 1px solid ${p =>p.theme.vars.colors.secondary};
+                max-width: 164px;
+                margin: 15px auto;
+            }
         }
     }
 `;

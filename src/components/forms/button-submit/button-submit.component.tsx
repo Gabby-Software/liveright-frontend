@@ -14,7 +14,10 @@ const ButtonSubmit = ({isSubmitting, isValid, dirty, children}: SubmitProps) => 
             type={'primary'}
             loading={isSubmitting}
             htmlType={'submit'}
-            disabled={!isValid || !dirty || isSubmitting}
+            disabled={
+                !isValid
+            // || !dirty
+                || isSubmitting}
         >{children}</FormButton>
     );
 };

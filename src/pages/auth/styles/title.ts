@@ -10,9 +10,12 @@ export default styled.div`
         }
         &__h1 {
             color: ${p => p.theme.vars.colors.primaryDark};
-            font-size: 36px;
+            font-size: 1.5rem;
             font-weight: bold;
             margin: 27px 0 0 0;
+            @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
+                font-size: 36px;
+            }
         }
         &__h2 {
             color: ${p => p.theme.vars.colors.labelLight};

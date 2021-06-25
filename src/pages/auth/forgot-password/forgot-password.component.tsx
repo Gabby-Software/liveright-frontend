@@ -8,22 +8,34 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import * as Yup from 'yup';
+import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
+import {Redirect} from "react-router";
+import {Routes} from "../../../enums/routes.enum";
 
 type EmailType = {email:string};
 const ForgotPassword = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
+    const [submitted, setSubmitted] = useState(false);
     const handleSubmit = (form: EmailType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
         console.log(form);
         alert(`submitted!\n${JSON.stringify(form)}`);
         submitProps.setSubmitting(false);
+        setSubmitted(true);
     };
+    if(submitted) return <Redirect to={Routes.FORGOT_PASSWORD_CONFIRMATION}/>;
     return (
         <Styles>
             <Wrapper>
                 <Logo alt={'liveright'} src={logoCompact}/>
                 <h1 className={'forgot-password__title'}>{t('auth:recover-password')}</h1>
-                <p className={'forgot-password__desc'}>{t('auth:recover-password-desc')}</p>
+                <div className={'forgot-password__hr'}/>
+                <p className={'forgot-password__desc'}>
+                    <span>{t('auth:recover-password-desc-1')}
+                    <b>{t('auth:recover-password-desc-2')}</b>
+                        {t('auth:recover-password-desc-3')}</span>
+                    <span>{t('auth:recover-password-desc-4')}</span>
+                </p>
                 <Formik initialValues={form}
                         onSubmit={handleSubmit}
                         validationSchema={Yup.object({
@@ -32,7 +44,7 @@ const ForgotPassword = () => {
                 >
                     {(form: FormikProps<EmailType>) => (
                         <Form>
-                            <FormInput name={'email'} label={'Email'} onUpdate={update}/>
+                            <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
                             <ButtonSubmit {...form}>{t('next')}</ButtonSubmit>
                         </Form>
                     )}

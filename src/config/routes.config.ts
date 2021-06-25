@@ -1,28 +1,35 @@
 import {lazy} from 'react';
 import {RouteType} from "../types/route.type";
+import {Routes} from "../enums/routes.enum";
 
 export const authRoutes: RouteType[] = [
     {
         title: 'Login',
-        url: '/login',
+        url: Routes.LOGIN,
         Component: lazy(() => import('../pages/auth/login/login.component')),
         header: {}
     },
     {
         title: 'Sign Up',
-        url: '/sign-up',
+        url: Routes.REGISTER,
         Component: lazy(() => import('../pages/auth/sign-up/sign-up.component')),
         header: {}
     },
     {
         title: 'Forget Password',
-        url: '/forgot-password',
+        url: Routes.FORGOT_PASSWORD,
         Component: lazy(() => import('../pages/auth/forgot-password/forgot-password.component')),
         header: {}
     },
     {
+        title: 'Forget Password Confirmation',
+        url: Routes.FORGOT_PASSWORD_CONFIRMATION,
+        Component: lazy(() => import('../pages/auth/forgot-password-confirmation/forgot-password-confirmation.component')),
+        header: {}
+    },
+    {
         title: 'Reset Password',
-        url: '/reset-password',
+        url: Routes.RESET_PASSWORD,
         Component: lazy(() => import('../pages/auth/reset-password/reset-password.component')),
         header: {}
     }
@@ -49,7 +56,7 @@ export const routes: RouteType[] = [
     },
     {
         title: 'Account',
-        url: '/profile',
+        url: Routes.PROFILE,
         Component: lazy(() => import('../pages/profile/profile.component')),
         header: {
             title: 'Account'

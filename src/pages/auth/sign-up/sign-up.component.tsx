@@ -16,6 +16,7 @@ import Styles, {Wrapper, Logo, SwitchState, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
+import {Routes} from "../../../enums/routes.enum";
 
 type LoginDataType = {
     type: string;
@@ -69,7 +70,7 @@ const SignUp = () => {
                         )}
                     </Formik>
                 <SwitchState>
-                    {t('auth:have-account')} <Link to={'/login'}>{t('auth:sign-in')}</Link>
+                    {t('auth:have-account')} <Link to={Routes.LOGIN}>{t('auth:sign-in')}</Link>
                 </SwitchState>
                 </Wrapper>
             </Styles>
