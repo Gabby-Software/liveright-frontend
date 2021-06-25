@@ -9,6 +9,15 @@ Yup.addMethod(Yup.string, 'name', function() {
         }
     });
 });
+Yup.addMethod(Yup.string, 'password', function() {
+    return this.test({
+        name: 'password',
+        message: 'invalid-password',
+        test: (value) => {
+            return /\d/.test(value||'') && /[a-zA-Z]/.test(value||'');
+        }
+    });
+});
 
 Yup.setLocale({
     // use constant translation keys for messages without values
@@ -24,6 +33,8 @@ Yup.setLocale({
     },
     string: {
         email: 'invalid-email',
-        equals: 'passwords-not-match'
+        equals: 'passwords-not-match',
+        min: ({ min }:{min:number}) => ({ key: 'field-too-short', values: { min } }),
+        max: ({ max }:{max:number}) => ({ key: 'field-too-long', values: { max } }),
     }
 });

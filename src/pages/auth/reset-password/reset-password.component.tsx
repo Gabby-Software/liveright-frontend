@@ -35,7 +35,7 @@ const ResetPassword = () => {
                 <Formik initialValues={form}
                         onSubmit={handleSubmit}
                         validationSchema={Yup.object({
-                            new_password: Yup.string().required(),
+                            new_password: Yup.string().required().min(8).password(),
                             confirm_new_password: Yup.string().required().equals([Yup.ref('new_password')], 'passwords-not-match')
                         })}
                 >

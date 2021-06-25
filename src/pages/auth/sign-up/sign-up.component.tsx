@@ -53,11 +53,12 @@ const SignUp = () => {
                                 first_name: Yup.string().required().name(),
                                 last_name: Yup.string().required().name(),
                                 email: Yup.string().required().email(),
-                                password: Yup.string().required()
+                                password: Yup.string().required().min(8).password()
                             })}
                     >
                         {(form: FormikProps<LoginDataType>) => (
                             <Form>
+                                {console.log('errors', form.errors)}
                                 <FormSwitch name={'type'} options={userTypeOptions}/>
                                 <div className={'sign-up__name'}>
                                     <FormInputLabeled name={'first_name'} label={'First Name'} onUpdate={update}/>
