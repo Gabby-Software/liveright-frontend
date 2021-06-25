@@ -16,8 +16,7 @@ export default styled.div`
         text-align: left;
     }
     &__input {
-        outline: none;
-        box-shadow: none;
+        resize: none;
         display: block;
         background-color: #fbfbfb;
         padding: 14px 16px;
@@ -27,7 +26,7 @@ export default styled.div`
         outline: none;
         width: 100%;
         box-sizing: border-box;
-        &:focus, &.ant-picker-focused{
+        &:focus {
             border-color:${p => p.theme.vars.colors.inputBorder};
         }
     }

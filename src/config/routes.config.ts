@@ -55,11 +55,19 @@ export const routes: RouteType[] = [
         header: {}
     },
     {
-        title: 'Account',
+        title: 'Profile',
         url: Routes.PROFILE,
         Component: lazy(() => import('../pages/profile/profile.component')),
         header: {
             title: 'Account'
+        }
+    },
+    {
+        title: 'Edit Profile',
+        url: Routes.EDIT_PROFILE,
+        Component: lazy(() => import('../pages/profile/edit-profile/edit-profile.component')),
+        header: {
+            title: 'Edit Profile'
         }
     }
 ];

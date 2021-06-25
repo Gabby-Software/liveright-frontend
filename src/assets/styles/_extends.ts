@@ -40,6 +40,9 @@ const extend = {
         @media all and (min-width: ${vars.media.tablet}px) {
             display: none;
         }
+    `,
+    layout:`
+        padding: 39px 20px 160px 20px;
     `
 };
 

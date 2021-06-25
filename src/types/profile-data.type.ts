@@ -1,5 +1,6 @@
 export type ProfileDataType = {
     image: string;
+    gender: string;
     first_name: string;
     last_name: string;
     birth_date: string;

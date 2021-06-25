@@ -11,6 +11,7 @@ export type SubmitProps = {
 const ButtonSubmit = ({isSubmitting, isValid, dirty, children}: SubmitProps) => {
     return (
         <FormButton
+            className={'button-submit'}
             type={'primary'}
             loading={isSubmitting}
             htmlType={'submit'}

@@ -5,10 +5,12 @@
   "first-name": "First Name",
   "last-name": "Last Name",
   "join-date": "Join Date",
+  "birth-date": "Date of Birth",
   "email": "Email",
   "phone": "Phone Number",
   "address": "Address",
   "dietary-restrictions": "Dietary Restrictions",
   "injuries": "Injuries",
-  "edit-details": "Edit Details"
+  "edit-details": "Edit Details",
+  "save-changes": "Save Changes"
 }

@@ -4,6 +4,7 @@ import * as actions from "../action-types";
 
 const initialState: ProfileDataType = {
     image: profilePlaceholder,
+    gender: 'male',
     first_name: 'Chris',
     last_name: 'Hemsingworth',
     birth_date: '12/03/2021',

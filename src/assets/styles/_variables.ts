@@ -18,7 +18,7 @@ const vars = {
         warning: '#FC7D08'
     },
     sizes: {
-        borderRadius: '6px'
+        borderRadius: '6px',
     },
     zIndex: {
         header: 40,
