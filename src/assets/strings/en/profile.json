@@ -9,6 +9,8 @@
   "email": "Email",
   "phone": "Phone Number",
   "address": "Address",
+  "born": "Born",
+  "joined": "Joined",
   "dietary-restrictions": "Dietary Restrictions",
   "injuries": "Injuries",
   "edit-details": "Edit Details",

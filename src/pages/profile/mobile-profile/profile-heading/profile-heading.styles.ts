@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default styled.div`
+export default styled.section`
     ${p => p.theme.extend.flexCenter}
     .profile-heading {
         &__image {
@@ -20,6 +20,7 @@ export default styled.div`
             ${p => p.theme.extend.flexCenter}
             font-weight: 600;
             font-size: 14px;
+            justify-content: flex-start;
             svg {
                 width: 11px;
                 display: block;
@@ -29,6 +30,15 @@ export default styled.div`
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
+        }
+        &__edit {
+            ${p => p.theme.extend.flexCenter}
+            color: ${p => p.theme.vars.colors.primaryDark};
+            margin-left: auto;
+            width: 30px;
+            height: 30px;
+            background-color: ${p => p.theme.vars.colors.card};
+            border-radius: ${p => p.theme.vars.sizes.borderRadius};
         }
     }
 `;
