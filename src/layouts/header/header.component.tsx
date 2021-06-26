@@ -1,31 +1,51 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './header.styles';
 import {Link, useLocation} from 'react-router-dom';
-import {ReactComponent as CalendarIcon} from '../../assets/media/icons/calendar.svg';
-import {ReactComponent as BellIcon} from '../../assets/media/icons/bell.svg';
 import profilePlaceholder from '../../assets/media/profile-placeholder.png';
 import {classes} from "../../pipes/classes.pipe";
 import {useHeader} from "../../hooks/header.hook";
+import {HeaderItemType, HeaderItemTypes} from "../../types/route.type";
+import ButtonSubmit from "../../components/forms/button-submit/button-submit.component";
 
 const Header = () => {
     const {pathname} = useLocation();
-    const {title, items, back} = useHeader();
+    const {title, items} = useHeader();
+    const renderHeaderItem = ({type, href, Icon}: HeaderItemType) => {
+        switch (type) {
+            case HeaderItemTypes.IMAGE:
+                return (
+                    <Link to={href || ''} className={'header__profile'}>
+                        <img alt={'trainer'} src={profilePlaceholder}/>
+                    </Link>
+                );
+            case HeaderItemTypes.ICON:
+                Icon = Icon as React.ComponentType;
+                return (
+                    <Link to={href || ''}
+                          className={classes('header__icon',
+                              pathname === href && 'header__icon__active')}>
+                        <Icon/>
+                    </Link>
+                );
+            case HeaderItemTypes.SPACE:
+                return (
+                    <div className={'header__space'}/>
+                );
+            case HeaderItemTypes.SUBMIT:
+                Icon = Icon as React.ComponentType;
+                return (
+                    <label className={'header__icon'} htmlFor={'form-submit'}>
+                        <Icon/>
+                    </label>
+                );
+        }
+    };
     return (
         <Styles>
             <div className={'header__placeholder'}/>
             <nav className={'header__nav'}>
-                <Link to={'/chat'} className={'header__profile'}>
-                    <img alt={'trainer'} src={profilePlaceholder}/>
-                </Link>
-                <div className={'header__space'}/>
                 <h1 className={'header__title'}>{title}</h1>
-                {
-                    items?.map(({url, Icon}) => (
-                        <Link to={url} className={classes('header__icon', pathname===url&&'header__icon__active')}>
-                            <Icon/>
-                        </Link>
-                    ))
-                }
+                {items?.map(t => renderHeaderItem(t))}
             </nav>
         </Styles>
     );

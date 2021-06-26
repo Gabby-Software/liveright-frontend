@@ -3,14 +3,11 @@ import {usePage} from "./page.hook";
 import {HeaderConfigType} from "../types/route.type";
 import {ReactComponent as CalendarIcon} from '../assets/media/icons/calendar.svg';
 import {ReactComponent as BellIcon} from '../assets/media/icons/bell.svg';
+import headers, {DEFAULT_TITLE} from "../config/header.config";
 
 const defaultHeader: HeaderConfigType = {
-    title: 'LiveRight',
-    back: '',
-    items: [
-        {url: '/calendar', Icon: CalendarIcon},
-        {url: '/notifications', Icon: BellIcon}
-    ]
+    title: DEFAULT_TITLE,
+    items: headers.default
 };
 export const useHeader = () => {
     const {header} = usePage() || {};

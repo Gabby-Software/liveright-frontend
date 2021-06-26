@@ -58,7 +58,7 @@ const Login = () => {
                             <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
                             <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
                             <ForgetPassword className={'desktop'} to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
-                            <ButtonSubmit {...form}>{t('auth:sign-in')}</ButtonSubmit>
+                            <ButtonSubmit>{t('auth:sign-in')}</ButtonSubmit>
                         </Form>
                     )}
                 </Formik>

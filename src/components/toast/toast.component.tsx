@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Styles from './toast.styles';
-import {classes} from "../../pipes/classes.pipe";
 import Animator from "../../hoc/animator/animator.component";
 import {Alert} from 'antd'
 
-export type ToastProps = {type: 'success'|'error'|'info', msg: string};
+export type ToastProps = {type: 'success'|'error', msg: string};
 type ToastPropsInternal = ToastProps & {id: number};
 let id = 0;
 export const toast = {show: (props: ToastProps) => {}, duration: 2000};

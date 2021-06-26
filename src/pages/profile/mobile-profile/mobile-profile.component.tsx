@@ -5,6 +5,7 @@ import ProfileHeading from "./profile-heading/profile-heading.component";
 import ProfileData from "./profile-data/profile-data.component";
 import ProfileInfo from "./profile-info/profile-info.component";
 import ProfileStaff from "./profile-staff/profile-staff.component";
+import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 
 const MobileProfile = () => {
     return (

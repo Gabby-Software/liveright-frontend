@@ -5,19 +5,18 @@ import {Field, FieldProps, useFormik} from "formik";
 import {classes} from "../../../pipes/classes.pipe";
 
 export type SubmitProps = {
-    isSubmitting?: boolean;
-    isValid?: boolean;
-    dirty?: boolean;
     children: React.ReactNode;
     className?: string;
+    id?: string;
 };
-const ButtonSubmit = ({children, className}: SubmitProps) => {
+const ButtonSubmit = ({children, className, id}: SubmitProps) => {
     return (
         <Field name={''}>
             {
                 ({field, form}: FieldProps) => (
                     <FormButton
                         className={classes('button-submit', className)}
+                        id={id}
                         type={'primary'}
                         loading={form.isSubmitting}
                         htmlType={'submit'}

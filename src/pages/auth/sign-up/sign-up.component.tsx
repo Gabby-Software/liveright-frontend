@@ -66,7 +66,7 @@ const SignUp = () => {
                                 </div>
                                 <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
                                 <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
-                                <ButtonSubmit {...form}>{t('auth:sign-up')}</ButtonSubmit>
+                                <ButtonSubmit >{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}
                     </Formik>

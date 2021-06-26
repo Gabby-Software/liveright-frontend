@@ -1,6 +1,7 @@
 import {lazy} from 'react';
 import {RouteType} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
+import headers from "./header.config";
 
 export const authRoutes: RouteType[] = [
     {
@@ -59,7 +60,8 @@ export const routes: RouteType[] = [
         url: Routes.PROFILE,
         Component: lazy(() => import('../pages/profile/profile.component')),
         header: {
-            title: 'Account'
+            title: 'Account',
+            items: headers.profile
         }
     },
     {
@@ -67,7 +69,8 @@ export const routes: RouteType[] = [
         url: Routes.EDIT_PROFILE,
         Component: lazy(() => import('../pages/profile/edit-profile/edit-profile.component')),
         header: {
-            title: 'Edit Profile'
+            title: 'Edit Profile',
+            items: headers.confirm
         }
     }
 ];

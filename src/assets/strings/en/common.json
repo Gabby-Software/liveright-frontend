@@ -8,7 +8,6 @@
   "steps": "Steps",
   "blood-glucose": "Blood Glucose",
   "what-to-log": "What Health Data would you like to Log?",
-  "more": "More",
   "next": "Next",
   "menu": {
     "home": "Home",
@@ -19,6 +18,7 @@
     "library": "Library",
     "invoices": "Invoices",
     "sessions": "Sessions",
-    "settings": "Settings"
+    "settings": "Settings",
+    "more": "More"
   }
 }

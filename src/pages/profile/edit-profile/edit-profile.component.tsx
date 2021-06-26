@@ -43,7 +43,7 @@ const EditProfile = () => {
                         <FormInputLabeled name={'address'} label={t('profile:address')}/>
                         <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
                         <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
-                        <ButtonSubmit {...form}>{t('profile:save-changes')}</ButtonSubmit>
+                        <ButtonSubmit id={'form-submit'}>{t('profile:save-changes')}</ButtonSubmit>
                     </Form>
                 )}
             </Formik>

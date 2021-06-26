@@ -1,11 +1,15 @@
 import {ComponentType, ReactNode, FC} from "react";
 
+export enum HeaderItemTypes {
+    ICON, IMAGE, SPACE, SUBMIT
+}
 export type HeaderItemType = {
-    url: string;
-    Icon: ComponentType;
+    type: HeaderItemTypes;
+    href?: string;
+    url?: string;
+    Icon?: ComponentType;
 }
 export type HeaderConfigType = {
-    back?: string;
     items?: HeaderItemType[];
     title?: string;
 }
