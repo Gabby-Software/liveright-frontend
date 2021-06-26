@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Styles from './profile-info.styles';
+import {ProfileContext} from "../../../pages/profile/desktop-profile/profile.context";
+import FormTextarea from "../../forms/form-textarea/form-textarea.component";
 
 type Prop = {
     formName:string;
@@ -7,10 +9,19 @@ type Prop = {
     value: string;
 }
 const ProfileInfo = ({name, value, formName}: Prop) => {
+    const {editMode} = useContext(ProfileContext);
     return (
         <Styles>
-            <div className={'info__name'}>{name}</div>
-            <div className={'info__value'}>{value}</div>
+            {
+                editMode ? (
+                    <FormTextarea name={formName} label={name}/>
+                ) : (
+                    <>
+                        <div className={'info__name'}>{name}</div>
+                        <div className={'info__value'}>{value}</div>
+                    </>
+                )
+            }
         </Styles>
     )
 };

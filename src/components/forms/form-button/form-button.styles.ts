@@ -24,7 +24,7 @@ box-shadow:  0px 4px 8px 1px rgba(242, 96, 96, 0.15);
         color: #bfbfbf;
     }    
 }
-&.ant-btn-secondary {
+&.ant-btn-default {
     color: rgba(0, 0, 0, 0.3);
     background:white;
     &:hover {

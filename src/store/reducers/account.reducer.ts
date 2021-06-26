@@ -16,11 +16,16 @@ const initialState: ProfileDataType = {
     injuries: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vestibulum gravida purus, eget sollicitudin est eleifend in.'
 };
 
-export function accountReducer(state = initialState, action: actions.ActionType) {
+export function accountReducer(state = initialState, action: actions.ActionType<any>) {
     switch (action.type) {
-        case actions.ACTION_ACCOUNT_REQUEST:
-        case actions.ACTION_ACCOUNT_SUCCESS:
-        case actions.ACTION_ACCOUNT_ERROR:
+        case actions.ACTION_GET_ACCOUNT_SUCCESS:
+        case actions.ACTION_UPDATE_ACCOUNT_SUCCESS:
+            return {
+                ...state,
+                ...action.payload
+            };
+        case actions.ACTION_GET_ACCOUNT_ERROR:
+        case actions.ACTION_UPDATE_ACCOUNT_ERROR:
         default:
             return state;
     }

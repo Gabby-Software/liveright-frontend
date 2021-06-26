@@ -5,7 +5,10 @@ export default styled.section`
     .profile-data {
         &__cta {
             margin:  0 0 6px auto;
-            max-width: 135px;
+            width: auto;
+            +.profile-data__cta {
+                margin:  0 0 6px 14px;
+            }
         }
         &__cont {
             display: flex;
