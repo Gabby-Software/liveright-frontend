@@ -14,7 +14,8 @@ export const authRoutes: RouteType[] = [
         title: 'Sign Up',
         url: Routes.REGISTER,
         Component: lazy(() => import('../pages/auth/sign-up/sign-up.component')),
-        header: {}
+        header: {},
+        props: {exact: true}
     },
     {
         title: 'Forget Password',
@@ -32,6 +33,12 @@ export const authRoutes: RouteType[] = [
         title: 'Reset Password',
         url: Routes.RESET_PASSWORD,
         Component: lazy(() => import('../pages/auth/reset-password/reset-password.component')),
+        header: {}
+    },
+    {
+        title: 'Sign up confirmation',
+        url: Routes.REGISTER_CONFIRMATION,
+        Component: lazy(() => import('../pages/auth/sign-up-confirmation/sign-up-confirmation.component')),
         header: {}
     }
 ];
