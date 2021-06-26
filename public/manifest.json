@@ -6,19 +6,19 @@
       "name": "Dashboard",
       "url": "/",
       "description": "General view of your staff",
-      "icons": [{"src": "icons/home.svg", "type": "image/png","sizes": "96x96"}]
+      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
     },
     {
       "name": "Calendar",
       "url": "/calendar",
       "description": "See what is your plans for today",
-      "icons": [{"src": "icons/calendar.svg", "type": "image/png","sizes": "96x96"}]
+      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
     },
     {
       "name": "Notifications",
       "url": "/notifications",
       "description": "See what happen when you where out",
-      "icons": [{"src": "icons/bell.svg", "type": "image/png","sizes": "96x96"}]
+      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
     }
   ],
   "icons": [
