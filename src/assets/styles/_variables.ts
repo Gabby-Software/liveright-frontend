@@ -14,8 +14,10 @@ const vars = {
         inputBorder: '#dfdfdf',
         background: '#fafafa',
         success: '#56EC53',
+        successDark: '#43b840',
         info: '#2F86EC',
-        warning: '#FC7D08'
+        warning: '#FC7D08',
+        warningDark: '#c46106',
     },
     sizes: {
         borderRadius: '6px',
@@ -24,6 +26,7 @@ const vars = {
         header: 40,
         footer: 40,
         modal: 50,
+        toast: 49
     },
     media: {
         desktop: 1100,

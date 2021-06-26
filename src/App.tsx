@@ -7,6 +7,7 @@ import {Space} from "antd";
 import styled from "styled-components";
 import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
+import Toast from "./components/toast/toast.component";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -42,6 +43,7 @@ function App() {
                     </Route>
                 </Switch>
             </Suspense>
+            <Toast/>
         </Styles>
     );
 }
