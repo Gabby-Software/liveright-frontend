@@ -6,6 +6,7 @@ import {
     ActionType
 } from "../action-types";
 import {ProfileDataType} from "../../types/profile-data.type";
+import {toast} from "../../components/toast/toast.component";
 
 export function* sagaProfileWatcher() {
     console.log('SAGA INIT');
@@ -15,6 +16,7 @@ export function* sagaProfileWatcher() {
 
 function* updateProfileAction(action: ActionType<ProfileDataType>) {
     yield put({type: ACTION_UPDATE_ACCOUNT_SUCCESS, payload: action.payload});
+    yield call(() => toast.show({type: 'success', msg: 'profile updated successfully!'}));
 }
 
 function* getProfileAction() {

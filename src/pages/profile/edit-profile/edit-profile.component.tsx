@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Styles from './edit-profile.styles';
 import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import {Redirect} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers";
 import {Form, Formik, FormikProps} from "formik";
 import * as Yup from 'yup';
@@ -12,17 +12,23 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormTextarea from "../../../components/forms/form-textarea/form-textarea.component";
 import FormDatepicker from "../../../components/forms/form-datepicker/form-datepicker.component";
+import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
+import {Routes} from "../../../enums/routes.enum";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
     const {t} = useTranslation();
+    const [submitted, setSubmitted] = useState(false);
     const profileData = useSelector((state: RootState) => state.account);
+    const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         console.log(form);
-        alert(`submitted!\n${JSON.stringify(form)}`);
+        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
         submitProps.setSubmitting(false);
+        setSubmitted(true);
     };
+    if(submitted) return <Redirect to={Routes.PROFILE}/>
     return (
         <Styles>
             <Formik initialValues={profileData}
