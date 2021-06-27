@@ -21,6 +21,7 @@ const vars = {
     },
     sizes: {
         borderRadius: '6px',
+        boxShadow: '0px 4px 25px rgba(0, 0, 0, 0.15)',
     },
     zIndex: {
         header: 40,

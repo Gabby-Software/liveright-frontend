@@ -30,7 +30,6 @@ const Toast = () => {
             setToasts([...tref.current]);
         }, toast.duration);
     };
-    console.log('toasts', toasts);
     return (
         <Styles>
             {

@@ -7,11 +7,26 @@ import {ReactComponent as CalendarIcon} from '../../assets/media/icons/calendar.
 import {classes} from "../../pipes/classes.pipe";
 import {useHeader} from "../../hooks/header.hook";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
+import Dropdown from "../../components/forms/dropdown/dropdown.component";
+import {MenuItemType} from "../../types/menu-item.type";
+import {Routes} from "../../enums/routes.enum";
 
 const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
     const {t} = useTranslation();
+    const switchAccount = () => {
+
+    };
+    const logout = () => {
+
+    };
+    const dropdownMenu: MenuItemType[] = [
+        {name: t('menu.personal-details'), url: Routes.PROFILE},
+        {name: t('menu.settings'), url: Routes.SETTINGS},
+        {name: t('menu.switch-account'), onClick: switchAccount},
+        {name: t('menu.log-out'), onClick: logout},
+    ];
     return (
         <Styles>
             <h1 className={'desktop-header__title'}>{t(title||'')}</h1>
@@ -34,6 +49,13 @@ const DesktopHeader = () => {
                     </li>
                 </ul>
             </nav>
+            <Dropdown menu={dropdownMenu}>
+                <img src={profilePlaceholder} alt={'profile'} className={'desktop-header__profile__img'}/>
+                <div className={'desktop-header__profile__info'}>
+                    <div className={'desktop-header__profile__name'}>{'Chris Hemington'}</div>
+                    <div className={'desktop-header__profile__type'}>{'Trainer'}</div>
+                </div>
+            </Dropdown>
         </Styles>
     );
 };

@@ -1,9 +1,9 @@
 import React, {Suspense} from 'react';
 import './App.css';
-import {Link, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import {routes, authRoutes} from "./config/routes.config";
 import {useSeo} from "./hooks/seo.hook";
-import {Space} from "antd";
+import {Skeleton} from "antd";
 import styled from "styled-components";
 import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
@@ -11,13 +11,16 @@ import Toast from "./components/toast/toast.component";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
+    .suspense {
+        ${p =>p.theme.extend.layout};
+    }
 `;
 
 function App() {
     useSeo();
     return (
         <Styles>
-            <Suspense fallback={<div/>}>
+            <Suspense fallback={<Skeleton className={'suspense'}/>}>
                 <Switch>
                     <Route path={authRoutes.map(r => r.url)}>
                         <AuthFormProvider>

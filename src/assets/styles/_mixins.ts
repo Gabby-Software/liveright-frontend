@@ -2,6 +2,7 @@ import vars from "./_variables";
 
 const mixin = {
     circleImage: (size: string) => `
+        display: block;
         width:${size};
         height:${size};
         border-radius: 50%;
