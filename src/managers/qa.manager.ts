@@ -11,6 +11,7 @@ const currentTime = () => {
     const t = (n: number) => String(n).padStart(2, '0');
     return `${t(new Date().getHours())}:${t(new Date().getMinutes())}:${t(new Date().getSeconds())}`;
 };
+
 const generateReport = (logs: QALogType[]) => {
     const data = `SCREEN SIZE: ${window.innerWidth} x ${window.innerHeight}\nUSER AGENT: ${window.navigator.userAgent}\n\n\n`;
     return logs.reduce((report, {time,status, data}) => {
