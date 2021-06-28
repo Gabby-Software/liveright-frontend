@@ -4,7 +4,7 @@ import {Drawer} from "antd";
 export default styled(Drawer)`
 --top: 0;
 .ant-drawer-content-wrapper {
-    transform:translateY(var(--top));
+    bottom:var(--top);
 }
 .ant-drawer-body {
     padding:0;
