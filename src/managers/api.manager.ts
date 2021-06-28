@@ -7,6 +7,7 @@ import logger from "./logger.manager";
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
 });
+logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = localStorage.getItem('token');
