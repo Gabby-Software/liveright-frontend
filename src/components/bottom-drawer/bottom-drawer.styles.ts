@@ -2,6 +2,10 @@ import styled from "styled-components";
 import {Drawer} from "antd";
 
 export default styled(Drawer)`
+--top: 0;
+.ant-drawer-content-wrapper {
+    transform:translateY(var(--top));
+}
 .ant-drawer-body {
     padding:0;
 }

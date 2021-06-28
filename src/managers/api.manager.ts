@@ -21,7 +21,7 @@ api.interceptors.request.use(
 );
 api.interceptors.response.use(
     res => {
-        logger.info('HTTP_RESPONSE', res);
+        logger.info('HTTP_RESPONSE', res.config.url, res);
         return res;
     },
     err => {
