@@ -45,7 +45,7 @@ const Header = () => {
             <div className={'header__placeholder'}/>
             <nav className={'header__nav'}>
                 <h1 className={'header__title'}>{title}</h1>
-                {items?.map(t => renderHeaderItem(t))}
+                {items?.map((t,i) => <React.Fragment key={i}>{renderHeaderItem(t)}</React.Fragment>)}
             </nav>
         </Styles>
     );

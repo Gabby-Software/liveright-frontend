@@ -8,5 +8,6 @@
   "high-value": "Max is {{num}}",
   "invalid-name": "Only english characters allowed",
   "passwords-not-match": "Passwords not match",
-  "invalid-password": "Password must contain at lease one letter and one digit"
+  "invalid-password": "Password must contain at lease one letter and one digit",
+  "network-error": "Something went's wrong! please try again later."
 }

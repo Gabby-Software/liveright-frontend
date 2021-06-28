@@ -35,7 +35,7 @@ const MobileLogDrawer = ({isOpen, onClose}: MobileLogDrawerPropsType) => {
                 <div className={'log-drawer__cont'}>
                     {
                         logOptions.map(({title, Icon, url}) => (
-                            <Link to={url} className={'log-drawer__button'}
+                            <Link to={url} className={'log-drawer__button'} key={title}
                                 onClick={onClose}>
                                 <div>
                                     <Icon/>

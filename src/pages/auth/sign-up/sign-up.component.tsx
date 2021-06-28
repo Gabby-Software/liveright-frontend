@@ -17,6 +17,8 @@ import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 import {Routes} from "../../../enums/routes.enum";
+import {useDispatch} from "react-redux";
+import {ACTION_REGISTER_REQUEST} from "../../../store/action-types";
 
 type LoginDataType = {
     type: string;
@@ -28,10 +30,22 @@ type LoginDataType = {
 const SignUp = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
+    const dispatch = useDispatch();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
         console.log(form);
-        alert(`submitted!\n${JSON.stringify(form)}`);
-        submitProps.setSubmitting(false);
+        const {first_name, last_name, email, password, type} = form;
+        const handleSuccess = () => {
+            console.log('registration success');
+            submitProps.setSubmitting(false);
+        };
+        const handleError = () => {
+            console.log('registration error');
+            submitProps.setSubmitting(false);
+        };
+        dispatch({type: ACTION_REGISTER_REQUEST, payload: {
+                first_name, last_name, email, password, password_confirmation: password, account_type: type,
+                onSuccess: handleSuccess, onError: handleError
+            }});
     };
     const userTypeOptions = [
         {label: 'Client', value: userTypes.CLIENT},
@@ -58,7 +72,6 @@ const SignUp = () => {
                     >
                         {(form: FormikProps<LoginDataType>) => (
                             <Form>
-                                {console.log('errors', form.errors)}
                                 <FormSwitch name={'type'} options={userTypeOptions}/>
                                 <div className={'sign-up__name'}>
                                     <FormInputLabeled name={'first_name'} label={'First Name'} onUpdate={update}/>

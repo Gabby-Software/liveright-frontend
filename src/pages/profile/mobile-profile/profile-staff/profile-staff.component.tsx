@@ -23,8 +23,8 @@ const ProfileStaff = () => {
     return (
         <Styles>
             {
-                staffItems.map(({Icon, text1, text2, title}) => (
-                    <Card className={'staff'}>
+                staffItems.map(({Icon, text1, text2, title}, i) => (
+                    <Card className={'staff'} key={i}>
                         <div className={'staff__heading'}>
                             <Icon/>
                             <h3 className={'staff__title'}>{title}</h3>

@@ -8,9 +8,10 @@ import {
 import {ProfileDataType} from "../../types/profile-data.type";
 import {toast} from "../../components/toast/toast.component";
 import {i18n} from "../../modules/i18n/i18n.context";
+import logger from "../../managers/logger.manager";
 
 export function* sagaProfileWatcher() {
-    console.log('SAGA INIT');
+    logger.info('PROFILE SAGA INIT');
     yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateProfileAction);
     yield takeLatest(ACTION_GET_ACCOUNT_REQUEST, getProfileAction);
 }
