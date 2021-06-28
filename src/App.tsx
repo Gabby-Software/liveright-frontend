@@ -20,10 +20,10 @@ function App() {
     useSeo();
     return (
         <Styles>
-            <Suspense fallback={<Skeleton className={'suspense'}/>}>
                 <Switch>
                     <Route path={authRoutes.map(r => r.url)}>
                         <AuthFormProvider>
+                            <Suspense fallback={<Skeleton className={'suspense'}/>}>
                             {
                                 authRoutes.map(R => (
                                     <Route exact path={R.url} key={R.url} {...R.props}>
@@ -31,10 +31,12 @@ function App() {
                                     </Route>
                                 ))
                             }
+                            </Suspense>
                         </AuthFormProvider>
                     </Route>
                     <Route path={routes.map(r => r.url)}>
                         <Layout>
+                            <Suspense fallback={<Skeleton className={'suspense'}/>}>
                             {
                                 routes.map(R => (
                                     <Route path={R.url} key={R.url} {...R.props}>
@@ -42,10 +44,10 @@ function App() {
                                     </Route>
                                 ))
                             }
+                            </Suspense>
                         </Layout>
                     </Route>
                 </Switch>
-            </Suspense>
             <Toast/>
         </Styles>
     );
