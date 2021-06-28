@@ -18,7 +18,15 @@ Yup.addMethod(Yup.string, 'password', function() {
         }
     });
 });
-
+Yup.addMethod(Yup.string, 'phone', function() {
+    return this.test({
+        name: 'phone',
+        message: 'invalid-phone',
+        test: (value) => {
+            return !value || /^\+?\d{8,11}$/.test(value||'');
+        }
+    });
+});
 Yup.setLocale({
     // use constant translation keys for messages without values
     mixed: {

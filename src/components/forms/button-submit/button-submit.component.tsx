@@ -21,9 +21,10 @@ const ButtonSubmit = ({children, className, id}: SubmitProps) => {
                         loading={form.isSubmitting}
                         htmlType={'submit'}
                         disabled={
-                            !form.isValid
+                            // !form.isValid
                             // || !dirty
-                            || form.isSubmitting}
+                            // ||
+                            form.isSubmitting}
                     >{children}</FormButton>
                 )}
         </Field>

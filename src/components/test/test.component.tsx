@@ -12,8 +12,8 @@ const Test = () => {
         <h1>{t('hello-world')}</h1>
         <div>
             <span>styles test</span>
-            <FormButton type={'primary'} onClick={() => toast.show({type: 'success', msg: 'I am a success message! '+Math.random()})}>SUCCESS TOAST</FormButton>
-            <FormButton type={'default'} onClick={() => toast.show({type: 'error', msg: 'Some error occur, please try again later! '+Math.random()})}>Error TOAST</FormButton>
+            <FormButton type={'primary'} onClick={() => toast.show()}>SUCCESS TOAST</FormButton>
+            <FormButton type={'default'} onClick={() => toast.show()}>Error TOAST</FormButton>
         </div>
         <div>
             <button onClick={() =>setLeft(200)}>200</button>

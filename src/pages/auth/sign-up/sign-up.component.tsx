@@ -19,6 +19,7 @@ import FormInputLabeled from "../../../components/forms/form-input-labeled/form-
 import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_REGISTER_REQUEST} from "../../../store/action-types";
+import logger from "../../../managers/logger.manager";
 
 type LoginDataType = {
     type: string;
@@ -32,7 +33,7 @@ const SignUp = () => {
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
     const dispatch = useDispatch();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
-        console.log(form);
+        logger.info('submitting form', form);
         const {first_name, last_name, email, password, type} = form;
         const handleSuccess = () => {
             console.log('registration success');

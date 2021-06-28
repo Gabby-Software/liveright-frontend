@@ -3,5 +3,6 @@ declare module 'yup' {
     interface StringSchema {
         name(): StringSchema;
         password(): StringSchema;
+        phone(): StringSchema;
     }
 }
