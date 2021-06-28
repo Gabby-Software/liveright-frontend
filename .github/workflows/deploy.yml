@@ -18,11 +18,15 @@ jobs:
     env:
       CI: false
       NODE_ENV: development
+      REACT_APP_BASE_URL: https://liveright-dev.madebycolorelephant.com
+      REACT_APP_BASE_API_URL: https://api.liveright-dev.madebycolorelephant.com
+
 
     steps:
 
       - uses: actions/checkout@v2
-
+      - name : test env var 
+        run: echo $REACT_APP_BASE_URL
       - name: Run yarn install
         run: yarn install
       - name: Run yarn build
