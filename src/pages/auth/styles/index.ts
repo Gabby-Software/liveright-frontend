@@ -32,6 +32,14 @@ export default styled.div`
             }
         }
     }
+    .sign-up__skip {
+         @media all and (max-width: ${p => p.theme.vars.media.tablet}px) {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            max-width: 100px;
+        }
+    }
     .ant-btn {
         margin-top: 36px;
     }

@@ -41,6 +41,7 @@ box-shadow:  0px 4px 8px 1px rgba(242, 96, 96, 0.15);
 &.ant-btn-link {
     border-color:transparent;
     background:transparent;
+    box-shadow:none;
     color: ${p=>p.theme.vars.colors.primary};
     &:hover {
         color: ${p=>p.theme.vars.colors.primaryLight};

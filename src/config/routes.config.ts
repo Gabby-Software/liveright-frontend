@@ -40,6 +40,12 @@ export const authRoutes: RouteType[] = [
         url: Routes.REGISTER_CONFIRMATION,
         Component: lazy(() => import('../pages/auth/sign-up-confirmation/sign-up-confirmation.component')),
         header: {}
+    },
+    {
+        title: 'Sign up onboarding',
+        url: Routes.REGISTER_ON_BOARD,
+        Component: lazy(() => import('../pages/auth/sign-up-onboard/sign-up-onboard.component')),
+        header: {}
     }
 ];
 export const routes: RouteType[] = [

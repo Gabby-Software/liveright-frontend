@@ -9,6 +9,8 @@
   "blood-glucose": "Blood Glucose",
   "what-to-log": "What Health Data would you like to Log?",
   "next": "Next",
+  "finish": "Finish",
+  "skip": "Skip",
   "menu": {
     "home": "Home",
     "plans": "Plans",

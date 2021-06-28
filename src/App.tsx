@@ -26,7 +26,7 @@ function App() {
                         <AuthFormProvider>
                             {
                                 authRoutes.map(R => (
-                                    <Route path={R.url} key={R.url} {...R.props}>
+                                    <Route exact path={R.url} key={R.url} {...R.props}>
                                         <R.Component/>
                                     </Route>
                                 ))

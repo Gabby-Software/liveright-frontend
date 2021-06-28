@@ -13,7 +13,7 @@ const ButtonSubmit = ({children, className, id}: SubmitProps) => {
     return (
         <Field name={''}>
             {
-                ({field, form}: FieldProps) => (
+                ({form}: FieldProps) => (
                     <FormButton
                         className={classes('button-submit', className)}
                         id={id}
