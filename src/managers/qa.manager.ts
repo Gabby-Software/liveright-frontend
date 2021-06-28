@@ -12,14 +12,14 @@ const currentTime = () => {
     return `${t(new Date().getHours())}:${t(new Date().getMinutes())}:${t(new Date().getSeconds())}`;
 };
 const generateReport = (logs: QALogType[]) => {
-    const data = `SCREEN SIZE: ${window.innerWidth}x${window.innerHeight}\nUSER AGENT:${window.navigator.userAgent}\n\n\n`;
+    const data = `SCREEN SIZE: ${window.innerWidth} x ${window.innerHeight}\nUSER AGENT: ${window.navigator.userAgent}\n\n\n`;
     return logs.reduce((report, {time,status, data}) => {
         let msg = '';
         try {
             msg = JSON.stringify(data);
         } catch(e){ msg = 'unstringified data'}
         return report + `[${time}]: ${status === 'error' ? "  --!!!ERROR!!!--  ": "  INFO  "}  -  ${msg}\n\n`;
-    },"");
+    }, data);
 };
 const download = (data: string) => {
     const a = document.createElement('a');
