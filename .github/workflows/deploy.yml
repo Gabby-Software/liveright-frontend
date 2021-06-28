@@ -17,7 +17,6 @@ jobs:
     runs-on: self-hosted
     env:
       CI: false
-      NODE_ENV: development
       REACT_APP_BASE_URL: https://liveright-dev.madebycolorelephant.com
       REACT_APP_BASE_API_URL: https://api.liveright-dev.madebycolorelephant.com
 
@@ -30,6 +29,8 @@ jobs:
         run: yarn install
       - name: Run yarn build
         run: NODE_ENV=development yarn build
+      - name: Copy .env.dev to .env
+        run: cp .env.dev .env
 
       # Runs a set of commands using the runners shell
       - name: Deploy to dev
