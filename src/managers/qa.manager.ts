@@ -12,7 +12,7 @@ const currentTime = () => {
     return `${t(new Date().getHours())}:${t(new Date().getMinutes())}:${t(new Date().getSeconds())}`;
 };
 const generateReport = (logs: QALogType[]) => {
-    const data = `SCREEN SIZE: ${window.innerWidth}x${window.innerHeight}\nUSER AGENT:${window.navigator.userAgent}\n\n`;
+    const data = `SCREEN SIZE: ${window.innerWidth}x${window.innerHeight}\nUSER AGENT:${window.navigator.userAgent}\n\n\n`;
     return logs.reduce((report, {time,status, data}) => {
         let msg = '';
         try {
