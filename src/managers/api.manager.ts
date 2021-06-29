@@ -40,5 +40,13 @@ api.interceptors.response.use(
         return Promise.reject(err)
     }
 );
-api.get(EP_CSRF);
+const post = api.post;
+const put = api.put;
+api.post = (url: string, data: any, config: AxiosRequestConfig) => {
+    return api.get(EP_CSRF).then(() => post(url, data, config));
+};
+api.put = (url: string, data: any, config: AxiosRequestConfig) => {
+    return api.get(EP_CSRF).then(() => put(url, data, config));
+};
+
 export default api;
