@@ -10,7 +10,7 @@ import FormSwitch from "../../../components/forms/form-switch/form-switch.compon
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormInput from "../../../components/forms/form-input/form-input.component";
 import logoCompact from '../../../assets/media/logo-compact.png';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import Styles, {Wrapper, Logo, SwitchState, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
@@ -31,16 +31,16 @@ type LoginDataType = {
 const SignUp = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const dispatch = useDispatch();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
         logger.info('submitting form', form);
         const {first_name, last_name, email, password, type} = form;
         const handleSuccess = () => {
-            console.log('registration success');
             submitProps.setSubmitting(false);
+            setIsSubmitted(true);
         };
         const handleError = () => {
-            console.log('registration error');
             submitProps.setSubmitting(false);
         };
         dispatch({type: ACTION_REGISTER_REQUEST, payload: {
@@ -52,6 +52,7 @@ const SignUp = () => {
         {label: 'Client', value: userTypes.CLIENT},
         {label: 'Trainer', value: userTypes.TRAINER},
     ];
+    if(isSubmitted) return <Redirect to={Routes.REGISTER_CONFIRMATION}/>;
     return (
             <Styles>
                 <Wrapper>
@@ -71,7 +72,7 @@ const SignUp = () => {
                                 password: Yup.string().required().min(8).password()
                             })}
                     >
-                        {(form: FormikProps<LoginDataType>) => (
+                        {() => (
                             <Form>
                                 <FormSwitch name={'type'} options={userTypeOptions}/>
                                 <div className={'sign-up__name'}>
