@@ -4,14 +4,14 @@ import {
     ACTION_LOGIN_SUCCESS,
     ACTION_REGISTER_REQUEST,
     ACTION_REGISTER_SUCCESS,
-    ACTION_VERIFY_EMAIL_REQUEST,
+    ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
 } from "../action-types";
 import {toast} from "../../components/toast/toast.component";
 import {i18n} from "../../modules/i18n/i18n.context";
 import {CallbackType} from "../../types/callback.type";
 import api from "../../managers/api.manager";
-import {EP_LOGIN, EP_REGISTER, EP_VERIFY_EMAIL} from "../../enums/api.enum";
+import {EP_LOGIN, EP_REGISTER, EP_VERIFY_EMAIL, EP_VERIFY_EMAIL_RESEND} from "../../enums/api.enum";
 import {AuthRegisterType} from "../../modules/auth/auth-register.type";
 import {AuthLoginType} from "../../modules/auth/auth-login.type";
 import logger from "../../managers/logger.manager";
@@ -24,6 +24,7 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_REGISTER_REQUEST, registerWorker);
     yield takeLatest(ACTION_LOGIN_REQUEST, loginWorker);
     yield takeLatest(ACTION_VERIFY_EMAIL_REQUEST, verifyEmailWorker);
+    yield takeLatest(ACTION_VERIFY_EMAIL_RESEND_REQUEST, verifyEmailResendWorker);
 }
 
 function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -72,4 +73,12 @@ function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & Verify
 function callVerify({id, token,expires,signature}: VerifyEmailParamsType & VerifyEmailQueryType) {
     return api.get(EP_VERIFY_EMAIL+`/${id}/${token}?expires=${expires}&signature=${signature}`)
         .then(res => res.data);
+}
+function* verifyEmailResendWorker() {
+    try {
+        yield call(() => api.post(EP_VERIFY_EMAIL_RESEND));
+        toast.show({type:'success', msg: i18n.t('alerts:resend-verification-success')});
+    } catch(e) {
+        toast.show({type:'error', msg: i18n.t('errors:network-error')});
+    }
 }
