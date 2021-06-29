@@ -7,14 +7,16 @@ import {classes} from "../../../pipes/classes.pipe";
 
 type Props = {
     name: string;
+    label: string;
     options: { value: string, label: string }[];
 }
-const FormRadio = ({name, options}: Props) => {
+const FormRadio = ({name, label, options}: Props) => {
     return (
         <Field name={name}>
             {
                 ({field, form}: FieldProps) => (
                     <Styles className={'radio__wrapper'}>
+                        <div className={'radio__label'}>{label}</div>
                         <div className={'radio__cont'}>
                             <div className={'radio'}>
                                 {options.map(({value, label}) => (

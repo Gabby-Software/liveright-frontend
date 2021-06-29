@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useState, ComponentType, ElementType} from 'react';
 import {AuthFormFieldsType, AuthFormType} from "./auth-form.type";
 import userTypes from "../../enums/user-types.enum";
+import {genderTypes} from "../../enums/gender-types";
 
 export const AuthFormContext = createContext<AuthFormType>(null);
 export const AuthFormProvider = ({children}:{children: any}) => {
@@ -12,6 +13,7 @@ export const AuthFormProvider = ({children}:{children: any}) => {
       password: '',
       new_password: '',
       confirm_new_password: '',
+      gender: genderTypes.MALE
   });
   const update = (name: string, value: string) => setForm({...form, [name]:value});
   return (

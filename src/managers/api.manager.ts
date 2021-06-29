@@ -34,7 +34,7 @@ api.interceptors.response.use(
         }
         logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
-            // localStorage.removeItem('token');
+            // localStorage.removeItem('uuid');
             // Todo: remove user data from redux store
             // window.location.pathname = '/login';
         }

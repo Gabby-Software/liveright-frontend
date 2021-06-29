@@ -20,6 +20,8 @@ import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_REGISTER_REQUEST} from "../../../store/action-types";
 import logger from "../../../managers/logger.manager";
+import FormRadio from "../../../components/forms/form-radio-button/form-radio-button.component";
+import {genderTypes} from "../../../enums/gender-types";
 
 type LoginDataType = {
     type: string;
@@ -27,6 +29,7 @@ type LoginDataType = {
     last_name: string;
     email: string;
     password: string;
+    gender: string;
 };
 const SignUp = () => {
     const {t} = useTranslation();
@@ -35,7 +38,7 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
         logger.info('submitting form', form);
-        const {first_name, last_name, email, password, type} = form;
+        const {first_name, last_name, email, password, type, gender} = form;
         const handleSuccess = () => {
             submitProps.setSubmitting(false);
             setIsSubmitted(true);
@@ -44,13 +47,17 @@ const SignUp = () => {
             submitProps.setSubmitting(false);
         };
         dispatch({type: ACTION_REGISTER_REQUEST, payload: {
-                first_name, last_name, email, password, password_confirmation: password, account_type: type,
+                first_name, last_name, email, password, gender, password_confirmation: password, account_type: type,
                 onSuccess: handleSuccess, onError: handleError
             }});
     };
     const userTypeOptions = [
         {label: 'Client', value: userTypes.CLIENT},
         {label: 'Trainer', value: userTypes.TRAINER},
+    ];
+    const genderOptions = [
+        {label: 'Male', value: genderTypes.MALE},
+        {label: 'Female', value: genderTypes.FEMALE},
     ];
     if(isSubmitted) return <Redirect to={Routes.REGISTER_CONFIRMATION}/>;
     return (
@@ -79,8 +86,9 @@ const SignUp = () => {
                                     <FormInputLabeled name={'first_name'} label={'First Name'} onUpdate={update}/>
                                     <FormInputLabeled name={'last_name'} label={'Last Name'} onUpdate={update}/>
                                 </div>
+                                <FormRadio name={'gender'} label={'What\'s your gender?'} options={genderOptions}/>
                                 <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
-                                <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
+                                <FormInputLabeled type={'password'} name={'password'} label={'Create a password'} onUpdate={update}/>
                                 <ButtonSubmit >{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}

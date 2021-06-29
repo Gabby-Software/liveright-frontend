@@ -33,7 +33,7 @@ function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<v
         yield put({type: ACTION_REGISTER_SUCCESS, payload: res});
         logger.log('REGISTRATION RESPONSE', res);
         localStorage.setItem('uuid', res.uuid);
-        toast.show({type: 'success', msg: 'alerts:register-success'});
+        toast.show({type: 'success', msg: i18n.t('alerts:register-success')});
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
         toast.show({type: 'error', msg: serverError(e)});
@@ -41,7 +41,7 @@ function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<v
     }
 }
 function callRegister(data: AuthRegisterType): Promise<string> {
-    return api.post(EP_REGISTER, {...data, gender:'male'}).then(res => res.data?.data);
+    return api.post(EP_REGISTER, data).then(res => res.data?.data);
 }
 
 function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>) {

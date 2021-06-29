@@ -4,6 +4,7 @@ export type AuthFormFieldsType = {
     last_name:string;
     email:string;
     password: string;
+    gender: string;
     new_password: string;
     confirm_new_password: string;
 }
