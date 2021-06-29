@@ -20,6 +20,8 @@
     "library": "Library",
     "invoices": "Invoices",
     "sessions": "Sessions",
+    "switch-account": "Switch Account",
+    "select-profile-type": "Select a profile type",
     "settings": "Settings",
     "more": "More"
   }

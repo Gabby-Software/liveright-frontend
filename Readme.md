@@ -18,6 +18,11 @@
  If any additional setup will be needed in future, please add it in the setup command.
  * Run `yarn start` to start the server. Will run om port 8022. Can be customized in .env
 
+### *Mailhog*
+[https://mailhog.madebycolorelephant.com/](https://mailhog.madebycolorelephant.com/)  
+***username***: `test`  
+***password***: `Colorelephant2100!`  
+
 ### *3rd party apps*
 For any 3rd party app use a dedicated account for this project development.   
 ***username:*** `liverightdevelopment@gmail.com`  

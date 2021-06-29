@@ -7,6 +7,7 @@ const vars = {
         secondary2: '#d5d5d5',
         secondary3: '#818799',
         dark: '#5A5A5A',
+        dark2: '#39393d',
         light: '#EBEBEB',
         light2: '#a8a8a8',
         card: '#fbfbfb',

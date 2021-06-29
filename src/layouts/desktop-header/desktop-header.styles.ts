@@ -61,21 +61,7 @@ export default styled.header`
         
         }
         &__profile {
-            &__img {
-                ${p => p.theme.mixin.circleImage('36px')}
-            }
-            &__info {
-                margin: 0 auto 0 8px;
-            }
-            &__name {
-                font-size: 12px;
-                font-weight: 600;
-                color: black;
-            }
-            &__type {
-                font-size: 10px;
-                color: ${p => p.theme.vars.colors.secondary};
-            }
+            ${p => p.theme.extend.profileCard}
         }
     }
     .dropdown {

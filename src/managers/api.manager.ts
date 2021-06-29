@@ -7,8 +7,8 @@ import logger from "./logger.manager";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
+    withCredentials: true
 });
-api.defaults.withCredentials = true;
 logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
@@ -31,7 +31,7 @@ api.interceptors.response.use(
             logger.error('HTTP_ERROR', 'network error!');
             return toast.show({type: 'error',msg:i18n.t('errors:network-error')});
         }
-        logger.error('HTTP_ERROR', err.message, err.response);
+        logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
             localStorage.removeItem('token');
             // Todo: remove user data from redux store

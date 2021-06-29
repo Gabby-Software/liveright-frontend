@@ -1,4 +1,5 @@
 import vars from "./_variables";
+import mixin from "./_mixins";
 // import mixin from "./_mixins";
 
 const extend = {
@@ -43,6 +44,30 @@ const extend = {
     `,
     layout:`
         padding: 39px 20px 160px 20px;
+    `,
+    title:`
+        color: ${vars.colors.dark2};
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+    `,
+    profileCard: `
+            display: flex;
+            &__img {
+                ${mixin.circleImage('36px')}
+            }
+            &__info {
+                margin: 0 auto 0 8px;
+            }
+            &__name {
+                font-size: 12px;
+                font-weight: 600;
+                color: black;
+            }
+            &__type {
+                font-size: 10px;
+                color: ${vars.colors.secondary};
+            }
     `
 };
 
