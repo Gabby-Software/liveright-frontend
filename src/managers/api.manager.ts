@@ -4,9 +4,11 @@ import {EP_CSRF} from "../enums/api.enum";
 import {toast} from "../components/toast/toast.component";
 import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
+
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
 });
+api.defaults.withCredentials = true;
 logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
