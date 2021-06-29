@@ -13,15 +13,15 @@ type Props = {
     onClose: () => void;
     action?: AccountActions;
 }
-const SwitchAccountModal = ({isOpen, onClose, action = AccountActions.SWITCH_ACCOUNT}: Props) => {
-    const [state, setState] = useState<AccountActions>(action);
+const SwitchAccountModal = ({isOpen, onClose, action}: Props) => {
+    const [state, setState] = useState<AccountActions>(action || AccountActions.SWITCH_ACCOUNT);
     const {t} = useTranslation();
     const title = useMemo(() => state === AccountActions.SWITCH_ACCOUNT ? 'menu.switch-account' : 'menu.select-profile-type', [state]);
     return (
         <Modal visible={isOpen} onCancel={onClose}>
             <Styles>
                 <SwitchAccountModalHeader title={t(title)}/>
-                <SwitchAccountModalContext.Provider value={{setState, onClose}}>
+                <SwitchAccountModalContext.Provider value={{setState: (state: AccountActions) => setState(action||state), onClose}}>
                     <div className={'swa__wrapper'} style={{right: `${state*100}%`}}>
                         <SwitchAccount/>
                         <AddAccount/>

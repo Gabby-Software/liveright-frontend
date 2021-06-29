@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-    @media all and (min-width:${p => p.theme.vars.media.tablet}px){
-        display: none;
-    }
+
     .swa-header {
         &__img {
             display: block;
@@ -12,6 +10,16 @@ export default styled.div`
         }
         &__title {
             ${p =>p.theme.extend.title}
+        }
+    }
+    @media all and (min-width:${p => p.theme.vars.media.tablet}px){
+        .swa-header {
+            &__img {
+                display: none;
+            }
+            &__title {
+                margin-top: 18px;
+            }
         }
     }
 `;

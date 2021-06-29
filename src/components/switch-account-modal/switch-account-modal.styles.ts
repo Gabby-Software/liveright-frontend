@@ -3,8 +3,10 @@ import styled from "styled-components";
 export default styled.div`
     display: flex;
     flex-direction:column;
-    height: calc(100vh - 48px);
     overflow: hidden;
+    @media all and (max-width: ${p =>p.theme.vars.media.tablet}px){
+        height: calc(100vh - 48px);
+    }
     .swa {
         &__cont {
             width: 100%;

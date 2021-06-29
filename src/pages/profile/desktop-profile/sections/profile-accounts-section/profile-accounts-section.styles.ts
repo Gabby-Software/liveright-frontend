@@ -7,6 +7,7 @@ export default styled.section`
             flex-wrap: wrap;
         }
         &__add {
+            cursor: pointer;
             background-color: ${p =>p.theme.vars.colors.card};
             width: 247px;
             border-radius:${p =>p.theme.vars.sizes.borderRadius};

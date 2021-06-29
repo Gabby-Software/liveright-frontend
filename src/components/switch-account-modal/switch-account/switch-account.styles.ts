@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export default styled.div`
 width: 50%;
-margin: 70px 0;
+margin: 70px 0 0 0;
+@media all and (max-width: ${p =>p.theme.vars.media.tablet}px){
+    margin: 70px 0;
+}
 .swa-card {
     margin: 0 auto 14px auto;
     max-width: 350;

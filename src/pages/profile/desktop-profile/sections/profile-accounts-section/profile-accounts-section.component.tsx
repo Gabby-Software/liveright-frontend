@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Styles from './profile-accounts-section.styles';
 import ProfileTitle from "../../../../../components/profile/profile-title/profile-title.component";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../../store/reducers";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import profilePlaceholder from '../../../../../assets/media/profile-placeholder.png';
 import ProfileAccount from "../../../../../components/profile/profile-account/profile-account.component";
 import {ReactComponent as AddIcon} from "../../../../../assets/media/icons/add.svg";
+import SwitchAccountModal from "../../../../../components/switch-account-modal/switch-account-modal.component";
+import AccountActions from "../../../../../enums/account-actions.enum";
 
 type AccountType = {
     name: string;
@@ -19,6 +19,7 @@ const accounts:AccountType[] = [
 ];
 const ProfileAccountsSection = () => {
     // const profileData = useSelector((state: RootState) => state.account);
+    const [addAccountOpen, setAddAccountOpen] = useState(false);
     const {t} = useTranslation();
     return (
         <Styles>
@@ -29,10 +30,11 @@ const ProfileAccountsSection = () => {
                         <ProfileAccount key={account.name} {...account}/>
                     ))
                 }
-                <div className={'accounts__add'}>
+                <div className={'accounts__add'} onClick={() => setAddAccountOpen(true)}>
                     <AddIcon/>
                 </div>
             </div>
+            <SwitchAccountModal isOpen={addAccountOpen} onClose={() => setAddAccountOpen(false)} action={AccountActions.ADD_ACCOUNT}/>
         </Styles>
     )
 };
