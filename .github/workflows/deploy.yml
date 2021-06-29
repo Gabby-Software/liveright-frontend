@@ -27,10 +27,10 @@ jobs:
 
       - name: Run yarn install
         run: yarn install
+      - name: Copy .env.dev to .env
+        run: cp .env.dev .env        
       - name: Run yarn build
         run: NODE_ENV=development yarn build
-      - name: Copy .env.dev to .env
-        run: cp .env.dev .env
 
       # Runs a set of commands using the runners shell
       - name: Deploy to dev
@@ -53,10 +53,10 @@ jobs:
 
       - name: Run yarn install
         run: yarn install
+      - name: Copy .env.stage to .env
+        run: cp .env.stage .env        
       - name: Run yarn build
         run: NODE_ENV=stage yarn build
-      - name: Copy .env.stage to .env
-        run: cp .env.stage .env
 
       # Runs a set of commands using the runners shell
       - name: Deploy to stage
