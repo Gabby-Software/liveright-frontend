@@ -12,9 +12,10 @@ const api = axios.create({
 logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('uuid');
         const csrf = cookieManager.get('XSRF-TOKEN');
-        if(token) config.headers.Authorization =  `Bearer ${token}`;
+        if(token) config.headers['Account-Token'] =  `${token}`;
+        if(token) config.headers['Authorization'] =  `Bearer ${token}`;
         if(csrf) config.headers['X-XSRF-TOKEN'] = csrf;
         logger.info('HTTP_REQUEST', config.url, config.data);
         return config;
@@ -33,9 +34,9 @@ api.interceptors.response.use(
         }
         logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
-            localStorage.removeItem('token');
+            // localStorage.removeItem('token');
             // Todo: remove user data from redux store
-            window.location.pathname = '/login';
+            // window.location.pathname = '/login';
         }
         return Promise.reject(err)
     }

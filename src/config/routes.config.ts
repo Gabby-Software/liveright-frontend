@@ -46,6 +46,12 @@ export const authRoutes: RouteType[] = [
         url: Routes.REGISTER_ON_BOARD,
         Component: lazy(() => import('../pages/auth/sign-up-onboard/sign-up-onboard.component')),
         header: {}
+    },
+    {
+        title: 'Email verification',
+        url: `${Routes.VERIFY_EMAIL}/:id/:token`,
+        Component: lazy(() => import('../pages/auth/verify-email/verify-email.component')),
+        header: {}
     }
 ];
 export const routes: RouteType[] = [
