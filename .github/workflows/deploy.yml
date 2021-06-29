@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  deploy_dev:
     runs-on: self-hosted
     env:
       CI: false
@@ -27,13 +27,39 @@ jobs:
 
       - name: Run yarn install
         run: yarn install
+      - name: Copy .env.dev to .env
+        run: cp .env.dev .env        
       - name: Run yarn build
         run: NODE_ENV=development yarn build
-      - name: Copy .env.dev to .env
-        run: cp .env.dev .env
 
       # Runs a set of commands using the runners shell
       - name: Deploy to dev
         run: |
           echo depoy to dev env
           cp -r build/* /var/www/dev/front
+
+  deploy_stage:
+    needs: deploy_dev
+    runs-on: self-hosted
+    env:
+      CI: false
+      REACT_APP_BASE_URL: https://liveright-stage.madebycolorelephant.com
+      REACT_APP_BASE_API_URL: https://api.liveright-stage.madebycolorelephant.com
+
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Run yarn install
+        run: yarn install
+      - name: Copy .env.stage to .env
+        run: cp .env.stage .env        
+      - name: Run yarn build
+        run: NODE_ENV=stage yarn build
+
+      # Runs a set of commands using the runners shell
+      - name: Deploy to stage
+        run: |
+          echo depoy to dev env
+          cp -r build/* /var/www/stage/front
