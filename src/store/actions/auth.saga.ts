@@ -65,7 +65,7 @@ function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & Verify
     try {
         const res: string = yield call(() => callVerify(payload));
         payload.onSuccess && payload.onSuccess();
-        toast.show({type:'success', msg:'Email verified!'});
+        toast.show({type:'success', msg:i18n.t('alerts:email-verification-success')});
     } catch(e) {
 
     }
