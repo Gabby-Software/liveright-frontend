@@ -14,11 +14,15 @@ import FormTextarea from "../../../components/forms/form-textarea/form-textarea.
 import FormDatepicker from "../../../components/forms/form-datepicker/form-datepicker.component";
 import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
 import {Routes} from "../../../enums/routes.enum";
+import FormImageUpload from "../../../components/forms/form-image-upload/form-image-upload.component";
+import {noImage} from "../../../pipes/no-image.pipe";
+import ProfileImage from "../../../components/profile-image/profile-image.component";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
     const {t} = useTranslation();
     const [submitted, setSubmitted] = useState(false);
+    const [file,setFile] = useState<File|null>(null);
     const profileData = useSelector((state: RootState) => state.account);
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
@@ -41,6 +45,11 @@ const EditProfile = () => {
             >
                 {(form: FormikProps<ProfileDataType>) => (
                     <Form>
+                        <FormImageUpload name={'image'} label={'Change Profile Photo'}
+                                         aspectRatio={1}
+                                         onUpdate={({file}) => setFile(file)}>
+                            {({url}) => (<ProfileImage url={url} placeholder={noImage('Ypsef', 'Tukachinsly')}/>)}
+                        </FormImageUpload>
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>
                         <FormDatepicker name={'birth_date'} label={t('profile:birth-date')}/>

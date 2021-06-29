@@ -7,12 +7,14 @@ import {ReactComponent as EditIcon} from "../../../../assets/media/icons/edit.sv
 import {excerpt} from "../../../../pipes/excerpt.pipe";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
+import ProfileImage from "../../../../components/profile-image/profile-image.component";
+import {noImage} from "../../../../pipes/no-image.pipe";
 
 const ProfileHeading = () => {
     const {image, first_name, last_name, address} = useSelector((state: RootState) => state.account);
     return (
         <Styles>
-            <img alt={'profile'} src={image} className={'profile-heading__image'}/>
+            <ProfileImage url={image} placeholder={noImage('Yosef',"Tukachinsky")}/>
             <div className={'profile-heading__data'}>
                 <div className={'profile-heading__name'}>{first_name} {last_name}</div>
                 <div className={'profile-heading__address'}>

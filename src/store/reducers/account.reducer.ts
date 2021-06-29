@@ -3,7 +3,7 @@ import profilePlaceholder from "../../assets/media/profile-placeholder.png";
 import * as actions from "../action-types";
 
 const initialState: ProfileDataType = {
-    image: profilePlaceholder,
+    image: '',
     gender: 'male',
     first_name: 'Chris',
     last_name: 'Hemsingworth',
