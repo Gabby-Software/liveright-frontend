@@ -5,6 +5,7 @@ import SwitchAccountModalContext from "../switch-account-modal.context";
 import AccountActions from "../../../enums/account-actions.enum";
 import profilePlaceholder from "../../../assets/media/profile-placeholder.png";
 import {ReactComponent as PlusIcon} from "../../../assets/media/icons/add.svg";
+import {toast} from "../../toast/toast.component";
 
 type AccountType = {
     first_name: string;
@@ -29,11 +30,15 @@ const accounts: AccountType[] = [
 const SwitchAccount = () => {
     const {onClose, setState} = useContext(SwitchAccountModalContext);
     const activeAccount = 0;
+    const switchAccount =  () => {
+        onClose();
+        toast.show({type: 'success', msg: 'Account switched!'});
+    };
     return (
         <Styles>
             {
                 accounts.map(acc => (
-                    <Card className={'swa-card'} onClick={onClose}>
+                    <Card className={'swa-card'} onClick={switchAccount}>
                         <img src={acc.image} alt={'account-image'} className={'swa-card__img'}/>
                         <div className={'swa-card__info'}>
                             <div className={'swa-card__name'}>{acc.first_name} {acc.last_name}</div>
