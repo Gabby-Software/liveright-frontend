@@ -23,8 +23,7 @@ export default styled.div`
             border-radius: ${p => p.theme.vars.sizes.borderRadius};
             border: 1px solid ${p => p.theme.vars.colors.inputBorder};
             color: ${p => p.theme.vars.colors.inputBorder};
-            letter-spacing: .8px;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 14px;
             padding: 13px 12px;
             transition: ${p =>p.theme.vars.defaults.transition};
