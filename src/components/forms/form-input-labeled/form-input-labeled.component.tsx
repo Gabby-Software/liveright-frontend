@@ -13,7 +13,7 @@ const FormInputLabeled = ({name, label, type, onUpdate}:Props) => {
                         <label className={'text_input__cont'}>
                             <div className={'text_input__label'}>{label}</div>
                             <input className={'text_input__input'} type={type||'text'}
-                                   value={field.value} onBlur={field.onBlur}
+                                   name={name} value={field.value} onBlur={field.onBlur}
                                    onChange={e => {
                                        form.setFieldValue(name, e.target.value);
                                        onUpdate && onUpdate(name, e.target.value);

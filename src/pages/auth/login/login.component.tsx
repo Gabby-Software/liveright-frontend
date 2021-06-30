@@ -35,9 +35,10 @@ const Login = () => {
         logger.info('submitting login', form);
         const {type, email, password} = form;
         dispatch({type: ACTION_LOGIN_REQUEST,payload: {
-                account_type: type, email, password
+                account_type: type, email, password,
+                onSuccess: () => submitProps.setSubmitting(false),
+                onError: () => submitProps.setSubmitting(false)
             }});
-        submitProps.setSubmitting(false);
     };
     const userTypeOptions = [
         {label: 'Client', value: userTypes.CLIENT},

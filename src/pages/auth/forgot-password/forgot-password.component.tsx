@@ -14,6 +14,7 @@ import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_RESET_PASSWORD_REQUEST} from "../../../store/action-types";
 import {onlyGuest} from "../../../guards/guest.guard";
+import Back from "../styles/back/back.component";
 
 type EmailType = {email:string};
 const ForgotPassword = () => {
@@ -27,6 +28,9 @@ const ForgotPassword = () => {
                 onSuccess: () => {
                     submitProps.setSubmitting(false);
                     setSubmitted(true);
+                },
+                onError: () => {
+                    submitProps.setSubmitting(false);
                 }
             }});
     };
@@ -57,6 +61,7 @@ const ForgotPassword = () => {
                     )}
                 </Formik>
             </Wrapper>
+            <Back to={Routes.LOGIN}/>
         </Styles>
     );
 };

@@ -9,6 +9,7 @@ import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_RESET_PASSWORD_REQUEST} from "../../../store/action-types";
 import {onlyGuest} from "../../../guards/guest.guard";
+import Back from "../styles/back/back.component";
 
 const ForgotPasswordConfirmation = () => {
     const {t} = useTranslation();
@@ -34,6 +35,7 @@ const ForgotPasswordConfirmation = () => {
                     <a onClick={resendEmail}>{t('auth:send-again')}</a>
                 </ResendEmail>
             </Wrapper>
+            {/*<Back to={Routes.LOGIN}/>*/}
         </Styles>
     )
 };

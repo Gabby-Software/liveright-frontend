@@ -3,12 +3,10 @@ import userTypes from "../../../enums/user-types.enum";
 import * as Yup from 'yup';
 import {
     Formik,
-    FormikProps,
     Form,
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
-import FormInput from "../../../components/forms/form-input/form-input.component";
 import logoCompact from '../../../assets/media/logo-compact.png';
 import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";

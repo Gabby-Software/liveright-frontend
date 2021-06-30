@@ -30,6 +30,7 @@ const FormTextarea = ({name, label, onUpdate}: Props) => {
                         <label className={'text_input__cont'}>
                             <div className={'text_input__label'}>{label}</div>
                             <textarea className={'text_input__input'} ref={inputRef}
+                                      name={name}
                                       style={{height: `${height}px`}}
                                    value={field.value} onBlur={field.onBlur}
                                    onChange={e => handleUpdate(e, form)}/>
