@@ -9,8 +9,9 @@ type Props = {
     title: string;
     isOpen:boolean;
     onClose:()=>void;
+    back: boolean;
 };
-const BottomDrawer = ({children,title,isOpen,onClose}: Props) => {
+const BottomDrawer = ({children,title,isOpen,onClose,back}: Props) => {
     const ref = useRef(null);
     const {y} = useSwipe(ref,({y}) => y >= 50, onClose);
     return (
@@ -18,7 +19,11 @@ const BottomDrawer = ({children,title,isOpen,onClose}: Props) => {
                 style={{'--top': `-${Math.max(0,y)}px`} as any}
                 visible={isOpen} closable={false} height={'auto'}>
                 <div className={'drawer__header'} ref={ref}>
-                    <ArrowIcon className={'drawer__back'} onClick={onClose}/>
+                    {
+                        back?(
+                            <ArrowIcon className={'drawer__back'} onClick={onClose}/>
+                        ):null
+                    }
                     <h3 className={'drawer__title'}>{title}</h3>
                 </div>
                 {children}

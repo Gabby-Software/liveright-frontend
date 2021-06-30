@@ -30,6 +30,9 @@ margin: 70px 0 0 0;
                 border-radius:${p =>p.theme.vars.sizes.borderRadius};
                 ${p => p.theme.mixin.dashedBorder(p.theme.vars.colors.secondary2)}
                 ${p => p.theme.extend.flexCenter}
+                font-weight: 500;
+                font-size: 14px;
+                color: ${p => p.theme.vars.colors.labelLight};
                 svg {
                     color: ${p => p.theme.vars.colors.secondary2};
                 }

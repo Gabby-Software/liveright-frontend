@@ -6,6 +6,7 @@ import AccountActions from "../../../enums/account-actions.enum";
 import profilePlaceholder from "../../../assets/media/profile-placeholder.png";
 import {ReactComponent as PlusIcon} from "../../../assets/media/icons/add.svg";
 import {toast} from "../../toast/toast.component";
+import {useTranslation} from "../../../modules/i18n/i18n.hook";
 
 type AccountType = {
     first_name: string;
@@ -29,6 +30,7 @@ const accounts: AccountType[] = [
 ];
 const SwitchAccount = () => {
     const {onClose, setState} = useContext(SwitchAccountModalContext);
+    const {t} = useTranslation();
     const activeAccount = 0;
     const switchAccount =  () => {
         onClose();
@@ -48,7 +50,7 @@ const SwitchAccount = () => {
                 ))
             }
             <Card className={'swa-card__add'} onClick={() => setState(AccountActions.ADD_ACCOUNT)}>
-                <PlusIcon/>
+                <span>{t('menu.add-account')}</span>
             </Card>
         </Styles>
     )

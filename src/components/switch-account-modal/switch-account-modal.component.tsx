@@ -18,7 +18,10 @@ const SwitchAccountModal = ({isOpen, onClose, action}: Props) => {
     const {t} = useTranslation();
     const title = useMemo(() => state === AccountActions.SWITCH_ACCOUNT ? 'menu.switch-account' : 'menu.select-profile-type', [state]);
     return (
-        <Modal visible={isOpen} onCancel={onClose}>
+        <Modal visible={isOpen} onCancel={() => {
+            setState(action||state);
+            onClose()
+        }}>
             <Styles>
                 <SwitchAccountModalHeader title={t(title)}/>
                 <SwitchAccountModalContext.Provider value={{setState: (state: AccountActions) => setState(action||state), onClose}}>
