@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export default styled.div`
-
+.ant-picker-suffix {
+    color: ${p => p.theme.vars.colors.dark2};
+}
 .text_input {
     &__cont {
         position: relative;

@@ -60,7 +60,7 @@ const EditProfile = () => {
                         <Hr/>
                         <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
                         <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
-                        <Hr/>
+                        <Hr className={'edit-profile__hr'}/>
                         <ButtonSubmit id={'form-submit'}>{t('profile:save-changes')}</ButtonSubmit>
                     </Form>
                 )}

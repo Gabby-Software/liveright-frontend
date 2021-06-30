@@ -4,6 +4,7 @@ import {Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
 import {DatePicker} from 'antd';
 import moment from 'moment';
+import {ReactComponent as CalendarIcon} from "../../../assets/media/icons/calendar.svg";
 
 type Props = {
     name:string;
@@ -20,6 +21,7 @@ const FormDatepicker = ({name, label, onUpdate, disabled}: Props) => {
                       <label className={'text_input__cont'}>
                           <div className={'text_input__label'}>{label}</div>
                           <DatePicker
+                              suffixIcon={<CalendarIcon/>}
                               disabled={disabled}
                               value={moment(field.value)} className={'text_input__input'}
                                       onChange={(date, dateString: string)=>{

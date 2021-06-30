@@ -6,9 +6,15 @@ export default styled.div`
         padding-bottom: 26px;
     }
     .button-submit {
-        margin-top: 78px;
+        
+    }
+    .image-upload__wrapper {
+        margin:auto;
     }
     .edit-profile {
+        &__hr {
+            margin-top: 70px;
+        }
         &__img {
             ${p =>p.theme.mixin.circleImage('86px')}
             display: block;
