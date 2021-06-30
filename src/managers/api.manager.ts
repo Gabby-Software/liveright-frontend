@@ -30,7 +30,8 @@ api.interceptors.response.use(
     err => {
         if(!err.response) {
             logger.error('HTTP_ERROR', 'network error!');
-            return toast.show({type: 'error',msg:i18n.t('errors:network-error')});
+            // toast.show({type: 'error',msg:i18n.t('errors:network-error')});
+            return Promise.reject(err);
         }
         logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {

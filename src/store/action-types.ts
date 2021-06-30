@@ -8,6 +8,7 @@ export const ACTION_REGISTER_REQUEST = 'action-register-request';
 export const ACTION_REGISTER_SUCCESS = 'action-register-success';
 export const ACTION_VERIFY_EMAIL_REQUEST = 'action-verify-email-request';
 export const ACTION_VERIFY_EMAIL_RESEND_REQUEST = 'action-verify-email-resend-request';
+export const ACTION_RESET_PASSWORD_REQUEST = 'reset-password-request';
 export const ACTION_GET_ACCOUNT_REQUEST = 'action-get-account-request';
 export const ACTION_GET_ACCOUNT_SUCCESS = 'action-get-account-success';
 export const ACTION_GET_ACCOUNT_ERROR = 'action-get-account-error';

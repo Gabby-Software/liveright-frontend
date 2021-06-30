@@ -23,6 +23,8 @@
     "switch-account": "Switch Account",
     "select-profile-type": "Select a profile type",
     "settings": "Settings",
-    "more": "More"
+    "more": "More",
+    "personal-details": "Personal Details",
+    "log-out": "Log Out"
   }
 }

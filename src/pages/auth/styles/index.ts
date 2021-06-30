@@ -52,6 +52,9 @@ export default styled.div`
                 font-size: 36px;
                 margin-top: min(190px, 15vh);
             }
+            @media all and (max-height: 700px) {
+                margin-top: 0px;
+            }
         }
         &__desc {
             font-size: 14px;

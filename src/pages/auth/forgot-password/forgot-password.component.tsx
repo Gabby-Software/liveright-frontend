@@ -11,17 +11,23 @@ import * as Yup from 'yup';
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 import {Redirect} from "react-router";
 import {Routes} from "../../../enums/routes.enum";
+import {useDispatch} from "react-redux";
+import {ACTION_RESET_PASSWORD_REQUEST} from "../../../store/action-types";
 
 type EmailType = {email:string};
 const ForgotPassword = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
+    const dispatch = useDispatch();
     const [submitted, setSubmitted] = useState(false);
-    const handleSubmit = (form: EmailType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
-        console.log(form);
-        alert(`submitted!\n${JSON.stringify(form)}`);
-        submitProps.setSubmitting(false);
-        setSubmitted(true);
+    const handleSubmit = ({email}: EmailType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
+        dispatch({type: ACTION_RESET_PASSWORD_REQUEST, payload: {
+                email,
+                onSuccess: () => {
+                    submitProps.setSubmitting(false);
+                    setSubmitted(true);
+                }
+            }});
     };
     if(submitted) return <Redirect to={Routes.FORGOT_PASSWORD_CONFIRMATION}/>;
     return (
