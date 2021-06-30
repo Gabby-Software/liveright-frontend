@@ -14,10 +14,13 @@ export default styled.section`
             display: flex;
             align-items: center;
             margin: 8px 0;
-            color: ${p => p.theme.vars.colors.primaryDark};
+            color: ${p => p.theme.vars.colors.dark};
+            font-weight: 500;
+            font-size: 14px;
             svg {
                 display: block;
                 margin-right: 16px;
+                color: ${p =>p.theme.varscolors.dark2};
             }
         }
     }

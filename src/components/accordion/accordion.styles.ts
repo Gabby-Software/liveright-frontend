@@ -7,7 +7,9 @@ export default styled.div`
         }
         &__header {
             ${p => p.theme.extend.flexCenter}
-            color: ${p => p.theme.vars.colors.primaryDark};
+            color: ${p => p.theme.vars.colors.dark};
+            font-weight: 500;
+            font-size: 14px;
         }
         &__icon  {
            margin-left: auto;

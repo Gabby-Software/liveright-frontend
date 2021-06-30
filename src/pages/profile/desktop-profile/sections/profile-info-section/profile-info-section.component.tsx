@@ -14,7 +14,7 @@ const ProfileInfoSection = () => {
             <ProfileTitle title={t('profile:user-info')}/>
             <div className={'profile-info__cont'}>
                 <ProfileInfo name={t('profile:dietary-restrictions')} value={dietary_restrictions} formName={'dietary_restrictions'}/>
-                <ProfileInfo name={t('injuries')} value={injuries} formName={'injuries'}/>
+                <ProfileInfo name={t('profile:injuries')} value={injuries} formName={'injuries'}/>
             </div>
         </Styles>
     )
