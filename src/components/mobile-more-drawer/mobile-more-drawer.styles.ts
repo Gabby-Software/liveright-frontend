@@ -12,6 +12,8 @@ export default styled.nav`
             border-bottom: 1px solid ${p => p.theme.vars.colors.light2};
             a {
                 padding: 17px 30px;
+                font-weight: 500;
+                font-size: 14px;
                 ${p => p.theme.extend.flexCenter}
                 color: ${p => p.theme.vars.colors.primaryDark};
             }

@@ -38,7 +38,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
             <BottomDrawer
                 isOpen={isOpen}
                 onClose={onClose}
-                title={t("more")}>
+                title={t("menu:more")}>
                 <Styles>
                     <ul className={'more__menu'}>
                         {
