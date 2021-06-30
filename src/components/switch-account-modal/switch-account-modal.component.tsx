@@ -19,7 +19,7 @@ const SwitchAccountModal = ({isOpen, onClose, action}: Props) => {
     const title = useMemo(() => state === AccountActions.SWITCH_ACCOUNT ? 'menu.switch-account' : 'menu.select-profile-type', [state]);
     return (
         <Modal visible={isOpen} onCancel={() => {
-            setState(action||state);
+            setState(action||AccountActions.SWITCH_ACCOUNT);
             onClose()
         }}>
             <Styles>

@@ -20,7 +20,7 @@ export default styled.div`
         display: block;
         background-color: #fbfbfb;
         border: 1px solid #c4c4c4;
-        color: ${p => p.theme.vars.colors.dark};
+        color: ${p => p.theme.vars.colors.primaryDark};
         padding: 14px 16px;
         border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
