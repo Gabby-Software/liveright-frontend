@@ -4,6 +4,7 @@ import {EP_CSRF, EP_LOGOUT} from "../enums/api.enum";
 import {toast} from "../components/toast/toast.component";
 import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
+import {Routes} from "../enums/routes.enum";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -37,10 +38,9 @@ api.interceptors.response.use(
         if(err.response.status === 401) {
             // Todo: call api to logout
             api.post(EP_LOGOUT);
-            localStorage.removeItem('uuid');
-            localStorage.removeItem('auth');
+            localStorage.clear();
             // Todo: remove user data from redux store
-            window.location.pathname = '/login';
+            window.location.pathname = Routes.LOGIN;
         }
         return Promise.reject(err)
     }

@@ -1,7 +1,7 @@
 import {takeLatest, put, call} from 'redux-saga/effects';
 import {
     ACTION_LOGIN_REQUEST,
-    ACTION_LOGIN_SUCCESS,
+    ACTION_LOGIN_SUCCESS, ACTION_LOGOUT_REQUEST,
     ACTION_REGISTER_REQUEST,
     ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST,
     ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
@@ -33,6 +33,7 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_VERIFY_EMAIL_REQUEST, verifyEmailWorker);
     yield takeLatest(ACTION_VERIFY_EMAIL_RESEND_REQUEST, verifyEmailResendWorker);
     yield takeLatest(ACTION_RESET_PASSWORD_REQUEST, resetPasswordWorker);
+    yield takeLatest(ACTION_LOGOUT_REQUEST, logoutWorker);
 }
 
 function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -103,15 +104,13 @@ function* resetPasswordWorker({payload}: ActionType<{email:string}&CallbackType<
 }
 function* logoutWorker() {
     try {
-        yield call(() => api.post(EP_LOGOUT));
+        api.post(EP_LOGOUT);
     } catch(e) {
         logger.error('Unable to logout');
     } finally {
         yield call(() => {
-            localStorage.removeItem('uuid');
-            localStorage.removeItem('auth');
-            localStorage.removeItem('account');
-            window.location.pathname = Routes.LOGIN;
+            localStorage.clear();
+            // window.location.pathname = Routes.LOGIN;
         });
     }
 }

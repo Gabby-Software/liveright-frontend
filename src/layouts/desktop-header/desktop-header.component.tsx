@@ -14,17 +14,20 @@ import {useAuth} from "../../hooks/auth.hook";
 import {capitalize} from "../../pipes/capitalize.pipe";
 import ProfileImage from "../../components/profile-image/profile-image.component";
 import {noImage} from "../../pipes/no-image.pipe";
+import {useDispatch} from "react-redux";
+import {ACTION_LOGOUT_REQUEST} from "../../store/action-types";
 
 const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
     const {t} = useTranslation();
     const {avatar_thumb, first_name, last_name, accounts, uuid} = useAuth();
+    const dispatch = useDispatch();
     const switchAccount = () => {
 
     };
     const logout = () => {
-
+        dispatch({type: ACTION_LOGOUT_REQUEST});
     };
     const dropdownMenu: MenuItemType[] = [
         {name: t('menu.personal-details'), url: Routes.PROFILE},

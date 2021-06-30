@@ -17,16 +17,16 @@ export default styled.div`
     }
     &__input {
         display: block;
-        background-color: ${p => p.theme.vars.colors.background};
+        background-color: #fbfbfb;
         padding: 14px 16px;
-        border: 1px solid #fbfbfb;
+        border: 1px solid #c4c4c4;
         color: ${p => p.theme.vars.colors.dark};
         border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
         width: 100%;
         box-sizing: border-box;
         &:focus {
-            border-color:${p => p.theme.vars.colors.inputBorder};
+            border-color: black;
         }
     }
 }
