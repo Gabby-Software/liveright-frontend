@@ -17,7 +17,7 @@ export default styled.div`
     }
     &__input {
         display: block;
-        background-color: #fbfbfb;
+        background-color: ${p => p.theme.vars.colors.background};
         padding: 14px 16px;
         border: 1px solid #fbfbfb;
         color: ${p => p.theme.vars.colors.dark};

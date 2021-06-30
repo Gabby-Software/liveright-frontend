@@ -12,7 +12,7 @@ import {i18n} from "../../modules/i18n/i18n.context";
 import {CallbackType} from "../../types/callback.type";
 import api from "../../managers/api.manager";
 import {
-    EP_LOGIN,
+    EP_LOGIN, EP_LOGOUT,
     EP_REGISTER,
     EP_SEND_RESET_PASSWORD,
     EP_VERIFY_EMAIL,
@@ -24,6 +24,7 @@ import logger from "../../managers/logger.manager";
 import {serverError} from "../../pipes/server-error.pipe";
 import {VerifyEmailParamsType, VerifyEmailQueryType} from "../../modules/auth/verify-email-params.type";
 import {AccountObjType} from "../../types/account.type";
+import {Routes} from "../../enums/routes.enum";
 
 export function* sagaAuthWatcher() {
     logger.info('AUTH SAGA INIT');
@@ -98,5 +99,19 @@ function* resetPasswordWorker({payload}: ActionType<{email:string}&CallbackType<
     } catch(e) {
         toast.show({type: "error", msg: serverError(e)});
         payload.onError && payload.onError(serverError(e));
+    }
+}
+function* logoutWorker() {
+    try {
+        yield call(() => api.post(EP_LOGOUT));
+    } catch(e) {
+        logger.error('Unable to logout');
+    } finally {
+        yield call(() => {
+            localStorage.removeItem('uuid');
+            localStorage.removeItem('auth');
+            localStorage.removeItem('account');
+            window.location.pathname = Routes.LOGIN;
+        });
     }
 }

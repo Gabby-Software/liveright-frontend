@@ -7,7 +7,7 @@ import logger from "./logger.manager";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
-    // withCredentials: true
+    withCredentials: true
 });
 logger.info('ENV', process.env);
 api.interceptors.request.use(
