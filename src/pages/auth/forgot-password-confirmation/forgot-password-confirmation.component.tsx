@@ -35,7 +35,7 @@ const ForgotPasswordConfirmation = () => {
                     <a onClick={resendEmail}>{t('auth:send-again')}</a>
                 </ResendEmail>
             </Wrapper>
-            {/*<Back to={Routes.LOGIN}/>*/}
+            <Back to={Routes.LOGIN}/>
         </Styles>
     )
 };
