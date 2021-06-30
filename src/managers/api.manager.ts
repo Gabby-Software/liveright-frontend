@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import cookieManager from "./cookie.manager";
-import {EP_CSRF} from "../enums/api.enum";
+import {EP_CSRF, EP_LOGOUT} from "../enums/api.enum";
 import {toast} from "../components/toast/toast.component";
 import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
@@ -36,6 +36,7 @@ api.interceptors.response.use(
         logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
             // Todo: call api to logout
+            api.post(EP_LOGOUT);
             localStorage.removeItem('uuid');
             localStorage.removeItem('auth');
             // Todo: remove user data from redux store
