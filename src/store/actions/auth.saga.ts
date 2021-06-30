@@ -110,7 +110,7 @@ function* logoutWorker() {
     } finally {
         yield call(() => {
             localStorage.clear();
-            // window.location.pathname = Routes.LOGIN;
+            window.location.pathname = Routes.LOGIN;
         });
     }
 }
