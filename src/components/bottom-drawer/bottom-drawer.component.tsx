@@ -9,7 +9,7 @@ type Props = {
     title: string;
     isOpen:boolean;
     onClose:()=>void;
-    back: boolean;
+    back?: boolean;
 };
 const BottomDrawer = ({children,title,isOpen,onClose,back}: Props) => {
     const ref = useRef(null);

@@ -20,6 +20,9 @@ export default styled.nav`
                 margin-right:20px;
                 height: 22px;
             }
+            &:last-child {
+                padding-bottom: 60px;
+            }
         }
         &__label {
             margin-right: auto;
