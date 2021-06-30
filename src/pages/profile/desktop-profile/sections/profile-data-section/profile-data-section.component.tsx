@@ -28,6 +28,8 @@ const ProfileDataSection = () => {
         {name: t('profile:email'), value: profileData.email, formName: 'email', editable: true},
         {name: t('profile:phone'), value: profileData.phone, formName: 'phone', editable: true},
         {name: t('profile:address'), value: profileData.address, formName: 'address', editable: true},
+        {name: t('profile:join-date'), value: profileData.address, formName: 'join_date', editable: false, type: 'radio'},
+        {name: t('profile:gender'), value: profileData.address, formName: 'gender', editable: true},
     ];
     return (
         <Styles>

@@ -5,8 +5,13 @@ import FormError from "../form-error/form-error.component";
 import {DatePicker} from 'antd';
 import moment from 'moment';
 
-type Props = {name:string, label: string, onUpdate?:(name:string,value:string)=>void};
-const FormDatepicker = ({name, label, onUpdate}: Props) => {
+type Props = {
+    name:string;
+    label: string;
+    disabled?: boolean;
+    onUpdate?:(name:string,value:string)=>void;
+};
+const FormDatepicker = ({name, label, onUpdate, disabled}: Props) => {
     return (
       <Field name={name}>
           {
@@ -14,7 +19,9 @@ const FormDatepicker = ({name, label, onUpdate}: Props) => {
                   <Styles className={'text_input__wrapper'}>
                       <label className={'text_input__cont'}>
                           <div className={'text_input__label'}>{label}</div>
-                          <DatePicker value={moment(field.value)} className={'text_input__input'}
+                          <DatePicker
+                              disabled={disabled}
+                              value={moment(field.value)} className={'text_input__input'}
                                       onChange={(date, dateString: string)=>{
                                           if(!date) return;
                                           form.setFieldValue(name, dateString);

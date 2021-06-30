@@ -52,7 +52,7 @@ const ForgotPassword = () => {
                     {(form: FormikProps<EmailType>) => (
                         <Form>
                             <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
-                            <ButtonSubmit {...form}>{t('next')}</ButtonSubmit>
+                            <ButtonSubmit {...form}>{t('auth:send-link')}</ButtonSubmit>
                         </Form>
                     )}
                 </Formik>

@@ -4,6 +4,7 @@ import {ProfileContext} from "../../../pages/profile/desktop-profile/profile.con
 import FormInput from "../../forms/form-input/form-input.component";
 import FormInputLabeled from "../../forms/form-input-labeled/form-input-labeled.component";
 import FormDatepicker from "../../forms/form-datepicker/form-datepicker.component";
+import FormRadio from "../../forms/form-radio-button/form-radio-button.component";
 
 type Props = {
     name: string;
@@ -18,8 +19,12 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
         <Styles>
             {
                 editMode ? (
-                    type === 'date' ? <FormDatepicker name={formName} label={name}/> :
-                        <FormInputLabeled name={formName} label={name}/>
+                    type === 'date' ? <FormDatepicker disabled={!editable} name={formName} label={name}/> :
+                        type === 'radio' ? <FormRadio name={formName} label={name} options={[
+                                {value: 'male',label:'Male'},
+                                {value: 'female',label:'Female'},
+                            ]}/>
+                        : <FormInputLabeled name={formName} label={name}/>
                 ) : (
                     <>
                         <div className={'field__name'}>{name}</div>
