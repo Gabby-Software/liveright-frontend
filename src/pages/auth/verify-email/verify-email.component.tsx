@@ -5,6 +5,7 @@ import logger from "../../../managers/logger.manager";
 import {useDispatch} from "react-redux";
 import {ACTION_VERIFY_EMAIL_REQUEST} from "../../../store/action-types";
 import {VerifyEmailParamsType} from "../../../modules/auth/verify-email-params.type";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 const VerifyEmail = () => {
     const {id, token} = useParams<VerifyEmailParamsType>();
@@ -25,4 +26,4 @@ const VerifyEmail = () => {
     return (<div/>);
 };
 
-export default VerifyEmail;
+export default onlyGuest(VerifyEmail);

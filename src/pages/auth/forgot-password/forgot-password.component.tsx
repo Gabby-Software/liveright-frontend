@@ -13,6 +13,7 @@ import {Redirect} from "react-router";
 import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_RESET_PASSWORD_REQUEST} from "../../../store/action-types";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 type EmailType = {email:string};
 const ForgotPassword = () => {
@@ -60,4 +61,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default onlyGuest(ForgotPassword);

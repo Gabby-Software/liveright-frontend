@@ -8,6 +8,7 @@ import {Redirect} from "react-router";
 import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
 import {ACTION_RESET_PASSWORD_REQUEST} from "../../../store/action-types";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 const ForgotPasswordConfirmation = () => {
     const {t} = useTranslation();
@@ -37,4 +38,4 @@ const ForgotPasswordConfirmation = () => {
     )
 };
 
-export default ForgotPasswordConfirmation;
+export default onlyGuest(ForgotPasswordConfirmation);

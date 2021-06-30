@@ -13,6 +13,7 @@ import FormDatepicker from "../../../components/forms/form-datepicker/form-datep
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormButton from "../../../components/forms/form-button/form-button.component";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 const initialState: AuthOnboardType = {
     phone: '',
@@ -56,4 +57,4 @@ const SignUpOnboard = () => {
     )
 };
 
-export default SignUpOnboard;
+export default onlyGuest(SignUpOnboard);

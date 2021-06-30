@@ -9,6 +9,7 @@ import {AuthFormType, AuthFormTypeNotNull} from "../../../modules/auth/auth-form
 import {AuthFormContext} from "../../../modules/auth/auth.context";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import {Redirect} from "react-router";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 type PasswordType = {
     new_password: string;
@@ -52,4 +53,4 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+export default onlyGuest(ResetPassword);

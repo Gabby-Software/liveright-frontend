@@ -7,7 +7,7 @@ import logger from "./logger.manager";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
-    withCredentials: true
+    // withCredentials: true
 });
 logger.info('ENV', process.env);
 api.interceptors.request.use(
@@ -35,9 +35,11 @@ api.interceptors.response.use(
         }
         logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
-            // localStorage.removeItem('uuid');
+            // Todo: call api to logout
+            localStorage.removeItem('uuid');
+            localStorage.removeItem('auth');
             // Todo: remove user data from redux store
-            // window.location.pathname = '/login';
+            window.location.pathname = '/login';
         }
         return Promise.reject(err)
     }

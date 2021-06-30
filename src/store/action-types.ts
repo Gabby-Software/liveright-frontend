@@ -2,6 +2,7 @@ export type ActionType<G> = {
     type: string;
     payload: G;
 }
+export const ACTION_INIT = '@@redux/INIT';
 export const ACTION_LOGIN_REQUEST = 'action-login-request';
 export const ACTION_LOGIN_SUCCESS = 'action-login-success';
 export const ACTION_REGISTER_REQUEST = 'action-register-request';

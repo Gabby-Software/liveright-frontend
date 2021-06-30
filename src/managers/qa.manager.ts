@@ -41,11 +41,5 @@ class QaManager {
 }
 const qa = new QaManager();
 
-const error = console.error;
-console.error = (...data:any) => {
-    qa.log(data, 'error');
-    error(...data);
-};
-
 window.QA = qa;
 export default qa;

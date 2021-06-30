@@ -17,6 +17,10 @@ import {AuthFormContext} from "../../../modules/auth/auth.context";
 import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 import {Routes} from "../../../enums/routes.enum";
+import {useDispatch} from "react-redux";
+import logger from "../../../managers/logger.manager";
+import {ACTION_LOGIN_REQUEST} from "../../../store/action-types";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 type LoginDataType = {
     type: string;
@@ -26,9 +30,13 @@ type LoginDataType = {
 const Login = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
+    const dispatch = useDispatch();
     const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
-        console.log(form);
-        alert(`submitted!\n${JSON.stringify(form)}`);
+        logger.info('submitting login', form);
+        const {type, email, password} = form;
+        dispatch({type: ACTION_LOGIN_REQUEST,payload: {
+                account_type: type, email, password
+            }});
         submitProps.setSubmitting(false);
     };
     const userTypeOptions = [
@@ -52,7 +60,7 @@ const Login = () => {
                             password: Yup.string().required()
                         })}
                 >
-                    {(form: FormikProps<LoginDataType>) => (
+                    {() => (
                         <Form>
                             <FormSwitch name={'type'} options={userTypeOptions} onUpdate={update}/>
                             <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
@@ -71,4 +79,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default onlyGuest(Login);

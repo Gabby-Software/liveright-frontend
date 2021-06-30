@@ -4,6 +4,8 @@ import DesktopLayout from "../desktop-layout/desktop-layout.component";
 import MobileLayout from "../mobile-layout/mobile-layout.component";
 import {useWindowSize} from "../../hooks/window-size.hook";
 import {screenSizes} from "../../enums/screen-sizes.enum";
+import {onlyAuth} from "../../guards/auth.guard";
+import {onlyActive} from "../../guards/active.guard";
 
 type Props = {
     children: React.ReactNode;
@@ -17,4 +19,4 @@ const Layout = ({children}: Props) => {
         );
 };
 
-export default Layout;
+export default onlyAuth(onlyActive(Layout));

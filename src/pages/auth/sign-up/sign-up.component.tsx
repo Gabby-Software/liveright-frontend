@@ -22,6 +22,7 @@ import {ACTION_REGISTER_REQUEST} from "../../../store/action-types";
 import logger from "../../../managers/logger.manager";
 import FormRadio from "../../../components/forms/form-radio-button/form-radio-button.component";
 import {genderTypes} from "../../../enums/gender-types";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 type LoginDataType = {
     type: string;
@@ -101,4 +102,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default onlyGuest(SignUp);

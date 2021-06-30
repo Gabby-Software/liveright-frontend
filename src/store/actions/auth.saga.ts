@@ -55,8 +55,9 @@ function callRegister(data: AuthRegisterType): Promise<string> {
 function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>) {
     logger.info('login...');
     try {
-        const res = (yield call(() => callLogin(payload))) as string;
-        console.log('res', res);
+        const res = (yield call(() => callLogin(payload))) as AccountObjType;
+        logger.info('login response', res);
+        localStorage.setItem('uuid', res.uuid);
         yield put({type: ACTION_LOGIN_SUCCESS, payload: res});
         toast.show({type: 'success', msg: i18n.t('alerts:login-success')});
     } catch(e) {
@@ -66,7 +67,7 @@ function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>)
     payload.onSuccess && payload.onSuccess();
 }
 function callLogin(data: AuthLoginType): Promise<string> {
-    return api.post(EP_LOGIN, data).then(res => res.data);
+    return api.post(EP_LOGIN, data).then(res => res.data.data);
 }
 function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & VerifyEmailQueryType & CallbackType<void>>) {
     try {

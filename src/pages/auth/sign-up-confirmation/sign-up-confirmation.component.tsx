@@ -4,6 +4,7 @@ import logoCompact from "../../../assets/media/logo-compact.png";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {useDispatch} from "react-redux";
 import {ACTION_VERIFY_EMAIL_RESEND_REQUEST} from "../../../store/action-types";
+import {onlyGuest} from "../../../guards/guest.guard";
 
 const SignUpConfirmation = () => {
     const {t} = useTranslation();
@@ -30,4 +31,4 @@ const SignUpConfirmation = () => {
     )
 };
 
-export default SignUpConfirmation;
+export default onlyGuest(SignUpConfirmation);
