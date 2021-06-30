@@ -62,6 +62,14 @@ export default styled.header`
         }
         &__profile {
             ${p => p.theme.extend.profileCard}
+            
+            &__img {
+                .profile-image__img, .profile-image__placeholder {
+                    ${p => p.theme.mixin.circleImage('36px')}
+                    display: flex;
+                    font-size: 1rem;
+                }
+            }
         }
     }
     .dropdown {
