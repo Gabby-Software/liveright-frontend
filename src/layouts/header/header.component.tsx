@@ -5,7 +5,6 @@ import profilePlaceholder from '../../assets/media/profile-placeholder.png';
 import {classes} from "../../pipes/classes.pipe";
 import {useHeader} from "../../hooks/header.hook";
 import {HeaderItemType, HeaderItemTypes} from "../../types/route.type";
-import ButtonSubmit from "../../components/forms/button-submit/button-submit.component";
 
 const Header = () => {
     const {pathname} = useLocation();

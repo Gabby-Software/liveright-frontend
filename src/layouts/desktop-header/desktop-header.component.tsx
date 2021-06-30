@@ -10,11 +10,16 @@ import {useTranslation} from "../../modules/i18n/i18n.hook";
 import Dropdown from "../../components/forms/dropdown/dropdown.component";
 import {MenuItemType} from "../../types/menu-item.type";
 import {Routes} from "../../enums/routes.enum";
+import {useAuth} from "../../hooks/auth.hook";
+import {capitalize} from "../../pipes/capitalize.pipe";
+import ProfileImage from "../../components/profile-image/profile-image.component";
+import {noImage} from "../../pipes/no-image.pipe";
 
 const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
     const {t} = useTranslation();
+    const {avatar_thumb, first_name, last_name, accounts, uuid} = useAuth();
     const switchAccount = () => {
 
     };
@@ -50,10 +55,11 @@ const DesktopHeader = () => {
                 </ul>
             </nav>
             <Dropdown menu={dropdownMenu}>
-                <img src={profilePlaceholder} alt={'profile'} className={'desktop-header__profile__img'}/>
+                <ProfileImage url={avatar_thumb} placeholder={noImage(first_name,last_name)}
+                              className={'desktop-header__profile__img'}/>
                 <div className={'desktop-header__profile__info'}>
-                    <div className={'desktop-header__profile__name'}>{'Chris Hemington'}</div>
-                    <div className={'desktop-header__profile__type'}>{'Trainer'}</div>
+                    <div className={'desktop-header__profile__name'}>{capitalize(`${first_name} ${last_name}`)}</div>
+                    <div className={'desktop-header__profile__type'}>{capitalize(accounts.find(({uuid: u}) => u === uuid)?.type)}</div>
                 </div>
             </Dropdown>
         </Styles>

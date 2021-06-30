@@ -34,6 +34,7 @@ export default styled.aside`
                 justify-content: flex-start;
                 color: ${p => p.theme.vars.colors.secondary3};
                 padding: 18px;
+                font-weight: 500;
                 transition: ${p => p.theme.vars.defaults.transition};
             }
             svg {
