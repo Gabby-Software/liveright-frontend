@@ -7,11 +7,11 @@ export default styled.div`
     .info {
         &__name {
             font-size: 1rem;
-            color: ${p => p.theme.vars.colors.secondary3};
+            color: ${p => p.theme.vars.colors.dark};
         }
         &__value {
             white-space:pre-line;
-            color: ${p => p.theme.vars.colors.primaryDark};
+            color: ${p => p.theme.vars.colors.dark2};
             margin-top:8px;
             font-size: 1rem;
         }

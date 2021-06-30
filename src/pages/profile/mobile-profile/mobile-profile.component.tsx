@@ -14,8 +14,6 @@ const MobileProfile = () => {
             <ProfileData/>
             <Hr/>
             <ProfileInfo/>
-            <Hr/>
-            <ProfileStaff/>
         </Styles>
     );
 };
