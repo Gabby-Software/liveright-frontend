@@ -11,10 +11,13 @@
   "address": "Address",
   "born": "Born",
   "joined": "Joined",
+  "gender": "Gender",
   "dietary-restrictions": "Dietary Restrictions",
   "injuries": "Injuries",
   "edit-details": "Edit Details",
   "save-changes": "Save Changes",
   "cancel": "Cancel",
-  "update-success": "Profile updated successfully!"
+  "update-success": "Profile updated successfully!",
+  "male": "Male",
+  "female": "Female"
 }

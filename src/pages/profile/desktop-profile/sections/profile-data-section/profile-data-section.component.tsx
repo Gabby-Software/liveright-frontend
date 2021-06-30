@@ -24,12 +24,12 @@ const ProfileDataSection = () => {
     const dataItems: dataItemType[] = [
         {name: t('profile:first-name'), value: profileData.first_name, formName: 'first_name', editable: true},
         {name: t('profile:last-name'), value: profileData.last_name, formName:'last_name', editable: true},
-        {name: t('profile:birth-date'), value: profileData.birth_date, formName:'birth_date', editable: false, type: 'date'},
+        {name: t('profile:birth-date'), value: profileData.birth_date, formName:'birth_date', editable: true, type: 'date'},
         {name: t('profile:email'), value: profileData.email, formName: 'email', editable: true},
         {name: t('profile:phone'), value: profileData.phone, formName: 'phone', editable: true},
         {name: t('profile:address'), value: profileData.address, formName: 'address', editable: true},
-        {name: t('profile:join-date'), value: profileData.address, formName: 'join_date', editable: false, type: 'radio'},
-        {name: t('profile:gender'), value: profileData.address, formName: 'gender', editable: true},
+        {name: t('profile:join-date'), value: profileData.join_date, formName: 'join_date', type:'date', editable: false},
+        {name: t('profile:gender'), value: profileData.gender, formName: 'gender', editable: true, type: 'radio'},
     ];
     return (
         <Styles>

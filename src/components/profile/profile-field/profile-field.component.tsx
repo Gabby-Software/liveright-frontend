@@ -5,6 +5,8 @@ import FormInput from "../../forms/form-input/form-input.component";
 import FormInputLabeled from "../../forms/form-input-labeled/form-input-labeled.component";
 import FormDatepicker from "../../forms/form-datepicker/form-datepicker.component";
 import FormRadio from "../../forms/form-radio-button/form-radio-button.component";
+import {capitalize} from "../../../pipes/capitalize.pipe";
+import {useTranslation} from "../../../modules/i18n/i18n.hook";
 
 type Props = {
     name: string;
@@ -15,6 +17,7 @@ type Props = {
 }
 const ProfileField = ({name, value, editable, formName, type}: Props) => {
     const {editMode} = useContext(ProfileContext);
+    const {t} = useTranslation();
     return (
         <Styles>
             {
@@ -28,7 +31,7 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                 ) : (
                     <>
                         <div className={'field__name'}>{name}</div>
-                        <div className={'field__value'}>{value}</div>
+                        <div className={'field__value'}>{type==='radio'?t(`profile:${value}`):value}</div>
                     </>
                 )
             }

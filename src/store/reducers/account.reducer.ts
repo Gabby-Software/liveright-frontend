@@ -8,7 +8,7 @@ const initialState: ProfileDataType = {
     first_name: 'Chris',
     last_name: 'Hemsingworth',
     birth_date: '12/03/2021',
-    join_date: '13-04-2021',
+    join_date: '04/13/2021',
     email: 'Chrisheming@gmail.com',
     phone: '+333 020392093',
     address: '18, EM 595, Centro, Pinhel. Portugal',
