@@ -19,9 +19,9 @@ export default styled.div`
         resize: none;
         display: block;
         background-color: #fbfbfb;
-        padding: 14px 16px;
-        border: 1px solid #fbfbfb;
+        border: 1px solid #c4c4c4;
         color: ${p => p.theme.vars.colors.dark};
+        padding: 14px 16px;
         border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
         width: 100%;
