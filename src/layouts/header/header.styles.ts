@@ -44,13 +44,14 @@ export default styled.header`
         }
         &__title {
             position:absolute;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 18px;
             width: 100%;
             text-align: center;
             margin:0;
             pointer-events: none;
             touch-action: none;
+            padding-bottom: 6px;
         }
     }
 `;

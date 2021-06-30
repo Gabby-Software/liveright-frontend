@@ -16,7 +16,7 @@ export default styled.section`
             color: ${p => p.theme.vars.colors.primaryDark};
         }
         &__address {
-            color: ${p => p.theme.vars.colors.secondary3};
+            color: ${p => p.theme.vars.colors.secondary};
             ${p => p.theme.extend.flexCenter}
             font-weight: 600;
             font-size: 14px;
