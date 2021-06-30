@@ -17,6 +17,7 @@ import {Routes} from "../../../enums/routes.enum";
 import FormImageUpload from "../../../components/forms/form-image-upload/form-image-upload.component";
 import {noImage} from "../../../pipes/no-image.pipe";
 import ProfileImage from "../../../components/profile-image/profile-image.component";
+import Hr from '../../../components/hr/hr.styles';
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -56,8 +57,10 @@ const EditProfile = () => {
                         <FormInputLabeled name={'email'} label={t('profile:email')}/>
                         <FormInputLabeled name={'phone'} label={t('profile:phone')}/>
                         <FormInputLabeled name={'address'} label={t('profile:address')}/>
+                        <Hr/>
                         <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
                         <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
+                        <Hr/>
                         <ButtonSubmit id={'form-submit'}>{t('profile:save-changes')}</ButtonSubmit>
                     </Form>
                 )}
