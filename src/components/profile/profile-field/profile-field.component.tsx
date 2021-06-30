@@ -21,8 +21,8 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                 editMode ? (
                     type === 'date' ? <FormDatepicker disabled={!editable} name={formName} label={name}/> :
                         type === 'radio' ? <FormRadio name={formName} label={name} options={[
-                                {value: 'male',label:'Male'},
-                                {value: 'female',label:'Female'},
+                                {value: 'male',   label:'Male'},
+                                {value: 'female', label:'Female'},
                             ]}/>
                         : <FormInputLabeled name={formName} label={name}/>
                 ) : (

@@ -20,7 +20,7 @@ export default styled.section`
             svg {
                 display: block;
                 margin-right: 16px;
-                color: ${p =>p.theme.varscolors.dark2};
+                color: ${p =>p.theme.vars.colors.dark2};
             }
         }
     }
