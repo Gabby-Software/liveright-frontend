@@ -20,18 +20,19 @@ const accounts:AccountType[] = [
 const ProfileAccountsSection = () => {
     // const profileData = useSelector((state: RootState) => state.account);
     const [addAccountOpen, setAddAccountOpen] = useState(false);
+    const activeAccount = 0;
     const {t} = useTranslation();
     return (
         <Styles>
             <ProfileTitle title={t('profile:accounts')}/>
             <div className={'accounts__cont'}>
                 {
-                    accounts.map(account => (
-                        <ProfileAccount key={account.name} {...account}/>
+                    accounts.map((account,i) => (
+                        <ProfileAccount active={i === activeAccount} key={account.name} {...account}/>
                     ))
                 }
                 <div className={'accounts__add'} onClick={() => setAddAccountOpen(true)}>
-                    <AddIcon/>
+                    <span>{t('menu.add-account')}</span>
                 </div>
             </div>
             <SwitchAccountModal isOpen={addAccountOpen} onClose={() => setAddAccountOpen(false)} action={AccountActions.ADD_ACCOUNT}/>

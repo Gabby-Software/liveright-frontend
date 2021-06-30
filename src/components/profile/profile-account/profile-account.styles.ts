@@ -7,9 +7,15 @@ export default styled.div`
     min-width: 247px;
     display: flex;
     margin-right: 27px;
+    cursor: pointer;
     .account {
+        &__radio {
+            ${p => p.theme.extend.flexCenter}
+            ${p => p.theme.extend.radioCircle}
+        }
         &__img {
             ${p =>p.theme.mixin.circleImage('45px')}
+            
         }
         &__data {
             margin-left: 15px;

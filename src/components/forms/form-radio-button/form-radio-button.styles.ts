@@ -28,27 +28,14 @@ export default styled.div`
             padding: 13px 12px;
             transition: ${p =>p.theme.vars.defaults.transition};
             cursor: pointer;
-            &:before {
-                content: '';
-                display: block;
-                border-radius: 50%;
-                border: 2px solid ${p => p.theme.vars.colors.inputBorder};
-                width: 16px;
-                height: 16px;
-                padding:2px;
-                margin-right: 13px;
-            }
+            ${p =>p.theme.extend.radioCircle}
             &:last-child {
                 margin-right: 0;
             }
             &__active {
                 color: ${p =>p.theme.vars.colors.primaryDark};
                 background-color: ${p => p.theme.vars.colors.card};
-                border-color: ${p => p.theme.vars.colors.card};
-                &:before {
-                    background: radial-gradient(circle at center, ${p =>p.theme.vars.colors.primaryDark} 40%, transparent 40%);
-                    border-color: ${p =>p.theme.vars.colors.primaryDark};
-                } 
+                border-color: ${p => p.theme.vars.colors.card}; 
             }
         }
     }

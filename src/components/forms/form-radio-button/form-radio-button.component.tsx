@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Styles from './form-radio-button.styles';
 import {Field, FieldProps} from 'formik';
 import FormError from "../form-error/form-error.component";
-import FormRadioSelect from "../form-radio-select/form-radio-select.component";
 import {classes} from "../../../pipes/classes.pipe";
 
 type Props = {
