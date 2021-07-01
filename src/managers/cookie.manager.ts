@@ -24,4 +24,5 @@ const cookieManager = {
       this.set(name, '', 0);
   }
 };
+
 export default cookieManager;

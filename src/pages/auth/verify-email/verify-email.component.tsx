@@ -32,8 +32,8 @@ const VerifyEmail = () => {
             }});
         }
     }, []);
-    if(verified === verifiedState.SUCCESS)
-        return <Redirect to={Routes.HOME}/>;
+    // if(verified === verifiedState.SUCCESS)
+    //     return <Redirect to={Routes.REGISTER_ON_BOARD}/>;
     if(verified === verifiedState.ERROR)
         return <Redirect to={Routes.LOGIN}/>;
     return (<div/>);

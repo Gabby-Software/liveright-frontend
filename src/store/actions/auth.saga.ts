@@ -111,8 +111,7 @@ function* logoutWorker() {
     } finally {
         yield call(() => {
             localStorage.clear();
-            cookieManager.remove('liveright_session');
-            cookieManager.remove('XSRF-TOKEN');
+            document.cookie = '';
             window.location.pathname = Routes.LOGIN;
         });
     }
