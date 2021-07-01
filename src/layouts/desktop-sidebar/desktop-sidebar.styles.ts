@@ -7,7 +7,7 @@ export default styled.aside`
     position: sticky;
     top:0;
     flex-shrink: 0;
-    border-right: 1px solid ${p => p.theme.vars.colors.light2};
+    border-right: 1px solid ${p => p.theme.vars.colors.secondary2};
     .sidebar {
         &__logo {
             ${p => p.theme.extend.flexCenter}
@@ -35,6 +35,7 @@ export default styled.aside`
                 color: ${p => p.theme.vars.colors.secondary3};
                 padding: 18px;
                 font-weight: 500;
+                font-weight: 1rem;
                 transition: ${p => p.theme.vars.defaults.transition};
             }
             svg {
