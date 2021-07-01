@@ -7,6 +7,7 @@ export const ACTION_LOGIN_REQUEST = 'action-login-request';
 export const ACTION_LOGIN_SUCCESS = 'action-login-success';
 export const ACTION_REGISTER_REQUEST = 'action-register-request';
 export const ACTION_REGISTER_SUCCESS = 'action-register-success';
+export const ACTION_UPDATE_AUTH = 'action-update-auth';
 export const ACTION_LOGOUT_REQUEST = 'action-logout-request';
 export const ACTION_VERIFY_EMAIL_REQUEST = 'action-verify-email-request';
 export const ACTION_VERIFY_EMAIL_RESEND_REQUEST = 'action-verify-email-resend-request';

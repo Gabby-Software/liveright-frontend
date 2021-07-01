@@ -3,7 +3,7 @@ import {
     ACTION_LOGIN_REQUEST,
     ACTION_LOGIN_SUCCESS, ACTION_LOGOUT_REQUEST,
     ACTION_REGISTER_REQUEST,
-    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST,
+    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH,
     ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
 } from "../action-types";
@@ -74,7 +74,8 @@ function callLogin(data: AuthLoginType): Promise<string> {
 }
 function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & VerifyEmailQueryType & CallbackType<void>>) {
     try {
-        const res: string = yield call(() => callVerify(payload));
+        yield call(() => callVerify(payload));
+        yield put({type: ACTION_UPDATE_AUTH, payload: {is_active: true}});
         payload.onSuccess && payload.onSuccess();
         toast.show({type:'success', msg:i18n.t('alerts:email-verification-success')});
     } catch(e) {
