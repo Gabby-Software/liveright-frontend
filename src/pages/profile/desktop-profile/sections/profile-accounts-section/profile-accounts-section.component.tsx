@@ -35,7 +35,10 @@ const ProfileAccountsSection = () => {
                     <span>{t('menu.add-account')}</span>
                 </div>
             </div>
-            <SwitchAccountModal isOpen={addAccountOpen} onClose={() => setAddAccountOpen(false)} action={AccountActions.ADD_ACCOUNT}/>
+            <SwitchAccountModal isOpen={addAccountOpen}
+                                onClose={() => setAddAccountOpen(false)}
+                                action={AccountActions.ADD_ACCOUNT}
+            />
         </Styles>
     )
 };

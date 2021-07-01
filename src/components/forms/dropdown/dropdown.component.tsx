@@ -7,7 +7,7 @@ import {useHoverOutside} from "../../../hooks/hover-outside.hook";
 import {classes} from "../../../pipes/classes.pipe";
 
 type DropdownPropsType = {
-    menu: MenuItemType[];
+    menu: (MenuItemType | React.ReactNode)[];
     children: React.ReactNode;
 };
 const Dropdown = ({children, menu}: DropdownPropsType) => {
@@ -24,11 +24,22 @@ const Dropdown = ({children, menu}: DropdownPropsType) => {
             <div className={'dropdown__menu'} >
                 <ul>
                     {
-                        menu.map(({name, url, onClick}) => (
-                            <li className={'dropdown__item'}>
-                                <Link to={url || ''} onClick={() =>handleClick(onClick)}>{name}</Link>
-                            </li>
-                        ))
+                        menu.map((Item) => {
+                            if(React.isValidElement(Item))
+                                return Item;
+                            const {name, url, onClick} = Item as MenuItemType;
+                            return (
+                                <li className={'dropdown__item'}>
+                                    {
+                                        url ? (
+                                            <Link to={url || ''} onClick={() =>handleClick(onClick)}>{name}</Link>
+                                        ) : (
+                                            <a onClick={() => handleClick(onClick)}>{name}</a>
+                                        )
+                                    }
+                                </li>
+                            );
+                        })
                     }
                 </ul>
             </div>

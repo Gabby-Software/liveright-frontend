@@ -16,7 +16,18 @@ import ProfileImage from "../../components/profile-image/profile-image.component
 import {noImage} from "../../pipes/no-image.pipe";
 import {useDispatch} from "react-redux";
 import {ACTION_LOGOUT_REQUEST} from "../../store/action-types";
+import ProfileAccount from "../../components/profile/profile-account/profile-account.component";
 
+type AccountType = {
+    name: string;
+    type: string;
+    image: string;
+    active: boolean;
+};
+const acc:AccountType[] = [
+    {name: 'Chris Hemington', type: 'Client', image: profilePlaceholder, active: true},
+    {name: 'John Doe', type: 'Trainer', image: profilePlaceholder, active: false},
+];
 const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
@@ -29,7 +40,13 @@ const DesktopHeader = () => {
     const logout = () => {
         dispatch({type: ACTION_LOGOUT_REQUEST});
     };
-    const dropdownMenu: MenuItemType[] = [
+    const dropdownMenu: (MenuItemType | React.ReactNode)[] = [
+        ...acc.map((account,i) => (
+            <li>
+            <ProfileAccount noRadio key={account.name} {...account}
+                            className={classes('desktop-header__account', i===acc.length-1&&'desktop-header__hr')}/>
+            </li>
+        )),
         {name: t('menu.personal-details'), url: Routes.PROFILE},
         {name: t('menu.settings'), url: Routes.SETTINGS},
         {name: t('menu.switch-account'), onClick: switchAccount},

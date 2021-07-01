@@ -26,6 +26,34 @@ export default styled.header`
             padding: 0;
             margin: 0;
         }
+        &__hr {
+           border-bottom: 1px solid ${p => p.theme.vars.colors.light};
+        }
+        &__account {
+            margin: 0 -20px;
+            width: calc(100% + 40px);
+            border-radius: 0;
+            min-width: 0;
+            background: white;
+            
+            &.account__active, &:hover {
+                background: ${p => p.theme.vars.colors.background};
+            }
+            .account {
+                &__img {
+                    width: 36px;
+                    height: 36px;
+                }
+                &__name {
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                &__type {
+                    font-size: 10px;
+                    font-weight: 400;
+                }
+            }
+        }
         &__item {
             a {
                 box-shadow: 0px 0px 5px transparent;

@@ -3,15 +3,21 @@ import Styles from './profile-account.styles';
 import {classes} from "../../../pipes/classes.pipe";
 
 type Prop = {
-    name:string;
-    type:string;
-    image:string;
-    active:boolean;
+    name: string;
+    type: string;
+    image: string;
+    active?: boolean;
+    className?: string;
+    noRadio?: boolean;
 };
-const ProfileAccount = ({name,type,image, active}: Prop) => {
+const ProfileAccount = ({name, type, image, active, className, noRadio}: Prop) => {
     return (
-        <Styles>
-            <div className={classes('account__radio', active && 'account__radio__active')}/>
+        <Styles className={classes(className, active && 'account__active')}>
+            {
+                noRadio ? null : (
+                    <div className={classes('account__radio', active && 'account__radio__active')}/>
+                )
+            }
             <img className={classes('account__img', active && 'account__img__active')}
                  src={image} alt={'account'}/>
             <div className={'account__data'}>
