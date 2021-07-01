@@ -77,10 +77,13 @@ function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & Verify
     try {
         yield call(() => callVerify(payload));
         yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: {is_active: true}});
-        payload.onSuccess && payload.onSuccess();
+        setTimeout(() => {
+            payload.onSuccess && payload.onSuccess();
+        });
         toast.show({type:'success', msg:i18n.t('alerts:email-verification-success')});
     } catch(e) {
-        toast.show({type:'error', msg: i18n.t('alerts:email-verification-error')});
+        toast.show({type:'error', msg: serverError(e)});
+        payload.onError && payload.onError(serverError(e));
     }
 }
 function callVerify({id, token,expires,signature}: VerifyEmailParamsType & VerifyEmailQueryType) {
