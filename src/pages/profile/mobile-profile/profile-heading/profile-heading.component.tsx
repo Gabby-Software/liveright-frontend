@@ -14,7 +14,7 @@ const ProfileHeading = () => {
     const {image, first_name, last_name, address} = useSelector((state: RootState) => state.account);
     return (
         <Styles>
-            <ProfileImage url={image} placeholder={noImage('Yosef',"Tukachinsky")}/>
+            <ProfileImage url={image} placeholder={noImage(first_name, last_name)}/>
             <div className={'profile-heading__data'}>
                 <div className={'profile-heading__name'}>{first_name} {last_name}</div>
                 <div className={'profile-heading__address'}>

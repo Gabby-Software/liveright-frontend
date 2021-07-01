@@ -7,7 +7,7 @@ const Onboard3 = () => {
     const {t} = useTranslation();
     return (
         <Styles>
-            <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary_restrictions')}/>
+            <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
             <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
         </Styles>
     );

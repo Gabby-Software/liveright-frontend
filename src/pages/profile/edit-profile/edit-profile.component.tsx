@@ -18,6 +18,7 @@ import FormImageUpload from "../../../components/forms/form-image-upload/form-im
 import {noImage} from "../../../pipes/no-image.pipe";
 import ProfileImage from "../../../components/profile-image/profile-image.component";
 import Hr from '../../../components/hr/hr.styles';
+import {useAuth} from "../../../hooks/auth.hook";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -25,6 +26,7 @@ const EditProfile = () => {
     const [submitted, setSubmitted] = useState(false);
     const [file,setFile] = useState<File|null>(null);
     const profileData = useSelector((state: RootState) => state.account);
+    const {first_name,last_name} = useAuth();
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
@@ -49,7 +51,7 @@ const EditProfile = () => {
                         <FormImageUpload name={'image'} label={'Change Profile Photo'}
                                          aspectRatio={1}
                                          onUpdate={({file}) => setFile(file)}>
-                            {({url}) => (<ProfileImage url={url} placeholder={noImage('Ypsef', 'Tukachinsly')}/>)}
+                            {({url}) => (<ProfileImage url={url} placeholder={noImage(first_name, last_name)}/>)}
                         </FormImageUpload>
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>

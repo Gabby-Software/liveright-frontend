@@ -7,10 +7,12 @@ import {noImage} from "../../../../../pipes/no-image.pipe";
 import {ProfileContext} from "../../profile.context";
 import FormImageUpload from "../../../../../components/forms/form-image-upload/form-image-upload.component";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
+import {useAuth} from "../../../../../hooks/auth.hook";
 
 const ProfileImageSection = () => {
     const profileImage = useSelector((state: RootState) => state.account.image);
     const {editMode} = useContext(ProfileContext);
+    const {avatar_thumb, first_name, last_name} = useAuth();
     const [file, setFile] = useState<File|null>(null);
     const {t} = useTranslation();
     return (
@@ -22,11 +24,11 @@ const ProfileImageSection = () => {
                                      aspectRatio={1}
                                      onUpdate={({file}) => setFile(file)}>
                         {
-                            ({url}) => (<ProfileImage url={url} placeholder={noImage('Yosef', "Tuk")}/>)
+                            ({url}) => (<ProfileImage url={url} placeholder={noImage(first_name, last_name)}/>)
                         }
                     </FormImageUpload>
                 ) : (
-                    <ProfileImage url={profileImage} placeholder={noImage('Yosef', "Tuk")}/>
+                    <ProfileImage url={profileImage} placeholder={noImage(first_name, last_name)}/>
                 )
             }
         </Styles>
