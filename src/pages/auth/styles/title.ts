@@ -3,8 +3,8 @@ import styled from "styled-components";
 export default styled.div`
     .title {
         &__hr {
-            border-bottom: 1px solid ${p => p.theme.vars.colors.secondary};
-            width: 80%;
+            border-bottom: 1px solid ${p => p.theme.vars.colors.light};
+            width: 85%;
             max-width: 350px;
             margin: auto;
         }
