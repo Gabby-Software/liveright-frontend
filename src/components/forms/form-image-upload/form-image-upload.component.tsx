@@ -16,7 +16,7 @@ type Props = {
 };
 const FormImageUpload = ({name, label, onUpdate, children: Children, aspectRatio}: Props) => {
     const isMobile = useIsMobile();
-    const [modalOpen, setModalOpen] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
     const handleChange = async (e: ChangeEvent<HTMLInputElement>, form: FormikProps<any>) => {
         if (!e?.target?.files || !e?.target?.files[0]) return;
         let [url, file] = await fileManager.resize(e.target.files[0], 1920);
