@@ -106,7 +106,7 @@ const SignUpOnboard = () => {
                                     <Onboard3/>
                                 </Steps.Step>
                             </Steps>
-                            <ButtonSubmit>{t('finish')}</ButtonSubmit>
+                            <ButtonSubmit>{t('next')}</ButtonSubmit>
                             <FormButton className={'sign-up__skip'} type={'link'}>
                                 <Link to={Routes.HOME}>{t('skip')}</Link>
                             </FormButton>
