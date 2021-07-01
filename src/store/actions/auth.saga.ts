@@ -14,7 +14,7 @@ import api from "../../managers/api.manager";
 import {
     EP_LOGIN, EP_LOGOUT,
     EP_REGISTER,
-    EP_SEND_RESET_PASSWORD,
+    EP_SEND_RESET_PASSWORD, EP_UPDATE_USER,
     EP_VERIFY_EMAIL,
     EP_VERIFY_EMAIL_RESEND
 } from "../../enums/api.enum";
@@ -107,7 +107,7 @@ function* resetPasswordWorker({payload}: ActionType<{email:string}&CallbackType<
 }
 function* logoutWorker() {
     try {
-        yield call(() =>(api.post(EP_LOGOUT)));
+        const res = (yield call(logoutCall)) as {};
     } catch(e) {
         logger.error('Unable to logout');
     } finally {
@@ -118,10 +118,20 @@ function* logoutWorker() {
         });
     }
 }
-function* updateAuthWorker(action: ActionType<AccountObjType & CallbackType<void>>) {
+async function logoutCall() {
+    return call(() =>(api.post(EP_LOGOUT)));
+}
+function* updateAuthWorker({payload}: ActionType<AccountObjType & CallbackType<void>>) {
+    const {onSuccess, onError, ...data} = payload;
     try {
-        // yield call();
+        yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
+        yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: data});
+        onSuccess && onSuccess();
     } catch(e) {
         toast.show({type: 'error',msg: serverError(e)});
+        onError && onError(serverError(e));
     }
+}
+async function updateCall(payload: AccountObjType) {
+    api.put(EP_UPDATE_USER, payload).then(res => res.data)
 }

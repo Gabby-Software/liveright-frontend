@@ -2,11 +2,10 @@ import React, {useState, useEffect} from 'react';
 import Styles from './profile-info.styles';
 import Accordion from "../../../../components/accordion/accordion.component";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../store/reducers";
+import {useProfile} from "../../../../hooks/profile.hook";
 
 const ProfileInfo = () => {
-    const {dietary_restrictions, injuries} = useSelector((state: RootState) => state.account);
+    const {dietary_restrictions, injuries} = useProfile();
     const {t} = useTranslation();
     return (
         <Styles>

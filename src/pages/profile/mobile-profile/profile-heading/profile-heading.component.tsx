@@ -9,12 +9,15 @@ import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
 import ProfileImage from "../../../../components/profile-image/profile-image.component";
 import {noImage} from "../../../../pipes/no-image.pipe";
+import {useProfile} from "../../../../hooks/profile.hook";
+import {useAuth} from "../../../../hooks/auth.hook";
 
 const ProfileHeading = () => {
-    const {image, first_name, last_name, address} = useSelector((state: RootState) => state.account);
+    const {address} = useProfile();
+    const {avatar_thumb, first_name, last_name} = useAuth();
     return (
         <Styles>
-            <ProfileImage url={image} placeholder={noImage(first_name, last_name)}/>
+            <ProfileImage url={avatar_thumb} placeholder={noImage(first_name, last_name)}/>
             <div className={'profile-heading__data'}>
                 <div className={'profile-heading__name'}>{first_name} {last_name}</div>
                 <div className={'profile-heading__address'}>

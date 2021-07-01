@@ -19,14 +19,17 @@ import {noImage} from "../../../pipes/no-image.pipe";
 import ProfileImage from "../../../components/profile-image/profile-image.component";
 import Hr from '../../../components/hr/hr.styles';
 import {useAuth} from "../../../hooks/auth.hook";
+import {useProfile} from "../../../hooks/profile.hook";
+import {AccountObjType} from "../../../types/account.type";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
     const {t} = useTranslation();
     const [submitted, setSubmitted] = useState(false);
     const [file,setFile] = useState<File|null>(null);
-    const profileData = useSelector((state: RootState) => state.account);
-    const {first_name,last_name} = useAuth();
+    const profileData = useProfile();
+    const authData = useAuth();
+    const {first_name, last_name} = useAuth();
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
@@ -35,18 +38,19 @@ const EditProfile = () => {
         submitProps.setSubmitting(false);
         setSubmitted(true);
     };
-    if(submitted) return <Redirect to={Routes.PROFILE}/>
+    if(submitted) return <Redirect to={Routes.PROFILE}/>;
     return (
         <Styles>
-            <Formik initialValues={profileData}
+            <Formik initialValues={{...profileData,...authData}}
                     onSubmit={handleSubmit}
                     validationSchema={Yup.object({
                         first_name: Yup.string().required().name(),
                         last_name: Yup.string().required().name(),
                         email: Yup.string().required().email(),
+                        phone_number: Yup.string().phone()
                     })}
             >
-                {(form: FormikProps<ProfileDataType>) => (
+                {() => (
                     <Form>
                         <FormImageUpload name={'image'} label={'Change Profile Photo'}
                                          aspectRatio={1}
@@ -55,9 +59,9 @@ const EditProfile = () => {
                         </FormImageUpload>
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>
-                        <FormDatepicker name={'birth_date'} label={t('profile:birth-date')}/>
+                        <FormDatepicker name={'birthday'} label={t('profile:birth-date')}/>
                         <FormInputLabeled name={'email'} label={t('profile:email')}/>
-                        <FormInputLabeled name={'phone'} label={t('profile:phone')}/>
+                        <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
                         <FormInputLabeled name={'address'} label={t('profile:address')}/>
                         <Hr/>
                         <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>

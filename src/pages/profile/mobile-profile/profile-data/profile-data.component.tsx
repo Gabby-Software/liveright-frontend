@@ -6,15 +6,18 @@ import Card from "../../../../components/card/card.style";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store/reducers";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {useProfile} from "../../../../hooks/profile.hook";
+import {useAuth} from "../../../../hooks/auth.hook";
 
 const ProfileData = () => {
-    const {join_date, birth_date, email, phone} = useSelector((state: RootState) => state.account);
+    const { phone_number} = useProfile();
+    const {created_at, birthday, email} = useAuth();
     const {t} = useTranslation();
     return (
         <Styles>
             <Card className={'profile-data__dates'}>
-                <div className={'profile-data__date'}>{t('profile:joined')} {join_date}</div>
-                <div className={'profile-data__date'}>{t('profile:born')} {birth_date}</div>
+                <div className={'profile-data__date'}>{t('profile:joined')} {created_at}</div>
+                <div className={'profile-data__date'}>{t('profile:born')} {birthday}</div>
             </Card>
             <Card className={'profile-data__value'}>
                 <EmailIcon/>
@@ -22,7 +25,7 @@ const ProfileData = () => {
             </Card>
             <Card className={'profile-data__value'}>
                 <PhoneIcon/>
-                <span>{phone}</span>
+                <span>{phone_number}</span>
             </Card>
         </Styles>
     );

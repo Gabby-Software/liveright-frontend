@@ -11,9 +11,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers";
 import ProfileProvider, {ProfileContext} from "./profile.context";
 import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
+import {useProfile} from "../../../hooks/profile.hook";
+import {useAuth} from "../../../hooks/auth.hook";
 
 const DesktopProfile = () => {
-    const profileData = useSelector((state: RootState) => state.account);
+    const profileData = useProfile();
+    const authData = useAuth();
     const dispatch = useDispatch();
     const {setEditMode} = useContext(ProfileContext);
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
@@ -27,13 +30,13 @@ const DesktopProfile = () => {
                 <div className={'profile__wrapper'}>
                     <Formik
                         onSubmit={handleSubmit}
-                        initialValues={profileData}
+                        initialValues={{...profileData,...authData}}
                         validationSchema={Yup.object({
                             image: Yup.string(),
                             first_name: Yup.string().required().name(),
                             last_name: Yup.string().required().name(),
                             email: Yup.string().required().email(),
-                            phone: Yup.string().required(),
+                            phone_number: Yup.string().required(),
                             address: Yup.string().required(),
                         })}
                     >
