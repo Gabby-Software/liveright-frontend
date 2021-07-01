@@ -105,7 +105,7 @@ function* resetPasswordWorker({payload}: ActionType<{email:string}&CallbackType<
 }
 function* logoutWorker() {
     try {
-        api.post(EP_LOGOUT);
+        yield () =>(api.post(EP_LOGOUT));
     } catch(e) {
         logger.error('Unable to logout');
     } finally {
