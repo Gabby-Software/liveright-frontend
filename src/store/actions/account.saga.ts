@@ -24,3 +24,7 @@ function* updateProfileAction(action: ActionType<ProfileDataType>) {
 function* getProfileAction() {
 
 }
+
+async function getProfileCall() {
+
+}

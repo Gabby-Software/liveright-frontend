@@ -5,6 +5,8 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {useDispatch} from "react-redux";
 import {ACTION_VERIFY_EMAIL_RESEND_REQUEST} from "../../../store/action-types";
 import {onlyGuest} from "../../../guards/guest.guard";
+import Back from "../styles/back/back.component";
+import {Routes} from "../../../enums/routes.enum";
 
 const SignUpConfirmation = () => {
     const {t} = useTranslation();
@@ -26,6 +28,7 @@ const SignUpConfirmation = () => {
                     <span>{t('auth:not-received')}</span>
                     <a onClick={resendEmail}>{t('auth:send-again')}</a>
                 </ResendEmail>
+                <Back to={Routes.LOGIN}/>
             </Wrapper>
         </Styles>
     )

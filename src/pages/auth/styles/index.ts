@@ -14,6 +14,11 @@ export default styled.div`
     .center {
         text-align: center;
     }
+    .desktop {
+        @media all and (max-width: ${p => p.theme.vars.media.tablet}px) {
+            display: none;
+        }
+    }
     .switch__wrapper {
         margin-bottom: 54px;
         max-width: 320px;

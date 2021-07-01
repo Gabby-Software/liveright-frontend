@@ -60,8 +60,8 @@ const ForgotPassword = () => {
                         </Form>
                     )}
                 </Formik>
+                <Back to={Routes.LOGIN}/>
             </Wrapper>
-            <Back to={Routes.LOGIN}/>
         </Styles>
     );
 };

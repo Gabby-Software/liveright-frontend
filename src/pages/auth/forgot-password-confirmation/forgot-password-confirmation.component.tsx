@@ -34,8 +34,8 @@ const ForgotPasswordConfirmation = () => {
                     <span>{t('auth:not-received')}</span>
                     <a onClick={resendEmail}>{t('auth:send-again')}</a>
                 </ResendEmail>
+                <Back to={Routes.LOGIN}/>
             </Wrapper>
-            <Back to={Routes.LOGIN}/>
         </Styles>
     )
 };
