@@ -4,5 +4,6 @@
   "update-profile-success": "Profile updated successfully!",
   "resend-verification-success": "Confirmation email was resent to your email address",
   "email-verification-success": "Email verified!",
-  "email-verification-error": "Unable to verify email"
+  "email-verification-error": "Unable to verify email",
+  "onboard-success": "Onboard successfully!"
 }

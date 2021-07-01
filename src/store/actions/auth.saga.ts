@@ -25,6 +25,7 @@ import {serverError} from "../../pipes/server-error.pipe";
 import {VerifyEmailParamsType, VerifyEmailQueryType} from "../../modules/auth/verify-email-params.type";
 import {AccountObjType} from "../../types/account.type";
 import {Routes} from "../../enums/routes.enum";
+import cookieManager from "../../managers/cookie.manager";
 
 export function* sagaAuthWatcher() {
     logger.info('AUTH SAGA INIT');
@@ -110,6 +111,8 @@ function* logoutWorker() {
     } finally {
         yield call(() => {
             localStorage.clear();
+            cookieManager.remove('liveright_session');
+            cookieManager.remove('XSRF-TOKEN');
             window.location.pathname = Routes.LOGIN;
         });
     }
