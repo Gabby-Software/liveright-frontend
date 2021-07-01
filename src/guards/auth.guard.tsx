@@ -6,7 +6,7 @@ import cookieManager from "../managers/cookie.manager";
 export const onlyAuth = (Component: React.ComponentType<any>) => (props: any) => {
     const token = localStorage.getItem('uuid');
     const cookie = cookieManager.get('liveright_session');
-    if(!token || !cookie) {
+    if(!token) {
         return <Redirect to={Routes.LOGIN}/>
     }
     return <Component {...props}/>
