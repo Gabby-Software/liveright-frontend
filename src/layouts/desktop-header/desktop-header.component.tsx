@@ -49,7 +49,6 @@ const DesktopHeader = () => {
         )),
         {name: t('menu.personal-details'), url: Routes.PROFILE},
         {name: t('menu.settings'), url: Routes.SETTINGS},
-        {name: t('menu.switch-account'), onClick: switchAccount},
         {name: t('menu.log-out'), onClick: logout},
     ];
     return (
