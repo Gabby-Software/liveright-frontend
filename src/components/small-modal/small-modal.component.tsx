@@ -11,7 +11,7 @@ type MenuItem = {
 };
 type Props = ModalProps & {
     title: string;
-    menu: MenuItem[];
+    menu: (MenuItem|null)[];
 };
 const SmallModal = ({menu, visible, title,onCancel}: Props) => {
     return (
@@ -20,12 +20,15 @@ const SmallModal = ({menu, visible, title,onCancel}: Props) => {
             <div className={'small-modal__title'}>{title}</div>
             <ul className={'small-modal__body'}>
                 {
-                    menu.map(({name, onClick,type='default', Wrap = React.Fragment}) => (
-                        <li className={classes('small-modal__item', `small-modal__item__${type}`)}
-                            onClick={(e) => {onCancel && onCancel(e); onClick && onClick()}}>
-                            <Wrap>{name}</Wrap>
-                        </li>
-                    ))
+                    menu.filter(t => !!t).map((item,i) => {
+                        const {name, onClick,type='default', Wrap = React.Fragment} = (item as MenuItem);
+                        return (
+                            <li className={classes('small-modal__item', `small-modal__item__${type}`)} key={i}
+                                onClick={(e) => {onCancel && onCancel(e); onClick && onClick()}}>
+                                <Wrap>{name}</Wrap>
+                            </li>
+                        )
+                    })
                 }
             </ul>
         </StyledModal>

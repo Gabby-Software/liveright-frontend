@@ -20,10 +20,14 @@ const ProfileHeading = () => {
             <ProfileImage url={avatar_thumb} placeholder={noImage(first_name, last_name)}/>
             <div className={'profile-heading__data'}>
                 <div className={'profile-heading__name'}>{first_name} {last_name}</div>
-                <div className={'profile-heading__address'}>
-                    <LocationIcon/>
-                    <span>{excerpt(address, 23)}</span>
-                </div>
+                {
+                    address ? (
+                        <div className={'profile-heading__address'}>
+                            <LocationIcon/>
+                            <span>{excerpt(address, 23)}</span>
+                        </div>
+                    ): null
+                }
             </div>
             <Link to={Routes.EDIT_PROFILE}
                   className={'profile-heading__edit'}>

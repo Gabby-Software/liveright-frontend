@@ -1,5 +1,6 @@
 import {ProfileDataType} from "../../types/profile-data.type";
 import * as actions from "../action-types";
+import {withStorage} from "./storage.hook";
 
 const initialState: ProfileDataType = {
     phone_number: '',
@@ -10,7 +11,7 @@ const initialState: ProfileDataType = {
     custom_url: ''
 };
 
-export function accountReducer(state = initialState, action: actions.ActionType<any>) {
+export const accountReducer = withStorage((state = initialState, action: actions.ActionType<any>) => {
     switch (action.type) {
         case actions.ACTION_GET_ACCOUNT_SUCCESS:
         case actions.ACTION_UPDATE_ACCOUNT_SUCCESS:
@@ -23,4 +24,4 @@ export function accountReducer(state = initialState, action: actions.ActionType<
         default:
             return state;
     }
-}
+}, initialState, 'account');

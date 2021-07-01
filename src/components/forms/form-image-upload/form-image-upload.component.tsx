@@ -50,7 +50,7 @@ const FormImageUpload = ({name, label, onUpdate, children: Children, aspectRatio
                                                     {children}
                                                 </label>
                                             )},
-                                        {name: 'Remove Photo', type: 'primary', onClick: () => remove(form)},
+                                        field.value?{name: 'Remove Photo', type: 'primary', onClick: () => remove(form)}:null,
                                         {name: 'Cancel', onClick: () => setModalOpen(false)},
                                     ]}/>
                                 </>
