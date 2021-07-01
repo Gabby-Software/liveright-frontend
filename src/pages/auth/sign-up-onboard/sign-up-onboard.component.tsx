@@ -95,4 +95,4 @@ const SignUpOnboard = () => {
     )
 };
 
-export default onlyAuth(onlyActive(SignUpOnboard));
+export default SignUpOnboard//onlyAuth(onlyActive());

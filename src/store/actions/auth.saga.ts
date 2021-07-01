@@ -3,7 +3,7 @@ import {
     ACTION_LOGIN_REQUEST,
     ACTION_LOGIN_SUCCESS, ACTION_LOGOUT_REQUEST,
     ACTION_REGISTER_REQUEST,
-    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH,
+    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH_SUCCESS,
     ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
 } from "../action-types";
@@ -35,6 +35,7 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_VERIFY_EMAIL_RESEND_REQUEST, verifyEmailResendWorker);
     yield takeLatest(ACTION_RESET_PASSWORD_REQUEST, resetPasswordWorker);
     yield takeLatest(ACTION_LOGOUT_REQUEST, logoutWorker);
+    yield takeLatest(ACTION_UPDATE_AUTH_SUCCESS, updateAuthWorker);
 }
 
 function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -75,7 +76,7 @@ function callLogin(data: AuthLoginType): Promise<string> {
 function* verifyEmailWorker({payload}: ActionType<VerifyEmailParamsType & VerifyEmailQueryType & CallbackType<void>>) {
     try {
         yield call(() => callVerify(payload));
-        yield put({type: ACTION_UPDATE_AUTH, payload: {is_active: true}});
+        yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: {is_active: true}});
         payload.onSuccess && payload.onSuccess();
         toast.show({type:'success', msg:i18n.t('alerts:email-verification-success')});
     } catch(e) {
@@ -106,7 +107,7 @@ function* resetPasswordWorker({payload}: ActionType<{email:string}&CallbackType<
 }
 function* logoutWorker() {
     try {
-        yield () =>(api.post(EP_LOGOUT));
+        yield call(() =>(api.post(EP_LOGOUT)));
     } catch(e) {
         logger.error('Unable to logout');
     } finally {
@@ -115,5 +116,12 @@ function* logoutWorker() {
             document.cookie = '';
             window.location.pathname = Routes.LOGIN;
         });
+    }
+}
+function* updateAuthWorker(action: ActionType<AccountObjType & CallbackType<void>>) {
+    try {
+        // yield call();
+    } catch(e) {
+        toast.show({type: 'error',msg: serverError(e)});
     }
 }

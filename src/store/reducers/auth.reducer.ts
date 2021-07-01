@@ -1,5 +1,5 @@
 import {AccountObjType} from "../../types/account.type";
-import {ACTION_LOGIN_SUCCESS, ACTION_REGISTER_SUCCESS, ACTION_UPDATE_AUTH, ActionType} from "../action-types";
+import {ACTION_LOGIN_SUCCESS, ACTION_REGISTER_SUCCESS, ACTION_UPDATE_AUTH_SUCCESS, ActionType} from "../action-types";
 import {withStorage} from "./storage.hook";
 import logger from "../../managers/logger.manager";
 
@@ -23,7 +23,7 @@ export const authReducer = withStorage((state = initialState, {type, payload}: A
         case ACTION_REGISTER_SUCCESS:
             logger.info('setting user', payload);
             return payload;
-        case ACTION_UPDATE_AUTH:
+        case ACTION_UPDATE_AUTH_SUCCESS:
             logger.info('updating user', payload);
             return {
                 ...state,
