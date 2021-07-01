@@ -19,9 +19,13 @@ import {Link} from "react-router-dom";
 import {Routes} from "../../../enums/routes.enum";
 import Onboard2 from "./steps/onboard-2/onboard-2.component";
 import Onboard3 from "./steps/onboard-3/onboard-3.component";
+import {
+    ACTION_UPDATE_ACCOUNT_REQUEST,
+    ACTION_UPDATE_AUTH_REQUEST,
+} from "../../../store/action-types";
 
 const initialState: AuthOnboardType = {
-    phone: '',
+    phone_number: '',
     birthday: '',
     address: '',
     dietary_restrictions: '',
@@ -33,23 +37,42 @@ const SignUpOnboard = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const handleSubmit = (form: AuthOnboardType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         logger.info('SIGN_UP_ONBOARD', 'submitting..', form);
+        const callback = (nextStep: number) => ({
+            onSuccess: () => {
+                submitProps.setSubmitting(false);
+                setCurrentStep(nextStep)
+            },
+            onError:() => {
+                submitProps.setSubmitting(false);
+            }
+        });
         switch (currentStep) {
             case 0:
-                //todo: update data
-                setCurrentStep(1);
+                dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: {
+                        birthday: form.birthday,
+                        ...callback(1)
+                    }});
+                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                        phone_number: form.phone_number,
+                        ...callback(1)
+                    }});
                 break;
             case 1:
-                //todo: update data
-                setCurrentStep(2);
+                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                        address: form.address,
+                        ...callback(2)
+                    }});
                 break;
             case 2:
-                //todo: update data
-                setCurrentStep(3);
+                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                        injuries: form.injuries,
+                        dietary_restrictions: form.dietary_restrictions,
+                        ...callback(3)
+                    }});
                 toast.show({type: 'success', msg: t('alerts:onboard-success')});
                 break;
 
         }
-        submitProps.setSubmitting(false);
         // toast.show({type: 'success', msg: 'You successfully onboarded!'});
 
     };
@@ -67,7 +90,7 @@ const SignUpOnboard = () => {
                 <Formik initialValues={initialState}
                         onSubmit={handleSubmit}
                         validationSchema={Yup.object({
-                            phone: Yup.string().phone()
+                            phone_number: Yup.string().phone()
                         })}
                 >
                     {() => (

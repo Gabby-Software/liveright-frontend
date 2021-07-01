@@ -1,5 +1,5 @@
 export type AuthOnboardType = {
-    phone: string;
+    phone_number: string;
     birthday: string;
     address: string;
     dietary_restrictions:string;

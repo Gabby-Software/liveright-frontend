@@ -127,7 +127,7 @@ async function logoutCall() {
 function* updateAuthWorker({payload}: ActionType<AccountObjType & CallbackType<void>>) {
     const {onSuccess, onError, ...data} = payload;
     try {
-        yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
+        // yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
         yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: data});
         onSuccess && onSuccess();
     } catch(e) {

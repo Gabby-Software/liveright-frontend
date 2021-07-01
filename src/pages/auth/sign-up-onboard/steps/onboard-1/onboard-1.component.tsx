@@ -12,7 +12,7 @@ const Onboard1 = () => {
     const {t} = useTranslation();
     return (
         <Styles>
-            <FormInputLabeled name={'phone'} label={t('profile:phone')}/>
+            <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
             <FormDatepicker name={'birthday'} label={t('profile:birth-date')}/>
         </Styles>
     )

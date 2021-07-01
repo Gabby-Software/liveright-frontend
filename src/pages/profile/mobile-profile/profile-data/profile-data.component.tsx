@@ -8,6 +8,7 @@ import {RootState} from "../../../../store/reducers";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {useProfile} from "../../../../hooks/profile.hook";
 import {useAuth} from "../../../../hooks/auth.hook";
+import {date} from "../../../../pipes/date.pipe";
 
 const ProfileData = () => {
     const { phone_number} = useProfile();
@@ -16,8 +17,8 @@ const ProfileData = () => {
     return (
         <Styles>
             <Card className={'profile-data__dates'}>
-                <div className={'profile-data__date'}>{t('profile:joined')} {created_at}</div>
-                <div className={'profile-data__date'}>{t('profile:born')} {birthday}</div>
+                <div className={'profile-data__date'}>{t('profile:joined')} {date(created_at)}</div>
+                {birthday ?<div className={'profile-data__date'}>{t('profile:born')} {birthday}</div>:null}
             </Card>
             <Card className={'profile-data__value'}>
                 <EmailIcon/>
