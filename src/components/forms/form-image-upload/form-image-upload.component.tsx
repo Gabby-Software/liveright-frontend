@@ -4,6 +4,8 @@ import {Field, FieldProps, FormikProps} from "formik";
 import {ReactComponent as TrashIcon} from "../../../assets/media/icons/trash.svg";
 import fileManager from "../../../managers/file.manager";
 import Badge from "../../badge/badge.component";
+import {useIsMobile} from "../../../hooks/is-mobile.hook";
+import SmallModal from "../../small-modal/small-modal.component";
 
 type Props = {
     name: string;
@@ -13,6 +15,8 @@ type Props = {
     aspectRatio?: number
 };
 const FormImageUpload = ({name, label, onUpdate, children: Children, aspectRatio}: Props) => {
+    const isMobile = useIsMobile();
+    const [modalOpen, setModalOpen] = useState(true);
     const handleChange = async (e: ChangeEvent<HTMLInputElement>, form: FormikProps<any>) => {
         if (!e?.target?.files || !e?.target?.files[0]) return;
         let [url, file] = await fileManager.resize(e.target.files[0], 1920);
@@ -31,21 +35,42 @@ const FormImageUpload = ({name, label, onUpdate, children: Children, aspectRatio
             {
                 ({field, form}: FieldProps) => (
                     <Styles>
-                        <div className={'image-upload__wrapper'}>
-                            <Children url={field.value}/>
-                            {
-                                field.value?(
-                                    <Badge type={'primary'} onClick={()=>remove(form)}><TrashIcon/></Badge>
-                                ):null
-                            }
-                        </div>
-                        <label>
-                            <input onChange={(e) => {
-                                handleChange(e, form)
-                            }} type={'file'} accept={'image/*'}
-                                   className={'image-upload__input'}/>
-                            <div className={'image-upload__label'}>{label}</div>
-                        </label>
+                        {
+                            isMobile ? (
+                                <>
+                                    <div className={'image-upload__wrapper'}>
+                                        <Children url={field.value}/>
+                                    </div>
+                                    <div className={'image-upload__label'} onClick={() => setModalOpen(true)}>{label}</div>
+                                    <SmallModal visible={modalOpen} onCancel={() => setModalOpen(false)} title={'Change Profile Photo'} menu={[
+                                        {name: 'Upload Photo', Wrap: ({children}:{children:React.ReactNode}) => (
+                                                <label>
+                                                    <input onChange={(e) => {handleChange(e, form)}} type={'file'} accept={'image/*'}
+                                                           style={{display: 'none'}}/>
+                                                    {children}
+                                                </label>
+                                            )},
+                                        {name: 'Remove Photo', type: 'primary', onClick: () => remove(form)},
+                                        {name: 'Cancel', onClick: () => setModalOpen(false)},
+                                    ]}/>
+                                </>
+                            ) : (
+                                <>
+                                    <div className={'image-upload__wrapper'}>
+                                        <label style={{cursor:'pointer'}}>
+                                            <Children url={field.value}/>
+                                            <input onChange={(e) => {handleChange(e, form)}} type={'file'} accept={'image/*'}
+                                                   className={'image-upload__input'}/>
+                                        </label>
+                                        {
+                                            field.value?(
+                                                <Badge type={'primary'} onClick={()=>remove(form)}><TrashIcon/></Badge>
+                                            ):null
+                                        }
+                                    </div>
+                                </>
+                            )
+                        }
                     </Styles>
                 )
             }
