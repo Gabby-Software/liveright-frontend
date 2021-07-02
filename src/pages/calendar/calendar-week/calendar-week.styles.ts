@@ -18,5 +18,7 @@ export default styled.div`
         font-size: 14px;
         color: ${p => p.theme.vars.colors.dark};
         margin-bottom: 14px;
+        max-width: 400px;
+        margin-right: auto;
     }
 `;

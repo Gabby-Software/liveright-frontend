@@ -1,16 +1,24 @@
 import styled from "styled-components";
+import {media} from "../../../assets/styles/_media";
 
 export default styled.div`
     .switch {
         &__wrapper {
             max-width: 230px;
             margin: 31px auto;
+            ${media('tablet', 'min')`
+                order: 2;
+                margin: 31px 40px 31px auto;
+            `}
         }
     }
     .calendar-heading {
         &__controller {
             ${p => p.theme.extend.flexCenter}
             margin: 46px 40px 28px 40px;
+            ${media('tablet', 'min')`
+                min-width: 320px;
+            `}
         }
         &__icon {
             background-color: ${p => p.theme.vars.colors.light};
@@ -35,6 +43,9 @@ export default styled.div`
             font-weight: 600;
             &.week {
                 font-size: 14px;
+                ${media('tablet', 'min')`
+                    font-size:18px;
+                `}
             }
             &.month {
                 font-size: 18px;
@@ -49,6 +60,14 @@ export default styled.div`
             text-align: center;
             font-weight: 600;
             font-size: 12px;
+            ${media('tablet', 'min')`
+                   font-size: 14px;
+            `}  
+        }
+        &__top {
+            ${media('tablet', 'min')`
+                display: flex;
+            `}
         }
     }
 `;
