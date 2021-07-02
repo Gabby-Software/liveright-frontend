@@ -51,6 +51,11 @@ const extend = {
         font-weight: 700;
         text-align: center;
     `,
+    subtitle:`
+        color: ${vars.colors.primaryDark};
+        font-size: 16px;
+        font-weight: 600;
+    `,
     profileCard: `
             display: flex;
             &__img {

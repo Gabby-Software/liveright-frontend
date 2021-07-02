@@ -2,6 +2,7 @@ import {lazy} from 'react';
 import {RouteType} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
 import headers from "./header.config";
+import {footerTypes} from "../enums/footer-types";
 
 export const authRoutes: RouteType[] = [
     {
@@ -66,7 +67,8 @@ export const routes: RouteType[] = [
         title: 'Calendar',
         url: '/calendar',
         Component: lazy(() => import('../pages/calendar/calendar.component')),
-        header: {}
+        header: {},
+        footer: footerTypes.NONE
     },
     {
         title: 'Liveright 2',

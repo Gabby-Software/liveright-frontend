@@ -1,4 +1,5 @@
 import {ComponentType, ReactNode, FC} from "react";
+import {footerTypes} from "../enums/footer-types";
 
 export enum HeaderItemTypes {
     ICON, IMAGE, SPACE, SUBMIT
@@ -19,4 +20,5 @@ export type RouteType = {
     Component: ComponentType;
     props?: {[key: string]: any};
     header: HeaderConfigType;
+    footer?: footerTypes;
 }
