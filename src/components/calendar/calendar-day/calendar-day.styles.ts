@@ -20,6 +20,9 @@ export default styled.div`
                    padding: 14px;
                    text-align: center;
             `}  
+            @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
+                border:1px solid ${p =>p.theme.vars.colors.light};
+            }
              &:before {
                     ${p => p.theme.extend.pseudo}
                     ${p => p.theme.extend.absCover}
