@@ -9,6 +9,7 @@ export default styled.div`
     border-top: 1px solid ${p => p.theme.vars.colors.light};
     z-index: ${p =>p.theme.vars.zIndex.footer};
     padding: 10px 27px;
+    background-color: white;
     .calendar-footer {
         &__title {
             font-weight: 600;

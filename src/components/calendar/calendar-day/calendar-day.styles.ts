@@ -36,10 +36,11 @@ export default styled.div`
                     `}
              }
              &.calendar-day {
+             
                 &__disabled {
                     color: ${p =>p.theme.vars.colors.secondary2};
                 }
-                &__selected {
+                &__selected, &:hover {
                     color: white;
                     @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
                         // border-color:${p =>p.theme.vars.colors.primary};
@@ -50,6 +51,30 @@ export default styled.div`
                     &:before {
                         transform: scale(1) rotate(90deg);
                         opacity:1;
+                    }
+                }
+                .calendar-day {
+                    &__icon {
+                        position: absolute;
+                        left:0;
+                        right:0;
+                        margin:auto;
+                        bottom: -6px;
+                        display:block;
+                        height: 11px;
+                        filter: drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+                        ${media('tablet', 'min')`
+                            bottom: auto;
+                            top: 16px;
+                            right:10px;
+                            left:auto;
+                        `}
+                        &__full {
+                            color:${p =>p.theme.vars.colors.success};
+                        }   
+                        &__partial {
+                            color:${p =>p.theme.vars.colors.warning};
+                        }
                     }
                 }
              }
