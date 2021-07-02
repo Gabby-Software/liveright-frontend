@@ -9,6 +9,8 @@ export default styled.div`
             ${media('tablet', 'min')`
                 order: 2;
                 margin: 31px 40px 31px auto;
+                max-width: 320px;
+                width:420px;
             `}
         }
     }
