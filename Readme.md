@@ -57,3 +57,6 @@ Details can be found in wiki:
 * [Available commands](https://github.com/ColorElephantHQ/liveright-frontend/blob/master/src/wiki/cli/available-command.md)
 * [Creating new command](https://github.com/ColorElephantHQ/liveright-frontend/blob/master/src/wiki/cli/create-command.md)
 
+### *Other*
+
+Information about specific features and implementations can be found in [/wiki](https://github.com/ColorElephantHQ/liveright-frontend/blob/master/src/wiki) folder
