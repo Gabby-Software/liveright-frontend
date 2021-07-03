@@ -28,6 +28,7 @@ export default styled.div`
             box-sizing: content-box;
             height: 12px;
             color: black;
+            cursor: pointer;
             transition: ${p =>p.theme.vars.defaults.transition};
             &:first-child {
                 border-radius: ${p => p.theme.vars.sizes.borderRadius} 0 0 ${p => p.theme.vars.sizes.borderRadius}; 
