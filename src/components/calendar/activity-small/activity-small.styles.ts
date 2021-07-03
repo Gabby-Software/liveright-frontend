@@ -13,8 +13,8 @@ export default styled.div`
         margin: 4px 0;
         &:before {
             content: '';
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             margin-right: 8px;
             flex-shrink: 0;
