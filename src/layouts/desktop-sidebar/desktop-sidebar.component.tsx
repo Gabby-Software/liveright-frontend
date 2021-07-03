@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Styles from './desktop-sidebar.styles';
 import {Link, useLocation} from 'react-router-dom';
 import logoSmall from '../../assets/media/icons/logo-small.png';
+import {ReactComponent as LogoSmall} from '../../assets/media/icons/logo-small.svg';
 import {ReactComponent as HomeIcon} from "../../assets/media/icons/home.svg";
 import {ReactComponent as PlanIcon} from "../../assets/media/icons/plan.svg";
 import {ReactComponent as ProgressIcon} from "../../assets/media/icons/progress.svg";
@@ -30,7 +31,7 @@ const DesktopSidebar = () => {
     return (
         <Styles>
             <div className={'sidebar__logo'}>
-                <img src={logoSmall} alt={'liveright'}/>
+                <LogoSmall/>
             </div>
             <nav className={'sidebar__nav'}>
                 <ul className={'sidebar__menu'}>

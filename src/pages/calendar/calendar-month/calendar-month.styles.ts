@@ -7,7 +7,9 @@ export default styled.div`
             ${p => p.theme.extend.flexCenter}
         }
         &__cont {
-            margin: 24px;    
+            margin: 24px;   
+            width: calc(100% - 48px);
+            overflow: auto; 
         }
     }
     

@@ -11,10 +11,11 @@ export default styled.aside`
     .sidebar {
         &__logo {
             ${p => p.theme.extend.flexCenter}
-            padding: 37px 0;
+            padding: 53px 0 37px 0;
             
-            img {
-                height: 75px;
+            svg {
+                height: 52px;
+                width: auto;
                 display: block;
             }
         }

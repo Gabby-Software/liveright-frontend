@@ -26,7 +26,7 @@ const CalendarWeek = () => {
             {
                 forOf(7, (i) => {
                     const d = moment(startDisplay).add(i, 'days');
-                    const isPast = d.isBefore(today);
+                    const isPast = d.isBefore(today,'day');
                     const isSelected = d.isSame(currentDate, 'day');
                     return (
                             <CalendarDay date={d} disabled={isPast} current={isSelected}/>
