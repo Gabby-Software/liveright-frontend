@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './trainer-data.styles';
-import ProfileTitle from "../../../../../components/profile/profile-title/profile-title.component";
-import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
-import ProfileField from "../../../../../components/profile/profile-field/profile-field.component";
-import {date} from "../../../../../pipes/date.pipe";
-import {useTrainer} from "../../../../../hooks/trainer.hook";
+import ProfileTitle from "../../../../../../components/profile/profile-title/profile-title.component";
+import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
+import ProfileField from "../../../../../../components/profile/profile-field/profile-field.component";
+import {date} from "../../../../../../pipes/date.pipe";
+import {useTrainer} from "../../../../../../hooks/trainer.hook";
 
 type dataItemType = {
     name: string;

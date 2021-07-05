@@ -5,9 +5,12 @@ import {excerpt} from "../../../../pipes/excerpt.pipe";
 import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/download.svg";
 import fileManager from "../../../../managers/file.manager";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {FileType} from "../../../../types/file.type";
 
-const ProfileTnb = () => {
-    const {tnb} = useProfile();
+type ProfileTnbPropsType = {
+    tnb: FileType
+}
+const ProfileTnb = ({tnb}:ProfileTnbPropsType) => {
     const {t} = useTranslation();
     return (
         <Styles>

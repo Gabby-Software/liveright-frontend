@@ -10,14 +10,15 @@ import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
 import ProfilePaymentInfo from "./profile-payment-info/profile-payment-info.component";
 import ProfileTnb from "./profile-tnb/profile-tnb.component";
+import {useProfile} from "../../../hooks/profile.hook";
 
 const MobileProfile = () => {
-    const {type} = useAuth();
-    console.log('TYPE', type, userTypes, type === userTypes.TRAINER);
+    const {type, ...auth} = useAuth();
+    const profileData = useProfile();
     return (
         <Styles>
-            <ProfileHeading/>
-            <ProfileData/>
+            <ProfileHeading {...auth} address={profileData.address} editable/>
+            <ProfileData {...profileData} {...auth}/>
             <Hr/>
             <ProfileInfo/>
             {
@@ -26,7 +27,7 @@ const MobileProfile = () => {
                         <Hr/>
                         <ProfilePaymentInfo/>
                         <Hr/>
-                        <ProfileTnb/>
+                        <ProfileTnb tnb={profileData.tnb}/>
                     </>
                 ) : null
             }

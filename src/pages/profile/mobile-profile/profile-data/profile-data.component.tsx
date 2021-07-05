@@ -10,9 +10,13 @@ import {useProfile} from "../../../../hooks/profile.hook";
 import {useAuth} from "../../../../hooks/auth.hook";
 import {date} from "../../../../pipes/date.pipe";
 
-const ProfileData = () => {
-    const { phone_number} = useProfile();
-    const {created_at, birthday, email} = useAuth();
+type ProfileDataPropsType = {
+    phone_number: string;
+    created_at: string;
+    birthday: string | null;
+    email: string;
+}
+const ProfileData = ({phone_number, created_at, birthday, email}: ProfileDataPropsType) => {
     const {t} = useTranslation();
     return (
         <Styles>

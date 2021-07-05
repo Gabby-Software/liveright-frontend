@@ -8,7 +8,7 @@ export default styled.section`
             
         }
         &__data {
-            margin-left: 10px;
+            margin: 0 auto 0 10px;
         }
         &__name {
             font-weight: 500;
@@ -34,7 +34,6 @@ export default styled.section`
         &__edit {
             ${p => p.theme.extend.flexCenter}
             color: ${p => p.theme.vars.colors.primaryDark};
-            margin-left: auto;
             width: 30px;
             height: 30px;
             background-color: ${p => p.theme.vars.colors.card};
