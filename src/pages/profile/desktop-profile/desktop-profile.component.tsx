@@ -13,6 +13,8 @@ import ProfileProvider, {ProfileContext} from "./profile.context";
 import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
 import {useProfile} from "../../../hooks/profile.hook";
 import {useAuth} from "../../../hooks/auth.hook";
+import userTypes from "../../../enums/user-types.enum";
+import ProfileStaffSection from "./sections/profile-staff-section/profile-staff-section.component";
 
 const DesktopProfile = () => {
     const profileData = useProfile();
@@ -50,6 +52,11 @@ const DesktopProfile = () => {
                             )
                         }
                     </Formik>
+                    {
+                        authData.type === userTypes.CLIENT ? null : (
+                            <ProfileStaffSection/>
+                        )
+                    }
                     <ProfileAccountsSection/>
                 </div>
             </Styles>
