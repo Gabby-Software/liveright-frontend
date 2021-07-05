@@ -12,7 +12,7 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormTextarea from "../../../components/forms/form-textarea/form-textarea.component";
 import FormDatepicker from "../../../components/forms/form-datepicker/form-datepicker.component";
-import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
+import {ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_AUTH_REQUEST} from "../../../store/action-types";
 import {Routes} from "../../../enums/routes.enum";
 import FormImageUpload from "../../../components/forms/form-image-upload/form-image-upload.component";
 import {noImage} from "../../../pipes/no-image.pipe";
@@ -36,6 +36,7 @@ const EditProfile = () => {
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         console.log(form);
         dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
+        dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         submitProps.setSubmitting(false);
         setSubmitted(true);
     };
@@ -48,7 +49,11 @@ const EditProfile = () => {
                         first_name: Yup.string().required().name(),
                         last_name: Yup.string().required().name(),
                         email: Yup.string().required().email(),
-                        phone_number: Yup.string().phone()
+                        phone_number: Yup.string().phone(),
+                        payment_info: Yup.object({
+                            account_number: Yup.number(),
+                            name_on_account: Yup.string().name(true)
+                        })
                     })}
             >
                 {() => (
@@ -76,6 +81,17 @@ const EditProfile = () => {
                                     <FormTextarea name={'about'} label={t('profile:about')}/>
                                     <FormTextarea name={'qualifications'} label={t('profile:qualifications')}/>
                                     <FormTextarea name={'additional_information'} label={t('profile:additional-information')}/>
+                                    <Hr/>
+                                </>
+                            )
+                        }
+                        {
+                            authData.type === userTypes.CLIENT? null : (
+                                <>
+                                    <FormInputLabeled name={'payment_info.bank'} label={t('profile:payment-info.bank')}/>
+                                    <FormInputLabeled name={'payment_info.branch_name'} label={t('profile:payment-info.branch-name')}/>
+                                    <FormInputLabeled name={'payment_info.name_on_account'} label={t('profile:payment-info.name-on-account')}/>
+                                    <FormInputLabeled name={'payment_info.account_number'} label={t('profile:payment-info.account-number')}/>
                                 </>
                             )
                         }

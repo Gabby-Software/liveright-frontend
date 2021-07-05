@@ -11,7 +11,6 @@ export const withStorage = (reducer: (state: any, action: ActionType<any>) => {}
         }
     }
     const newState = reducer(state, action);
-    logger.log('ACTION new state', state, newState);
     if (!action.type.startsWith('@@redux'))
         localStorage.setItem(key, JSON.stringify(newState));
     return newState;

@@ -19,8 +19,8 @@ const ProfileInfo = ({name, value, formName}: Prop) => {
                     <FormTextarea name={formName} label={name}/>
                 ) : (
                     <>
-                        <div className={'info__name'}>{name || t('no-data')}</div>
-                        <div className={'info__value'}>{value}</div>
+                        <div className={'info__name'}>{name}</div>
+                        <div className={'info__value'}>{value?.trim() || t('no-data')}</div>
                     </>
                 )
             }

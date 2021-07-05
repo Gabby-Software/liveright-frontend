@@ -10,11 +10,12 @@ import ProfileAccountsSection from "./sections/profile-accounts-section/profile-
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers";
 import ProfileProvider, {ProfileContext} from "./profile.context";
-import {ACTION_UPDATE_ACCOUNT_REQUEST} from "../../../store/action-types";
+import {ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_AUTH_REQUEST} from "../../../store/action-types";
 import {useProfile} from "../../../hooks/profile.hook";
 import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
 import ProfileStaffSection from "./sections/profile-staff-section/profile-staff-section.component";
+import ProfilePaymentInfoSection from "./sections/profile-payment-info-section/profile-payment-info-section.component";
 
 const DesktopProfile = () => {
     const profileData = useProfile();
@@ -24,6 +25,7 @@ const DesktopProfile = () => {
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         console.log('submitted profile' ,form);
         dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
+        dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         setEditMode(false);
         submitProps.setSubmitting(false);
     };
@@ -38,8 +40,11 @@ const DesktopProfile = () => {
                             first_name: Yup.string().required().name(),
                             last_name: Yup.string().required().name(),
                             email: Yup.string().required().email(),
-                            phone_number: Yup.string().required(),
-                            address: Yup.string().required(),
+                            phone_number: Yup.string().phone(),
+                            payment_info: Yup.object({
+                                account_number: Yup.number(),
+                                name_on_account: Yup.string().name(true)
+                            })
                         })}
                     >
                         {
@@ -48,15 +53,15 @@ const DesktopProfile = () => {
                                     <ProfileImageSection/>
                                     <ProfileDataSection/>
                                     <ProfileInfoSection/>
+                                    {
+                                        authData.type === userTypes.CLIENT ? null : (
+                                            <ProfilePaymentInfoSection/>
+                                        )
+                                    }
                                 </Form>
                             )
                         }
                     </Formik>
-                    {
-                        authData.type === userTypes.CLIENT ? null : (
-                            <ProfileStaffSection/>
-                        )
-                    }
                     <ProfileAccountsSection/>
                 </div>
             </Styles>

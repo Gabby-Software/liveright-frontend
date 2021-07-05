@@ -21,7 +21,7 @@ const ProfileInfoSection = () => {
         {name: t('profile:about'), value: about, formName: 'about'},
         {name: t('profile:qualifications'), value: qualifications,formName:'qualifications'},
         {name: t('profile:additional-information'), value: additional_information,formName:'additional_information'},
-    ], [type]);
+    ], [type,dietary_restrictions, injuries, about, qualifications, additional_information]);
     return (
         <Styles>
             <ProfileTitle title={t('profile:user-info')}/>

@@ -8,6 +8,7 @@ import ProfileStaff from "./profile-staff/profile-staff.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
+import ProfilePaymentInfo from "./profile-payment-info/profile-payment-info.component";
 
 const MobileProfile = () => {
     const {type} = useAuth();
@@ -21,7 +22,7 @@ const MobileProfile = () => {
                 type === userTypes.TRAINER ? (
                     <>
                         <Hr/>
-                        <ProfileStaff/>
+                        <ProfilePaymentInfo/>
                     </>
                 ) : null
             }

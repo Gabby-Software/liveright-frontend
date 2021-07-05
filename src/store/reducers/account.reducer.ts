@@ -11,7 +11,13 @@ const initialState: ProfileDataType = {
     custom_url: '',
     about: '',
     qualifications: '',
-    additional_information: ''
+    additional_information: '',
+    payment_info: {
+        bank: '',
+        branch_name:'',
+        account_number: '',
+        name_on_account: ''
+    }
 };
 
 export const accountReducer = withStorage((state = initialState, action: actions.ActionType<any>) => {

@@ -3,7 +3,7 @@ import {
     ACTION_LOGIN_REQUEST,
     ACTION_LOGIN_SUCCESS, ACTION_LOGOUT_REQUEST,
     ACTION_REGISTER_REQUEST,
-    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH_SUCCESS,
+    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH_REQUEST, ACTION_UPDATE_AUTH_SUCCESS,
     ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
 } from "../action-types";
@@ -35,7 +35,7 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_VERIFY_EMAIL_RESEND_REQUEST, verifyEmailResendWorker);
     yield takeLatest(ACTION_RESET_PASSWORD_REQUEST, resetPasswordWorker);
     yield takeLatest(ACTION_LOGOUT_REQUEST, logoutWorker);
-    yield takeLatest(ACTION_UPDATE_AUTH_SUCCESS, updateAuthWorker);
+    yield takeLatest(ACTION_UPDATE_AUTH_REQUEST, updateAuthWorker);
 }
 
 function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {

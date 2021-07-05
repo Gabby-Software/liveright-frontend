@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 
-Yup.addMethod(Yup.string, 'name', function() {
+Yup.addMethod(Yup.string, 'name', function(acceptSpace=false) {
     return this.test({
         name: 'name',
         message: 'invalid-name',
         test: (value) => {
-            return /^[A-Za-z]*$/.test(value || '');
+            return (acceptSpace?/^[A-Za-z\s]*$/ : /^[A-Za-z]*$/).test(value || '');
         }
     });
 });

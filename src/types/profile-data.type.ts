@@ -1,3 +1,5 @@
+import {PaymentInfoType} from "./payment-info.type";
+
 export type ProfileDataType = {
     phone_number: string;
     address:string;
@@ -8,4 +10,5 @@ export type ProfileDataType = {
     about: string;
     qualifications: string;
     additional_information: string;
+    payment_info: PaymentInfoType
 }
