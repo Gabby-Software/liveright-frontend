@@ -95,6 +95,15 @@ export const routes: RouteType[] = [
             title: 'Edit Profile',
             items: headers.confirm
         }
+    },
+    {
+        title: 'Trainer',
+        url: Routes.TRAINER,
+        Component: lazy(() => import('../pages/profile/trainer/trainer.component')),
+        header: {
+            title: 'Trainer',
+            items: headers.default_inside
+        }
     }
 ];
 

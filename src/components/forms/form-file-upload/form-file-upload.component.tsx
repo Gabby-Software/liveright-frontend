@@ -39,7 +39,7 @@ const FormFileUpload = ({name, label, initialFilename, onUpdate}: Props) => {
                         {label?(
                             <div className={'file_input__label'}>{label}</div>
                         ):null}
-                        <div className={'file_input__accept'}>{'upload .txt, .pdf, .doc'}</div>
+                        <div className={'file_input__accept'}>{'Available formats: txt, pdf, doc'}</div>
                         <label className={'file_input__add'}>
                             <AddIcon/>
                             <input type={'file'} accept={'.txt,.pdf,.doc'} style={{display:'none'}}

@@ -22,8 +22,10 @@ type dataItemType = {
     editable: boolean;
     type?: string;
 };
-const ProfileDataSection = ({auth, profileData}: {auth:AccountObjType&AccountType, profileData:ProfileDataType}) => {
+const ProfileDataSection = () => {
     const {editMode, setEditMode} = useContext(ProfileContext);
+    const auth = useAuth();
+    const profileData = useProfile();
     const {t} = useTranslation();
     const dataItems: dataItemType[] = [
         {name: t('profile:first-name'), value: auth.first_name, formName: 'first_name', editable: true},

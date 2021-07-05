@@ -18,7 +18,7 @@ const ProfileTnbSection = ({tnb}:{tnb: FileType}) => {
             <ProfileTitle title={t('profile:tnb')}/>
             {
                 editMode ? (
-                    <FormFileUpload name={'tnb.url'} onUpdate={setTnbFile} initialFilename={`${tnb.name}.${tnb.ext}`}/>
+                    <FormFileUpload name={'tnb.url'} onUpdate={setTnbFile} initialFilename={tnb?.name?`${tnb.name}.${tnb.ext}`:undefined}/>
                 ) : (
                     <div className={'profile-tnb__view'}>
                         {

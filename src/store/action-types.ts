@@ -19,3 +19,5 @@ export const ACTION_GET_ACCOUNT_ERROR = 'action-get-account-error';
 export const ACTION_UPDATE_ACCOUNT_REQUEST = 'action-update-account-request';
 export const ACTION_UPDATE_ACCOUNT_SUCCESS = 'action-update-account-success';
 export const ACTION_UPDATE_ACCOUNT_ERROR = 'action-update-account-error';
+export const ACTION_GET_TRAINER_REQUEST = 'action-get-trainer-request';
+export const ACTION_GET_TRAINER_SUCCESS = 'action-get-trainer-success';

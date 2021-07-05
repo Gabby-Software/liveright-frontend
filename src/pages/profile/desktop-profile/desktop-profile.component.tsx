@@ -60,7 +60,7 @@ const DesktopProfile = () => {
                         () => (
                             <Form>
                                 <ProfileImageSection {...authData}/>
-                                <ProfileDataSection auth={authData} profileData={profileData}/>
+                                <ProfileDataSection/>
                                 <ProfileInfoSection {...profileData} {...authData}/>
                                 {
                                     authData.type === userTypes.CLIENT ? null : (
