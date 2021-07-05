@@ -32,7 +32,7 @@ const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
     const {t} = useTranslation();
-    const {avatar_thumb, first_name, last_name, accounts, uuid} = useAuth();
+    const {avatar_thumb, first_name, last_name, accounts, uuid, type} = useAuth();
     const dispatch = useDispatch();
     const switchAccount = () => {
 
@@ -78,7 +78,7 @@ const DesktopHeader = () => {
                               className={'desktop-header__profile__img'}/>
                 <div className={'desktop-header__profile__info'}>
                     <div className={'desktop-header__profile__name'}>{capitalize(`${first_name} ${last_name}`)}</div>
-                    <div className={'desktop-header__profile__type'}>{capitalize(accounts.find(({uuid: u}) => u === uuid)?.type)}</div>
+                    <div className={'desktop-header__profile__type'}>{capitalize(type)}</div>
                 </div>
             </Dropdown>
         </Styles>

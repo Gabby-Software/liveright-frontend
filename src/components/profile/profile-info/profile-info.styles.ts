@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {media} from "../../../assets/styles/_media";
 
 export default styled.div`
     width: 100%;
@@ -16,5 +17,7 @@ export default styled.div`
             font-size: 1rem;
         }
     }
-    
+    @media all and (max-width: 1250px) {
+        margin: 0 0 40px 0;
+    }
 `;

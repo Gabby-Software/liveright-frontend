@@ -32,7 +32,7 @@ const vars = {
         toast: 49
     },
     media: {
-        desktop: 1100,
+        desktop: 1200,
         tablet: 720,
         mobile: 540
     },

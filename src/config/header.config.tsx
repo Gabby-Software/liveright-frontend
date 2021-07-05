@@ -15,6 +15,12 @@ const headers: {[key: string]: HeaderItemType[]} = {
         {type: HeaderItemTypes.ICON, Icon: CalendarIcon, href: Routes.CALENDAR},
         {type: HeaderItemTypes.ICON, Icon: BellIcon, href: Routes.NOTIFICATIONS},
     ],
+    default_inside: [
+        {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.HOME},
+        {type: HeaderItemTypes.SPACE},
+        {type: HeaderItemTypes.ICON, Icon: CalendarIcon, href: Routes.CALENDAR},
+        {type: HeaderItemTypes.ICON, Icon: BellIcon, href: Routes.NOTIFICATIONS},
+    ],
     profile: [
         {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.HOME},
         {type: HeaderItemTypes.SPACE},

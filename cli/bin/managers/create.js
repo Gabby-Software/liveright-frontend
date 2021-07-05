@@ -8,7 +8,8 @@ const pipeTemplate = name => `export const ${name[0]}${camelCase(name).substring
 const componentJSTemplate = (name) => `import React, {useState, useEffect} from 'react';
 import Styles from './${name}.styles';
 
-const ${camelCase(name)} = () => {
+type Props = {};
+const ${camelCase(name)} = ({props}:Props) => {
     return null;
 };
 

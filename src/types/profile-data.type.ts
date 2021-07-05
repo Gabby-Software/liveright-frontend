@@ -5,4 +5,7 @@ export type ProfileDataType = {
     injuries: string;
     notes:string;
     custom_url:string;
+    about: string;
+    qualifications: string;
+    additional_information: string;
 }

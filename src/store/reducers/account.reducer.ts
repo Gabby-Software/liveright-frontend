@@ -8,7 +8,10 @@ const initialState: ProfileDataType = {
     dietary_restrictions: '',
     injuries: '',
     notes: '',
-    custom_url: ''
+    custom_url: '',
+    about: '',
+    qualifications: '',
+    additional_information: ''
 };
 
 export const accountReducer = withStorage((state = initialState, action: actions.ActionType<any>) => {

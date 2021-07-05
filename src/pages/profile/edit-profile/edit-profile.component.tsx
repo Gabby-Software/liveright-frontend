@@ -21,6 +21,7 @@ import Hr from '../../../components/hr/hr.styles';
 import {useAuth} from "../../../hooks/auth.hook";
 import {useProfile} from "../../../hooks/profile.hook";
 import {AccountObjType} from "../../../types/account.type";
+import userTypes from "../../../enums/user-types.enum";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -64,8 +65,20 @@ const EditProfile = () => {
                         <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
                         <FormInputLabeled name={'address'} label={t('profile:address')}/>
                         <Hr/>
-                        <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
-                        <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
+                        {
+                            authData.type === userTypes.CLIENT? (
+                                <>
+                                <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
+                                <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
+                                </>
+                            ) : (
+                                <>
+                                    <FormTextarea name={'about'} label={t('profile:about')}/>
+                                    <FormTextarea name={'qualifications'} label={t('profile:qualifications')}/>
+                                    <FormTextarea name={'additional_information'} label={t('profile:additional-information')}/>
+                                </>
+                            )
+                        }
                         <Hr className={'edit-profile__hr'}/>
                         <ButtonSubmit id={'form-submit'}>{t('profile:save-changes')}</ButtonSubmit>
                     </Form>

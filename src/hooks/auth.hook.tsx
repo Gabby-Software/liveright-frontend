@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from "react-redux";
 import {RootState} from "../store/reducers";
-import {AccountObjType} from "../types/account.type";
+import {AccountObjType, AccountType} from "../types/account.type";
 
 export const useAuth = () => {
-    return useSelector((state: RootState) => state.auth as AccountObjType);
+    return useSelector((state: RootState) => ({
+        ...state.auth.accounts[0],
+        ...state.auth as AccountObjType,
+    } as (AccountObjType & AccountType)));
 };

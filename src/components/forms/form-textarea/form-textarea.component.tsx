@@ -7,7 +7,7 @@ type Props = {name:string, label: string, onUpdate?:(name:string,value:string)=>
 const FormTextarea = ({name, label, onUpdate}: Props) => {
     const minHeight = 20;
     const maxHeight = 300;
-    const [height, setHeight] = useState(minHeight);
+    const [height, setHeight] = useState(0);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const handleUpdate = (e: ChangeEvent<HTMLTextAreaElement>, form: FormikProps<any>) => {
         form.setFieldValue(name, (e?.target).value);
@@ -31,7 +31,7 @@ const FormTextarea = ({name, label, onUpdate}: Props) => {
                             <div className={'text_input__label'}>{label}</div>
                             <textarea className={'text_input__input'} ref={inputRef}
                                       name={name}
-                                      style={{height: `${height}px`}}
+                                      style={height?{height: `${height}px`}:{}}
                                    value={field.value} onBlur={field.onBlur}
                                    onChange={e => handleUpdate(e, form)}/>
                         </label>

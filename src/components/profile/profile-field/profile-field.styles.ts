@@ -18,4 +18,8 @@ export default styled.div`
             word-break: break-word;
         }
     }
+    
+    @media all and (max-width: 1100px) {
+        width:50%;
+    }
 `;

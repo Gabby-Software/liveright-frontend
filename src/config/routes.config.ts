@@ -61,13 +61,15 @@ export const routes: RouteType[] = [
         url: '/',
         Component: lazy(() => import('../pages/dashboard/dashboard.component')),
         props: {exact: true},
-        header: {}
+        header: {},
     },
     {
         title: 'Calendar',
         url: '/calendar',
         Component: lazy(() => import('../pages/calendar/calendar.component')),
-        header: {},
+        header: {
+            items: headers.default_inside
+        },
         footer: footerTypes.NONE
     },
     {
