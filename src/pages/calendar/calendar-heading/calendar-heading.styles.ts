@@ -8,7 +8,7 @@ export default styled.div`
             margin: 31px auto;
             ${media('tablet', 'min')`
                 order: 2;
-                margin: 31px 40px 31px auto;
+                margin: 31px 20px 31px auto;
                 max-width: 320px;
                 width:420px;
             `}
@@ -71,6 +71,11 @@ export default styled.div`
             ${media('tablet', 'min')`
                 display: flex;
             `}
+        }
+        &__add {
+             order: 3;
+             max-width: 240px;
+             margin: 31px 40px 31px ${p => p.theme.vars.sizes.space};
         }
     }
 `;

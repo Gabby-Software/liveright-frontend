@@ -42,6 +42,7 @@ export default styled.div`
              
                 &__disabled {
                     color: ${p =>p.theme.vars.colors.secondary2};
+                    border:none;
                 }
                 &__selected, &:hover {
                     color: white;

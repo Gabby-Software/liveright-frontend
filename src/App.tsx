@@ -14,6 +14,12 @@ const Styles = styled.div`
     .suspense {
         ${p =>p.theme.extend.layout};
     }
+    .desktop {
+        @media all and (max-width: ${p => p.theme.vars.media.tablet}px) {display: none}    
+    }
+    .mobile {
+        @media all and (min-width: ${p => p.theme.vars.media.tablet+1}px) {display: none}
+    }
 `;
 
 function App() {
