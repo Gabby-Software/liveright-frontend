@@ -9,10 +9,10 @@ import {useProfile} from "../../../../../hooks/profile.hook";
 import {useAuth} from "../../../../../hooks/auth.hook";
 import userTypes from "../../../../../enums/user-types.enum";
 import {OptionType} from "../../../../../types/option.type";
+import {ProfileDataType} from "../../../../../types/profile-data.type";
+import {AccountObjType, AccountType} from "../../../../../types/account.type";
 
-const ProfileInfoSection = () => {
-    const {dietary_restrictions, injuries, about, qualifications, additional_information} = useProfile();
-    const {type} = useAuth();
+const ProfileInfoSection = ({dietary_restrictions, injuries, about, qualifications, additional_information, type}: ProfileDataType&AccountType) => {
     const {t} = useTranslation();
     const items: {name: string, value: string, formName: string}[] = useMemo(() => type === userTypes.CLIENT ? [
         {name: t('profile:dietary-restrictions'), value: dietary_restrictions,formName: 'dietary_restrictions'},

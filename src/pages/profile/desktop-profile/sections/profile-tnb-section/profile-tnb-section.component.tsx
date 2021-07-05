@@ -8,10 +8,10 @@ import {ProfileContext} from "../../profile.context";
 import {excerpt} from "../../../../../pipes/excerpt.pipe";
 import fileManager from "../../../../../managers/file.manager";
 import FormFileUpload from "../../../../../components/forms/form-file-upload/form-file-upload.component";
+import {FileType} from "../../../../../types/file.type";
 
-const ProfileTnbSection = () => {
+const ProfileTnbSection = ({tnb}:{tnb: FileType}) => {
     const {t} = useTranslation();
-    const {tnb} = useProfile();
     const {editMode, setTnbFile} = useContext(ProfileContext);
     return (
         <Styles>

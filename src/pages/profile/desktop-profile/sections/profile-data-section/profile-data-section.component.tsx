@@ -12,6 +12,8 @@ import ButtonCancel from "../../../../../components/forms/button-cancel/button-c
 import {useProfile} from "../../../../../hooks/profile.hook";
 import {useAuth} from "../../../../../hooks/auth.hook";
 import {date} from "../../../../../pipes/date.pipe";
+import {AccountObjType, AccountType} from "../../../../../types/account.type";
+import {ProfileDataType} from "../../../../../types/profile-data.type";
 
 type dataItemType = {
     name: string;
@@ -20,10 +22,8 @@ type dataItemType = {
     editable: boolean;
     type?: string;
 };
-const ProfileDataSection = () => {
-    const profileData = useProfile();
-    const auth = useAuth();
-    const {editMode, setEditMode} = useContext(ProfileContext); 
+const ProfileDataSection = ({auth, profileData}: {auth:AccountObjType&AccountType, profileData:ProfileDataType}) => {
+    const {editMode, setEditMode} = useContext(ProfileContext);
     const {t} = useTranslation();
     const dataItems: dataItemType[] = [
         {name: t('profile:first-name'), value: auth.first_name, formName: 'first_name', editable: true},

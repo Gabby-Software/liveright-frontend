@@ -9,9 +9,13 @@ import FormImageUpload from "../../../../../components/forms/form-image-upload/f
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../../hooks/auth.hook";
 
-const ProfileImageSection = () => {
+type Props = {
+    avatar_thumb:string|null;
+    first_name:string;
+    last_name:string;
+}
+const ProfileImageSection = ({avatar_thumb, first_name, last_name}:Props) => {
     const {editMode, imageFile, setImageFile} = useContext(ProfileContext);
-    const {avatar_thumb, first_name, last_name} = useAuth();
     const {t} = useTranslation();
     return (
         <Styles>

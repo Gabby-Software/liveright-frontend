@@ -20,9 +20,9 @@ const initialState: ProfileDataType = {
         tax_id: ''
     },
     tnb: {
-        name: 'terms-and-conditions',
-        url: 'http://www.africau.edu/images/default/sample.pdf',
-        ext: 'pdf'
+        name: '',
+        url: '',
+        ext: ''
     }
 };
 

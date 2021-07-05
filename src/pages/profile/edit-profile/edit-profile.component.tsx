@@ -37,7 +37,14 @@ const EditProfile = () => {
     if (!isMobile) return <Redirect to={'/profile'}/>;
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         logger.log('SUBMIT EDIT', form);
-        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
+        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                ...form,
+                tnb: {
+                    ...form.tnb,
+                    name: tnb?.name.split('.').slice(0, -1).join('.') || '',
+                    ext: tnb?.name.split('.').pop() || '',
+                }
+            }});
         dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         submitProps.setSubmitting(false);
         setSubmitted(true);

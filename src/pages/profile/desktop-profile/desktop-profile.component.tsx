@@ -23,10 +23,14 @@ const DesktopProfile = () => {
     const profileData = useProfile();
     const authData = useAuth();
     const dispatch = useDispatch();
-    const {setEditMode} = useContext(ProfileContext);
+    const {setEditMode, tnbFile} = useContext(ProfileContext);
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         console.log('submitted profile', form);
-        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
+        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {...form,
+                tnb: {...form.tnb,
+                name: tnbFile?.name.split('.').slice(0,-1).join('.') || '',
+                ext: tnbFile?.name.split('.').pop() || '',
+        }}});
         dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         setEditMode(false);
         submitProps.setSubmitting(false);
@@ -55,14 +59,14 @@ const DesktopProfile = () => {
                     {
                         () => (
                             <Form>
-                                <ProfileImageSection/>
-                                <ProfileDataSection/>
-                                <ProfileInfoSection/>
+                                <ProfileImageSection {...authData}/>
+                                <ProfileDataSection auth={authData} profileData={profileData}/>
+                                <ProfileInfoSection {...profileData} {...authData}/>
                                 {
                                     authData.type === userTypes.CLIENT ? null : (
                                         <>
                                             <ProfilePaymentInfoSection/>
-                                            <ProfileTnbSection/>
+                                            <ProfileTnbSection tnb={profileData.tnb}/>
                                         </>
                                     )
                                 }
