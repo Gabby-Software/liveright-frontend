@@ -17,7 +17,7 @@ const TrainerInfoMobile = () => {
         <Styles>
             <Accordion>
                 {
-                    items.map(({label, value}) => (
+                    items.filter(v => !!v).map(({label, value}) => (
                         <Accordion.Item title={label}>
                             {value || t('no-data')}
                         </Accordion.Item>
