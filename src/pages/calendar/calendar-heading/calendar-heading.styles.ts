@@ -74,8 +74,8 @@ export default styled.div`
         }
         &__add {
              order: 3;
-             max-width: 240px;
-             margin: 31px 40px 31px ${p => p.theme.vars.sizes.space};
+             max-width: 180px;
+             margin: auto 40px auto ${p => p.theme.vars.sizes.space};
         }
     }
 `;
