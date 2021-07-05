@@ -16,6 +16,8 @@ import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
 import ProfileStaffSection from "./sections/profile-staff-section/profile-staff-section.component";
 import ProfilePaymentInfoSection from "./sections/profile-payment-info-section/profile-payment-info-section.component";
+import ProfileTnb from "../mobile-profile/profile-tnb/profile-tnb.component";
+import ProfileTnbSection from "./sections/profile-tnb-section/profile-tnb-section.component";
 
 const DesktopProfile = () => {
     const profileData = useProfile();
@@ -23,51 +25,54 @@ const DesktopProfile = () => {
     const dispatch = useDispatch();
     const {setEditMode} = useContext(ProfileContext);
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
-        console.log('submitted profile' ,form);
+        console.log('submitted profile', form);
         dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
         dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         setEditMode(false);
         submitProps.setSubmitting(false);
     };
     return (
-            <Styles>
-                <div className={'profile__wrapper'}>
-                    <Formik
-                        onSubmit={handleSubmit}
-                        initialValues={{...profileData,...authData}}
-                        validationSchema={Yup.object({
-                            image: Yup.string(),
-                            first_name: Yup.string().required().name(),
-                            last_name: Yup.string().required().name(),
-                            email: Yup.string().required().email(),
-                            phone_number: Yup.string().phone(),
-                            payment_info: Yup.object({
-                                account_number: Yup.string()
-                                    .number().min(6).max(12),
-                                tax_id: Yup.string().number()
-                                    .min(4).max(17),
-                                name_on_account: Yup.string().name(true)
-                            })
-                        })}
-                    >
-                        {
-                            () => (
-                                <Form>
-                                    <ProfileImageSection/>
-                                    <ProfileDataSection/>
-                                    <ProfileInfoSection/>
-                                    {
-                                        authData.type === userTypes.CLIENT ? null : (
+        <Styles>
+            <div className={'profile__wrapper'}>
+                <Formik
+                    onSubmit={handleSubmit}
+                    initialValues={{...profileData, ...authData}}
+                    validationSchema={Yup.object({
+                        image: Yup.string(),
+                        first_name: Yup.string().required().name(),
+                        last_name: Yup.string().required().name(),
+                        email: Yup.string().required().email(),
+                        phone_number: Yup.string().phone(),
+                        payment_info: Yup.object({
+                            account_number: Yup.string()
+                                .number().min(6).max(12),
+                            tax_id: Yup.string().number()
+                                .min(4).max(17),
+                            name_on_account: Yup.string().name(true)
+                        })
+                    })}
+                >
+                    {
+                        () => (
+                            <Form>
+                                <ProfileImageSection/>
+                                <ProfileDataSection/>
+                                <ProfileInfoSection/>
+                                {
+                                    authData.type === userTypes.CLIENT ? null : (
+                                        <>
                                             <ProfilePaymentInfoSection/>
-                                        )
-                                    }
-                                </Form>
-                            )
-                        }
-                    </Formik>
-                    <ProfileAccountsSection/>
-                </div>
-            </Styles>
+                                            <ProfileTnbSection/>
+                                        </>
+                                    )
+                                }
+                            </Form>
+                        )
+                    }
+                </Formik>
+                <ProfileAccountsSection/>
+            </div>
+        </Styles>
     );
 };
 

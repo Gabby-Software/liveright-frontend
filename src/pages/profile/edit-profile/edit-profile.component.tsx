@@ -22,19 +22,21 @@ import {useAuth} from "../../../hooks/auth.hook";
 import {useProfile} from "../../../hooks/profile.hook";
 import {AccountObjType} from "../../../types/account.type";
 import userTypes from "../../../enums/user-types.enum";
+import logger from "../../../managers/logger.manager";
+import FormFileUpload from "../../../components/forms/form-file-upload/form-file-upload.component";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
     const {t} = useTranslation();
     const [submitted, setSubmitted] = useState(false);
     const [file,setFile] = useState<File|null>(null);
+    const [tnb, setTnb] = useState<File|null>(null);
     const profileData = useProfile();
     const authData = useAuth();
-    const {first_name, last_name} = useAuth();
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
     const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
-        console.log(form);
+        logger.log('SUBMIT EDIT', form);
         dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: form});
         dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
         submitProps.setSubmitting(false);
@@ -64,7 +66,7 @@ const EditProfile = () => {
                         <FormImageUpload name={'image'} label={'Change Profile Photo'}
                                          aspectRatio={1}
                                          onUpdate={({file}) => setFile(file)}>
-                            {({url}) => (<ProfileImage url={url} placeholder={noImage(first_name, last_name)}/>)}
+                            {({url}) => (<ProfileImage url={url} placeholder={noImage(authData.first_name, authData.last_name)}/>)}
                         </FormImageUpload>
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>
@@ -96,6 +98,9 @@ const EditProfile = () => {
                                     <FormInputLabeled name={'payment_info.name_on_account'} label={t('profile:payment-info.name-on-account')}/>
                                     <FormInputLabeled name={'payment_info.account_number'} label={t('profile:payment-info.account-number')}/>
                                     <FormInputLabeled name={'payment_info.tax_id'} label={t('profile:payment-info.tax-id')}/>
+                                    <Hr/>
+                                    <FormFileUpload name={'tnb.url'} onUpdate={setTnb} label={t('profile:tnb')}
+                                                    initialFilename={`${profileData.tnb?.name}.${profileData?.tnb.ext}`}/>
                                 </>
                             )
                         }

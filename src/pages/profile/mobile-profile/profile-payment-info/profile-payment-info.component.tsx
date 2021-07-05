@@ -23,7 +23,7 @@ const ProfilePaymentInfo = () => {
             <Card className={'payment-data__items'}>
                 {
                     items.map(({label,value}) => value?(
-                        <div className={'payment-data__item'}>{label} {value}</div>
+                        <div className={'payment-data__item'}>{label} {value || t('no-data')}</div>
                     ):null)
                 }
             </Card>

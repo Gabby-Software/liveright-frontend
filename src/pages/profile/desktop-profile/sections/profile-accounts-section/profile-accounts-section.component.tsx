@@ -4,7 +4,6 @@ import ProfileTitle from "../../../../../components/profile/profile-title/profil
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import profilePlaceholder from '../../../../../assets/media/profile-placeholder.png';
 import ProfileAccount from "../../../../../components/profile/profile-account/profile-account.component";
-import {ReactComponent as AddIcon} from "../../../../../assets/media/icons/add.svg";
 import SwitchAccountModal from "../../../../../components/switch-account-modal/switch-account-modal.component";
 import AccountActions from "../../../../../enums/account-actions.enum";
 

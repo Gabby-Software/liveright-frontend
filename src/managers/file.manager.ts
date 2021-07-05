@@ -27,7 +27,7 @@ class FileManager {
             });
         });
     }
-    public readAsImage(file: File): Promise<string> {
+    public readAsUrl(file: File): Promise<string> {
         return new Promise((resolve, reject) =>{
             const reader =  new FileReader();
             reader.onload = () => {
@@ -38,7 +38,7 @@ class FileManager {
     }
     public resize(file: File, maxWidth: number): Promise<[string, File]> {
         return new Promise((res, rej) =>{
-            this.readAsImage(file).then(url => {
+            this.readAsUrl(file).then(url => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 this.urlToImage(url)
@@ -56,7 +56,7 @@ class FileManager {
     }
     public aspectRatio(file: File, ratio: number): Promise<[string, File]> {
         return new Promise(res => {
-            this.readAsImage(file).then(url => {
+            this.readAsUrl(file).then(url => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 this.urlToImage(url)
@@ -78,9 +78,13 @@ class FileManager {
         });
     }
     download(blob: Blob|File, filename: string = 'image.jpg') {
-        const a = document.createElement('a');
         const url = URL.createObjectURL(blob);
+        this.downloadUrl(url, filename)
+    }
+    downloadUrl(url: string, filename: string = 'file.txt') {
+        const a = document.createElement('a');
         a.setAttribute('href', url);
+        a.setAttribute('target', '_blank');
         a.setAttribute('download', filename);
         document.body.appendChild(a);
         a.click();

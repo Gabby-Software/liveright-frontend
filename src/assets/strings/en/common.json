@@ -11,6 +11,8 @@
   "next": "Next",
   "finish": "Finish",
   "skip": "Skip",
+  "delete": "Delete",
+  "remove": "Remove",
   "no-data": "No data yet",
   "menu": {
     "home": "Home",

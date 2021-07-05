@@ -10,9 +10,8 @@ import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../../hooks/auth.hook";
 
 const ProfileImageSection = () => {
-    const {editMode} = useContext(ProfileContext);
+    const {editMode, imageFile, setImageFile} = useContext(ProfileContext);
     const {avatar_thumb, first_name, last_name} = useAuth();
-    const [file, setFile] = useState<File|null>(null);
     const {t} = useTranslation();
     return (
         <Styles>
@@ -21,7 +20,7 @@ const ProfileImageSection = () => {
                     <FormImageUpload name={'image'}
                                      label={'Change Profile Photo'}
                                      aspectRatio={1}
-                                     onUpdate={({file}) => setFile(file)}>
+                                     onUpdate={({file}) => setImageFile(file)}>
                         {
                             ({url}) => (<ProfileImage url={url} placeholder={noImage(first_name, last_name)}/>)
                         }

@@ -18,6 +18,11 @@ const initialState: ProfileDataType = {
         account_number: '',
         name_on_account: '',
         tax_id: ''
+    },
+    tnb: {
+        name: 'terms-and-conditions',
+        url: 'http://www.africau.edu/images/default/sample.pdf',
+        ext: 'pdf'
     }
 };
 
