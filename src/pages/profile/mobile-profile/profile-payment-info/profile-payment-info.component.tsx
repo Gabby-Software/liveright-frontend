@@ -16,6 +16,7 @@ const ProfilePaymentInfo = () => {
         {label: t('profile:payment-info.branch-name'), value: payment_info.branch_name},
         {label: t('profile:payment-info.name-on-account'), value: payment_info.name_on_account},
         {label: t('profile:payment-info.account-number'), value: payment_info.account_number},
+        {label: t('profile:payment-info.tax-id'), value: payment_info.tax_id},
     ];
     return (
         <Styles>

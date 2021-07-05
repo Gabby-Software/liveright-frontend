@@ -10,5 +10,5 @@ export type ProfileDataType = {
     about: string;
     qualifications: string;
     additional_information: string;
-    payment_info: PaymentInfoType
+    payment_info: PaymentInfoType;
 }

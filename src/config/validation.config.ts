@@ -27,12 +27,22 @@ Yup.addMethod(Yup.string, 'phone', function() {
         }
     });
 });
+Yup.addMethod(Yup.string, 'number', function() {
+    return this.test({
+        name: 'number',
+        message: 'must-be-number',
+        test: (value) => {
+            return /^\d*$/.test(value||'');
+        }
+    });
+});
+
 Yup.setLocale({
     // use constant translation keys for messages without values
     mixed: {
         required: 'required-field',
         default: 'invalid-input',
-        equals: 'passwords-not-match'
+        equals: 'passwords-not-match',
     },
     // use functions to generate an error object that includes the value from the schema
     number: {

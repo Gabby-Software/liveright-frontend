@@ -42,7 +42,10 @@ const DesktopProfile = () => {
                             email: Yup.string().required().email(),
                             phone_number: Yup.string().phone(),
                             payment_info: Yup.object({
-                                account_number: Yup.number(),
+                                account_number: Yup.string()
+                                    .number().min(6).max(12),
+                                tax_id: Yup.string().number()
+                                    .min(4).max(17),
                                 name_on_account: Yup.string().name(true)
                             })
                         })}

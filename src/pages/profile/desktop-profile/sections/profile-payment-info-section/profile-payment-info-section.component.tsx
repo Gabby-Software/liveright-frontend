@@ -16,6 +16,7 @@ const ProfilePaymentInfoSection = () => {
                 <ProfileField name={t('profile:payment-info.branch-name')} value={payment_info.branch_name} formName={'payment_info.branch_name'}/>
                 <ProfileField name={t('profile:payment-info.name-on-account')} value={payment_info.name_on_account} formName={'payment_info.name_on_account'}/>
                 <ProfileField name={t('profile:payment-info.account-number')} value={payment_info.account_number} formName={'payment_info.account_number'}/>
+                <ProfileField name={t('profile:payment-info.tax-id')} value={payment_info.tax_id} formName={'payment_info.tax_id'}/>
             </div>
         </Styles>
     )

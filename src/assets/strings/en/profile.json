@@ -29,6 +29,7 @@
     "bank": "Bank",
     "account-number": "Account Number",
     "branch-name": "Branch Name",
-    "name-on-account": "Name on account"
+    "name-on-account": "Name on account",
+    "tax-id": "Tax ID"
   }
 }

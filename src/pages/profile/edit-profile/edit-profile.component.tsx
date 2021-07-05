@@ -51,7 +51,10 @@ const EditProfile = () => {
                         email: Yup.string().required().email(),
                         phone_number: Yup.string().phone(),
                         payment_info: Yup.object({
-                            account_number: Yup.number(),
+                            account_number: Yup.string()
+                                .number().min(6).max(12),
+                            tax_id: Yup.string()
+                                .number().min(4).max(17),
                             name_on_account: Yup.string().name(true)
                         })
                     })}
@@ -92,6 +95,7 @@ const EditProfile = () => {
                                     <FormInputLabeled name={'payment_info.branch_name'} label={t('profile:payment-info.branch-name')}/>
                                     <FormInputLabeled name={'payment_info.name_on_account'} label={t('profile:payment-info.name-on-account')}/>
                                     <FormInputLabeled name={'payment_info.account_number'} label={t('profile:payment-info.account-number')}/>
+                                    <FormInputLabeled name={'payment_info.tax_id'} label={t('profile:payment-info.tax-id')}/>
                                 </>
                             )
                         }

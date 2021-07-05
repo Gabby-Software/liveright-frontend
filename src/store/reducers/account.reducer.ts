@@ -16,7 +16,8 @@ const initialState: ProfileDataType = {
         bank: '',
         branch_name:'',
         account_number: '',
-        name_on_account: ''
+        name_on_account: '',
+        tax_id: ''
     }
 };
 
