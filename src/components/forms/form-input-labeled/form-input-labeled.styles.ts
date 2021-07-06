@@ -7,6 +7,18 @@ export default styled.div`
         position: relative;
         display: block;
     }
+    &__content {
+        position: relative;
+        svg {
+            height: 14px;
+            display: block;
+            position: absolute;
+            top:0;
+            bottom:0;
+            right: 16px;
+            margin: auto;
+        }
+    }
     &__label {
         color: ${p => p.theme.vars.colors.primaryDark};
         transition: ${p => p.theme.vars.defaults.transition};
@@ -28,12 +40,26 @@ export default styled.div`
         &:focus {
             border-color: black;
         }
-    }
+    }    
 }
-&.text_input__error {
-    .text_input {
-        &__input {
-            border-color: ${p => p.theme.vars.colors.error};
+
+&.text_input{
+    &__error {
+        .text_input {
+            &__input {
+                border-color: ${p => p.theme.vars.colors.error};
+                padding-right: 40px;
+            }
+        }
+        svg {
+            color: ${p => p.theme.vars.colors.error};
+        }
+    }
+    &__icon {
+        .text_input {
+            &__input {
+                padding-right: 40px;
+            }
         }
     }
 }
