@@ -58,6 +58,10 @@ width: 100%;
     outline: none;
     width: 100%;
     box-sizing: border-box;
+    svg {
+        transform-origin: center center;
+        transition: ${p => p.theme.vars.defaults.transition};
+    }
     &-selector {
         border: none !important;
         background: none !important;
@@ -66,6 +70,12 @@ width: 100%;
     }
     &-selection-item {
         text-align: left;
+        
+    }
+    &-open {
+        svg {
+            transform: rotate(180deg);
+        }
     }
 }
 

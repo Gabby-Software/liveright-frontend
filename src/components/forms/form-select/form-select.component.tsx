@@ -4,6 +4,7 @@ import {Field, FieldProps, FormikProps} from 'formik';
 import {OptionType} from "../../../types/option.type";
 import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import SmallModal from "../../small-modal/small-modal.component";
+import {ReactComponent as DownArrow} from "../../../assets/media/icons/down-arrow.svg";
 import {Select} from "antd";
 import FormError from "../form-error/form-error.component";
 
@@ -44,6 +45,7 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                                 <div className={'select_input__label'}>{label}</div>
                                 <Select
                                     showSearch
+                                    suffixIcon={<DownArrow/>}
                                     optionFilterProp="children"
                                     filterOption={(input, option) =>
                                         option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -52,6 +54,9 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                                         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                     }
                                     value={field.value}
+                                    onChange={value => form.setFieldValue(name, value)}
+                                    id={name}
+                                    onBlur={form.handleBlur}
                                 >
                                     {
                                         options.map(({label}) => (

@@ -6,9 +6,29 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .ant-tooltip-inner {
   font-family: 'Work Sans', sans-serif;
+}
+.ant-select-item-option-content {
+  padding: 8px 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.ant-select-item-option {
+  margin: 4px 8px;
+  border-radius: 6px;
+}
+.ant-select-item-option-selected, .ant-select-item-option-active {
+  background-color: #F9F9F9 !important;
+}
+.rc-virtual-list-scrollbar {
+  background-color: #DFDFE1 !important;
+  border-radius: 4px !important;
+  margin-right: 4px;
+}
+.rc-virtual-list-scrollbar-thumb {
+  border-radius: 4px !important;
+  background-color: #EE223B !important;
 }
