@@ -3,7 +3,7 @@
   "required-field": "This field is required",
   "field-too-short": "Use at least {{min}} chars",
   "field-too-long": "Use at most {{max}} chars",
-  "invalid-email": "Invalid email",
+  "invalid-email": "Invalid email format",
   "low-value": "Min is {{min}}",
   "high-value": "Max is {{max}}",
   "invalid-name": "Only english characters allowed",

@@ -58,7 +58,7 @@ const Login = () => {
                         validationSchema={Yup.object({
                             type: Yup.string().required(),
                             email: Yup.string().required().email(),
-                            password: Yup.string().required()
+                            password: Yup.string().required().password()
                         })}
                 >
                     {() => (

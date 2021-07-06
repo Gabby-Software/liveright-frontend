@@ -14,6 +14,7 @@ const vars = {
         labelLight: '#72727a',
         inputBorder: '#dfdfdf',
         background: '#fafafa',
+        error: '#F74057',
         success: '#56EC53',
         successDark: '#43b840',
         info: '#2F86EC',

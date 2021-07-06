@@ -30,4 +30,11 @@ export default styled.div`
         }
     }
 }
+&.text_input__error {
+    .text_input {
+        &__input {
+            border-color: ${p => p.theme.vars.colors.error};
+        }
+    }
+}
 `;
