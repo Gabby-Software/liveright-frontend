@@ -8,7 +8,7 @@
   "high-value": "Max is {{max}}",
   "invalid-name": "Only english characters allowed",
   "passwords-not-match": "Passwords not match",
-  "invalid-password": "Password must contain at lease one letter and one digit",
+  "invalid-password": "Password must contain at least one letter and one digit",
   "invalid-phone": "Invalid phone number",
   "network-error": "Something went's wrong! please try again later.",
   "must-be-number": "Must be a number"

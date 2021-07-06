@@ -10,13 +10,20 @@ export default styled.div`
     &__content {
         position: relative;
         svg {
-            height: 14px;
             display: block;
             position: absolute;
             top:0;
             bottom:0;
             right: 16px;
             margin: auto;
+            &:not(.text_input__error) {
+                width: 18px;
+                cursor: pointer;
+                z-index:2;
+                &:active+svg {
+                    display: none;
+                }
+            }
         }
     }
     &__label {
@@ -39,6 +46,12 @@ export default styled.div`
         box-sizing: border-box;
         &:focus {
             border-color: black;
+            &+svg+svg.text_input__error {
+                display: none;
+            }
+            &~svg:not(.text_input__error) {
+                display:block;
+            }
         }
     }    
 }
@@ -49,6 +62,9 @@ export default styled.div`
             &__input {
                 border-color: ${p => p.theme.vars.colors.error};
                 padding-right: 40px;
+                &:not(:focus)+svg {
+                    opacity:0;
+                }
             }
         }
         svg {

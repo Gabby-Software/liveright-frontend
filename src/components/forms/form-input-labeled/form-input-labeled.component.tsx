@@ -32,12 +32,12 @@ const FormInputLabeled = ({name, label, type, onUpdate, icon}: Props) => {
                                            form.setFieldValue(name, e.target.value);
                                            onUpdate && onUpdate(name, e.target.value);
                                        }}/>
-                            {
-                                form.errors[name] && form.touched[name] ? (
-                                    <WarningIcon/>
-                                ) : null
-                            }
                             {icon || null}
+                                {
+                                    form.errors[name] && form.touched[name] ? (
+                                        <WarningIcon className={'text_input__error'}/>
+                                    ) : null
+                                }
                             </div>
                         </label>
                         <FormError name={name}/>

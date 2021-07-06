@@ -21,6 +21,7 @@ import logger from "../../../managers/logger.manager";
 import FormRadio from "../../../components/forms/form-radio-button/form-radio-button.component";
 import {genderTypes} from "../../../enums/gender-types";
 import {onlyGuest} from "../../../guards/guest.guard";
+import FormPassword from "../../../components/forms/form-password/form-password.component";
 
 type LoginDataType = {
     type: string;
@@ -87,7 +88,8 @@ const SignUp = () => {
                                 </div>
                                 <FormRadio name={'gender'} label={'What\'s your gender?'} options={genderOptions}/>
                                 <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
-                                <FormInputLabeled type={'password'} name={'password'} label={'Create a password'} onUpdate={update}/>
+                                <FormPassword name={'password'} label={'Create a password'} onUpdate={update}/>
+                                {/*<FormInputLabeled type={'password'} name={'password'} label={'Create a password'} onUpdate={update}/>*/}
                                 <ButtonSubmit >{t('auth:sign-up')}</ButtonSubmit>
                             </Form>
                         )}

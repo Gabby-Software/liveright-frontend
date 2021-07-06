@@ -21,6 +21,7 @@ import {useDispatch} from "react-redux";
 import logger from "../../../managers/logger.manager";
 import {ACTION_LOGIN_REQUEST} from "../../../store/action-types";
 import {onlyGuest} from "../../../guards/guest.guard";
+import FormPassword from "../../../components/forms/form-password/form-password.component";
 
 type LoginDataType = {
     type: string;
@@ -58,14 +59,15 @@ const Login = () => {
                         validationSchema={Yup.object({
                             type: Yup.string().required(),
                             email: Yup.string().required().email(),
-                            password: Yup.string().required().password()
+                            password: Yup.string().required().min(8).password()
                         })}
                 >
                     {() => (
                         <Form>
                             <FormSwitch name={'type'} options={userTypeOptions} onUpdate={update}/>
                             <FormInputLabeled name={'email'} label={'Email'} onUpdate={update}/>
-                            <FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>
+                            <FormPassword name={'password'} label={'Password'} onUpdate={update}/>
+                            {/*<FormInputLabeled type={'password'} name={'password'} label={'Password'} onUpdate={update}/>*/}
                             <ForgetPassword className={'desktop'} to={'/forgot-password'}>{t('auth:forgot-password')}</ForgetPassword>
                             <ButtonSubmit>{t('auth:sign-in')}</ButtonSubmit>
                         </Form>

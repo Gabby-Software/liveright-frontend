@@ -10,6 +10,7 @@ import {AuthFormContext} from "../../../modules/auth/auth.context";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import {Redirect} from "react-router";
 import {onlyGuest} from "../../../guards/guest.guard";
+import FormPassword from "../../../components/forms/form-password/form-password.component";
 
 type PasswordType = {
     new_password: string;
@@ -42,8 +43,10 @@ const ResetPassword = () => {
                 >
                     {(form: FormikProps<PasswordType>) => (
                         <Form>
-                            <FormInputLabeled type={'password'} name={'new_password'} label={t('auth:new-password')}/>
-                            <FormInputLabeled type={'password'} name={'confirm_new_password'} label={t('auth:confirm-password')}/>
+                            <FormPassword name={'new_password'} label={t('auth:new-password')}/>
+                            <FormPassword name={'confirm_new_password'} label={t('auth:confirm-password')}/>
+                            {/*<FormInputLabeled type={'password'} name={'new_password'} label={t('auth:new-password')}/>*/}
+                            {/*<FormInputLabeled type={'password'} name={'confirm_new_password'} label={t('auth:confirm-password')}/>*/}
                             <ButtonSubmit {...form}>{t('auth:change-password')}</ButtonSubmit>
                         </Form>
                     )}
