@@ -9,6 +9,8 @@
   "email": "Email",
   "phone": "Phone Number",
   "address": "Address",
+  "city": "City",
+  "country": "Country",
   "born": "Born",
   "joined": "Joined",
   "gender": "Gender",
