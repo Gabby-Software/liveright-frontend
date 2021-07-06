@@ -6,6 +6,7 @@ import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
 import {Routes} from "../enums/routes.enum";
 import {FormikHelpers} from "formik";
+import {serverError} from "../pipes/server-error.pipe";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -63,6 +64,8 @@ export const handleError = (formHelper:FormikHelpers<any>) => (e: any) => {
         for (const [name, [message]] of Object.entries<string[]>(e.response.data.errors)) {
             formHelper.setFieldError(name, message);
         }
+    } else {
+        toast.show({type: 'error', msg: serverError(e)})
     }
     formHelper.setSubmitting(false)
 };

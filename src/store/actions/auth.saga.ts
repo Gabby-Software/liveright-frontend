@@ -48,7 +48,6 @@ function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<v
         toast.show({type: 'success', msg: i18n.t('alerts:register-success')});
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
-        toast.show({type: 'error', msg: serverError(e)});
         payload.onError && payload.onError(e);
     }
 }
@@ -65,7 +64,6 @@ function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>)
         yield put({type: ACTION_LOGIN_SUCCESS, payload: res});
         toast.show({type: 'success', msg: i18n.t('alerts:login-success')});
     } catch(e) {
-        toast.show({type: 'error', msg: serverError(e)});
         payload.onError && payload.onError(e);
     }
     payload.onSuccess && payload.onSuccess();
