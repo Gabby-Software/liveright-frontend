@@ -1,4 +1,5 @@
 const {logger} = require('../logger');
+const {exec} = require('child_process');
 const TRANSLATION_PATH = './src/assets/strings';
 const languages = ['en', 'es'];
 function add(file) {
@@ -10,5 +11,6 @@ function add(file) {
         fs.writeFileSync(`${TRANSLATION_PATH}/${lang}/index.ts`, exports.replace(/(export.*)};.*$/s, `import {default as ${file}} from './${file}.json';\n$1,${file}};`));
         logger.success(`translation file ${file} setup`);
     });
+    exec(`git add .`);
 }
 module.exports.add = add;

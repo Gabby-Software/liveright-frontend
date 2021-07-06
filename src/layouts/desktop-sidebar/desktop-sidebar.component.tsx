@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './desktop-sidebar.styles';
 import {Link, useLocation} from 'react-router-dom';
-import logoSmall from '../../assets/media/icons/logo-small.png';
 import {ReactComponent as LogoSmall} from '../../assets/media/icons/logo-small.svg';
 import {ReactComponent as HomeIcon} from "../../assets/media/icons/home.svg";
 import {ReactComponent as PlanIcon} from "../../assets/media/icons/plan.svg";
@@ -9,6 +8,7 @@ import {ReactComponent as ProgressIcon} from "../../assets/media/icons/progress.
 import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.svg";
 import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.svg";
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
+import {ReactComponent as RightArrowIcon} from "../../assets/media/icons/right-arrow.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
 
@@ -28,8 +28,9 @@ const menuItems: MenuItemType[] = [
 const DesktopSidebar = () => {
     const {t} = useTranslation();
     const {pathname} = useLocation();
+    const [isOpen, setIsOpen] = useState(true);
     return (
-        <Styles>
+        <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
             <div className={'sidebar__logo'}>
                 <LogoSmall/>
             </div>
@@ -46,6 +47,7 @@ const DesktopSidebar = () => {
                         ))
                     }
                 </ul>
+                <RightArrowIcon className={'sidebar__collapse'} onClick={() => setIsOpen(!isOpen)}/>
             </nav>
         </Styles>
     );

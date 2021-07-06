@@ -63,10 +63,11 @@ function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>)
         localStorage.setItem('uuid', res.uuid);
         yield put({type: ACTION_LOGIN_SUCCESS, payload: res});
         toast.show({type: 'success', msg: i18n.t('alerts:login-success')});
+        payload.onSuccess && payload.onSuccess();
     } catch(e) {
         payload.onError && payload.onError(e);
     }
-    payload.onSuccess && payload.onSuccess();
+
 }
 function callLogin(data: AuthLoginType): Promise<string> {
     return api.post(EP_LOGIN, data).then(res => res.data.data);

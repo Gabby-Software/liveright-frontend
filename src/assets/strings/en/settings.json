@@ -1,0 +1,21 @@
+{
+  "general": "General",
+  "notifications": {
+    "title": "Notifications",
+    "email": "Email Notifications",
+    "in-app": "In app notifications"
+  },
+  "change-password": {
+    "title": "Change Password"
+  },
+  "change-email": {
+    "title": "Change Email",
+    "old-email": "Old email",
+    "new-email": "New email"
+  },
+  "language-settings": {
+    "title": "Language Settings",
+    "selected-language": "Selected Language"
+  }
+
+}
