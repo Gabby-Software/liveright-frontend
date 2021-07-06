@@ -12,20 +12,22 @@ type ProfileHeadingProps = {
     avatar_thumb: null|string;
     first_name: string;
     last_name: string;
+    city: string;
+    country: string;
     address: string;
     editable?: boolean;
 }
-const ProfileHeading = ({avatar_thumb, first_name, last_name, address, editable}:ProfileHeadingProps) => {
+const ProfileHeading = ({avatar_thumb, first_name, last_name, address, editable, city, country}:ProfileHeadingProps) => {
     return (
         <Styles>
             <ProfileImage url={avatar_thumb} placeholder={noImage(first_name, last_name)}/>
             <div className={'profile-heading__data'}>
                 <div className={'profile-heading__name'}>{first_name} {last_name}</div>
                 {
-                    address ? (
+                    city || country ? (
                         <div className={'profile-heading__address'}>
                             <LocationIcon/>
-                            <span>{excerpt(address, 23)}</span>
+                            <span>{excerpt(city && country?`${city}, ${country}`: city||country, 23)}</span>
                         </div>
                     ): null
                 }

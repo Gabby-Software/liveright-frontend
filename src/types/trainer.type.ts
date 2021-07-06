@@ -3,6 +3,8 @@ import {FileType} from "./file.type";
 export type TrainerType = {
     phone_number: string;
     address: string;
+    city: string;
+    country: string;
     about: string;
     qualifications: string;
     additional_information: string;

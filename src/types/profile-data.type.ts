@@ -3,6 +3,8 @@ import {FileType} from "./file.type";
 
 export type ProfileDataType = {
     phone_number: string;
+    city: string;
+    country: string;
     address:string;
     dietary_restrictions: string;
     injuries: string;

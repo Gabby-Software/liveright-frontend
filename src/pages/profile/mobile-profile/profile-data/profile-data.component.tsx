@@ -2,12 +2,9 @@ import React, {useState, useEffect} from 'react';
 import Styles from './profile-data.styles';
 import {ReactComponent as EmailIcon} from "../../../../assets/media/icons/email.svg";
 import {ReactComponent as PhoneIcon} from "../../../../assets/media/icons/phone.svg";
+import {ReactComponent as LocationIcon} from "../../../../assets/media/icons/location.svg";
 import Card from "../../../../components/card/card.style";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../store/reducers";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {useProfile} from "../../../../hooks/profile.hook";
-import {useAuth} from "../../../../hooks/auth.hook";
 import {date} from "../../../../pipes/date.pipe";
 
 type ProfileDataPropsType = {
@@ -15,8 +12,9 @@ type ProfileDataPropsType = {
     created_at: string;
     birthday: string | null;
     email: string;
+    address: string;
 }
-const ProfileData = ({phone_number, created_at, birthday, email}: ProfileDataPropsType) => {
+const ProfileData = ({phone_number, created_at, birthday, email, address}: ProfileDataPropsType) => {
     const {t} = useTranslation();
     return (
         <Styles>
@@ -31,6 +29,10 @@ const ProfileData = ({phone_number, created_at, birthday, email}: ProfileDataPro
             <Card className={'profile-data__value'}>
                 <PhoneIcon/>
                 <span>{phone_number}</span>
+            </Card>
+            <Card className={'profile-data__value'}>
+                <LocationIcon/>
+                <span>{address}</span>
             </Card>
         </Styles>
     );

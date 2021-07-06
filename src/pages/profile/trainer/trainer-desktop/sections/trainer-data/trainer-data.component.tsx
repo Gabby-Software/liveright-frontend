@@ -17,10 +17,12 @@ const TrainerData = () => {
         {name: t('profile:first-name'), value: trainer.first_name},
         {name: t('profile:last-name'), value: trainer.last_name},
         {name: t('profile:birth-date'), value: date(trainer.birthday)},
+        {name: t('profile:join-date'), value: date(trainer.created_at)},
         {name: t('profile:email'), value: trainer.email},
         {name: t('profile:phone'), value: trainer.phone_number},
+        {name: t('profile:city'), value: trainer.city},
+        {name: t('profile:country'), value: trainer.country},
         {name: t('profile:address'), value: trainer.address},
-        {name: t('profile:join-date'), value: date(trainer.created_at)},
         {name: t('profile:gender'), value: trainer.gender || ''},
     ];
     return (

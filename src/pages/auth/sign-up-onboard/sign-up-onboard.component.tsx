@@ -28,6 +28,8 @@ const initialState: AuthOnboardType = {
     phone_number: '',
     birthday: '',
     address: '',
+    city: '',
+    country: '',
     dietary_restrictions: '',
     injuries: ''
 };

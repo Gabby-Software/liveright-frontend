@@ -7,6 +7,7 @@ import FormDatepicker from "../../forms/form-datepicker/form-datepicker.componen
 import FormRadio from "../../forms/form-radio-button/form-radio-button.component";
 import {capitalize} from "../../../pipes/capitalize.pipe";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
+import FormCountrySelect from "../../forms/form-country-select/form-country-select.component";
 
 type Props = {
     name: string;
@@ -27,7 +28,9 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                                 {value: 'male',   label:'Male'},
                                 {value: 'female', label:'Female'},
                             ]}/>
-                        : <FormInputLabeled name={formName} label={name}/>
+                        : type === 'country'? (
+                            <FormCountrySelect/>
+                            ):<FormInputLabeled name={formName} label={name}/>
                 ) : (
                     <>
                         <div className={'field__name'}>{name}</div>

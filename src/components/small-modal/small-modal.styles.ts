@@ -31,6 +31,8 @@ export default styled(Modal)`
             list-style: none;
             padding:0;
             margin:0;
+            max-height: 500px;
+            overflow: auto;
         }
         &__item {
             font-weight: 600;

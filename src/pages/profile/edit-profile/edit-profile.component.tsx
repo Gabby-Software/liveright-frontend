@@ -24,6 +24,7 @@ import {AccountObjType} from "../../../types/account.type";
 import userTypes from "../../../enums/user-types.enum";
 import logger from "../../../managers/logger.manager";
 import FormFileUpload from "../../../components/forms/form-file-upload/form-file-upload.component";
+import FormCountrySelect from "../../../components/forms/form-country-select/form-country-select.component";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -80,6 +81,8 @@ const EditProfile = () => {
                         <FormDatepicker name={'birthday'} label={t('profile:birth-date')}/>
                         <FormInputLabeled name={'email'} label={t('profile:email')}/>
                         <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
+                        <FormInputLabeled name={'city'} label={t('profile:city')}/>
+                        <FormCountrySelect/>
                         <FormInputLabeled name={'address'} label={t('profile:address')}/>
                         <Hr/>
                         {

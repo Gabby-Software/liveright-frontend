@@ -31,10 +31,12 @@ const ProfileDataSection = () => {
         {name: t('profile:first-name'), value: auth.first_name, formName: 'first_name', editable: true},
         {name: t('profile:last-name'), value: auth.last_name, formName:'last_name', editable: true},
         {name: t('profile:birth-date'), value: date(auth.birthday), formName:'birthday', editable: true, type: 'date'},
+        {name: t('profile:join-date'), value: date(auth.created_at), formName: 'created_at', type:'date', editable: false},
         {name: t('profile:email'), value: auth.email, formName: 'email', editable: true},
         {name: t('profile:phone'), value: profileData.phone_number, formName: 'phone_number', editable: true},
+        {name: t('profile:city'), value: profileData.city, formName: 'city', editable: true},
+        {name: t('profile:country'), value: profileData.country, formName: 'country', editable: true, type: 'country'},
         {name: t('profile:address'), value: profileData.address, formName: 'address', editable: true},
-        {name: t('profile:join-date'), value: date(auth.created_at), formName: 'created_at', type:'date', editable: false},
         {name: t('profile:gender'), value: auth.gender || '', formName: 'gender', editable: true, type: 'radio'},
     ];
     return (

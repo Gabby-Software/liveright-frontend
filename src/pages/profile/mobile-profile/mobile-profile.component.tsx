@@ -17,7 +17,7 @@ const MobileProfile = () => {
     const profileData = useProfile();
     return (
         <Styles>
-            <ProfileHeading {...auth} address={profileData.address} editable/>
+            <ProfileHeading {...auth} {...profileData} editable/>
             <ProfileData {...profileData} {...auth}/>
             <Hr/>
             <ProfileInfo/>

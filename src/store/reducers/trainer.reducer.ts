@@ -5,7 +5,9 @@ import profilePlaceholder from '../../assets/media/profile-placeholder.png';
 
 const initialValues: TrainerType = {
     phone_number: '+972509984226',
-    address: 'Sumsum street, California',
+    address: 'Sumsum street 32/9',
+    city: 'Tel Aviv',
+    country: 'Israel',
     about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
     qualifications: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
     additional_information: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
