@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import {
     Formik,
     FormikProps,
-    Form,
+    Form, FormikHelpers,
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
@@ -14,7 +14,7 @@ import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import Styles, {Wrapper, Logo, SwitchState,ForgetPassword, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
-import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
+import {AuthFormFieldsType, AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
@@ -22,6 +22,7 @@ import logger from "../../../managers/logger.manager";
 import {ACTION_LOGIN_REQUEST} from "../../../store/action-types";
 import {onlyGuest} from "../../../guards/guest.guard";
 import FormPassword from "../../../components/forms/form-password/form-password.component";
+import {handleError} from "../../../managers/api.manager";
 
 type LoginDataType = {
     type: string;
@@ -32,13 +33,13 @@ const Login = () => {
     const {t} = useTranslation();
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
     const dispatch = useDispatch();
-    const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
+    const handleSubmit = (form: LoginDataType, helpers: FormikHelpers<AuthFormFieldsType>) => {
         logger.info('submitting login', form);
         const {type, email, password} = form;
         dispatch({type: ACTION_LOGIN_REQUEST,payload: {
                 account_type: type, email, password,
-                onSuccess: () => submitProps.setSubmitting(false),
-                onError: () => submitProps.setSubmitting(false)
+                onSuccess: () => helpers.setSubmitting(false),
+                onError: handleError(helpers)
             }});
     };
     const userTypeOptions = [

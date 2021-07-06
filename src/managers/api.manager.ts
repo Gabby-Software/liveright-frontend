@@ -5,6 +5,7 @@ import {toast} from "../components/toast/toast.component";
 import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
 import {Routes} from "../enums/routes.enum";
+import {FormikHelpers} from "formik";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -57,4 +58,12 @@ api.put = (url: string, data: any, config: AxiosRequestConfig) => {
     return api.get(EP_CSRF).then(() => put(url, data, config));
 };
 
+export const handleError = (formHelper:FormikHelpers<any>) => (e: any) => {
+    if(e?.response?.data?.errors) {
+        for (const [name, [message]] of Object.entries<string[]>(e.response.data.errors)) {
+            formHelper.setFieldError(name, message);
+        }
+    }
+    formHelper.setSubmitting(false)
+};
 export default api;

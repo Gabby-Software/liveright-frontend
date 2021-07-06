@@ -3,7 +3,7 @@ import userTypes from "../../../enums/user-types.enum";
 import * as Yup from 'yup';
 import {
     Formik,
-    Form,
+    Form, FormikHelpers,
 } from 'formik';
 import FormSwitch from "../../../components/forms/form-switch/form-switch.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
@@ -12,7 +12,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import Styles, {Wrapper, Logo, SwitchState, Title} from '../styles';
 import {AuthFormContext} from "../../../modules/auth/auth.context";
-import {AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
+import {AuthFormFieldsType, AuthFormTypeNotNull} from "../../../modules/auth/auth-form.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
 import {Routes} from "../../../enums/routes.enum";
 import {useDispatch} from "react-redux";
@@ -22,6 +22,7 @@ import FormRadio from "../../../components/forms/form-radio-button/form-radio-bu
 import {genderTypes} from "../../../enums/gender-types";
 import {onlyGuest} from "../../../guards/guest.guard";
 import FormPassword from "../../../components/forms/form-password/form-password.component";
+import {handleError} from "../../../managers/api.manager";
 
 type LoginDataType = {
     type: string;
@@ -36,19 +37,16 @@ const SignUp = () => {
     const {form, update} = useContext(AuthFormContext) as AuthFormTypeNotNull;
     const [isSubmitted, setIsSubmitted] = useState(false);
     const dispatch = useDispatch();
-    const handleSubmit = (form: LoginDataType, submitProps: {setSubmitting:(submitting: boolean) => void}) => {
+    const handleSubmit = (form: LoginDataType, helpers: FormikHelpers<AuthFormFieldsType>) => {
         logger.info('submitting form', form);
         const {first_name, last_name, email, password, type, gender} = form;
         const handleSuccess = () => {
-            submitProps.setSubmitting(false);
+            helpers.setSubmitting(false);
             setIsSubmitted(true);
-        };
-        const handleError = () => {
-            submitProps.setSubmitting(false);
         };
         dispatch({type: ACTION_REGISTER_REQUEST, payload: {
                 first_name, last_name, email, password, gender, password_confirmation: password, account_type: type,
-                onSuccess: handleSuccess, onError: handleError
+                onSuccess: handleSuccess, onError: handleError(helpers)
             }});
     };
     const userTypeOptions = [

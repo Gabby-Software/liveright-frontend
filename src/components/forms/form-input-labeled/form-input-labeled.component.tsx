@@ -4,6 +4,7 @@ import {Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
 import {ReactComponent as WarningIcon} from '../../../assets/media/icons/warning.svg';
 import {classes} from "../../../pipes/classes.pipe";
+import logger from "../../../managers/logger.manager";
 
 type Props = {
     name: string,

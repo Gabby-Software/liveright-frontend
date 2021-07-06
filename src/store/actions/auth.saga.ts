@@ -49,7 +49,7 @@ function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<v
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
         toast.show({type: 'error', msg: serverError(e)});
-        payload.onError && payload.onError(e.message);
+        payload.onError && payload.onError(e);
     }
 }
 function callRegister(data: AuthRegisterType): Promise<string> {
@@ -66,7 +66,7 @@ function* loginWorker({payload}: ActionType<AuthLoginType & CallbackType<void>>)
         toast.show({type: 'success', msg: i18n.t('alerts:login-success')});
     } catch(e) {
         toast.show({type: 'error', msg: serverError(e)});
-        payload.onError && payload.onError(e.message);
+        payload.onError && payload.onError(e);
     }
     payload.onSuccess && payload.onSuccess();
 }
