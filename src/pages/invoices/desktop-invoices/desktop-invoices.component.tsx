@@ -12,7 +12,7 @@ import {InvoiceFiltersType} from "../../../types/invoice-filters.type";
 import FormSelect from "../../../components/forms/form-select/form-select.component";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import {OptionType} from "../../../types/option.type";
+import {ReactComponent as BackIcon} from '../../../assets/media/icons/times.svg';
 import FormRow from "../../../components/forms/form-row/form-row.component";
 
 const initialFilters: InvoiceFiltersType = {
@@ -74,9 +74,12 @@ const DesktopInvoices = () => {
             </div>
             {
                 invoice ? (
-                    <Card className={'invoices__view'}>
+                    <div className={'invoices__view'}>
+                    <Card >
                         <InvoiceView id={invoice}/>
                     </Card>
+                        <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
+                    </div>
                 ) : null
             }
         </Styles>

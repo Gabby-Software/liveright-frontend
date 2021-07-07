@@ -13,6 +13,9 @@ export default styled.div`
         &__view {
             margin:  0 0 auto 40px;
         }
+        &__close {
+            margin: 24px 8px;
+        }
         &__filter {
             margin: auto 0 0 auto;
             max-width: 242px;
