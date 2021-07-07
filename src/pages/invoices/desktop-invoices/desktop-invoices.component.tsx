@@ -14,6 +14,7 @@ import ButtonSubmit from "../../../components/forms/button-submit/button-submit.
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {ReactComponent as BackIcon} from '../../../assets/media/icons/times.svg';
 import FormRow from "../../../components/forms/form-row/form-row.component";
+import {classes} from "../../../pipes/classes.pipe";
 
 const initialFilters: InvoiceFiltersType = {
     client_name: 'All',
@@ -72,16 +73,18 @@ const DesktopInvoices = () => {
                     setPagMeta({...pagMeta, current_page: page})
                 }} total={pagMeta.total}/>
             </div>
+            <div className={classes('invoices__view', invoice && 'invoices__view__open')}>
             {
                 invoice ? (
-                    <div className={'invoices__view'}>
-                    <Card >
+                    <>
+                    <Card className={'invoices__view__card'}>
                         <InvoiceView id={invoice}/>
                     </Card>
                         <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
-                    </div>
+                    </>
                 ) : null
             }
+            </div>
         </Styles>
     )
 };
