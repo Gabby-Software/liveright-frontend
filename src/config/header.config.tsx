@@ -37,12 +37,12 @@ const headers: {[key: string]: HeaderItemType[]} = {
     invoices: [
         {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.HOME},
         {type: HeaderItemTypes.SPACE},
-        {type: HeaderItemTypes.SUBMIT, Icon: FilterIcon, href: '#filter-options'},
+        {type: HeaderItemTypes.SUBMIT, Icon: FilterIcon, href: 'filter-options'},
     ],
     invoice: [
         {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.INVOICES},
         {type: HeaderItemTypes.SPACE},
-        {type: HeaderItemTypes.SUBMIT, Icon: DownloadIcon, href: '#download'},
+        {type: HeaderItemTypes.SUBMIT, Icon: DownloadIcon, href: 'download'},
     ]
 };
 

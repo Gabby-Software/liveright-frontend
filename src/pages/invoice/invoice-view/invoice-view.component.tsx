@@ -7,6 +7,7 @@ import Card from "../../../components/card/card.style";
 import {OptionType} from "../../../types/option.type";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import FormButton from "../../../components/forms/form-button/form-button.component";
+import fileManager from "../../../managers/file.manager";
 
 type Props = {id: number};
 const InvoiceView = ({id}:Props) => {
@@ -47,6 +48,7 @@ const InvoiceView = ({id}:Props) => {
                     <FormButton type={'primary'}>{t('invoices:mark-paid')}</FormButton>
                     <FormButton type={'default'}>{t('invoices:cancel-invoice')}</FormButton>
                 </div>
+            <button id={'download'} style={{display:'none'}} onClick={() => fileManager.downloadUrl('http://www.africau.edu/images/default/sample.pdf', `invoice-${invoice.invoice_number}.pdf`)}/>
         </Styles>
     )
 };

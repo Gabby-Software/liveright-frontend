@@ -33,7 +33,7 @@ const Header = () => {
             case HeaderItemTypes.SUBMIT:
                 Icon = Icon as React.ComponentType;
                 return (
-                    <label className={'header__icon'} htmlFor={'form-submit'}>
+                    <label className={'header__icon'} htmlFor={href || 'form-submit'}>
                         <Icon/>
                     </label>
                 );
