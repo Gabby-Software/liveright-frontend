@@ -3,6 +3,8 @@ import {ReactComponent as BellIcon} from "../assets/media/icons/bell.svg";
 import {ReactComponent as SettingsIcon} from "../assets/media/icons/settings.svg";
 import {ReactComponent as TimesIcon} from "../assets/media/icons/times.svg";
 import {ReactComponent as CheckIcon} from "../assets/media/icons/check.svg";
+import {ReactComponent as DownloadIcon} from "../assets/media/icons/download.svg";
+import {ReactComponent as FilterIcon} from "../assets/media/icons/filter.svg";
 import {ReactComponent as BackIcon} from "../assets/media/icons/back-arrow.svg";
 import {HeaderItemType, HeaderItemTypes} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
@@ -31,6 +33,16 @@ const headers: {[key: string]: HeaderItemType[]} = {
         {type: HeaderItemTypes.ICON, Icon: TimesIcon, href: Routes.PROFILE},
         {type: HeaderItemTypes.SPACE},
         {type: HeaderItemTypes.SUBMIT, Icon: CheckIcon},
+    ],
+    invoices: [
+        {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.HOME},
+        {type: HeaderItemTypes.SPACE},
+        {type: HeaderItemTypes.SUBMIT, Icon: FilterIcon, href: '#filter-options'},
+    ],
+    invoice: [
+        {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.INVOICES},
+        {type: HeaderItemTypes.SPACE},
+        {type: HeaderItemTypes.SUBMIT, Icon: DownloadIcon, href: '#download'},
     ]
 };
 

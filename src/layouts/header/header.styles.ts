@@ -38,6 +38,10 @@ export default styled.header`
             &__active {
                 color: ${p => p.theme.vars.colors.primary};
             }
+            svg {
+                height: 24px;
+                width: auto;
+            }
         }
         &__space {
             width: 100%;
