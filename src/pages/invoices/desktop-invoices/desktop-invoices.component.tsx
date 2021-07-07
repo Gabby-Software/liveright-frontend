@@ -13,6 +13,7 @@ import FormSelect from "../../../components/forms/form-select/form-select.compon
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {ReactComponent as BackIcon} from '../../../assets/media/icons/times.svg';
+import {ReactComponent as DownloadIcon} from '../../../assets/media/icons/download.svg';
 import FormRow from "../../../components/forms/form-row/form-row.component";
 import {classes} from "../../../pipes/classes.pipe";
 
@@ -77,10 +78,13 @@ const DesktopInvoices = () => {
             {
                 invoice ? (
                     <>
+                        <div>
+                            <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
+                            <a target={'_blank'} href={'http://www.africau.edu/images/default/sample.pdf'} download={'invoice.pdf'}><DownloadIcon className={'invoices__download'}/></a>
+                        </div>
                     <Card className={'invoices__view__card'}>
                         <InvoiceView id={invoice}/>
                     </Card>
-                        <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
                     </>
                 ) : null
             }

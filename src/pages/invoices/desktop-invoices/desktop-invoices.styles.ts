@@ -23,9 +23,12 @@ export default styled.div`
                 width: 432px;
             }
         }
-        &__close {
+        &__close, &__download {
             margin: 24px 8px;
             cursor:pointer;
+            height: 14px;
+            width: auto;
+            color: ${p =>p.theme.vars.colors.primaryDark};
         }
         &__filter {
             margin: auto 0 0 auto;
