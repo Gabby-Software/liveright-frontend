@@ -92,6 +92,41 @@ const extend = {
                 } 
             }
     `,
+    big: `
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 140%;
+    `,
+    h1: `
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 140%;
+    `,
+    h2: `
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 140%;
+    `,
+    h3: `
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 140%;
+    `,
+    p1: `
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 140%;
+    `,
+    p2: `
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 140%;
+    `,
+    small: `
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 140%;
+    `
 };
 
 export default extend;

@@ -1,0 +1,18 @@
+{
+  "client-name": "Client Name",
+  "trainer-name": "Trainer Name",
+  "invoice-number": "Invoice Number",
+  "invoice-date": "Invoice Date",
+  "invoice-due": "Invoice Due",
+  "description": "Description",
+  "mark-paid": "Mark as Paid",
+  "cancel-invoice": "Cancel Invoice",
+  "price": "Price",
+  "status": "Status",
+  "statuses": {
+    "paid": "Paid",
+    "outstanding": "Outstanding",
+    "cancelled": "Cancelled",
+    "issued": "Issued"
+  }
+}

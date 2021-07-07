@@ -45,7 +45,7 @@ function App() {
                             <Suspense fallback={<Skeleton className={'suspense'}/>}>
                             {
                                 routes.map(R => (
-                                    <Route path={R.url} key={R.url} {...R.props}>
+                                    <Route exact path={R.url} key={R.url} {...R.props}>
                                         <R.Component/>
                                     </Route>
                                 ))

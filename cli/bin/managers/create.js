@@ -9,7 +9,7 @@ const componentJSTemplate = (name) => `import React, {useState, useEffect} from 
 import Styles from './${name}.styles';
 
 type Props = {};
-const ${camelCase(name)} = ({props}:Props) => {
+const ${camelCase(name)} = ({}:Props) => {
     return null;
 };
 

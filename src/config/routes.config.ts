@@ -1,7 +1,7 @@
 import {lazy} from 'react';
 import {RouteType} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
-import headers from "./header.config";
+import headers, {headerBackTo} from "./header.config";
 import {footerTypes} from "../enums/footer-types";
 
 export const authRoutes: RouteType[] = [
@@ -102,6 +102,24 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/profile/trainer/trainer.component')),
         header: {
             title: 'Trainer',
+            items: headers.default_inside
+        }
+    },
+    {
+        title: 'Invoices',
+        url: Routes.INVOICES + '/:id',
+        Component: lazy(() => import('../pages/invoice/invoice.component')),
+        header: {
+            title: 'Invoices',
+            items: headerBackTo(Routes.INVOICES)
+        }
+    },
+    {
+        title: 'Invoices',
+        url: Routes.INVOICES,
+        Component: lazy(() => import('../pages/invoices/invoices.component')),
+        header: {
+            title: 'Invoices',
             items: headers.default_inside
         }
     }

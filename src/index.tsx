@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "antd/dist/antd.css";
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -11,7 +12,6 @@ import {Provider} from "react-redux";
 import {I18nProvider} from "./modules/i18n/i18n.context";
 import {BrowserRouter} from 'react-router-dom';
 import './config/validation.config';
-import "antd/dist/antd.css";
 
 ReactDOM.render(
     <React.StrictMode>

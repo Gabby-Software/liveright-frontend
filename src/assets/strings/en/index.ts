@@ -5,4 +5,5 @@ import {default as profile} from './profile.json';
 import {default as alerts} from './alerts.json';
 import {default as calendar} from './calendar.json';
 import {default as settings} from './settings.json';
-export default {common,errors,auth,profile,alerts,calendar,settings};
+import {default as invoices} from './invoices.json';
+export default {common,errors,auth,profile,alerts,calendar,settings,invoices};

@@ -14,5 +14,6 @@ export const Routes = {
     CALENDAR: '/calendar',
     NOTIFICATIONS: '/notifications',
     SETTINGS: '/settings',
-    TRAINER: '/trainer'
+    TRAINER: '/trainer',
+    INVOICES: '/invoices'
 };

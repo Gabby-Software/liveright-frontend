@@ -34,4 +34,10 @@ const headers: {[key: string]: HeaderItemType[]} = {
     ]
 };
 
+export const headerBackTo = (backTo: string) => [
+    {type: HeaderItemTypes.ICON, Icon: BackIcon, href: backTo},
+    {type: HeaderItemTypes.SPACE},
+    {type: HeaderItemTypes.ICON, Icon: CalendarIcon, href: Routes.CALENDAR},
+    {type: HeaderItemTypes.ICON, Icon: BellIcon, href: Routes.NOTIFICATIONS},
+];
 export default headers;

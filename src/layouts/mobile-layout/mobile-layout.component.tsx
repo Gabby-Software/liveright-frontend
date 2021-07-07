@@ -8,6 +8,7 @@ import logger from "../../managers/logger.manager";
 
 const MobileLayout = ({children}: {children: React.ReactNode}) => {
     const page = usePage();
+    logger.info('PAGE INFO',page);
     const footerType = useMemo(() =>  page?.footer === undefined ?  footerTypes.DEFAULT : page?.footer, [page]);
     return (
         <Styles>
