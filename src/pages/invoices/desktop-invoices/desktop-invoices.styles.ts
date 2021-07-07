@@ -25,6 +25,7 @@ export default styled.div`
         }
         &__close {
             margin: 24px 8px;
+            cursor:pointer;
         }
         &__filter {
             margin: auto 0 0 auto;
