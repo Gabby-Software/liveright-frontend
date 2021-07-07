@@ -15,15 +15,15 @@ ${p => p.theme.extend.layout}
         aspect-ratio: 1;
             &__paid {
                 color: ${p => p.theme.vars.colors.success};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.success};
+                box-shadow: 0 0 2px ${p => p.theme.vars.colors.success}88;
             }
             &__cancelled {
                 color: ${p => p.theme.vars.colors.secondary};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.secondary};
+                box-shadow: 0 0 2px ${p => p.theme.vars.colors.secondary}88;
             }
             &__outstanding {
                 color: ${p => p.theme.vars.colors.error};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.error};
+                box-shadow: 0 0 2px ${p => p.theme.vars.colors.error}88;
             }
         &:last-child {
             margin-right:0;
@@ -40,7 +40,7 @@ ${p => p.theme.extend.layout}
         margin-bottom: 12px;
         display: block;
         color: ${p => p.theme.vars.colors.primaryDark};
-        box-shadow: 1px 2px 3px ${p => p.theme.vars.colors.secondary}; 
+        box-shadow: 1px 2px 3px ${p => p.theme.vars.colors.secondary}88; 
         &__card {
             display: flex;
             justify-content: space-between;
