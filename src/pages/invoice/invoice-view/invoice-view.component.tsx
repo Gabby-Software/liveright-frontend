@@ -14,6 +14,7 @@ const InvoiceView = ({id}:Props) => {
     const {t} = useTranslation();
     useEffect(() => {
         setInvoice(invoices.find(({id:iid}) => id === iid) || null);
+        window.scrollTo({top: 0, behavior:'smooth'})
     }, [id]);
     if(!invoice) return <Skeleton/>;
     const values: OptionType[] = [
