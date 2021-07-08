@@ -11,6 +11,7 @@ import {OptionType} from "../../../types/option.type";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {classes} from "../../../pipes/classes.pipe";
 import MobileInvoicesFooter from "../../../components/invoices/mobile-invoices-footer/mobile-invoices-footer.component";
+import MobileFilterDrawer from "../../../components/invoices/mobile-filter-drawer/mobile-filter-drawer.component";
 
 type Props = {};
 const MobileInvoices = ({}:Props) => {
@@ -54,6 +55,7 @@ const MobileInvoices = ({}:Props) => {
                 ))
             }
             <MobileInvoicesFooter/>
+            <MobileFilterDrawer/>
         </Styles>
     )
 };

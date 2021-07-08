@@ -14,6 +14,7 @@
   "add": "Create Invoice",
   "other": "Description",
   "bae-price": "Base Price",
+  "filters": "Invoice Filters",
   "statuses": {
     "paid": "Paid",
     "outstanding": "Outstanding",
