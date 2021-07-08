@@ -1,0 +1,9 @@
+{
+  "active": "Active",
+  "inactive": "Inactive",
+  "client-name": "Client Name",
+  "sessions": "Sessions",
+  "status": "Status",
+  "sessions-remind": "{{n}} Sessions remain",
+  "add": "Add new client"
+}

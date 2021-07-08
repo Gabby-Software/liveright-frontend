@@ -44,6 +44,7 @@ ${p => p.theme.extend.layout}
         &__card {
             display: flex;
             justify-content: space-between;
+            ${p =>p.theme.extend.p1}
         }
         &__right {
             text-align: right;

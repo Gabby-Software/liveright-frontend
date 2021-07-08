@@ -111,7 +111,7 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/invoice/invoice.component')),
         header: {
             title: 'Invoices',
-            items: headers.invoice
+            items: headers.download
         }
     },
     {
@@ -120,7 +120,25 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/invoices/invoices.component')),
         header: {
             title: 'Invoices',
-            items: headers.invoices
+            items: headers.filter
+        }
+    },
+    {
+        title: 'Clients',
+        url: Routes.CLIENTS,
+        Component: lazy(() => import('../pages/clients/clients.component')),
+        header: {
+            title: "Clients",
+            items: headers.filter
+        }
+    },
+    {
+        title: 'Clients',
+        url: Routes.CLIENTS+'/:id',
+        Component: lazy(() => import('../pages/clients/clients.component')),
+        header: {
+            title: "Clients",
+            items: headers.add
         }
     }
 ];

@@ -15,5 +15,6 @@ export const Routes = {
     NOTIFICATIONS: '/notifications',
     SETTINGS: '/settings',
     TRAINER: '/trainer',
-    INVOICES: '/invoices'
+    INVOICES: '/invoices',
+    CLIENTS: '/clients'
 };
