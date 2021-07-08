@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
 import Toast from "./components/toast/toast.component";
+import AuthHandler from "./pages/auth-handler/auth-handler.component";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -27,6 +28,9 @@ function App() {
     return (
         <Styles>
                 <Switch>
+                    <Route path={'/auth'} exact>
+                        <AuthHandler/>
+                    </Route>
                     <Route path={authRoutes.map(r => r.url)}>
                         <AuthFormProvider>
                             <Suspense fallback={<Skeleton className={'suspense'}/>}>
