@@ -11,6 +11,9 @@ export default styled.div`
     .client-add__message {
         &__wrap {
             width: calc(100vw - 48px);
+            @media all and (min-width: ${p => p.theme.vars.media.tablet}px) {
+                width: 472px;    
+            }
         }
         &__desc {
             ${p => p.theme.extend.p1};

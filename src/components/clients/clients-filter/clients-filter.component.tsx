@@ -6,6 +6,7 @@ import FormInputLabeled from "../../forms/form-input-labeled/form-input-labeled.
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../forms/button-submit/button-submit.component";
 import FormButton from "../../forms/form-button/form-button.component";
+import AddClientModal from "../add-client-modal/add-client-modal.component";
 
 type FilterType = {
     search: string;
@@ -15,6 +16,7 @@ const initialValues = {
 };
 const ClientsFilter = () => {
     const {t} = useTranslation();
+    const [modalOpen, setModalOpen] = useState(false);
     const handleSubmit = (values: FilterType, helper: FormikHelpers<FilterType>) => {
         // todo: handle submition
         helper.setSubmitting(false);
@@ -32,7 +34,10 @@ const ClientsFilter = () => {
                     </FormRow>
                 </Form>
             </Formik>
-            <FormButton type={'link'} className={'clients__add'}>{t('clients:add')}</FormButton>
+            <FormButton type={'link'} className={'clients__add'}
+                onClick={() => setModalOpen(true)}
+            >{t('clients:add')}</FormButton>
+            <AddClientModal isOpen={modalOpen} onClose={() => setModalOpen(false)}/>
         </Styles>
     )
 };

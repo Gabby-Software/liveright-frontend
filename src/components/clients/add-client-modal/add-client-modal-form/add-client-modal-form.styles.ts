@@ -12,6 +12,9 @@ export default styled.div`
     .ant-btn-primary {
         margin: 40px 0 24px 0;
     }
+    .ant-btn-default {
+        margin-bottom: 24px;
+    }
     [class$=input__wrapper], .switch__wrapper, .textarea__wrapper {
         margin-bottom: 24px;
     }
