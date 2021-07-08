@@ -7,12 +7,22 @@
   "description": "Description",
   "mark-paid": "Mark as Paid",
   "cancel-invoice": "Cancel Invoice",
+  "session-expired": "Session Expired",
+  "quantity": "Quantity",
   "price": "Price",
   "status": "Status",
+  "add": "Create Invoice",
+  "other": "Description",
   "statuses": {
     "paid": "Paid",
     "outstanding": "Outstanding",
     "cancelled": "Cancelled",
     "issued": "Issued"
+  },
+  "service-type": {
+    "title": "Service Type",
+    "pt_session": "PT Session",
+    "consultation": "Consultation",
+    "other": "Other"
   }
 }

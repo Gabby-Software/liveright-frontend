@@ -16,6 +16,10 @@ import {ReactComponent as BackIcon} from '../../../assets/media/icons/times.svg'
 import {ReactComponent as DownloadIcon} from '../../../assets/media/icons/download.svg';
 import FormRow from "../../../components/forms/form-row/form-row.component";
 import {classes} from "../../../pipes/classes.pipe";
+import DesktopAddInvocieTrigger
+    from "../../../components/invoices/desktop-add-invocie-trigger/desktop-add-invocie-trigger.component";
+import DesktopAddInvoiceTrigger
+    from "../../../components/invoices/desktop-add-invoice-trigger/desktop-add-invoice-trigger.component";
 
 const initialFilters: InvoiceFiltersType = {
     client_name: 'All',
@@ -63,6 +67,7 @@ const DesktopInvoices = () => {
                                     }))
                                 ]}/>
                                 <ButtonSubmit className={'invoices__filter'}>{t('apply-filters')}</ButtonSubmit>
+                                <DesktopAddInvoiceTrigger/>
                             </FormRow>
                         </Form>
                     </Formik>

@@ -10,6 +10,7 @@ import {Routes} from "../../../enums/routes.enum";
 import {OptionType} from "../../../types/option.type";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {classes} from "../../../pipes/classes.pipe";
+import MobileInvoicesFooter from "../../../components/invoices/mobile-invoices-footer/mobile-invoices-footer.component";
 
 type Props = {};
 const MobileInvoices = ({}:Props) => {
@@ -38,7 +39,7 @@ const MobileInvoices = ({}:Props) => {
             </div>
             {
                 invoices.slice(0, page*10).map(({id, due_date, client_name, status, invoice_number}: TrainerInvoiceType, i) => (
-                    <Link to={Routes.INVOICES+'/'+id} key={i} className={'invoices__item'}>
+                    <Link to={Routes.INVOICES+'/'+id} key={id} className={'invoices__item'}>
                         <Card className={'invoices__item__card'}>
                             <div className={'invoices__item__left'}>
                                 <div className={'invoices__item__name'}>{client_name}</div>
@@ -52,6 +53,7 @@ const MobileInvoices = ({}:Props) => {
                     </Link>
                 ))
             }
+            <MobileInvoicesFooter/>
         </Styles>
     )
 };

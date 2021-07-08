@@ -16,6 +16,7 @@ export default styled.div`
             width: 0;
             overflow: hidden;
             flex-shrink:0;
+            margin-top: 35px;
             &__card {
                 width: 432px;    
             }
@@ -31,7 +32,6 @@ export default styled.div`
             color: ${p =>p.theme.vars.colors.primaryDark};
         }
         &__filter {
-            margin: auto 0 0 auto;
             max-width: 242px;
             flex-shrink:2;
         }
