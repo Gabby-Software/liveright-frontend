@@ -19,6 +19,8 @@ const InvoiceView = ({id}:Props) => {
     }, [id]);
     if(!invoice) return <Skeleton/>;
     const values: OptionType[] = [
+        {label: 'invoices:base-price', value: invoice.price.toString()},
+        {label: 'invoices:quantity', value: '1'},
         {label: 'invoices:status', value: invoice.status},
         {label: 'invoices:invoice-number', value: invoice.invoice_number},
         {label: 'invoices:invoice-date', value: invoice.created_at},

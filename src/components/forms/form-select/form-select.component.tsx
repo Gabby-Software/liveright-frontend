@@ -40,7 +40,7 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                             }))}/>
                         </MobileStyles>
                     ) : (
-                        <DesktopStyles>
+                        <DesktopStyles className={'select_input__wrapper'}>
                             <label className={'select_input__cont'}>
                                 <div className={'select_input__label'}>{label}</div>
                                 <Select

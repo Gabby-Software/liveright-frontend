@@ -13,6 +13,7 @@
   "status": "Status",
   "add": "Create Invoice",
   "other": "Description",
+  "bae-price": "Base Price",
   "statuses": {
     "paid": "Paid",
     "outstanding": "Outstanding",
