@@ -5,5 +5,6 @@
   "resend-verification-success": "Confirmation email was resent to your email address",
   "email-verification-success": "Email verified!",
   "email-verification-error": "Unable to verify email",
-  "onboard-success": "Onboard successfully!"
+  "onboard-success": "Onboard successfully!",
+  "client-add-success": "Client added successfully"
 }

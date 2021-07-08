@@ -24,6 +24,7 @@ export default styled(Modal)`
         .ant-modal {
             &-content {
                 height: 100vh;
+                overflow: auto;
             }
         }
     }

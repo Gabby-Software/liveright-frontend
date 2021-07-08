@@ -12,7 +12,7 @@ const FormCountrySelect = ({name = 'country', label}: FormCountrySelectPropsType
     const [countries, setCountries] = useState<OptionType[]>([]);
     useEffect(() => {
         import('./form-country-select.data.json').then(module => module.default).then((data) => {
-            setCountries((data as string[]).map(c => ({label:c, value: c})));
+            setCountries((data as unknown as string[]).map(c => ({label:c, value: c})));
         })
     }, []);
     return (

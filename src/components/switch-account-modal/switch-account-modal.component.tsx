@@ -33,8 +33,7 @@ const SwitchAccountModal = ({isOpen, onClose, action}: Props) => {
             </Styles>
         </Modal>
 
-    )
-        ;
+    );
 };
 
 export default SwitchAccountModal;
