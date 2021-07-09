@@ -116,7 +116,7 @@ function* logoutWorker() {
         yield call(() => {
             localStorage.clear();
             document.cookie = '';
-            window.location.pathname = Routes.LOGIN;
+            document.location.href = document.location.protocol + '//identity.' + document.location.host;
         });
     }
 }

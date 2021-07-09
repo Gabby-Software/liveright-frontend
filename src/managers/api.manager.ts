@@ -41,10 +41,7 @@ api.interceptors.response.use(
             api.post(EP_LOGOUT);
             localStorage.clear();
             document.cookie = '';
-            // cookieManager.remove('liveright_session');
-            // cookieManager.remove('XSRF-TOKEN');
-            // Todo: remove user data from redux store
-            window.location.pathname = Routes.LOGIN;
+            document.location.href = document.location.protocol + '//identity.' + document.location.host;
         }
         return Promise.reject(err)
     }
