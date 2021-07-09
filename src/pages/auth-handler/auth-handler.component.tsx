@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Styles from './auth-handler.styles';
 import {AuthObjectType, AuthResponseType, useAuthorization} from "../../hooks/authorization.hook";
 
 const AuthHandler = () => {

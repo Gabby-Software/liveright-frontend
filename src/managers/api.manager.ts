@@ -15,11 +15,10 @@ const api = axios.create({
 logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        const token = localStorage.getItem('uuid');
-        const csrf = cookieManager.get('XSRF-TOKEN');
-        if(token) config.headers['Account-Token'] =  `${token}`;
+        const token = cookieManager.get('access_token');
+        const uuid = JSON.parse(cookieManager.get('auth') || '{}').uuid;
+        if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
-        if(csrf) config.headers['X-XSRF-TOKEN'] = csrf;
         logger.info('HTTP_REQUEST', config.url, config.data);
         return config;
     },
