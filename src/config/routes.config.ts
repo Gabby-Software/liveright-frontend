@@ -5,55 +5,55 @@ import headers, {headerBackTo} from "./header.config";
 import {footerTypes} from "../enums/footer-types";
 
 export const authRoutes: RouteType[] = [
-    {
-        title: 'Login',
-        url: Routes.LOGIN,
-        Component: lazy(() => import('../pages/auth/login/login.component')),
-        header: {}
-    },
-    {
-        title: 'Sign Up',
-        url: Routes.REGISTER,
-        Component: lazy(() => import('../pages/auth/sign-up/sign-up.component')),
-        header: {},
-        props: {exact: true}
-    },
-    {
-        title: 'Forget Password',
-        url: Routes.FORGOT_PASSWORD,
-        Component: lazy(() => import('../pages/auth/forgot-password/forgot-password.component')),
-        header: {}
-    },
-    {
-        title: 'Forget Password Confirmation',
-        url: Routes.FORGOT_PASSWORD_CONFIRMATION,
-        Component: lazy(() => import('../pages/auth/forgot-password-confirmation/forgot-password-confirmation.component')),
-        header: {}
-    },
-    {
-        title: 'Reset Password',
-        url: Routes.RESET_PASSWORD,
-        Component: lazy(() => import('../pages/auth/reset-password/reset-password.component')),
-        header: {}
-    },
-    {
-        title: 'Sign up confirmation',
-        url: Routes.REGISTER_CONFIRMATION,
-        Component: lazy(() => import('../pages/auth/sign-up-confirmation/sign-up-confirmation.component')),
-        header: {}
-    },
+    // {
+    //     title: 'Login',
+    //     url: Routes.LOGIN,
+    //     Component: lazy(() => import('../pages/auth/login/login.component')),
+    //     header: {}
+    // },
+    // {
+    //     title: 'Sign Up',
+    //     url: Routes.REGISTER,
+    //     Component: lazy(() => import('../pages/auth/sign-up/sign-up.component')),
+    //     header: {},
+    //     props: {exact: true}
+    // },
+    // {
+    //     title: 'Forget Password',
+    //     url: Routes.FORGOT_PASSWORD,
+    //     Component: lazy(() => import('../pages/auth/forgot-password/forgot-password.component')),
+    //     header: {}
+    // },
+    // {
+    //     title: 'Forget Password Confirmation',
+    //     url: Routes.FORGOT_PASSWORD_CONFIRMATION,
+    //     Component: lazy(() => import('../pages/auth/forgot-password-confirmation/forgot-password-confirmation.component')),
+    //     header: {}
+    // },
+    // {
+    //     title: 'Reset Password',
+    //     url: Routes.RESET_PASSWORD,
+    //     Component: lazy(() => import('../pages/auth/reset-password/reset-password.component')),
+    //     header: {}
+    // },
+    // {
+    //     title: 'Sign up confirmation',
+    //     url: Routes.REGISTER_CONFIRMATION,
+    //     Component: lazy(() => import('../pages/auth/sign-up-confirmation/sign-up-confirmation.component')),
+    //     header: {}
+    // },
     {
         title: 'Sign up onboarding',
         url: Routes.REGISTER_ON_BOARD,
         Component: lazy(() => import('../pages/auth/sign-up-onboard/sign-up-onboard.component')),
         header: {}
     },
-    {
-        title: 'Email verification',
-        url: `${Routes.VERIFY_EMAIL}/:id/:token`,
-        Component: lazy(() => import('../pages/auth/verify-email/verify-email.component')),
-        header: {}
-    }
+    // {
+    //     title: 'Email verification',
+    //     url: `${Routes.VERIFY_EMAIL}/:id/:token`,
+    //     Component: lazy(() => import('../pages/auth/verify-email/verify-email.component')),
+    //     header: {}
+    // }
 ];
 export const routes: RouteType[] = [
     {
