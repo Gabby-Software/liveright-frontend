@@ -9,7 +9,7 @@ const messages = {
     DO_LOGIN: 'do_login',
 };
 export const useAuthorization = (isAuthCallback: () => boolean, handleAuthCallback: (auth: any) => void) => {
-
+    document.domain = document.location.hostname;
     useEffect(() => {
         const handler = ({data:{key, event, ...payload}}: MessageEvent<IframeEventType>) => {
             switch (event) {

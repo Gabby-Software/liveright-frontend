@@ -6,12 +6,12 @@ export default (c: React.ComponentType<any>) => styled(c)`
     height: 40px;
     padding: 10px;
     border-radius: ${p => p.theme.vars.sizes.borderRadius};
-    background-color: ${p => p.theme.vars.colors[p.color] || p.theme.vars.colors.primary};
-    color: white;
+    background-color: ${p => p.theme.vars.colors.card};
+    color: ${p => p.theme.vars.colors.secondary3};
     margin: 6px 3px;
     cursor: pointer;
-    translations: ${p => p.theme.vars.defaults.transition};
+    transition: ${p => p.theme.vars.defaults.transition};
     &:hover {
-        background-color: ${p => p.theme.vars.colors[p.color+'Light'] || p.theme.vars.colors.primaryLight};
+        background-color: ${p => p.theme.vars.colors.light};
     }
 `

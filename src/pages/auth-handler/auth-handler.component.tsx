@@ -4,7 +4,6 @@ import {useAuthorization} from "../../hooks/authorization.hook";
 
 const AuthHandler = () => {
     useAuthorization(() => {
-        localStorage.setItem('req-1', '1');
         return !!localStorage.getItem('token')
     }, (user) => {
         localStorage.setItem('user', JSON.stringify(user));

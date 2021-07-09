@@ -30,10 +30,10 @@ const ClientsDesktop = ({}:Props) => {
         'email', 'phone', 'sessions', 'status', 'actions'
     ];
     const actions: TableActionType[] = [
-        {icon: WorkoutIcon, onClick: () => {}},
-        {icon: ExerciseIcon, onClick: () => {}},
-        {icon: FoodIcon, onClick: () => {}},
-        {icon: MeasureIcon, onClick: () => {}},
+        {icon: WorkoutIcon, onClick: () => {}, title: 'Workshops'},
+        {icon: ExerciseIcon, onClick: () => {}, title: 'Exercises'},
+        {icon: FoodIcon, onClick: () => {}, title: 'Meals'},
+        {icon: MeasureIcon, onClick: () => {}, title: 'Measures'},
     ];
     return (
         <Styles>
