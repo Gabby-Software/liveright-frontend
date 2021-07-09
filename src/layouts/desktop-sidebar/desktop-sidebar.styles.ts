@@ -45,6 +45,7 @@ export default styled.aside`
             }
             svg {
                 width: 26px;
+                height: auto;
                 margin-right: 16px;
                 display: block;
                 flex-shrink:0;

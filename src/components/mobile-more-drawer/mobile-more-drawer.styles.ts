@@ -21,6 +21,7 @@ export default styled.nav`
                 display: block;
                 margin-right:20px;
                 height: 22px;
+                width: auto;
             }
             &:last-child {
                 padding-bottom: 60px;

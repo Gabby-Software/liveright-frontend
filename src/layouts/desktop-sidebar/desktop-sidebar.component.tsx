@@ -3,6 +3,7 @@ import Styles from './desktop-sidebar.styles';
 import {Link, useLocation} from 'react-router-dom';
 import {ReactComponent as LogoSmall} from '../../assets/media/icons/logo-small.svg';
 import {ReactComponent as HomeIcon} from "../../assets/media/icons/home.svg";
+import {ReactComponent as UsersIcon} from "../../assets/media/icons/users.svg";
 import {ReactComponent as PlanIcon} from "../../assets/media/icons/plan.svg";
 import {ReactComponent as ProgressIcon} from "../../assets/media/icons/progress.svg";
 import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.svg";
@@ -11,14 +12,19 @@ import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.sv
 import {ReactComponent as RightArrowIcon} from "../../assets/media/icons/right-arrow.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
+import {useAuth} from "../../hooks/auth.hook";
+import userTypes from "../../enums/user-types.enum";
+import logger from "../../managers/logger.manager";
 
 type MenuItemType = {
     name: string;
     Icon: React.ComponentType,
     url: string;
+    type?: string;
 }
 const menuItems: MenuItemType[] = [
     {name: 'home', url: '/', Icon: HomeIcon},
+    {name: 'clients', url: '/clients', Icon: UsersIcon, type: userTypes.TRAINER},
     {name: 'plans', url: '/plans', Icon: PlanIcon},
     {name: 'progress', url: '/progress', Icon: ProgressIcon},
     {name: 'library', url: '/library', Icon: LibraryIcon},
@@ -27,8 +33,10 @@ const menuItems: MenuItemType[] = [
 ];
 const DesktopSidebar = () => {
     const {t} = useTranslation();
+    const {type} = useAuth();
     const {pathname} = useLocation();
     const [isOpen, setIsOpen] = useState(true);
+    logger.info('TYPE', type, userTypes.TRAINER);
     return (
         <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
             <div className={'sidebar__logo'}>
@@ -37,13 +45,15 @@ const DesktopSidebar = () => {
             <nav className={'sidebar__nav'}>
                 <ul className={'sidebar__menu'}>
                     {
-                        menuItems.map(({name, url, Icon}) => (
+                        menuItems.map(({name, url, Icon, type: permission}) => (
+                            !permission || type === permission || true ?
                             <li key={url} className={classes('sidebar__item', pathname === url && 'sidebar__item__active')}>
                                 <Link to={url}>
                                     <Icon/>
                                     <span className={'sidebar__item__label'}>{t(`menu.${name}`)}</span>
                                 </Link>
                             </li>
+                                : null
                         ))
                     }
                 </ul>
