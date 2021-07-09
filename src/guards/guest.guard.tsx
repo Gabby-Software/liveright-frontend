@@ -5,7 +5,7 @@ import {Routes} from "../enums/routes.enum";
 
 export const onlyGuest = (Component: React.ComponentType<any>) => (props: any) => {
     const auth = useAuth();
-    if(auth.uuid && auth.is_active)
+    if(auth.uuid && auth.email_verified_at)
         return <Redirect to={Routes.HOME}/>;
     return <Component {...props}/>;
 };
