@@ -52,6 +52,8 @@ ssh to the server is using ssh auth keys. you should ask server guy to add your 
 ***allright dev:*** `ssh identity@165.22.206.31`
 Deployment flow: 
 ```
+cd public_html
+git pull origin dev
 yarn install
 yarn build
 ```
