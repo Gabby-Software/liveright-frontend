@@ -47,7 +47,14 @@ For any 3rd party app use a dedicated account for this project development.
 
 ### *Deployment*
 
-no data yet
+ssh to the server is using ssh auth keys. you should ask server guy to add your [public key](https://phoenixnap.com/kb/generate-ssh-key-windows-10) to the server.
+***main app dev:*** `ssh liverightdev@161.35.145.146`
+***allright dev:*** `ssh identity@165.22.206.31`
+Deployment flow: 
+```
+yarn install
+yarn build
+```
 
 ### *Local cli* 
 There created a local cli to be used for this project.  
