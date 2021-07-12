@@ -16,7 +16,7 @@ logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = cookieManager.get('access_token');
-        const uuid = JSON.parse(cookieManager.get('auth') || '{}').find((acc:AccountType) => acc.is_current)?.uuid;
+        const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find((acc:AccountType) => acc.is_current)?.uuid;
         if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
         logger.info('HTTP_REQUEST', config.url, config.data);
