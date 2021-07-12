@@ -4,4 +4,5 @@ export const EP_LOGOUT = '/logout';
 export const EP_UPDATE_USER = ALLRIGHT_BASE+'/user';
 export const EP_UPDATE_PROFILE = ALLRIGHT_BASE+'/user/profile';
 export const EP_GET_USER = ALLRIGHT_BASE+'/user';
+export const EP_UPDATE_TNB = ALLRIGHT_BASE+'/user/profile/terms_conditions';
 
