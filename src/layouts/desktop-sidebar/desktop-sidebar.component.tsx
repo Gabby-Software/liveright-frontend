@@ -46,7 +46,7 @@ const DesktopSidebar = () => {
                 <ul className={'sidebar__menu'}>
                     {
                         menuItems.map(({name, url, Icon, type: permission}) => (
-                            !permission || type === permission || true ?
+                            !permission || type === permission ?
                             <li key={url} className={classes('sidebar__item', pathname === url && 'sidebar__item__active')}>
                                 <Link to={url}>
                                     <Icon/>

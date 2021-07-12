@@ -9,6 +9,7 @@ import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
 import Toast from "./components/toast/toast.component";
 import AuthHandler from "./pages/auth-handler/auth-handler.component";
+import PageNotFound from "./pages/page-not-found/page-not-found.component";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -54,6 +55,9 @@ function App() {
                                     </Route>
                                 ))
                             }
+                                <Route path={''}>
+                                    <PageNotFound/>
+                                </Route>
                             </Suspense>
                         </Layout>
                     </Route>

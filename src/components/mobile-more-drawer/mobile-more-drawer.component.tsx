@@ -12,6 +12,7 @@ import {ReactComponent as SyncIcon} from "../../assets/media/icons/sync.svg";
 import {ReactComponent as SettingsIcon} from "../../assets/media/icons/settings.svg";
 import SwitchAccountModal from "../switch-account-modal/switch-account-modal.component";
 import userTypes from "../../enums/user-types.enum";
+import {useAuth} from "../../hooks/auth.hook";
 
 type MobileMoreDrawerPropsType = {
     isOpen: boolean;
@@ -28,6 +29,7 @@ type LinkType = {
 const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
     const {t} = useTranslation();
     const [switchAccountOpen, setSwitchAccountOpen] = useState(false);
+    const {type} = useAuth();
     const menuItems: LinkType[] = [
         {Icon: ProfileIcon, url: '/profile', name: 'menu.profile'},
         {Icon: UsersIcon, url: '/clients', name: 'menu.clients', permission: userTypes.TRAINER},
@@ -46,7 +48,8 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
                 <Styles>
                     <ul className={'more__menu'}>
                         {
-                            menuItems.map(({onClick, Icon, url, name}) => (
+                            menuItems.map(({onClick, Icon, url, name,permission}) => (
+                                permission && permission !== type ? null :
                                 <li className={'more__item'} key={url}>
                                     {
                                         url ? (
