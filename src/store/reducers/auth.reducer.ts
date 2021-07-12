@@ -2,6 +2,7 @@ import {AccountObjType} from "../../types/account.type";
 import {ACTION_LOGIN_SUCCESS, ACTION_REGISTER_SUCCESS, ACTION_UPDATE_AUTH_SUCCESS, ActionType} from "../action-types";
 import {withStorage} from "./storage.hook";
 import logger from "../../managers/logger.manager";
+import {withCookies} from "./cookies.hook";
 
 const initialState: AccountObjType = {
     accounts: [],
@@ -17,7 +18,7 @@ const initialState: AccountObjType = {
     is_active: false,
     uuid: ''
 };
-export const authReducer = withStorage((state = initialState, {type, payload}: ActionType<any>) => {
+export const authReducer = withCookies((state = initialState, {type, payload}: ActionType<any>) => {
     switch(type) {
         case ACTION_LOGIN_SUCCESS:
         case ACTION_REGISTER_SUCCESS:
