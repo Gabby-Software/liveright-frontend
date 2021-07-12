@@ -5,6 +5,7 @@ import {classes} from "../../pipes/classes.pipe";
 type StepsProps = {
     children: React.ReactNode;
     currentStep: number;
+    dots?:boolean;
 }
 type StepProp = {
     children: React.ReactNode;
@@ -17,7 +18,7 @@ const Step = ({children, active}:StepProp) => {
         </div>
     )
 };
-const Steps = ({children, currentStep = 0}: StepsProps) => {
+const Steps = ({children, currentStep = 0, dots}: StepsProps) => {
     const count = useMemo(() => {
         let c = 0;
         Children.forEach(children, _ => c++);
@@ -38,13 +39,17 @@ const Steps = ({children, currentStep = 0}: StepsProps) => {
                 }))
             }
             </div>
-            <div className={'steps__dots'}>
-                {
-                    Children.map(children, ((_, i) => (
-                        <div className={classes('steps__dot', i===currentStep&&'steps__dot__active')}/>
-                    )))
-                }
-            </div>
+            {
+                dots?(
+                    <div className={'steps__dots'}>
+                        {
+                            Children.map(children, ((_, i) => (
+                                <div className={classes('steps__dot', i===currentStep&&'steps__dot__active')}/>
+                            )))
+                        }
+                    </div>
+                ):null
+            }
         </Styles>
     );
 };

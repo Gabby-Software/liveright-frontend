@@ -127,6 +127,12 @@ const extend = {
         font-size: 10px;
         line-height: 140%;
         letter-spacing: .8px;
+    `,
+    label: `
+        color: ${vars.colors.primaryDark};
+        font-size: 14px;
+        font-weight: 600;
+        text-align: left;
     `
 };
 

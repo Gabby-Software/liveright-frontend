@@ -5,4 +5,7 @@ export type InvoiceFormType = {
     quantity: number;
     session_expired: string;
     client_name: string;
+    price: number;
+    discount:number;
+    description: string;
 }

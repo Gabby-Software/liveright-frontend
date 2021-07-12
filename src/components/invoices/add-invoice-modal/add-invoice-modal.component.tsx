@@ -14,80 +14,44 @@ import FormInputLabeled from "../../forms/form-input-labeled/form-input-labeled.
 import FormSelect from "../../forms/form-select/form-select.component";
 import {clients} from "../../../pages/invoices/invoices.data";
 import ButtonSubmit from "../../forms/button-submit/button-submit.component";
-import logger from "../../../managers/logger.manager";
+import Steps from "../../steps/steps.component";
+import AddInvoiceModal1 from "./add-invoice-modal-1/add-invoice-modal-1.component";
+import AddInvoiceModal2 from "./add-invoice-modal-2/add-invoice-modal-2.component";
+import {initialValues, InvoiceContext} from "./add-invoice-modal.context";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
 };
-const initialValues: InvoiceFormType = {
-    due_date: date(new Date().toDateString()),
-    service_type: 'PT Session',
-    other: '',
-    quantity: 1,
-    session_expired: '',
-    client_name: ''
-};
+
+export enum invoiceSteps {
+    DETAILS,
+    PRICE
+}
+
 const AddInvoiceModal = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation();
-    const handleSubmit = (values: InvoiceFormType, helper: FormikHelpers<InvoiceFormType>) => {
-        // todo: handle submit
-        helper.setSubmitting(false);
-        helper.resetForm();
+    const [step, setStep] = useState(invoiceSteps.DETAILS);
+    const [form, setForm] = useState<InvoiceFormType>(initialValues);
+    const handleClose = () => {
+        setStep(invoiceSteps.DETAILS);
         onClose();
     };
-    const serviceTypeOptions = Object.values(serviceTypes).map((type: string) => ({
-        label: t(`invoices:service-type.${type}`), value: t(`invoices:service-type.${type}`)
-    }));
+    const update = (name: string, value: any) => setForm({...form, [name]:value});
     return (
-        <Modal visible={isOpen} onCancel={onClose}>
+        <Modal visible={isOpen} onCancel={handleClose}>
             <Styles>
                 <h1 className={'add-invoice__title'}>{t('invoices:add')}</h1>
-                <Formik
-                    onSubmit={handleSubmit}
-                    initialValues={initialValues}
-                    validationSchema={Yup.object({
-                        due_date: Yup.date().required().min(moment().startOf('day').toDate()),
-                        quantity: Yup.number().min(1),
-                        client_name: Yup.string().required(),
-                        service_type: Yup.string(),
-                        session_expired: Yup.string().when('service_type', {
-                            is: (field: string) => field === t(`invoices:service-type.${serviceTypes.PT_SESSION}`),
-                            then: Yup.string()
-                        }),
-                        other: Yup.string().when('service_type', {
-                            is: (field: string) => field === t(`invoices:service-type.${serviceTypes.OTHER}`),
-                            then: Yup.string().required()
-                        })
-                    })}
-                >
-                    {
-                        (form: FormikProps<InvoiceFormType>) => (
-                            <Form>
-                                <FormDatepicker name={'due_date'} label={t('invoices:invoice-due')}/>
-                                <FormRow>
-                                    <FormSelect name={'service_type'} label={t('invoices:service-type.title')}
-                                                options={serviceTypeOptions}/>
-                                    {
-                                        form.values.service_type === t(`invoices:service-type.${serviceTypes.PT_SESSION}`) ? (
-                                            <FormInputLabeled name={'session_expired'}
-                                                              label={t('invoices:session-expired')}/>
-                                        ) : form.values.service_type === t(`invoices:service-type.${serviceTypes.OTHER}`) ? (
-                                            <FormInputLabeled name={'other'} label={t('invoices:other')}/>
-                                        ) : null
-                                    }
-                                </FormRow>
-                                <FormInputLabeled name={'quantity'} label={t('invoices:quantity')} type={'number'}/>
-                                <FormSelect name={'client_name'} label={t('invoices:client-name')}
-                                            options={clients.map(({first_name, last_name}) => ({
-                                                label: `${first_name} ${last_name}`,
-                                                value: `${first_name} ${last_name}`
-                                            }))}/>
-                                <ButtonSubmit>{t('submit')}</ButtonSubmit>
-                            </Form>
-                        )
-                    }
-                </Formik>
+                <InvoiceContext.Provider value={{form, update, step, setStep, onClose: handleClose}}>
+                    <Steps currentStep={step}>
+                        <Steps.Step>
+                            <AddInvoiceModal1/>
+                        </Steps.Step>
+                        <Steps.Step>
+                            <AddInvoiceModal2/>
+                        </Steps.Step>
+                    </Steps>
+                </InvoiceContext.Provider>
             </Styles>
         </Modal>
     );

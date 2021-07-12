@@ -97,7 +97,7 @@ const SignUpOnboard = () => {
                 >
                     {() => (
                         <Form>
-                            <Steps currentStep={currentStep}>
+                            <Steps currentStep={currentStep} dots>
                                 <Steps.Step>
                                     <Onboard1/>
                                 </Steps.Step>
