@@ -14,8 +14,8 @@ import api from "../../managers/api.manager";
 
 export function* sagaProfileWatcher() {
     logger.info('PROFILE SAGA INIT');
-    yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateProfileAction);
-    yield takeLatest(ACTION_GET_ACCOUNT_REQUEST, getProfileAction);
+    // yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateProfileAction);
+    // yield takeLatest(ACTION_GET_ACCOUNT_REQUEST, getProfileAction);
 }
 
 function* updateProfileAction(action: ActionType<ProfileDataType&CallbackType<void>>) {

@@ -7,6 +7,7 @@ import SmallModal from "../../small-modal/small-modal.component";
 import {ReactComponent as DownArrow} from "../../../assets/media/icons/down-arrow.svg";
 import {Select} from "antd";
 import FormError from "../form-error/form-error.component";
+import logger from "../../../managers/logger.manager";
 
 type FormSelectPropsType = {
     name: string;
@@ -21,6 +22,7 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
         form.setFieldValue(name, value);
         onUpdate && onUpdate(value);
     };
+    logger.info('OPTIONS', options);
     return (
         <Field name={name}>
             {
@@ -30,13 +32,14 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                             <label className={'select_input__cont'}>
                                 <div className={'select_input__label'}>{label}</div>
                                 <input onFocus={e => e.target.blur()} className={'select_input__input'}
-                                       onClick={() => setIsModalOpen(true)} value={field.value}
+                                       onClick={() => setIsModalOpen(true)}
+                                       value={options.find(op => op.value.toString() === field.value.toString())?.label}
                                 />
                             </label>
                             <FormError name={name}/>
                             <SmallModal onCancel={() => setIsModalOpen(false)} visible={isModalOpen}
                                         title={label} menu={options.map(({label, value}) => ({
-                                name: label, onClick: () => handleChange(label, form)
+                                name: label, onClick: () => handleChange(value, form)
                             }))}/>
                         </MobileStyles>
                     ) : (
@@ -53,14 +56,15 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                                     filterSort={(optionA, optionB) =>
                                         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                                     }
-                                    value={field.value}
-                                    onChange={value => form.setFieldValue(name, value)}
+                                    value={options.find(op => op.value.toString() === field.value.toString())}
+                                    labelInValue
+                                    onChange={value => form.setFieldValue(name, value.value)}
                                     id={name}
                                     onBlur={form.handleBlur}
                                 >
                                     {
-                                        options.map(({label}) => (
-                                            <Select.Option value={label}>{label}</Select.Option>
+                                        options.map(({label, value}) => (
+                                            <Select.Option value={value}>{label}</Select.Option>
                                         ))
                                     }
                                 </Select>

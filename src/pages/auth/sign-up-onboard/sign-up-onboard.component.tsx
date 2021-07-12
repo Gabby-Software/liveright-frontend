@@ -23,13 +23,14 @@ import {
     ACTION_UPDATE_ACCOUNT_REQUEST,
     ACTION_UPDATE_AUTH_REQUEST,
 } from "../../../store/action-types";
+import {fillExist} from "../../../pipes/fill-exist.pipe";
 
 const initialState: AuthOnboardType = {
     phone_number: '',
     birthday: '',
     address: '',
     city: '',
-    country: '',
+    country: {id:0},
     dietary_restrictions: '',
     injuries: ''
 };
@@ -50,27 +51,55 @@ const SignUpOnboard = () => {
         });
         switch (currentStep) {
             case 0:
-                dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: {
-                        birthday: form.birthday,
-                        ...callback(1)
-                    }});
-                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
-                        phone_number: form.phone_number,
-                        ...callback(1)
-                    }});
+                if(form.birthday) {
+                    dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: {
+                            birthday: form.birthday,
+                            ...callback(1)
+                        }});
+                }
+                if(form.phone_number) {
+                    logger.info('UPDATE ACCOUNT - dispatch');
+                    dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                            phone_number: form.phone_number,
+                            ...callback(1)
+                        }});
+                }
+                if(!form.birthday && !form.phone_number) {
+                    setCurrentStep(1);
+                }
                 break;
             case 1:
-                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
-                        address: form.address,
-                        ...callback(2)
-                    }});
+                if(form.country?.id) {
+                    dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: {
+                            country_id: form.country?.id,
+                            ...callback(2)
+                        }});
+                }
+                if(form.city || form.address) {
+                    dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                            ...fillExist({
+                                address: form.address,
+                                city: form.city,
+                            }),
+                            ...callback(2)
+                        }});
+                }
+                if(!form.city && !form.address && !form.country?.id) {
+                    setCurrentStep(2)
+                }
                 break;
             case 2:
-                dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
-                        injuries: form.injuries,
-                        dietary_restrictions: form.dietary_restrictions,
-                        ...callback(3)
-                    }});
+                if(form.injuries || form.dietary_restrictions) {
+                    dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+                            ...fillExist({
+                                injuries: form.injuries,
+                                dietary_restrictions: form.dietary_restrictions,
+                            }),
+                            ...callback(3)
+                        }});
+                } else {
+                    setCurrentStep(3)
+                }
                 toast.show({type: 'success', msg: t('alerts:onboard-success')});
                 break;
 

@@ -8,6 +8,7 @@ import FormRadio from "../../forms/form-radio-button/form-radio-button.component
 import {capitalize} from "../../../pipes/capitalize.pipe";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import FormCountrySelect from "../../forms/form-country-select/form-country-select.component";
+import {useAuth} from "../../../hooks/auth.hook";
 
 type Props = {
     name: string;
@@ -18,6 +19,7 @@ type Props = {
 }
 const ProfileField = ({name, value, editable, formName, type}: Props) => {
     const {editMode} = useContext(ProfileContext);
+    const {country} = useAuth();
     const {t} = useTranslation();
     return (
         <Styles>
@@ -34,7 +36,7 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                 ) : (
                     <>
                         <div className={'field__name'}>{name}</div>
-                        <div className={'field__value'}>{type==='radio'?t(`profile:${value}`):value}</div>
+                        <div className={'field__value'}>{type==='radio'?t(`profile:${value}`):type==='country'?country?.name_english:value}</div>
                     </>
                 )
             }

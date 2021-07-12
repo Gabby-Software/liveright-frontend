@@ -3,7 +3,7 @@ export type AuthOnboardType = {
     birthday: string;
     address: string;
     city: string;
-    country: string;
+    country: {id: number}
     dietary_restrictions:string;
     injuries: string;
 }

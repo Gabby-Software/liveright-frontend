@@ -8,7 +8,7 @@ import {
     ACTION_REGISTER_REQUEST,
     ACTION_REGISTER_SUCCESS,
     ACTION_RESET_PASSWORD_REQUEST, ACTION_SWITCH_ACCOUNT_REQUEST,
-    ACTION_SWITCH_ACCOUNT_SUCCESS,
+    ACTION_SWITCH_ACCOUNT_SUCCESS, ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_ACCOUNT_SUCCESS,
     ACTION_UPDATE_AUTH_REQUEST,
     ACTION_UPDATE_AUTH_SUCCESS,
     ACTION_VERIFY_EMAIL_REQUEST,
@@ -21,7 +21,7 @@ import {CallbackType} from "../../types/callback.type";
 import api from "../../managers/api.manager";
 import {
     EP_ADD_ACCOUNT,
-    EP_LOGOUT,
+    EP_LOGOUT, EP_UPDATE_PROFILE,
     EP_UPDATE_USER,
 } from "../../enums/api.enum";
 import logger from "../../managers/logger.manager";
@@ -43,6 +43,8 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_UPDATE_AUTH_REQUEST, updateAuthWorker);
     yield takeLatest(ACTION_SWITCH_ACCOUNT_REQUEST, switchAccountWorker);
     yield takeLatest(ACTION_ADD_ACCOUNT_REQUEST, addAccountWorker);
+    yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateAccountWorker);
+
 }
 //
 // function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -130,11 +132,26 @@ function* logoutWorker() {
 async function logoutCall() {
     return call(() =>(api.post(EP_LOGOUT)));
 }
+function* updateAccountWorker({payload}: ActionType<ProfileDataType&CallbackType<void>>) {
+    const {onSuccess, onError, ...data} = payload;
+    logger.info('UPDATE ACCOUNT - worker');
+    try {
+        const res = (yield call(() => api.put(EP_UPDATE_PROFILE, payload).then(res => res.data.data))) as ProfileDataType;
+        yield call(() => logger.info('UPDATE ACCOUNT - response', res));
+        yield put({type: ACTION_UPDATE_ACCOUNT_SUCCESS, payload: res});
+        onSuccess && onSuccess();
+    } catch(e) {
+        logger.info('UPDATE ACCOUNT - error', e);
+        toast.show({type: 'error',msg: serverError(e)});
+        onError && onError(serverError(e));
+    }
+}
+
 function* updateAuthWorker({payload}: ActionType<AccountObjType & CallbackType<void>>) {
     const {onSuccess, onError, ...data} = payload;
     try {
-        yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
-        yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: data});
+        const res = (yield call(() => api.put(EP_UPDATE_USER, data).then(res => res.data.data))) as AccountObjType;
+        yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: res});
         onSuccess && onSuccess();
     } catch(e) {
         toast.show({type: 'error',msg: serverError(e)});

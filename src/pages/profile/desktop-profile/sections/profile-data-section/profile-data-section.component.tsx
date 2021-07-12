@@ -35,7 +35,7 @@ const ProfileDataSection = () => {
         {name: t('profile:email'), value: auth.email, formName: 'email', editable: true},
         {name: t('profile:phone'), value: profileData.phone_number, formName: 'phone_number', editable: true},
         {name: t('profile:city'), value: profileData.city, formName: 'city', editable: true},
-        {name: t('profile:country'), value: profileData.country, formName: 'country', editable: true, type: 'country'},
+        {name: t('profile:country'), value: ''+(auth.country?.id || ''), formName: 'country.id', editable: true, type: 'country'},
         {name: t('profile:address'), value: profileData.address, formName: 'address', editable: true},
         {name: t('profile:gender'), value: auth.gender || '', formName: 'gender', editable: true, type: 'radio'},
     ];

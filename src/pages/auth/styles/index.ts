@@ -25,7 +25,7 @@ export default styled.div`
         margin-right: auto;
         margin-left: auto;
     }
-    .text_input__wrapper, .radio__wrapper, .textarea__wrapper {
+    .text_input__wrapper, .radio__wrapper, .textarea__wrapper, .select_input__wrapper {
         margin-bottom: 12px;
     }
     .sign-up__name {

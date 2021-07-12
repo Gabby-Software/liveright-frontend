@@ -6,7 +6,6 @@ const initialState: ProfileDataType = {
     phone_number: '',
     address: '',
     city:'',
-    country:'',
     dietary_restrictions: '',
     injuries: '',
     notes: '',

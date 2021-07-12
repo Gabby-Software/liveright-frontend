@@ -39,9 +39,11 @@ class QaManager {
     };
     public report = () => {
         download(generateReport(this.logs));
-    }
-    public cleanCookies = () => {
-        cookieManager.removeAll();
+    };
+    public showUser = () => {
+        const user = cookieManager.get('auth');
+        if(user) return JSON.parse(user);
+        return 'no user data';
     }
 }
 const qa = new QaManager();

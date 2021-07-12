@@ -1,5 +1,6 @@
 import {AccessOptionType} from "./access-option.type";
 import {ProfileDataType} from "./profile-data.type";
+import {CountryType} from "./country.type";
 
 export type AccountType = {
     account_level: null | number;
@@ -23,4 +24,5 @@ export type AccountObjType = {
     is_active: boolean;
     last_name: string;
     uuid: string;
+    country: null | CountryType
 }

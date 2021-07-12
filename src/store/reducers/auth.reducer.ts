@@ -23,7 +23,8 @@ const initialState: AccountObjType = {
     last_name: '',
     gender: null,
     is_active: false,
-    uuid: ''
+    uuid: '',
+    country: null,
 };
 export const authReducer = withCookies((state = initialState, {type, payload}: ActionType<any>) => {
     switch(type) {
@@ -38,13 +39,10 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
                 ...payload
             };
         case ACTION_UPDATE_ACCOUNT_SUCCESS:
-            logger.info('updating profile', payload);
-            const accountIndex = state.accounts.findIndex((a: AccountType) => a.uuid === state.uuid);
+            logger.info('UPDATE ACCOUNT - worker', payload);
+            const accountIndex = state.accounts.findIndex((a: AccountType) => a.is_current);
             if(accountIndex !== -1) {
-                state.accounts[accountIndex] = {
-                    ...state.accounts[accountIndex],
-                    ...payload
-                }
+                state.accounts[accountIndex] = payload;
             }
             return {...state};
         case ACTION_ADD_ACCOUNT_SUCCESS:
