@@ -6,4 +6,7 @@ export type AuthOnboardType = {
     country: {id: number}
     dietary_restrictions:string;
     injuries: string;
+    about: string;
+    qualifications: string;
+    additional_information: string;
 }

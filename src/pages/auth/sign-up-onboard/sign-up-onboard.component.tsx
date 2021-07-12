@@ -32,7 +32,10 @@ const initialState: AuthOnboardType = {
     city: '',
     country: {id:0},
     dietary_restrictions: '',
-    injuries: ''
+    injuries: '',
+    about: '',
+    qualifications: '',
+    additional_information: ''
 };
 const SignUpOnboard = () => {
     const {t} = useTranslation();
@@ -89,11 +92,14 @@ const SignUpOnboard = () => {
                 }
                 break;
             case 2:
-                if(form.injuries || form.dietary_restrictions) {
+                if(form.injuries || form.dietary_restrictions || form.about || form.qualifications || form.additional_information) {
                     dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
                             ...fillExist({
                                 injuries: form.injuries,
                                 dietary_restrictions: form.dietary_restrictions,
+                                about: form.about,
+                                qualifications: form.qualifications,
+                                additional_information: form.additional_information
                             }),
                             ...callback(3)
                         }});
