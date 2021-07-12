@@ -45,7 +45,7 @@ function App() {
                             </Suspense>
                         </AuthFormProvider>
                     </Route>
-                    <Route path={routes.map(r => r.url)}>
+                    <Route exact path={routes.map(r => r.url)}>
                         <Layout>
                             <Suspense fallback={<Skeleton className={'suspense'}/>}>
                             {
@@ -55,11 +55,11 @@ function App() {
                                     </Route>
                                 ))
                             }
-                                <Route path={''}>
-                                    <PageNotFound/>
-                                </Route>
                             </Suspense>
                         </Layout>
+                    </Route>
+                    <Route>
+                        <PageNotFound/>
                     </Route>
                 </Switch>
             <Toast/>

@@ -12,10 +12,13 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {classes} from "../../../pipes/classes.pipe";
 import MobileInvoicesFooter from "../../../components/invoices/mobile-invoices-footer/mobile-invoices-footer.component";
 import MobileFilterDrawer from "../../../components/invoices/mobile-filter-drawer/mobile-filter-drawer.component";
+import {useAuth} from "../../../hooks/auth.hook";
+import userTypes from "../../../enums/user-types.enum";
 
 type Props = {};
 const MobileInvoices = ({}:Props) => {
     const [page, setPage] = useState(1);
+    const {type} = useAuth();
     const {t} = useTranslation();
     useInfiniteScroll((p: number) => {
         setPage(p);
@@ -54,7 +57,9 @@ const MobileInvoices = ({}:Props) => {
                     </Link>
                 ))
             }
-            <MobileInvoicesFooter/>
+            {
+                type===userTypes.TRAINER?<MobileInvoicesFooter/>:null
+            }
             <MobileFilterDrawer/>
         </Styles>
     )

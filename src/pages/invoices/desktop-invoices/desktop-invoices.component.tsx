@@ -20,6 +20,8 @@ import DesktopAddInvocieTrigger
     from "../../../components/invoices/desktop-add-invocie-trigger/desktop-add-invocie-trigger.component";
 import DesktopAddInvoiceTrigger
     from "../../../components/invoices/desktop-add-invoice-trigger/desktop-add-invoice-trigger.component";
+import {useAuth} from "../../../hooks/auth.hook";
+import userTypes from "../../../enums/user-types.enum";
 
 const initialFilters: InvoiceFiltersType = {
     client_name: 'All',
@@ -27,10 +29,11 @@ const initialFilters: InvoiceFiltersType = {
 };
 const DesktopInvoices = () => {
     const [invoice, setInvoice] = useState<number | null>(null);
+    const {type} = useAuth();
     const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: invoices.length});
     const {t} = useTranslation();
     const labels = [
-        'invoices:client-name',
+        type === userTypes.TRAINER ? 'invoices:client-name' : 'invoices:trainer-name',
         'invoices:invoice-number',
         'invoices:price',
         'invoices:status'
@@ -67,32 +70,36 @@ const DesktopInvoices = () => {
                                     }))
                                 ]}/>
                                 <ButtonSubmit className={'invoices__filter'}>{t('apply-filters')}</ButtonSubmit>
-                                <DesktopAddInvoiceTrigger/>
+                                {
+                                    type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null
+                                }
                             </FormRow>
                         </Form>
                     </Formik>
                 </div>
-                <DataTable labels={labels}
-                           data={invoices.slice((pagMeta.current_page - 1) * pagMeta.per_page, (pagMeta.current_page - 1) * pagMeta.per_page + pagMeta.per_page)}
-                           keys={keys} onClick={({id}) => setInvoice(id)} active={invoice || undefined}/>
+                <DataTable
+                    labels={labels}
+                    data={invoices.slice((pagMeta.current_page - 1) * pagMeta.per_page, (pagMeta.current_page - 1) * pagMeta.per_page + pagMeta.per_page)}
+                    keys={keys} onClick={({id}) => setInvoice(id)} active={invoice || undefined}/>
                 <DataPagination page={pagMeta.current_page} setPage={(page) => {
                     setPagMeta({...pagMeta, current_page: page})
                 }} total={pagMeta.total}/>
             </div>
             <div className={classes('invoices__view', invoice && 'invoices__view__open')}>
-            {
-                invoice ? (
-                    <>
-                        <div>
-                            <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
-                            <a target={'_blank'} href={'http://www.africau.edu/images/default/sample.pdf'} download={'invoice.pdf'}><DownloadIcon className={'invoices__download'}/></a>
-                        </div>
-                    <Card className={'invoices__view__card'}>
-                        <InvoiceView id={invoice}/>
-                    </Card>
-                    </>
-                ) : null
-            }
+                {
+                    invoice ? (
+                        <>
+                            <div>
+                                <BackIcon className={'invoices__close'} onClick={() => setInvoice(null)}/>
+                                <a target={'_blank'} href={'http://www.africau.edu/images/default/sample.pdf'}
+                                   download={'invoice.pdf'}><DownloadIcon className={'invoices__download'}/></a>
+                            </div>
+                            <Card className={'invoices__view__card'}>
+                                <InvoiceView id={invoice}/>
+                            </Card>
+                        </>
+                    ) : null
+                }
             </div>
         </Styles>
     )

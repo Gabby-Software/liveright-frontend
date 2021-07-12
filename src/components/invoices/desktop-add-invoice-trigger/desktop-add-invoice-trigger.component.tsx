@@ -4,8 +4,7 @@ import FormButton from "../../forms/form-button/form-button.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import AddInvoiceModal from "../add-invoice-modal/add-invoice-modal.component";
 
-type Props = {};
-const DesktopAddInvoiceTrigger = ({}:Props) => {
+const DesktopAddInvoiceTrigger = () => {
     const {t} = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     return (
