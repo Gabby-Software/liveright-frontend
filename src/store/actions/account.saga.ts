@@ -10,6 +10,7 @@ import {toast} from "../../components/toast/toast.component";
 import {i18n} from "../../modules/i18n/i18n.context";
 import logger from "../../managers/logger.manager";
 import {CallbackType} from "../../types/callback.type";
+import api from "../../managers/api.manager";
 
 export function* sagaProfileWatcher() {
     logger.info('PROFILE SAGA INIT');
@@ -29,6 +30,6 @@ function* getProfileAction() {
 }
 
 async function getProfileCall() {
-
+    // api.get(EP_GET)
 }
 

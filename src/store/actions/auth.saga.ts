@@ -26,6 +26,7 @@ import {VerifyEmailParamsType, VerifyEmailQueryType} from "../../modules/auth/ve
 import {AccountObjType} from "../../types/account.type";
 import {Routes} from "../../enums/routes.enum";
 import cookieManager from "../../managers/cookie.manager";
+import {identity} from "../../pipes/identity.pipe";
 
 export function* sagaAuthWatcher() {
     logger.info('AUTH SAGA INIT');
@@ -115,8 +116,8 @@ function* logoutWorker() {
     } finally {
         yield call(() => {
             localStorage.clear();
-            document.cookie = '';
-            document.location.href = document.location.protocol + '//identity.' + document.location.host;
+            cookieManager.removeAll();
+            document.location.href = identity(Routes.LOGIN);
         });
     }
 }

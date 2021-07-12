@@ -8,4 +8,5 @@ export const EP_VERIFY_EMAIL = '/email/verify';
 export const EP_VERIFY_EMAIL_RESEND = '/email/verification-notification';
 export const EP_UPDATE_USER = '/user';
 export const EP_UPDATE_PROFILE = '/user/profile';
+export const EP_GET_PROFILE = '/user/profile';
 

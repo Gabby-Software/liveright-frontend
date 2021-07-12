@@ -40,7 +40,7 @@ api.interceptors.response.use(
             // Todo: call api to logout
             api.post(EP_LOGOUT);
             localStorage.clear();
-            document.cookie = '';
+            cookieManager.removeAll();
             document.location.href = document.location.protocol + '//identity.' + document.location.host;
         }
         return Promise.reject(err)
