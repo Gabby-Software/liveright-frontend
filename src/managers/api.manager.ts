@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import cookieManager from "./cookie.manager";
-import {EP_CSRF, EP_LOGOUT} from "../enums/api.enum";
+import {EP_LOGOUT} from "../enums/api.enum";
 import {toast} from "../components/toast/toast.component";
 import {i18n} from "../modules/i18n/i18n.context";
 import logger from "./logger.manager";
@@ -45,7 +45,6 @@ api.interceptors.response.use(
         return Promise.reject(err)
     }
 );
-
 export const handleError = (formHelper:FormikHelpers<any>) => (e: any) => {
     if(e?.response?.data?.errors) {
         for (const [name, [message]] of Object.entries<string[]>(e.response.data.errors)) {
