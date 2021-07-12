@@ -6,6 +6,7 @@
   "invoice-due": "Invoice Due",
   "description": "Description",
   "mark-paid": "Mark as Paid",
+  "pay": "Pay",
   "cancel-invoice": "Cancel Invoice",
   "session-expired": "Session Expired",
   "quantity": "Quantity",

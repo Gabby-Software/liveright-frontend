@@ -1,3 +1,5 @@
+import cookieManager from "./cookie.manager";
+
 declare global {
     interface Window { QA: QaManager }
 }
@@ -37,6 +39,9 @@ class QaManager {
     };
     public report = () => {
         download(generateReport(this.logs));
+    }
+    public cleanCookies = () => {
+        cookieManager.removeAll();
     }
 }
 const qa = new QaManager();

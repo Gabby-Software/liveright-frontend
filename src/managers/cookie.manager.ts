@@ -1,3 +1,5 @@
+import logger from "./logger.manager";
+
 const cookieManager = {
   get(name: string){
       name += "=";
@@ -25,6 +27,7 @@ const cookieManager = {
   },
   removeAll(){
           const cookies = document.cookie.split(";");
+          logger.info('cookies to remove', cookies);
           for (const cookie of cookies) {
               const eqPos = cookie.indexOf("=");
               const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
