@@ -52,7 +52,7 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
               ...state,
               accounts: [
                   ...state.accounts.map((acc:AccountType) => ({...acc, is_current: false})),
-                  payload
+                  {...payload,is_current: true}
               ]
             };
         case ACTION_SWITCH_ACCOUNT_SUCCESS:
