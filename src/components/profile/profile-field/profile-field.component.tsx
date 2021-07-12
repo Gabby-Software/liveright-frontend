@@ -32,7 +32,7 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                             ]}/>
                         : type === 'country'? (
                             <FormCountrySelect/>
-                            ):<FormInputLabeled name={formName} label={name}/>
+                            ):<FormInputLabeled name={formName} label={name} disabled={!editable}/>
                 ) : (
                     <>
                         <div className={'field__name'}>{name}</div>

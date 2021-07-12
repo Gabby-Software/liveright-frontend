@@ -83,7 +83,7 @@ const EditProfile = () => {
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>
                         <FormDatepicker name={'birthday'} label={t('profile:birth-date')}/>
-                        <FormInputLabeled name={'email'} label={t('profile:email')}/>
+                        <FormInputLabeled name={'email'} label={t('profile:email')} disabled/>
                         <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
                         <FormInputLabeled name={'city'} label={t('profile:city')}/>
                         <FormCountrySelect/>

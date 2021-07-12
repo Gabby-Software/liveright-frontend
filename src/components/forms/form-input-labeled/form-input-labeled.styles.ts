@@ -53,6 +53,9 @@ export default styled.div`
                 display:block;
             }
         }
+        &:disabled {
+            color: ${p => p.theme.vars.colors.secondary2};
+        }
     }    
 }
 

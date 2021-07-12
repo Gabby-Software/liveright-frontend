@@ -30,7 +30,10 @@ const DesktopProfile = () => {
     const authData = useAuth();
     const dispatch = useDispatch();
     const {setEditMode, tnbFile, imageFile} = useContext(ProfileContext);
-    const handleSubmit = (form: ProfileDataType&AccountObjType&AccountType, helper: FormikHelpers<ProfileDataType&AccountObjType&AccountType>) => {
+    const handleSubmit = (
+        form: ProfileDataType & AccountObjType & AccountType,
+        helper: FormikHelpers<ProfileDataType & AccountObjType & AccountType>
+    ) => {
         console.log('submitted profile', form);
         dispatch({
             type: ACTION_UPDATE_PROFILE_REQUEST, payload: {
