@@ -7,35 +7,6 @@ ${p => p.theme.extend.layout}
         ${p => p.theme.extend.flexCenter}   
         margin-bottom: 24px;     
     }
-    &__overall {
-        ${p => p.theme.extend.flexCenter}
-        flex-direction: column;
-        width: 100%;
-        margin-right: 8px; 
-        aspect-ratio: 1;
-            &__paid {
-                color: ${p => p.theme.vars.colors.success};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.success}88;
-            }
-            &__cancelled {
-                color: ${p => p.theme.vars.colors.secondary};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.secondary}88;
-            }
-            &__outstanding {
-                color: ${p => p.theme.vars.colors.error};
-                box-shadow: 0 0 2px ${p => p.theme.vars.colors.error}88;
-            }
-        &:last-child {
-            margin-right:0;
-        }
-        &__label {
-            ${p => p.theme.extend.small}
-            // color: ${p => p.theme.vars.colors.primaryDark};
-        }
-        &__value {
-            ${p => p.theme.extend.big}
-        }
-    }
     &__item {
         margin-bottom: 12px;
         display: block;

@@ -140,7 +140,25 @@ export const routes: RouteType[] = [
             title: "Clients",
             items: headers.add
         }
-    }
+    },
+    {
+        title: 'Sessions',
+        url: Routes.SESSIONS+'/:id',
+        Component: lazy(() => import('../pages/session/session.component')),
+        header: {
+            title: "Sessions",
+            items: headers.add
+        }
+    },
+    {
+        title: 'Sessions',
+        url: Routes.SESSIONS,
+        Component: lazy(() => import('../pages/sessions/sessions.component')),
+        header: {
+            title: "Sessions",
+            items: headers.filter
+        }
+    },
 ];
 
 export default routes;

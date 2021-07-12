@@ -7,4 +7,5 @@ import {default as calendar} from './calendar.json';
 import {default as settings} from './settings.json';
 import {default as invoices} from './invoices.json';
 import {default as clients} from './clients.json';
-export default {common,errors,auth,profile,alerts,calendar,settings,invoices,clients};
+import {default as sessions} from './sessions.json';
+export default {common,errors,auth,profile,alerts,calendar,settings,invoices,clients,sessions};

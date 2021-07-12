@@ -14,6 +14,7 @@ import MobileInvoicesFooter from "../../../components/invoices/mobile-invoices-f
 import MobileFilterDrawer from "../../../components/invoices/mobile-filter-drawer/mobile-filter-drawer.component";
 import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
+import Overall from "../../../components/overall-card/overall-card.component";
 
 type Props = {};
 const MobileInvoices = ({}:Props) => {
@@ -31,16 +32,13 @@ const MobileInvoices = ({}:Props) => {
     ];
     return (
         <Styles>
-            <div className={'invoices__heading'}>
+            <Overall>
                 {
-                    overallValues.map(({label, value, type}, i) => (
-                        <Card className={classes('invoices__overall', `invoices__overall__${type}`)} key={i}>
-                            <div className={classes('invoices__overall__value')}>{value}</div>
-                            <div className={'invoices__overall__label'}>{t(label)}</div>
-                        </Card>
+                    overallValues.map(({label, type, value}, i) => (
+                        <Overall.Card label={t(label)} value={value} type={type} key={i}/>
                     ))
                 }
-            </div>
+            </Overall>
             {
                 invoices.slice(0, page*10).map(({id, due_date, client_name, status, invoice_number}: TrainerInvoiceType, i) => (
                     <Link to={Routes.INVOICES+'/'+id} key={id} className={'invoices__item'}>
