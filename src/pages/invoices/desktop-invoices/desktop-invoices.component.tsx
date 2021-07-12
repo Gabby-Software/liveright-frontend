@@ -62,13 +62,17 @@ const DesktopInvoices = () => {
                                     {label: 'All', value: ''},
                                     ...statuses.map(({name}) => ({label: name, value: name}))
                                 ]}/>
-                                <FormSelect name={'client_name'} label={t('invoices:client-name')} options={[
-                                    {label: 'All', value: ''},
-                                    ...clients.map(({first_name, last_name}) => ({
-                                        label: `${first_name} ${last_name}`,
-                                        value: `${first_name} ${last_name}`
-                                    }))
-                                ]}/>
+                                {
+                                    type === userTypes.TRAINER ? (
+                                        <FormSelect name={'client_name'} label={t('invoices:client-name')} options={[
+                                            {label: 'All', value: ''},
+                                            ...clients.map(({first_name, last_name}) => ({
+                                                label: `${first_name} ${last_name}`,
+                                                value: `${first_name} ${last_name}`
+                                            }))
+                                        ]}/>
+                                    ) : null
+                                }
                                 <ButtonSubmit className={'invoices__filter'}>{t('apply-filters')}</ButtonSubmit>
                                 {
                                     type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null

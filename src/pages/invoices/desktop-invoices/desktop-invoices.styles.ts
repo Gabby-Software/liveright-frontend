@@ -4,6 +4,9 @@ export default styled.div`
     padding: 40px;
     display: flex;
     overflow: auto;
+    .select_input__wrapper {
+        max-width: 260px;
+    }
     .invoices {
         &__data {
             width: 100%;
