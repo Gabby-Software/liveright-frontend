@@ -18,7 +18,7 @@ jobs:
           cd /home/liverightdev/public_html
           git checkout dev
           git pull origin dev
-          cp /home/identity/public_html/.env.dev /home/identity/public_html/.env
+          cp /home/liverightdev/public_html/.env.dev /home/liverightdev/public_html/.env
           yarn install
           yarn build
     
