@@ -1,10 +1,17 @@
 import {takeLatest, put, call} from 'redux-saga/effects';
 import {
+    ACTION_ADD_ACCOUNT_SUCCESS,
     ACTION_LOGIN_REQUEST,
-    ACTION_LOGIN_SUCCESS, ACTION_LOGOUT_REQUEST,
+    ACTION_LOGIN_SUCCESS,
+    ACTION_LOGOUT_REQUEST,
     ACTION_REGISTER_REQUEST,
-    ACTION_REGISTER_SUCCESS, ACTION_RESET_PASSWORD_REQUEST, ACTION_UPDATE_AUTH_REQUEST, ACTION_UPDATE_AUTH_SUCCESS,
-    ACTION_VERIFY_EMAIL_REQUEST, ACTION_VERIFY_EMAIL_RESEND_REQUEST,
+    ACTION_REGISTER_SUCCESS,
+    ACTION_RESET_PASSWORD_REQUEST, ACTION_SWITCH_ACCOUNT_REQUEST,
+    ACTION_SWITCH_ACCOUNT_SUCCESS,
+    ACTION_UPDATE_AUTH_REQUEST,
+    ACTION_UPDATE_AUTH_SUCCESS,
+    ACTION_VERIFY_EMAIL_REQUEST,
+    ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
 } from "../action-types";
 import {toast} from "../../components/toast/toast.component";
@@ -37,6 +44,8 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_RESET_PASSWORD_REQUEST, resetPasswordWorker);
     yield takeLatest(ACTION_LOGOUT_REQUEST, logoutWorker);
     yield takeLatest(ACTION_UPDATE_AUTH_REQUEST, updateAuthWorker);
+    yield takeLatest(ACTION_SWITCH_ACCOUNT_REQUEST, updateAuthWorker);
+    yield takeLatest(ACTION_ADD_ACCOUNT_SUCCESS, updateAuthWorker);
 }
 
 function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -127,7 +136,7 @@ async function logoutCall() {
 function* updateAuthWorker({payload}: ActionType<AccountObjType & CallbackType<void>>) {
     const {onSuccess, onError, ...data} = payload;
     try {
-        // yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
+        yield call(() => api.put(EP_UPDATE_USER, payload).then(res => res.data));
         yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload: data});
         onSuccess && onSuccess();
     } catch(e) {

@@ -1,5 +1,11 @@
-import {AccountObjType} from "../../types/account.type";
-import {ACTION_LOGIN_SUCCESS, ACTION_REGISTER_SUCCESS, ACTION_UPDATE_AUTH_SUCCESS, ActionType} from "../action-types";
+import {AccountObjType, AccountType} from "../../types/account.type";
+import {
+    ACTION_LOGIN_SUCCESS,
+    ACTION_REGISTER_SUCCESS, ACTION_SWITCH_ACCOUNT_REQUEST, ACTION_SWITCH_ACCOUNT_SUCCESS,
+    ACTION_UPDATE_ACCOUNT_SUCCESS,
+    ACTION_UPDATE_AUTH_SUCCESS,
+    ActionType
+} from "../action-types";
 import {withStorage} from "./storage.hook";
 import logger from "../../managers/logger.manager";
 import {withCookies} from "./cookies.hook";
@@ -22,6 +28,7 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
     switch(type) {
         case ACTION_LOGIN_SUCCESS:
         case ACTION_REGISTER_SUCCESS:
+        case ACTION_SWITCH_ACCOUNT_SUCCESS:
             logger.info('setting user', payload);
             return payload;
         case ACTION_UPDATE_AUTH_SUCCESS:
@@ -30,6 +37,17 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
                 ...state,
                 ...payload
             };
+        case ACTION_UPDATE_ACCOUNT_SUCCESS:
+            logger.info('updating profile', payload);
+            const accountIndex = state.accounts.findIndex((a: AccountType) => a.uuid === state.uuid);
+            if(accountIndex !== -1) {
+                state.accounts[accountIndex] = {
+                    ...state.accounts[accountIndex],
+                    ...payload
+                }
+            }
+            return {...state};
+
         default:
             return state;
     }

@@ -32,10 +32,10 @@ export const accountReducer = withStorage((state = initialState, action: actions
     switch (action.type) {
         case actions.ACTION_GET_ACCOUNT_SUCCESS:
         case actions.ACTION_UPDATE_ACCOUNT_SUCCESS:
-            return {
-                ...state,
-                ...action.payload
-            };
+            // return {
+            //     ...state,
+            //     ...action.payload
+            // };
         case actions.ACTION_GET_ACCOUNT_ERROR:
         case actions.ACTION_UPDATE_ACCOUNT_ERROR:
         default:

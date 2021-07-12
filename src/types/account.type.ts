@@ -1,4 +1,5 @@
 import {AccessOptionType} from "./access-option.type";
+import {ProfileDataType} from "./profile-data.type";
 
 export type AccountType = {
     account_level: null | number;
@@ -7,6 +8,7 @@ export type AccountType = {
     last_used_at: null | string;
     type: AccessOptionType;
     uuid: string;
+    profile: null | ProfileDataType
 }
 export type AccountObjType = {
     accounts: AccountType[];

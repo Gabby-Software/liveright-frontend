@@ -21,3 +21,7 @@ export const ACTION_UPDATE_ACCOUNT_SUCCESS = 'action-update-account-success';
 export const ACTION_UPDATE_ACCOUNT_ERROR = 'action-update-account-error';
 export const ACTION_GET_TRAINER_REQUEST = 'action-get-trainer-request';
 export const ACTION_GET_TRAINER_SUCCESS = 'action-get-trainer-success';
+export const ACTION_SWITCH_ACCOUNT_REQUEST = 'action-switch-account-request';
+export const ACTION_SWITCH_ACCOUNT_SUCCESS = 'action-switch-account-success';
+export const ACTION_ADD_ACCOUNT_REQUEST = 'action-add-account-request';
+export const ACTION_ADD_ACCOUNT_SUCCESS = 'action-add-account-success';
