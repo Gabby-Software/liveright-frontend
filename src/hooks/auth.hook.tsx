@@ -5,7 +5,7 @@ import {AccountObjType, AccountType} from "../types/account.type";
 
 export const useAuth = () => {
     return useSelector((state: RootState) => ({
-        ...state.auth.accounts[0],
+        ...(state.auth as AccountObjType)?.accounts[0],
         ...state.auth as AccountObjType,
     } as (AccountObjType & AccountType)));
 };
