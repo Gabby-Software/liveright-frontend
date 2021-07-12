@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import Styles from './desktop-profile.styles';
-import {Form, Formik, FormikProps} from "formik";
+import {Form, Formik, FormikHelpers, FormikProps} from "formik";
 import {ProfileDataType} from "../../../types/profile-data.type";
 import * as Yup from 'yup';
 import ProfileImageSection from "./sections/profile-image-section/profile-image-section.component";
@@ -10,7 +10,11 @@ import ProfileAccountsSection from "./sections/profile-accounts-section/profile-
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers";
 import ProfileProvider, {ProfileContext} from "./profile.context";
-import {ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_AUTH_REQUEST} from "../../../store/action-types";
+import {
+    ACTION_UPDATE_ACCOUNT_REQUEST,
+    ACTION_UPDATE_AUTH_REQUEST,
+    ACTION_UPDATE_PROFILE_REQUEST
+} from "../../../store/action-types";
 import {useProfile} from "../../../hooks/profile.hook";
 import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
@@ -18,22 +22,28 @@ import ProfileStaffSection from "./sections/profile-staff-section/profile-staff-
 import ProfilePaymentInfoSection from "./sections/profile-payment-info-section/profile-payment-info-section.component";
 import ProfileTnb from "../mobile-profile/profile-tnb/profile-tnb.component";
 import ProfileTnbSection from "./sections/profile-tnb-section/profile-tnb-section.component";
+import {handleError} from "../../../managers/api.manager";
+import {AccountObjType, AccountType} from "../../../types/account.type";
 
 const DesktopProfile = () => {
     const profileData = useProfile();
     const authData = useAuth();
     const dispatch = useDispatch();
-    const {setEditMode, tnbFile} = useContext(ProfileContext);
-    const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
+    const {setEditMode, tnbFile, imageFile} = useContext(ProfileContext);
+    const handleSubmit = (form: ProfileDataType&AccountObjType&AccountType, helper: FormikHelpers<ProfileDataType&AccountObjType&AccountType>) => {
         console.log('submitted profile', form);
-        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {...form,
-                tnb: {...form.tnb,
-                name: tnbFile?.name.split('.').slice(0,-1).join('.') || '',
-                ext: tnbFile?.name.split('.').pop() || '',
-        }}});
-        dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
-        setEditMode(false);
-        submitProps.setSubmitting(false);
+        dispatch({
+            type: ACTION_UPDATE_PROFILE_REQUEST, payload: {
+                ...form,
+                tnb: tnbFile,
+                avatar: imageFile,
+                onSuccess: () => {
+                    helper.setSubmitting(false);
+                    setEditMode(false);
+                },
+                onError: handleError(helper)
+            }
+        });
     };
     return (
         <Styles>

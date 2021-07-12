@@ -4,7 +4,7 @@ import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import {Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store/reducers";
-import {Form, Formik, FormikProps} from "formik";
+import {Form, Formik, FormikHelpers, FormikProps} from "formik";
 import * as Yup from 'yup';
 import {ProfileDataType} from "../../../types/profile-data.type";
 import FormInputLabeled from "../../../components/forms/form-input-labeled/form-input-labeled.component";
@@ -12,7 +12,11 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../../components/forms/button-submit/button-submit.component";
 import FormTextarea from "../../../components/forms/form-textarea/form-textarea.component";
 import FormDatepicker from "../../../components/forms/form-datepicker/form-datepicker.component";
-import {ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_AUTH_REQUEST} from "../../../store/action-types";
+import {
+    ACTION_UPDATE_ACCOUNT_REQUEST,
+    ACTION_UPDATE_AUTH_REQUEST,
+    ACTION_UPDATE_PROFILE_REQUEST
+} from "../../../store/action-types";
 import {Routes} from "../../../enums/routes.enum";
 import FormImageUpload from "../../../components/forms/form-image-upload/form-image-upload.component";
 import {noImage} from "../../../pipes/no-image.pipe";
@@ -25,6 +29,7 @@ import userTypes from "../../../enums/user-types.enum";
 import logger from "../../../managers/logger.manager";
 import FormFileUpload from "../../../components/forms/form-file-upload/form-file-upload.component";
 import FormCountrySelect from "../../../components/forms/form-country-select/form-country-select.component";
+import {handleError} from "../../../managers/api.manager";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -36,19 +41,18 @@ const EditProfile = () => {
     const authData = useAuth();
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
-    const handleSubmit = (form: ProfileDataType&AccountObjType&AccountType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
+    const handleSubmit = (form: ProfileDataType&AccountObjType&AccountType, helper: FormikHelpers<ProfileDataType&AccountObjType&AccountType>) => {
         logger.log('SUBMIT EDIT', form);
-        dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
+        dispatch({type: ACTION_UPDATE_PROFILE_REQUEST, payload: {
                 ...form,
-                tnb: {
-                    ...form.tnb,
-                    name: tnb?.name.split('.').slice(0, -1).join('.') || '',
-                    ext: tnb?.name.split('.').pop() || '',
-                }
+                tnb,
+                avatar: file,
+                onSuccess: () => {
+                    helper.setSubmitting(false);
+                    setSubmitted(true);
+                },
+                onError: handleError(helper)
             }});
-        dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: form});
-        submitProps.setSubmitting(false);
-        setSubmitted(true);
     };
     if(submitted) return <Redirect to={Routes.PROFILE}/>;
     return (

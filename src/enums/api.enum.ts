@@ -5,6 +5,7 @@ export const EP_UPDATE_USER = ALLRIGHT_BASE+'/user';
 export const EP_UPDATE_PROFILE = ALLRIGHT_BASE+'/user/profile';
 export const EP_GET_USER = ALLRIGHT_BASE+'/user';
 export const EP_UPDATE_TNB = ALLRIGHT_BASE+'/user/profile/terms_conditions';
+export const EP_UPDATE_AVATAR = ALLRIGHT_BASE+'/user/avatar';
 export const EP_ADD_ACCOUNT = ALLRIGHT_BASE+'/user/account';
 export const EP_GET_COUNTRIES = ALLRIGHT_BASE+'/countries';
 

@@ -10,7 +10,7 @@ import {
     ACTION_RESET_PASSWORD_REQUEST, ACTION_SWITCH_ACCOUNT_REQUEST,
     ACTION_SWITCH_ACCOUNT_SUCCESS, ACTION_UPDATE_ACCOUNT_REQUEST, ACTION_UPDATE_ACCOUNT_SUCCESS,
     ACTION_UPDATE_AUTH_REQUEST,
-    ACTION_UPDATE_AUTH_SUCCESS,
+    ACTION_UPDATE_AUTH_SUCCESS, ACTION_UPDATE_PROFILE_REQUEST,
     ACTION_VERIFY_EMAIL_REQUEST,
     ACTION_VERIFY_EMAIL_RESEND_REQUEST,
     ActionType
@@ -21,7 +21,7 @@ import {CallbackType} from "../../types/callback.type";
 import api from "../../managers/api.manager";
 import {
     EP_ADD_ACCOUNT,
-    EP_LOGOUT, EP_UPDATE_PROFILE,
+    EP_LOGOUT, EP_UPDATE_AVATAR, EP_UPDATE_PROFILE, EP_UPDATE_TNB,
     EP_UPDATE_USER,
 } from "../../enums/api.enum";
 import logger from "../../managers/logger.manager";
@@ -44,6 +44,7 @@ export function* sagaAuthWatcher() {
     yield takeLatest(ACTION_SWITCH_ACCOUNT_REQUEST, switchAccountWorker);
     yield takeLatest(ACTION_ADD_ACCOUNT_REQUEST, addAccountWorker);
     yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateAccountWorker);
+    yield takeLatest(ACTION_UPDATE_PROFILE_REQUEST, updateProfileWorker);
 
 }
 //
@@ -187,5 +188,45 @@ async function addAccountCall(type: string) {
     return api.post(EP_ADD_ACCOUNT,{type}).then(res => res.data.data);
 }
 function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjType&AccountType&CallbackType<void>>) {
-
+    const {onSuccess, onError, first_name, last_name, email, birthday, gender, country,
+        phone_number, address, city, dietary_restrictions, injuries, about, qualifications, additional_information, tnb, avatar} = payload;
+    const authPayload = {
+        first_name, last_name, email, birthday, gender, country_id: country?.id
+    };
+    try {
+        const authRes = (yield call(() => api.put(EP_UPDATE_USER, authPayload).then(res => res.data.data))) as AccountObjType;
+        yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload:authRes});
+    } catch (e) {
+        return onError && onError(e);
+    }
+    const profilePayload = {
+        phone_number, city, address, dietary_restrictions, injuries, about, qualifications, additional_information
+    };
+    try {
+      const res = (yield call(() => api.put(EP_UPDATE_PROFILE, profilePayload).then(res => res.data.data))) as ProfileDataType;
+      yield put({type: ACTION_UPDATE_ACCOUNT_SUCCESS, payload:res});
+    } catch(e) {
+        return onError && onError(e);
+    }
+    if(tnb) {
+        try {
+            const fd = new FormData();
+            fd.append('terms_conditions', tnb as unknown as File);
+            const res = (yield call(() => api.post(EP_UPDATE_TNB, fd).then(res => res.data.data))) as string;
+            logger.success('TNB RESPONSE', res);
+        } catch (e) {
+            return onError && onError(e);
+        }
+    }
+    if(avatar) {
+        try {
+            const fd = new FormData();
+            fd.append('avatar', avatar as unknown as File);
+            const res = (yield call(() => api.post(EP_UPDATE_AVATAR, fd).then(res => res.data.data))) as string;
+            logger.success('AVATAR RESPONSE', res);
+        } catch (e) {
+            return onError && onError(e);
+        }
+    }
+    onSuccess && onSuccess();
 }
