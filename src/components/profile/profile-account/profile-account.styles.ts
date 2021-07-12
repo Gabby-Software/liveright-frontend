@@ -17,6 +17,12 @@ export default styled.div`
             ${p =>p.theme.mixin.circleImage('45px')}
             
         }
+        &__placeholder {
+            background-color: ${p => p.theme.vars.colors.primary};
+            color: white;
+            ${p => p.theme.extend.h3}
+            ${p => p.theme.extend.flexCenter}
+        }
         &__data {
             margin-left: 15px;
         }

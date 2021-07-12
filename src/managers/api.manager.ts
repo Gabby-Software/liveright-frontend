@@ -7,6 +7,7 @@ import logger from "./logger.manager";
 import {Routes} from "../enums/routes.enum";
 import {FormikHelpers} from "formik";
 import {serverError} from "../pipes/server-error.pipe";
+import {AccountType} from "../types/account.type";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -15,7 +16,7 @@ logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = cookieManager.get('access_token');
-        const uuid = JSON.parse(cookieManager.get('auth') || '{}').uuid;
+        const uuid = JSON.parse(cookieManager.get('auth') || '{}').find((acc:AccountType) => acc.is_current)?.uuid;
         if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
         logger.info('HTTP_REQUEST', config.url, config.data);

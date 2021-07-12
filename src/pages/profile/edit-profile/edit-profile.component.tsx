@@ -20,7 +20,7 @@ import ProfileImage from "../../../components/profile-image/profile-image.compon
 import Hr from '../../../components/hr/hr.styles';
 import {useAuth} from "../../../hooks/auth.hook";
 import {useProfile} from "../../../hooks/profile.hook";
-import {AccountObjType} from "../../../types/account.type";
+import {AccountObjType, AccountType} from "../../../types/account.type";
 import userTypes from "../../../enums/user-types.enum";
 import logger from "../../../managers/logger.manager";
 import FormFileUpload from "../../../components/forms/form-file-upload/form-file-upload.component";
@@ -36,7 +36,7 @@ const EditProfile = () => {
     const authData = useAuth();
     const dispatch = useDispatch();
     if (!isMobile) return <Redirect to={'/profile'}/>;
-    const handleSubmit = (form: ProfileDataType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
+    const handleSubmit = (form: ProfileDataType&AccountObjType&AccountType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
         logger.log('SUBMIT EDIT', form);
         dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
                 ...form,

@@ -1,5 +1,6 @@
 import {takeLatest, put, call} from 'redux-saga/effects';
 import {
+    ACTION_ADD_ACCOUNT_REQUEST,
     ACTION_ADD_ACCOUNT_SUCCESS,
     ACTION_LOGIN_REQUEST,
     ACTION_LOGIN_SUCCESS,
@@ -19,18 +20,17 @@ import {i18n} from "../../modules/i18n/i18n.context";
 import {CallbackType} from "../../types/callback.type";
 import api from "../../managers/api.manager";
 import {
+    EP_ADD_ACCOUNT,
     EP_LOGOUT,
     EP_UPDATE_USER,
 } from "../../enums/api.enum";
-import {AuthRegisterType} from "../../modules/auth/auth-register.type";
-import {AuthLoginType} from "../../modules/auth/auth-login.type";
 import logger from "../../managers/logger.manager";
 import {serverError} from "../../pipes/server-error.pipe";
-import {VerifyEmailParamsType, VerifyEmailQueryType} from "../../modules/auth/verify-email-params.type";
-import {AccountObjType} from "../../types/account.type";
+import {AccountObjType, AccountType} from "../../types/account.type";
 import {Routes} from "../../enums/routes.enum";
 import cookieManager from "../../managers/cookie.manager";
 import {identity} from "../../pipes/identity.pipe";
+import {ProfileDataType} from "../../types/profile-data.type";
 
 export function* sagaAuthWatcher() {
     logger.info('AUTH SAGA INIT');
@@ -41,8 +41,8 @@ export function* sagaAuthWatcher() {
     // yield takeLatest(ACTION_RESET_PASSWORD_REQUEST, resetPasswordWorker);
     yield takeLatest(ACTION_LOGOUT_REQUEST, logoutWorker);
     yield takeLatest(ACTION_UPDATE_AUTH_REQUEST, updateAuthWorker);
-    yield takeLatest(ACTION_SWITCH_ACCOUNT_REQUEST, updateAuthWorker);
-    yield takeLatest(ACTION_ADD_ACCOUNT_SUCCESS, updateAuthWorker);
+    yield takeLatest(ACTION_SWITCH_ACCOUNT_REQUEST, switchAccountWorker);
+    yield takeLatest(ACTION_ADD_ACCOUNT_REQUEST, addAccountWorker);
 }
 //
 // function* registerWorker({payload}: ActionType<AuthRegisterType & CallbackType<void>>) {
@@ -145,12 +145,30 @@ async function updateCall(payload: AccountObjType) {
     api.put(EP_UPDATE_USER, payload).then(res => res.data)
 }
 
-function* switchAccountWorker() {
-
+function* switchAccountWorker({payload}: ActionType<{uuid:string}&CallbackType<void>>) {
+    const {uuid, onError, onSuccess} = payload;
+    logger.info('SWITCH_ACCOUNT', 2, uuid);
+    yield put({type: ACTION_SWITCH_ACCOUNT_SUCCESS, payload: uuid});
+    onSuccess && onSuccess();
 }
-function* addAccountWorker() {
-
+// async function switchAccountCall() {
+//
+// }
+function* addAccountWorker({payload}: ActionType<{type:string}&CallbackType<void>>) {
+    const {type,onError,onSuccess} = payload;
+    try {
+        const res = (yield call(() => addAccountCall(type))) as AccountType;
+        logger.success('GET NEW ACCOUNT', res);
+        onSuccess && onSuccess();
+        yield put({type: ACTION_ADD_ACCOUNT_SUCCESS, payload:{...res, profile:null}})
+    }catch(e){
+        onError && onError(e);
+        toast.show({type: 'error',msg: serverError(e)});
+    }
 }
-function* updateProfileWorker() {
+async function addAccountCall(type: string) {
+    return api.post(EP_ADD_ACCOUNT,{type}).then(res => res.data.data);
+}
+function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjType&AccountType&CallbackType<void>>) {
 
 }

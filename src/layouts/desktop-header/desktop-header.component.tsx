@@ -15,36 +15,27 @@ import {capitalize} from "../../pipes/capitalize.pipe";
 import ProfileImage from "../../components/profile-image/profile-image.component";
 import {noImage} from "../../pipes/no-image.pipe";
 import {useDispatch} from "react-redux";
-import {ACTION_LOGOUT_REQUEST} from "../../store/action-types";
+import {ACTION_LOGOUT_REQUEST, ACTION_SWITCH_ACCOUNT_REQUEST} from "../../store/action-types";
 import ProfileAccount from "../../components/profile/profile-account/profile-account.component";
 
-type AccountType = {
-    name: string;
-    type: string;
-    image: string;
-    active: boolean;
-};
-const acc:AccountType[] = [
-    {name: 'Chris Hemington', type: 'Client', image: profilePlaceholder, active: true},
-    {name: 'John Doe', type: 'Trainer', image: profilePlaceholder, active: false},
-];
 const DesktopHeader = () => {
     const {pathname} = useLocation();
     const {title} = useHeader();
     const {t} = useTranslation();
-    const {avatar_thumb, first_name, last_name, accounts, uuid, type} = useAuth();
+    const {avatar_thumb, first_name, last_name, accounts, type} = useAuth();
     const dispatch = useDispatch();
-    const switchAccount = () => {
-
+    const switchAccount = (uuid: string) => {
+        dispatch({type: ACTION_SWITCH_ACCOUNT_REQUEST, payload: {uuid}});
     };
     const logout = () => {
         dispatch({type: ACTION_LOGOUT_REQUEST});
     };
     const dropdownMenu: (MenuItemType | React.ReactNode)[] = [
-        ...acc.map((account,i) => (
-            <li>
-            <ProfileAccount noRadio key={account.name} {...account}
-                            className={classes('desktop-header__account', i===acc.length-1&&'desktop-header__hr')}/>
+        ...accounts.map(({uuid, is_current, type}, i) => (
+            <li key={uuid}>
+            <ProfileAccount noRadio first_name={first_name} last_name={last_name} image={avatar_thumb||''} type={type} active={is_current}
+                            onClick={() => switchAccount(uuid)}
+                            className={classes('desktop-header__account', i===accounts.length-1&&'desktop-header__hr')}/>
             </li>
         )),
         {name: t('menu.personal-details'), url: Routes.PROFILE},

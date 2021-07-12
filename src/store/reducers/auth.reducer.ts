@@ -1,5 +1,6 @@
 import {AccountObjType, AccountType} from "../../types/account.type";
 import {
+    ACTION_ADD_ACCOUNT_SUCCESS,
     ACTION_LOGIN_SUCCESS,
     ACTION_REGISTER_SUCCESS, ACTION_SWITCH_ACCOUNT_REQUEST, ACTION_SWITCH_ACCOUNT_SUCCESS,
     ACTION_UPDATE_ACCOUNT_SUCCESS,
@@ -28,7 +29,6 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
     switch(type) {
         case ACTION_LOGIN_SUCCESS:
         case ACTION_REGISTER_SUCCESS:
-        case ACTION_SWITCH_ACCOUNT_SUCCESS:
             logger.info('setting user', payload);
             return payload;
         case ACTION_UPDATE_AUTH_SUCCESS:
@@ -47,7 +47,19 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
                 }
             }
             return {...state};
-
+        case ACTION_ADD_ACCOUNT_SUCCESS:
+            return {
+              ...state,
+              accounts: [
+                  ...state.accounts.map((acc:AccountType) => ({...acc, is_current: false})),
+                  payload
+              ]
+            };
+        case ACTION_SWITCH_ACCOUNT_SUCCESS:
+            return {
+                ...state,
+                accounts: state.accounts.map((acc: AccountType) => ({...acc, is_current: acc.uuid === payload}))
+            };
         default:
             return state;
     }

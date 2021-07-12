@@ -6,5 +6,6 @@
   "email-verification-success": "Email verified!",
   "email-verification-error": "Unable to verify email",
   "onboard-success": "Onboard successfully!",
-  "client-add-success": "Client added successfully"
+  "client-add-success": "Client added successfully",
+  "switch-account-success": "Account switched successfully!"
 }

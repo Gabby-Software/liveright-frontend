@@ -8,43 +8,36 @@ import {ReactComponent as PlusIcon} from "../../../assets/media/icons/add.svg";
 import {toast} from "../../toast/toast.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import ProfileAccount from "../../profile/profile-account/profile-account.component";
+import {useAuth} from "../../../hooks/auth.hook";
+import {useDispatch} from "react-redux";
+import {ACTION_SWITCH_ACCOUNT_REQUEST} from "../../../store/action-types";
+import logger from "../../../managers/logger.manager";
 
-type AccountType = {
-    first_name: string;
-    last_name: string;
-    type: string;
-    image: string;
-    active: boolean;
-}
-const accounts: AccountType[] = [
-    {
-        first_name: 'Chris',
-        last_name: 'Hemington',
-        type: 'trainer',
-        image: profilePlaceholder,
-        active: false,
-    },
-    {
-        first_name: 'Marina',
-        last_name: 'Gergel',
-        type: 'client',
-        image: profilePlaceholder,
-        active: true
-    },
-];
 const SwitchAccount = () => {
     const {onClose, setState} = useContext(SwitchAccountModalContext);
+    const {first_name, last_name, avatar_thumb, accounts} = useAuth();
+    const dispatch = useDispatch();
     const {t} = useTranslation();
-    const switchAccount =  () => {
-        onClose();
-        toast.show({type: 'success', msg: 'Account switched!'});
+    const switchAccount = (uuid: string) => {
+        logger.info('SWITCH_ACCOUNT', 1, uuid);
+        dispatch({
+            type: ACTION_SWITCH_ACCOUNT_REQUEST,
+            payload: {
+                uuid,
+                onSuccess: () => {
+                    onClose();
+                    toast.show({type: 'success', msg: t('alerts:switch-account-success')});
+                }
+            }
+        });
     };
     return (
         <Styles>
             {
-                accounts.map((acc,i) => (
-                    <Card className={'swa-card'} onClick={switchAccount} key={i}>
-                        <ProfileAccount name={`${acc.first_name} ${acc.last_name}`} {...acc}/>
+                accounts.map(({uuid, type, is_current}, i) => (
+                    <Card className={'swa-card'} onClick={() => switchAccount(uuid)} key={i}>
+                        <ProfileAccount first_name={first_name} last_name={last_name} type={type} image={avatar_thumb || ''}
+                                        active={is_current}/>
                     </Card>
                 ))
             }

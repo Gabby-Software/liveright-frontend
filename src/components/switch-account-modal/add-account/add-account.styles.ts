@@ -18,6 +18,13 @@ export default styled.div`
             &:hover {
                 background-color: ${p => p.theme.vars.colors.inputBorder};
             }
+            &__disabled {
+                color: ${p => p.theme.vars.colors.light};
+                cursor: not-allowed; 
+                &:hover {
+                    background-color: ${p => p.theme.vars.colors.card};
+                }
+            }
         }
     }
 `;
