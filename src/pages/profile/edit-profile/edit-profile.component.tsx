@@ -30,6 +30,8 @@ import logger from "../../../managers/logger.manager";
 import FormFileUpload from "../../../components/forms/form-file-upload/form-file-upload.component";
 import FormCountrySelect from "../../../components/forms/form-country-select/form-country-select.component";
 import {handleError} from "../../../managers/api.manager";
+import {genderTypes} from "../../../enums/gender-types";
+import FormRadio from "../../../components/forms/form-radio-button/form-radio-button.component";
 
 const EditProfile = () => {
     const isMobile = useIsMobile();
@@ -83,6 +85,11 @@ const EditProfile = () => {
                         <FormInputLabeled name={'first_name'} label={t('profile:first-name')}/>
                         <FormInputLabeled name={'last_name'} label={t('profile:last-name')}/>
                         <FormDatepicker name={'birthday'} label={t('profile:birth-date')}/>
+                        <FormRadio name={'gender'} label={t('profile:gender')} options={[
+                            {value: genderTypes.MALE, label: 'Male'},
+                            {value: genderTypes.FEMALE, label: 'Female'},
+                            {value: genderTypes.OTHER, label: 'Other'},
+                        ]}/>
                         <FormInputLabeled name={'email'} label={t('profile:email')} disabled/>
                         <FormInputLabeled name={'phone_number'} label={t('profile:phone')}/>
                         <FormInputLabeled name={'city'} label={t('profile:city')}/>

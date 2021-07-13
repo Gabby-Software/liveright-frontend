@@ -9,6 +9,7 @@ import {capitalize} from "../../../pipes/capitalize.pipe";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import FormCountrySelect from "../../forms/form-country-select/form-country-select.component";
 import {useAuth} from "../../../hooks/auth.hook";
+import {genderTypes} from "../../../enums/gender-types";
 
 type Props = {
     name: string;
@@ -27,8 +28,9 @@ const ProfileField = ({name, value, editable, formName, type}: Props) => {
                 editMode ? (
                     type === 'date' ? <FormDatepicker disabled={!editable} name={formName} label={name}/> :
                         type === 'radio' ? <FormRadio name={formName} label={name} options={[
-                                {value: 'male',   label:'Male'},
-                                {value: 'female', label:'Female'},
+                                {value: genderTypes.MALE, label: 'Male'},
+                                {value: genderTypes.FEMALE, label: 'Female'},
+                                {value: genderTypes.OTHER, label: 'Other'},
                             ]}/>
                         : type === 'country'? (
                             <FormCountrySelect/>
