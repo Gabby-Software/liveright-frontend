@@ -3,6 +3,7 @@ import Styles from './trainer.styles';
 import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import TrainerMobile from "./trainer-mobile/trainer-mobile.component";
 import TrainerDesktop from "./trainer-desktop/trainer-desktop.component";
+import {onlyClient} from "../../../guards/client.guard";
 
 const Trainer = () => {
     const isMobile = useIsMobile();
@@ -10,4 +11,4 @@ const Trainer = () => {
     return <TrainerDesktop/>;
 };
 
-export default Trainer;
+export default onlyClient(Trainer);
