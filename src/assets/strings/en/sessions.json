@@ -4,5 +4,6 @@
   "open": "Open",
   "status": "Status",
   "timeline": "Timeline",
-  "type": "Session Type"
+  "type": "Session Type",
+  "add": "Add Session"
 }
