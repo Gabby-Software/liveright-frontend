@@ -24,5 +24,6 @@ export type AccountObjType = {
     is_active: boolean;
     last_name: string;
     uuid: string;
+    city: null | string;
     country: null | CountryType
 }

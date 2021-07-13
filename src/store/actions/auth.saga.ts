@@ -191,7 +191,7 @@ function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjT
     const {onSuccess, onError, first_name, last_name, email, birthday, gender, country,
         phone_number, address, city, dietary_restrictions, injuries, about, qualifications, additional_information, tnb, avatar} = payload;
     const authPayload = {
-        first_name, last_name, email, birthday, gender, country_id: country?.id
+        first_name, last_name, email, birthday, gender, country_id: country?.id, city
     };
     try {
         const authRes = (yield call(() => api.put(EP_UPDATE_USER, authPayload).then(res => res.data.data))) as AccountObjType;
@@ -200,7 +200,7 @@ function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjT
         return onError && onError(e);
     }
     const profilePayload = {
-        phone_number, city, address, dietary_restrictions, injuries, about, qualifications, additional_information
+        phone_number, address, dietary_restrictions, injuries, about, qualifications, additional_information
     };
     try {
       const res = (yield call(() => api.put(EP_UPDATE_PROFILE, profilePayload).then(res => res.data.data))) as ProfileDataType;

@@ -5,7 +5,6 @@ import {withStorage} from "./storage.hook";
 const initialState: ProfileDataType = {
     phone_number: '',
     address: '',
-    city:'',
     dietary_restrictions: '',
     injuries: '',
     notes: '',

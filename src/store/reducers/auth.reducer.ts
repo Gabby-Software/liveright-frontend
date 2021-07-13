@@ -24,6 +24,7 @@ const initialState: AccountObjType = {
     gender: null,
     is_active: false,
     uuid: '',
+    city: '',
     country: null,
 };
 export const authReducer = withCookies((state = initialState, {type, payload}: ActionType<any>) => {

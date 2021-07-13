@@ -42,7 +42,6 @@ const SignUpOnboard = () => {
     const dispatch = useDispatch();
     const [currentStep, setCurrentStep] = useState(0);
     const handleSubmit = (form: AuthOnboardType, submitProps: { setSubmitting: (submitting: boolean) => void }) => {
-        logger.info('SIGN_UP_ONBOARD', 'submitting..', form);
         const callback = (nextStep: number) => ({
             onSuccess: () => {
                 submitProps.setSubmitting(false);
@@ -74,15 +73,17 @@ const SignUpOnboard = () => {
             case 1:
                 if(form.country?.id) {
                     dispatch({type: ACTION_UPDATE_AUTH_REQUEST, payload: {
-                            country_id: form.country?.id,
+                            ...fillExist({
+                                city: form.city,
+                                country_id: form.country?.id,
+                            }),
                             ...callback(2)
                         }});
                 }
-                if(form.city || form.address) {
+                if(form.address) {
                     dispatch({type: ACTION_UPDATE_ACCOUNT_REQUEST, payload: {
                             ...fillExist({
                                 address: form.address,
-                                city: form.city,
                             }),
                             ...callback(2)
                         }});
