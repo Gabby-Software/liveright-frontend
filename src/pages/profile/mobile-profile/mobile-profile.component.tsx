@@ -27,7 +27,7 @@ const MobileProfile = () => {
                         <Hr/>
                         <ProfilePaymentInfo/>
                         <Hr/>
-                        <ProfileTnb tnb={profileData.tnb}/>
+                        <ProfileTnb tnb={profileData.terms_and_conditions}/>
                     </>
                 ) : null
             }

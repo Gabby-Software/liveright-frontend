@@ -8,7 +8,7 @@ export type TrainerType = {
     about: string;
     qualifications: string;
     additional_information: string;
-    tnb: FileType;
+    terms_and_conditions: FileType;
     avatar: string|null;
     avatar_thumb: string|null;
     birthday: string|null;

@@ -19,10 +19,10 @@ const initialState: ProfileDataType = {
         name_on_account: '',
         tax_id: ''
     },
-    tnb: {
+    terms_and_conditions: {
         name: '',
+        file_name: '',
         url: '',
-        ext: ''
     }
 };
 

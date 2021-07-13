@@ -17,7 +17,7 @@ const TrainerMobile = () => {
             <Hr/>
             <TrainerInfoMobile/>
             <Hr/>
-            <ProfileTnb tnb={trainer.tnb}/>
+            <ProfileTnb tnb={trainer.terms_and_conditions}/>
             <Hr/>
             <ProfileStaff/>
         </Styles>

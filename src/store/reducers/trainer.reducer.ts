@@ -11,10 +11,11 @@ const initialValues: TrainerType = {
     about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
     qualifications: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
     additional_information: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ipsa itaque mollitia veniam vero! Ex exercitationem expedita impedit iusto nemo nihil tenetur vel! Cum impedit necessitatibus quas. Amet, illo, ut.',
-    tnb: {
+    terms_and_conditions: {
         name: 'terms-and-conditions',
+        file_name: 'terms-and-conditions.pdf',
         url: 'http://www.africau.edu/images/default/sample.pdf',
-        ext: 'pdf'
+        mime_type: 'application/pdf'
     },
     avatar: profilePlaceholder,
     avatar_thumb: profilePlaceholder,

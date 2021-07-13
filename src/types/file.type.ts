@@ -1,6 +1,7 @@
 export type FileType = {
-    name: string;
-    size?: number;
-    ext: string;
+    uuid?:string;
+    name?: string;
+    file_name: string;
+    mime_type?: string;
     url: string;
 }

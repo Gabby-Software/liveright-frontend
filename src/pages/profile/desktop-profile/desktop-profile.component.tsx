@@ -79,7 +79,7 @@ const DesktopProfile = () => {
                                     authData.type === userTypes.CLIENT ? null : (
                                         <>
                                             <ProfilePaymentInfoSection/>
-                                            <ProfileTnbSection tnb={profileData.tnb}/>
+                                            <ProfileTnbSection tnb={profileData.terms_and_conditions}/>
                                         </>
                                     )
                                 }

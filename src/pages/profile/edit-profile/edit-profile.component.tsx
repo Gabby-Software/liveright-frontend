@@ -121,7 +121,7 @@ const EditProfile = () => {
                                     <FormInputLabeled name={'payment_info.tax_id'} label={t('profile:payment-info.tax-id')}/>
                                     <Hr/>
                                     <FormFileUpload name={'tnb.url'} onUpdate={setTnb} label={t('profile:tnb')}
-                                                    initialFilename={`${profileData.tnb?.name}.${profileData?.tnb.ext}`}/>
+                                                    initialFilename={profileData.terms_and_conditions?.file_name || undefined}/>
                                 </>
                             )
                         }

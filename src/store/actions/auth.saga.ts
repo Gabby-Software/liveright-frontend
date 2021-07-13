@@ -180,7 +180,7 @@ function* addAccountWorker({payload}: ActionType<{type:string}&CallbackType<void
 async function addAccountCall(type: string) {
     return api.post(EP_ADD_ACCOUNT,{type}).then(res => res.data.data);
 }
-function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjType&AccountType&CallbackType<void>>) {
+function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjType&AccountType&{tnb: null|File}&CallbackType<void>>) {
     const {onSuccess, onError, first_name, last_name, email, birthday, gender, country,
         phone_number, address, city, dietary_restrictions, injuries, about, qualifications, additional_information, tnb, avatar} = payload;
     const authPayload = {

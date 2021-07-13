@@ -16,7 +16,7 @@ const TrainerDesktop = () => {
                 <ProfileImageSection {...trainer}/>
                 <TrainerData/>
                 <TrainerInfo/>
-                <ProfileTnbSection tnb={trainer.tnb}/>
+                <ProfileTnbSection tnb={trainer.terms_and_conditions}/>
                 <ProfileStaffSection/>
             </ProfileProvider>
         </Styles>

@@ -9,23 +9,25 @@ import {excerpt} from "../../../../../pipes/excerpt.pipe";
 import fileManager from "../../../../../managers/file.manager";
 import FormFileUpload from "../../../../../components/forms/form-file-upload/form-file-upload.component";
 import {FileType} from "../../../../../types/file.type";
+import logger from "../../../../../managers/logger.manager";
 
 const ProfileTnbSection = ({tnb}:{tnb: FileType}) => {
     const {t} = useTranslation();
     const {editMode, setTnbFile} = useContext(ProfileContext);
+    logger.info('TNB', tnb);
     return (
         <Styles>
             <ProfileTitle title={t('profile:tnb')}/>
             {
                 editMode ? (
-                    <FormFileUpload name={'tnb.url'} onUpdate={setTnbFile} initialFilename={tnb?.name?`${tnb.name}.${tnb.ext}`:undefined}/>
+                    <FormFileUpload name={'tnb.url'} onUpdate={setTnbFile} initialFilename={tnb.file_name||undefined}/>
                 ) : (
                     <div className={'profile-tnb__view'}>
                         {
                             tnb.url ? (
                                 <>
-                                    <span>{excerpt(`${tnb.name}.${tnb.ext}`, 32)}</span>
-                                    <DownloadIcon onClick={() => fileManager.downloadUrl(tnb.url, `${tnb.name}.${tnb.ext}`)}/>
+                                    <span>{excerpt(tnb.file_name, 32)}</span>
+                                    <DownloadIcon onClick={() => fileManager.downloadUrl(tnb.url, tnb.file_name)}/>
                                 </>
                             ) : (<span>{t('no-data')}</span>)
                         }

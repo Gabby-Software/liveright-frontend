@@ -18,8 +18,8 @@ const ProfileTnb = ({tnb}:ProfileTnbPropsType) => {
                 {
                     tnb.url ? (
                         <>
-                            <span>{excerpt(`${tnb.name}.${tnb.ext}`, 32)}</span>
-                            <DownloadIcon onClick={() => fileManager.downloadUrl(tnb.url, `${tnb.name}.${tnb.ext}`)}/>
+                            <span>{excerpt(tnb.file_name, 32)}</span>
+                            <DownloadIcon onClick={() => fileManager.downloadUrl(tnb.url, tnb.file_name)}/>
                         </>
                     ) : (<span>{t('no-data')}</span>)
                 }

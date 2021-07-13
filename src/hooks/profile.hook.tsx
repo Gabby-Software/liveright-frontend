@@ -3,9 +3,11 @@ import {useSelector} from "react-redux";
 import {RootState} from "../store/reducers";
 import {ProfileDataType} from "../types/profile-data.type";
 import {useAuth} from "./auth.hook";
+import logger from "../managers/logger.manager";
 
 export const useProfile = () => {
     const auth = useAuth();
+    logger.info('AUTH PROFILE', auth.profile);
     return ({
         phone_number: '',
         address: '',
@@ -25,10 +27,9 @@ export const useProfile = () => {
             name_on_account: '',
             tax_id: ''
         },
-        tnb: {
-            name: '',
-            url: '',
-            ext: ''
+        terms_and_conditions: {
+            file_name: '',
+            url: ''
         },
         ...auth.profile
     }) as ProfileDataType;
