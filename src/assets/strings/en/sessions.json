@@ -5,5 +5,9 @@
   "status": "Status",
   "timeline": "Timeline",
   "type": "Session Type",
-  "add": "Add Session"
+  "add": "Add Session",
+  "client-name": "Client Name",
+  "trainer-name": "Trainer Name",
+  "date": "Session Date",
+  "time": "Session Time"
 }
