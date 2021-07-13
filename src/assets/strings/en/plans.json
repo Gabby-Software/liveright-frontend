@@ -8,5 +8,6 @@
   "start-date": "Start Date",
   "end-date": "End Date",
   "days": "Days",
-  "status": "Status"
+  "status": "Status",
+  "started": "Started"
 }
