@@ -22,6 +22,7 @@ import SessionRescheduleModal
     from "../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
 import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
 import DataPagination from "../../../components/data-pagination/data-pagination.component";
+import SessionAddModal from "../../../components/sessions/session-add-modal/session-add-modal.component";
 
 const DesktopSessions = () => {
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);

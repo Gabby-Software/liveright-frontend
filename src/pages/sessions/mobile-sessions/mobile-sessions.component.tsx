@@ -19,12 +19,14 @@ import SmallModal, {MenuItem} from "../../../components/small-modal/small-modal.
 import {SessionType} from "../../../types/session.type";
 import SessionRescheduleModal
     from "../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
+import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
 
 const MobileSessions = () => {
     const [page, setPage] = useState(1);
     const {type} = useAuth();
     const [workingSession, setWorkingSession] = useState<SessionType|null>(null);
     const [rescheduleOpen, setRescheduleOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const [actionsOpen, setActionsOpen] = useState(false);
     const {t} = useTranslation();
     useInfiniteScroll((p: number) => {
@@ -41,7 +43,7 @@ const MobileSessions = () => {
         setWorkingSession(null);
     };
     const actions: MenuItem[] = type === userTypes.TRAINER?[
-        {name: t('edit'), onClick: () => deleteSession(workingSession as SessionType)},
+        {name: t('edit'), onClick: () => setEditOpen(true)},
         {name: t('delete'), onClick: () => deleteSession(workingSession as SessionType), type: 'primary'}
     ]:[
         {name: t('sessions:reschedule'), onClick: () => setRescheduleOpen(true)}
@@ -78,6 +80,7 @@ const MobileSessions = () => {
             <SmallModal visible={actionsOpen} onCancel={() => setActionsOpen(false)}
                         title={t('sessions:actions')} menu={actions}/>
             <SessionRescheduleModal onClose={() => setRescheduleOpen(false)} session={rescheduleOpen?workingSession:null}/>
+            <SessionEditModal session={editOpen?workingSession:null} onClose={() => setEditOpen(false)}/>
         </Styles>
     );
 };

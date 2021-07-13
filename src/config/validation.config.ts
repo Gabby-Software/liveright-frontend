@@ -23,7 +23,7 @@ Yup.addMethod(Yup.string, 'phone', function() {
         name: 'phone',
         message: 'invalid-phone',
         test: (value) => {
-            return !value || /^\+?\d{8,11}$/.test(value||'');
+            return !value || /^\+?\d{8,13}$/.test(value||'');
         }
     });
 });
