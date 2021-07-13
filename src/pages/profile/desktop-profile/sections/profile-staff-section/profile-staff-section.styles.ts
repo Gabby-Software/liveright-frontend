@@ -11,6 +11,10 @@ export default styled.div`
         }
         &__cont {
             display: flex;
+            a {
+                display: bloack;
+                color: ${p => p.theme.vars.colors.primaryDark};
+            }
         }
         &__heading {
             ${p =>p.theme.extend.flexCenter};

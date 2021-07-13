@@ -28,6 +28,9 @@ For any 3rd party app use a dedicated account for this project development.
 ***username:*** `liverightdevelopment@gmail.com`  
 ***password:*** `liveright123`
 
+Current 3-rd party libraries in use:
+ * [ipstack](https://ipstack.com/) used for initiate user with default address
+
 ### *Project structure*
 * `assets` - save assets like media, styles, fonts and translations
 * `components` - as the name speak. reusable react components

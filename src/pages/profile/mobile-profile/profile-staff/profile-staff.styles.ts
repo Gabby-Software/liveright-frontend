@@ -21,5 +21,9 @@ export default styled.div`
             font-weight: 500;
             color: ${p =>p.theme.vars.colors.secondary3};
         }
+        a {
+            color: ${p => p.theme.vars.colors.primaryDark};
+            display: block;
+        }
     }
 `;
