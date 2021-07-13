@@ -181,7 +181,7 @@ async function addAccountCall(type: string) {
     return api.post(EP_ADD_ACCOUNT,{type}).then(res => res.data.data);
 }
 function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjType&AccountType&{tnb: null|File}&CallbackType<void>>) {
-    const {onSuccess, onError, first_name, last_name, email, birthday, gender, country,
+    const {onSuccess, onError, first_name, last_name, email, birthday, gender, country, terms_and_conditions,
         phone_number, address, city, dietary_restrictions, injuries, about, qualifications, additional_information, tnb, avatar} = payload;
     const authPayload = {
         first_name, last_name, email, birthday, gender, country_id: country?.id, city
@@ -201,11 +201,12 @@ function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjT
     } catch(e) {
         return onError && onError(e);
     }
-    if(tnb) {
+    if(terms_and_conditions?.file_name || tnb) {
         try {
             const fd = new FormData();
-            fd.append('terms_conditions', tnb as unknown as File);
-            const res = (yield call(() => api.post(EP_UPDATE_TNB, fd).then(res => res.data.data))) as string;
+            tnb && fd.append('terms_conditions', tnb || '');
+            const res = (yield call(() => api.post(EP_UPDATE_TNB, fd).then(res => res.data.data))) as AccountObjType;
+            yield put({type: ACTION_UPDATE_AUTH_SUCCESS, payload:res});
             logger.success('TNB RESPONSE', res);
         } catch (e) {
             return onError && onError(e);
@@ -221,5 +222,5 @@ function* updateProfileWorker({payload} : ActionType<ProfileDataType&AccountObjT
             return onError && onError(e);
         }
     }
-    onSuccess && onSuccess();
+    yield call(() => onSuccess && onSuccess());
 }

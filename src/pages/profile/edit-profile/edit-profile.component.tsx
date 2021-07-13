@@ -120,7 +120,7 @@ const EditProfile = () => {
                                     <FormInputLabeled name={'payment_info.account_number'} label={t('profile:payment-info.account-number')}/>
                                     <FormInputLabeled name={'payment_info.tax_id'} label={t('profile:payment-info.tax-id')}/>
                                     <Hr/>
-                                    <FormFileUpload name={'tnb.url'} onUpdate={setTnb} label={t('profile:tnb')}
+                                    <FormFileUpload name={'terms_and_conditions.url'} onUpdate={setTnb} label={t('profile:tnb')}
                                                     initialFilename={profileData.terms_and_conditions?.file_name || undefined}/>
                                 </>
                             )

@@ -11,7 +11,7 @@ import FormFileUpload from "../../../../../components/forms/form-file-upload/for
 import {FileType} from "../../../../../types/file.type";
 import logger from "../../../../../managers/logger.manager";
 
-const ProfileTnbSection = ({tnb}:{tnb: FileType}) => {
+const ProfileTnbSection = ({tnb}:{tnb: FileType|null}) => {
     const {t} = useTranslation();
     const {editMode, setTnbFile} = useContext(ProfileContext);
     logger.info('TNB', tnb);
@@ -20,11 +20,11 @@ const ProfileTnbSection = ({tnb}:{tnb: FileType}) => {
             <ProfileTitle title={t('profile:tnb')}/>
             {
                 editMode ? (
-                    <FormFileUpload name={'tnb.url'} onUpdate={setTnbFile} initialFilename={tnb.file_name||undefined}/>
+                    <FormFileUpload name={'terms_and_conditions.url'} onUpdate={setTnbFile} initialFilename={tnb?.file_name||undefined}/>
                 ) : (
                     <div className={'profile-tnb__view'}>
                         {
-                            tnb.url ? (
+                            tnb?.url ? (
                                 <>
                                     <span>{excerpt(tnb.file_name, 32)}</span>
                                     <DownloadIcon onClick={() => fileManager.downloadUrl(tnb.url, tnb.file_name)}/>
