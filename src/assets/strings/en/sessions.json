@@ -10,5 +10,6 @@
   "trainer-name": "Trainer Name",
   "date": "Session Date",
   "time": "Session Time",
-  "reschedule": "Request Reschedule"
+  "reschedule": "Request Reschedule",
+  "edit": "Edit Session"
 }

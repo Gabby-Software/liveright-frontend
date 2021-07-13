@@ -25,7 +25,7 @@ import DataPagination from "../../../components/data-pagination/data-pagination.
 
 const DesktopSessions = () => {
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
-    const [editOpen, setEditOpen] = useState(0);
+    const [editOpen, setEditOpen] = useState<SessionType|null>(null);
     const {type} = useAuth();
     const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: invoices.length});
     const {current_page, total, per_page} = pagMeta;
@@ -49,7 +49,7 @@ const DesktopSessions = () => {
     };
     const actions: {icon: ComponentType<any>, title: string, onClick: (s:SessionType) => () => void}[] = useMemo(() => {
         return type === userTypes.TRAINER ? [
-            {icon: EditIcon, title: t('edit'), onClick: (session: SessionType) => () => setEditOpen(1)},
+            {icon: EditIcon, title: t('edit'), onClick: (session: SessionType) => () => setEditOpen(session)},
             {icon: TrashIcon, title: t('delete'), onClick: (session: SessionType) => () => {}},
         ] : [
             {icon: CalendarIcon, title: t('sessions:reschedule'), onClick: (session: SessionType) => () => setRescheduleOpen(session)}
@@ -71,7 +71,7 @@ const DesktopSessions = () => {
               <DataPagination page={current_page} setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})} total={total}/>
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
-          <SessionEditModal/>
+          <SessionEditModal session={editOpen} onClose={() => setEditOpen(null)}/>
       </Styles>
     );
 };
