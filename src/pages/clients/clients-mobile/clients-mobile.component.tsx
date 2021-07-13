@@ -6,6 +6,7 @@ import Card from "../../../components/card/card.style";
 import {classes} from "../../../pipes/classes.pipe";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import MobileClientFooter from "../../../components/clients/mobile-client-footer/mobile-client-footer.component";
+import ClientsFilterMobile from "../../../components/clients/clients-filter-mobile/clients-filter-mobile.component";
 
 const ClientsMobile = () => {
     const [page, setPage] = useState(1);
@@ -26,6 +27,7 @@ const ClientsMobile = () => {
                     ))
                 }
             </div>
+            <ClientsFilterMobile/>
             <MobileClientFooter/>
         </Styles>
     )
