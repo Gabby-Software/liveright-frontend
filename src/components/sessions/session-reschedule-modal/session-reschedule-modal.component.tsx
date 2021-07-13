@@ -13,16 +13,15 @@ import ButtonSubmit from "../../forms/button-submit/button-submit.component";
 
 type Props = {
     onClose: () => void;
-    sessionId: number;
+    session: SessionType | null;
 };
 type RescheduleFormType = {
     date: string;
     time: string;
 }
-const SessionRescheduleModal = ({sessionId, onClose}: Props) => {
+const SessionRescheduleModal = ({session, onClose}: Props) => {
     const {t} = useTranslation();
-    if (!sessionId) return null;
-    const session = sessions.find(s => s.id === sessionId) as SessionType;
+    if (!session) return null;
     const initialValues: RescheduleFormType = {
         date: session.date,
         time: session.time
@@ -33,7 +32,7 @@ const SessionRescheduleModal = ({sessionId, onClose}: Props) => {
         onClose();
     };
     return (
-        <Modal visible={!!sessionId} onCancel={onClose}>
+        <Modal visible={!!session} onCancel={onClose}>
             <Modal.Title>{t('sessions:reschedule')}</Modal.Title>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}
                     validationSchema={Yup.object({

@@ -3,7 +3,7 @@ import StyledModal from './small-modal.styles';
 import {ModalProps} from "antd";
 import {classes} from "../../pipes/classes.pipe";
 
-type MenuItem = {
+export type MenuItem = {
     name: string;
     onClick?: () => void;
     type?: 'primary'|'default';
