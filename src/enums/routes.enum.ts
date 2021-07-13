@@ -18,4 +18,8 @@ export const Routes = {
     INVOICES: '/invoices',
     CLIENTS: '/clients',
     SESSIONS: '/sessions',
+    PLANS: '/plans',
+    SPLITS: '/plans/training-splits',
+    DIETS: '/plans/diet-plans',
+    WORKOUTS: '/plans/workout-plans'
 };

@@ -36,6 +36,7 @@ export default styled.div`
             margin: 3px;
             background-color: transparent;
             border-radius: ${p => p.theme.vars.sizes.borderRadius};
+            text-align: center;
             &__active {
                 color: white; 
             }

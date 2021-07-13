@@ -159,6 +159,15 @@ export const routes: RouteType[] = [
             items: headers.filter
         }
     },
+    {
+        title: 'Plans',
+        url: Routes.PLANS,
+        Component: lazy(() => import('../pages/plans/plans.component')),
+        header: {
+            title: "Plans",
+            items: headers.default
+        }
+    }
 ];
 
 export default routes;
