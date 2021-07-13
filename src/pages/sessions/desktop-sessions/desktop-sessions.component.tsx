@@ -62,7 +62,11 @@ const DesktopSessions = () => {
               <DesktopSessionsFilters/>
               <DataTable labels={labels} keys={keys} data={sessions.slice((current_page-1)*per_page, current_page*per_page)} render={{
                   time: (item: SessionType) => toPmAm(item.time),
-                  actions: (item:SessionType) => actions.map(a => <ActionIcon {...a} onClick={a.onClick(item)}/>)
+                  actions: (item:SessionType) => (
+                      <div className={'sessions__activities'}>{
+                          actions.map(a => <ActionIcon {...a} onClick={a.onClick(item)}/>)
+                      }</div>
+                  )
               }}/>
               <DataPagination page={current_page} setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})} total={total}/>
           </div>

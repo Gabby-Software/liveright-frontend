@@ -13,5 +13,18 @@ export default styled.div`
             max-width: 920px;
             margin:auto;
         }
+        &__activities {
+            max-width:0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: all .5s ease;
+        }
+    }
+    .data-table__tr {
+        &:hover {
+            .sessions__activities {
+                max-width: 100%;
+            }
+        }
     }
 `;
