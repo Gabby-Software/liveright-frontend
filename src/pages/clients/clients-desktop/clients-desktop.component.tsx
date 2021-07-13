@@ -43,9 +43,11 @@ const ClientsDesktop = ({}:Props) => {
                            keys={keys} render={{
                     first_name: ({first_name, last_name}) => `${first_name} ${last_name}`,
                     actions: () => (
-                        actions.map((item) => (
+                        <div className={'clients__activities'}>
+                            {actions.map((item) => (
                             <ActionIcon {...item} className={'clients__action'}/>
-                        ))
+                        ))}
+                        </div>
                     ),
                     status: ({active}) => active? t('clients:active'):t('clients:inactive'),
                     sessions: ({sessions}) => t('clients:sessions-remind', {n:sessions})
