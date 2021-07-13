@@ -1,5 +1,8 @@
 {
   "completed": "Completed",
   "paid": "Paid",
-  "open": "Open"
+  "open": "Open",
+  "status": "Status",
+  "timeline": "Timeline",
+  "type": "Session Type"
 }

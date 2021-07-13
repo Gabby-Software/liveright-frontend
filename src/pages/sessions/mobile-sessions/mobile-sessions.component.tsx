@@ -13,6 +13,8 @@ import userTypes from "../../../enums/user-types.enum";
 import {sessions} from "../sessions.data";
 import {toPmAm} from "../../../pipes/to-pm-am.pipe";
 import Overall from "../../../components/overall-card/overall-card.component";
+import MobileSessionFooter from "../../../components/sessions/mobile-session-footer/mobile-session-footer.component";
+import MobileSessionFilter from "../../../components/sessions/mobile-session-filter/mobile-session-filter.component";
 
 const MobileSessions = () => {
     const [page, setPage] = useState(1);
@@ -51,10 +53,10 @@ const MobileSessions = () => {
                     </Link>
                 ))
             }
-            {/*{*/}
-            {/*    type===userTypes.TRAINER?<MobilesessionsFooter/>:null*/}
-            {/*}*/}
-            {/*<MobileFilterDrawer/>*/}
+            {
+                type===userTypes.TRAINER?<MobileSessionFooter/>:null
+            }
+            <MobileSessionFilter/>
         </Styles>
     );
 };
