@@ -9,5 +9,6 @@
   "client-name": "Client Name",
   "trainer-name": "Trainer Name",
   "date": "Session Date",
-  "time": "Session Time"
+  "time": "Session Time",
+  "reschedule": "Request Reschedule"
 }

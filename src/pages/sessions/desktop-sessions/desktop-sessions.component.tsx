@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import Styles from './desktop-sessions.styles';
 import {useAuth} from "../../../hooks/auth.hook";
 import {PaginationMetaType} from "../../../types/pagination-meta.type";
@@ -16,10 +16,16 @@ import {toPmAm} from "../../../pipes/to-pm-am.pipe";
 import {TableActionType} from "../../../types/table-action.type";
 import {ReactComponent as EditIcon} from "../../../assets/media/icons/edit.svg";
 import {ReactComponent as TrashIcon} from "../../../assets/media/icons/trash.svg";
+import {ReactComponent as CalendarIcon} from "../../../assets/media/icons/calendar.svg";
 import ActionIcon from "../../../components/action-icon/action-icon.component";
+import SessionRescheduleModal
+    from "../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
+import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
+import DataPagination from "../../../components/data-pagination/data-pagination.component";
 
 const DesktopSessions = () => {
-    const [session, setSession] = useState<number | null>(null);
+    const [rescheduleOpen, setRescheduleOpen] = useState(0);
+    const [editOpen, setEditOpen] = useState(0);
     const {type} = useAuth();
     const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: invoices.length});
     const {current_page, total, per_page} = pagMeta;
@@ -35,16 +41,20 @@ const DesktopSessions = () => {
         'sessions:type',
         'sessions:date',
         'sessions:time',
+        ""
     ];
-    const keys = type ===userTypes.TRAINER?[
-        'name', 'type', 'date', 'time', 'actions'
-    ] : [
-        'name', 'type', 'date', 'time'
-    ];
-    const actions: TableActionType[] = [
-        {icon: EditIcon, title: t('edit'), onClick: () =>{}},
-        {icon: TrashIcon, title: t('delete'), onClick: () =>{}},
-    ];
+    const keys = ['name', 'type', 'date', 'time', 'actions'];
+    const deleteSession = () => {
+
+    };
+    const actions: TableActionType[] = useMemo(() => {
+        return type === userTypes.TRAINER ? [
+            {icon: EditIcon, title: t('edit'), onClick: () => setEditOpen(1)},
+            {icon: TrashIcon, title: t('delete'), onClick: () =>{}},
+        ] : [
+            {icon: CalendarIcon, title: t('sessions:reschedule'), onClick: () => setRescheduleOpen(1)}
+        ];
+    }, [type]);
 
     return (
       <Styles>
@@ -54,7 +64,10 @@ const DesktopSessions = () => {
                   time: (item: SessionType) => toPmAm(item.time),
                   actions: () => actions.map(a => <ActionIcon {...a}/>)
               }}/>
+              <DataPagination page={current_page} setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})} total={total}/>
           </div>
+          <SessionRescheduleModal sessionId={rescheduleOpen} onClose={() => setRescheduleOpen(0)}/>
+          <SessionEditModal/>
       </Styles>
     );
 };

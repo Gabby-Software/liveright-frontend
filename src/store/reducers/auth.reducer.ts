@@ -43,7 +43,7 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
             logger.info('UPDATE ACCOUNT - worker', payload);
             const accountIndex = state.accounts.findIndex((a: AccountType) => a.is_current);
             if(accountIndex !== -1) {
-                state.accounts[accountIndex] = payload;
+                state.accounts[accountIndex] = {...payload, is_current:true};
             }
             return {...state};
         case ACTION_ADD_ACCOUNT_SUCCESS:
