@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, ComponentType} from 'react';
 import Styles from './desktop-sessions.styles';
 import {useAuth} from "../../../hooks/auth.hook";
 import {PaginationMetaType} from "../../../types/pagination-meta.type";
@@ -47,12 +47,12 @@ const DesktopSessions = () => {
     const deleteSession = () => {
 
     };
-    const actions: TableActionType[] = useMemo(() => {
+    const actions: {icon: ComponentType<any>, title: string, onClick: (s:SessionType) => () => void}[] = useMemo(() => {
         return type === userTypes.TRAINER ? [
-            {icon: EditIcon, title: t('edit'), onClick: () => setEditOpen(1)},
-            {icon: TrashIcon, title: t('delete'), onClick: () =>{}},
+            {icon: EditIcon, title: t('edit'), onClick: (session: SessionType) => () => setEditOpen(1)},
+            {icon: TrashIcon, title: t('delete'), onClick: (session: SessionType) => () => {}},
         ] : [
-            {icon: CalendarIcon, title: t('sessions:reschedule'), onClick: () => setRescheduleOpen(1)}
+            {icon: CalendarIcon, title: t('sessions:reschedule'), onClick: (session: SessionType) => () => setRescheduleOpen(session.id)}
         ];
     }, [type]);
 
@@ -62,7 +62,7 @@ const DesktopSessions = () => {
               <DesktopSessionsFilters/>
               <DataTable labels={labels} keys={keys} data={sessions.slice((current_page-1)*per_page, current_page*per_page)} render={{
                   time: (item: SessionType) => toPmAm(item.time),
-                  actions: () => actions.map(a => <ActionIcon {...a}/>)
+                  actions: (item:SessionType) => actions.map(a => <ActionIcon {...a} onClick={a.onClick(item)}/>)
               }}/>
               <DataPagination page={current_page} setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})} total={total}/>
           </div>
