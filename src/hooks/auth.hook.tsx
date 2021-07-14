@@ -5,7 +5,7 @@ import {AccountObjType, AccountType} from "../types/account.type";
 
 export const useAuth = () => {
     return useSelector((state: RootState) => ({
-        ...(state.auth as AccountObjType)?.accounts.find(a => a.is_current),
+        ...(state.auth as AccountObjType)?.accounts?.find(a => a.is_current),
         ...state.auth as AccountObjType,
     } as (AccountObjType & AccountType)));
 };
