@@ -5,7 +5,7 @@ import PageNotFound from "../pages/page-not-found/page-not-found.component";
 
 export const onlyClient = (Component: React.ComponentType<any>) => (props: ComponentProps<any>) => {
     const {type} = useAuth();
-    if(type !== userTypes.TRAINER)
+    if(type !== userTypes.CLIENT)
         return <PageNotFound/>;
     return <Component {...props}/>;
 };
