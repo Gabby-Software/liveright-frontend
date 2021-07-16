@@ -13,6 +13,7 @@ import {ReactComponent as SettingsIcon} from "../../assets/media/icons/settings.
 import SwitchAccountModal from "../switch-account-modal/switch-account-modal.component";
 import userTypes from "../../enums/user-types.enum";
 import {useAuth} from "../../hooks/auth.hook";
+import {identity} from "../../pipes/identity.pipe";
 
 type MobileMoreDrawerPropsType = {
     isOpen: boolean;
@@ -31,7 +32,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
     const [switchAccountOpen, setSwitchAccountOpen] = useState(false);
     const {type} = useAuth();
     const menuItems: LinkType[] = [
-        {Icon: ProfileIcon, url: '/profile', name: 'menu.profile'},
+        {Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile'},
         {Icon: UsersIcon, url: '/clients', name: 'menu.clients', permission: userTypes.TRAINER},
         {Icon: LibraryIcon, url: '/library', name: 'menu.library'},
         {Icon: InvoiceIcon, url: '/invoices', name: 'menu.invoices'},
@@ -52,7 +53,12 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
                                 permission && permission !== type ? null :
                                 <li className={'more__item'} key={url}>
                                     {
-                                        url ? (
+                                        url?.startsWith('http') ? (
+                                            <a href={url} onClick={onClose}>
+                                                <Icon/>
+                                                <span className={'more__label'}>{t(name)}</span>
+                                            </a>
+                                        ) : url ? (
                                             <Link to={url} onClick={onClose}>
                                                 <Icon/>
                                                 <span className={'more__label'}>{t(name)}</span>

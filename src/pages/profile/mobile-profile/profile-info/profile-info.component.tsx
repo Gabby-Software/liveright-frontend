@@ -10,6 +10,7 @@ import logger from "../../../../managers/logger.manager";
 
 const ProfileInfo = () => {
     const {dietary_restrictions, injuries, about, qualifications, additional_information} = useProfile();
+    logger.info('INFO DATA', injuries, dietary_restrictions);
     const auth = useAuth();
     const {t} = useTranslation();
     const items: OptionType[] = useMemo(() => auth.type === userTypes.CLIENT ? [

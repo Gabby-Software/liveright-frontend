@@ -1,8 +1,7 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 import Styles from './profile-tnb-section.styles';
 import ProfileTitle from "../../../../../components/profile/profile-title/profile-title.component";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
-import {useProfile} from "../../../../../hooks/profile.hook";
 import {ReactComponent as DownloadIcon} from "../../../../../assets/media/icons/download.svg";
 import {ProfileContext} from "../../profile.context";
 import {excerpt} from "../../../../../pipes/excerpt.pipe";
@@ -14,7 +13,6 @@ import logger from "../../../../../managers/logger.manager";
 const ProfileTnbSection = ({tnb}:{tnb: FileType|null}) => {
     const {t} = useTranslation();
     const {editMode, setTnbFile} = useContext(ProfileContext);
-    logger.info('TNB', tnb);
     return (
         <Styles>
             <ProfileTitle title={t('profile:tnb')}/>

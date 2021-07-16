@@ -32,8 +32,11 @@ const Dropdown = ({children, menu}: DropdownPropsType) => {
                                 <li className={'dropdown__item'}>
                                     {
                                         url ? (
-                                            <Link to={url || ''} onClick={() =>handleClick(onClick)}>{name}</Link>
-                                        ) : (
+                                            url.startsWith('http')?(
+                                                <a href={url || ''} onClick={() =>handleClick(onClick)}>{name}</a>
+                                            ):(
+                                                <Link to={url || ''} onClick={() =>handleClick(onClick)}>{name}</Link>
+                                            )) : (
                                             <a onClick={() => handleClick(onClick)}>{name}</a>
                                         )
                                     }
