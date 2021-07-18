@@ -10,6 +10,7 @@ import {AuthFormProvider} from "./modules/auth/auth.context";
 import Toast from "./components/toast/toast.component";
 import AuthHandler from "./pages/auth-handler/auth-handler.component";
 import PageNotFound from "./pages/page-not-found/page-not-found.component";
+import UpdatePopup from "./components/update-popup/update-popup.component";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -63,6 +64,7 @@ function App() {
                     </Route>
                 </Switch>
             <Toast/>
+            <UpdatePopup/>
         </Styles>
     );
 }
