@@ -8,7 +8,7 @@ export default styled.aside`
     flex-shrink: 0;
     border-right: 1px solid ${p => p.theme.vars.colors.secondary2};
     transition: ${p =>p.theme.vars.defaults.transition};
-    width: 60px;
+    width: 65px;
     .sidebar {
         &__logo {
             ${p => p.theme.extend.flexCenter}
@@ -37,7 +37,9 @@ export default styled.aside`
                 ${p => p.theme.extend.flexCenter};
                 justify-content: flex-start;
                 color: ${p => p.theme.vars.colors.secondary3};
-                padding: 18px;
+                padding: 11px;
+                margin: 0 8px;
+                border-radius: ${p=>p.theme.vars.sizes.borderRadius};
                 font-weight: 500;
                 font-weight: 1rem;
                 transition: ${p => p.theme.vars.defaults.transition};
@@ -67,6 +69,7 @@ export default styled.aside`
             &:hover, &__active {
                 a {
                     color: ${p => p.theme.vars.colors.primary};
+                    background-color: ${p=> p.theme.vars.colors.primary}18;
                 }
                 &:before {
                     height:60%;
@@ -96,6 +99,12 @@ export default styled.aside`
                 svg {
                     height: 52px;
                     margin-bottom: 0;
+                }
+            }
+            &__item {
+                a {
+                    margin: 0 0 0 15px;
+                    border-radius: ${p=>p.theme.vars.sizes.borderRadius} 0 0 ${p=>p.theme.vars.sizes.borderRadius};
                 }
             }
         }

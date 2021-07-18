@@ -1,7 +1,6 @@
 import React, {ComponentProps} from "react";
 import {useAuth} from "../hooks/auth.hook";
 import userTypes from "../enums/user-types.enum";
-import PageNotFound from "../pages/page-not-found/page-not-found.component";
 import {Redirect} from "react-router";
 import {Routes} from "../enums/routes.enum";
 
