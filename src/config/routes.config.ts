@@ -167,6 +167,15 @@ export const routes: RouteType[] = [
             title: "Plans",
             items: headers.default
         }
+    },
+    {
+        title: 'Notifications',
+        url: Routes.PLANS,
+        Component: lazy(() => import('../pages/notifications/notifications.component')),
+        header: {
+            title: "Notifications",
+            items: headers.default
+        }
     }
 ];
 

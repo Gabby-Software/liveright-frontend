@@ -14,6 +14,7 @@ export const Routes = {
     CALENDAR: '/calendar',
     NOTIFICATIONS: '/notifications',
     SETTINGS: '/settings',
+    NOTIFICATIONS_SETTINGS: '/settings/notifications',
     TRAINER: '/trainer',
     INVOICES: '/invoices',
     CLIENTS: '/clients',
