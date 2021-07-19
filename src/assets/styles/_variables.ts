@@ -2,6 +2,7 @@ const vars = {
     colors: {
         primary: '#F74057',
         primaryLight: '#F97081',
+        primaryDarken: '#e23b50',
         primaryDark: '#40424D',
         secondary: '#BDBDBD',
         secondary2: '#d5d5d5',
