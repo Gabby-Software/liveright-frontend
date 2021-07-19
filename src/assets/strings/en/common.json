@@ -29,6 +29,7 @@
     "library": "Library",
     "invoices": "Invoices",
     "sessions": "Sessions",
+    "notifications": "Notifications",
     "switch-account": "Switch Account",
     "add-account": "Add New Profile",
     "select-profile-type": "Select a profile type",

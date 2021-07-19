@@ -10,11 +10,13 @@ import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.sv
 import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.svg";
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
 import {ReactComponent as RightArrowIcon} from "../../assets/media/icons/right-arrow.svg";
+import {ReactComponent as BellIcon} from "../../assets/media/icons/bell.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
 import {useAuth} from "../../hooks/auth.hook";
 import userTypes from "../../enums/user-types.enum";
 import logger from "../../managers/logger.manager";
+import {Routes} from "../../enums/routes.enum";
 
 type MenuItemType = {
     name: string;
@@ -28,8 +30,9 @@ const menuItems: MenuItemType[] = [
     {name: 'plans', url: '/plans', Icon: PlanIcon},
     {name: 'progress', url: '/progress', Icon: ProgressIcon},
     {name: 'library', url: '/library', Icon: LibraryIcon},
-    {name: 'invoices', url: '/invoices', Icon: InvoiceIcon},
-    {name: 'sessions', url: '/sessions', Icon: SessionIcon},
+    {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon},
+    {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},
+    {name: 'notifications', url: Routes.NOTIFICATIONS, Icon: BellIcon},
 ];
 const DesktopSidebar = () => {
     const {t} = useTranslation();
