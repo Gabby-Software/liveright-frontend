@@ -44,6 +44,9 @@ transition: ${p => p.theme.vars.defaults.transition};
             font-size: 10px;
             display: flex;
             margin-right: 16px;
+            @media all and (max-height: 800px) {
+                ${p => p.theme.mixin.circleImage('30px')}
+            }
         }
        
     }
