@@ -1,6 +1,7 @@
 import {AccessOptionType} from "./access-option.type";
 import {ProfileDataType} from "./profile-data.type";
 import {CountryType} from "./country.type";
+import {FileType} from "./file.type";
 
 export type AccountType = {
     account_level: null | number;
@@ -13,7 +14,7 @@ export type AccountType = {
 }
 export type AccountObjType = {
     accounts: AccountType[];
-    avatar: null | string;
+    avatar: null | FileType;
     avatar_thumb: null | string;
     birthday: null | string;
     created_at: string;

@@ -19,6 +19,10 @@
   "no-data": "No data yet",
   "apply-filters": "Apply Filters",
   "search": "Search",
+  "trainer": "Trainer",
+  "client": "Client",
+  "logged-as": "Logged in as {{type}}",
+  "what-to-do": "What do you want to do?",
   "menu": {
     "home": "Home",
     "clients": "Clients",
