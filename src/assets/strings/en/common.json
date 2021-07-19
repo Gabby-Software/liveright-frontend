@@ -23,6 +23,7 @@
   "client": "Client",
   "logged-as": "Logged in as {{type}}",
   "what-to-do": "What do you want to do?",
+  "switch-to": "Switch to {{type}}",
   "menu": {
     "home": "Home",
     "clients": "Clients",
