@@ -3,4 +3,6 @@ export type NotificationType = {
   datetime: string;
   type: NotificationTypeType;
   content: string;
+  seen: boolean;
+  url: string;
 };

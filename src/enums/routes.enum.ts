@@ -20,6 +20,7 @@ export const Routes = {
     CLIENTS: '/clients',
     SESSIONS: '/sessions',
     PLANS: '/plans',
+    MEALS: '/meals',
     SPLITS: '/plans/training-splits',
     DIETS: '/plans/diet-plans',
     WORKOUTS: '/plans/workout-plans'

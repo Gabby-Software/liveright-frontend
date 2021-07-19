@@ -1,0 +1,11 @@
+{
+  "all-done": "All Done From Here",
+  "go-to": "Go to {{type}}",
+  "types": {
+    "invoice": "invoice",
+    "session": "session",
+    "exercise": "exercise",
+    "meal": "meal"
+  }
+
+}

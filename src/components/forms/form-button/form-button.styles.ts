@@ -50,4 +50,13 @@ box-shadow:  0px 4px 8px 1px rgba(242, 96, 96, 0.15);
         color: ${p=>p.theme.vars.colors.light};
     }
 }
+&.ant-btn-ghost {
+    box-shadow: none;
+    border: 1px solid ${p => p.theme.vars.colors.labelLight};
+    color: ${p => p.theme.vars.colors.labelLight};
+    &:hover {
+        border: 1px solid ${p => p.theme.vars.colors.primaryDark};
+        color: ${p => p.theme.vars.colors.primaryDark};
+    }
+}
 `;
