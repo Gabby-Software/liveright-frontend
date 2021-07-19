@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export default styled.div`
 .calendar-week {
-    ${p => p.theme.extend.flexCenter}
+    display: flex;
     margin: 0 24px; 
     &__activities {
         margin: 0 28px;

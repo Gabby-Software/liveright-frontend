@@ -19,6 +19,7 @@ export default styled.div`
                    display: block;
                    padding: 14px;
                    text-align: center;
+                   aspect-ratio: unset;
             `}  
             @media all and (min-width: ${p =>p.theme.vars.media.tablet}px) {
                 border:1px solid ${p =>p.theme.vars.colors.light};

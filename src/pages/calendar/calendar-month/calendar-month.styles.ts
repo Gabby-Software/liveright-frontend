@@ -4,7 +4,7 @@ export default styled.div`
     
     .calendar-month {
         &__week {
-            ${p => p.theme.extend.flexCenter}
+            display: flex;
         }
         &__cont {
             margin: 24px;   
