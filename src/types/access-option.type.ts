@@ -1,1 +1,1 @@
-export type AccessOptionType = 'account'|'trainer'|'org'|'platform';
+export type AccessOptionType = 'client'|'trainer'|'org'|'platform';

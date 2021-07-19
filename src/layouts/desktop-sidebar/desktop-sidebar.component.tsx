@@ -17,6 +17,8 @@ import {useAuth} from "../../hooks/auth.hook";
 import userTypes from "../../enums/user-types.enum";
 import logger from "../../managers/logger.manager";
 import {Routes} from "../../enums/routes.enum";
+import profilePlaceholder from "../../assets/media/profile-placeholder.png";
+import DesktopFooter from "../desktop-footer/desktop-footer.component";
 
 type MenuItemType = {
     name: string;
@@ -38,7 +40,7 @@ const DesktopSidebar = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const {pathname} = useLocation();
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     logger.info('TYPE', type, userTypes.TRAINER);
     return (
         <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
@@ -60,8 +62,20 @@ const DesktopSidebar = () => {
                         ))
                     }
                 </ul>
-                <RightArrowIcon className={'sidebar__collapse'} onClick={() => setIsOpen(!isOpen)}/>
+                {
+                    type === 'client'||true?(
+                        <>
+                            <div className={'sidebar__hr'}/>
+                            <Link to={Routes.TRAINER} className={'sidebar__trainer'}>
+                                <img alt={'trainer'} src={profilePlaceholder}/>
+                                <span>{t('menu.trainer')}</span>
+                            </Link>
+                        </>
+                    ):null
+                }
+                {/*<RightArrowIcon className={'sidebar__collapse'} onClick={() => setIsOpen(!isOpen)}/>*/}
             </nav>
+            <DesktopFooter/>
         </Styles>
     );
 };
