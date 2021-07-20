@@ -22,6 +22,7 @@
   "filters": "Invoice Filters",
   "number": "Invoice #{{number}}",
   "from": "From {{name}}",
+  "issued-by": "Issued by",
   "settle-now": "Settle Now",
   "statuses": {
     "paid": "Paid",

@@ -11,7 +11,7 @@ const vars = {
         dark2: '#39393d',
         light: '#EBEBEB',
         light2: '#a8a8a8',
-        card: '#fbfbfb',
+        card: '#f9f9f9',
         labelLight: '#72727a',
         inputBorder: '#dfdfdf',
         background: '#fafafa',

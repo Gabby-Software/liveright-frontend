@@ -120,7 +120,7 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/invoices/invoices.component')),
         header: {
             title: 'Invoices',
-            items: headers.filter
+            items: headers.default_inside
         }
     },
     {
