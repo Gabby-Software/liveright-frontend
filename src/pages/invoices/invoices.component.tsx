@@ -1,23 +1,38 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './invoices.styles';
-import DataTable from "../../components/data-table/data-table.component";
+import PageSubtitle from "../../components/titles/page-subtitle.styles";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
-import {invoices} from "./invoices.data";
-import {TrainerInvoiceType} from "../../types/invoice.type";
-import Invoice from "../invoice/invoice.component";
-import DataPagination from "../../components/data-pagination/data-pagination.component";
-import {PaginationMetaType} from "../../types/pagination-meta.type";
-import InvoiceView from "../invoice/invoice-view/invoice-view.component";
-import Card from "../../components/card/card.style";
-import logger from "../../managers/logger.manager";
+import Carousel from "../../components/carousel/carousel.component";
+import {overdueInvoices} from "./invoices.data";
+import InvoiceCard from "./components/invoice-card/invoice-card.component";
+import Hr from "../../components/hr/hr.styles";
+import InvoiceFilters from "./components/invoice-filters/invoice-filters.component";
 import {useIsMobile} from "../../hooks/is-mobile.hook";
-import MobileInvoices from "./mobile-invoices/mobile-invoices.component";
-import DesktopInvoices from "./desktop-invoices/desktop-invoices.component";
+import InvoicesList from "./components/invoices-list/invoices-list.component";
+import InvoicesTable from "./components/invoices-table/invoices-table.component";
 
 const Invoices = () => {
+    const {t} = useTranslation();
     const isMobile = useIsMobile();
-    if(isMobile) return <MobileInvoices/>;
-    return <DesktopInvoices/>;
+    return (
+        <Styles>
+            <PageSubtitle>Need your attention</PageSubtitle>
+            <Carousel>
+                {
+                    overdueInvoices.map((inv, i) => <InvoiceCard key={inv.id} {...inv}/>)
+                }
+            </Carousel>
+            <Hr/>
+            <PageSubtitle>All your Invoice and billing history</PageSubtitle>
+
+            <div className={'invoices__body'}>
+            <InvoiceFilters/>
+            {
+                isMobile ? <InvoicesList/> : <InvoicesTable/>
+            }
+            </div>
+        </Styles>
+    )
 };
 
 export default Invoices;

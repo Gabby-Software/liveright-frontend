@@ -8,6 +8,7 @@ type InvoiceType = {
     price: number;
     currency: string;
     status: string;
+    url: string;
 }
 export type TrainerInvoiceType = InvoiceType & {
     client_name: string;

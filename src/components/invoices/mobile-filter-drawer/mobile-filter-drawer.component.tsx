@@ -22,7 +22,7 @@ const MobileFilterDrawer = () => {
     };
     const statusOptions = [
         {label: 'All', value: 'All'},
-        ...statuses.map(({name}) => ({label: name, value: name}))
+        ...statuses
     ];
     const clientOptions = [
         {label: 'All', value: 'All'},

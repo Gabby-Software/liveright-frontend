@@ -5,6 +5,7 @@ export default styled.aside`
     flex-direction: column;
     height: 100vh;
     position: sticky;
+    z-index: ${p => p.theme.vars.zIndex.footer};
     top:0;
     flex-shrink: 0;
     border-right: 1px solid ${p => p.theme.vars.colors.secondary2};

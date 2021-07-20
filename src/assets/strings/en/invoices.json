@@ -1,8 +1,8 @@
 {
   "client-name": "Client Name",
-  "trainer-name": "Trainer Name",
-  "invoice-number": "Invoice Number",
-  "invoice-date": "Invoice Date",
+  "trainer-name": "Issued By",
+  "invoice-number": "Invoice #",
+  "invoice-date": "Date",
   "invoice-due": "Invoice Due",
   "description": "Description",
   "mark-paid": "Mark as Paid",
@@ -10,7 +10,8 @@
   "cancel-invoice": "Cancel Invoice",
   "session-expired": "Session Expired",
   "quantity": "Quantity",
-  "price": "Price",
+  "price": "Total",
+  "options": "Options",
   "tax": "Tax",
   "discount": "Discount (in %)",
   "notes": "Notes",
@@ -19,11 +20,16 @@
   "other": "Description",
   "base-price": "Base Price",
   "filters": "Invoice Filters",
+  "number": "Invoice #{{number}}",
+  "from": "From {{name}}",
+  "settle-now": "Settle Now",
   "statuses": {
     "paid": "Paid",
     "outstanding": "Outstanding",
     "cancelled": "Cancelled",
-    "issued": "Issued"
+    "issued": "Issued",
+    "overdue": "Overdue",
+    "due-soon": "Due Soon"
   },
   "service-type": {
     "title": "Service Type",

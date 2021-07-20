@@ -4,7 +4,7 @@ export default styled.table`
     width: 100%;
     .data-table {
         &__head {
-            background-color: ${p => p.theme.vars.colors.light};
+            background-color: ${p => p.theme.vars.colors.card};
             border: 1px solid #DFDFE1;
         }
         &__th {

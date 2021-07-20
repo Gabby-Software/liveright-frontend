@@ -1,5 +1,6 @@
 import {TrainerInvoiceType} from "../../types/invoice.type";
 import {invoiceStatuses} from "../../enums/invoice-statuses";
+import {OptionType} from "../../types/option.type";
 
 export const invoices: TrainerInvoiceType[] = [
     {
@@ -12,7 +13,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 160,
         currency: 'AED',
-        status: invoiceStatuses.ISSUED
+        status: invoiceStatuses.ISSUED,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 2,
@@ -24,7 +26,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 120,
         currency: 'AED',
-        status: invoiceStatuses.ISSUED
+        status: invoiceStatuses.ISSUED,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 3,
@@ -36,7 +39,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 240,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.PAID,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 4,
@@ -48,7 +52,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 330.90,
         currency: 'AED',
-        status: invoiceStatuses.OUTSTANDING
+        status: invoiceStatuses.OUTSTANDING,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 5,
@@ -60,7 +65,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 124,
         currency: 'AED',
-        status: invoiceStatuses.CANCELLED
+        status: invoiceStatuses.CANCELLED,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 6,
@@ -72,7 +78,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 300,
         currency: 'USD',
-        status: invoiceStatuses.OUTSTANDING
+        status: invoiceStatuses.OUTSTANDING,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 7,
@@ -84,7 +91,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 422,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.PAID,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 8,
@@ -96,7 +104,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 500,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.PAID,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 9,
@@ -108,7 +117,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 808,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 10,
@@ -120,7 +130,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 600,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 11,
@@ -132,7 +143,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 120,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 12,
@@ -144,7 +156,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 120,
         currency: 'AED',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 13,
@@ -156,7 +169,8 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 300,
         currency: 'ILS',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
         id: 14,
@@ -168,10 +182,64 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 333,
         currency: 'MKD',
-        status: invoiceStatuses.PAID
+        status: invoiceStatuses.DUE_SOON,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
     },
 ];
-
+export const overdueInvoices = [
+    {
+        id: 11,
+        client_name: 'Benjamin Netanyahu',
+        invoice_number: 'UV-109-880',
+        session_type: 'PT Session',
+        description: '5 PT Sessions By Andy Bell more info here and some stuff and stuff',
+        created_at: '2021-07-07',
+        due_date: '2021-09-11',
+        price: 120,
+        currency: 'AED',
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
+    },
+    {
+        id: 12,
+        client_name: 'Gershon Shufman',
+        invoice_number: 'UV-999-212',
+        session_type: 'PT Session',
+        description: '5 PT Sessions By Andy Bell more info here and some stuff and stuff',
+        created_at: '2021-07-07',
+        due_date: '2021-09-11',
+        price: 120,
+        currency: 'AED',
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
+    },
+    {
+        id: 13,
+        client_name: 'Gershon Shufman',
+        invoice_number: 'UV-133-843',
+        session_type: 'PT Session',
+        description: '5 PT Sessions By Andy Bell more info here and some stuff and stuff',
+        created_at: '2021-07-07',
+        due_date: '2021-09-11',
+        price: 300,
+        currency: 'ILS',
+        status: invoiceStatuses.OVERDUE,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
+    },
+    {
+        id: 14,
+        client_name: 'Gershon Shufman',
+        invoice_number: 'UV-143-880',
+        session_type: 'PT Session',
+        description: '5 PT Sessions By Andy Bell more info here and some stuff and stuff',
+        created_at: '2021-07-07',
+        due_date: '2021-09-11',
+        price: 333,
+        currency: 'MKD',
+        status: invoiceStatuses.DUE_SOON,
+        url: 'http://www.africau.edu/images/default/sample.pdf'
+    },
+];
 export const clients: {id: number, first_name: string, last_name: string}[] = [
     {id: 1, first_name: 'Marina', last_name: 'Gergel'},
     {id: 2, first_name: 'Vaibrhav', last_name: 'Raj'},
@@ -181,9 +249,10 @@ export const clients: {id: number, first_name: string, last_name: string}[] = [
     {id: 6, first_name: 'Leah', last_name: 'Goldberg'},
 ];
 
-export const statuses: {id: number, name: string}[] = [
-    {id: 3, name: invoiceStatuses.ISSUED},
-    {id: 1, name: invoiceStatuses.PAID},
-    {id: 2, name: invoiceStatuses.OUTSTANDING},
-    {id: 4, name: invoiceStatuses.CANCELLED},
+export const statuses: OptionType[] = [
+    {label: invoiceStatuses.OUTSTANDING, value: invoiceStatuses.OUTSTANDING},
+    {label: invoiceStatuses.PAID, value: invoiceStatuses.PAID},
+    {label: invoiceStatuses.CANCELLED, value: invoiceStatuses.CANCELLED},
+    {label: invoiceStatuses.DUE_SOON, value: invoiceStatuses.DUE_SOON},
+    {label: invoiceStatuses.OVERDUE, value: invoiceStatuses.OVERDUE},
 ];

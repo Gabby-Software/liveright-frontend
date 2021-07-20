@@ -23,5 +23,5 @@ export const Routes = {
     MEALS: '/meals',
     SPLITS: '/plans/training-splits',
     DIETS: '/plans/diet-plans',
-    WORKOUTS: '/plans/workout-plans'
+    WORKOUTS: '/plans/workout-plans',
 };

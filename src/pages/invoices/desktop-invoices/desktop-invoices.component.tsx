@@ -60,7 +60,7 @@ const DesktopInvoices = () => {
                             <FormRow className={'invoices__filters'}>
                                 <FormSelect name={'status'} label={t('invoices:status')} options={[
                                     {label: 'All', value: ''},
-                                    ...statuses.map(({name}) => ({label: name, value: name}))
+                                    ...statuses
                                 ]}/>
                                 {
                                     type === userTypes.TRAINER ? (
