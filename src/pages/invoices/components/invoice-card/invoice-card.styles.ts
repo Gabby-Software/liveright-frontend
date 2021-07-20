@@ -9,21 +9,30 @@ border-radius: 4px;
 background-color: #f9f9f9;
 color: ${p => p.theme.vars.colors.primaryDark};
 flex-shrink:0;
+display: block;
+width: 187px;
+text-align: center;
 &:last-child {
     margin-right: 0;
 }
 ${media('tablet', 'min')`
-display: flex;
-width: 357px;
+    display: flex;
+    width: 357px;
+    text-align: left;
 `}
 
 .invoice-card {
     &__left {
-        width: 55%;
+        ${media('tablet', 'min')`
+            width: 55%;
+            `}
     }
     &__right {
-        width:45%;
-        margin-left: 24px;
+        
+        ${media('tablet', 'min')`
+            width:45%;
+            margin-left: 24px;
+        `}
     }
     &__number {
         font-size: 20px;
@@ -39,6 +48,10 @@ width: 357px;
     }
     &__status {
         cursor: default;
+        margin-bottom: 12px;
+        ${media('tablet', 'min')`
+            margin-bottom: 28px;
+        `}
         &__overdue {
             background-color: ${p => p.theme.vars.colors.error};
             border-color: ${p => p.theme.vars.colors.error};
@@ -58,7 +71,7 @@ width: 357px;
     }
     &__action {
         border-radius: 0;
-        margin-top: 28px;
+        
     }
 }
     

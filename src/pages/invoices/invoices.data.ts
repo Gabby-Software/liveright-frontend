@@ -13,7 +13,7 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 160,
         currency: 'AED',
-        status: invoiceStatuses.ISSUED,
+        status: invoiceStatuses.OUTSTANDING,
         url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {
@@ -26,7 +26,7 @@ export const invoices: TrainerInvoiceType[] = [
         due_date: '2021-09-11',
         price: 120,
         currency: 'AED',
-        status: invoiceStatuses.ISSUED,
+        status: invoiceStatuses.OUTSTANDING,
         url: 'http://www.africau.edu/images/default/sample.pdf'
     },
     {

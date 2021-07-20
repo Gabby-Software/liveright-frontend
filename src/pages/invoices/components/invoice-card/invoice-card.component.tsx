@@ -15,12 +15,13 @@ const InvoiceCard = ({invoice_number, client_name, status, price, currency, id}:
             <div className={'invoice-card__left'}>
                 <h3 className={'invoice-card__number'}>{t('invoices:number', {number: id})}</h3>
                 <p className={'invoice-card__issuer'}>{t('invoices:from', {name: client_name})}</p>
-                <h2 className={'invoice-card__price'}>{price} {currency}</h2>
+                <h2 className={'invoice-card__price desktop'}>{price} {currency}</h2>
             </div>
             <div className={'invoice-card__right'}>
                 <FormButton type={'primary'}
                             className={classes('invoice-card__status', status === 'Overdue'?'invoice-card__status__overdue':'invoice-card__status__due-soon')}
                 >{status}</FormButton>
+                <h2 className={'invoice-card__price mobile'}>{price} {currency}</h2>
                 <a href={payments(Routes.INVOICES+'/'+id)} onClick={e => e.stopPropagation()}>
                     <FormButton type={'ghost'} className={'invoice-card__action'}>{t('invoices:settle-now')}</FormButton>
                 </a>
