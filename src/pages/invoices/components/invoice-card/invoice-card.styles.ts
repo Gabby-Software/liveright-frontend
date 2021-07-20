@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Card from "../../../../components/card/card.style";
+import {Link} from "react-router-dom";
 import {media} from "../../../../assets/styles/_media";
 
-export default styled.div`
+export default styled(Link)`
 margin: 32px 16px 57px 0;
 padding: 23px 20px;
 border-radius: 4px;

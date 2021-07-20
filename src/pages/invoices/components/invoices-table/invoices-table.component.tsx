@@ -18,16 +18,18 @@ import fileManager from "../../../../managers/file.manager";
 import TablePagination from "../../../../components/table-pagination/table-pagination.component";
 import logger from "../../../../managers/logger.manager";
 
-type Action = {};
 const InvoicesTable = () => {
     const {type} = useAuth();
     const [page, setPage] = useState(1);
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
-    useEffect(() => {
-        if(!head.current) return;
-        window.scrollTo({top:window.scrollY+head.current.getBoundingClientRect().top, behavior:'smooth'});
-    }, [page]);
+    const updatePage = (p: number) => {
+        setPage(p);
+        setTimeout(() => {
+            if (!head.current) return;
+            window.scrollTo({top: window.scrollY + head.current.getBoundingClientRect().top, behavior: 'smooth'});
+        });
+    };
     const labels = [
         type === userTypes.TRAINER ? 'invoices:client-name' : 'invoices:trainer-name',
         'invoices:invoice-date',
@@ -46,7 +48,7 @@ const InvoicesTable = () => {
     ];
     return (
         <Styles ref={head}>
-            <DataTable labels={labels} keys={keys} data={invoices.slice((page-1)*10, page*10)} render={{
+            <DataTable labels={labels} keys={keys} data={invoices.slice((page - 1) * 10, page * 10)} render={{
                 invoice_number: (t) => `#${t.invoice_number}`,
                 due_date: (t) => date(t.due_date),
                 price: t => `${t.price} ${t.currency}`,
@@ -55,7 +57,7 @@ const InvoicesTable = () => {
                     <div className={'invoice-table__actions'}>
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON].includes(status) ? (
                             <a href={payments(Routes.INVOICES) + '/' + id}
-                                  className={'invoice-table__link'}>
+                               className={'invoice-table__link'}>
                                 <FormButton type={'primary'}>
                                     {t('invoices:settle-now')}
                                 </FormButton>
@@ -69,7 +71,7 @@ const InvoicesTable = () => {
                     </div>
                 )
             }}/>
-            <TablePagination page={page} setPage={setPage} total={invoices.length}/>
+            <TablePagination page={page} setPage={updatePage} total={invoices.length}/>
         </Styles>
     )
 };

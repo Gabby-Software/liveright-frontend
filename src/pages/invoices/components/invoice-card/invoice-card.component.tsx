@@ -11,7 +11,7 @@ import {classes} from "../../../../pipes/classes.pipe";
 const InvoiceCard = ({invoice_number, client_name, status, price, currency, id}:TrainerInvoiceType) => {
     const {t} = useTranslation();
     return (
-        <Styles>
+        <Styles to={Routes.INVOICES+'/'+id}>
             <div className={'invoice-card__left'}>
                 <h3 className={'invoice-card__number'}>{t('invoices:number', {number: id})}</h3>
                 <p className={'invoice-card__issuer'}>{t('invoices:from', {name: client_name})}</p>
@@ -21,7 +21,7 @@ const InvoiceCard = ({invoice_number, client_name, status, price, currency, id}:
                 <FormButton type={'primary'}
                             className={classes('invoice-card__status', status === 'Overdue'?'invoice-card__status__overdue':'invoice-card__status__due-soon')}
                 >{status}</FormButton>
-                <a href={payments(Routes.INVOICES+'/'+id)}>
+                <a href={payments(Routes.INVOICES+'/'+id)} onClick={e => e.stopPropagation()}>
                     <FormButton type={'ghost'} className={'invoice-card__action'}>{t('invoices:settle-now')}</FormButton>
                 </a>
             </div>
