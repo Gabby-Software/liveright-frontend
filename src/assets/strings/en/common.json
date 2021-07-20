@@ -24,6 +24,8 @@
   "logged-as": "Logged in as {{type}}",
   "what-to-do": "What do you want to do?",
   "switch-to": "Switch to {{type}}",
+  "not-found-desc": "You seem to be lost, or maybe this page never existed?",
+  "back-home": "Go Back Home",
   "menu": {
     "home": "Home",
     "clients": "Clients",

@@ -106,11 +106,11 @@ export const routes: RouteType[] = [
         }
     },
     {
-        title: 'Invoices',
+        title: 'View invoice',
         url: Routes.INVOICES + '/:id',
         Component: lazy(() => import('../pages/invoice/invoice.component')),
         header: {
-            title: 'Invoices',
+            title: 'Invoice',
             items: headers.download
         }
     },

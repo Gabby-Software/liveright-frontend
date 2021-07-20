@@ -4,6 +4,7 @@ import {HeaderConfigType} from "../types/route.type";
 import {ReactComponent as CalendarIcon} from '../assets/media/icons/calendar.svg';
 import {ReactComponent as BellIcon} from '../assets/media/icons/bell.svg';
 import headers, {DEFAULT_TITLE} from "../config/header.config";
+import logger from "../managers/logger.manager";
 
 const defaultHeader: HeaderConfigType = {
     title: DEFAULT_TITLE,
@@ -11,6 +12,7 @@ const defaultHeader: HeaderConfigType = {
 };
 export const useHeader = () => {
     const {header} = usePage() || {};
+    logger.info('header', header);
     return {
         ...defaultHeader,
         ...header

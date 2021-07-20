@@ -5,7 +5,7 @@ export const useSeo = () => {
     const page = usePage();
     useEffect(() => {
         if(page) {
-            document.title = page.title;
+            document.title = page.header?.title || page.title;
         }
     }, [page]);
 };
