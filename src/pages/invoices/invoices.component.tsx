@@ -10,6 +10,7 @@ import InvoiceFilters from "./components/invoice-filters/invoice-filters.compone
 import {useIsMobile} from "../../hooks/is-mobile.hook";
 import InvoicesList from "./components/invoices-list/invoices-list.component";
 import InvoicesTable from "./components/invoices-table/invoices-table.component";
+import {onlyClient} from "../../guards/client.guard";
 
 const Invoices = () => {
     const {t} = useTranslation();
@@ -35,4 +36,4 @@ const Invoices = () => {
     )
 };
 
-export default Invoices;
+export default onlyClient(Invoices);
