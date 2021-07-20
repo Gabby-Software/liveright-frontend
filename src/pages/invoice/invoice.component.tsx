@@ -8,7 +8,8 @@ import InvoiceView from "./invoice-view/invoice-view.component";
 const Invoice = () => {
     const isMobile = useIsMobile();
     const {id} = useParams<{id: string}>();
-    if(!isMobile) return (<Redirect to={Routes.INVOICES}/>);
+    return null;
+    // if(!isMobile) return (<Redirect to={Routes.INVOICES}/>);
     return (
         <Styles>
             <InvoiceView id={+id}/>
