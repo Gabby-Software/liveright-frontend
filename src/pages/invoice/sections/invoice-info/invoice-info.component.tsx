@@ -41,40 +41,41 @@ const invoiceData: ClientInvoiceType[] = [
 const InvoiceInfo = () => {
     const {t} = useTranslation();
     const labels = [
-        'Item', 'Quantity', 'Unit Price', 'Discount', 'Vat', 'Subtotal'
+        'invoices:item', 'invoices:quantity', 'invoices:price', 'invoices:discount', 'invoices:vat', 'invoices:subtotal'
     ];
+    const keys = ['item', 'qty', 'price', 'discount', 'vat', 'subtotal'];
     return (
         <Styles>
-            <DataTable labels={labels} data={invoiceData} render={{
-                Item: ({session_type, description}) => (
+            <DataTable labels={labels} data={invoiceData} keys={keys} render={{
+                item: ({session_type, description}) => (
                     <div className={'invoice-info__item'}>
                         <div className={'invoice-info__type'}>{t(`invoices:service-type.${session_type}`)}</div>
                         <div className={'invoice-info__desc'}>{description}</div>
                     </div>
                 ),
-                Quantity: ({quantity}) => `${quantity}X`,
-                'Unit Price': ({price, currency}) => `${price} ${currency}`,
-                Discount: () => 0,
-                Vat: ({tax, price, quantity, currency}) => `${asPrice(((price * quantity) / tax))} ${currency}`,
-                Subtotal: ({price, quantity, currency}) => `${price * quantity} ${currency}`
+                qty: ({quantity}) => `${quantity}X`,
+                price: ({price, currency}) => `${price} ${currency}`,
+                discount: () => 0,
+                vat: ({tax, price, quantity, currency}) => `${asPrice(((price * quantity) / tax))} ${currency}`,
+                subtotal: ({price, quantity, currency}) => `${price * quantity} ${currency}`
             }}>
                 <tr className={'data-table__tr'}>
                     <td className={'data-table__td'} colSpan={4}>
                         <div className={'invoice-info__summary__left'}>
                             <div className={'invoice-info__s'}>
-                                <div className={'invoice-info__s-key'}>Default Payment Method</div>
-                                <div className={'invoice-info__s-value'}>Credit Card</div>
+                                <div className={'invoice-info__s-key'}>{t('invoices:default-payment-method')}</div>
+                                <div className={'invoice-info__s-value'}>{'Credit Card'}</div>
                             </div>
                             <div className={'invoice-info__s'}>
-                                <div className={'invoice-info__s-key'}>Session Expiry</div>
-                                <div className={'invoice-info__s-value'}>Never</div>
+                                <div className={'invoice-info__s-key'}>{t('invoices:session-expiry')}</div>
+                                <div className={'invoice-info__s-value'}>{t('invoices:never')}</div>
                             </div>
                         </div>
                     </td>
                     <td className={'data-table__td'}>
-                        <div className={'invoice-info__d-key'}>Subtotal</div>
-                        <div className={'invoice-info__d-key'}>Vat ({invoiceData[0].tax}%)</div>
-                        <div className={'invoice-info__d-key'}>Discounts</div>
+                        <div className={'invoice-info__d-key'}>{t('invoices:subtotal')}</div>
+                        <div className={'invoice-info__d-key'}>{t('invoices:vat')} ({invoiceData[0].tax}%)</div>
+                        <div className={'invoice-info__d-key'}>{t('invoices:discounts')}</div>
                     </td>
                     <td className={'data-table__td'}>
                         <div
@@ -85,7 +86,7 @@ const InvoiceInfo = () => {
                     </td>
                 </tr>
             </DataTable>
-            <p className={'invoice-info__thanks'}>Thanks you for your bussiness</p>
+            <p className={'invoice-info__thanks'}>{t('invoices:thanks')}</p>
         </Styles>
     )
 };

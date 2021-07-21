@@ -3,6 +3,7 @@ import styled from "styled-components";
 export default styled.div`
     .data-table {
         &__td {
+            color: #676767 !important;
             &:not(:first-child) {
                 font-size: 16px;
                 @media only print {
@@ -76,6 +77,16 @@ export default styled.div`
             @media only print {
                  font-size: 10px !important;
             }
+        }
+        &__item {
+            font-size: 14px;
+            @media only print {
+                    font-size: 10px;
+                }
+        }
+        &__type {
+            color: ${p => p.theme.vars.colors.primaryDark};
+            font-weight: 600;
         }
     }
 `;
