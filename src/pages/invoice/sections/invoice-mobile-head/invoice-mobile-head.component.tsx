@@ -29,6 +29,7 @@ const InvoiceMobileHead = ({}: Props) => {
                 <FormButton type={'primary'} className={'invoice-m-head__status'}>{'Overdue'}</FormButton>
                 <FormButton type={'primary'} className={'invoice-m-head__cta'}>{t('invoices:pay')}</FormButton>
                 <div className={'invoice-m-head__icons'}>
+                    <PrintIcon className={'invoice-m-head__action'} onClick={window.print}/>
                     <DownloadIcon className={'invoice-m-head__action'}/>
                     <Link to={Routes.CHAT}><MessagesIcon className={'invoice-m-head__action'}/></Link>
                 </div>
