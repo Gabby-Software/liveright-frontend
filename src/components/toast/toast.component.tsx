@@ -6,6 +6,7 @@ import {Alert} from 'antd'
 export type ToastProps = {type: 'success'|'error', msg: string};
 type ToastPropsInternal = ToastProps & {id: number};
 let id = 0;
+let t=0;
 export const toast = {show: (props: ToastProps) => {}, duration: 2000};
 const ToastItem = ({type, msg, idx}: ToastPropsInternal & {idx: number}) => {
     const [top, setTop] = useState(-50);
@@ -22,13 +23,16 @@ const Toast = () => {
     const [toasts,setToasts] = useState<ToastPropsInternal[]>([]);
     const tref = useRef<ToastPropsInternal[]>([]);
     toast.show = (props: ToastProps) => {
-        const toastId = ++id;
-        tref.current.unshift({...props, id:toastId});
-        setToasts([...tref.current]);
-        setTimeout(() => {
-            tref.current = tref.current.filter(t => t.id !== toastId);
+        clearTimeout(t);
+        t = setTimeout(() => {
+            const toastId = ++id;
+            tref.current.unshift({...props, id:toastId});
             setToasts([...tref.current]);
-        }, toast.duration);
+            setTimeout(() => {
+                tref.current = tref.current.filter(t => t.id !== toastId);
+                setToasts([...tref.current]);
+            }, toast.duration);
+        }, 400) as unknown as number;
     };
     return (
         <Styles>
