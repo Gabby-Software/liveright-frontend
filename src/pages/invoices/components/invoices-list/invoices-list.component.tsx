@@ -5,9 +5,11 @@ import {invoices} from "../../invoices.data";
 import InvoicesListItem from "../invoices-list-item/invoices-list-item.component";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import logger from "../../../../managers/logger.manager";
+import {useAuth} from "../../../../hooks/auth.hook";
 
 const InvoicesList = () => {
     const {t} = useTranslation();
+    const {type} = useAuth();
     const [page, setPage] = useState(1);
     const head = useRef<HTMLDivElement>(null);
     const updatePage = (p: number) => {

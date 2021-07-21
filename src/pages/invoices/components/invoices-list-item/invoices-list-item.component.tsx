@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import {payments} from "../../../../pipes/payments.pipe";
 import {Routes} from "../../../../enums/routes.enum";
 import {invoiceStatuses} from "../../../../enums/invoice-statuses";
+import userTypes from "../../../../enums/user-types.enum";
 
 const InvoicesListItem = ({id, due_date, client_name, status, currency, price}:TrainerInvoiceType) => {
     const {t} = useTranslation();
@@ -22,7 +23,7 @@ const InvoicesListItem = ({id, due_date, client_name, status, currency, price}:T
                 <div className={'invoice-li__date'}>{moment(due_date).format('YYYY-MM-DD')}</div>
             </div>
             <div className={'invoice-li__hr'}/>
-            <div className={'invoice-li__label'}>{t('invoices:issued-by')}</div>
+            <div className={'invoice-li__label'}>{type===userTypes.CLIENT?t('invoices:issued-by'):t('invoices:issued-to')}</div>
             <div className={'invoice-li__body'}>
                 <img src={profilePlaceholder} className={'invoice-li__img'}/>
                 <div className={'invoice-li__name'}>{client_name}</div>
@@ -32,9 +33,15 @@ const InvoicesListItem = ({id, due_date, client_name, status, currency, price}:T
                 <div className={classes('invoice-li__status', `invoice-li__status__${status.toLowerCase()}`)}>{status}</div>
                 {
                     [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(status)?(
-                        <a href={payments(Routes.INVOICES+'/'+id)} className={'invoice-li__cta'}
-                           onClick={e => e.stopPropagation()}
-                        >{t('invoices:settle-now')}</a>
+                        type===userTypes.CLIENT?(
+                            <a href={payments(Routes.INVOICES+'/'+id)} className={'invoice-li__cta'}
+                               onClick={e => e.stopPropagation()}
+                            >{t('invoices:settle-now')}</a>
+                        ):(
+                            <a className={'invoice-li__cta'}
+                               onClick={e => e.stopPropagation()}
+                            >{t('invoices:remind-client')}</a>
+                        )
                     ):null
                 }
             </div>

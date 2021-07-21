@@ -56,14 +56,22 @@ const InvoicesTable = () => {
                 options: ({status, id, url}) => (
                     <div className={'invoice-table__actions'}>
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(status) ? (
-                            <a href={payments(Routes.INVOICES) + '/' + id}
-                               className={'invoice-table__link'}>
+                            type === userTypes.CLIENT ? (
+                                <a href={payments(Routes.INVOICES) + '/' + id}
+                                   className={'invoice-table__link'}>
+                                    <FormButton type={'primary'}>
+                                        {t('invoices:settle-now')}
+                                    </FormButton>
+                                </a>
+                            ) : (
+                                <span className={'invoice-table__link'}>
                                 <FormButton type={'primary'}>
-                                    {t('invoices:settle-now')}
+                                    {t('invoices:remind-client')}
                                 </FormButton>
-                            </a>
+                                </span>
+                            )
                         ) : [invoiceStatuses.PAID].includes(status) ? <InvoiceIcon className={'invoice-table__action'}
-                                         onClick={() => fileManager.downloadUrl(url)}/>:null}
+                                                                                   onClick={() => fileManager.downloadUrl(url)}/> : null}
                         <PDFIcon className={'invoice-table__action'} onClick={() => fileManager.downloadUrl(url)}/>
                         <Link to={Routes.INVOICES + '/' + id} className={'invoice-table__action'}>
                             <ReceiptIcon/>
