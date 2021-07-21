@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-${p => p.theme.extend.layout}
+
 .invoices {
     &__heading {
         ${p => p.theme.extend.flexCenter}   

@@ -2,9 +2,7 @@ import styled from "styled-components";
 import {media} from "../../assets/styles/_media";
 
 export default styled.div`
-    @media all and (max-width: ${p => p.theme.vars.media.tablet}px){
-        ${p => p.theme.extend.layout}
-    }
+
     .notification {
         &__hr {
             position: relative;

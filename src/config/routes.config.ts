@@ -111,7 +111,7 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/invoice/invoice.component')),
         header: {
             title: 'Invoice',
-            items: headers.download
+            items: headerBackTo(Routes.INVOICES)
         }
     },
     {

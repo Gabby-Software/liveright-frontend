@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-${p => p.theme.extend.layout}
+
 .sessions {
     &__item {
         margin-bottom: 12px;

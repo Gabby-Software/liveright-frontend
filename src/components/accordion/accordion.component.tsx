@@ -4,7 +4,7 @@ import Card from "../card/card.style";
 import {ReactComponent as DownArrowIcon} from "../../assets/media/icons/down-arrow.svg";
 import {classes} from "../../pipes/classes.pipe";
 
-type ItemPropsType =  {
+export type ItemPropsType =  {
     children: React.ReactNode,
     title: string;
     open?: boolean;
@@ -14,7 +14,7 @@ const Item = ({children, title, open, switchOpen}: ItemPropsType) => {
     const content = useRef<HTMLDivElement>(null);
     return (
         <article className={'accordion__item'}>
-            <Card>
+            <Card className={'accordion__item__card'}>
                 <div className={'accordion__header'} onClick={switchOpen}>
                     <h3 className={'accordion__title'}>{title}</h3>
                     <DownArrowIcon className={classes('accordion__icon', open && 'accordion__icon__open')}/>
@@ -35,7 +35,7 @@ type AccordionPropsType = HTMLProps<HTMLDivElement> & {
 const Accordion = ({children, ...props}: AccordionPropsType) => {
     const [open, setOpen] = useState(-1);
     return (
-        <Styles onClick={props.onClick} style={props.style} className={props.className}>
+        <Styles onClick={props.onClick} style={props.style} className={classes(props.className, 'accordion')}>
             {
                 React.Children.map(children, ((child, i) => {
                     if (React.isValidElement(child)) {

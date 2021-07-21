@@ -7,18 +7,15 @@ import InvoiceView from "./invoice-view/invoice-view.component";
 import InvoiceAttendees from "./sections/invoice-attendees/invoice-attendees.component";
 import InvoiceDetails from "./sections/invoice-details/invoice-details.component";
 import InvoiceInfo from "./sections/invoice-info/invoice-info.component";
+import {onlyClient} from "../../guards/client.guard";
+import InvoiceMobile from "./invoice-mobile/invoice-mobile.component";
+import InvoiceDesktop from "./invoice-desktop/invoice-desktop.component";
 
 const Invoice = () => {
     const isMobile = useIsMobile();
     const {id} = useParams<{ id: string }>();
-    // if(!isMobile) return (<Redirect to={Routes.INVOICES}/>);
-    return (
-        <Styles>
-            <InvoiceAttendees/>
-            <InvoiceDetails/>
-            <InvoiceInfo/>
-        </Styles>
-    )
+    if(isMobile) return <InvoiceMobile/>;
+    return <InvoiceDesktop/>;
 };
 
-export default Invoice;
+export default onlyClient(Invoice);

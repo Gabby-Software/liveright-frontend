@@ -13,7 +13,7 @@ const MobileLayout = ({children}: {children: React.ReactNode}) => {
     return (
         <Styles>
             <Header/>
-            <div>{children}</div>
+            <main className={'mobile-layout__main'}>{children}</main>
             {
                 footerType === footerTypes.DEFAULT ? (
                     <MobileFooter/>
