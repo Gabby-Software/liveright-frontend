@@ -23,6 +23,7 @@ const FormDatepicker = ({name, label, onUpdate, disabled}: Props) => {
                           <DatePicker
                               suffixIcon={<CalendarIcon/>}
                               disabled={disabled}
+                              allowClear={false}
                               value={field.value?moment(field.value):null} className={'text_input__input'}
                                       onChange={(date, dateString: string)=>{
                                           if(!date) return;

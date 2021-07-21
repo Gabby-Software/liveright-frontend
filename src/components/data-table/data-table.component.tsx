@@ -11,8 +11,9 @@ interface Props<G> {
     data: {[key:string]:any}[];
     onClick?: (item: G) => void;
     active?:number;
+    children?: React.ReactNode;
 }
-const DataTable = ({labels, render, data, keys, onClick, active}:Props<any>) => {
+const DataTable = ({labels, render, data, keys, onClick, active, children}:Props<any>) => {
     const {t} = useTranslation();
     return (
         <Styles className={'data-table'}>
@@ -36,6 +37,7 @@ const DataTable = ({labels, render, data, keys, onClick, active}:Props<any>) => 
                     </tr>
                 ))
             }
+            {children}
             </tbody>
         </Styles>
     );

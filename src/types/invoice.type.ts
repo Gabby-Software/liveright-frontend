@@ -1,5 +1,5 @@
 type InvoiceType = {
-    id: number;
+    id?: number;
     invoice_number: string;
     session_type: string;
     description: string;
@@ -9,6 +9,8 @@ type InvoiceType = {
     currency: string;
     status: string;
     url: string;
+    tax?: number;
+    quantity?: number;
 }
 export type TrainerInvoiceType = InvoiceType & {
     client_name: string;

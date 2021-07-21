@@ -4,15 +4,19 @@ import {useIsMobile} from "../../hooks/is-mobile.hook";
 import {Redirect, useParams} from "react-router";
 import {Routes} from "../../enums/routes.enum";
 import InvoiceView from "./invoice-view/invoice-view.component";
+import InvoiceAttendees from "./sections/invoice-attendees/invoice-attendees.component";
+import InvoiceDetails from "./sections/invoice-details/invoice-details.component";
+import InvoiceInfo from "./sections/invoice-info/invoice-info.component";
 
 const Invoice = () => {
     const isMobile = useIsMobile();
-    const {id} = useParams<{id: string}>();
-    return null;
+    const {id} = useParams<{ id: string }>();
     // if(!isMobile) return (<Redirect to={Routes.INVOICES}/>);
     return (
         <Styles>
-            <InvoiceView id={+id}/>
+            <InvoiceAttendees/>
+            <InvoiceDetails/>
+            <InvoiceInfo/>
         </Styles>
     )
 };
