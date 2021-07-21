@@ -5,29 +5,42 @@ export default styled.div`
         &__td {
             &:not(:first-child) {
                 font-size: 16px;
+                @media only print {
+                    font-size: 10px;
+                }
+            }
+            @media only print {
+                font-size: 10px;
+                padding: 16px 16px;
+            }
+        }
+        &__th {
+            @media only print {
+                font-size: 10px !important;
+                white-space: nowrap;
+                padding: 16px 16px;
             }
         }
     }
     .invoice-info {
         &__summary {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px 30px 50px 30px;
-            border: 1px solid ${p => p.theme.vars.colors.light};
-            border-top: none;
-            color: ${p => p.theme.vars.colors.primaryDark};
             &__left {
                 font-size: 14px;
                 margin-top: 33px;
+                @media only print {
+                    font-size: 10px !important;
+                }
             }
             &__right {
                 font-size: 16px;
+                @media only print {
+                    font-size: 10px !important;
+                }
             }
         }
         &__s {
             margin-bottom: 20px;
             &-key {
-                
             }
             &-value {
                 font-weight: 600;
@@ -39,11 +52,19 @@ export default styled.div`
                 font-weight: 600;
                 font-size: 1rem;
                 margin-top: 10px;
+                white-space:nowrap;
+                @media only print {
+                    font-size: 12px;
+                }
             }
             &-value {
                 font-weight: 500;
                 font-size: 1rem;
                 margin-top: 10px;
+                white-space:nowrap;
+                @media only print {
+                    font-size: 12px;
+                }
             }
         }
         &__thanks {
@@ -52,6 +73,9 @@ export default styled.div`
             color: #676767;
             margin-top: 20px;
             margin-bottom: 40px;
+            @media only print {
+                 font-size: 10px !important;
+            }
         }
     }
 `;

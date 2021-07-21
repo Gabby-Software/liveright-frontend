@@ -59,7 +59,7 @@ const InvoiceInfo = () => {
                 Subtotal: ({price, quantity, currency}) => `${price * quantity} ${currency}`
             }}>
                 <tr className={'data-table__tr'}>
-                    <td className={'data-table__td'}>
+                    <td className={'data-table__td'} colSpan={4}>
                         <div className={'invoice-info__summary__left'}>
                             <div className={'invoice-info__s'}>
                                 <div className={'invoice-info__s-key'}>Default Payment Method</div>
@@ -71,9 +71,6 @@ const InvoiceInfo = () => {
                             </div>
                         </div>
                     </td>
-                    <td/>
-                    <td/>
-                    <td/>
                     <td className={'data-table__td'}>
                         <div className={'invoice-info__d-key'}>Subtotal</div>
                         <div className={'invoice-info__d-key'}>Vat ({invoiceData[0].tax}%)</div>

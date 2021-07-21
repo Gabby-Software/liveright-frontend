@@ -11,6 +11,9 @@ export default styled.aside`
     border-right: 1px solid ${p => p.theme.vars.colors.secondary2};
     transition: ${p =>p.theme.vars.defaults.transition};
     width: 56px;
+    @media only print {
+        display: none;
+    }
     @media all and (max-height: 800px) {
         width: 46px;
     }

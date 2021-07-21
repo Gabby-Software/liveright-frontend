@@ -4,6 +4,7 @@ import FormButton from "../../../../components/forms/form-button/form-button.com
 import {ReactComponent as PrintIcon} from "../../../../assets/media/icons/print.svg";
 import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/download.svg";
 import {ReactComponent as MessagesIcon} from "../../../../assets/media/icons/messages.svg";
+import moment from 'moment';
 
 const InvoiceAttendees = () => {
     return (
@@ -26,6 +27,10 @@ const InvoiceAttendees = () => {
                     <DownloadIcon className={'invoice-att__action'}/>
                     <MessagesIcon className={'invoice-att__action'}/>
                 </div>
+            </div>
+            <div className={'invoice-att__print'}>
+                <FormButton type={'primary'} className={'invoice-att__status'}>Overdue</FormButton>
+                <div className={'invoice-att__date'}><i>{`as of ${moment().format('DD-MM-YYYY')}`}</i></div>
             </div>
         </Styles>
     );

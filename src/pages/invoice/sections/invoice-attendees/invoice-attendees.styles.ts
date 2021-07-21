@@ -7,6 +7,9 @@ export default styled.div`
         width: 100%;
         font-weight: 500;
         font-size: 16px;
+        @media only print {
+            font-size: 80%;
+        }
         color: ${p => p.theme.vars.colors.primaryDark};
         &__title {
             color: ${p => p.theme.vars.colors.primary};
@@ -26,6 +29,27 @@ export default styled.div`
                 width: 207px;
                 margin-bottom: 16px;
             }
+            @media only print {
+                display: none;
+            }
+        }
+        &__print {
+            display: none;
+            .ant-btn-primary {
+                border-radius: 2px;
+                padding: 8px;
+            }
+            @media only print {
+                display: block;
+            }
+        }
+        &__date {
+            font-weight: 500;
+            font-size: 14px;
+            color: ${p => p.theme.vars.colors.secondary2};
+            margin-top: 10px;
+            text-style: italic;
+            white-space: nowrap;
         }
         &__cta {
             border-color: ${p =>p.theme.vars.colors.primaryDark};

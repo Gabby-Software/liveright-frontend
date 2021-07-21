@@ -11,6 +11,9 @@ export default styled.div`
             }
             overflow: auto;
             padding: 0 128px 0 56px;
+            @media only print {
+                padding: 0 0 0 40px;
+            }
         }
     }
 `;
