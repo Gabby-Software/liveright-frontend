@@ -9,4 +9,6 @@ export const EP_UPDATE_AVATAR = ALLRIGHT_BASE+'/user/avatar';
 export const EP_ADD_ACCOUNT = ALLRIGHT_BASE+'/user/account';
 export const EP_GET_COUNTRIES = ALLRIGHT_BASE+'/countries';
 export const EP_ADD_NOTIFICATION = ALLRIGHT_BASE+'/notifications/test';
+export const EP_GET_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/all';
+export const EP_GET_UNREAD_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/unread';
 

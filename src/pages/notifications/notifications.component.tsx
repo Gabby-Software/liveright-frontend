@@ -6,11 +6,20 @@ import moment from 'moment';
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import Notification from "./components/notification/notification.component";
 import DataPagination from "../../components/data-pagination/data-pagination.component";
+import api from "../../managers/api.manager";
+import {EP_GET_NOTIFICATIONS} from "../../enums/api.enum";
+import logger from "../../managers/logger.manager";
 
 type Props = {};
 const Notifications = ({}:Props) => {
     const {t} = useTranslation();
     const [page, setPage] = useState(1);
+    const [notifications, setNotifications] = useState([]);
+    useEffect(() => {
+        api.get(EP_GET_NOTIFICATIONS)
+            .then(res => res.data)
+            .then(res => logger.success('NOTIFICATIONS', res))
+    }, []);
     let seen = false;
     let lastDate = moment();
     return (

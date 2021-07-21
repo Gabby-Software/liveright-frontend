@@ -1,7 +1,8 @@
 import cookieManager from "./cookie.manager";
 import api from "./api.manager";
-import {EP_ADD_NOTIFICATION} from "../enums/api.enum";
+import {EP_ADD_NOTIFICATION, EP_GET_UNREAD_NOTIFICATIONS} from "../enums/api.enum";
 import logger from "./logger.manager";
+import {toast} from "../components/toast/toast.component";
 
 declare global {
     interface Window { QA: QaManager }
@@ -50,7 +51,9 @@ class QaManager {
     };
     public addNotification = () => {
         api.get(EP_ADD_NOTIFICATION)
-            .then(() => logger.info('Notification added'));
+            .then(() => logger.info('Notification added'))
+            .catch(() => toast.show({type:'error', msg:'some error occur, pleaase try again later'}))
+
     }
 }
 const qa = new QaManager();
