@@ -12,30 +12,29 @@ import {AccountType} from "../types/account.type";
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
 });
-logger.info('ENV', process.env);
 api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = cookieManager.get('access_token');
         const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find((acc:AccountType) => acc.is_current)?.uuid;
         if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
-        logger.info('HTTP_REQUEST', config.url, config.data);
+        logger?.info('HTTP_REQUEST', config.url, config.data);
         return config;
     },
     err => Promise.reject(err)
 );
 api.interceptors.response.use(
     res => {
-        logger.info('HTTP_RESPONSE', res.config.url, res);
+        logger?.info('HTTP_RESPONSE', res.config.url, res);
         return res;
     },
     err => {
         if(!err.response) {
-            logger.error('HTTP_ERROR', 'network error!');
+            logger?.error('HTTP_ERROR', 'network error!');
             // toast.show({type: 'error',msg:i18n.t('errors:network-error')});
             return Promise.reject(err);
         }
-        logger.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
+        logger?.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
             // Todo: call api to logout
             api.post(EP_LOGOUT);

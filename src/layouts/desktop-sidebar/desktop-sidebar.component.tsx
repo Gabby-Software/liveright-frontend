@@ -63,7 +63,7 @@ const DesktopSidebar = () => {
                     }
                 </ul>
                 {
-                    type === 'client'||true?(
+                    type === 'client'?(
                         <>
                             <div className={'sidebar__hr'}/>
                             <Link to={Routes.TRAINER} className={'sidebar__trainer'}>

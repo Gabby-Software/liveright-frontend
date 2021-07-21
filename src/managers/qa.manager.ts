@@ -1,4 +1,7 @@
 import cookieManager from "./cookie.manager";
+import api from "./api.manager";
+import {EP_ADD_NOTIFICATION} from "../enums/api.enum";
+import logger from "./logger.manager";
 
 declare global {
     interface Window { QA: QaManager }
@@ -44,9 +47,17 @@ class QaManager {
         const user = cookieManager.get('auth');
         if(user) return JSON.parse(user);
         return 'no user data';
+    };
+    public addNotification = () => {
+        api.get(EP_ADD_NOTIFICATION)
+            .then(() => logger.info('Notification added'));
     }
 }
 const qa = new QaManager();
-
+const error = console.error;
+console.error = (...data:any) => {
+    qa.log(data, 'error');
+    error(...data);
+};
 window.QA = qa;
 export default qa;

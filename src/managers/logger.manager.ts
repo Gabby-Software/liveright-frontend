@@ -56,10 +56,5 @@ class Logger {
 }
 
 const logger = new Logger();
-// const error = console.error;
-console.error = (...data:any) => {
-    qa.log(data, 'error');
-    logger.error(...data);
-    // error(...data);
-};
+
 export default logger;
