@@ -14,25 +14,40 @@ import {genderTypes} from "../../../../enums/gender-types";
 import FormCountrySelect from "../../../forms/form-country-select/form-country-select.component";
 import FormTextarea from "../../../forms/form-textarea/form-textarea.component";
 import ButtonSubmit from "../../../forms/button-submit/button-submit.component";
+import InvitationManager from "../../../../managers/invitation.manager";
+import {handleError} from "../../../../managers/api.manager";
+import logger from "../../../../managers/logger.manager";
 
 type Props = {};
 const AddClientModalForm = ({}:Props) => {
     const {step, setStep, form, update,onClose} = useContext(ClientFormContext);
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
-        helper.setSubmitting(false);
-        toast.show({type:'success', msg: t('alerts:client-add-success')});
-        onClose();
+        logger.info('form values', values)
+        InvitationManager.sendInvitationNewUser({
+            ...values,
+            type: 'training',
+            country_code: values.country
+        })
+            .then(res => {
+                helper.setSubmitting(false);
+                helper.resetForm()
+                toast.show({type: 'success', msg: t('alerts:client-add-success')});
+                onClose();
+            })
+            .catch(handleError(helper));
     };
     const genderOptions = [
-        {label: t('male'), value: genderTypes.MALE},
-        {label: t('female'), value: genderTypes.FEMALE},
+        {label: t('profile:male'), value: genderTypes.MALE},
+        {label: t('profile:female'), value: genderTypes.FEMALE},
     ];
+    logger.info('FORM', form);
     return (
         <Styles>
             <Formik
                 initialValues={form}
                 onSubmit={handleSubmit}
+                enableReinitialize
                 validationSchema={Yup.object({
                     first_name: Yup.string().required().name(),
                     last_name: Yup.string().required().name(),

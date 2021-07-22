@@ -24,12 +24,12 @@ const Notifications = ({}:Props) => {
     let lastDate = moment();
     return (
         <Styles>
-            {notificationsData.slice((page-1)*10, page*10).map((n:NotificationType) => {
+            {notificationsData.slice((page-1)*10, page*10).map((n:NotificationType, i) => {
                 const els: React.ReactNode[] = [];
                 if(n.seen && !seen && page <= 1) {
                     els.push(<div className={'notification__hr'}><span>{t('notifications:all-done')}</span></div>)
                     els.push(<div className={'notification__date-label desktop'}>{moment(n.datetime).format('DD/MM/YYYY')}</div>)
-                }else if(seen && moment(n.datetime).isBefore(lastDate, 'day')) {
+                }else if(seen && moment(n.datetime).isBefore(lastDate, 'day') || i===0 && page > 1) {
                     els.push(<div className={'notification__date-label desktop'}>{moment(n.datetime).format('DD/MM/YYYY')}</div>)
                 }
                 els.push(<Notification {...n}/>);

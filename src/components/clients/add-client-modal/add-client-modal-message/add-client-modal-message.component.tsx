@@ -8,15 +8,23 @@ import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import * as Yup from 'yup';
 import FormTextarea from "../../../forms/form-textarea/form-textarea.component";
 import ButtonSubmit from "../../../forms/button-submit/button-submit.component";
+import InvitationManager from "../../../../managers/invitation.manager";
+import {handleError} from "../../../../managers/api.manager";
+import logger from "../../../../managers/logger.manager";
 
 type Props = {};
 const AddClientModalMessage = ({}: Props) => {
     const {step, setStep, form, update, onClose} = useContext(ClientFormContext);
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
-        helper.setSubmitting(false);
-        toast.show({type: 'success', msg: t('alerts:client-add-success')});
-        onClose();
+        logger.info('FORM VALUE', form, values);
+        InvitationManager.sendInvitationExistingUser(values.email, 'training')
+            .then(() => {
+                helper.setSubmitting(false);
+                helper.resetForm()
+                toast.show({type: 'success', msg: t('alerts:client-add-success')});
+                onClose();
+            }).catch(handleError(helper));
     };
     return (
         <Styles style={{maxWidth: step === clientFormSteps.MESSAGE ? '100%' : 0}}>
@@ -25,6 +33,7 @@ const AddClientModalMessage = ({}: Props) => {
                 <Formik
                     onSubmit={handleSubmit}
                     initialValues={form}
+                    enableReinitialize
                     validationSchema={Yup.object({
                         message: Yup.string().required()
                     })}

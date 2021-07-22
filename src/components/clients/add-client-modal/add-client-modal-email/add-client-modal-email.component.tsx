@@ -6,13 +6,18 @@ import * as Yup from 'yup';
 import FormInputLabeled from "../../../forms/form-input-labeled/form-input-labeled.component";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../../forms/button-submit/button-submit.component";
+import InvitationManager from "../../../../managers/invitation.manager";
 
 const AddClientModalEmail = () => {
     const {step, setStep, form, update} = useContext(ClientFormContext);
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
         helper.setSubmitting(false);
-        setStep(Math.random() > .5 ? clientFormSteps.MESSAGE : clientFormSteps.FORM);
+        InvitationManager.checkEmailExist(values.email)
+            .then(res => {
+                setStep(res?clientFormSteps.MESSAGE:clientFormSteps.FORM);
+            });
+        // setStep(Math.random() > .5 ? clientFormSteps.MESSAGE : clientFormSteps.FORM);
     };
     return (
         <Styles>

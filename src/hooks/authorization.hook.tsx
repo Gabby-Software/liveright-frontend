@@ -8,7 +8,7 @@ const messages = {
     CHECK_LOGIN: 'check_login',
     DO_LOGIN: 'do_login',
 };
-export type GenderType = 'male'|'female';
+export type GenderType = 'male'|'female'|'other';
 export type AccountTypeType = 'client'|'trainer'|'org'|'admin';
 export type AccountType = {
     id: number;

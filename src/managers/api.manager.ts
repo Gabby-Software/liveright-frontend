@@ -50,6 +50,7 @@ export const handleError = (formHelper:FormikHelpers<any>) => (e: any) => {
         for (const [name, [message]] of Object.entries<string[]>(e.response.data.errors)) {
             formHelper.setFieldError(name, message);
         }
+        toast.show({type: 'error', msg: serverError(e)})
     } else {
         toast.show({type: 'error', msg: serverError(e)})
     }
