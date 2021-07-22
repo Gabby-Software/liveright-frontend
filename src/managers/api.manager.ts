@@ -8,6 +8,7 @@ import {Routes} from "../enums/routes.enum";
 import {FormikHelpers} from "formik";
 import {serverError} from "../pipes/server-error.pipe";
 import {AccountType} from "../types/account.type";
+import {identity} from "../pipes/identity.pipe";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -40,7 +41,7 @@ api.interceptors.response.use(
             api.post(EP_LOGOUT);
             localStorage.clear();
             cookieManager.removeAll();
-            document.location.href = document.location.protocol + '//identity.' + document.location.host;
+            document.location.href = identity(Routes.LOGIN);
         }
         return Promise.reject(err)
     }

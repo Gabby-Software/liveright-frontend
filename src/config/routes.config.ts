@@ -79,27 +79,9 @@ export const routes: RouteType[] = [
         header: {}
     },
     {
-        title: 'Profile',
-        url: Routes.PROFILE,
-        Component: lazy(() => import('../pages/profile/profile.component')),
-        header: {
-            title: 'Account',
-            items: headers.profile
-        }
-    },
-    {
-        title: 'Edit Profile',
-        url: Routes.EDIT_PROFILE,
-        Component: lazy(() => import('../pages/profile/edit-profile/edit-profile.component')),
-        header: {
-            title: 'Edit Profile',
-            items: headers.confirm
-        }
-    },
-    {
         title: 'Trainer',
         url: Routes.TRAINER,
-        Component: lazy(() => import('../pages/profile/trainer/trainer.component')),
+        Component: lazy(() => import('../pages/trainer/trainer.component')),
         header: {
             title: 'Trainer',
             items: headers.default_inside

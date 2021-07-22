@@ -14,7 +14,6 @@ import {withCookies} from "./cookies.hook";
 const initialState: AccountObjType = {
     accounts: [],
     avatar: null,
-    avatar_thumb: null,
     birthday: null,
     created_at: '',
     email: '',
@@ -24,8 +23,7 @@ const initialState: AccountObjType = {
     gender: null,
     is_active: false,
     uuid: '',
-    city: '',
-    country: null,
+
 };
 export const authReducer = withCookies((state = initialState, {type, payload}: ActionType<any>) => {
     switch(type) {

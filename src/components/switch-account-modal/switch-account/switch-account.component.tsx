@@ -15,7 +15,7 @@ import logger from "../../../managers/logger.manager";
 
 const SwitchAccount = () => {
     const {onClose, setState} = useContext(SwitchAccountModalContext);
-    const {first_name, last_name, avatar_thumb, accounts} = useAuth();
+    const {first_name, last_name, avatar, accounts} = useAuth();
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const switchAccount = (uuid: string) => {
@@ -36,7 +36,7 @@ const SwitchAccount = () => {
             {
                 accounts.map(({uuid, type, is_current}, i) => (
                     <Card className={'swa-card'} onClick={() => switchAccount(uuid)} key={i}>
-                        <ProfileAccount first_name={first_name} last_name={last_name} type={type} image={avatar_thumb || ''}
+                        <ProfileAccount first_name={first_name} last_name={last_name} type={type} image={avatar?.url || ''}
                                         active={is_current}/>
                     </Card>
                 ))

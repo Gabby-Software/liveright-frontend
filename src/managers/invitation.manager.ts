@@ -10,9 +10,8 @@ import {fillExist} from "../pipes/fill-exist.pipe";
 
 export default class InvitationManager {
     public static checkEmailExist(email: string) {
-        return api.get(`${EP_CHECK_EMAIL_EXIST}?email=${email}`)
-            .then(res => res.data?.data)
-            .catch(e => toast.show({type: 'error', msg:serverError(e)}));
+        return api.get(`${EP_CHECK_EMAIL_EXIST}?email=${encodeURIComponent(email)}`)
+            .then(res => res.data?.data);
     }
     public static sendInvitationExistingUser(email:string, type: 'training'|'organizational') {
         return api.post(EP_INVITE_NEW_USER, {email, type})
@@ -25,10 +24,12 @@ export default class InvitationManager {
     }
     public static acceptInvitation(id: string, expires: string, signature: string) {
         const params = new URLSearchParams({expires, signature}).toString();
-        return api.get(`${EP_INVITE_NEW_USER}/${id}/accept?${params}`);
+        return api.get(`${EP_INVITE_NEW_USER}/${id}/accept?${params}`)
+            .then(res => res.data);
     }
     public static rejectInvitation(id: string, expires: string, signature: string) {
         const params = new URLSearchParams({expires, signature}).toString();
-        return api.get(`${EP_INVITE_NEW_USER}/${id}/reject?${params}`);
+        return api.get(`${EP_INVITE_NEW_USER}/${id}/reject?${params}`)
+            .then(res => res.data);
     }
 }

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Styles from './desktop-layout.styles';
 import DesktopSidebar from "../desktop-sidebar/desktop-sidebar.component";
-import DesktopHeader from "../desktop-header/desktop-header.component";
 import PageTitle from "../../components/titles/page-title.styles";
 import {useHeader} from "../../hooks/header.hook";
 

@@ -7,6 +7,8 @@ import FormInputLabeled from "../../../forms/form-input-labeled/form-input-label
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import ButtonSubmit from "../../../forms/button-submit/button-submit.component";
 import InvitationManager from "../../../../managers/invitation.manager";
+import {toast} from "../../../toast/toast.component";
+import {serverError} from "../../../../pipes/server-error.pipe";
 
 const AddClientModalEmail = () => {
     const {step, setStep, form, update} = useContext(ClientFormContext);
@@ -16,7 +18,8 @@ const AddClientModalEmail = () => {
         InvitationManager.checkEmailExist(values.email)
             .then(res => {
                 setStep(res?clientFormSteps.MESSAGE:clientFormSteps.FORM);
-            });
+            })
+            .catch(e => toast.show({type: 'error', msg:serverError(e)}));
         // setStep(Math.random() > .5 ? clientFormSteps.MESSAGE : clientFormSteps.FORM);
     };
     return (

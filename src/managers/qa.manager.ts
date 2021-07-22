@@ -1,6 +1,6 @@
 import cookieManager from "./cookie.manager";
 import api from "./api.manager";
-import {EP_ADD_NOTIFICATION, EP_GET_UNREAD_NOTIFICATIONS} from "../enums/api.enum";
+import {EP_ADD_NOTIFICATION, EP_GET_TRAINER, EP_GET_UNREAD_NOTIFICATIONS} from "../enums/api.enum";
 import logger from "./logger.manager";
 import {toast} from "../components/toast/toast.component";
 
@@ -54,6 +54,10 @@ class QaManager {
             .then(() => logger.info('Notification added'))
             .catch(() => toast.show({type:'error', msg:'some error occur, pleaase try again later'}))
 
+    };
+    public showTrainer = () => {
+        api.get(EP_GET_TRAINER)
+            .then(res=>res.data)
     }
 }
 const qa = new QaManager();
