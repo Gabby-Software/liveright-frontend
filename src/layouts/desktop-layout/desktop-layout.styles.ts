@@ -5,6 +5,7 @@ export default styled.div`
     width: 100%;
     .layout {
         &__wrapper {
+            
             width: calc(100% - 56px);
             @media all and (max-height: 800px) {
                 width: calc(100% - 46px);

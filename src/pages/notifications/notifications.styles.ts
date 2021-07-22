@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import {media} from "../../assets/styles/_media";
+import {Link} from "react-router-dom";
 
+export const SettingsLink = styled(Link)`
+    margin-left: auto;
+`;
 export default styled.div`
 
     .notification {

@@ -5,11 +5,17 @@ import DesktopHeader from "../desktop-header/desktop-header.component";
 import PageTitle from "../../components/titles/page-title.styles";
 import {useHeader} from "../../hooks/header.hook";
 
-export const desktopTitleRef: {ref: React.RefObject<any>} = {ref: React.createRef()};
+const desktopTitleRef: {setTitleContent: (el: React.ReactNode) => void} = {setTitleContent: () => {}};
+export const useTitleContent = (el: React.ReactNode) => {
+    useEffect(() => {
+        desktopTitleRef.setTitleContent(el);
+        return () => desktopTitleRef.setTitleContent(null);
+    }, []);
+};
 const DesktopLayout = ({children}: {children:React.ReactNode}) => {
     const {title} = useHeader();
-    const titleRef = useRef(null);
-    desktopTitleRef.ref = titleRef;
+    const [titleContent, setTitleContent] = useState<React.ReactNode>(null);
+    desktopTitleRef.setTitleContent = setTitleContent;
     return (
         <Styles>
             <DesktopSidebar/>
@@ -17,7 +23,7 @@ const DesktopLayout = ({children}: {children:React.ReactNode}) => {
                 {/*<DesktopHeader/>*/}
                 <PageTitle>
                     {title}
-                    <div className={'layout__title-content'} ref={titleRef}/>
+                    {titleContent}
                 </PageTitle>
                 <main>{children}</main>
             </div>
