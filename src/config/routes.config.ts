@@ -83,7 +83,7 @@ export const routes: RouteType[] = [
         url: Routes.TRAINER,
         Component: lazy(() => import('../pages/trainer/trainer.component')),
         header: {
-            title: 'Trainer',
+            title: 'My Trainer',
             items: headers.default_inside
         }
     },
