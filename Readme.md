@@ -5,9 +5,11 @@
         username: `black@colorelephant.com`  
         password: `6038dc237b5ba`
  * [Sitemap](https://whimsical.com/liveright-sitemap-v1-KqFoCVEcYzE9Qo5iyHmEHv)
+ * [Wirefrmes - identidy](https://whimsical.com/closed-wireframes-identity-ar-Mt3bFPVyLCdNX4QsHE21r4)
  * [Wireframes - client - mobile](https://whimsical.com/liveright-internal-mobile-wireframes-B7MqrKWWbERFtQbNqDVmm4)
- * [Wireframes - client - desktop](https://whimsical.com/liveright-client-desktop-8eXNugWK65HZLNcGa5hfCf)
  * [Wireframes - trainer - mobile](https://whimsical.com/liveright-internal-mobile-trainer-flow-4j7VgHPFHiaAC6ggcvdwLq)
+ * [Wireframes - client+trainer - desktop](https://whimsical.com/liveright-internal-desktop-wireframes-42jSTuRpBv9uCpVBuhwrq6)
+ * [Designs](https://www.figma.com/file/oDWlnY8XIqzNi5OsCwYtnO/Liveright---Internal?node-id=0%3A1)
  * [Scope document](https://docs.google.com/spreadsheets/d/1JhTL-g5SmKEvYVV4NrOSJcEsXZPU5IOcGU4hX-oZBnU/edit?usp=sharing)
  * [Clickup documentation](https://app.clickup.com/2164322/v/dc/221k2-2535/221k2-5160)
  * [Clickup board](https://app.clickup.com/2164322/v/b/221k2-2507)
