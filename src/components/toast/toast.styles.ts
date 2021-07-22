@@ -10,6 +10,9 @@ export default styled.div`
     flex-direction: column;
     align-items: flex-end;
     z-index: ${p => p.theme.vars.zIndex.toast};
+    svg {
+        flex-shrink:0;
+    }
     .alert {
         margin: 5px 20px;
         border-radius: 12px;
