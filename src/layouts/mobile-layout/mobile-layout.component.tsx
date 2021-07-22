@@ -5,6 +5,7 @@ import MobileFooter from "../mobile-footer/mobile-footer.component";
 import {usePage} from "../../hooks/page.hook";
 import {footerTypes} from "../../enums/footer-types";
 import logger from "../../managers/logger.manager";
+import MobileBack from "../../components/mobile-back/mobile-back.component";
 
 const MobileLayout = ({children}: {children: React.ReactNode}) => {
     const page = usePage();
@@ -13,7 +14,10 @@ const MobileLayout = ({children}: {children: React.ReactNode}) => {
     return (
         <Styles>
             <Header/>
-            <main className={'mobile-layout__main'}>{children}</main>
+            <main className={'mobile-layout__main'}>
+                <MobileBack/>
+                {children}
+            </main>
             {
                 footerType === footerTypes.DEFAULT ? (
                     <MobileFooter/>

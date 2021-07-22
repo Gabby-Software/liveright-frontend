@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {media} from "../../assets/styles/_media";
 
 export default styled.div`
     position: fixed;
@@ -31,11 +32,20 @@ export default styled.div`
             font-size: 16px;
             font-weight: 500;
             display: block;
+            ${media('tablet', 'max')`
+                font-size: 12px;
+            `}
         }
         &__close {
             color: #AFAFAF;
             width: 12px;
             height: 12px;
         }
+        ${media('tablet', 'max')`
+                svg:first-child {
+                        width: 18px;
+                        height: 18px;
+                }
+         `}
     }
 `;

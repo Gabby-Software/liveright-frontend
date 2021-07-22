@@ -26,6 +26,7 @@
   "switch-to": "Switch to {{type}}",
   "not-found-desc": "You seem to be lost, or maybe this page never existed?",
   "back-home": "Go Back Home",
+  "back-to": "Back to {{to}}",
   "menu": {
     "home": "Home",
     "clients": "Clients",
