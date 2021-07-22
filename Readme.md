@@ -14,6 +14,7 @@
  * [Clickup documentation](https://app.clickup.com/2164322/v/dc/221k2-2535/221k2-5160)
  * [Clickup board](https://app.clickup.com/2164322/v/b/221k2-2507)
  * [API documentation](https://documenter.getpostman.com/view/8741108/Tzeak6s7)
+ * [ALLRight API documentation](https://documenter.getpostman.com/view/8741108/Tzm5GGb9#3e3d073b-7da1-41cc-b805-d1f97bb15425)
 
 ### *Getting started*
  * Run `yarn setup`. this will install dependencies and init .env   
