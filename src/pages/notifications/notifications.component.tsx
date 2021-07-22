@@ -32,6 +32,7 @@ const Notifications = ({}: Props) => {
     let lastDate = moment();
     return (
         <Styles>
+            <FormButton type={'ghost'} className={'mobile'}>Manage Settings</FormButton>
             {notificationsData.slice((page - 1) * 10, page * 10).map((n: NotificationType, i) => {
                 const els: React.ReactNode[] = [];
                 if (n.seen && !seen && page <= 1) {

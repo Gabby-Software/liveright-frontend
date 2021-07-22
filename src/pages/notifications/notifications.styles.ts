@@ -6,7 +6,9 @@ export const SettingsLink = styled(Link)`
     margin-left: auto;
 `;
 export default styled.div`
-
+    .ant-btn-ghost {
+        margin-bottom: 40px;
+    }
     .notification {
         &__hr {
             position: relative;
