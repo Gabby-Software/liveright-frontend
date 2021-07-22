@@ -6,6 +6,7 @@ import {serverError} from "../pipes/server-error.pipe";
 import {InvitationFormType} from "../types/invitation-form.type";
 import {AccountType} from "../types/account.type";
 import userTypes from "../enums/user-types.enum";
+import {fillExist} from "../pipes/fill-exist.pipe";
 
 export default class InvitationManager {
     public static checkEmailExist(email: string) {
@@ -18,14 +19,16 @@ export default class InvitationManager {
             .then(res => res.data.data)
     }
     public static sendInvitationNewUser(invitationData: InvitationFormType) {
-        return api.post(EP_INVITE_NEW_USER, {...invitationData})
+        return api.post(EP_INVITE_NEW_USER, fillExist(invitationData))
             .then(res => res.data.data)
 
     }
-    public static acceptInvitation() {
-
+    public static acceptInvitation(id: string, expires: string, signature: string) {
+        const params = new URLSearchParams({expires, signature}).toString();
+        return api.get(`${EP_INVITE_NEW_USER}/${id}/accept?${params}`);
     }
-    public static rejectInvitation() {
-
+    public static rejectInvitation(id: string, expires: string, signature: string) {
+        const params = new URLSearchParams({expires, signature}).toString();
+        return api.get(`${EP_INVITE_NEW_USER}/${id}/reject?${params}`);
     }
 }
