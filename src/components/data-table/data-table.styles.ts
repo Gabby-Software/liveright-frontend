@@ -18,12 +18,9 @@ export default styled.table`
             background-color: white;
             &__clickable {
                 cursor: pointer;
-                &:hover {
-                    background-color: ${p => p.theme.vars.colors.light};
-                }
             }
-            &__active {
-                background-color: ${p => p.theme.vars.colors.light};
+            &:hover, &__active {
+                background-color: ${p => p.theme.vars.colors.card};
             }
         }
         &__td {

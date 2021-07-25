@@ -12,6 +12,11 @@ flex-shrink:0;
 display: block;
 width: 187px;
 text-align: center;
+transition: ${p => p.theme.vars.defaults.transition};
+&:hover {
+   background-color: #f6f6f6;
+   box-shadow: 4px 4px 14px #e1e1e1;
+}
 &:last-child {
     margin-right: 0;
 }
@@ -71,7 +76,9 @@ ${media('tablet', 'min')`
     }
     &__action {
         border-radius: 0;
-        
+        padding-right: 10px;
+        padding-left:10px;
+        ${p => p.theme.extend.flexCenter};
     }
 }
     
