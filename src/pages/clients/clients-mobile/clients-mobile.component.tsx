@@ -7,23 +7,26 @@ import {classes} from "../../../pipes/classes.pipe";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import MobileClientFooter from "../../../components/clients/mobile-client-footer/mobile-client-footer.component";
 import ClientsFilterMobile from "../../../components/clients/clients-filter-mobile/clients-filter-mobile.component";
+import PopOnScroll from "../../../components/pop-on-scroll/pop-on-scroll.component";
 
 const ClientsMobile = () => {
     const [page, setPage] = useState(1);
     const {t} = useTranslation();
-    useInfiniteScroll((page:number) => {
+    useInfiniteScroll((page: number) => {
         setPage(page);
-        return Promise.resolve(page >= clients.length/10);
+        return Promise.resolve(page >= clients.length / 10);
     });
     return (
         <Styles>
             <div className={'clients__heading'}>
                 {
-                    clients.slice(0, page*10).map(({first_name, last_name, sessions,id}) => (
-                        <Card className={classes('clients__card')} key={id}>
-                            <div className={classes('clients__name')}>{first_name} {last_name}</div>
-                            <div className={'clients__label'}>{t('clients:sessions-remind',{n:sessions})}</div>
-                        </Card>
+                    clients.slice(0, page * 10).map(({first_name, last_name, sessions, id}) => (
+                        <PopOnScroll offset={100}>
+                            <Card className={classes('clients__card')} key={id}>
+                                <div className={classes('clients__name')}>{first_name} {last_name}</div>
+                                <div className={'clients__label'}>{t('clients:sessions-remind', {n: sessions})}</div>
+                            </Card>
+                        </PopOnScroll>
                     ))
                 }
             </div>
