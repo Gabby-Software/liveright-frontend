@@ -16,7 +16,7 @@ const Notification = ({content, datetime, seen, type, url}: NotificationType) =>
     const Icon = notificationIconMap[type];
     const EyeIcon = notificationSeen(seen);
     return (
-        <PopOnScroll offset={40}>
+        <PopOnScroll offset={70}>
             <Styles>
                 <Icon className={'notification__icon'}/>
                 <div className={'notification__data'}>
