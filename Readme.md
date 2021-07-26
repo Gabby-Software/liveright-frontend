@@ -9,6 +9,7 @@
  * [Wireframes - client - mobile](https://whimsical.com/liveright-internal-mobile-wireframes-B7MqrKWWbERFtQbNqDVmm4)
  * [Wireframes - trainer - mobile](https://whimsical.com/liveright-internal-mobile-trainer-flow-4j7VgHPFHiaAC6ggcvdwLq)
  * [Wireframes - client+trainer - desktop](https://whimsical.com/liveright-internal-desktop-wireframes-42jSTuRpBv9uCpVBuhwrq6)
+ * [Wireframes - new](https://whimsical.com/liveright-wireframes-batch-ii-XNtfTXwkH97BHXucUPHXZX)
  * [Designs](https://www.figma.com/file/oDWlnY8XIqzNi5OsCwYtnO/Liveright---Internal?node-id=0%3A1)
  * [Scope document](https://docs.google.com/spreadsheets/d/1JhTL-g5SmKEvYVV4NrOSJcEsXZPU5IOcGU4hX-oZBnU/edit?usp=sharing)
  * [Clickup documentation](https://app.clickup.com/2164322/v/dc/221k2-2535/221k2-5160)
@@ -53,16 +54,10 @@ Current 3-rd party libraries in use:
 
 ### *Deployment*
 
-ssh to the server is using ssh auth keys. you should ask server guy to add your [public key](https://phoenixnap.com/kb/generate-ssh-key-windows-10) to the server.
-***main app dev:*** `ssh liverightdev@161.35.145.146`
-***allright dev:*** `ssh identity@165.22.206.31`
-Deployment flow: 
-```
-cd public_html
-git pull origin dev
-yarn install
-yarn build
-```
+The dev and stage servers using [render.com](https://dashboard.render.com/).   
+You can login there with your colorelephant gmail account and should be able to access it.   
+The dev server deployed automatically on push to dev branch, stage server require manual deployment (button on top right)   
+`.env` variables managed from right panel - `env groups` 
 
 ### *Local cli* 
 There created a local cli to be used for this project.  
