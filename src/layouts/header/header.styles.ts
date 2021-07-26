@@ -32,6 +32,7 @@ export default styled.header`
         &__icon {
             color: ${p => p.theme.vars.colors.primaryDark};
             transition: ${p => p.theme.vars.defaults.transition};
+            position: relative;
             &:not(:last-child){
                 margin-right: 34px;
             }

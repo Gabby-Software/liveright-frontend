@@ -19,6 +19,7 @@ import logger from "../../managers/logger.manager";
 import {Routes} from "../../enums/routes.enum";
 import profilePlaceholder from "../../assets/media/profile-placeholder.png";
 import DesktopFooter from "../desktop-footer/desktop-footer.component";
+import NotificationIcon from "../../components/notification-icon/notification-icon.component";
 
 type MenuItemType = {
     name: string;
@@ -34,7 +35,7 @@ const menuItems: MenuItemType[] = [
     {name: 'library', url: '/library', Icon: LibraryIcon},
     {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon},
     {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},
-    {name: 'notifications', url: Routes.NOTIFICATIONS, Icon: BellIcon},
+    {name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon},
 ];
 const DesktopSidebar = () => {
     const {t} = useTranslation();

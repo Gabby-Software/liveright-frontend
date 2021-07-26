@@ -9,6 +9,7 @@ import {ReactComponent as BackIcon} from "../assets/media/icons/back-arrow.svg";
 import {ReactComponent as AddIcon} from "../assets/media/icons/add.svg";
 import {HeaderItemType, HeaderItemTypes} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
+import NotificationIcon from "../components/notification-icon/notification-icon.component";
 
 export const DEFAULT_TITLE = 'LiveRight';
 const headers: {[key: string]: HeaderItemType[]} = {
@@ -16,7 +17,7 @@ const headers: {[key: string]: HeaderItemType[]} = {
         {type: HeaderItemTypes.IMAGE, href: Routes.CHAT},
         {type: HeaderItemTypes.SPACE},
         {type: HeaderItemTypes.ICON, Icon: CalendarIcon, href: Routes.CALENDAR},
-        {type: HeaderItemTypes.ICON, Icon: BellIcon, href: Routes.NOTIFICATIONS},
+        {type: HeaderItemTypes.ICON, Icon: NotificationIcon, href: Routes.NOTIFICATIONS},
     ],
     default_inside: [
         {type: HeaderItemTypes.ICON, Icon: BackIcon, href: Routes.HOME},

@@ -24,8 +24,8 @@
 
 ### *Mailgun*
 [https://www.mailgun.com/](https://www.mailgun.com/)  
-***username***: `allright@colorelephant.com`  
-***password***: ``%V[u3tx`Me8f[KcB``  
+***username***: `khaki@colorelephant.com`  
+***password***: ``S8!4^?ce.nJ%nVx!``  
 
 ### *3rd party apps*
 For any 3rd party app use a dedicated account for this project development.   

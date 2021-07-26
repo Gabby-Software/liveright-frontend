@@ -5,10 +5,12 @@ import profilePlaceholder from '../../assets/media/profile-placeholder.png';
 import {classes} from "../../pipes/classes.pipe";
 import {useHeader} from "../../hooks/header.hook";
 import {HeaderItemType, HeaderItemTypes} from "../../types/route.type";
+import headers, {DEFAULT_TITLE} from "../../config/header.config";
 
 const Header = () => {
     const {pathname} = useLocation();
-    const {title, items} = useHeader();
+    const title = DEFAULT_TITLE;
+    const items = headers.default;
     const renderHeaderItem = ({type, href, Icon}: HeaderItemType) => {
         switch (type) {
             case HeaderItemTypes.IMAGE:
