@@ -11,10 +11,20 @@ import {useIsMobile} from "../../hooks/is-mobile.hook";
 import InvoicesList from "./components/invoices-list/invoices-list.component";
 import InvoicesTable from "./components/invoices-table/invoices-table.component";
 import {onlyClient} from "../../guards/client.guard";
+import {useDispatch, useSelector} from "react-redux";
+import {ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
+import {useAuth} from "../../hooks/auth.hook";
+import {RootState} from "../../store/reducers";
 
 const Invoices = () => {
     const {t} = useTranslation();
+    const {type} = useAuth();
     const isMobile = useIsMobile();
+    const dispatch = useDispatch();
+    const {meta} = useSelector((state:RootState) => state.invoices);
+    useEffect(() => {
+        dispatch({type: ACTION_GET_INVOICES_REQUEST, payload: {page: meta.current_page}});
+    }, [type]);
     return (
         <Styles>
             <PageSubtitle>Need your attention</PageSubtitle>
