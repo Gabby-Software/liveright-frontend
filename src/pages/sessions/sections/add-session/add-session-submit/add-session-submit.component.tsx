@@ -13,7 +13,7 @@ const AddSessionSubmit = ({}: Props) => {
         <Field name={''}>
             {
                 ({form}: FieldProps) => {
-                    const isCollapse = events.some(e => collapse(e.time, e.duration, form.values.time, form.values.duration));
+                    const isCollapse = form.values.date && form.values.time && events.some(e => collapse(e.time, e.duration, form.values.time, form.values.duration));
                     return (
                         <>
                             {
