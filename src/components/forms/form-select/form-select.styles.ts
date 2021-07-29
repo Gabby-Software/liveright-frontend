@@ -78,5 +78,12 @@ width: 100%;
         }
     }
 }
-
+.select_input__error {
+    .ant-select {
+        border-color: ${p => p.theme.vars.colors.primary};
+        svg {
+            color: ${p => p.theme.vars.colors.primary};
+        }
+    }
+}
 `;

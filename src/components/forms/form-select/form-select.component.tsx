@@ -8,6 +8,7 @@ import {ReactComponent as DownArrow} from "../../../assets/media/icons/down-arro
 import {Select} from "antd";
 import FormError from "../form-error/form-error.component";
 import logger from "../../../managers/logger.manager";
+import {classes} from "../../../pipes/classes.pipe";
 
 type FormSelectPropsType = {
     name: string;
@@ -44,7 +45,7 @@ const FormSelect = ({name, label, options, onUpdate}: FormSelectPropsType) => {
                         </MobileStyles>
                     ) : (
                         <DesktopStyles className={'select_input__wrapper'}>
-                            <label className={'select_input__cont'}>
+                            <label className={classes('select_input__cont', form.errors[name] && form.touched[name] && 'select_input__error',)}>
                                 <div className={'select_input__label'}>{label}</div>
                                 <Select
                                     showSearch

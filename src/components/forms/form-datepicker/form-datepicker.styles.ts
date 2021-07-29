@@ -33,5 +33,11 @@ export default styled.div`
             border-color:${p => p.theme.vars.colors.inputBorder};
         }
     }
+    &__error {
+        border-color: ${p => p.theme.vars.colors.error};
+        svg {  
+            color: ${p => p.theme.vars.colors.error};
+        }
+    }
 }
 `;

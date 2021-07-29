@@ -5,6 +5,7 @@ import FormError from "../form-error/form-error.component";
 import {DatePicker, TimePicker} from 'antd';
 import moment from 'moment';
 import {ReactComponent as CalendarIcon} from "../../../assets/media/icons/calendar.svg";
+import {classes} from "../../../pipes/classes.pipe";
 
 type Props = {
     name:string;
@@ -24,7 +25,7 @@ const FormTimepicker = ({name, label, onUpdate, disabled}: Props) => {
                             <TimePicker
                                 disabled={disabled}
                                 value={field.value?moment(field.value, format):null}
-                                className={'text_input__input'}
+                                className={classes('text_input__input', form.errors[name] && form.touched[name] && 'text_input__error',)}
                                 onChange={(date, dateString: string)=>{
                                     if(!date) return;
                                     form.setFieldValue(name, dateString);

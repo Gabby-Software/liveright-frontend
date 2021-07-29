@@ -10,7 +10,11 @@ export default styled(Drawer)`
     padding:0;
 }
 .drawer {
-    
+    &__wrapper {
+        display: flex;
+        flex-direction:column;
+        max-height:80vh;
+    }
     &__header {
         position: relative;
         padding: 53px 24px 16px 24px;
