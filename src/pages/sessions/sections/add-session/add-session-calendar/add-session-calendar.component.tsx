@@ -6,18 +6,12 @@ import AddSessionCalendarEmpty from "../add-session-calendar-empty/add-session-c
 import AddSessionCalendarFull from "../add-session-calendar-full/add-session-calendar-full.component";
 
 type Props = {};
-const AddSessionCalendar = ({}:Props) => {
+const AddSessionCalendar = ({}: Props) => {
     const {t} = useTranslation();
     return (
         <Styles>
             <PageSubtitle>{t('sessions:calendar-view')}</PageSubtitle>
-            {
-                Math.random() > .5 ? (
-                    <AddSessionCalendarEmpty/>
-                ) : (
-                    <AddSessionCalendarFull/>
-                )
-            }
+            <AddSessionCalendarFull/>
         </Styles>
     )
 };

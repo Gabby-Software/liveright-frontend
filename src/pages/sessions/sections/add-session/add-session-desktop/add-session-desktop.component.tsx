@@ -6,25 +6,27 @@ import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import AddSessionTop from "../add-session-top/add-session-top.component";
 import AddSessionCalendar from "../add-session-calendar/add-session-calendar.component";
 import AddSessionFieldsDesktop from "../add-session-fields-desktop/add-session-fields-desktop.component";
+import AddSessionForm from "../add-session-form/add-session-form.component";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void
 };
-const AddSessionDesktop = ({isOpen, onClose}:Props) => {
+const AddSessionDesktop = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation();
     return (
         <Modal visible={isOpen} onCancel={onClose} large>
+            <AddSessionForm>
             <Styles>
-                <div className={'add-session__left'}>
-                    <AddSessionTop/>
-                    <AddSessionFieldsDesktop/>
-                </div>
-                <div className={'add-session__right'}>
-                    <AddSessionCalendar/>
-                </div>
+                    <div className={'add-session__left'}>
+                        <AddSessionTop/>
+                        <AddSessionFieldsDesktop/>
+                    </div>
+                    <div className={'add-session__right'}>
+                        <AddSessionCalendar/>
+                    </div>
             </Styles>
-
+            </AddSessionForm>
         </Modal>
     );
 };

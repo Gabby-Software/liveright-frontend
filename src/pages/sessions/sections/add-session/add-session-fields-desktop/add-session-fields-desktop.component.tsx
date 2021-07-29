@@ -18,7 +18,6 @@ const AddSessionFieldsDesktop = ({}: Props) => {
     return (
         <Styles>
             <PageSubtitle>{t('sessions:schedule-for')}</PageSubtitle>
-            <AddSessionForm>
             <div className={'add-session__form'}>
                 <div className={'add-session__form__left'}>
                     <FormDatepicker name={'date'} label={t('sessions:date')}
@@ -36,7 +35,6 @@ const AddSessionFieldsDesktop = ({}: Props) => {
                 </div>
             </div>
             <ButtonSubmit className={'add-session__form__submit'}>{t('sessions:submit')}</ButtonSubmit>
-            </AddSessionForm>
         </Styles>
     );
 };
