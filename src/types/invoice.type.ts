@@ -1,5 +1,20 @@
 import {CurrencyType} from "./currency.type";
 
+export type InvoiceItemType = {
+    id: number;
+    type: string;
+    name: string;
+    is_taxable: boolean;
+    description: string;
+    discount_amount: number;
+    discount_percent: number;
+    quantity: number;
+    subtotal: number;
+    tax_rate: number;
+    tax_value: number;
+    total: number;
+    unit_price: number;
+}
 export type InvoiceType = {
     id: number;
     currency: CurrencyType;
@@ -26,6 +41,9 @@ export type InvoiceType = {
         }
     }
 }
+export type InvoiceFullType = InvoiceType & {
+    items: InvoiceItemType[]
+};
 type InvoiceTypeProt = {
     id?: number;
     invoice_number: string;

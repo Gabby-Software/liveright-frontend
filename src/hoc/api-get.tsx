@@ -1,23 +1,27 @@
-import React, {useState, useEffect, ComponentType} from 'react';
+import React, {useState, useEffect, ComponentType, createContext, useContext} from 'react';
 import api from "../managers/api.manager";
 import {serverError} from "../pipes/server-error.pipe";
 
 const apiMemo: any = {};
+
 export interface APIGetType<G> {
     data: G;
     loading: boolean;
     error: string;
 }
+
 type PropsType = {
     url: string;
     children: ComponentType<APIGetType<any>>
 }
-const APIGet = ({url, children:Children}:PropsType) => {
+const APIDataContext = createContext<APIGetType<any>>({loading: true, error: '', data: []});
+export function useAPIData<G>(){return useContext(APIDataContext) as APIGetType<G>}
+const APIGet = ({url, children: Children}: PropsType) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [data, setData] = useState<any>(null);
     useEffect(() => {
-        if(apiMemo[url]) {
+        if (apiMemo[url]) {
             setLoading(false);
             setError('');
             setData(apiMemo[url]);
@@ -38,7 +42,11 @@ const APIGet = ({url, children:Children}:PropsType) => {
                 setLoading(false);
             })
     }, [url]);
-    return <Children data={data} error={error} loading={loading}/>
+    return (
+        <APIDataContext.Provider value={{error, loading, data}}>
+            <Children data={data} error={error} loading={loading}/>
+        </APIDataContext.Provider>
+    );
 };
 
 export default APIGet;

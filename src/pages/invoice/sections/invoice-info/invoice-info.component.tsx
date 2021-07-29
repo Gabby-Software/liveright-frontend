@@ -1,63 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './invoice-info.styles';
 import DataTable from "../../../../components/data-table/data-table.component";
-import {ClientInvoiceType} from "../../../../types/invoice.type";
+import {ClientInvoiceType, InvoiceFullType} from "../../../../types/invoice.type";
 import {serviceTypes} from "../../../../enums/service-type.enum";
 import moment from "moment";
 import {invoiceStatuses} from "../../../../enums/invoice-statuses";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {asPrice} from "../../../../pipes/price.pipe";
+import {useAPIData} from "../../../../hoc/api-get";
 
-const invoiceData: ClientInvoiceType[] = [
-    {
-        invoice_number: '',
-        client_name: '',
-        session_type: serviceTypes.CONSULTATION,
-        description: 'Consultation for one',
-        created_at: moment().add(-4, 'days').toISOString(),
-        due_date: moment().add(-4, 'days').toISOString(),
-        price: 451,
-        currency: 'USD',
-        status: invoiceStatuses.OVERDUE,
-        url: '',
-        tax: 10,
-        quantity: 1
-    },
-    {
-        invoice_number: '',
-        client_name: '',
-        session_type: serviceTypes.PT_SESSION,
-        description: 'PT Training',
-        created_at: moment().add(-4, 'days').toISOString(),
-        due_date: moment().add(-4, 'days').toISOString(),
-        price: 240,
-        currency: 'USD',
-        status: invoiceStatuses.OVERDUE,
-        url: '',
-        tax: 10,
-        quantity: 2
-    }
-];
 const InvoiceInfo = () => {
     const {t} = useTranslation();
+    const {data} = useAPIData<InvoiceFullType>();
     const labels = [
         'invoices:item', 'invoices:quantity', 'invoices:price', 'invoices:discount', 'invoices:vat', 'invoices:subtotal'
     ];
     const keys = ['item', 'qty', 'price', 'discount', 'vat', 'subtotal'];
     return (
         <Styles>
-            <DataTable labels={labels} data={invoiceData} keys={keys} render={{
-                item: ({session_type, description}) => (
+            <DataTable labels={labels} data={data.items} keys={keys} render={{
+                item: ({type, description}) => (
                     <div className={'invoice-info__item'}>
-                        <div className={'invoice-info__type'}>{t(`invoices:service-type.${session_type}`)}</div>
+                        <div className={'invoice-info__type'}>{type}</div>
                         <div className={'invoice-info__desc'}>{description}</div>
                     </div>
                 ),
                 qty: ({quantity}) => `${quantity}X`,
-                price: ({price, currency}) => `${price} ${currency}`,
-                discount: () => 0,
-                vat: ({tax, price, quantity, currency}) => `${asPrice(((price * quantity) / tax))} ${currency}`,
-                subtotal: ({price, quantity, currency}) => `${price * quantity} ${currency}`
+                price: ({unit_price}) => `${unit_price} ${data.currency.code}`,
+                discount: ({discount_amount}) => `${discount_amount} ${data.currency.code}`,
+                vat: ({tax_value, unit_price, quantity}) => `${tax_value} ${data.currency.code}`,
+                subtotal: ({total}) => `${total} ${data.currency.code}`
             }}>
                 <tr className={'data-table__tr'}>
                     <td className={'data-table__td'} colSpan={4}>
@@ -74,15 +46,17 @@ const InvoiceInfo = () => {
                     </td>
                     <td className={'data-table__td'}>
                         <div className={'invoice-info__d-key'}>{t('invoices:subtotal')}</div>
-                        <div className={'invoice-info__d-key'}>{t('invoices:vat')} ({invoiceData[0].tax}%)</div>
+                        <div className={'invoice-info__d-key'}>{t('invoices:vat')} ({data.tax_rate}%)</div>
                         <div className={'invoice-info__d-key'}>{t('invoices:discounts')}</div>
+                        <div className={'invoice-info__d-key'}>{t('invoices:total')}</div>
                     </td>
                     <td className={'data-table__td'}>
                         <div
-                            className={'invoice-info__d-value'}>{asPrice(invoiceData.reduce((a, b) => a + b.price * (b.quantity || 0), 0))} {invoiceData[0].currency}</div>
+                            className={'invoice-info__d-value'}>{data.subtotal} {data.currency.code}</div>
                         <div
-                            className={'invoice-info__d-value'}>{asPrice(invoiceData.reduce((a, b) => a + b.price * (b.quantity || 0) / (b.tax || 0), 0))} {invoiceData[0].currency}</div>
-                        <div className={'invoice-info__d-value'}>0 {invoiceData[0].currency}</div>
+                            className={'invoice-info__d-value'}>{data.tax_value} {data.currency.code}</div>
+                        <div className={'invoice-info__d-value'}>-{data.discount_amount} {data.currency.code}</div>
+                        <div className={'invoice-info__d-value'}>{data.total} {data.currency.code}</div>
                     </td>
                 </tr>
             </DataTable>

@@ -10,12 +10,26 @@ import InvoiceInfo from "./sections/invoice-info/invoice-info.component";
 import {onlyClient} from "../../guards/client.guard";
 import InvoiceMobile from "./invoice-mobile/invoice-mobile.component";
 import InvoiceDesktop from "./invoice-desktop/invoice-desktop.component";
+import APIGet from "../../hoc/api-get";
+import {EP_GET_INVOICES} from "../../enums/api.enum";
+import {Skeleton} from "antd";
 
 const Invoice = () => {
     const isMobile = useIsMobile();
     const {id} = useParams<{ id: string }>();
-    if(isMobile) return <InvoiceMobile/>;
-    return <InvoiceDesktop/>;
+    return (
+        <APIGet url={EP_GET_INVOICES+`/${id}`}>
+            {
+                ({loading, error}) => {
+                    if(loading) return <Skeleton/>;
+                    if(error) return <p>{error}</p>;
+                    if(isMobile) return <InvoiceMobile/>;
+                    return <InvoiceDesktop/>;
+                }
+            }
+        </APIGet>
+    );
+
 };
 
 export default onlyClient(Invoice);
