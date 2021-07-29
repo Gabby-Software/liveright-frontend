@@ -27,7 +27,7 @@ export const collapse = (time1:string, dur1:number, time2:string, dur2: number) 
     const t2 = hour(time2) + minute(time2)/60;
     const t1d = t1+dur1/60;
     const t2d = t2+dur2/60;
-    return t1 > t2 && t1 < t2d || t2 > t1 && t2 < t1d;
+    return !(t1 >= t2d || t1d <= t2);
 };
 type Props = {};
 const AddSessionCalendarFull = ({}:Props) => {

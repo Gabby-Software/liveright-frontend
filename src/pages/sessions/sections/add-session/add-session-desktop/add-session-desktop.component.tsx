@@ -16,7 +16,7 @@ const AddSessionDesktop = ({isOpen, onClose}: Props) => {
     const {t} = useTranslation();
     return (
         <Modal visible={isOpen} onCancel={onClose} large>
-            <AddSessionForm>
+            <AddSessionForm onClose={onClose}>
             <Styles>
                     <div className={'add-session__left'}>
                         <AddSessionTop/>

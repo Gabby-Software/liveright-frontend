@@ -4,7 +4,7 @@ import {Form, Formik, FormikHelpers} from "formik";
 import moment from "moment";
 import * as Yup from 'yup';
 
-type Props = {children:React.ReactNode};
+type Props = {children:React.ReactNode, onClose: () =>void};
 export type AddSessionFormType = {
     "type": string,
     "date": string,
@@ -22,10 +22,11 @@ const initialValues: AddSessionFormType = {
     client_id: 0
 };
 
-const AddSessionForm = ({children}:Props) => {
+const AddSessionForm = ({children, onClose}:Props) => {
     const handleSubmit = (values: AddSessionFormType, helper: FormikHelpers<AddSessionFormType>) => {
         helper.setSubmitting(false);
         helper.resetForm();
+        onClose();
     };
     return (
         <Formik

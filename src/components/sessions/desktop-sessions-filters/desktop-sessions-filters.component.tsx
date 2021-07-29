@@ -12,6 +12,7 @@ import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
 import FormButton from "../../forms/form-button/form-button.component";
 import SessionAddModal from "../session-add-modal/session-add-modal.component";
+import AddSession from "../../../pages/sessions/sections/add-session/add-session.component";
 
 const initialValues: SessionFilterType = {
     session_type: 'All',
@@ -47,7 +48,8 @@ const DesktopSessionsFilters = () => {
                     </FormRow>
                 </Form>
             </Formik>
-            <SessionAddModal isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+            {/*<SessionAddModal isOpen={addOpen} onClose={() => setAddOpen(false)}/>*/}
+            <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
         </Styles>
     );
 };

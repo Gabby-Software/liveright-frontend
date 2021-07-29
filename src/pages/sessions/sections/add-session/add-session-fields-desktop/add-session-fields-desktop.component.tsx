@@ -11,6 +11,7 @@ import FormTextarea from "../../../../../components/forms/form-textarea/form-tex
 import ButtonSubmit from "../../../../../components/forms/button-submit/button-submit.component";
 import AddSessionForm from "../add-session-form/add-session-form.component";
 import moment from 'moment';
+import AddSessionSubmit from "../add-session-submit/add-session-submit.component";
 
 type Props = {};
 const AddSessionFieldsDesktop = ({}: Props) => {
@@ -34,7 +35,7 @@ const AddSessionFieldsDesktop = ({}: Props) => {
                     </div>
                 </div>
             </div>
-            <ButtonSubmit className={'add-session__form__submit'}>{t('sessions:submit')}</ButtonSubmit>
+            <AddSessionSubmit/>
         </Styles>
     );
 };

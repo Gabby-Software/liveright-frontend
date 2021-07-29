@@ -12,7 +12,6 @@ const Sessions = () => {
             {
                 isMobile?<MobileSessions/>:<DesktopSessions/>
             }
-            <AddSession isOpen={true} onClose={() => {}}/>
         </>
     );
 };
