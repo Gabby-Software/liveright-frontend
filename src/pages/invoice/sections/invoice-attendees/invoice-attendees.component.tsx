@@ -8,25 +8,29 @@ import moment from 'moment';
 import {Routes} from "../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {useAPIData} from "../../../../hoc/api-get";
+import {InvoiceFullType} from "../../../../types/invoice.type";
+import {capitalize} from "../../../../pipes/capitalize.pipe";
 
 const InvoiceAttendees = () => {
     const {t} = useTranslation();
+    const {data} = useAPIData<InvoiceFullType>();
     return (
         <Styles>
             <div className={'invoice-att'}>
                 <div className={'invoice-att__title'}>{t('invoices:issued-by')}</div>
-                <div className={'invoice-att__name'}>{'Jhon Trainer'}</div>
+                <div className={'invoice-att__name'}>{data.invoice_to.user.first_name} {data.invoice_to.user.last_name}</div>
                 <div
                     className={'invoice-att__desc'}>{'Avenuue of Energy, 234 1234 Dubai DMC United Arab Emirates'}</div>
             </div>
             <div className={'invoice-att'}>
                 <div className={'invoice-att__title'}>{t('invoices:issued-to')}</div>
-                <div className={'invoice-att__name'}>{'Paul The Trainee'}</div>
+                <div className={'invoice-att__name'}>{data.invoice_to.user.first_name} {data.invoice_to.user.last_name}</div>
                 <div
                     className={'invoice-att__desc'}>{'Avenuue of Energy, 234 1234 Dubai DMC United Arab Emirates'}</div>
             </div>
             <div className={'invoice-att__actions'}>
-                <FormButton type={'primary'} className={'invoice-att__status'}>{'Overdue'}</FormButton>
+                <FormButton type={'primary'} className={'invoice-att__status'}>{capitalize(data.status)}</FormButton>
                 <FormButton type={'primary'} className={'invoice-att__cta'}>{t('invoices:pay')}</FormButton>
                 <div className={'invoice-att__icons'}>
                     <PrintIcon className={'invoice-att__action'} onClick={window.print}/>
@@ -35,7 +39,7 @@ const InvoiceAttendees = () => {
                 </div>
             </div>
             <div className={'invoice-att__print'}>
-                <FormButton type={'primary'} className={'invoice-att__status'}>Overdue</FormButton>
+                <FormButton type={'primary'} className={'invoice-att__status'}>{capitalize(data.status)}</FormButton>
                 <div className={'invoice-att__date'}><i>{`as of ${moment().format('DD-MM-YYYY')}`}</i></div>
             </div>
         </Styles>

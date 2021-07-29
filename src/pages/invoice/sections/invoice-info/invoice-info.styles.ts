@@ -63,6 +63,7 @@ export default styled.div`
                 font-size: 1rem;
                 margin-top: 10px;
                 white-space:nowrap;
+                text-align: right;
                 @media only print {
                     font-size: 12px;
                 }

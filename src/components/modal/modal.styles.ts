@@ -2,11 +2,12 @@ import styled from "styled-components";
 import {Modal} from 'antd';
 
 export default styled(Modal)`
+    &.modal__large {
+        width: 1100px !important;
+        max-width: 100%;
+    }
     .ant-modal {
         &-close {
-            right: auto;
-            left: 0;
-            top: 24px;
             padding: 12px;
             svg {
                 width: 18px;

@@ -1,4 +1,50 @@
-type InvoiceType = {
+import {CurrencyType} from "./currency.type";
+
+export type InvoiceItemType = {
+    id: number;
+    type: string;
+    name: string;
+    is_taxable: boolean;
+    description: string;
+    discount_amount: number;
+    discount_percent: number;
+    quantity: number;
+    subtotal: number;
+    tax_rate: number;
+    tax_value: number;
+    total: number;
+    unit_price: number;
+}
+export type InvoiceType = {
+    id: number;
+    currency: CurrencyType;
+    discount_amount: number;
+    discount_percent: number;
+    due_on: string;
+    invoice_number: string;
+    is_taxable: boolean;
+    status: string;
+    subtotal: 8.5;
+    tax_rate: 8.82;
+    tax_value: 0.75;
+    total: 8.92;
+    type: string;
+    invoice_to: {
+        id: number;
+        type: string;
+        uuid: string;
+        user: {
+            id: number;
+            email: string;
+            first_name: string;
+            last_name: string;
+        }
+    }
+}
+export type InvoiceFullType = InvoiceType & {
+    items: InvoiceItemType[]
+};
+type InvoiceTypeProt = {
     id?: number;
     invoice_number: string;
     session_type: string;
@@ -12,9 +58,9 @@ type InvoiceType = {
     tax?: number;
     quantity?: number;
 }
-export type TrainerInvoiceType = InvoiceType & {
+export type TrainerInvoiceType = InvoiceTypeProt & {
     client_name: string;
 }
-export type ClientInvoiceType = InvoiceType & {
+export type ClientInvoiceType = InvoiceTypeProt & {
     client_name: string;
 }

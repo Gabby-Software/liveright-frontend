@@ -26,3 +26,7 @@ export const ACTION_SWITCH_ACCOUNT_SUCCESS = 'action-switch-account-success';
 export const ACTION_ADD_ACCOUNT_REQUEST = 'action-add-account-request';
 export const ACTION_ADD_ACCOUNT_SUCCESS = 'action-add-account-success';
 export const ACTION_UPDATE_PROFILE_REQUEST = 'action-update-user-request';
+export const ACTION_GET_INVOICES_REQUEST = 'action-get-invoices-request';
+export const ACTION_GET_INVOICES_SUCCESS = 'action-get-invoices-success';
+export const ACTION_GET_INVOICES_LOAD = 'action-get-invoices-load';
+export const ACTION_GET_INVOICES_ERROR = 'action-get-invoices-error';

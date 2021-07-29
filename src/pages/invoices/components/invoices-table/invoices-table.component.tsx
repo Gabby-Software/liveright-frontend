@@ -17,17 +17,28 @@ import {Routes} from "../../../../enums/routes.enum";
 import fileManager from "../../../../managers/file.manager";
 import TablePagination from "../../../../components/table-pagination/table-pagination.component";
 import logger from "../../../../managers/logger.manager";
+import {capitalize} from "../../../../pipes/capitalize.pipe";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../../store/reducers";
+import {ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 
 const InvoicesTable = () => {
     const {type} = useAuth();
-    const [page, setPage] = useState(1);
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
+    const {meta, data} = useSelector((state: RootState) => state.invoices);
+    const dispatch = useDispatch();
     const updatePage = (p: number) => {
-        setPage(p);
-        setTimeout(() => {
-            if (!head.current) return;
-            window.scrollTo({top: window.scrollY + head.current.getBoundingClientRect().top, behavior: 'smooth'});
+        dispatch({
+            type: ACTION_GET_INVOICES_REQUEST, payload: {
+                page: p, onSuccess: () => {
+                    if (!head.current) return;
+                    window.scrollTo({
+                        top: window.scrollY + head.current.getBoundingClientRect().top,
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     };
     const labels = [
@@ -40,22 +51,24 @@ const InvoicesTable = () => {
     ];
     const keys = [
         'invoice_number',
-        'due_date',
-        'client_name',
-        'price',
+        'due_on',
+        'name',
+        'total',
         'status',
         'options'
     ];
     return (
         <Styles ref={head}>
-            <DataTable labels={labels} keys={keys} data={invoices.slice((page - 1) * 10, page * 10)} render={{
+            <DataTable labels={labels} keys={keys} data={data} render={{
                 invoice_number: (t) => `#${t.invoice_number}`,
-                due_date: (t) => date(t.due_date),
-                price: t => `${t.price} ${t.currency}`,
-                status: t => <div className={`invoice-table__status__${t.status?.toLowerCase()}`}>{t.status}</div>,
+                due_on: (t) => date(t.due_on),
+                total: t => `${t.total} ${t.currency.code}`,
+                name: t => `${t.invoice_to.user.first_name} ${t.invoice_to.user.last_name}`,
+                status: t => <div
+                    className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
                 options: ({status, id, url}) => (
                     <div className={'invoice-table__actions'}>
-                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(status) ? (
+                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
                             type === userTypes.CLIENT ? (
                                 <a href={payments(Routes.INVOICES) + '/' + id}
                                    className={'invoice-table__link'}>
@@ -70,8 +83,9 @@ const InvoicesTable = () => {
                                 </FormButton>
                                 </span>
                             )
-                        ) : [invoiceStatuses.PAID].includes(status) ? <InvoiceIcon className={'invoice-table__action'}
-                                                                                   onClick={() => fileManager.downloadUrl(url)}/> : null}
+                        ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
+                            <InvoiceIcon className={'invoice-table__action'}
+                                         onClick={() => fileManager.downloadUrl(url)}/> : null}
                         <PDFIcon className={'invoice-table__action'} onClick={() => fileManager.downloadUrl(url)}/>
                         <Link to={Routes.INVOICES + '/' + id} className={'invoice-table__action'}>
                             <ReceiptIcon/>
@@ -79,7 +93,7 @@ const InvoicesTable = () => {
                     </div>
                 )
             }}/>
-            <TablePagination page={page} setPage={updatePage} total={invoices.length}/>
+            <TablePagination page={meta.current_page} setPage={updatePage} total={meta.total}/>
         </Styles>
     )
 };
