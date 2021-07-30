@@ -20,6 +20,7 @@ import {SessionType} from "../../../types/session.type";
 import SessionRescheduleModal
     from "../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
 import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
+import EditSession from "../sections/edit-session/edit-session.component";
 
 const MobileSessions = () => {
     const [page, setPage] = useState(1);
@@ -80,7 +81,7 @@ const MobileSessions = () => {
             <SmallModal visible={actionsOpen} onCancel={() => setActionsOpen(false)}
                         title={t('sessions:actions')} menu={actions}/>
             <SessionRescheduleModal onClose={() => setRescheduleOpen(false)} session={rescheduleOpen?workingSession:null}/>
-            <SessionEditModal session={editOpen?workingSession:null} onClose={() => setEditOpen(false)}/>
+            <EditSession isOpen={editOpen} onClose={() => setEditOpen(false)}/>
         </Styles>
     );
 };

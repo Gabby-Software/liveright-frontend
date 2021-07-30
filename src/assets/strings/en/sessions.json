@@ -19,10 +19,14 @@
   "calendar-empty": "You don't have events today... schedule away!",
   "collapse": "It looks like you're busy that time...",
   "current-credits": "Current PT Session Credits",
+  "under-sessions": "it looks like client doesn't have enough credits for this..",
   "requested": "Requested Date/Time",
+  "current-time": "Current Date/Time",
   "schedule-for": "Schedule for...",
   "notes": "Notes",
-  "remind-credits": "PT Credits After This",
+  "remind-credits": "Credits After This",
   "submit": "Schedule Session",
-  "submit-anyway": "Schedule Anyway"
+  "submit-anyway": "Schedule Anyway",
+  "delete": "Delete and create new",
+  "save": "Save Changes"
 }

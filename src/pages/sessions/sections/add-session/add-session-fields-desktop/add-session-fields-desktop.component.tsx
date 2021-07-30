@@ -6,15 +6,18 @@ import FormDatepicker from "../../../../../components/forms/form-datepicker/form
 import FormTimepicker from "../../../../../components/forms/form-timepicker/form-timepicker.component";
 import FormInputLabeled from "../../../../../components/forms/form-input-labeled/form-input-labeled.component";
 import FormSelect from "../../../../../components/forms/form-select/form-select.component";
-import {serviceTypeOptions} from "../../../../../enums/service-type.enum";
+import {serviceTypeOptions, serviceTypes} from "../../../../../enums/service-type.enum";
 import FormTextarea from "../../../../../components/forms/form-textarea/form-textarea.component";
 import ButtonSubmit from "../../../../../components/forms/button-submit/button-submit.component";
 import AddSessionForm from "../add-session-form/add-session-form.component";
 import moment from 'moment';
 import AddSessionSubmit from "../add-session-submit/add-session-submit.component";
+import {Field, FieldProps} from "formik";
+import AddSessionCredits from "../add-session-credits/add-session-credits.component";
+import AddSessionDelete from "../add-session-delete/add-session-delete.component";
 
-type Props = {};
-const AddSessionFieldsDesktop = ({}: Props) => {
+type Props = { forEdit?: boolean };
+const AddSessionFieldsDesktop = ({forEdit}: Props) => {
     const {t} = useTranslation();
     return (
         <Styles>
@@ -22,20 +25,24 @@ const AddSessionFieldsDesktop = ({}: Props) => {
             <div className={'add-session__form'}>
                 <div className={'add-session__form__left'}>
                     <FormDatepicker name={'date'} label={t('sessions:date')}
-                    disabledDate={(date) => moment(date).isBefore(moment(), 'days')}/>
+                                    disabledDate={(date) => moment(date).isBefore(moment(), 'days')}/>
                     <FormTimepicker name={'time'} label={t('sessions:time')}/>
-                    <FormInputLabeled name={'duration'} label={t('sessions:duration')}/>
-                    <FormSelect name={'type'} label={t('sessions:type')} options={serviceTypeOptions}/>
+                    <FormInputLabeled name={'duration'} label={t('sessions:duration')}
+                                      disabled={forEdit}/>
+                    <FormSelect name={'type'} label={t('sessions:type')} options={serviceTypeOptions}
+                                disabled={forEdit}/>
+                    <AddSessionDelete forEdit={forEdit}/>
                 </div>
                 <div className={'add-session__form__right'}>
                     <FormTextarea name={'notes'} label={t('sessions:notes')}/>
-                    <div className={'add-session__form__credits'}>
-                        <span>{t('sessions:remind-credits')}:</span>
-                        <span>&nbsp;3</span>
-                    </div>
+                    {
+                        forEdit ? null : (
+                            <AddSessionCredits/>
+                        )
+                    }
                 </div>
             </div>
-            <AddSessionSubmit/>
+            <AddSessionSubmit forEdit={forEdit}/>
         </Styles>
     );
 };

@@ -23,6 +23,7 @@ import SessionRescheduleModal
 import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
 import DataPagination from "../../../components/data-pagination/data-pagination.component";
 import SessionAddModal from "../../../components/sessions/session-add-modal/session-add-modal.component";
+import EditSession from "../sections/edit-session/edit-session.component";
 
 const DesktopSessions = () => {
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
@@ -72,7 +73,7 @@ const DesktopSessions = () => {
               <DataPagination page={current_page} setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})} total={total}/>
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
-          <SessionEditModal session={editOpen} onClose={() => setEditOpen(null)}/>
+          <EditSession isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
       </Styles>
     );
 };

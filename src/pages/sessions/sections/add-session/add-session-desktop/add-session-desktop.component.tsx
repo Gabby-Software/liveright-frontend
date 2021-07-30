@@ -7,20 +7,21 @@ import AddSessionTop from "../add-session-top/add-session-top.component";
 import AddSessionCalendar from "../add-session-calendar/add-session-calendar.component";
 import AddSessionFieldsDesktop from "../add-session-fields-desktop/add-session-fields-desktop.component";
 import AddSessionForm from "../add-session-form/add-session-form.component";
+import {sessionData} from "../../edit-session/edit-session.data";
 
 type Props = {
     isOpen: boolean;
-    onClose: () => void
+    onClose: () => void;
+    forEdit?: boolean
 };
-const AddSessionDesktop = ({isOpen, onClose}: Props) => {
-    const {t} = useTranslation();
+const AddSessionDesktop = ({isOpen, onClose, forEdit}: Props) => {
     return (
         <Modal visible={isOpen} onCancel={onClose} large>
-            <AddSessionForm onClose={onClose}>
+            <AddSessionForm onClose={onClose} initialValues={forEdit?sessionData:undefined}>
             <Styles>
                     <div className={'add-session__left'}>
                         <AddSessionTop/>
-                        <AddSessionFieldsDesktop/>
+                        <AddSessionFieldsDesktop forEdit={forEdit}/>
                     </div>
                     <div className={'add-session__right'}>
                         <AddSessionCalendar/>

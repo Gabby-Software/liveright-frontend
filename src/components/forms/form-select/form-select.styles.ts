@@ -28,6 +28,13 @@ export const MobileStyles = styled.div`
         &:focus {
             border-color: black;
         }
+        &:disabled {
+            color: #d5d5d5;
+        }
+        
+    }
+    &__disabled {
+         color: #d5d5d5;
     }
 }
 `;
@@ -47,6 +54,9 @@ width: 100%;
         margin-bottom: 8px;
         text-align: left;
     }
+    &__disabled {
+        color: #d5d5d5;
+    }
 }
 .ant-select {
     display: block;
@@ -58,6 +68,7 @@ width: 100%;
     outline: none;
     width: 100%;
     box-sizing: border-box;
+   
     svg {
         transform-origin: center center;
         transition: ${p => p.theme.vars.defaults.transition};

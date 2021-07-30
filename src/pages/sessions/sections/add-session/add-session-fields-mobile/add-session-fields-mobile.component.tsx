@@ -8,16 +8,19 @@ import FormDatepicker from "../../../../../components/forms/form-datepicker/form
 import FormTimepicker from "../../../../../components/forms/form-timepicker/form-timepicker.component";
 import FormInputLabeled from "../../../../../components/forms/form-input-labeled/form-input-labeled.component";
 import FormSelect from "../../../../../components/forms/form-select/form-select.component";
-import {serviceTypeOptions} from "../../../../../enums/service-type.enum";
+import {serviceTypeOptions, serviceTypes} from "../../../../../enums/service-type.enum";
 import FormTextarea from "../../../../../components/forms/form-textarea/form-textarea.component";
 import ButtonSubmit from "../../../../../components/forms/button-submit/button-submit.component";
 import {ReactComponent as CalendarIcon} from "../../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as TimesIcon} from "../../../../../assets/media/icons/times.svg";
 import AddSessionCalendar from "../add-session-calendar/add-session-calendar.component";
 import AddSessionSubmit from "../add-session-submit/add-session-submit.component";
+import {Field, FieldProps} from "formik";
+import AddSessionCredits from "../add-session-credits/add-session-credits.component";
+import AddSessionDelete from "../add-session-delete/add-session-delete.component";
 
-type Props = {};
-const AddSessionFieldsMobile = ({}: Props) => {
+type Props = {forEdit?: boolean};
+const AddSessionFieldsMobile = ({forEdit}: Props) => {
     const {t} = useTranslation();
     const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
     return (
@@ -43,14 +46,17 @@ const AddSessionFieldsMobile = ({}: Props) => {
                         )
                     }
                     <FormTimepicker name={'time'} label={t('sessions:time')}/>
-                    <FormInputLabeled name={'duration'} label={t('sessions:duration')}/>
-                    <FormSelect name={'type'} label={t('sessions:type')} options={serviceTypeOptions}/>
+                    <FormInputLabeled disabled={forEdit} name={'duration'} label={t('sessions:duration')}/>
+                    <FormSelect disabled={forEdit} name={'type'} label={t('sessions:type')}
+                                options={serviceTypeOptions}/>
                     <FormTextarea name={'notes'} label={t('sessions:notes')}/>
-                    <div className={'add-session__form__credits'}>
-                        <span>{t('sessions:remind-credits')}:</span>
-                        <span>&nbsp;3</span>
-                    </div>
-                    <AddSessionSubmit/>
+                    {
+                        forEdit?null:(
+                            <AddSessionCredits/>
+                        )
+                    }
+                    <AddSessionDelete forEdit={forEdit}/>
+                    <AddSessionSubmit forEdit={forEdit}/>
                 </div>
         </Styles>
     )
