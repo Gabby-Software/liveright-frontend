@@ -11,7 +11,8 @@ export type AddSessionFormType = {
     "duration": string,
     "time": string,
     "notes": string,
-    "client_id": number
+    "client_id": number,
+    sessions: number
 }
 const initialValues: AddSessionFormType = {
     type: '',
@@ -19,7 +20,8 @@ const initialValues: AddSessionFormType = {
     duration: '',
     time: '',
     notes: '',
-    client_id: 0
+    client_id: 0,
+    sessions: 0
 };
 
 const AddSessionForm = ({children, onClose}:Props) => {

@@ -5,6 +5,7 @@ import FormButton from "../../../../../components/forms/form-button/form-button.
 import {classes} from "../../../../../pipes/classes.pipe";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import {collapse, events} from "../add-session-calendar-full/add-session-calendar-full.component";
+import {serviceTypes} from "../../../../../enums/service-type.enum";
 
 type Props = {};
 const AddSessionSubmit = ({}: Props) => {
@@ -14,10 +15,13 @@ const AddSessionSubmit = ({}: Props) => {
             {
                 ({form}: FieldProps) => {
                     const isCollapse = form.values.date && form.values.time && events.some(e => collapse(e.time, e.duration, form.values.time, form.values.duration));
+                    const isUnderSessions = form.values.type === serviceTypes.PT_SESSION && form.values.sessions <= 0;
                     return (
                         <>
                             {
-                                isCollapse ? (
+                                isUnderSessions ? (
+                                    <Styles>{t('sessions:under-sessions')}</Styles>
+                                ) : isCollapse ? (
                                     <Styles>{t('sessions:collapse')}</Styles>
                                 ):null
                             }

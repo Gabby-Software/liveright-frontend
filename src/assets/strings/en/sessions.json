@@ -19,6 +19,7 @@
   "calendar-empty": "You don't have events today... schedule away!",
   "collapse": "It looks like you're busy that time...",
   "current-credits": "Current PT Session Credits",
+  "under-sessions": "it looks like client doesn't have enough credits for this..",
   "requested": "Requested Date/Time",
   "schedule-for": "Schedule for...",
   "notes": "Notes",

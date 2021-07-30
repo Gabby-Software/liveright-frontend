@@ -6,6 +6,7 @@ import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import profilePlaceholder from "../../../../../assets/media/profile-placeholder.png";
 import {ReactComponent as CalendarIcon} from "../../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as ClockIcon} from "../../../../../assets/media/icons/clock.svg";
+import {Field, FieldProps} from "formik";
 
 type Props = {};
 const AddSessionTop = ({}: Props) => {
@@ -18,10 +19,14 @@ const AddSessionTop = ({}: Props) => {
                     <img alt={'client'} src={profilePlaceholder} className={'session-top__image'}/>
                     <div className={'session-top__name'}>Frank Trainee</div>
                 </div>
-                <div className={'session-top__credits'}>
-                    <span>{t('sessions:current-credits')}</span>
-                    <span>3</span>
-                </div>
+                <Field name={'sessions'}>
+                    {({field}: FieldProps) => (
+                        <div className={'session-top__credits'}>
+                            <span>{t('sessions:current-credits')}:</span>
+                            <span>&nbsp;{field.value}</span>
+                        </div>
+                    )}
+                </Field>
             </div>
             <div className={'session-top__requested'}>
                 <div className={'session-top__requested__label'}>{t('sessions:requested')}</div>
