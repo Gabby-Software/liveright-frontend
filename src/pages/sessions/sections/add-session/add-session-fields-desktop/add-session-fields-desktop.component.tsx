@@ -13,9 +13,11 @@ import AddSessionForm from "../add-session-form/add-session-form.component";
 import moment from 'moment';
 import AddSessionSubmit from "../add-session-submit/add-session-submit.component";
 import {Field, FieldProps} from "formik";
+import AddSessionCredits from "../add-session-credits/add-session-credits.component";
+import AddSessionDelete from "../add-session-delete/add-session-delete.component";
 
-type Props = {};
-const AddSessionFieldsDesktop = ({}: Props) => {
+type Props = { forEdit?: boolean };
+const AddSessionFieldsDesktop = ({forEdit}: Props) => {
     const {t} = useTranslation();
     return (
         <Styles>
@@ -25,22 +27,22 @@ const AddSessionFieldsDesktop = ({}: Props) => {
                     <FormDatepicker name={'date'} label={t('sessions:date')}
                                     disabledDate={(date) => moment(date).isBefore(moment(), 'days')}/>
                     <FormTimepicker name={'time'} label={t('sessions:time')}/>
-                    <FormInputLabeled name={'duration'} label={t('sessions:duration')}/>
-                    <FormSelect name={'type'} label={t('sessions:type')} options={serviceTypeOptions}/>
+                    <FormInputLabeled name={'duration'} label={t('sessions:duration')}
+                                      disabled={forEdit}/>
+                    <FormSelect name={'type'} label={t('sessions:type')} options={serviceTypeOptions}
+                                disabled={forEdit}/>
+                    <AddSessionDelete forEdit={forEdit}/>
                 </div>
                 <div className={'add-session__form__right'}>
                     <FormTextarea name={'notes'} label={t('sessions:notes')}/>
-                    <Field name={'sessions'}>
-                        {({field, form}: FieldProps) => (
-                            <div className={'add-session__form__credits'}>
-                                <span>{t('sessions:remind-credits')}:</span>
-                                <span>&nbsp;{form.values.type === serviceTypes.PT_SESSION?field.value-1:field.value}</span>
-                            </div>
-                        )}
-                    </Field>
+                    {
+                        forEdit ? null : (
+                            <AddSessionCredits/>
+                        )
+                    }
                 </div>
             </div>
-            <AddSessionSubmit/>
+            <AddSessionSubmit forEdit={forEdit}/>
         </Styles>
     );
 };

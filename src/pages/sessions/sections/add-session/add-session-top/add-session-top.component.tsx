@@ -8,8 +8,8 @@ import {ReactComponent as CalendarIcon} from "../../../../../assets/media/icons/
 import {ReactComponent as ClockIcon} from "../../../../../assets/media/icons/clock.svg";
 import {Field, FieldProps} from "formik";
 
-type Props = {};
-const AddSessionTop = ({}: Props) => {
+type Props = {forEdit?: boolean};
+const AddSessionTop = ({forEdit}: Props) => {
     const {t} = useTranslation();
     return (
         <Styles>
@@ -29,7 +29,7 @@ const AddSessionTop = ({}: Props) => {
                 </Field>
             </div>
             <div className={'session-top__requested'}>
-                <div className={'session-top__requested__label'}>{t('sessions:requested')}</div>
+                <div className={'session-top__requested__label'}>{forEdit?t('sessions:current-time'):t('sessions:requested')}</div>
                 <div className={'session-top__requested__dates'}>
                 <div className={'session-top__requested__date'}>
                     <CalendarIcon/>

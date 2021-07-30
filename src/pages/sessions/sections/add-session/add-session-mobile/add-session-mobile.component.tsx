@@ -4,18 +4,20 @@ import BottomDrawer from "../../../../../components/bottom-drawer/bottom-drawer.
 import AddSessionTop from "../add-session-top/add-session-top.component";
 import AddSessionFieldsMobile from "../add-session-fields-mobile/add-session-fields-mobile.component";
 import AddSessionForm from "../add-session-form/add-session-form.component";
+import {sessionData} from "../../edit-session/edit-session.data";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
+    forEdit?: boolean;
 };
-const AddSessionMobile = ({isOpen, onClose}: Props) => {
+const AddSessionMobile = ({isOpen, onClose, forEdit}: Props) => {
     return (
         <BottomDrawer isOpen={isOpen} onClose={onClose}>
             <BottomDrawer.Body>
-                <AddSessionForm onClose={onClose}>
+                <AddSessionForm onClose={onClose} initialValues={forEdit?sessionData:undefined}>
                     <AddSessionTop/>
-                    <AddSessionFieldsMobile/>
+                    <AddSessionFieldsMobile forEdit={forEdit}/>
                 </AddSessionForm>
             </BottomDrawer.Body>
         </BottomDrawer>

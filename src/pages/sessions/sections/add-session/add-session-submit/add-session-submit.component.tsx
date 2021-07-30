@@ -7,15 +7,15 @@ import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import {collapse, events} from "../add-session-calendar-full/add-session-calendar-full.component";
 import {serviceTypes} from "../../../../../enums/service-type.enum";
 
-type Props = {};
-const AddSessionSubmit = ({}: Props) => {
+type Props = {forEdit?: boolean};
+const AddSessionSubmit = ({forEdit}: Props) => {
     const {t} = useTranslation();
     return (
         <Field name={''}>
             {
                 ({form}: FieldProps) => {
                     const isCollapse = form.values.date && form.values.time && events.some(e => collapse(e.time, e.duration, form.values.time, form.values.duration));
-                    const isUnderSessions = form.values.type === serviceTypes.PT_SESSION && form.values.sessions <= 0;
+                    const isUnderSessions = !forEdit && form.values.type === serviceTypes.PT_SESSION && form.values.sessions <= 0;
                     return (
                         <>
                             {
