@@ -15,15 +15,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
 import {useAuth} from "../../hooks/auth.hook";
 import {RootState} from "../../store/reducers";
+import userTypes from "../../enums/user-types.enum";
 
 const Invoices = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const isMobile = useIsMobile();
     const dispatch = useDispatch();
-    const {meta} = useSelector((state:RootState) => state.invoices);
+    const {meta} = useSelector((state: RootState) => state.invoices);
     useEffect(() => {
-        dispatch({type: ACTION_GET_INVOICES_REQUEST, payload: {page: meta.current_page}});
+        dispatch({
+            type: ACTION_GET_INVOICES_REQUEST, payload: {
+                page: meta.current_page,
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
+            }
+        });
     }, [type]);
     return (
         <Styles>
@@ -37,10 +43,10 @@ const Invoices = () => {
             <PageSubtitle>All your Invoice and billing history</PageSubtitle>
 
             <div className={'invoices__body'}>
-            <InvoiceFilters/>
-            {
-                isMobile ? <InvoicesList/> : <InvoicesTable/>
-            }
+                <InvoiceFilters/>
+                {
+                    isMobile ? <InvoicesList/> : <InvoicesTable/>
+                }
             </div>
         </Styles>
     )
