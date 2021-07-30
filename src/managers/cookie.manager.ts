@@ -6,10 +6,10 @@ const cookieManager = {
         for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) === ' ') {
-                c = unescape(c.substring(1));
+                c = c.substring(1);
             }
             if (c.indexOf(name) === 0) {
-                return unescape(c.substring(name.length, c.length));
+                return c.substring(name.length, c.length);
             }
         }
         return "";
@@ -18,7 +18,7 @@ const cookieManager = {
         let d: Date = new Date();
         d.setTime(d.getTime() + expiry * 1000);
         let expires = "expires=" + d.toUTCString();
-        document.cookie = `${name}=${escape(value)};${expires};path=/;domain=${document.location.hostname}`;
+        document.cookie = `${name}=${encodeURIComponent(value)};${expires};path=/;domain=${document.location.hostname}`;
     },
     remove(name: string) {
         this.set(name, '', 0);
