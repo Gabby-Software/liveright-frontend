@@ -1,8 +1,8 @@
 const vars = {
     colors: {
-        primary: '#F74057',
-        primaryLight: '#F97081',
-        primaryDarken: '#e23b50',
+        primary: '#ED1731',
+        primaryLight: '#ed4452',
+        primaryDarken: '#d6142d',
         primaryDark: '#40424D',
         secondary: '#BDBDBD',
         secondary2: '#d5d5d5',
@@ -15,7 +15,7 @@ const vars = {
         labelLight: '#72727a',
         inputBorder: '#dfdfdf',
         background: '#fafafa',
-        error: '#F74057',
+        error: '#ED1731',
         success: '#56EC53',
         successDark: '#43b840',
         info: '#2F86EC',
