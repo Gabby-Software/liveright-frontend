@@ -13,10 +13,13 @@ import InvoiceDesktop from "./invoice-desktop/invoice-desktop.component";
 import APIGet from "../../hoc/api-get";
 import {EP_GET_INVOICES} from "../../enums/api.enum";
 import {Skeleton} from "antd";
+import {useAuth} from "../../hooks/auth.hook";
+import userTypes from "../../enums/user-types.enum";
 
 const Invoice = () => {
     const isMobile = useIsMobile();
     const {id} = useParams<{ id: string }>();
+    const {type} = useAuth();
     return (
         <APIGet url={EP_GET_INVOICES+`/${id}`}>
             {
@@ -32,4 +35,4 @@ const Invoice = () => {
 
 };
 
-export default onlyClient(Invoice);
+export default Invoice;

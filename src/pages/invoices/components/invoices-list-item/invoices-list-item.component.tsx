@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import Styles from './invoices-list-item.styles';
 import {InvoiceType, TrainerInvoiceType} from "../../../../types/invoice.type";
 import profilePlaceholder from '../../../../assets/media/profile-placeholder.png';
@@ -15,9 +15,12 @@ import userTypes from "../../../../enums/user-types.enum";
 import PopOnScroll from "../../../../components/pop-on-scroll/pop-on-scroll.component";
 import {capitalize} from "../../../../pipes/capitalize.pipe";
 
-const InvoicesListItem = ({id, due_on, invoice_to, status, currency, total}: InvoiceType) => {
+const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total}: InvoiceType) => {
     const {t} = useTranslation();
     const {type} = useAuth();
+    const user = useMemo(() => {
+        return type === userTypes.CLIENT ? invoice_from?.user : invoice_to?.user
+    }, [type, invoice_to, invoice_from]);
     return (
         <PopOnScroll offset={100}>
             <Styles className={'invoice-li'} to={Routes.INVOICES + '/' + id}>
@@ -30,7 +33,7 @@ const InvoicesListItem = ({id, due_on, invoice_to, status, currency, total}: Inv
                     className={'invoice-li__label'}>{type === userTypes.CLIENT ? t('invoices:issued-by') : t('invoices:issued-to')}</div>
                 <div className={'invoice-li__body'}>
                     <img src={profilePlaceholder} className={'invoice-li__img'}/>
-                    <div className={'invoice-li__name'}>{invoice_to.user.first_name} {invoice_to.user.last_name}</div>
+                    <div className={'invoice-li__name'}>{user?.first_name} {user?.last_name}</div>
                     <div className={'invoice-li__price'}>{total} {currency.code}</div>
                 </div>
                 <div className={'invoice-li__actions'}>

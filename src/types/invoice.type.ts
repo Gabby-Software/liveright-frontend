@@ -1,4 +1,5 @@
 import {CurrencyType} from "./currency.type";
+import {AddressType} from "./address.type";
 
 export type InvoiceItemType = {
     id: number;
@@ -15,8 +16,21 @@ export type InvoiceItemType = {
     total: number;
     unit_price: number;
 }
+export type InvoiceAttendeeType = {
+    id: number;
+    type: string;
+    uuid: string;
+    user: {
+        id: number;
+        email: string;
+        first_name: string;
+        last_name: string;
+    },
+    address?: AddressType
+}
 export type InvoiceType = {
     id: number;
+    created_at: string;
     currency: CurrencyType;
     discount_amount: number;
     discount_percent: number;
@@ -29,28 +43,8 @@ export type InvoiceType = {
     tax_value: 0.75;
     total: 8.92;
     type: string;
-    invoice_to: {
-        id: number;
-        type: string;
-        uuid: string;
-        user: {
-            id: number;
-            email: string;
-            first_name: string;
-            last_name: string;
-        }
-    },
-    invoice_from: {
-        id: number;
-        type: string;
-        uuid: string;
-        user: {
-            id: number;
-            email: string;
-            first_name: string;
-            last_name: string;
-        }
-    }
+    invoice_to: InvoiceAttendeeType,
+    invoice_from: InvoiceAttendeeType
 }
 export type InvoiceFullType = InvoiceType & {
     items: InvoiceItemType[]
