@@ -56,7 +56,6 @@ const DesktopSidebar = () => {
                             <li key={url} className={classes('sidebar__item', pathname === url && 'sidebar__item__active')}>
                                 <Link to={url}>
                                     <Icon/>
-                                    <span className={'sidebar__item__label'}>{t(`menu.${name}`)}</span>
                                 </Link>
                             </li>
                                 : null
