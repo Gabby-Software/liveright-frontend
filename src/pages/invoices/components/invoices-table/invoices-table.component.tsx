@@ -21,6 +21,7 @@ import {capitalize} from "../../../../pipes/capitalize.pipe";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/reducers";
 import {ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
+import {InvoiceType} from "../../../../types/invoice.type";
 
 const InvoicesTable = () => {
     const {type} = useAuth();
@@ -31,7 +32,9 @@ const InvoicesTable = () => {
     const updatePage = (p: number) => {
         dispatch({
             type: ACTION_GET_INVOICES_REQUEST, payload: {
-                page: p, onSuccess: () => {
+                page: p,
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
+                onSuccess: () => {
                     if (!head.current) return;
                     window.scrollTo({
                         top: window.scrollY + head.current.getBoundingClientRect().top,
@@ -42,9 +45,9 @@ const InvoicesTable = () => {
         });
     };
     const labels = [
-        type === userTypes.TRAINER ? 'invoices:client-name' : 'invoices:trainer-name',
+        'invoices:invoice-number',
         'invoices:invoice-date',
-        'invoices:trainer-name',
+        type === userTypes.TRAINER ? 'invoices:client-name' : 'invoices:trainer-name',
         'invoices:price',
         'invoices:status',
         'invoices:options'
@@ -57,13 +60,14 @@ const InvoicesTable = () => {
         'status',
         'options'
     ];
+    const invoiceUser = (t: InvoiceType) => type === userTypes.CLIENT ? t.invoice_from?.user : t.invoice_to?.user;
     return (
         <Styles ref={head}>
             <DataTable labels={labels} keys={keys} data={data} render={{
                 invoice_number: (t) => `#${t.invoice_number}`,
                 due_on: (t) => date(t.due_on),
                 total: t => `${t.total} ${t.currency.code}`,
-                name: t => `${t.invoice_to.user.first_name} ${t.invoice_to.user.last_name}`,
+                name: t => `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
                 status: t => <div
                     className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
                 options: ({status, id, url}) => (

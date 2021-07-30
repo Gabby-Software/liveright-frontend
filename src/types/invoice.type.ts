@@ -39,6 +39,17 @@ export type InvoiceType = {
             first_name: string;
             last_name: string;
         }
+    },
+    invoice_from: {
+        id: number;
+        type: string;
+        uuid: string;
+        user: {
+            id: number;
+            email: string;
+            first_name: string;
+            last_name: string;
+        }
     }
 }
 export type InvoiceFullType = InvoiceType & {

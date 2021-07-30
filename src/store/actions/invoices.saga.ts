@@ -20,10 +20,14 @@ export function* sagaInvoicesWatcher() {
     yield throttle(400,ACTION_GET_INVOICES_REQUEST, getInvoicesWorker);
 }
 
-function* getInvoicesWorker({payload}:ActionType<{page: number}&CallbackType<void>>) {
+function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, search: string, include: string}&CallbackType<void>>) {
     yield put({type:ACTION_GET_INVOICES_LOAD});
+    const {onSuccess, onError, ...query} = payload;
     try {
-        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?page=${payload.page}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
+        const params = new URLSearchParams({
+            ...query,
+        } as any).toString();
+        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('INVOICES', invoices);
         yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
         payload.onSuccess && payload.onSuccess();
