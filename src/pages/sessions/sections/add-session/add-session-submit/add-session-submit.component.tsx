@@ -32,7 +32,7 @@ const AddSessionSubmit = ({forEdit}: Props) => {
                                 htmlType={'submit'}
                                 disabled={
                                     form.isSubmitting}
-                            >{isCollapse ? t('sessions:submit-anyway') : t('sessions:submit')}</FormButton>
+                            >{forEdit ? t('sessions:save') :isCollapse ? t('sessions:submit-anyway') : t('sessions:submit')}</FormButton>
                         </>
                     )
                 }}
