@@ -10,7 +10,7 @@ export default styled.aside`
     flex-shrink: 0;
     border-right: 1px solid ${p => p.theme.vars.colors.secondary2};
     transition: ${p =>p.theme.vars.defaults.transition};
-    width: 56px;
+    width: 72px;
     @media only print {
         display: none;
     }
@@ -52,12 +52,12 @@ export default styled.aside`
         &__item {
             position: relative;
             margin: 8px 0;
+            ${p => p.theme.extend.flexCenter}
             a {
                 ${p => p.theme.extend.flexCenter};
                 justify-content: flex-start;
                 color: ${p => p.theme.vars.colors.secondary3};
                 margin: 0 8px;
-                border-radius: ${p=>p.theme.vars.sizes.borderRadius};
                 font-weight: 500;
                 font-weight: 1rem;
                 transition: ${p => p.theme.vars.defaults.transition};
@@ -70,9 +70,9 @@ export default styled.aside`
                 width: 40px;
                 height: 40px;
                 padding: 12px;
-                margin-right: 16px;
                 display: block;
                 flex-shrink:0;
+                border-radius: ${p=>p.theme.vars.sizes.borderRadius};
                 @media all and (max-height: 800px) {
                     width: 20px;
                     height: 20px;
@@ -94,7 +94,7 @@ export default styled.aside`
                 transition: ${p => p.theme.vars.defaults.transition};
             }
             &:hover, &__active {
-                a {
+                a svg {
                     color: ${p => p.theme.vars.colors.primary};
                     background-color: ${p=> p.theme.vars.colors.primary}18;
                 }
