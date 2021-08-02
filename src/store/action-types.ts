@@ -30,3 +30,7 @@ export const ACTION_GET_INVOICES_REQUEST = 'action-get-invoices-request';
 export const ACTION_GET_INVOICES_SUCCESS = 'action-get-invoices-success';
 export const ACTION_GET_INVOICES_LOAD = 'action-get-invoices-load';
 export const ACTION_GET_INVOICES_ERROR = 'action-get-invoices-error';
+export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
+export const ACTION_GET_CLIENTS_SUCCESS = 'action-get-clients-success';
+export const ACTION_GET_CLIENTS_LOAD = 'action-get-clients-load';
+export const ACTION_GET_CLIENTS_ERROR = 'action-get-clients-error';

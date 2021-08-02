@@ -4,6 +4,7 @@ import {CountryType} from "./country.type";
 import {FileType} from "./file.type";
 import {AddressType} from "./address.type";
 export type AccountType = {
+    id: number;
     account_level: null | number;
     is_active: boolean;
     is_current: boolean;
