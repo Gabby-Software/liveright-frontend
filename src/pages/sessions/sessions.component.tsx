@@ -1,19 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './sessions.styles';
-import {useIsMobile} from "../../hooks/is-mobile.hook";
-import MobileSessions from "./mobile-sessions/mobile-sessions.component";
-import DesktopSessions from "./desktop-sessions/desktop-sessions.component";
-import AddSession from "./sections/add-session/add-session.component";
+import React from 'react';
+import userTypes from "../../enums/user-types.enum";
+import {useAuth} from "../../hooks/auth.hook";
+import ClientSessions from "./sessions-client/sessions-client.component";
+import TrainerSessions from "./sessions-trainer/sessions-trainer.component";
 
 const Sessions = () => {
-    const isMobile = useIsMobile();
-    return (
-        <>
-            {
-                isMobile?<MobileSessions/>:<DesktopSessions/>
-            }
-        </>
-    );
+    const auth = useAuth();
+
+    if(auth.type === userTypes.CLIENT) {
+        return <ClientSessions />;
+    }
+
+    return <TrainerSessions />;
 };
 
 export default Sessions;

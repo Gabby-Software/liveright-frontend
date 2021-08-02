@@ -12,11 +12,12 @@ interface Props<G> {
     onClick?: (item: G) => void;
     active?:number;
     children?: React.ReactNode;
+    className?: string;
 }
-const DataTable = ({labels, render, data, keys, onClick, active, children}:Props<any>) => {
+const DataTable = ({labels, render, data, keys, onClick, active, children, className}:Props<any>) => {
     const {t} = useTranslation();
     return (
-        <Styles className={'data-table'}>
+        <Styles className={`data-table ${className}`}>
             <thead className={'data-table__head'}>
             {
                 labels.map(label => (
