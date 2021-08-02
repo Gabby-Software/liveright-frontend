@@ -17,6 +17,8 @@ import logger from "../../../managers/logger.manager";
 import {useClients} from "../../../hooks/clients.hook";
 import {useDispatch} from "react-redux";
 import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
+import Link from "../../../components/link/link.component";
+import {Routes} from "../../../enums/routes.enum";
 
 type Props = {};
 const ClientsDesktop = ({}:Props) => {
@@ -34,7 +36,7 @@ const ClientsDesktop = ({}:Props) => {
         ''
     ];
     const keys: string[] = [
-        'first_name',
+        'name',
         'email', 'phone_number', 'sessions', 'status', 'actions'
     ];
     const actions: TableActionType[] = [
@@ -59,7 +61,7 @@ const ClientsDesktop = ({}:Props) => {
                 <ClientsFilter/>
                 <DataTable labels={labels} data={data}
                            keys={keys} render={{
-                    first_name: ({first_name, last_name}) => `${first_name} ${last_name}`,
+                    name: ({first_name, last_name, id}) => <Link to={`${Routes.CLIENTS}/${id}`}>{`${first_name} ${last_name}`}</Link>,
                     actions: () => (
                         <div className={'clients__activities'}>
                             {actions.map((item) => (

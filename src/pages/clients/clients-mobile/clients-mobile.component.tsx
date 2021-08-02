@@ -12,13 +12,16 @@ import {useDispatch} from "react-redux";
 import {useClients} from "../../../hooks/clients.hook";
 import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
 import DataPagination from "../../../components/data-pagination/data-pagination.component";
+import {Link} from "react-router-dom";
+import {Routes} from "../../../enums/routes.enum";
+import logger from "../../../managers/logger.manager";
 
 const ClientsMobile = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
     const {data: {data, meta}} = useClients();
     const setPage = (page: number) => {
-      dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload:{page}});
+        dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {page}});
     };
     return (
         <Styles>
@@ -26,10 +29,13 @@ const ClientsMobile = () => {
                 {
                     data.map(({first_name, last_name, id, sessions}) => (
                         <PopOnScroll offset={100}>
-                            <Card className={classes('clients__card')} key={id}>
-                                <div className={classes('clients__name')}>{first_name} {last_name}</div>
-                                <div className={'clients__label'}>{t('clients:sessions-remind', {n: sessions||0})}</div>
-                            </Card>
+                            <Link to={`${Routes.CLIENTS}/${id}`}>
+                                <Card className={classes('clients__card')} key={id}>
+                                    <div className={classes('clients__name')}>{first_name} {last_name}</div>
+                                    <div
+                                        className={'clients__label'}>{t('clients:sessions-remind', {n: sessions || 0})}</div>
+                                </Card>
+                            </Link>
                         </PopOnScroll>
                     ))
                 }

@@ -24,5 +24,7 @@ export const Routes = {
     SPLITS: '/plans/training-splits',
     DIETS: '/plans/diet-plans',
     WORKOUTS: '/plans/workout-plans',
-    INVITATIONS: '/invitations'
+    INVITATIONS: '/invitations',
+    HUB: '/hub',
+    PROGRESS: '/progress'
 };

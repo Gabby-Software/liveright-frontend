@@ -1,15 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import Styles from './mobile-footer.styles';
 import {ReactComponent as HomeIcon} from '../../assets/media/icons/home.svg';
 import {ReactComponent as PlanIcon} from '../../assets/media/icons/plan.svg';
 import {ReactComponent as ProgressIcon} from '../../assets/media/icons/progress.svg';
 import {ReactComponent as MoreIcon} from '../../assets/media/icons/more.svg';
 import {ReactComponent as AddIcon} from '../../assets/media/icons/add.svg';
+import {ReactComponent as HubIcon} from '../../assets/media/icons/hub.svg';
+import {ReactComponent as ProfileIcon} from '../../assets/media/icons/profile.svg';
 import {useTranslation} from "../../modules/i18n/i18n.hook";
-import {Link, useLocation} from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import MobileLogDrawer from "../../components/mobile-log-drawer/mobile-log-drawer.component";
 import MobileMoreDrawer from "../../components/mobile-more-drawer/mobile-more-drawer.component";
 import {classes} from "../../pipes/classes.pipe";
+import {usePage} from "../../hooks/page.hook";
+import {footerTypes} from "../../enums/footer-types";
+import {Routes} from "../../enums/routes.enum";
 
 type MenuItemType = { Icon: React.ComponentType; title: string; className: string, url?: string, onClick?: () => void }
 const MobileFooter = () => {
@@ -17,13 +22,24 @@ const MobileFooter = () => {
     const [logDrawerOpen, setLogDrawerOpen] = useState(false);
     const [moreDrawerOpen, setMoreDrawerOpen] = useState(false);
     const location = useLocation();
-    const menuItems: MenuItemType[] = [
-        {Icon: HomeIcon, title: 'home', className: 'mobile-footer__item', url: '/'},
-        {Icon: PlanIcon, title: 'plans', className: 'mobile-footer__item', url: '/plans'},
-        {Icon: AddIcon, title: 'log', className: 'mobile-footer__add', onClick: () => setLogDrawerOpen(true)},
-        {Icon: ProgressIcon, title: 'progress', className: 'mobile-footer__item', url: '/progress'},
-        {Icon: MoreIcon, title: 'more', className: 'mobile-footer__item', onClick: () => setMoreDrawerOpen(true)},
-    ];
+    const {id} = useParams<any>();
+    const page = usePage();
+    const footerType = useMemo(() =>  page?.footer === undefined ?  footerTypes.DEFAULT : page?.footer, [page]);
+    const menuItemsOptions: {[key:string]:MenuItemType[]} = {
+        [footerTypes.DEFAULT]: [
+            {Icon: HomeIcon, title: 'home', className: 'mobile-footer__item', url: Routes.HOME},
+            {Icon: PlanIcon, title: 'plans', className: 'mobile-footer__item', url: Routes.PLANS},
+            {Icon: AddIcon, title: 'log', className: 'mobile-footer__add', onClick: () => setLogDrawerOpen(true)},
+            {Icon: ProgressIcon, title: 'progress', className: 'mobile-footer__item', url: Routes.PROGRESS},
+            {Icon: MoreIcon, title: 'more', className: 'mobile-footer__item', onClick: () => setMoreDrawerOpen(true)},
+        ],
+        [footerTypes.TRAINER]: [
+            {Icon: HubIcon, title: 'hub', className: 'mobile-footer__item', url: `${Routes.CLIENTS}/${id}${Routes.HUB}`},
+            {Icon: AddIcon, title: 'log', className: 'mobile-footer__add', onClick: () => setLogDrawerOpen(true)},
+            {Icon: ProfileIcon, title: 'profile', className: 'mobile-footer__item', url: `${Routes.CLIENTS}/${id}${Routes.PROFILE}`},
+        ]
+    };
+    const menuItems: MenuItemType[] = useMemo(() =>menuItemsOptions[footerType], [footerType]);
     return (
         <Styles>
             <div className={'mobile-footer__cont'}>
