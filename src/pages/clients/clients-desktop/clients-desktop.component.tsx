@@ -46,6 +46,13 @@ const ClientsDesktop = ({}:Props) => {
     const setPage = (page: number) => {
         dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {page}});
     };
+    if(!data.length) {
+        return (
+            <Styles>
+                <p>You have no clients currently</p>
+            </Styles>
+        );
+    }
     return (
         <Styles>
             <div className={'clients__cont'}>

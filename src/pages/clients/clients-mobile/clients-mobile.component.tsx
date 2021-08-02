@@ -8,27 +8,32 @@ import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import MobileClientFooter from "../../../components/clients/mobile-client-footer/mobile-client-footer.component";
 import ClientsFilterMobile from "../../../components/clients/clients-filter-mobile/clients-filter-mobile.component";
 import PopOnScroll from "../../../components/pop-on-scroll/pop-on-scroll.component";
+import {useDispatch} from "react-redux";
+import {useClients} from "../../../hooks/clients.hook";
+import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
+import DataPagination from "../../../components/data-pagination/data-pagination.component";
 
 const ClientsMobile = () => {
-    const [page, setPage] = useState(1);
     const {t} = useTranslation();
-    useInfiniteScroll((page: number) => {
-        setPage(page);
-        return Promise.resolve(page >= clients.length / 10);
-    });
+    const dispatch = useDispatch();
+    const {data: {data, meta}} = useClients();
+    const setPage = (page: number) => {
+      dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload:{page}});
+    };
     return (
         <Styles>
             <div className={'clients__heading'}>
                 {
-                    clients.slice(0, page * 10).map(({first_name, last_name, sessions, id}) => (
+                    data.map(({first_name, last_name, id, sessions}) => (
                         <PopOnScroll offset={100}>
                             <Card className={classes('clients__card')} key={id}>
                                 <div className={classes('clients__name')}>{first_name} {last_name}</div>
-                                <div className={'clients__label'}>{t('clients:sessions-remind', {n: sessions})}</div>
+                                <div className={'clients__label'}>{t('clients:sessions-remind', {n: sessions||0})}</div>
                             </Card>
                         </PopOnScroll>
                     ))
                 }
+                <DataPagination page={meta.current_page} setPage={setPage} total={meta.total}/>
             </div>
             <ClientsFilterMobile/>
             <MobileClientFooter/>
