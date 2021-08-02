@@ -30,6 +30,14 @@ export default styled(Drawer)`
             margin: auto;
         }
     }
+    &__top-back {
+        position: absolute;
+        left: 24px;
+        top: 0px;
+        opacity: .5;
+        height: 1rem;
+        cursor: pointer;
+    }
     &__back {
         position: absolute;
         left: 24px;

@@ -4,4 +4,5 @@ export type FileType = {
     file_name: string;
     mime_type?: string;
     url: string;
+    thumb_url?: string;
 }
