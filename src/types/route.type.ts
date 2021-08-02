@@ -21,4 +21,8 @@ export type RouteType = {
     props?: {[key: string]: any};
     header: HeaderConfigType;
     footer?: footerTypes;
+    back?: {
+        url: string;
+        alias: string;
+    }
 }

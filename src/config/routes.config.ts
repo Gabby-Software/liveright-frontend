@@ -94,6 +94,10 @@ export const routes: RouteType[] = [
         header: {
             title: 'Invoice',
             items: headerBackTo(Routes.INVOICES)
+        },
+        back: {
+            url: Routes.INVOICES,
+            alias: 'invoices'
         }
     },
     {
