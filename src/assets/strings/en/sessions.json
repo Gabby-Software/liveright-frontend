@@ -14,6 +14,7 @@
   "time": "Session Time",
   "duration": "Session Duration",
   "reschedule": "Request a Reschedule",
+  "session-request": "Request a Session",
   "currently": "Currently",
   "edit": "Edit Session",
   "schedule-session": "Schedule Session",
@@ -33,5 +34,8 @@
   "delete": "Delete and create new",
   "save": "Save Changes",
   "reschedule-warning": "Its looks like you're busy at this time.",
-  "go-to-calendar": "Go to Calendar"
+  "go-to-calendar": "Go to Calendar",
+  "filter-input": "Search for a specific date, type",
+  "upcoming-title": "Upcoming Sessions (Scheduled)",
+  "past-title": "Past Sessions"
 }
