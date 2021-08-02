@@ -15,6 +15,12 @@ export default styled.div`
             white-space: nowrap;
             transition: ${p => p.theme.vars.defaults.transition};
         }
+        &__no-data {
+            text-align: center;
+            margin-top: 24px;
+            font-weight: 500;
+            color: ${p => p.theme.vars.colors.primaryDark};
+        }
     }
     .data-table__tr {
         &:hover {
