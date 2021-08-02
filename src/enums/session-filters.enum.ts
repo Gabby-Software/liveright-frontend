@@ -15,7 +15,8 @@ export const sessionTimelineOptions:OptionType[] = [
 
 export const sessionTypeOptions:OptionType[] = [
     {label: 'All', value: 'All'},
-    {label: 'PT Session', value: 'PT Session'},
-    {label: 'Consultation', value: 'Consultation'},
-    {label: 'Other', value: 'Other'}
+    {label: 'Paid PT', value: 'Paid PT'},
+    {label: 'Complimentary', value: 'Complimentary'},
+    {label: 'Consulting', value: 'Consulting'},
+    {label: 'Coaching', value: 'Coaching'}
 ];
