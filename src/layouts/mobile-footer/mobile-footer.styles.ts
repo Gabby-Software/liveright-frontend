@@ -26,6 +26,7 @@ export default styled.div`
             position: relative;
             svg {
                 height:22px;
+                width: 30px;
                 display:block;
                 margin: 0 auto .5rem auto;
             }

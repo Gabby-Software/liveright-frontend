@@ -6,5 +6,6 @@
   "status": "Status",
   "sessions-remind": "{{n}} Sessions remain",
   "add": "Add new client",
-  "client-exist": "is on LiveRight, send him a message alongside your invite"
+  "client-exist": "is on LiveRight, send him a message alongside your invite",
+  "view-profile": "View Profile"
 }

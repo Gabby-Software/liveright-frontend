@@ -115,17 +115,43 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/clients/clients.component')),
         header: {
             title: "Clients",
-            items: headers.filter
         }
     },
     {
         title: 'Clients',
         url: Routes.CLIENTS+'/:id',
-        Component: lazy(() => import('../pages/clients/clients.component')),
+        Component: lazy(() => import('../pages/client/client.component')),
         header: {
-            title: "Clients",
-            items: headers.add
-        }
+            title: "Client",
+        },
+        footer: footerTypes.TRAINER
+    },
+    {
+        title: 'Clients',
+        url: Routes.CLIENTS+'/:id',
+        Component: lazy(() => import('../pages/client/client.component')),
+        header: {
+            title: "Client",
+        },
+        footer: footerTypes.TRAINER
+    },
+    {
+        title: 'Clients',
+        url: Routes.CLIENTS+'/:id'+Routes.HUB,
+        Component: lazy(() => import('../pages/client-hub/client-hub.component')),
+        header: {
+            title: "Client",
+        },
+        footer: footerTypes.TRAINER
+    },
+    {
+        title: 'Clients',
+        url: Routes.CLIENTS+'/:id'+Routes.PROFILE,
+        Component: lazy(() => import('../pages/client-profile/client-profile.component')),
+        header: {
+            title: "Client",
+        },
+        footer: footerTypes.TRAINER
     },
     {
         title: 'Sessions',

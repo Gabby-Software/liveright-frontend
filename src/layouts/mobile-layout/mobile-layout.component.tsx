@@ -19,9 +19,9 @@ const MobileLayout = ({children}: {children: React.ReactNode}) => {
                 {children}
             </main>
             {
-                footerType === footerTypes.DEFAULT ? (
+                footerType === footerTypes.NONE ? null:(
                     <MobileFooter/>
-                ) :null
+                )
             }
         </Styles>
     );
