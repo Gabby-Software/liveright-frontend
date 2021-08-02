@@ -46,13 +46,13 @@ const ClientsDesktop = ({}:Props) => {
     const setPage = (page: number) => {
         dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {page}});
     };
-    if(!data.length) {
-        return (
-            <Styles>
-                <p>You have no clients currently</p>
-            </Styles>
-        );
-    }
+    // if(!data.length) {
+    //     return (
+    //         <Styles>
+    //             <p>You have no clients currently</p>
+    //         </Styles>
+    //     );
+    // }
     return (
         <Styles>
             <div className={'clients__cont'}>
@@ -73,6 +73,9 @@ const ClientsDesktop = ({}:Props) => {
                 <DataPagination page={meta?.current_page}
                                 setPage={(current_page: number) => setPage(current_page)}
                                 total={meta?.total}/>
+                {/*{*/}
+                {/*    data.length ? null : <p className={'clients__no-data'}>{t('no-data')}</p>*/}
+                {/*}*/}
             </div>
         </Styles>
     );
