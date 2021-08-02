@@ -15,7 +15,7 @@ const Modal = ({children, visible, onCancel, large}: ModalProps & {children:Reac
 };
 const Title = styled.h1`
         ${p => p.theme.extend.h1};
-        margin: 80px 0 40px 0;
+        margin: 0px 0 40px 0;
         color: ${p => p.theme.vars.colors.primaryDark};
 `;
 Modal.Title = Title;
