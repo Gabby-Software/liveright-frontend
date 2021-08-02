@@ -16,6 +16,7 @@ export const TitleContent = styled.div<{credits: number}>`
       font-size: 14px;
       margin-right: 8px;
       padding: 16px;
+      user-select: none;
     
       span:first-child {
         margin-right: 48px;
