@@ -2,12 +2,15 @@ import React, {useState, useMemo} from 'react';
 import moment from 'moment'
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
-import Styles, {TitleContent, AddSessionAction} from './desktop-sessions.styles';
+import {Avatar} from "antd";
+import {UserOutlined} from "@ant-design/icons";
+import Styles, {AwaitingCard, TitleContent, AddSessionAction} from './desktop-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {sessions} from "../../sessions.data";
 import {SessionType} from "../../../../types/session.type";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
+import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
 import SessionRescheduleModal
     from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
@@ -24,6 +27,7 @@ import {
     sessionDateRangeOptions,
 } from "../../../../enums/session-filters.enum";
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
+import Carousel from "../../../../components/carousel/carousel.component";
 
 const DesktopSessions = () => {
     const {t} = useTranslation();
@@ -71,7 +75,20 @@ const DesktopSessions = () => {
 
     const renderAwaitingContent = () => {
         return (
-            <div>123</div>
+            <Carousel>
+                {sessions.map((it) => (
+                    <AwaitingCard>
+                        <div>
+                            <Avatar size="small" icon={<UserOutlined />} />
+                            {it.name}
+                        </div>
+                        <div className="schedule-button" onClick={() => setEditOpen(it)}>
+                            <span>{t("sessions:schedule-now")}</span>
+                            <RightArrowIcon />
+                        </div>
+                    </AwaitingCard>
+                ))}
+            </Carousel>
         )
     }
 
@@ -90,17 +107,15 @@ const DesktopSessions = () => {
     }
 
     useTitleContent((
-            <Formik onSubmit={() => {}} initialValues={{client_filter: ''}}>
-                <TitleContent>
-                    <FormSelect name="client_filter" placeholder={t('sessions:filter-by-client')} options={[]} />
-                    <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>
-                        {t('sessions:schedule-new')}
-                    </AddSessionAction>
-                </TitleContent>
-            </Formik>
+        <Formik onSubmit={() => {}} initialValues={{client_filter: ''}}>
+            <TitleContent>
+                <FormSelect name="client_filter" placeholder={t('sessions:filter-by-client')} options={[]} />
+                <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>
+                    {t('sessions:schedule-new')}
+                </AddSessionAction>
+            </TitleContent>
+        </Formik>
     ));
-
-    console.log({upcomingSessions})
 
     return (
       <Styles>
