@@ -10,15 +10,6 @@ export const usePage = () => {
         let route = allRoutes.find(r => {
             return new RegExp(`^${r.url.replace(/:[^\/]+/g, "[^\/]+")}$`).test(path)
         });
-        if(route && id) {
-            route = {
-                ...route,
-                header: {
-                    ...route.header,
-                    title: route.header.title + ' #'+id
-                }
-            }
-        }
         return route;
     }, [location]);
 };

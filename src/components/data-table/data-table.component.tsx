@@ -32,7 +32,9 @@ const DataTable = ({labels, render, data, keys, onClick, active, children, class
                         onClick={onClick?()=> onClick(item): undefined}>
                         {
                             (keys || labels).map((key) => (
-                                <td className={'data-table__td'}>{render && render[key] ? render[key](item) : item[key]}</td>
+                                <td className={'data-table__td'}
+                                    {...(key==='options'||key==='actions'?{width:1}:{})}
+                                >{render && render[key] ? render[key](item) : item[key]}</td>
                             ))
                         }
                     </tr>

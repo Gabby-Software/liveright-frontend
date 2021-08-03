@@ -131,7 +131,7 @@ export const routes: RouteType[] = [
         url: Routes.CLIENTS+'/:id',
         Component: lazy(() => import('../pages/client/client.component')),
         header: {
-            title: "Client",
+            title: "",
         },
         footer: footerTypes.TRAINER
     },
@@ -140,7 +140,7 @@ export const routes: RouteType[] = [
         url: Routes.CLIENTS+'/:id'+Routes.HUB,
         Component: lazy(() => import('../pages/client-hub/client-hub.component')),
         header: {
-            title: "Client",
+            title: "",
         },
         footer: footerTypes.TRAINER
     },
@@ -149,7 +149,7 @@ export const routes: RouteType[] = [
         url: Routes.CLIENTS+'/:id'+Routes.PROFILE,
         Component: lazy(() => import('../pages/client-profile/client-profile.component')),
         header: {
-            title: "Client",
+            title: "",
         },
         footer: footerTypes.TRAINER
     },

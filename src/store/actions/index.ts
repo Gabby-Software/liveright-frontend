@@ -4,6 +4,7 @@ import {sagaAuthWatcher} from "./auth.saga";
 import {sagaInvoicesWatcher} from "./invoices.saga";
 import {sagaClientsWatcher} from "./clients.saga";
 import {sagaClientWatcher} from "./client.saga";
+import {sagaSessionsWatcher} from "./sessions.saga";
 
 export default function* rootSaga() {
     yield spawn(sagaProfileWatcher);
@@ -11,4 +12,5 @@ export default function* rootSaga() {
     yield spawn(sagaInvoicesWatcher);
     yield spawn(sagaClientsWatcher);
     yield spawn(sagaClientWatcher);
+    yield spawn(sagaSessionsWatcher);
 }
