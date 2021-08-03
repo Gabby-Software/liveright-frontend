@@ -81,5 +81,19 @@ export default styled.div`
             }
         }
     }
+    &__icon-prepend {
+        .text_input {
+            &__input {
+                padding-left: 40px;
+            }
+            &__content {
+                svg {
+                    right: auto;
+                    left: 16px;
+                    color: #BDBDBD;
+                }
+            }
+        }
+    }
 }
 `;
