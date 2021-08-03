@@ -11,7 +11,6 @@ import {sessions} from "../../sessions.data";
 import {toPmAm} from "../../../../pipes/to-pm-am.pipe";
 import Overall from "../../../../components/overall-card/overall-card.component";
 import MobileSessionFooter from "../../../../components/sessions/mobile-session-footer/mobile-session-footer.component";
-import MobileSessionFilter from "../../../../components/sessions/mobile-session-filter/mobile-session-filter.component";
 import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import {SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
@@ -73,7 +72,6 @@ const MobileSessions = () => {
             {
                 type===userTypes.TRAINER?<MobileSessionFooter/>:null
             }
-            <MobileSessionFilter/>
             <SmallModal visible={actionsOpen} onCancel={() => setActionsOpen(false)}
                         title={t('sessions:actions')} menu={actions}/>
             <SessionRescheduleModal onClose={() => setRescheduleOpen(false)} session={rescheduleOpen?workingSession:null}/>
