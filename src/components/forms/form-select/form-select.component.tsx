@@ -98,7 +98,7 @@ const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsT
                     <FormSelectUI
                         name={name}
                         value={field.value}
-                        label={label}
+                        label={label || ''}
                         options={options}
                         onUpdate={value => handleChange(value, form)}
                         disabled={disabled}
