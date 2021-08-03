@@ -28,7 +28,6 @@ margin-bottom: 100px;
             width: auto;
         }
         display: block;
-        margin-left: auto;
     }
     &__action {
         display: block;
