@@ -48,12 +48,11 @@ export default styled.div`
           height: 40px;
           
           button {
-            border-radius: 0;
             padding: 4px 17px;
             box-shadow: none;
             width: auto;
             height: 40px;
-            margin-right: 8px;
+            margin-right: 4px;
           }
         }
     }
