@@ -16,7 +16,7 @@ type Props = {};
 const ClientProfileContent = ({}:Props) => {
     const {loading, error, data} = useContext(TrainerContext);
     const isMobile = useIsMobile();
-    useTitle(`Viewing ${data?.first_name} ${data?.last_name}`);
+    useTitle(`Viewing ${data?.first_name||''} ${data?.last_name||''}`);
 
     if (loading)
         return <Skeleton/>;
