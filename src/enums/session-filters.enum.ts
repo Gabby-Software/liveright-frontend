@@ -20,3 +20,9 @@ export const sessionTypeOptions:OptionType[] = [
     {label: 'Consulting', value: 'Consulting'},
     {label: 'Coaching', value: 'Coaching'}
 ];
+
+export const sessionDateRangeOptions:OptionType[] = [
+    {label: "This Week", value: "week"},
+    {label: "This Month", value: "month"},
+    {label: "This Year", value: "year"},
+];

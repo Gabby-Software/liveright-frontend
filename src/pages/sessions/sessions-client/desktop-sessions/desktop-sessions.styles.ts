@@ -24,7 +24,7 @@ export const TitleContent = styled.div<{credits: number}>`
       span:last-child {
         color: ${({theme, credits}) => credits > 0 ? theme.vars.colors.dark : theme.vars.colors.primaryLight};
       }
-    }
+  }
   
     button {
       padding: 4px 17px;
@@ -48,12 +48,11 @@ export default styled.div`
           height: 40px;
           
           button {
-            border-radius: 0;
             padding: 4px 17px;
             box-shadow: none;
             width: auto;
             height: 40px;
-            margin-right: 8px;
+            margin-right: 4px;
           }
         }
     }

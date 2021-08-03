@@ -34,7 +34,7 @@ export const sessions: SessionType[] = [
         name: 'Chupma Champa',
         date: '2021-02-10',
         time: '06:00',
-        type: 'Consultation'
+        type: 'Consulting'
     },
     {
         id: 6,

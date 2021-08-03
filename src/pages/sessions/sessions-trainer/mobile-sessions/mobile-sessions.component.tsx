@@ -1,83 +1,76 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useMemo} from 'react';
 import Styles from './mobile-sessions.styles';
-import {OptionType} from "../../../../types/option.type";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../hooks/auth.hook";
-import {useInfiniteScroll} from "../../../../hooks/infinite-scroll.hook";
-import Card from "../../../../components/card/card.style";
-import {classes} from "../../../../pipes/classes.pipe";
-import userTypes from "../../../../enums/user-types.enum";
 import {sessions} from "../../sessions.data";
-import {toPmAm} from "../../../../pipes/to-pm-am.pipe";
-import Overall from "../../../../components/overall-card/overall-card.component";
-import MobileSessionFooter from "../../../../components/sessions/mobile-session-footer/mobile-session-footer.component";
-import MobileSessionFilter from "../../../../components/sessions/mobile-session-filter/mobile-session-filter.component";
-import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import {SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
     from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
-import SessionEditModal from "../../../../components/sessions/session-edit-modal/session-edit-modal.component";
+import EditSession from "../../sections/edit-session/edit-session.component";
+import SessionsCards from "../../components/sessions-mobile-cards/sessions-mobile-cards.component";
+import moment from "moment";
+import FormButton from "../../../../components/forms/form-button/form-button.component";
+import ActionIcon from "../../../../components/action-icon/action-icon.component";
+import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 
 const MobileSessions = () => {
-    const [page, setPage] = useState(1);
-    const {type} = useAuth();
-    const [workingSession, setWorkingSession] = useState<SessionType|null>(null);
+    const [workingSession] = useState<SessionType|null>(null);
     const [rescheduleOpen, setRescheduleOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
-    const [actionsOpen, setActionsOpen] = useState(false);
     const {t} = useTranslation();
-    useInfiniteScroll((p: number) => {
-        setPage(p);
-        return Promise.resolve(p - 1 > sessions.length / 10)
-    });
-    const overallValues: (OptionType & {type:string})[] = [
-        {label: 'sessions:completed', value: '24', type: 'success'},
-        {label: 'sessions:paid', value: '3', type: 'default'},
-        {label: 'sessions:open', value: '25', type: 'error'},
-    ];
-    const deleteSession = (session: SessionType) => {
-        // todo: handle delete
-        setWorkingSession(null);
+    const credits = -2 // temp
+    const {upcomingSessions, pastSessions} = useMemo(() => sessions.reduce<{
+        upcomingSessions: SessionType[],
+        pastSessions:SessionType[]
+    }>((acc, session) => {
+        const {date, time} = session
+        const isPast = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm").isBefore(moment());
+
+        if (isPast) {
+            acc.pastSessions.push(session)
+        } else {
+            acc.upcomingSessions.push(session)
+        }
+
+        return acc
+    }, {
+        upcomingSessions: [],
+        pastSessions: [],
+    }), []);
+
+    const renderItemOptions = (item: SessionType) => {
+        return (
+            <div className="sessions__options">
+                <FormButton onClick={() => setRescheduleOpen(true)}>{t('sessions:reschedule')}</FormButton>
+                <ActionIcon
+                    icon={CalendarIcon}
+                    title="Calendar"
+                    onClick={() => {}}
+                />
+            </div>
+        )
     };
-    const actions: MenuItem[] = type === userTypes.TRAINER?[
-        {name: t('edit'), onClick: () => setEditOpen(true)},
-        {name: t('delete'), onClick: () => deleteSession(workingSession as SessionType), type: 'primary'}
-    ]:[
-        {name: t('sessions:reschedule'), onClick: () => setRescheduleOpen(true)}
-    ];
+
     return (
-        <Styles>
-            <Overall>
-                {
-                    overallValues.map(({label, type, value}) => (
-                        <Overall.Card label={t(label)} value={value} type={type}/>
-                    ))
-                }
-            </Overall>
-            {
-                sessions.slice(0, page*10).map(({id, name, date, time,type}) => (
-                    <div key={id} className={'sessions__item'}
-                    onClick={() =>{setWorkingSession({id, name, date, time,type}); setActionsOpen(true)}}>
-                        <Card className={'sessions__item__card'}>
-                            <div className={'sessions__item__left'}>
-                                <div className={'sessions__item__name'}>{name}</div>
-                                <div className={'sessions__item__date'}>{date} - {type.toUpperCase()}</div>
-                            </div>
-                            <div className={'sessions__item__right'}>
-                                <div className={classes('sessions__item__time')}>{toPmAm(time)}</div>
-                            </div>
-                        </Card>
-                    </div>
-                ))
-            }
-            {
-                type===userTypes.TRAINER?<MobileSessionFooter/>:null
-            }
-            <MobileSessionFilter/>
-            <SmallModal visible={actionsOpen} onCancel={() => setActionsOpen(false)}
-                        title={t('sessions:actions')} menu={actions}/>
-            <SessionRescheduleModal onClose={() => setRescheduleOpen(false)} session={rescheduleOpen?workingSession:null}/>
-            <SessionEditModal session={editOpen?workingSession:null} onClose={() => setEditOpen(false)}/>
+        <Styles credits={credits}>
+            <div className="sessions__credits">
+                <div>
+                    <span>{t('sessions:current-credits')}</span>
+                    <span>{credits}</span>
+                </div>
+                {credits < 0 ? <FormButton type="primary">{t('invoices:pay')}</FormButton> : null}
+            </div>
+            <SessionsCards
+                renderOptions={renderItemOptions}
+                title={t('sessions:upcoming-title')}
+                data={upcomingSessions}
+            />
+            <SessionsCards withFilter title={t('sessions:past-title')} data={pastSessions} />
+            <SessionRescheduleModal
+                onClose={() => setRescheduleOpen(false)}
+                session={rescheduleOpen?workingSession:null}
+            />
+            <EditSession isOpen={editOpen} onClose={() => setEditOpen(false)}/>
         </Styles>
     );
 };

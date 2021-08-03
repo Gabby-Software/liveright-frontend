@@ -1,42 +1,29 @@
 import React, {useState, useMemo, ReactElement, useEffect} from 'react';
 import {Avatar} from "antd";
 import {UserOutlined} from '@ant-design/icons';
-import Styles from './sessions-table.styles';
+import Styles, {SessionCard} from './sessions-mobile-cards.styles';
 import {PaginationMetaType} from "../../../../types/pagination-meta.type";
-import DataTable from "../../../../components/data-table/data-table.component";
 import {SessionType} from "../../../../types/session.type";
-import {toPmAm} from "../../../../pipes/to-pm-am.pipe";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
-import DesktopSessionsFilters from "../desktop-sessions-filters/desktop-sessions-filters.component";
 import {FilterValues} from "../../../../types/sessions-filter.type";
+import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import moment from "moment";
+import MobileSessionFilter from "../mobile-session-filter/mobile-session-filter.component";
+import PageSubtitle from "../../../../components/titles/page-subtitle.styles";
 
 interface Props {
     data: SessionType[];
     renderOptions?: (session: SessionType) => ReactElement;
     withFilter?: boolean;
+    title?: boolean;
 }
 
-const SessionsTable: React.FC<Props> = (props) => {
-    const {data, renderOptions, withFilter} = props;
+const SessionsCards: React.FC<Props> = (props) => {
+    const {t} = useTranslation()
+    const {data, renderOptions, withFilter, title} = props;
     const [sessions, setSessions] = useState(data);
     const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: sessions.length});
     const {current_page, total, per_page} = pagMeta;
-    const {labels, keys} = useMemo(() => {
-        const labels = [
-            'sessions:type',
-            'sessions:date',
-            'sessions:time',
-            'sessions:with',
-        ]
-        const keys = ['type', 'date', 'time', 'name']
-
-        if (renderOptions) {
-            labels.push('sessions:options')
-            keys.push('options')
-        }
-
-        return {labels, keys}
-    }, [renderOptions]);
 
     const handleFilterChange = (values: FilterValues) => {
         const {dateType, type} = values;
@@ -67,20 +54,32 @@ const SessionsTable: React.FC<Props> = (props) => {
 
     return (
       <Styles>
-          {withFilter && <DesktopSessionsFilters onChange={handleFilterChange} />}
-          <DataTable
-            labels={labels}
-            keys={keys}
-            data={sessions.slice((current_page-1)*per_page, current_page*per_page)}
-            render={{
-              name: ({name}: SessionType) => (
-                  <div>
-                      <Avatar size="small" icon={<UserOutlined />} />
-                      {name}
-                  </div>
-              ),
-              options: (item) => renderOptions ? renderOptions(item) : React.Fragment
-          }}/>
+          {title && <PageSubtitle>{title}</PageSubtitle>}
+          {withFilter && <MobileSessionFilter onChange={handleFilterChange} />}
+          {sessions.slice((current_page-1)*per_page, current_page*per_page).map((it) => {
+              const {name, type, date, time} = it;
+              const day = moment(date).format("DD");
+              const month = moment(date).format("MMMM");
+
+              return (
+                  <SessionCard>
+                      <span>{type}</span>
+                      <span className="session-card-with">{t("sessions:with").toLowerCase()}</span>
+                      <div className="session-card-name">
+                          <Avatar size="small" icon={<UserOutlined />} />
+                          {name}
+                      </div>
+                      <div className="sessions-card-datetime">
+                          <div>
+                              <span>{day}</span>
+                              <span>{month.toUpperCase()}</span>
+                          </div>
+                          <span>{time}</span>
+                      </div>
+                      {renderOptions && renderOptions(it)}
+                  </SessionCard>
+              )
+          })}
           <DataPagination
               page={current_page}
               setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})}
@@ -90,4 +89,4 @@ const SessionsTable: React.FC<Props> = (props) => {
     );
 };
 
-export default SessionsTable;
+export default SessionsCards;

@@ -12,7 +12,8 @@ import {classes} from "../../../pipes/classes.pipe";
 
 type FormSelectPropsType = {
     name: string;
-    label: string;
+    label?: string;
+    placeholder?: string;
     options: OptionType[];
     onUpdate?: (val: string) => void;
     disabled?: boolean
@@ -29,6 +30,7 @@ type FormSelectUIProps = {
     children?: React.ReactNode;
 }
 export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, error, onBlur, children}: FormSelectUIProps) => {
+
     const isMobile = useIsMobile();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return isMobile ? (
