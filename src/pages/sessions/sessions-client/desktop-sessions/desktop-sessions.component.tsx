@@ -16,6 +16,7 @@ import EditSession from "../../sections/edit-session/edit-session.component";
 import {useTitleContent} from "../../../../layouts/desktop-layout/desktop-layout.component";
 import {SettingsLink} from "../../../notifications/notifications.styles";
 import {Routes} from "../../../../enums/routes.enum";
+import {Link} from "react-router-dom";
 
 const DesktopSessions = () => {
     const {t} = useTranslation();
@@ -45,11 +46,13 @@ const DesktopSessions = () => {
         return (
             <div className="sessions__options">
                 <FormButton onClick={() => setRescheduleOpen(item)}>{t('sessions:reschedule')}</FormButton>
+                <Link to={Routes.CALENDAR}>
                 <ActionIcon
                     icon={CalendarIcon}
                     title="Calendar"
-                    onClick={() => {}}
+                    onClick={() =>{}}
                 />
+                </Link>
             </div>
         )
     };
