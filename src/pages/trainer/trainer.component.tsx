@@ -29,7 +29,7 @@ const TrainerContent = () => {
             {/*<ProfileSidebar/>*/}
             <div className={'profile__main'}>
                 <ProfileImage/>
-                <ProfileBasic/>
+                <ProfileBasic title={'Basic Trainer Profile'}/>
                 <ProfileAddresses/>
                 <ProfileInfo/>
                 <ProfileTnb/>

@@ -34,3 +34,5 @@ export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
 export const ACTION_GET_CLIENTS_SUCCESS = 'action-get-clients-success';
 export const ACTION_GET_CLIENTS_LOAD = 'action-get-clients-load';
 export const ACTION_GET_CLIENTS_ERROR = 'action-get-clients-error';
+export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
+export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';

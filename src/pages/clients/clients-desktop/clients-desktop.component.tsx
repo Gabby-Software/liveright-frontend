@@ -61,7 +61,7 @@ const ClientsDesktop = ({}:Props) => {
                 <ClientsFilter/>
                 <DataTable labels={labels} data={data}
                            keys={keys} render={{
-                    name: ({first_name, last_name, id}) => <Link to={`${Routes.CLIENTS}/${id}`}>{`${first_name} ${last_name}`}</Link>,
+                    name: ({first_name, last_name, id, user_uuid}) => <Link to={`${Routes.CLIENTS}/${user_uuid}`}>{`${first_name} ${last_name}`}</Link>,
                     actions: () => (
                         <div className={'clients__activities'}>
                             {actions.map((item) => (
