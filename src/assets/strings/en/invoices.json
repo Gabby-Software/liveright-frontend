@@ -29,6 +29,7 @@
   "from": "From {{name}}",
   "to": "To {{name}}",
   "remind-client": "Remind Client",
+  "issuer": "Issuer",
   "issued-by": "Issued by",
   "issued-on": "Issued on",
   "issued-to": "Issued to",
