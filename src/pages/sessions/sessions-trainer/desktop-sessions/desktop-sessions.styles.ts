@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import FormButton from "../../../../components/forms/form-button/form-button.component";
 
 export default styled.div`
     display: flex;
@@ -12,4 +13,8 @@ export default styled.div`
             margin-bottom: 48px;
         }
     }
+`;
+export const AddSessionAction = styled(FormButton)`
+    margin-left: auto;
+    max-width: 220px;
 `;
