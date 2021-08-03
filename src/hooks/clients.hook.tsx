@@ -6,5 +6,5 @@ import {APIGetType} from "../hoc/api-get";
 import {AccountObjType, AccountType} from "../types/account.type";
 import {ProfileDataType} from "../types/profile-data.type";
 export const useClients = () => {
-    return useSelector((state: RootState) => state.clients) as APIGetType<PaginatedDataType<AccountObjType&ProfileDataType&AccountType&{sessions:number}>>;
+    return useSelector((state: RootState) => state.clients) as APIGetType<PaginatedDataType<AccountObjType&ProfileDataType&AccountType&{sessions:number, user_uuid: string}>>;
 };

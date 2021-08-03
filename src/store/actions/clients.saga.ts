@@ -33,7 +33,8 @@ function* getClientsWorker({payload}:ActionType<{page: number, status: string, s
                 data: res.data.map(client => ({
                     ...client,
                     ...client.accounts.find(acc => acc.type === userTypes.CLIENT),
-                    ...client.accounts.find(acc => acc.type === userTypes.CLIENT)?.profile
+                    ...client.accounts.find(acc => acc.type === userTypes.CLIENT)?.profile,
+                    user_uuid: client.uuid
                 }))
             }))
         )) as PaginatedDataType<AccountObjType&AccountType&ProfileDataType>;

@@ -27,9 +27,9 @@ const ClientsMobile = () => {
         <Styles>
             <div className={'clients__heading'}>
                 {
-                    data.map(({first_name, last_name, id, sessions}) => (
+                    data.map(({first_name, last_name, id, user_uuid, sessions}) => (
                         <PopOnScroll offset={100}>
-                            <Link to={`${Routes.CLIENTS}/${id}`}>
+                            <Link to={`${Routes.CLIENTS}/${user_uuid}`}>
                                 <Card className={classes('clients__card')} key={id}>
                                     <div className={classes('clients__name')}>{first_name} {last_name}</div>
                                     <div
