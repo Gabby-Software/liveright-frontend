@@ -20,26 +20,29 @@ export default styled.aside`
     .sidebar {
         &__logo {
             ${p => p.theme.extend.flexCenter}
-            padding: 37px 0 37px 0;
+            padding: 37px 0 17px 0;
             
             svg {
                 width: 40px;
-                margin-bottom: 26px;
                 height: auto;
                 display: block;
                 transition: ${p =>p.theme.vars.defaults.transition};
                 @media all and (max-height: 800px) {
                     width: 30px;
-                    margin-bottom: 18px;
                 }
             }
             @media all and (max-height: 800px) {
                 padding: 37px 0 18px 0;
             }
         }
+        &__nav-spacer {
+            height: 100px;
+            flex-shrink: 10;
+        }
         &__nav {
             display: block;
-            margin-top: 34px;
+            overflow: auto;
+            flex-shrink:0;
             @media all and (max-height: 800px) {
                 margin-top:0;
             }
@@ -51,12 +54,15 @@ export default styled.aside`
         }
         &__item {
             position: relative;
-            margin: 8px 0;
+            margin: 0 0 22px 0;
             ${p => p.theme.extend.flexCenter}
+                @media all and (max-height: 800px) {
+                    margin: 0 0 16px 0;
+                }            
             a {
                 ${p => p.theme.extend.flexCenter};
                 justify-content: flex-start;
-                color: ${p => p.theme.vars.colors.secondary3};
+                color: ${p => p.theme.vars.colors.light2};
                 margin: 0 8px;
                 font-weight: 500;
                 font-weight: 1rem;

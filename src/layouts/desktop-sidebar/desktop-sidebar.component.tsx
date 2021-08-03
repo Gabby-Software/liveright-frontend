@@ -9,6 +9,7 @@ import {ReactComponent as ProgressIcon} from "../../assets/media/icons/progress.
 import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.svg";
 import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.svg";
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
+import {ReactComponent as CalendarIcon} from "../../assets/media/icons/calendar.svg";
 import {ReactComponent as RightArrowIcon} from "../../assets/media/icons/right-arrow.svg";
 import {ReactComponent as BellIcon} from "../../assets/media/icons/bell.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
@@ -36,6 +37,7 @@ const menuItems: MenuItemType[] = [
     {name: 'library', url: '/library', Icon: LibraryIcon},
     {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon},
     {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},
+    {name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon},
     {name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon},
 ];
 const DesktopSidebar = () => {
@@ -50,6 +52,7 @@ const DesktopSidebar = () => {
             <div className={'sidebar__logo'}>
                 <LogoSmall/>
             </div>
+            <div className={'sidebar__nav-spacer'}/>
             <nav className={'sidebar__nav'}>
                 <ul className={'sidebar__menu'}>
                     {
