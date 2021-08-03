@@ -4,12 +4,14 @@ import {authReducer} from "./auth.reducer";
 import {trainerReducer} from "./trainer.reducer";
 import {invoicesReducer} from "./invoices.reducer";
 import {clientsReducer} from "./clients.reducer";
+import {clientReducer} from "./client.reducer";
 const rootReducer = combineReducers({
     account: accountReducer,
     auth: authReducer,
     trainer: trainerReducer,
     invoices: invoicesReducer,
-    clients: clientsReducer
+    clients: clientsReducer,
+    client: clientReducer
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>
