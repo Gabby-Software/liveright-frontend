@@ -1,6 +1,6 @@
 import React, {useState, useMemo, ComponentType} from 'react';
 import moment from 'moment'
-import Styles from './desktop-sessions.styles';
+import Styles, {AddSessionAction} from './desktop-sessions.styles';
 import {useAuth} from "../../../../hooks/auth.hook";
 import {PaginationMetaType} from "../../../../types/pagination-meta.type";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
@@ -18,13 +18,20 @@ import SessionRescheduleModal
 import SessionEditModal from "../../../../components/sessions/session-edit-modal/session-edit-modal.component";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
+import {useTitleContent} from "../../../../layouts/desktop-layout/desktop-layout.component";
+import SessionAddModal from "../../../../components/sessions/session-add-modal/session-add-modal.component";
+import AddSession from "../../sections/add-session/add-session.component";
 
 const DesktopSessions = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
+    const [addOpen, setAddOpen] = useState<boolean>(false);
     const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: sessions.length});
+    useTitleContent(
+        <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>{t('sessions:add')}</AddSessionAction>
+    );
     const {current_page, total, per_page} = pagMeta;
     const labels = type === userTypes.TRAINER ? [
         'sessions:client-name',
@@ -100,6 +107,7 @@ const DesktopSessions = () => {
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
           <SessionEditModal session={editOpen} onClose={() => setEditOpen(null)}/>
+          <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
       </Styles>
     );
 };
