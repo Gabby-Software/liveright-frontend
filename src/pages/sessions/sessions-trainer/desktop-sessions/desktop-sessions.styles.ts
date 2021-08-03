@@ -1,6 +1,47 @@
 import styled from "styled-components";
 import {Form} from "formik";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
+import Card from "../../../../components/card/card.style";
+
+export const AwaitingCard = styled(Card)`
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+  padding: 24px 16px;
+  margin-right: 24px;
+  min-width: 300px;
+  
+  div:first-child {
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+
+    .ant-avatar {
+      margin-right: 8px;
+    }
+  }
+  
+  .schedule-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 24px;
+    color: ${({theme}) => theme.vars.colors.primary};
+    
+    span:first-child {
+      margin-right: 8px;
+      transition: all 0.1s linear;
+      border-bottom: 1px solid ${({theme}) => theme.vars.colors.primary};
+    }
+
+    &:hover {
+      span:first-child {
+        margin-right: 12px;
+      }
+    }
+  }
+`;
 
 export const AddSessionAction = styled(FormButton)`
     max-width: 220px;
@@ -39,6 +80,10 @@ export default styled.div`
     .sessions {
         width: 100%;
         padding-bottom: 100px;
+      
+        .carousel__cont {
+          padding: 16px;
+        }
       
         &__options {
           display: flex;
