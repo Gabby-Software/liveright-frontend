@@ -5,8 +5,11 @@ import DesktopSessions from "./desktop-sessions/desktop-sessions.component";
 
 const Sessions = () => {
     const isMobile = useIsMobile();
-    if(isMobile)
+
+    if(isMobile) {
         return <MobileSessions />;
+    }
+
     return <DesktopSessions />;
 };
 

@@ -12,12 +12,13 @@ import {classes} from "../../../pipes/classes.pipe";
 
 type FormSelectPropsType = {
     name: string;
-    label: string;
+    label?: string;
+    placeholder?: string;
     options: OptionType[];
     onUpdate?: (val: string) => void;
     disabled?: boolean
 }
-const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsType) => {
+const FormSelect = ({name, label, options, onUpdate, disabled, placeholder}: FormSelectPropsType) => {
     const isMobile = useIsMobile();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const handleChange = (value: string, form: FormikProps<any>) => {
@@ -31,7 +32,7 @@ const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsT
                     return isMobile ? (
                         <MobileStyles className={'select_input__wrapper'}>
                             <label className={'select_input__cont'}>
-                                <div className={'select_input__label'}>{label}</div>
+                                {label && <div className={'select_input__label'}>{label}</div>}
                                 <input onFocus={e => e.target.blur()} className={classes('select_input__input', disabled && 'select_input__disabled')}
                                        onClick={() => disabled||setIsModalOpen(true)}
                                        value={options.find(op => op.value.toString() === field.value.toString())?.label}
@@ -39,15 +40,16 @@ const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsT
                             </label>
                             <FormError name={name}/>
                             <SmallModal onCancel={() => setIsModalOpen(false)} visible={isModalOpen}
-                                        title={label} menu={options.map(({label, value}) => ({
+                                        title={label || ''} menu={options.map(({label, value}) => ({
                                 name: label, onClick: () => handleChange(value, form)
                             }))}/>
                         </MobileStyles>
                     ) : (
                         <DesktopStyles className={'select_input__wrapper'}>
                             <label className={classes('select_input__cont', form.errors[name] && form.touched[name] && 'select_input__error',)}>
-                                <div className={'select_input__label'}>{label}</div>
+                                {label && <div className={'select_input__label'}>{label}</div>}
                                 <Select
+                                    placeholder={placeholder}
                                     showSearch
                                     suffixIcon={<DownArrow/>}
                                     optionFilterProp="children"
