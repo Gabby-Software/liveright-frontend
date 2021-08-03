@@ -10,11 +10,21 @@ const defaultHeader: HeaderConfigType = {
     title: DEFAULT_TITLE,
     items: headers.default
 };
+export const manualHeader: any = {
+    title: '',
+    setTitle: (title:string) => {}
+};
 export const useHeader = () => {
     const {header} = usePage() || {};
-    logger.info('header', header);
-    return {
+    const [manual, setManual] = useState('');
+    manualHeader.title = manual;
+    manualHeader.setTitle = setManual;
+    const res = {
         ...defaultHeader,
         ...header
     };
+    if(manual) {
+        res.title = manual
+    }
+    return res;
 };

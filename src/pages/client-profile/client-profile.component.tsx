@@ -9,11 +9,15 @@ import ProfileAddresses from "../trainer/sections/profile-addresses/profile-addr
 import ProfileInfo from "../trainer/sections/profile-info/profile-info.component";
 import ProfileTnb from "../trainer/sections/profile-tnb/profile-tnb.component";
 import {ClientProfileProvider} from "./client.context";
+import {useHeader} from "../../hooks/header.hook";
+import {useTitle} from "../../hooks/title.hook";
 
 type Props = {};
 const ClientProfileContent = ({}:Props) => {
-    const {loading, error} = useContext(TrainerContext);
+    const {loading, error, data} = useContext(TrainerContext);
     const isMobile = useIsMobile();
+    useTitle(`Viewing ${data?.first_name} ${data?.last_name}`);
+
     if (loading)
         return <Skeleton/>;
     if (error)
