@@ -20,7 +20,7 @@ export default styled.div`
         display: block;
         background-color: #fbfbfb;
         padding: 20px 16px 8px 16px;
-        border: 1px solid #fbfbfb;
+        border: 1px solid ${p => p.theme.vars.colors.inputBorder};
         color: ${p => p.theme.vars.colors.dark};
         border-radius: ${p => p.theme.vars.sizes.borderRadius};
         outline: none;
@@ -31,7 +31,7 @@ export default styled.div`
             font-size: 10px;
         }
         &:focus {
-            border-color:${p => p.theme.vars.colors.inputBorder};
+            border-color: #c4c4c4;
         }
     }
 }

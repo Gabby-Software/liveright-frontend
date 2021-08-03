@@ -62,7 +62,7 @@ width: 100%;
     display: block;
     padding: 9px 3px;
     background-color: #fbfbfb;
-    border: 1px solid #c4c4c4;
+    border: 1px solid ${p => p.theme.vars.colors.inputBorder};
     color: ${p => p.theme.vars.colors.dark};
     border-radius: ${p => p.theme.vars.sizes.borderRadius};
     outline: none;
@@ -87,6 +87,9 @@ width: 100%;
         svg {
             transform: rotate(180deg);
         }
+    }
+    &:focus {
+      border-color: #c4c4c4;
     }
 }
 .select_input__error {

@@ -1,26 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './mobile-sessions.styles';
-import {OptionType} from "../../../types/option.type";
-import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import {useAuth} from "../../../hooks/auth.hook";
-import {useInfiniteScroll} from "../../../hooks/infinite-scroll.hook";
-import {TrainerInvoiceType} from "../../../types/invoice.type";
-import {Link} from "react-router-dom";
-import {Routes} from "../../../enums/routes.enum";
-import Card from "../../../components/card/card.style";
-import {classes} from "../../../pipes/classes.pipe";
-import userTypes from "../../../enums/user-types.enum";
-import {sessions} from "../sessions.data";
-import {toPmAm} from "../../../pipes/to-pm-am.pipe";
-import Overall from "../../../components/overall-card/overall-card.component";
-import MobileSessionFooter from "../../../components/sessions/mobile-session-footer/mobile-session-footer.component";
-import MobileSessionFilter from "../../../components/sessions/mobile-session-filter/mobile-session-filter.component";
-import SmallModal, {MenuItem} from "../../../components/small-modal/small-modal.component";
-import {SessionType} from "../../../types/session.type";
+import {OptionType} from "../../../../types/option.type";
+import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {useAuth} from "../../../../hooks/auth.hook";
+import {useInfiniteScroll} from "../../../../hooks/infinite-scroll.hook";
+import Card from "../../../../components/card/card.style";
+import {classes} from "../../../../pipes/classes.pipe";
+import userTypes from "../../../../enums/user-types.enum";
+import {sessions} from "../../sessions.data";
+import {toPmAm} from "../../../../pipes/to-pm-am.pipe";
+import Overall from "../../../../components/overall-card/overall-card.component";
+import MobileSessionFooter from "../../../../components/sessions/mobile-session-footer/mobile-session-footer.component";
+import MobileSessionFilter from "../../../../components/sessions/mobile-session-filter/mobile-session-filter.component";
+import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
+import {SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
-    from "../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
-import SessionEditModal from "../../../components/sessions/session-edit-modal/session-edit-modal.component";
-import EditSession from "../sections/edit-session/edit-session.component";
+    from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
+import SessionEditModal from "../../../../components/sessions/session-edit-modal/session-edit-modal.component";
+import EditSession from "../../sections/edit-session/edit-session.component";
 
 const MobileSessions = () => {
     const [page, setPage] = useState(1);
