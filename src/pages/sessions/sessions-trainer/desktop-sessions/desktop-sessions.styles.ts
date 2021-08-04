@@ -47,6 +47,9 @@ export const AddSessionAction = styled(FormButton)`
     max-width: 220px;
 `;
 
+export const ManageTargetsAction = styled(AddSessionAction)`
+`;
+
 export const TitleContent = styled(Form)`
     display: flex;
     flex: 1;
