@@ -58,10 +58,12 @@ const ClientsFilter = () => {
                     icon={<SearchIcon/>} iconPrepend
                     value={search} name={'search'} label={t('search')}
                                     onUpdate={setSearch}/>
-                <FormSelectUI name={'type'} value={type} label={t('clients:type')}
-                              options={typeOptions} onUpdate={setType}/>
-                <FormSelectUI name={'status'} value={status} label={t('clients:status')}
-                              options={statusOptions} onUpdate={setStatus}/>
+                                    <div/>
+                                    <div/>
+                {/*<FormSelectUI name={'type'} value={type} label={t('clients:type')}*/}
+                {/*              options={typeOptions} onUpdate={setType}/>*/}
+                {/*<FormSelectUI name={'status'} value={status} label={t('clients:status')}*/}
+                {/*              options={statusOptions} onUpdate={setStatus}/>*/}
                 <div className={
                     'clients__cta'
                 }>
