@@ -17,6 +17,9 @@ transition: ${p => p.theme.vars.defaults.transition};
     border-top: 1px solid ${p => p.theme.vars.colors.secondary2};
     .footer__actions {
         padding: 21px 21px 40px 52px;
+        @media all and (max-height: 800px) {
+            padding: 20px 0 20px 32px;
+        }
     }
 }
 .footer {
@@ -64,12 +67,18 @@ transition: ${p => p.theme.vars.defaults.transition};
         white-space: nowrap;
         max-width: 200px;
         overflow: hidden;
+        @media all and (max-height: 800px) {
+            font-size: 14px;
+        }
     }
     &__account-type {
         font-size: 16px;
         font-weight: 400;
         color: ${p => p.theme.vars.colors.secondary2};
         white-space: nowrap;
+        @media all and (max-height: 800px) {
+            font-size: 12px;
+        }
     }
     &__actions {
         padding: 21px 0px 40px 52px;
@@ -90,6 +99,18 @@ transition: ${p => p.theme.vars.defaults.transition};
             color: ${p => p.theme.vars.colors.promaryDark};
             border-color: ${p => p.theme.vars.colors.secondary};
             opacity: .8;
+        }
+        @media all and (max-height: 800px) {
+            padding: 1px 0 20px 32px;
+            .footer__actions {
+                &__title {
+                    font-size: 14px;
+                }
+            }
+            .ant-btn {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
         }
     }
     &__action {
