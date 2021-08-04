@@ -79,6 +79,7 @@ const DesktopSidebar = () => {
                     ):null
                 }
             </nav>
+            <div className={'sidebar__nav-spacer'}/>
             <DesktopFooter/>
         </Styles>
     );

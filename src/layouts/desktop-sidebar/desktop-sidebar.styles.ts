@@ -57,7 +57,7 @@ export default styled.aside`
             margin: 0 0 22px 0;
             ${p => p.theme.extend.flexCenter}
                 @media all and (max-height: 800px) {
-                    margin: 0 0 16px 0;
+                    margin: 0 0 12px 0;
                 }            
             a {
                 ${p => p.theme.extend.flexCenter};
@@ -124,6 +124,9 @@ export default styled.aside`
         &__hr {
             margin: 31px 16px;
             border-bottom: 1px solid ${p => p.theme.vars.colors.light2};
+            @media all and (max-height: 800px) {
+                margin: 20px 16px;
+            }
         }
         &__trainer {
             ${p => p.theme.extend.flexCenter}
