@@ -4,13 +4,19 @@ import {PaginatedDataType} from "../../types/paginated-data.type";
 import {
     ACTION_GET_CLIENTS_ERROR,
     ACTION_GET_CLIENTS_LOAD,
-    ACTION_GET_CLIENTS_SUCCESS,
+    ACTION_GET_CLIENTS_SUCCESS, ACTION_UPDATE_CLIENTS_FILTERS,
     ActionType
 } from "../action-types";
 import {AccountObjType, AccountType} from "../../types/account.type";
 import {ProfileDataType} from "../../types/profile-data.type";
 
-const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&ProfileDataType>> = {
+const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&ProfileDataType>>&{
+    filters: {
+        search: string;
+        type: string;
+        status: string;
+    }
+} = {
     error: '',
     loading: true,
     data: {
@@ -20,6 +26,11 @@ const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&Prof
             per_page: 10,
             total: 0
         },
+    },
+    filters: {
+        search: '',
+        type: '',
+        status: ''
     }
 };
 
@@ -27,6 +38,7 @@ export const clientsReducer = withStorage((state = initialState, {type, payload}
     switch (type) {
         case ACTION_GET_CLIENTS_SUCCESS:
             return {
+                ...state,
                 data: payload,
                 error: '',
                 loading: false
@@ -42,6 +54,11 @@ export const clientsReducer = withStorage((state = initialState, {type, payload}
                 ...state,
                 error: payload || 'some error occur',
                 loading: false
+            };
+        case ACTION_UPDATE_CLIENTS_FILTERS:
+            return {
+                ...state,
+                filters: payload
             }
     }
     return state;

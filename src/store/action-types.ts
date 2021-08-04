@@ -34,6 +34,7 @@ export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
 export const ACTION_GET_CLIENTS_SUCCESS = 'action-get-clients-success';
 export const ACTION_GET_CLIENTS_LOAD = 'action-get-clients-load';
 export const ACTION_GET_CLIENTS_ERROR = 'action-get-clients-error';
+export const ACTION_UPDATE_CLIENTS_FILTERS = 'action-update-clients-filters';
 export const ACTION_GET_SESSIONS_REQUEST = 'action-get-sessions-request';
 export const ACTION_GET_SESSIONS_SUCCESS = 'action-get-sessions-success';
 export const ACTION_GET_SESSIONS_LOAD = 'action-get-sessions-load';
