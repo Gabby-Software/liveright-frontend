@@ -5,13 +5,14 @@ interface Props {
     label: string;
     target: number;
     current: number;
+    row?: boolean;
 }
 
 const SessionProgressItem: React.FC<Props> = (props) => {
-    const {label, target, current} = props;
+    const {label, target, current, row} = props;
 
     return (
-        <Styles>
+        <Styles row={row}>
             <span>{label}</span>
             <div>
                 <span>{target}</span>

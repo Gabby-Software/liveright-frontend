@@ -4,7 +4,7 @@ import {Formik} from "formik";
 import {Link} from "react-router-dom";
 import {Avatar} from "antd";
 import {UserOutlined} from "@ant-design/icons";
-import Styles, {AwaitingCard, TitleContent, AddSessionAction} from './desktop-sessions.styles';
+import Styles, {AwaitingCard, TitleContent, AddSessionAction, ManageTargetsAction} from './desktop-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {sessions} from "../../sessions.data";
 import {SessionType} from "../../../../types/session.type";
@@ -131,9 +131,9 @@ const DesktopSessions = () => {
                   <Formik onSubmit={() => {}} initialValues={{date_range: sessionDateRangeOptions[0].value}}>
                       <TitleContent>
                           <FormSelect name="date_range" options={sessionDateRangeOptions} />
-                          <AddSessionAction type="ghost" onClick={()=> {}}>
+                          <ManageTargetsAction type="ghost" onClick={()=> {}}>
                               {t('sessions:manage-targets')}
-                          </AddSessionAction>
+                          </ManageTargetsAction>
                       </TitleContent>
                   </Formik>
               </PageTitle>

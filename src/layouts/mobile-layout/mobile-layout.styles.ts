@@ -7,6 +7,8 @@ export default styled.div`
         ${p => p.theme.extend.layout}
     }
     &__title {
+        display: flex;
+        align-items: center;
         color: ${p => p.theme.vars.colors.primaryDark};
         font-size: 24px;
         font-weight: 600;
