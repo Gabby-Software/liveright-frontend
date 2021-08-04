@@ -1,6 +1,6 @@
 import React, {useState, useEffect, FocusEventHandler} from 'react';
 import Styles from './form-input-labeled.styles';
-import {Field, FieldProps} from "formik";
+import {ErrorMessage, Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
 import {ReactComponent as WarningIcon} from '../../../assets/media/icons/warning.svg';
 import {classes} from "../../../pipes/classes.pipe";
@@ -61,7 +61,9 @@ const FormInputLabeled = ({name, label, type, onUpdate, icon, disabled}: Props) 
                         form.setFieldValue(name, value);
                         onUpdate && onUpdate(name, value);
                     }}
-                    type={type} icon={icon} disabled={disabled}/>
+                    type={type} icon={icon} disabled={disabled}>
+                        <FormError name={name}/>
+                    </FormInputLabeledUI>
                 )}
         </Field>
     );

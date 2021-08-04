@@ -58,14 +58,17 @@ const AddClientModalForm = ({}:Props) => {
                 <Form>
                     <FormInputLabeled name={'first_name'} label={t('profile:first-name')} onUpdate={update}/>
                     <FormInputLabeled name={'last_name'} label={t('profile:last-name')} onUpdate={update}/>
-                    <FormDatepicker name={'birthday'} label={t('profile:birth-date')} onUpdate={update}/>
+                    <FormDatepicker name={'birthday'} label={t('profile:birth-date')} onUpdate={update}
+                               disabledDate={date => moment().add(-16, 'years').isBefore(moment(date))}
+                               defaultPickerValue={moment().add(-16, 'years')}
+                    />
                     <FormSwitch name={'gender'} options={genderOptions}/>
                     <FormInputLabeled name={'phone_number'} label={t('profile:phone')} onUpdate={update}/>
                     <FormInputLabeled name={'city'} label={t('profile:city')} onUpdate={update}/>
                     <FormCountrySelect name={'country.code'}/>
                     <FormInputLabeled name={'address'} label={t('profile:address')} onUpdate={update}/>
-                    <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')}/>
-                    <FormTextarea name={'injuries'} label={t('profile:injuries')}/>
+                    <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')} onUpdate={update}/>
+                    <FormTextarea name={'injuries'} label={t('profile:injuries')} onUpdate={update}/>
                     <ButtonSubmit>{t('submit')}</ButtonSubmit>
                     <FormButton type={'default'} onClick={() => setStep(clientFormSteps.EMAIL)}>{t('back')}</FormButton>
                 </Form>

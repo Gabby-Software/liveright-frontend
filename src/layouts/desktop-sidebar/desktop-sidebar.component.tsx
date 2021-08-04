@@ -22,6 +22,7 @@ import profilePlaceholder from "../../assets/media/profile-placeholder.png";
 import DesktopFooter from "../desktop-footer/desktop-footer.component";
 import NotificationIcon from "../../components/notification-icon/notification-icon.component";
 import {useClientsTrainer} from "../../hooks/clients-trainer.hook";
+import {noImage} from "../../pipes/no-image.pipe";
 
 type MenuItemType = {
     name: string;
@@ -72,7 +73,13 @@ const DesktopSidebar = () => {
                         <>
                             <div className={'sidebar__hr'}/>
                             <Link to={Routes.TRAINER} className={'sidebar__trainer'}>
-                                <img alt={'trainer'} src={trainer.avatar?.thumb_url}/>
+                                {
+                                    trainer.avatar?.thumb_url?(
+                                        <img alt={'trainer'} src={trainer.avatar?.thumb_url}/>
+                                    ):(
+                                        <div className={'sidebar__trainer__placeholder'}>{noImage(trainer.first_name, trainer.last_name)}</div>
+                                    )
+                                }
                                 <span>{t('menu.trainer')}</span>
                             </Link>
                         </>
