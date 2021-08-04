@@ -25,6 +25,9 @@ const ClientsFilter = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const {filters} = useClients();
     const dispatch = useDispatch();
+    const [search, setSearch] = useState('');
+    const [type, setType] = useState('');
+    const [status, setStatus] = useState('');
     const update = (name: string) => (value: string) => {
         dispatch({
             type: ACTION_UPDATE_CLIENTS_FILTERS, payload: {
@@ -53,12 +56,12 @@ const ClientsFilter = () => {
             <FormRow>
                 <FormInputLabeledUI
                     icon={<SearchIcon/>} iconPrepend
-                    value={filters.search} name={'search'} label={t('search')}
-                                    onUpdate={update('search')}/>
-                <FormSelectUI name={'type'} value={filters.type} label={t('clients:type')}
-                              options={typeOptions} onUpdate={update('type')}/>
-                <FormSelectUI name={'status'} value={filters.status} label={t('clients:status')}
-                              options={statusOptions} onUpdate={update('status')}/>
+                    value={search} name={'search'} label={t('search')}
+                                    onUpdate={setSearch}/>
+                <FormSelectUI name={'type'} value={type} label={t('clients:type')}
+                              options={typeOptions} onUpdate={setType}/>
+                <FormSelectUI name={'status'} value={status} label={t('clients:status')}
+                              options={statusOptions} onUpdate={setStatus}/>
                 <div className={
                     'clients__cta'
                 }>
