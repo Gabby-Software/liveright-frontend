@@ -15,12 +15,6 @@ transition: ${p => p.theme.vars.defaults.transition};
 &.footer__open {
     width: calc(100vw + 0px);
     border-top: 1px solid ${p => p.theme.vars.colors.secondary2};
-    .footer__actions {
-        padding: 21px 21px 40px 52px;
-        @media all and (max-height: 800px) {
-            padding: 20px 0 20px 32px;
-        }
-    }
 }
 .footer {
     
@@ -101,7 +95,7 @@ transition: ${p => p.theme.vars.defaults.transition};
             opacity: .8;
         }
         @media all and (max-height: 800px) {
-            padding: 1px 0 20px 32px;
+            padding: 16px 0 16px 32px;
             .footer__actions {
                 &__title {
                     font-size: 14px;
