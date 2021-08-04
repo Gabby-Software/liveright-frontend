@@ -10,6 +10,7 @@
   "phone": "Phone Number",
   "address": "Address",
   "city": "City",
+  "postal-code": "Postal Code",
   "country": "Country",
   "born": "Born",
   "joined": "Joined",
@@ -27,6 +28,10 @@
   "male": "Male",
   "female": "Female",
   "tnb": "Terms & Conditions",
+  "open-invoices": "{{x}} Open Invoices",
+  "invoice-history": "Invoice History",
+  "free-sessions": "{{x}} Free Sessions",
+  "upcoming-sessions": "{{x}} upcoming sessions",
   "payment-info": {
     "title": "Payment Info",
     "bank": "Bank",

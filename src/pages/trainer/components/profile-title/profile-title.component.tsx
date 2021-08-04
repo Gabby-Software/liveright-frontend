@@ -3,9 +3,10 @@ import Styles from './profile-title.styles';
 
 type Props = {
     title: string;
+    children?: React.ReactNode
 };
-const ProfileTitle = ({title}:Props) => {
-    return <Styles>{title}</Styles>
+const ProfileTitle = ({title, children}:Props) => {
+    return <Styles><span>{title}</span><span>{children}</span></Styles>
 };
 
 export default ProfileTitle;

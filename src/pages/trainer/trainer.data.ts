@@ -10,8 +10,19 @@ export type OnBoardItemType = {
     data?: OnBoardItemType[];
     props?: any;
 }
-
-const lrTrainerFields: OnBoardItemType[] = [
+export const lrClientFields: OnBoardItemType[] = [
+    {
+        type: 'textarea',
+        name: 'dietary_restrictions',
+        label: 'profile:dietary-restrictions'
+    },
+    {
+        type: 'textarea',
+        name: 'injuries',
+        label: 'profile:injuries'
+    },
+];
+export const lrTrainerFields: OnBoardItemType[] = [
     {
         type: 'textarea',
         name: 'about',

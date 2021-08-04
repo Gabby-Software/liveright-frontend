@@ -31,7 +31,7 @@ const TrainerContent = () => {
                 <ProfileImage/>
                 <ProfileBasic title={'Basic Trainer Profile'}/>
                 <ProfileAddresses/>
-                <ProfileInfo/>
+                <ProfileInfo title={'Trainer Info'}/>
                 <ProfileTnb/>
             </div>
         </Styles>
