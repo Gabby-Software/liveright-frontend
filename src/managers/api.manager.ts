@@ -19,7 +19,7 @@ api.interceptors.request.use(
         const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find((acc:AccountType) => acc.is_current)?.uuid;
         if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
-        logger?.info('HTTP_REQUEST', config.url, config.data);
+        logger?.info('HTTP_REQUEST', config.url, config.data, config.headers);
         return config;
     },
     err => Promise.reject(err)
