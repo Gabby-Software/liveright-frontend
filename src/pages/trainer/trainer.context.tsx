@@ -2,17 +2,42 @@ import React, {useState, createContext, useContext, ReactNode} from "react";
 import APIGet, {APIGetType} from "../../hoc/api-get";
 import {AccountObjType} from "../../types/account.type";
 import {EP_GET_TRAINER} from "../../enums/api.enum";
+import userTypes from "../../enums/user-types.enum";
 
-
-export const TrainerContext = createContext<APIGetType<AccountObjType|null>>({loading:true, data:null, error:'' });
+export type TrainerContextType = APIGetType<AccountObjType|null> & {
+    sessions: number;
+    invoices: number;
+    editMode: boolean;
+    setEditMode: (mode: boolean) => void;
+};
+export const TrainerContext = createContext<TrainerContextType>({
+    loading:true, data:null, error:'',
+    sessions:0, invoices:0,
+    editMode:false, setEditMode:()=>{}
+});
 export const TrainerProvider = ({children}: {children:ReactNode}) => {
     return (
         <APIGet url={EP_GET_TRAINER}>
-            {(data: APIGetType<AccountObjType|null>) => (
-                <TrainerContext.Provider value={data}>
-                    {children}
-                </TrainerContext.Provider>
-            )}
+            {(data: APIGetType<AccountObjType|null>) => {
+                const account = data?.data?.accounts.find(acc => acc.type === userTypes.TRAINER);
+                const val = {
+                    ...data,
+                    data: data.data ? {
+                        ...data.data,
+                        ...account?.profile,
+                        ...account?.addresses
+                    } : null,
+                    sessions: 0,
+                    invoices: 0,
+                    editMode: false,
+                    setEditMode: () =>{}
+                };
+                return (
+                    <TrainerContext.Provider value={val}>
+                        {children}
+                    </TrainerContext.Provider>
+                )
+            }}
         </APIGet>
     )
 };

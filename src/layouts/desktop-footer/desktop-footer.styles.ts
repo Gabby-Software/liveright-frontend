@@ -13,7 +13,7 @@ transition: ${p => p.theme.vars.defaults.transition};
     width: calc(0vw + 42px);
 }
 &.footer__open {
-    width: calc(100vw - 17px);
+    width: calc(100vw - 20px);
     border-top: 1px solid ${p => p.theme.vars.colors.secondary2};
 }
 .footer {

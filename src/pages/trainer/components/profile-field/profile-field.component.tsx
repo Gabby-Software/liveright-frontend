@@ -6,17 +6,19 @@ import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {date} from "../../../../pipes/date.pipe";
 import {OnBoardItemType} from "../../trainer.data";
 import {useTrainer} from "../../../../hooks/trainer.hook";
+import logger from "../../../../managers/logger.manager";
 
 const ProfileField = ({name, label, data, type}: OnBoardItemType) => {
     const {t} = useTranslation();
     const trainer = useTrainer();
+    logger.info('PROFILE', trainer);
     if (type === 'row')
         return (
             <FormRow className={'row'}>{
                 data?.map(d => <ProfileField {...d}/>)
             }</FormRow>
         );
-    if(!(trainer as any)[name as string]) return null;
+    // if(!(trainer as any)[name as string]) return null;
     return (
         <Styles>
             <div className={'field__name'}>{t(label || '')}</div>

@@ -1,19 +1,42 @@
-import React, {ReactNode} from "react";
+import React, {ReactNode, useEffect, useMemo, useState} from "react";
 import APIGet, {APIGetType} from "../../hoc/api-get";
 import {EP_GET_CLIENTS, EP_GET_TRAINER} from "../../enums/api.enum";
 import {AccountObjType} from "../../types/account.type";
 import {TrainerContext} from "../trainer/trainer.context";
 import {useParams} from "react-router";
+import userTypes from "../../enums/user-types.enum";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/reducers";
+import {ACTION_GET_FULL_CLIENT_REQUEST} from "../../store/action-types";
+import {useClient} from "../../hooks/client.hook";
 
-export const ClientProfileProvider = ({children}: {children:ReactNode}) => {
+export const ClientProfileProvider = ({children}: { children: ReactNode }) => {
     const {id} = useParams<any>();
+    const [editMode, setEditMode] = useState(false);
+    const dispatch = useDispatch();
+    const data = useClient();
+    useEffect(() => {
+
+        dispatch({type: ACTION_GET_FULL_CLIENT_REQUEST, payload: id});
+    }, []);
+    const val = useMemo(() => {
+        const account = data?.data?.accounts.find(acc => acc.type === userTypes.CLIENT);
+        return {
+            ...data,
+            data: data.data ? {
+                ...data.data,
+                ...account?.profile,
+                ...account?.addresses
+            } : null,
+            sessions: 0,
+            invoices: 0,
+            editMode,
+            setEditMode
+        };
+    }, [data, editMode]);
     return (
-        <APIGet url={EP_GET_CLIENTS+'/'+id}>
-            {(data: APIGetType<AccountObjType|null>) => (
-                <TrainerContext.Provider value={data}>
-                    {children}
-                </TrainerContext.Provider>
-            )}
-        </APIGet>
+        <TrainerContext.Provider value={val}>
+            {children}
+        </TrainerContext.Provider>
     )
 };

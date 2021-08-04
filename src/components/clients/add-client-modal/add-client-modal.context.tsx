@@ -38,7 +38,7 @@ export const defaultValues: ClientFormType = {
 };
 export const ClientFormContext = createContext<{
     form: ClientFormType;
-    update: (name: string, value: string) => void;
+    update: (name: string, value: any) => void;
     step: number;
     setStep: (step:number) => void;
     onClose: () => void;

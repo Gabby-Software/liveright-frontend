@@ -66,7 +66,9 @@ const AddClientModalForm = ({}:Props) => {
                     <FormSwitch name={'gender'} options={genderOptions}/>
                     <FormPhone name={'phone_number'} label={t('profile:phone')} onUpdate={update}/>
                     <FormInputLabeled name={'city'} label={t('profile:city')} onUpdate={update}/>
-                    <FormCountrySelect name={'country.code'}/>
+                    <FormCountrySelect name={'country.code'} onUpdate={code => {
+                        update('country', {code})
+                    }}/>
                     <FormInputLabeled name={'address'} label={t('profile:address')} onUpdate={update}/>
                     <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')} onUpdate={update}/>
                     <FormTextarea name={'injuries'} label={t('profile:injuries')} onUpdate={update}/>

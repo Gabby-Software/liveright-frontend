@@ -17,7 +17,7 @@ const Client = ({}:Props) => {
     const {id} = useParams<{id: string}>();
     const {t} = useTranslation();
     const dispatch = useDispatch();
-    const client = useClient();
+    const {data:client} = useClient();
     useEffect(() => {
         dispatch({type: ACTION_GET_CLIENT_MINIMAL_REQUEST, payload: id});
     }, []);

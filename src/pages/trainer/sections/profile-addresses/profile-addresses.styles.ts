@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export default styled.div`
-
+div {
+    margin-top:0;
+}
 .profile-addr {
     &__add {
         color: ${p => p.theme.vars.colors.primary};
