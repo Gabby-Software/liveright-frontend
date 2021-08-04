@@ -17,6 +17,7 @@ import ButtonSubmit from "../../../forms/button-submit/button-submit.component";
 import InvitationManager from "../../../../managers/invitation.manager";
 import {handleError} from "../../../../managers/api.manager";
 import logger from "../../../../managers/logger.manager";
+import FormPhone from "../../../forms/form-phone/form-phone.component";
 
 type Props = {};
 const AddClientModalForm = ({}:Props) => {
@@ -63,7 +64,7 @@ const AddClientModalForm = ({}:Props) => {
                                defaultPickerValue={moment().add(-16, 'years')}
                     />
                     <FormSwitch name={'gender'} options={genderOptions}/>
-                    <FormInputLabeled name={'phone_number'} label={t('profile:phone')} onUpdate={update}/>
+                    <FormPhone name={'phone_number'} label={t('profile:phone')} onUpdate={update}/>
                     <FormInputLabeled name={'city'} label={t('profile:city')} onUpdate={update}/>
                     <FormCountrySelect name={'country.code'}/>
                     <FormInputLabeled name={'address'} label={t('profile:address')} onUpdate={update}/>
