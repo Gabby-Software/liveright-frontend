@@ -132,8 +132,12 @@ export default styled.aside`
             ${p => p.theme.extend.flexCenter}
             flex-direction: column;
             margin: 0 16px;
-            img {
+            img, &__placeholder {
                 ${p => p.theme.mixin.circleImage('23px')}
+                ${p => p.theme.extend.flexCenter}
+                font-size: 10px;
+                color: white;
+                background-color: ${p => p.theme.vars.colors.primary};
             }
             span {
                 color: ${p => p.theme.vars.colors.light2};
