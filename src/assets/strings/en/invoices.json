@@ -52,5 +52,19 @@
     "pt_session": "PT Session",
     "consultation": "Consultation",
     "other": "Other"
+  },
+  "create": {
+    "recipient": "Select Recipient",
+    "due_date": "Must be paid until",
+    "description": "Description",
+    "add-description": "Add description",
+    "remove-description": "Remove description",
+    "type": "Item type",
+    "name": "Name",
+    "quantity": "Quantity",
+    "price": "Unit Price",
+    "tax": "Tax (%)",
+    "discount": "Discount (%)",
+    "add": "Add Item"
   }
 }

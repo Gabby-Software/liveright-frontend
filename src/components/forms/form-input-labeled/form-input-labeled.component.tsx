@@ -5,6 +5,7 @@ import FormError from "../form-error/form-error.component";
 import {ReactComponent as WarningIcon} from '../../../assets/media/icons/warning.svg';
 import {classes} from "../../../pipes/classes.pipe";
 import logger from "../../../managers/logger.manager";
+import {Formatter} from "../../../managers/formatter.manager";
 
 type Props = {
     name: string,
@@ -13,6 +14,7 @@ type Props = {
     icon?: React.ReactNode,
     onUpdate?: (name: string, value: string) => void,
     disabled?: boolean;
+    format?: Formatter
 };
 type UIProps = Props & {
     value: string;
@@ -51,15 +53,16 @@ export const FormInputLabeledUI = ({name, value, label, type, icon, onUpdate, di
         </Styles>
     );
 };
-const FormInputLabeled = ({name, label, type, onUpdate, icon, disabled}: Props) => {
+const FormInputLabeled = ({name, label, type, onUpdate, icon, disabled, format}: Props) => {
     return (
         <Field name={name}>
             {
                 ({field, form}: FieldProps) => (
                     <FormInputLabeledUI name={name} label={label} value={field.value}
                     onBlur={field.onChange} onUpdate={value=>{
-                        form.setFieldValue(name, value);
-                        onUpdate && onUpdate(name, value);
+                        const val = format?format.format(value):value;
+                        form.setFieldValue(name, val);
+                        onUpdate && onUpdate(name, val);
                     }}
                     type={type} icon={icon} disabled={disabled}>
                         <FormError name={name}/>

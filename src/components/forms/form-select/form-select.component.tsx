@@ -16,6 +16,7 @@ type FormSelectPropsType = {
     placeholder?: string;
     options: OptionType[];
     onUpdate?: (val: string) => void;
+    onSearch?: (val: string) => void;
     disabled?: boolean
 }
 type FormSelectUIProps = {
@@ -28,8 +29,9 @@ type FormSelectUIProps = {
     error?: boolean;
     onBlur?: FocusEventHandler<HTMLElement>;
     children?: React.ReactNode;
+    onSearch?: (search:string) => void;
 }
-export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, error, onBlur, children}: FormSelectUIProps) => {
+export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, error, onBlur, children, onSearch}: FormSelectUIProps) => {
 
     const isMobile = useIsMobile();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -68,6 +70,7 @@ export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, e
                     filterSort={(optionA, optionB) =>
                         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                     }
+                    onSearch={onSearch}
                     value={options.find(op => op.value.toString() === value.toString())}
                     labelInValue
                     onChange={value => onUpdate(value.value)}
@@ -85,7 +88,7 @@ export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, e
         </DesktopStyles>
     );
 };
-const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsType) => {
+const FormSelect = ({name, label, options, onUpdate, disabled, onSearch}: FormSelectPropsType) => {
 
     const handleChange = (value: string, form: FormikProps<any>) => {
         form.setFieldValue(name, value);
@@ -104,6 +107,7 @@ const FormSelect = ({name, label, options, onUpdate, disabled}: FormSelectPropsT
                         disabled={disabled}
                         error={Boolean(form.errors[name] && form.touched[name])}
                         onBlur={field.onBlur}
+                        onSearch={onSearch}
                     >
                         <FormError name={name}/>
                     </FormSelectUI>

@@ -6,4 +6,7 @@ declare module 'yup' {
         phone(): StringSchema;
         number(): StringSchema;
     }
+    interface DateSchema {
+        future(): DateSchema;
+    }
 }
