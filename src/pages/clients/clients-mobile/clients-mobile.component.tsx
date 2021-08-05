@@ -19,9 +19,15 @@ import logger from "../../../managers/logger.manager";
 const ClientsMobile = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
-    const {data: {data, meta}} = useClients();
+    const {data: {data, meta}, filters} = useClients();
     const setPage = (page: number) => {
-        dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {page}});
+        dispatch({
+            type: ACTION_GET_CLIENTS_REQUEST, payload: {
+                page,
+                query: filters.query,
+                status: filters.status
+            }
+        });
     };
     return (
         <Styles>

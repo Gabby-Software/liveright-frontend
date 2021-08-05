@@ -3,6 +3,10 @@ import styled from "styled-components";
 export default styled.table`
     width: 100%;
     .data-table {
+        &__error {
+            font-weight: 500;
+            padding: 16px 30px;
+        }
         &__head {
             background-color: ${p => p.theme.vars.colors.primary};
             color: #fff;

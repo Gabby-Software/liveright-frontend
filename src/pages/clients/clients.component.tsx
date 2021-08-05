@@ -15,15 +15,6 @@ import logger from "../../managers/logger.manager";
 
 const Clients = () => {
     const isMobile = useIsMobile();
-    const {loading, error, data} = useClients();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {}});
-    }, []);
-    if (loading)
-        return <Skeleton/>;
-    if (error)
-        return <p>{error}</p>;
     return isMobile ? <ClientsMobile/> : <ClientsDesktop/>
 };
 

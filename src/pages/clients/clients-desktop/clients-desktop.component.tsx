@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Styles from './clients-desktop.styles';
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {PaginationMetaType} from "../../../types/pagination-meta.type";
@@ -19,13 +19,14 @@ import {useDispatch} from "react-redux";
 import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
 import Link from "../../../components/link/link.component";
 import {Routes} from "../../../enums/routes.enum";
+import {Skeleton} from "antd";
+import {capitalize} from "../../../pipes/capitalize.pipe";
 
 type Props = {};
 const ClientsDesktop = ({}:Props) => {
     const {t} = useTranslation();
-    const {data: {data, meta}} = useClients();
-
-    logger.log('CLIENTS DATA', data, meta);
+    const {data: {data, meta},loading, error, filters} = useClients();
+    const dataRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
     const labels: string[] = [
         'clients:client-name',
@@ -46,7 +47,18 @@ const ClientsDesktop = ({}:Props) => {
         {icon: MeasureIcon, onClick: () => {}, title: 'Measures'},
     ];
     const setPage = (page: number) => {
-        dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {page}});
+        dispatch({type: ACTION_GET_CLIENTS_REQUEST, payload: {
+            query: filters.query,
+            status: filters.status,
+            page,
+            onSuccess:()=> {
+                if(!dataRef.current) return;
+                window.scrollTo({
+                    top: window.scrollY+dataRef.current.getBoundingClientRect().top-24,
+                    behavior:"smooth"
+                });
+            }
+        }});
     };
     // if(!data.length) {
     //     return (
@@ -59,19 +71,22 @@ const ClientsDesktop = ({}:Props) => {
         <Styles>
             <div className={'clients__cont'}>
                 <ClientsFilter/>
-                <DataTable labels={labels} data={data}
-                           keys={keys} render={{
-                    name: ({first_name, last_name, id, user_uuid}) => <Link to={`${Routes.CLIENTS}/${user_uuid}`}>{`${first_name} ${last_name}`}</Link>,
-                    actions: () => (
-                        <div className={'clients__activities'}>
-                            {actions.map((item) => (
-                            <ActionIcon {...item} className={'clients__action'}/>
-                        ))}
-                        </div>
-                    ),
-                    status: ({is_active}) => is_active? t('clients:active'):t('clients:inactive'),
-                    sessions: ({sessions}) => t('clients:sessions-remind', {n:sessions||0})
-                }}/>
+                <div ref={dataRef}>
+                            <DataTable labels={labels} data={data}
+                                       loading={loading} error={error}
+                                       keys={keys} render={{
+                                name: ({first_name, last_name, id, user_uuid}) => <Link to={`${Routes.CLIENTS}/${user_uuid}`}>{`${first_name} ${last_name}`}</Link>,
+                                actions: () => (
+                                    <div className={'clients__activities'}>
+                                        {actions.map((item) => (
+                                            <ActionIcon {...item} className={'clients__action'}/>
+                                        ))}
+                                    </div>
+                                ),
+                                status: ({status}) => capitalize(status),
+                                sessions: ({sessions}) => t('clients:sessions-remind', {n:sessions||0})
+                            }}/>
+                </div>
                 <DataPagination page={meta?.current_page}
                                 setPage={(current_page: number) => setPage(current_page)}
                                 total={meta?.total}/>
