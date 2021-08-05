@@ -8,7 +8,7 @@ import {ProfileDataType} from "../types/profile-data.type";
 export const useClients = () => {
     return useSelector((state: RootState) => state.clients) as APIGetType<PaginatedDataType<AccountObjType&ProfileDataType&AccountType&{sessions:number, user_uuid: string}>> & {
         filters: {
-            search: string;
+            query: string;
             type: string;
             status: string;
         }

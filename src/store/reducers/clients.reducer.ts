@@ -10,9 +10,9 @@ import {
 import {AccountObjType, AccountType} from "../../types/account.type";
 import {ProfileDataType} from "../../types/profile-data.type";
 
-const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&ProfileDataType>>&{
+const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&ProfileDataType&{status:string}>>&{
     filters: {
-        search: string;
+        query: string;
         type: string;
         status: string;
     }
@@ -28,7 +28,7 @@ const initialState: APIGetType<PaginatedDataType<AccountObjType&AccountType&Prof
         },
     },
     filters: {
-        search: '',
+        query: '',
         type: '',
         status: ''
     }

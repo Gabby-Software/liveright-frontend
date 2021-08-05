@@ -3,6 +3,7 @@ import Styles from './data-table.styles';
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
 import DataPagination from "../data-pagination/data-pagination.component";
+import {Skeleton} from "antd";
 
 interface Props<G> {
     labels:string[];
@@ -13,8 +14,10 @@ interface Props<G> {
     active?:number;
     children?: React.ReactNode;
     className?: string;
+    loading?: boolean;
+    error?: string;
 }
-const DataTable = ({labels, render, data, keys, onClick, active, children, className}:Props<any>) => {
+const DataTable = ({labels, render, data, keys, onClick, active, children, className, loading, error}:Props<any>) => {
     const {t} = useTranslation();
     return (
         <Styles className={`data-table ${className}`}>
@@ -27,7 +30,9 @@ const DataTable = ({labels, render, data, keys, onClick, active, children, class
             </thead>
             <tbody className={'data-table__body'}>
             {
-                data.map((item) => (
+                error? <p className={'data-table__error'}>{error}</p>
+                    : loading && !data.length ? <Skeleton/>
+                    : data?.length ? data.map((item) => (
                     <tr className={classes('data-table__tr', onClick&&'data-table__tr__clickable', active && active === item.id && 'data-table__tr__active')}
                         onClick={onClick?()=> onClick(item): undefined}>
                         {
@@ -38,7 +43,7 @@ const DataTable = ({labels, render, data, keys, onClick, active, children, class
                             ))
                         }
                     </tr>
-                ))
+                )):null
             }
             {children}
             </tbody>
