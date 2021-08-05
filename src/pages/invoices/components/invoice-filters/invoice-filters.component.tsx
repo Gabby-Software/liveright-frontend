@@ -9,6 +9,10 @@ import {statuses} from "../../invoices.data";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
 import ButtonSubmit from "../../../../components/forms/button-submit/button-submit.component";
 import {OptionType} from "../../../../types/option.type";
+import userTypes from "../../../../enums/user-types.enum";
+import DesktopAddInvoiceTrigger
+    from "../../../../components/invoices/desktop-add-invoice-trigger/desktop-add-invoice-trigger.component";
+import {useAuth} from "../../../../hooks/auth.hook";
 
 type InvoicesFilterType = {
     search: string;
@@ -20,9 +24,7 @@ const initialValues = {
 };
 const InvoiceFilters = () => {
     const {t} = useTranslation();
-    const onSubmit = (values: InvoicesFilterType, helper: FormikHelpers<InvoicesFilterType>) => {
-        helper.setSubmitting(false);
-    };
+    const {type} = useAuth();
     const [issuers, setIssuers] = useState<OptionType[]>([]);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
@@ -47,6 +49,9 @@ const InvoiceFilters = () => {
             <FormSelectUI value={issuer} name={'issuer'} label={t('invoices:issuer')} options={issuers} onUpdate={setIssuer}/>
             <div/>
             {/*<ButtonSubmit>{t('apply-filters')}</ButtonSubmit>*/}
+            {
+                type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null
+            }
         </Styles>
     );
 };

@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import moment from "moment";
 
 Yup.addMethod(Yup.string, 'name', function(acceptSpace=false) {
     return this.test({
@@ -33,6 +34,15 @@ Yup.addMethod(Yup.string, 'number', function() {
         message: 'must-be-number',
         test: (value) => {
             return /^\d*$/.test(value||'');
+        }
+    });
+});
+Yup.addMethod(Yup.date, 'future', function() {
+    return this.test({
+        name: 'future',
+        message: 'future-date',
+        test: (value) => {
+            return moment().startOf('day').add(-1, 'minute').isBefore(moment(value))
         }
     });
 });

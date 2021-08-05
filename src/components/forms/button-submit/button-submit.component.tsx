@@ -8,8 +8,9 @@ export type SubmitProps = {
     children: React.ReactNode;
     className?: string;
     id?: string;
+    disabled?: boolean;
 };
-const ButtonSubmit = ({children, className, id}: SubmitProps) => {
+const ButtonSubmit = ({children, className, id, disabled}: SubmitProps) => {
     return (
         <Field name={''}>
             {
@@ -24,6 +25,7 @@ const ButtonSubmit = ({children, className, id}: SubmitProps) => {
                             // !form.isValid
                             // || !dirty
                             // ||
+                            disabled ||
                             form.isSubmitting}
                     >{children}</FormButton>
                 )}

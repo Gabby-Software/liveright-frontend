@@ -38,10 +38,10 @@ export type InvoiceType = {
     invoice_number: string;
     is_taxable: boolean;
     status: string;
-    subtotal: 8.5;
-    tax_rate: 8.82;
-    tax_value: 0.75;
-    total: 8.92;
+    subtotal: number;
+    tax_rate: number;
+    tax_value: number;
+    total: number;
     type: string;
     invoice_to: InvoiceAttendeeType,
     invoice_from: InvoiceAttendeeType
