@@ -221,14 +221,6 @@ const CreateInvoice = ({isOpen, onClose}: Props) => {
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <span className={'add-invoice__label'}>VAT ({values.items.length&&asPrice(values.items.reduce((a,b) => (a+b.tax_rate),0)/values.items.length)}%)</span>
-                                                            </td>
-                                                            <td>
-                                                                <span className={'add-invoice__value'}>{asPrice(values.items.reduce((a,b) => (a+b.unit_price*b.quantity*b.tax_rate/100),0))} AED</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
                                                                 <span className={'add-invoice__label'}>Discount</span>
                                                             </td>
                                                             <td>
@@ -237,10 +229,18 @@ const CreateInvoice = ({isOpen, onClose}: Props) => {
                                                         </tr>
                                                         <tr>
                                                             <td>
+                                                                <span className={'add-invoice__label'}>VAT ({values.items.length&&asPrice(values.items.reduce((a,b) => (a+b.tax_rate),0)/values.items.length)}%)</span>
+                                                            </td>
+                                                            <td>
+                                                                <span className={'add-invoice__value'}>{asPrice(values.items.reduce((a,b) => (a+b.unit_price*b.quantity*(1-b.discount_percent/100)*b.tax_rate/100),0))} AED</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
                                                                 <span className={'add-invoice__total'}>Total Payable</span>
                                                             </td>
                                                             <td>
-                                                                <span className={'add-invoice__total add-invoice__value'}>{asPrice(values.items.reduce((a,b) => a+(b.unit_price*b.quantity)*(1+b.tax_rate/100-b.discount_percent/100),0))} AED</span>
+                                                                <span className={'add-invoice__total add-invoice__value'}>{asPrice(values.items.reduce((a,b) => a+(b.unit_price*b.quantity)*(1-b.discount_percent/100)*(1+b.tax_rate/100),0))} AED</span>
                                                             </td>
                                                         </tr>
                                                     </DataTable>
