@@ -12,19 +12,21 @@ import formatter from "../../../../managers/formatter.manager";
 import FormDatepicker from "../../../../components/forms/form-datepicker/form-datepicker.component";
 import {asPrice} from "../../../../pipes/price.pipe";
 import {asMoney} from "../../../../pipes/as-money.pipe";
+import moment from "moment";
 
 type Props = {
     form: FormikProps<InvoiceFormType>,
     helper: ArrayHelpers,
     item: InvoiceItemType
-    i: number
+    i: number,
+    credits:number;
 };
 const typeOptions: OptionType[] = [
     {label: 'PT session', value: 'PT session'},
     {label: 'Coaching session', value: 'Coaching session'},
     {label: 'Complimentary session', value: 'Complimentary session'},
 ];
-const CreateInvoiceItem = ({form, helper, item, i}: Props) => {
+const CreateInvoiceItem = ({form, helper, item, i, credits}: Props) => {
     const {t} = useTranslation();
 
     return (
@@ -38,6 +40,11 @@ const CreateInvoiceItem = ({form, helper, item, i}: Props) => {
                     </FormRow>
                     <FormInputLabeled name={`items.${i}.name`}
                                       label={t('invoices:create.description')}/>
+                    {
+                        item.type === 'PT session'?(
+                            <p className={'ci-item__credits'}>Total Sessions After Invoice: {credits}</p>
+                        ):null
+                    }
                 </div>
                 <div className={'ci-item__right'}>
                     <FormRow>
@@ -57,7 +64,9 @@ const CreateInvoiceItem = ({form, helper, item, i}: Props) => {
                     <FormRow>
                         {
                             item.type === 'PT session'?(
-                                <FormDatepicker label={'Session Expire on'} name={`items.${i}.extras.session_expires_on`}/>
+                                <FormDatepicker label={'Session Expire on'}
+                                                name={`items.${i}.extras.session_expires_on`}
+                                                disabledDate={date => date.isBefore(moment().startOf("day"))}/>
                             ):null
                         }
                         {
