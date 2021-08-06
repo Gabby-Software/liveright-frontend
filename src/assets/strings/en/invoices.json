@@ -54,6 +54,8 @@
     "other": "Other"
   },
   "create": {
+    "generate-and-send": "Generate Invoice and Send",
+    "generate-and-back": "Generate Invoice & Go Back",
     "recipient": "Select Recipient",
     "due_date": "Must be paid until",
     "description": "Description",

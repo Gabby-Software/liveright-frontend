@@ -40,16 +40,15 @@ function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, 
     }
 }
 
-function* createInvoiceWorker({payload}:ActionType<InvoiceFormType&CallbackType<void>&{params:any}>) {
+function* createInvoiceWorker({payload}:ActionType<InvoiceFormType&CallbackType<number>&{params:any}>) {
     const {onSuccess, onError, params, ...data} = payload;
     try {
         const res = (yield call(() => api.post(EP_ADD_INVOICE, {
             invoice: data.invoice,
             items: data.items
-        }).then(res => res.data))) as string;
+        }).then(res => res.data.data))) as {id: number};
         logger.success('Invoice added', res);
-        onSuccess && onSuccess();
-        yield put({type: ACTION_GET_INVOICES_REQUEST, payload: params});
+        onSuccess && onSuccess(res.id);
     } catch (e) {
         onError && onError(serverError(e))
     }

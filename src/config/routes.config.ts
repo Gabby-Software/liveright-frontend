@@ -58,14 +58,14 @@ export const authRoutes: RouteType[] = [
 export const routes: RouteType[] = [
     {
         title: 'Homepage',
-        url: '/',
+        url: Routes.HOME,
         Component: lazy(() => import('../pages/dashboard/dashboard.component')),
         props: {exact: true},
         header: {},
     },
     {
         title: 'Calendar',
-        url: '/calendar',
+        url: Routes.CALENDAR,
         Component: lazy(() => import('../pages/calendar/calendar.component')),
         header: {
             items: headers.default_inside
@@ -84,6 +84,19 @@ export const routes: RouteType[] = [
         Component: lazy(() => import('../pages/trainer/trainer.component')),
         header: {
             title: 'My Trainer',
+            items: headers.default_inside
+        }
+    },
+    {
+        title: 'Create Invoice',
+        url: Routes.CREATE_INVOICE,
+        Component: lazy(() => import('../pages/create-invoice/create-invoice.component')),
+        back: {
+          url: Routes.INVOICES,
+          alias: "invoices"
+        },
+        header: {
+            title: 'Generate new Invoice',
             items: headers.default_inside
         }
     },

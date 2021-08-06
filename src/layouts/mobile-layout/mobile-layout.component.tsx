@@ -19,7 +19,6 @@ const MobileLayout = ({children}: {children: React.ReactNode}) => {
     const page = usePage();
     const {title} = useHeader();
     const [titleContent, setTitleContent] = useState<React.ReactNode>(null);
-    logger.info('PAGE INFO',page);
     const footerType = useMemo(() =>  page?.footer === undefined ?  footerTypes.DEFAULT : page?.footer, [page]);
     mobileTitleRef.setTitleContent = setTitleContent;
     return (

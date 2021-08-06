@@ -13,6 +13,8 @@ import userTypes from "../../../../enums/user-types.enum";
 import DesktopAddInvoiceTrigger
     from "../../../../components/invoices/desktop-add-invoice-trigger/desktop-add-invoice-trigger.component";
 import {useAuth} from "../../../../hooks/auth.hook";
+import {Routes} from "../../../../enums/routes.enum";
+import {Link} from "react-router-dom";
 
 type InvoicesFilterType = {
     search: string;
@@ -49,8 +51,12 @@ const InvoiceFilters = () => {
             <FormSelectUI value={issuer} name={'issuer'} label={t('invoices:issuer')} options={issuers} onUpdate={setIssuer}/>
             <div/>
             {/*<ButtonSubmit>{t('apply-filters')}</ButtonSubmit>*/}
+            {/*{*/}
+            {/*    type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null*/}
+            {/*}*/}
             {
-                type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null
+                type === userTypes.TRAINER ? <Link to={Routes.CREATE_INVOICE}>
+                    <FormButton type={'primary'}>{t("invoices:add")}</FormButton></Link> : null
             }
         </Styles>
     );
