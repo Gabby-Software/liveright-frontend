@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {media} from "../../assets/styles/_media";
 
 export default styled(Link)`
     ${p =>p.theme.extend.flexCenter}
@@ -21,4 +22,7 @@ export default styled(Link)`
             margin-right: auto;
         }
     }
+    ${media('tablet', 'min')`
+            margin-top: 40px;
+        `}
 `;

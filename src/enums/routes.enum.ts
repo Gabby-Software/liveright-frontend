@@ -26,5 +26,6 @@ export const Routes = {
     WORKOUTS: '/plans/workout-plans',
     INVITATIONS: '/invitations',
     HUB: '/hub',
-    PROGRESS: '/progress'
+    PROGRESS: '/progress',
+    CREATE_INVOICE: '/create-invoice'
 };
