@@ -116,7 +116,7 @@ export const routes: RouteType[] = [
     {
         title: 'Invoices',
         url: Routes.INVOICES,
-        Component: lazy(() => import('../pages/invoices/invoices.component')),
+        Component: lazy(() => import('../pages/invoices/invoices.component').then(m => ({default: m.ClientInvoices}))),
         header: {
             title: 'Invoices',
             items: headers.default_inside

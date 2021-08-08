@@ -10,15 +10,12 @@ import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.sv
 import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.svg";
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
 import {ReactComponent as CalendarIcon} from "../../assets/media/icons/calendar.svg";
-import {ReactComponent as RightArrowIcon} from "../../assets/media/icons/right-arrow.svg";
-import {ReactComponent as BellIcon} from "../../assets/media/icons/bell.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
 import {useAuth} from "../../hooks/auth.hook";
 import userTypes from "../../enums/user-types.enum";
 import logger from "../../managers/logger.manager";
 import {Routes} from "../../enums/routes.enum";
-import profilePlaceholder from "../../assets/media/profile-placeholder.png";
 import DesktopFooter from "../desktop-footer/desktop-footer.component";
 import NotificationIcon from "../../components/notification-icon/notification-icon.component";
 import {useClientsTrainer} from "../../hooks/clients-trainer.hook";
@@ -36,7 +33,8 @@ const menuItems: MenuItemType[] = [
     {name: 'plans', url: '/plans', Icon: PlanIcon},
     {name: 'progress', url: '/progress', Icon: ProgressIcon},
     {name: 'library', url: '/library', Icon: LibraryIcon},
-    {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon},
+    {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon, type: userTypes.CLIENT},
+    {name: 'invoices', url: Routes.FINANCIALS_OVERVIEW, Icon: InvoiceIcon, type: userTypes.TRAINER},
     {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},
     {name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon},
     {name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon},

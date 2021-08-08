@@ -2,10 +2,10 @@ import React, {useState, useEffect, lazy} from 'react';
 import Styles from './financials.styles';
 import {Skeleton, Tabs} from 'antd';
 import {financialTabs} from "./financials.data";
-import {useLocation} from "react-router";
 import RoutedTabs from "../../components/routed-tabs/routed-tabs.component";
 import {Route} from "react-router-dom";
 import {Routes} from "../../enums/routes.enum";
+import {onlyTrainer} from "../../guards/trainer.guard";
 
 const FinancialsPayables = lazy(() => import("./tabs/financials-payables/financials-payables.component"));
 const FinancialsOverview = lazy(() => import("./tabs/financials-overview/financials-overview.component"));
@@ -27,4 +27,4 @@ const Financials = ({}: Props) => {
     );
 };
 
-export default Financials;
+export default onlyTrainer(Financials);
