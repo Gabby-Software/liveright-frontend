@@ -53,3 +53,4 @@ const Invoices = () => {
 };
 
 export default Invoices;
+export const ClientInvoices = onlyClient(Invoices);

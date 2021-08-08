@@ -20,7 +20,7 @@ const AddSessionCredits = ({}: Props) => {
                     </div>
                     {
                         form.values.type === serviceTypes.PT_SESSION && field.value <= 0 ? (
-                            <Link to={Routes.INVOICES}>
+                            <Link to={Routes.CREATE_INVOICE+`?${new URLSearchParams({type:'PT session', cid: form.values.client_id||''}).toString()}`}>
                                 <FormButton type={'default'}>Invoice Now</FormButton>
                             </Link>
                         ):null

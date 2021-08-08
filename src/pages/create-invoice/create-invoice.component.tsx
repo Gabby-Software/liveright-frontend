@@ -31,8 +31,9 @@ import {paymentMethods, paymentMethodsOptions} from "../../enums/payment-method.
 import Card from "../../components/card/card.style";
 import CreateInvoiceItem from "./components/create-invoice-item/create-invoice-item.component";
 import {forOf} from "../../pipes/for-of.pipe";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {Routes} from "../../enums/routes.enum";
+import {useLocation} from "react-router";
 
 type Props = {};
 export type InvoiceItemType = {
@@ -92,11 +93,18 @@ const CreateInvoice = ({}: Props) => {
     const dispatch = useDispatch();
     const isMobile = useIsMobile();
     const {t} = useTranslation();
-    const [submitted, setSubmitted] = useState(0);
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [client, setClient] = useState<AccountObjType | null>(null);
     const {meta, data} = useSelector((state: RootState) => state.invoices);
+    const location = useLocation();
+    const history = useHistory();
+    const initialFormValues = useMemo(() => {
+        const params = new URLSearchParams(location.search);
+        initialValues.invoice.invoice_to = params.get('cid')||'';
+        initialValues.invoice.type = params.get('type') || 'PT session';
+        return initialValues;
+    },[]);
     const TitleContent = () => (
         <SubmitLabel>
             <FormButton type={'primary'}
@@ -125,7 +133,7 @@ const CreateInvoice = ({}: Props) => {
                 onSuccess: (id:number) => {
                     helper.setSubmitting(false);
                     helper.resetForm();
-                    setSubmitted(id);
+                    history.push(Routes.INVOICES+`/${id}`)
                 },
                 onError: handleError(helper)
             }
@@ -133,11 +141,9 @@ const CreateInvoice = ({}: Props) => {
     }
     if (isMobile)
         return null;
-    if(submitted)
-        return <Redirect to={Routes.INVOICES+`/${submitted}`}/>
     return (
         <Styles>
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}
+            <Formik initialValues={initialFormValues} onSubmit={handleSubmit}
                     isInitialValid={false}
                     validationSchema={Yup.object({
                         invoice: Yup.object({
