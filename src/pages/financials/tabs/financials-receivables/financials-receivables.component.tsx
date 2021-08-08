@@ -5,7 +5,9 @@ import Invoices from "../../../invoices/invoices.component";
 type Props = {};
 const FinancialsReceivables = ({}:Props) => {
     return (
-        <Invoices/>
+        <Styles>
+            <h1>Receivables</h1>
+        </Styles>
     );
 };
 
