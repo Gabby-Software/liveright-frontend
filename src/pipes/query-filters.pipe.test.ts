@@ -1,5 +1,5 @@
 import React from 'react';
 
-test('MobileSessionFilter initial test', () => {
+test('ServerError initial test', () => {
     expect(true).toBeTruthy();
 });

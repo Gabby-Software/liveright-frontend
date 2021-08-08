@@ -30,7 +30,7 @@ const SessionEditModal = ({session, onClose}: Props) => {
         {label: 'Galgalatz', value: '2'},
         {label: 'Chupma Chapma', value: '3'},
         {label: 'Miki Mouse', value: '4'},
-        {label: session.name, value: session.name}
+        {label: 'Temp', value: "temp"}
     ];
     return (
         <Modal visible={!!session} onCancel={onClose}>

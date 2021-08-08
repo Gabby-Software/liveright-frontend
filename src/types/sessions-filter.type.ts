@@ -1,3 +1,5 @@
+import {Session} from "./session.type";
+
 export type SessionFilterType = {
     status: string;
     timeline: string;
@@ -6,5 +8,5 @@ export type SessionFilterType = {
 
 export interface FilterValues {
     dateType: string;
-    type: string;
+    type: 'All' | Session;
 }
