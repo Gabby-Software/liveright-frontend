@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useMemo, FocusEventHandler} from 'react';
 import {MobileStyles, DesktopStyles} from './form-select.styles';
 import {Field, FieldProps, FormikProps} from 'formik';
+import {Select} from "antd";
 import {OptionType} from "../../../types/option.type";
 import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import SmallModal from "../../small-modal/small-modal.component";
 import {ReactComponent as DownArrow} from "../../../assets/media/icons/down-arrow.svg";
-import {Select} from "antd";
 import FormError from "../form-error/form-error.component";
 import logger from "../../../managers/logger.manager";
 import {classes} from "../../../pipes/classes.pipe";

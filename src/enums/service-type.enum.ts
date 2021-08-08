@@ -4,8 +4,8 @@ export const serviceTypes = {
     OTHER: 'other'
 };
 export const serviceTypeOptions = [
-    {label: 'PT Session', value: 'pt_session'},
-    {label: 'Consultation', value: 'consultation'},
-    {label: 'Complimentary', value: 'complimentary'},
-    {label: 'Other', value: 'other'}
+    {label: 'Paid PT', value: 'Paid PT'},
+    {label: 'Consulting', value: 'Consulting'},
+    {label: 'Complimentary', value: 'Complimentary'},
+    {label: 'Coaching', value: 'Coaching'}
 ];

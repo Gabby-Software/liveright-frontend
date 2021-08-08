@@ -1,33 +1,82 @@
 import {PaginatedDataType} from "../../types/paginated-data.type";
-import {InvoiceType} from "../../types/invoice.type";
 import {withStorage} from "./storage.hook";
+import {SessionType} from "../../types/session.type";
 import {
-    ACTION_GET_INVOICES_ERROR,
-    ACTION_GET_INVOICES_LOAD,
-    ACTION_GET_INVOICES_SUCCESS, ACTION_GET_SESSIONS_ERROR, ACTION_GET_SESSIONS_LOAD, ACTION_GET_SESSIONS_SUCCESS,
-    ActionType
+    ACTION_TRAINER_CREATE_SESSION_ERROR,
+    ACTION_TRAINER_CREATE_SESSION_LOAD,
+    ACTION_TRAINER_CREATE_SESSION_SUCCESS,
+    ACTION_GET_SESSIONS_SUCCESS,
+    ACTION_GET_SESSIONS_LOAD,
+    ACTION_GET_SESSIONS_ERROR,
+    ActionType, ACTION_EDIT_SESSIONS_LOAD, ACTION_EDIT_SESSIONS_ERROR, ACTION_EDIT_SESSIONS_SUCCESS,
 } from "../action-types";
 import {APIGetType} from "../../hoc/api-get";
 
-const initialValues: APIGetType<PaginatedDataType<InvoiceType>> = {
+export interface SessionsState {
+    upcoming: PaginatedDataType<SessionType>,
+    awaiting_scheduling: PaginatedDataType<SessionType>,
+    past: PaginatedDataType<SessionType>,
+}
+
+const initialValues: APIGetType<SessionsState> = {
     data: {
-        data: [],
-        meta: {
-            current_page: 1,
-            total: 0,
-            per_page: 10
+        upcoming: {
+            data: [],
+            meta: {
+                current_page: 1,
+                total: 0,
+                per_page: 10
+            },
+        },
+        awaiting_scheduling: {
+            data: [],
+            meta: {
+                current_page: 1,
+                total: 0,
+                per_page: 10
+            },
+        },
+        past: {
+            data: [],
+            meta: {
+                current_page: 1,
+                total: 0,
+                per_page: 10
+            },
         },
     },
     loading: true,
     error: ''
 };
+
 export const sessionsReducer = withStorage((state=initialValues, {type, payload}:ActionType<any>) => {
+    const {data} = state;
+    const {upcoming} = data;
+
     switch(type) {
-        case ACTION_GET_SESSIONS_SUCCESS:
+        case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
             return {
-                data: payload,
+                data: {
+                    ...data,
+                    upcoming: {
+                        ...upcoming,
+                        data: [payload, ...upcoming.data.slice(0, upcoming.data.length - 1)]
+                    }
+                },
                 loading: false,
                 error: null
+            };
+        case ACTION_TRAINER_CREATE_SESSION_LOAD:
+            return {
+                ...state,
+                loading: true,
+                error: false
+            };
+        case ACTION_TRAINER_CREATE_SESSION_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: true
             };
         case ACTION_GET_SESSIONS_LOAD:
             return {
@@ -41,6 +90,41 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 loading: false,
                 error: true
             };
+        case ACTION_GET_SESSIONS_SUCCESS:
+            return {
+                data: {
+                    ...data,
+                    ...payload,
+                },
+                loading: false,
+                error: null
+            }
+        case ACTION_EDIT_SESSIONS_LOAD:
+            return {
+                ...state,
+                loading: true,
+                error: false
+            };
+        case ACTION_EDIT_SESSIONS_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: true
+            };
+        case ACTION_EDIT_SESSIONS_SUCCESS:
+            const index = upcoming.data.findIndex((it: SessionType) => it.id === payload.id);
+            const nextUpcomingData = upcoming.data
+            nextUpcomingData[index] = payload;
+            return {
+                data: {
+                    upcoming: {
+                        ...upcoming,
+                        data: nextUpcomingData,
+                    }
+                },
+                loading: false,
+                error: null
+            }
         default:
             return state;
     }

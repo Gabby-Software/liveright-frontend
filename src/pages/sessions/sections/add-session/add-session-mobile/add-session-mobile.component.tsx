@@ -1,21 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './add-session-mobile.styles';
+import React from 'react';
 import BottomDrawer from "../../../../../components/bottom-drawer/bottom-drawer.component";
 import AddSessionTop from "../add-session-top/add-session-top.component";
 import AddSessionFieldsMobile from "../add-session-fields-mobile/add-session-fields-mobile.component";
 import AddSessionForm from "../add-session-form/add-session-form.component";
-import {sessionData} from "../../edit-session/edit-session.data";
+import {SessionType} from "../../../../../types/session.type";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     forEdit?: boolean;
+    session?: SessionType | null;
 };
-const AddSessionMobile = ({isOpen, onClose, forEdit}: Props) => {
+const AddSessionMobile = ({isOpen, onClose,session, forEdit}: Props) => {
     return (
         <BottomDrawer isOpen={isOpen} onClose={onClose}>
             <BottomDrawer.Body>
-                <AddSessionForm onClose={onClose} initialValues={forEdit?sessionData:undefined}>
+                <AddSessionForm onClose={onClose} session={session}>
                     <AddSessionTop/>
                     <AddSessionFieldsMobile forEdit={forEdit}/>
                 </AddSessionForm>

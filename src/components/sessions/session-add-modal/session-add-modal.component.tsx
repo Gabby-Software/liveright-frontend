@@ -19,10 +19,9 @@ type Props = {
 };
 const initialValues: SessionType = {
     id: 1,
-    name: '',
-    type: '',
-    date: '',
-    time: ''
+    type: 'Paid PT',
+    starts_at: '',
+    duration: ''
 };
 const SessionAddModal = ({isOpen, onClose}:Props) => {
     const {t} = useTranslation();

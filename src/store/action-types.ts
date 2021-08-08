@@ -43,9 +43,26 @@ export const ACTION_GET_FULL_CLIENT_ERROR = 'action-get-full-client-error';
 export const ACTION_UPDATE_CLIENT_REQUEST = 'action-update-client-request';
 export const ACTION_UPDATE_CLIENT_SUCCESS = 'action-update-client-success';
 export const ACTION_UPDATE_CLIENTS_FILTERS = 'action-update-clients-filters';
+
 export const ACTION_GET_SESSIONS_REQUEST = 'action-get-sessions-request';
 export const ACTION_GET_SESSIONS_SUCCESS = 'action-get-sessions-success';
 export const ACTION_GET_SESSIONS_LOAD = 'action-get-sessions-load';
 export const ACTION_GET_SESSIONS_ERROR = 'action-get-sessions-error';
+
+export const ACTION_EDIT_SESSIONS_REQUEST = 'action-edit-sessions-request';
+export const ACTION_EDIT_SESSIONS_SUCCESS = 'action-edit-sessions-success';
+export const ACTION_EDIT_SESSIONS_LOAD = 'action-edit-sessions-load';
+export const ACTION_EDIT_SESSIONS_ERROR = 'action-edit-sessions-error';
+
+export const ACTION_CLIENT_CREATE_SESSION_REQUEST = 'action-client-create-sessions-request';
+export const ACTION_CLIENT_CREATE_SESSION_LOAD = 'action-client-create-sessions-load';
+export const ACTION_CLIENT_CREATE_SESSION_SUCCESS = 'action-client-create-sessions-success';
+export const ACTION_CLIENT_CREATE_SESSION_ERROR = 'action-client-create-sessions-error';
+
+export const ACTION_TRAINER_CREATE_SESSION_REQUEST = 'action-trainer-create-sessions-request';
+export const ACTION_TRAINER_CREATE_SESSION_LOAD = 'action-trainer-create-sessions-load';
+export const ACTION_TRAINER_CREATE_SESSION_SUCCESS = 'action-trainer-create-sessions-success';
+export const ACTION_TRAINER_CREATE_SESSION_ERROR = 'action-trainer-create-sessions-error';
+
 export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
 export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';

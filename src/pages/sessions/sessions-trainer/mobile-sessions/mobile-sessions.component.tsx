@@ -1,14 +1,12 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import Styles from './mobile-sessions.styles';
 import {Formik} from "formik";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {sessions} from "../../sessions.data";
-import {SessionType} from "../../../../types/session.type";
+import {SessionStatus, SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
     from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
 import EditSession from "../../sections/edit-session/edit-session.component";
 import SessionsCards from "../../components/sessions-mobile-cards/sessions-mobile-cards.component";
-import moment from "moment";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
@@ -25,44 +23,32 @@ import {sessionDateRangeOptions} from "../../../../enums/session-filters.enum";
 import FormSelect from "../../../../components/forms/form-select/form-select.component";
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
 import {AwaitingCard, Form, ManageTargetsAction, TitleContent} from "./mobile-sessions.styles";
-import {PaginationMetaType} from "../../../../types/pagination-meta.type";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import AddSession from "../../sections/add-session/add-session.component";
 import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
 import SmallModal from "../../../../components/small-modal/small-modal.component";
+import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 
-const MobileSessions = () => {
+interface Props {
+  sessions: SessionsState;
+  getSessions: (status: SessionStatus) => (page: number) => void;
+}
+
+const MobileSessions: React.FC<Props> = (props) => {
+    const {sessions, getSessions} = props;
+    const {upcoming, awaiting_scheduling, past} = sessions;
+    const awaitingMeta = awaiting_scheduling.meta;
+    const {t} = useTranslation();
     const [workingSession] = useState<SessionType|null>(null);
     const [rescheduleOpen, setRescheduleOpen] = useState(false);
     const [addOpen, setAddOpen] = useState<boolean>(false);
-    const [editOpen, setEditOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState<SessionType|null>(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: sessions.length});
-    const {current_page, total, per_page} = pagMeta;
-    const {t} = useTranslation();
-    const {upcomingSessions, pastSessions} = useMemo(() => sessions.reduce<{
-        upcomingSessions: SessionType[],
-        pastSessions:SessionType[]
-    }>((acc, session) => {
-        const {date, time} = session
-        const isPast = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm").isBefore(moment());
-
-        if (isPast) {
-            acc.pastSessions.push(session)
-        } else {
-            acc.upcomingSessions.push(session)
-        }
-
-        return acc
-    }, {
-        upcomingSessions: [],
-        pastSessions: [],
-    }), []);
 
     const renderUpcomingItemOptions = (item: SessionType) => {
         return (
             <div className="sessions__options">
-                <FormButton onClick={() => setEditOpen(true)}>{t('sessions:edit-reschedule')}</FormButton>
+                <FormButton onClick={() => setEditOpen(item)}>{t('sessions:edit-reschedule')}</FormButton>
                 <Link to={Routes.CALENDAR}>
                     <ActionIcon
                         icon={CalendarIcon}
@@ -82,22 +68,22 @@ const MobileSessions = () => {
     const renderAwaitingContent = () => {
         return (
             <div>
-                {sessions.slice((current_page-1)*per_page, current_page*per_page).map((it) => (
+                {awaiting_scheduling.data.map((it) => (
                     <AwaitingCard>
                         <div>
                             <Avatar size="small" icon={<UserOutlined />} />
-                            {it.name}
+                            {it.client?.first_name} {it.client?.last_name}
                         </div>
-                        <div className="schedule-button" onClick={() => setEditOpen(true)}>
+                        <div className="schedule-button" onClick={() => setEditOpen(it)}>
                             <span>{t("sessions:schedule-now")}</span>
                             <RightArrowIcon />
                         </div>
                     </AwaitingCard>
                 ))}
                 <DataPagination
-                    page={current_page}
-                    setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})}
-                    total={total}
+                    page={awaitingMeta.current_page}
+                    setPage={getSessions('awaiting_scheduling')}
+                    total={awaitingMeta.current_page}
                 />
             </div>
         )
@@ -108,14 +94,19 @@ const MobileSessions = () => {
             <SessionsCards
                 withFilter
                 renderOptions={renderUpcomingItemOptions}
-                data={upcomingSessions}
+                sessions={upcoming}
+                getSessions={getSessions('upcoming')}
             />
         )
     }
 
     const renderPastContent = () => {
         return (
-            <SessionsCards withFilter data={pastSessions} />
+            <SessionsCards
+                withFilter
+                sessions={past}
+                getSessions={getSessions('past')}
+            />
         )
     }
 
@@ -165,7 +156,7 @@ const MobileSessions = () => {
                 onClose={() => setRescheduleOpen(false)}
                 session={rescheduleOpen?workingSession:null}
             />
-            <EditSession isOpen={editOpen} onClose={() => setEditOpen(false)}/>
+            <EditSession session={editOpen} isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
             <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
             <SmallModal
                 onCancel={() => setIsFilterOpen(false)}
