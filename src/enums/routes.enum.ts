@@ -27,5 +27,10 @@ export const Routes = {
     INVITATIONS: '/invitations',
     HUB: '/hub',
     PROGRESS: '/progress',
-    CREATE_INVOICE: '/create-invoice'
+    CREATE_INVOICE: '/create-invoice',
+    FINANCIALS: '/financials/:path',
+    FINANCIALS_OVERVIEW: '/financials/overview',
+    FINANCIALS_RECEIVABLES: '/financials/receivables',
+    FINANCIALS_PAYABLES: '/financials/payables',
+    FINANCIALS_GOALS: '/financials/goals',
 };

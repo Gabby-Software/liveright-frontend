@@ -210,6 +210,15 @@ export const routes: RouteType[] = [
             title: "Settings",
             items: headers.default
         }
+    },
+    {
+        title: 'Financials',
+        url: Routes.FINANCIALS,
+        Component: lazy(() => import('../pages/financials/financials.component')),
+        header: {
+            title: "Financials",
+            items: headers.default
+        },
     }
 ];
 
