@@ -1,26 +1,29 @@
 import React, {useState, useMemo, ReactElement, useEffect} from 'react';
 import {Avatar} from "antd";
+import moment from "moment";
 import {UserOutlined} from '@ant-design/icons';
 import Styles from './sessions-table.styles';
-import {PaginationMetaType} from "../../../../types/pagination-meta.type";
 import DataTable from "../../../../components/data-table/data-table.component";
-import {SessionType} from "../../../../types/session.type";
-import {toPmAm} from "../../../../pipes/to-pm-am.pipe";
+import {SessionFilter, SessionType} from "../../../../types/session.type";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
-import DesktopSessionsFilters from "../desktop-sessions-filters/desktop-sessions-filters.component";
-import {FilterValues} from "../../../../types/sessions-filter.type";
+import SessionsFilters from "../sessions-filters/sessions-filters.component";
+import {useAuth} from "../../../../hooks/auth.hook";
+import userTypes from "../../../../enums/user-types.enum";
+import {PaginatedDataType} from "../../../../types/paginated-data.type";
 
 interface Props {
-    data: SessionType[];
+    sessions: PaginatedDataType<SessionType>;
+    getSessions: (page: number, filter?: SessionFilter) => void;
     renderOptions?: (session: SessionType) => ReactElement;
     withFilter?: boolean;
 }
 
 const SessionsTable: React.FC<Props> = (props) => {
-    const {data, renderOptions, withFilter} = props;
-    const [sessions, setSessions] = useState(data);
-    const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: sessions.length});
-    const {current_page, total, per_page} = pagMeta;
+    const {sessions, getSessions, renderOptions, withFilter} = props;
+    const {data, meta} = sessions;
+    const {current_page, total} = meta;
+    const isTrainerType = useAuth().type === userTypes.TRAINER;
+    const [filter, setFilter] = useState<SessionFilter>({});
     const {labels, keys} = useMemo(() => {
         const labels = [
             'sessions:type',
@@ -28,7 +31,7 @@ const SessionsTable: React.FC<Props> = (props) => {
             'sessions:time',
             'sessions:with',
         ]
-        const keys = ['type', 'date', 'time', 'name']
+        const keys = ['type', 'starts_at', 'duration', 'with']
 
         if (renderOptions) {
             labels.push('sessions:options')
@@ -38,52 +41,47 @@ const SessionsTable: React.FC<Props> = (props) => {
         return {labels, keys}
     }, [renderOptions]);
 
-    const handleFilterChange = (values: FilterValues) => {
-        const {dateType, type} = values;
-        let results = data;
-
-        if (type !== 'All') {
-            results = results.filter((it) => it.type.includes(type));
-        }
-
-        if (dateType.trim()) {
-            results = results.filter((it) => {
-                const isDate = /^\d{4}(-\d{2})*$/.test(dateType)
-
-                if (isDate) {
-                    return it.date.includes(dateType)
-                } else {
-                    return it.type.toLowerCase().includes(dateType.toLowerCase())
-                }
-            });
-        }
-
-        setSessions(results)
+    const handlePageSet = (page: number) => {
+        getSessions(page, filter)
     }
 
     useEffect(() => {
-        setPagMeta({current_page: 1, per_page: 10, total: sessions.length})
-    }, [sessions])
+        handlePageSet(1)
+    }, [filter])
 
     return (
       <Styles>
-          {withFilter && <DesktopSessionsFilters onChange={handleFilterChange} />}
+          {withFilter && <SessionsFilters onUpdate={setFilter} />}
           <DataTable
             labels={labels}
             keys={keys}
-            data={sessions.slice((current_page-1)*per_page, current_page*per_page)}
+            data={data}
             render={{
-              name: ({name}: SessionType) => (
-                  <div>
-                      <Avatar size="small" icon={<UserOutlined />} />
-                      {name}
-                  </div>
-              ),
+              with: (it: SessionType) => {
+                  const person = isTrainerType ? it.client : it.trainer;
+
+                  if (!person) {
+                      return null
+                  }
+
+                  return (
+                      <div>
+                          <Avatar size="small" icon={<UserOutlined />} />
+                          {person.first_name} {person.last_name}
+                      </div>
+                  )
+              },
+              starts_at: ({starts_at}: SessionType) => {
+                  return moment(starts_at).format("YYYY-MM-DD")
+              },
+              duration: ({duration}: SessionType) => {
+                  return moment(duration, "HH:mm:ss").format("HH:mm")
+              },
               options: (item) => renderOptions ? renderOptions(item) : React.Fragment
           }}/>
           <DataPagination
               page={current_page}
-              setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})}
+              setPage={handlePageSet}
               total={total}
           />
       </Styles>

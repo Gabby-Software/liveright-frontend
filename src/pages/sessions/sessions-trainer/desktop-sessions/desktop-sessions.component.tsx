@@ -1,13 +1,11 @@
-import React, {useState, useMemo} from 'react';
-import moment from 'moment'
+import React, {useState} from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
 import {Avatar} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import Styles, {AwaitingCard, TitleContent, AddSessionAction, ManageTargetsAction} from './desktop-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {sessions} from "../../sessions.data";
-import {SessionType} from "../../../../types/session.type";
+import {SessionEdit, SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
@@ -28,30 +26,20 @@ import {
 } from "../../../../enums/session-filters.enum";
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
 import Carousel from "../../../../components/carousel/carousel.component";
+import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 
-const DesktopSessions = () => {
+interface Props {
+    sessions: SessionsState;
+    getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+}
+
+const DesktopSessions: React.FC<Props> = (props) => {
+    const {sessions, getSessions} = props;
+    const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
-    const {upcomingSessions, pastSessions} = useMemo(() => sessions.reduce<{
-        upcomingSessions: SessionType[],
-        pastSessions:SessionType[]
-    }>((acc, session) => {
-        const {date, time} = session
-        const isPast = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm").isBefore(moment());
-
-        if (isPast) {
-            acc.pastSessions.push(session)
-        } else {
-            acc.upcomingSessions.push(session)
-        }
-
-        return acc
-    }, {
-        upcomingSessions: [],
-        pastSessions: [],
-    }), []);
 
     const renderUpcomingItemOptions = (item: SessionType) => {
         return (
@@ -76,11 +64,11 @@ const DesktopSessions = () => {
     const renderAwaitingContent = () => {
         return (
             <Carousel>
-                {sessions.map((it) => (
+                {awaiting_scheduling.data.map((it) => (
                     <AwaitingCard>
                         <div>
                             <Avatar size="small" icon={<UserOutlined />} />
-                            {it.name}
+                            {it.client?.first_name} {it.client?.last_name}
                         </div>
                         <div className="schedule-button" onClick={() => setEditOpen(it)}>
                             <span>{t("sessions:schedule-now")}</span>
@@ -95,7 +83,8 @@ const DesktopSessions = () => {
     const renderUpcomingContent = () => {
         return (
             <SessionsTable
-                data={upcomingSessions}
+                sessions={upcoming}
+                getSessions={getSessions('upcoming')}
                 renderOptions={renderUpcomingItemOptions}
                 withFilter
             />
@@ -103,7 +92,13 @@ const DesktopSessions = () => {
     }
 
     const renderPastContent = () => {
-        return <SessionsTable data={pastSessions} withFilter />
+        return (
+            <SessionsTable
+                getSessions={getSessions('past')}
+                sessions={past}
+                withFilter
+            />
+        )
     }
 
     useTitleContent((
@@ -150,7 +145,7 @@ const DesktopSessions = () => {
               </div>
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
-          <EditSession isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
+          <EditSession session={editOpen} isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
           <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
       </Styles>
     );

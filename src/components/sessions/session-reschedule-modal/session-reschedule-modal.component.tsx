@@ -2,7 +2,6 @@ import React, {useState, useEffect, useMemo} from 'react';
 import Styles from './session-reschedule-modal.styles';
 import Modal from "../../modal/modal.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import {sessions} from "../../../pages/sessions/sessions.data";
 import {SessionType} from "../../../types/session.type";
 import {Formik, Form, FormikHelpers, Field, FieldProps} from 'formik';
 import * as Yup from 'yup';
@@ -47,8 +46,8 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
     ), [isMobile, session, onClose]);
     if (!session) return null;
     const initialValues: RescheduleFormType = {
-        date: session.date,
-        time: session.time
+        date: session.starts_at,
+        time: session.duration
     };
     const handleSubmit = (values: RescheduleFormType, helper: FormikHelpers<RescheduleFormType>) => {
         // todo: handle form submit;
@@ -70,11 +69,11 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                             <PrimaryLabel className={'reschedule__current__label'}>{t('sessions:currently')}</PrimaryLabel>
                             <div className={'reschedule__current__item'}>
                                 <CalendarIcon/>
-                                <span>{date(session.date)}</span>
+                                <span>{date(session.starts_at)}</span>
                             </div>
                             <div className={'reschedule__current__item'}>
                                 <ClockIcon/>
-                                <span>{session.time}</span>
+                                <span>{session.duration}</span>
                             </div>
                         </div>
                         <FormRow>

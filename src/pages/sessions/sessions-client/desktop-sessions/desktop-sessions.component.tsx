@@ -2,7 +2,6 @@ import React, {useState, useMemo} from 'react';
 import moment from 'moment'
 import Styles, {TitleContent} from './desktop-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {sessions} from "../../sessions.data";
 import {SessionType} from "../../../../types/session.type";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
@@ -23,24 +22,7 @@ const DesktopSessions = () => {
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
     const credits = -2 // temp
-    const {upcomingSessions, pastSessions} = useMemo(() => sessions.reduce<{
-        upcomingSessions: SessionType[],
-        pastSessions:SessionType[]
-    }>((acc, session) => {
-        const {date, time} = session
-        const isPast = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm").isBefore(moment());
-
-        if (isPast) {
-            acc.pastSessions.push(session)
-        } else {
-            acc.upcomingSessions.push(session)
-        }
-
-        return acc
-    }, {
-        upcomingSessions: [],
-        pastSessions: [],
-    }), []);
+    const sessions: SessionType[] = [];
 
     const renderItemOptions = (item: SessionType) => {
         return (
@@ -71,10 +53,10 @@ const DesktopSessions = () => {
       <Styles>
           <div className={'sessions'}>
               <PageSubtitle>{t('sessions:upcoming-title')}</PageSubtitle>
-              <SessionsTable data={upcomingSessions} renderOptions={renderItemOptions} />
+              {/*<SessionsTable data={upcomingSessions} renderOptions={renderItemOptions} />*/}
 
               <PageSubtitle>{t('sessions:past-title')}</PageSubtitle>
-              <SessionsTable data={pastSessions} withFilter />
+              {/*<SessionsTable data={pastSessions} withFilter />*/}
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
           <EditSession isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>

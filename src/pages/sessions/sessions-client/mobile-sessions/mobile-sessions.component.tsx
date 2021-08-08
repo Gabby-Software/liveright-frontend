@@ -2,7 +2,6 @@ import React, {useState, useMemo} from 'react';
 import Styles from './mobile-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../hooks/auth.hook";
-import {sessions} from "../../sessions.data";
 import {SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
     from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
@@ -19,24 +18,6 @@ const MobileSessions = () => {
     const [editOpen, setEditOpen] = useState(false);
     const {t} = useTranslation();
     const credits = -2 // temp
-    const {upcomingSessions, pastSessions} = useMemo(() => sessions.reduce<{
-        upcomingSessions: SessionType[],
-        pastSessions:SessionType[]
-    }>((acc, session) => {
-        const {date, time} = session
-        const isPast = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm").isBefore(moment());
-
-        if (isPast) {
-            acc.pastSessions.push(session)
-        } else {
-            acc.upcomingSessions.push(session)
-        }
-
-        return acc
-    }, {
-        upcomingSessions: [],
-        pastSessions: [],
-    }), []);
 
     const renderItemOptions = (item: SessionType) => {
         return (
@@ -60,12 +41,12 @@ const MobileSessions = () => {
                 </div>
                 {credits < 0 ? <FormButton type="primary">{t('invoices:pay')}</FormButton> : null}
             </div>
-            <SessionsCards
-                renderOptions={renderItemOptions}
-                title={t('sessions:upcoming-title')}
-                data={upcomingSessions}
-            />
-            <SessionsCards withFilter title={t('sessions:past-title')} data={pastSessions} />
+            {/*<SessionsCards*/}
+            {/*    renderOptions={renderItemOptions}*/}
+            {/*    title={t('sessions:upcoming-title')}*/}
+            {/*    data={upcomingSessions}*/}
+            {/*/>*/}
+            {/*<SessionsCards withFilter title={t('sessions:past-title')} data={pastSessions} />*/}
             <SessionRescheduleModal
                 onClose={() => setRescheduleOpen(false)}
                 session={rescheduleOpen?workingSession:null}

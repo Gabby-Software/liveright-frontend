@@ -22,9 +22,10 @@ type UIProps = Props & {
     error?: boolean;
     children?: React.ReactNode;
     onBlur?: FocusEventHandler<HTMLElement>;
+    placeholder?: string;
     iconPrepend?: boolean;
 }
-export const FormInputLabeledUI = ({name, value, label, type, icon, onUpdate, disabled, error, children, onBlur, iconPrepend}: UIProps) => {
+export const FormInputLabeledUI = ({name, value, label, type, icon, onUpdate, disabled, error, children,placeholder, onBlur, iconPrepend}: UIProps) => {
     return (
         <Styles className={classes(
             'text_input__wrapper',
@@ -35,7 +36,7 @@ export const FormInputLabeledUI = ({name, value, label, type, icon, onUpdate, di
             <label className={'text_input__cont'}>
                 <div className={'text_input__label'}>{label}</div>
                 <div className={'text_input__content'}>
-                    <input className={'text_input__input'} type={type || 'text'}
+                    <input className={'text_input__input'} type={type || 'text'} placeholder={placeholder}
                            name={name} value={value} onBlur={onBlur}
                            disabled={!!disabled}
                            onChange={e => {

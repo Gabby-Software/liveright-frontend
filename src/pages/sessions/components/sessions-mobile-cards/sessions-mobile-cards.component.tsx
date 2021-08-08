@@ -1,91 +1,62 @@
-import React, {useState, useMemo, ReactElement, useEffect} from 'react';
-import {Avatar} from "antd";
-import {UserOutlined} from '@ant-design/icons';
-import Styles, {SessionCard} from './sessions-mobile-cards.styles';
-import {PaginationMetaType} from "../../../../types/pagination-meta.type";
-import {SessionType} from "../../../../types/session.type";
+import React, {useState, ReactElement, useEffect} from 'react';
+
+import {SessionType, SessionFilter} from "../../../../types/session.type";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
-import {FilterValues} from "../../../../types/sessions-filter.type";
-import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import moment from "moment";
-import MobileSessionFilter from "../mobile-session-filter/mobile-session-filter.component";
+import SessionsFilter from "../sessions-filters/sessions-filters.component";
 import PageSubtitle from "../../../../components/titles/page-subtitle.styles";
+import SessionCard from "../session-mobile-card/session-mobile-card.component"
+import {PaginatedDataType} from "../../../../types/paginated-data.type";
 
 interface Props {
-    data: SessionType[];
+    sessions: PaginatedDataType<SessionType>;
+    getSessions: (page: number, filter?: SessionFilter) => void;
     renderOptions?: (session: SessionType) => ReactElement;
+    renderSwipeComponent?: (session: SessionType) => ReactElement;
     withFilter?: boolean;
     title?: boolean;
 }
 
 const SessionsCards: React.FC<Props> = (props) => {
-    const {t} = useTranslation()
-    const {data, renderOptions, withFilter, title} = props;
-    const [sessions, setSessions] = useState(data);
-    const [pagMeta, setPagMeta] = useState<PaginationMetaType>({current_page: 1, per_page: 10, total: sessions.length});
-    const {current_page, total, per_page} = pagMeta;
+    const {
+        sessions,
+        getSessions,
+        renderOptions,
+        withFilter,
+        title,
+        renderSwipeComponent
+    } = props;
+    const {data, meta} = sessions;
+    const {current_page, total} = meta;
+    const [filter, setFilter] = useState<SessionFilter>({});
 
-    const handleFilterChange = (values: FilterValues) => {
-        const {dateType, type} = values;
-        let results = data;
-
-        if (type !== 'All') {
-            results = results.filter((it) => it.type.includes(type));
-        }
-
-        if (dateType.trim()) {
-            results = results.filter((it) => {
-                const isDate = /^\d{4}(-\d{2})*$/.test(dateType)
-
-                if (isDate) {
-                    return it.date.includes(dateType)
-                } else {
-                    return it.type.toLowerCase().includes(dateType.toLowerCase())
-                }
-            });
-        }
-
-        setSessions(results)
+    const handlePageSet = (page: number) => {
+        getSessions(page, filter)
     }
 
     useEffect(() => {
-        setPagMeta({current_page: 1, per_page: 10, total: sessions.length})
-    }, [sessions])
+        handlePageSet(1)
+    }, [filter])
 
     return (
-      <Styles>
+      <div>
           {title && <PageSubtitle>{title}</PageSubtitle>}
-          {withFilter && <MobileSessionFilter onChange={handleFilterChange} />}
-          {sessions.slice((current_page-1)*per_page, current_page*per_page).map((it) => {
-              const {name, type, date, time} = it;
-              const day = moment(date).format("DD");
-              const month = moment(date).format("MMMM");
-
+          {withFilter && <SessionsFilter onUpdate={setFilter} />}
+          {data.map((it) => {
               return (
-                  <SessionCard>
-                      <span>{type}</span>
-                      <span className="session-card-with">{t("sessions:with").toLowerCase()}</span>
-                      <div className="session-card-name">
-                          <Avatar size="small" icon={<UserOutlined />} />
-                          {name}
-                      </div>
-                      <div className="sessions-card-datetime">
-                          <div>
-                              <span>{day}</span>
-                              <span>{month.toUpperCase()}</span>
-                          </div>
-                          <span>{time}</span>
-                      </div>
-                      {renderOptions && renderOptions(it)}
-                  </SessionCard>
+                  <SessionCard
+                      session={it}
+                      key={it.id}
+                      renderSwipeComponent={renderSwipeComponent}
+                      renderOptions={renderOptions}
+                  />
               )
           })}
           <DataPagination
               page={current_page}
-              setPage={(p:number) => setPagMeta({...pagMeta, current_page:p})}
+              setPage={getSessions}
               total={total}
           />
-      </Styles>
+      </div>
     );
 };
 
