@@ -6,12 +6,12 @@ import {
     ACTION_GET_INVOICES_LOAD,
     ACTION_GET_INVOICES_REQUEST, ACTION_GET_INVOICES_SUCCESS,
     ACTION_GET_TRAINER_REQUEST,
-    ACTION_GET_TRAINER_SUCCESS,
+    ACTION_GET_TRAINER_SUCCESS, ACTION_MARK_INVOICE_AS_PAID,
     ActionType
 } from "../action-types";
 import {CallbackType} from "../../types/callback.type";
 import {AccountObjType} from "../../types/account.type";
-import {EP_ADD_INVOICE, EP_GET_INVOICES, EP_GET_TRAINER} from "../../enums/api.enum";
+import {EP_ADD_INVOICE, EP_GET_INVOICES, EP_GET_TRAINER, EP_MARK_INVOICE_AS_PAID} from "../../enums/api.enum";
 import api from "../../managers/api.manager";
 import logger from "../../managers/logger.manager";
 import {PaginatedDataType} from "../../types/paginated-data.type";
@@ -25,6 +25,7 @@ export function* sagaInvoicesWatcher() {
     yield takeLatest(ACTION_CREATE_INVOICE_REQUEST, createInvoiceWorker);
     yield takeLatest(ACTION_GET_ATTENTION_INVOICES_REQUEST, getAttentionInvoicesWorker);
     yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
+    yield takeLatest(ACTION_MARK_INVOICE_AS_PAID, markInvoiceAsPaidWorker);
 }
 
 function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, search: string, include: string}&CallbackType<void>>) {
@@ -62,7 +63,18 @@ function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, 
     } catch(e) {
     }
 }
-
+function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number, page: number, include: string }>) {
+    const {id, ...query} = payload;
+    try {
+        const params = new URLSearchParams({
+            ...query,
+        } as any).toString();
+        yield call(() => api.post(EP_MARK_INVOICE_AS_PAID(id)));
+        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
+        yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
+    } catch(e) {
+    }
+}
 function* createInvoiceWorker({payload}:ActionType<InvoiceFormType&CallbackType<number>&{params:any}>) {
     const {onSuccess, onError, params, ...data} = payload;
     try {

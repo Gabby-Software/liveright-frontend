@@ -17,5 +17,6 @@ export const EP_GET_TRAINER = ALLRIGHT_BASE+'/training/trainer';
 export const EP_GET_CLIENTS = ALLRIGHT_BASE+'/training/clients';
 export const EP_GET_INVOICES = ALLRIGHT_BASE+'/invoices';
 export const EP_ADD_INVOICE = ALLRIGHT_BASE+'/invoices';
+export const EP_MARK_INVOICE_AS_PAID = (id:number) => ALLRIGHT_BASE+`/invoices/${id}/mark-as-paid`;
 export const EP_GET_SESSIONS = '/sessions';
 
