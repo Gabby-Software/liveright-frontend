@@ -20,7 +20,11 @@ import fileManager from "../../../../../../managers/file.manager";
 import {Link} from "react-router-dom";
 import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
 import TablePagination from "../../../../../../components/table-pagination/table-pagination.component";
-import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../../../store/action-types";
+import {
+    ACTION_CANCEL_INVOICE_REQUEST,
+    ACTION_GET_INVOICES_REQUEST,
+    ACTION_MARK_INVOICE_AS_PAID
+} from "../../../../../../store/action-types";
 import {Popconfirm} from "antd";
 
 
@@ -72,6 +76,15 @@ const FinancialsReceivablesTable = ({}: Props) => {
             }
         });
     };
+    const markAsPaid = (id: number) => {
+        dispatch({
+            type: ACTION_MARK_INVOICE_AS_PAID, payload: {
+                id,
+                page: meta.current_page,
+                include: 'invoiceTo'
+            }
+        })
+    }
     return (
         <Styles ref={head}>
             <DataTable labels={labels} data={data} keys={keys} render={{
@@ -87,9 +100,12 @@ const FinancialsReceivablesTable = ({}: Props) => {
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
                             <>
                                 <span className={'invoice-table__link'}>
+                                    <Popconfirm title={'Invoice will be marked as paid'}
+                                                onConfirm={() => markAsPaid(id)}>
                                 <FormButton type={'primary'}>
                                     {t('invoices:mark-paid')}
                                 </FormButton>
+                                    </Popconfirm>
                                 </span>
                                 <PDFIcon className={'invoice-table__action'}
                                          onClick={() => fileManager.downloadUrl(url)}/>

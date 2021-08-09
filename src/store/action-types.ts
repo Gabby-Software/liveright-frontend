@@ -33,6 +33,7 @@ export const ACTION_GET_ATTENTION_INVOICES_REQUEST = 'action-get-attention-invoi
 export const ACTION_GET_ATTENTION_INVOICES_SUCCESS = 'action-get-attention-invoices-success';
 export const ACTION_GET_INVOICES_LOAD = 'action-get-invoices-load';
 export const ACTION_GET_INVOICES_ERROR = 'action-get-invoices-error';
+export const ACTION_MARK_INVOICE_AS_PAID = 'action-mark-invoice-as-paid';
 export const ACTION_CREATE_INVOICE_REQUEST = 'action-create-invoice-request';
 export const ACTION_CREATE_INVOICE_SUCCESS = 'action-create-invoice-success';
 export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
