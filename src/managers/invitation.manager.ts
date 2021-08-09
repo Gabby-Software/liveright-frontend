@@ -15,8 +15,8 @@ export default class InvitationManager {
             .then(res => res.data?.data);
     }
 
-    public static sendInvitationExistingUser(email: string, type: 'training' | 'organizational') {
-        return api.post(EP_INVITE_NEW_USER, {email, type}, {
+    public static sendInvitationExistingUser(email: string, message: string, type: 'training' | 'organizational') {
+        return api.post(EP_INVITE_NEW_USER, {email, message, type}, {
             headers: {
                 origin: identity(''),
                 'custom-origin': identity('')

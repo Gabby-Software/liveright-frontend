@@ -18,7 +18,7 @@ const AddClientModalMessage = ({}: Props) => {
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
         logger.info('FORM VALUE', form, values);
-        InvitationManager.sendInvitationExistingUser(values.email, 'training')
+        InvitationManager.sendInvitationExistingUser(values.email, values.message, 'training')
             .then(() => {
                 helper.setSubmitting(false);
                 helper.resetForm()
