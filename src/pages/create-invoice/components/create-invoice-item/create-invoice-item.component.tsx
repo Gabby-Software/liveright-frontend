@@ -58,7 +58,7 @@ const CreateInvoiceItem = ({form, helper, item, i, credits}: Props) => {
                                           name={`items.${i}.discount_percent`}
                                           label={t('invoices:create.discount')}/>
                         <FormInputLabeledUI name={`items.${i}.total`} label={'Total'} onUpdate={() =>{}}
-                                            value={asMoney(asPrice(item.unit_price*item.quantity*(1-item.discount_percent/100)*(1+item.tax_rate/100)))+' AED'}
+                                            value={asMoney(asPrice((+item.unit_price)*item.quantity*(1-(item.discount_percent||0)/100)*(1+(item.is_taxable?(item.tax_rate||0):0)/100)))+' AED'}
                                             disabled/>
                     </FormRow>
                     <FormRow>
