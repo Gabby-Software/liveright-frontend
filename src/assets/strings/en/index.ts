@@ -10,4 +10,5 @@ import {default as clients} from './clients.json';
 import {default as sessions} from './sessions.json';
 import {default as plans} from './plans.json';
 import {default as notifications} from './notifications.json';
-export default {common,errors,auth,profile,alerts,calendar,settings,invoices,clients,sessions,plans,notifications};
+import {default as financials} from './financials.json';
+export default {common,errors,auth,profile,alerts,calendar,settings,invoices,clients,sessions,plans,notifications,financials};
