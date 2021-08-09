@@ -31,7 +31,7 @@ const vars = {
         header: 40,
         footer: 40,
         modal: 50,
-        toast: 49
+        toast: 1001
     },
     media: {
         desktop: 1200,
