@@ -38,7 +38,7 @@ const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
     const initialValues: AddSessionFormType = useMemo(() => session ? ({
         type: session.type,
         date: moment(session.starts_at).format('YYYY-MM-DD'),
-        time: moment(session.starts_at).format("HH:mm"),
+        time: moment(session.starts_at, 'HH:mm:ss').format("HH:mm"),
         duration: moment(session.duration, 'HH:mm:ss').format("HH:mm"),
         client_id: session.client?.id,
         notes: session.notes || '',

@@ -7,7 +7,7 @@ export type SessionType = {
     duration: string;
     type: Session;
     client?: ClientType;
-    trainer?: TrainerType;
+    trainer?: TrainerType&{id:number};
     notes?: string | null;
 }
 

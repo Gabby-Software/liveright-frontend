@@ -9,6 +9,7 @@ import {Field, FieldProps, useFormikContext} from "formik";
 import FormSelect from "../../../../../components/forms/form-select/form-select.component";
 import {useClients} from "../../../../../hooks/clients.hook";
 import {AddSessionFormType} from "../add-session-form/add-session-form.component";
+import SessionUserAvatar from "../../../components/session-user-avatar/session-user-avatar.component";
 
 type Props = {forEdit?: boolean};
 const AddSessionTop = ({forEdit}: Props) => {
@@ -33,10 +34,7 @@ const AddSessionTop = ({forEdit}: Props) => {
           )}
           {selectedClient ? (
               <div className={'session-top__head'}>
-                <div className={'session-top__client'}>
-                  <img alt={'client'} src={profilePlaceholder} className={'session-top__image'}/>
-                  <div className={'session-top__name'}>{selectedClient.first_name} {selectedClient.last_name}</div>
-                </div>
+                <SessionUserAvatar last_name={selectedClient.last_name} first_name={selectedClient.first_name} />
                 <Field name={'sessions'}>
                   {({field}: FieldProps) => (
                       <div className={'session-top__credits'}>

@@ -5,7 +5,7 @@ import DesktopSessions from "./desktop-sessions/desktop-sessions.component";
 import {SessionFilter, SessionStatus} from "../../../types/session.type";
 import {SessionsState} from "../../../store/reducers/sessions.reducer";
 import {useDispatch} from "react-redux";
-import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
+import {ACTION_GET_CLIENTS_REQUEST, ACTION_TRAINER_REMOVE_SESSION_REQUEST} from "../../../store/action-types";
 
 interface Props {
     sessions: SessionsState;
@@ -17,6 +17,15 @@ const Sessions: React.FC<Props> = (props) => {
     const dispatch = useDispatch();
     const isMobile = useIsMobile();
 
+    const handleRemoveSession = (id: number) => {
+        dispatch({
+            type: ACTION_TRAINER_REMOVE_SESSION_REQUEST,
+            payload: {
+                id
+            }
+        })
+    }
+
     useEffect(() => {
         dispatch({
             type: ACTION_GET_CLIENTS_REQUEST,
@@ -24,12 +33,14 @@ const Sessions: React.FC<Props> = (props) => {
                 status: 'active'
             }
         })
+        getSessions('awaiting_scheduling')(1)
     }, [])
 
     if(isMobile) {
         return (
             <MobileSessions
                 getSessions={getSessions}
+                onRemoveSession={handleRemoveSession}
                 sessions={sessions}
             />
         );
@@ -38,6 +49,7 @@ const Sessions: React.FC<Props> = (props) => {
     return (
         <DesktopSessions
             getSessions={getSessions}
+            onRemoveSession={handleRemoveSession}
             sessions={sessions}
         />
     );

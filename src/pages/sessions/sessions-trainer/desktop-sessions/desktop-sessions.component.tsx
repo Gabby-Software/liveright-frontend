@@ -27,16 +27,20 @@ import {
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
 import Carousel from "../../../../components/carousel/carousel.component";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
+import {useClients} from "../../../../hooks/clients.hook";
+import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
 
 interface Props {
     sessions: SessionsState;
     getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+    onRemoveSession: (id: number) => void;
 }
 
 const DesktopSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions} = props;
+    const {sessions, getSessions, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
+    const clients = useClients();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
@@ -55,7 +59,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                 <ActionIcon
                     icon={TrashIcon}
                     title="Remove"
-                    onClick={() =>{}}
+                    onClick={() => onRemoveSession(item.id)}
                 />
             </div>
         )
@@ -64,18 +68,18 @@ const DesktopSessions: React.FC<Props> = (props) => {
     const renderAwaitingContent = () => {
         return (
             <Carousel>
-                {awaiting_scheduling.data.map((it) => (
-                    <AwaitingCard>
-                        <div>
-                            <Avatar size="small" icon={<UserOutlined />} />
-                            {it.client?.first_name} {it.client?.last_name}
-                        </div>
-                        <div className="schedule-button" onClick={() => setEditOpen(it)}>
-                            <span>{t("sessions:schedule-now")}</span>
-                            <RightArrowIcon />
-                        </div>
-                    </AwaitingCard>
-                ))}
+                {awaiting_scheduling.data.map((it) => {
+                    const person = clients.data.data.find(client => client.id === it.client?.id)
+                    return (
+                        <AwaitingCard>
+                            <SessionUserAvatar first_name={person?.first_name || ''} last_name={person?.last_name || ''} avatar={person?.avatar||undefined} />
+                            <div className="schedule-button" onClick={() => setEditOpen(it)}>
+                                <span>{t("sessions:schedule-now")}</span>
+                                <RightArrowIcon />
+                            </div>
+                        </AwaitingCard>
+                    )
+                })}
             </Carousel>
         )
     }

@@ -19,6 +19,9 @@ import {
     ACTION_CLIENT_RESCHEDULE_SESSION_LOAD,
     ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS,
     ACTION_CLIENT_RESCHEDULE_SESSION_ERROR,
+    ACTION_TRAINER_REMOVE_SESSION_LOAD,
+    ACTION_TRAINER_REMOVE_SESSION_ERROR,
+    ACTION_TRAINER_REMOVE_SESSION_SUCCESS,
 } from "../action-types";
 import {APIGetType} from "../../hoc/api-get";
 
@@ -67,12 +70,19 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
         case ACTION_CLIENT_REQUEST_SESSION_SUCCESS:
             return {
-                ...state,
+                data: {
+                    ...data,
+                    upcoming: {
+                        ...upcoming,
+                        data: [payload, ...upcoming.data],
+                    }
+                },
                 loading: false,
                 error: null
             };
         case ACTION_TRAINER_CREATE_SESSION_LOAD:
         case ACTION_CLIENT_REQUEST_SESSION_LOAD:
+        case ACTION_TRAINER_REMOVE_SESSION_LOAD:
             return {
                 ...state,
                 loading: true,
@@ -80,11 +90,27 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
             };
         case ACTION_TRAINER_CREATE_SESSION_ERROR:
         case ACTION_CLIENT_REQUEST_SESSION_ERROR:
+        case ACTION_TRAINER_REMOVE_SESSION_ERROR:
             return {
                 ...state,
                 loading: false,
                 error: true
             };
+        case ACTION_TRAINER_REMOVE_SESSION_SUCCESS: {
+            const index = upcoming.data.findIndex((it: SessionType) => it.id === payload.id);
+            const nextUpcomingData = [...upcoming.data]
+            return {
+                data: {
+                    ...data,
+                    upcoming: {
+                        ...upcoming,
+                        data: nextUpcomingData.splice(index, 1),
+                    }
+                },
+                loading: false,
+                error: null
+            }
+        }
         case ACTION_GET_SESSIONS_LOAD:
             return {
                 ...state,
@@ -124,6 +150,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
             nextUpcomingData[index] = payload;
             return {
                 data: {
+                    ...data,
                     upcoming: {
                         ...upcoming,
                         data: nextUpcomingData,
@@ -153,6 +180,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
             nextUpcomingData.splice(index, 1);
             return {
                 data: {
+                    ...data,
                     upcoming: {
                         ...upcoming,
                         data: nextUpcomingData,

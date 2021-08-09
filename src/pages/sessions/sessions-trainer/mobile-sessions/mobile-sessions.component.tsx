@@ -32,10 +32,11 @@ import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 interface Props {
   sessions: SessionsState;
   getSessions: (status: SessionStatus) => (page: number) => void;
+  onRemoveSession: (id: number) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions} = props;
+    const {sessions, getSessions, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
@@ -59,7 +60,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 <ActionIcon
                     icon={TrashIcon}
                     title="Remove"
-                    onClick={() =>{}}
+                    onClick={() => onRemoveSession(item.id)}
                 />
             </div>
         )

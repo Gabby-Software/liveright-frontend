@@ -16,7 +16,7 @@ type Props = {
 const AddSessionDesktop = ({isOpen, onClose, forEdit, session}: Props) => {
     return (
         <Modal visible={isOpen} onCancel={onClose} large>
-            <AddSessionForm onClose={onClose} session={session}>
+            <AddSessionForm forEdit={forEdit} onClose={onClose} session={session}>
               <Styles>
                       <div className={'add-session__left'}>
                           <AddSessionTop forEdit={forEdit} />

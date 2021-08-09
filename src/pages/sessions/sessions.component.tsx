@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import userTypes from "../../enums/user-types.enum";
 import {useAuth} from "../../hooks/auth.hook";
 import ClientSessions from "./sessions-client/sessions-client.component";

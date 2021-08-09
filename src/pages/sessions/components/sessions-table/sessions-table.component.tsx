@@ -1,7 +1,5 @@
 import React, {useState, useMemo, ReactElement, useEffect} from 'react';
-import {Avatar} from "antd";
 import moment from "moment";
-import {UserOutlined} from '@ant-design/icons';
 import Styles from './sessions-table.styles';
 import DataTable from "../../../../components/data-table/data-table.component";
 import {SessionFilter, SessionType} from "../../../../types/session.type";
@@ -10,6 +8,9 @@ import SessionsFilters from "../sessions-filters/sessions-filters.component";
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {PaginatedDataType} from "../../../../types/paginated-data.type";
+import {useClients} from "../../../../hooks/clients.hook";
+import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
+import SessionUserAvatar from "../session-user-avatar/session-user-avatar.component";
 
 interface Props {
     sessions: PaginatedDataType<SessionType>;
@@ -23,6 +24,8 @@ const SessionsTable: React.FC<Props> = (props) => {
     const {data, meta} = sessions;
     const {current_page, total} = meta;
     const isTrainerType = useAuth().type === userTypes.TRAINER;
+    const clients = useClients();
+    const trainer = useClientsTrainer();
     const [filter, setFilter] = useState<SessionFilter>({});
     const {labels, keys} = useMemo(() => {
         const labels = [
@@ -58,18 +61,18 @@ const SessionsTable: React.FC<Props> = (props) => {
             data={data}
             render={{
               with: (it: SessionType) => {
-                  const person = isTrainerType ? it.client : it.trainer;
+                  let person;
+                  if (isTrainerType) {
+                    person = clients.data.data.find(client => client.id === it.client?.id) as {first_name: string;last_name:string;avatar?:{url?: string}}
+                  } else {
+                    person = trainer as {first_name: string;last_name:string;avatar?:{url?: string}}
+                  }
 
                   if (!person) {
                       return null
                   }
 
-                  return (
-                      <div>
-                          <Avatar size="small" icon={<UserOutlined />} />
-                          {person.first_name} {person.last_name}
-                      </div>
-                  )
+                  return <SessionUserAvatar first_name={person.first_name} last_name={person.last_name} avatar={person.avatar} />
               },
               starts_at: ({starts_at}: SessionType) => {
                   return moment(starts_at).format("YYYY-MM-DD")

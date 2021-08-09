@@ -21,6 +21,9 @@ import {
     ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS,
     ACTION_CLIENT_RESCHEDULE_SESSION_ERROR,
     ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST,
+    ACTION_TRAINER_REMOVE_SESSION_REQUEST,
+    ACTION_TRAINER_REMOVE_SESSION_LOAD,
+    ACTION_TRAINER_REMOVE_SESSION_SUCCESS, ACTION_TRAINER_REMOVE_SESSION_ERROR,
 } from "../action-types";
 import {CallbackType} from "../../types/callback.type";
 import {EP_GET_SESSIONS} from "../../enums/api.enum";
@@ -33,11 +36,12 @@ import {Session, SessionEdit, SessionFilter} from "../../types/session.type";
 import {queryFiltersPipe} from "../../pipes/query-filters.pipe";
 
 export function* sagaSessionsWatcher() {
-    yield takeLatest(ACTION_TRAINER_CREATE_SESSION_REQUEST, createTrainerSessionsWorker)
-    yield takeLatest(ACTION_CLIENT_REQUEST_SESSION_REQUEST, requestClientSessionWorker)
-    yield takeLatest(ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST, rescheduleClientSessionWorker)
     yield takeEvery(ACTION_GET_SESSIONS_REQUEST, getSessionsWorker)
-    yield takeLatest(ACTION_EDIT_SESSIONS_REQUEST, editSessionsWorker)
+    yield takeLatest(ACTION_EDIT_SESSIONS_REQUEST, editTrainerSessionsWorker)
+    yield takeLatest(ACTION_TRAINER_CREATE_SESSION_REQUEST, createTrainerSessionsWorker)
+    yield takeLatest(ACTION_TRAINER_REMOVE_SESSION_REQUEST, removeTrainerSessionsWorker)
+    yield takeLatest(ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST, rescheduleClientSessionWorker)
+    yield takeLatest(ACTION_CLIENT_REQUEST_SESSION_REQUEST, requestClientSessionWorker)
 }
 
 function* createTrainerSessionsWorker({payload}:ActionType<{
@@ -128,7 +132,7 @@ function* getSessionsWorker({payload}:ActionType<{
     }
 }
 
-function* editSessionsWorker({payload}:ActionType<SessionEdit&CallbackType<void>>) {
+function* editTrainerSessionsWorker({payload}:ActionType<SessionEdit&CallbackType<void>>) {
     yield put({type:ACTION_EDIT_SESSIONS_LOAD});
     const {onSuccess, onError, id, ...data} = payload;
     try {
@@ -145,5 +149,25 @@ function* editSessionsWorker({payload}:ActionType<SessionEdit&CallbackType<void>
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
         yield put({type:ACTION_EDIT_SESSIONS_ERROR, payload: serverError(e)});
+    }
+}
+
+function* removeTrainerSessionsWorker({payload}:ActionType<{ id: number }&CallbackType<void>>) {
+    yield put({type:ACTION_TRAINER_REMOVE_SESSION_LOAD});
+    const {id} = payload;
+    try {
+        const session = (
+            yield call(
+                () => api.delete(EP_GET_SESSIONS+`/${id}`).then(res => res.data)
+            )
+        ) as PaginatedDataType<InvoiceType>;
+        logger.success('SESSIONS', session);
+        yield put({
+            type: ACTION_TRAINER_REMOVE_SESSION_SUCCESS,
+            payload: id
+        });
+        payload.onSuccess && payload.onSuccess();
+    } catch(e) {
+        yield put({type:ACTION_TRAINER_REMOVE_SESSION_ERROR, payload: serverError(e)});
     }
 }
