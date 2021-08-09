@@ -20,7 +20,7 @@ export const ClientProfileProvider = ({children}: { children: ReactNode }) => {
         dispatch({type: ACTION_GET_FULL_CLIENT_REQUEST, payload: id});
     }, []);
     const val = useMemo(() => {
-        const account = data?.data?.accounts.find(acc => acc.type === userTypes.CLIENT);
+        const account = data?.data?.accounts?.find(acc => acc.type === userTypes.CLIENT);
         return {
             ...data,
             data: data.data ? {
