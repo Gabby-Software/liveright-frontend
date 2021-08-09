@@ -20,7 +20,7 @@ margin-bottom: 100px;
     }
     &__actions {
         display: flex;
-        aling-items: center;
+        align-items: center;
     }
     &__link {
         button {
