@@ -77,6 +77,7 @@ function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number, page: numb
 }
 function* createInvoiceWorker({payload}:ActionType<InvoiceFormType&CallbackType<number>&{params:any}>) {
     const {onSuccess, onError, params, ...data} = payload;
+    logger.info("CREATE INVOICE WORKER", payload);
     try {
         const res = (yield call(() => api.post(EP_ADD_INVOICE, {
             invoice: data.invoice,
