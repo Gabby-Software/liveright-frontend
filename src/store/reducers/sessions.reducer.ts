@@ -8,7 +8,14 @@ import {
     ACTION_GET_SESSIONS_SUCCESS,
     ACTION_GET_SESSIONS_LOAD,
     ACTION_GET_SESSIONS_ERROR,
-    ActionType, ACTION_EDIT_SESSIONS_LOAD, ACTION_EDIT_SESSIONS_ERROR, ACTION_EDIT_SESSIONS_SUCCESS,
+    ActionType,
+    ACTION_EDIT_SESSIONS_LOAD,
+    ACTION_EDIT_SESSIONS_ERROR,
+    ACTION_EDIT_SESSIONS_SUCCESS,
+    ACTION_SWITCH_ACCOUNT_SUCCESS,
+    ACTION_CLIENT_REQUEST_SESSION_SUCCESS,
+    ACTION_CLIENT_REQUEST_SESSION_LOAD,
+    ACTION_CLIENT_REQUEST_SESSION_ERROR,
 } from "../action-types";
 import {APIGetType} from "../../hoc/api-get";
 
@@ -55,6 +62,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
 
     switch(type) {
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
+        case ACTION_CLIENT_REQUEST_SESSION_SUCCESS:
             return {
                 data: {
                     ...data,
@@ -67,12 +75,14 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 error: null
             };
         case ACTION_TRAINER_CREATE_SESSION_LOAD:
+        case ACTION_CLIENT_REQUEST_SESSION_LOAD:
             return {
                 ...state,
                 loading: true,
                 error: false
             };
         case ACTION_TRAINER_CREATE_SESSION_ERROR:
+        case ACTION_CLIENT_REQUEST_SESSION_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -125,6 +135,8 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 loading: false,
                 error: null
             }
+        case ACTION_SWITCH_ACCOUNT_SUCCESS:
+            return initialValues;
         default:
             return state;
     }

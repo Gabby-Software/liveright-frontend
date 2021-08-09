@@ -1,33 +1,24 @@
 import React from 'react';
-import {useDispatch} from "react-redux";
 import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import MobileSessions from "./mobile-sessions/mobile-sessions.component";
 import DesktopSessions from "./desktop-sessions/desktop-sessions.component";
-import {useSessions} from "../../../hooks/sessions.hook";
-import {ACTION_GET_SESSIONS_REQUEST} from "../../../store/action-types";
 import {SessionFilter, SessionStatus} from "../../../types/session.type";
+import {SessionsState} from "../../../store/reducers/sessions.reducer";
 
-const Sessions = () => {
-    const dispatch = useDispatch();
+interface Props {
+    sessions: SessionsState;
+    getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+}
+
+const Sessions: React.FC<Props> = (props) => {
+    const {getSessions, sessions} = props;
     const isMobile = useIsMobile();
-    const {data} = useSessions();
-
-    const getSessions = (status: SessionStatus) => (page: number, filters?: SessionFilter) => {
-        dispatch({
-            type: ACTION_GET_SESSIONS_REQUEST,
-            payload: {
-                filters: {...filters, status},
-                include: 'client',
-                page,
-            }
-        })
-    }
 
     if(isMobile) {
         return (
             <MobileSessions
                 getSessions={getSessions}
-                sessions={data}
+                sessions={sessions}
             />
         );
     }
@@ -35,7 +26,7 @@ const Sessions = () => {
     return (
         <DesktopSessions
             getSessions={getSessions}
-            sessions={data}
+            sessions={sessions}
         />
     );
 };
