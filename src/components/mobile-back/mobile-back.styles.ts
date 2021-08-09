@@ -25,4 +25,7 @@ export default styled(Link)`
     ${media('tablet', 'min')`
             margin-top: 40px;
         `}
+    @media only print {
+        display: none;
+    } 
 `;
