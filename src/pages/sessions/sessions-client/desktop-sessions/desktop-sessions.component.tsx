@@ -17,7 +17,7 @@ import {Routes} from "../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
-import {useTrainer} from "../../../../hooks/trainer.hook";
+import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
 
 interface Props {
   sessions: SessionsState;
@@ -27,6 +27,7 @@ interface Props {
 const DesktopSessions: React.FC<Props> = (props) => {
     const {getSessions, sessions} = props;
     const {t} = useTranslation();
+    const trainer = useClientsTrainer();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
     const [addOpen, setAddOpen] = useState<boolean>(false);
@@ -47,15 +48,15 @@ const DesktopSessions: React.FC<Props> = (props) => {
         )
     };
 
-    useTitleContent((
+    useTitleContent(trainer ? (
         <TitleContent credits={credits}>
-            <div className="credits">
-                <span>{t('sessions:current-credits')}</span>
-                <span>{credits}</span>
-            </div>
-            <FormButton onClick={() => setAddOpen(true)} type="primary">{t('sessions:session-request')}</FormButton>
+          <div className="credits">
+            <span>{t('sessions:current-credits')}</span>
+            <span>{credits}</span>
+          </div>
+          <FormButton onClick={() => setAddOpen(true)} type="primary">{t('sessions:session-request')}</FormButton>
         </TitleContent>
-    ));
+    ) : null);
 
     return (
       <Styles>
@@ -69,14 +70,16 @@ const DesktopSessions: React.FC<Props> = (props) => {
 
               <PageSubtitle>{t('sessions:past-title')}</PageSubtitle>
               <SessionsTable
-                  sessions={sessions.awaiting_scheduling}
-                  getSessions={getSessions('awaiting_scheduling')}
+                  sessions={sessions.past}
+                  getSessions={getSessions('past')}
                   withFilter
               />
           </div>
           <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
           <EditSession isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
-          <SessionAddModal trainer_id={1} isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+         {trainer?.accounts ? (
+             <SessionAddModal trainer_id={trainer.accounts.find(it => it.type === 'trainer')!.id} isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+         ) : null}
       </Styles>
     );
 };
