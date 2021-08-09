@@ -58,10 +58,15 @@ export const ACTION_EDIT_SESSIONS_SUCCESS = 'action-edit-sessions-success';
 export const ACTION_EDIT_SESSIONS_LOAD = 'action-edit-sessions-load';
 export const ACTION_EDIT_SESSIONS_ERROR = 'action-edit-sessions-error';
 
-export const ACTION_CLIENT_CREATE_SESSION_REQUEST = 'action-client-create-sessions-request';
-export const ACTION_CLIENT_CREATE_SESSION_LOAD = 'action-client-create-sessions-load';
-export const ACTION_CLIENT_CREATE_SESSION_SUCCESS = 'action-client-create-sessions-success';
-export const ACTION_CLIENT_CREATE_SESSION_ERROR = 'action-client-create-sessions-error';
+export const ACTION_CLIENT_REQUEST_SESSION_REQUEST = 'action-client-request-sessions-request';
+export const ACTION_CLIENT_REQUEST_SESSION_LOAD = 'action-client-request-sessions-load';
+export const ACTION_CLIENT_REQUEST_SESSION_SUCCESS = 'action-client-request-sessions-success';
+export const ACTION_CLIENT_REQUEST_SESSION_ERROR = 'action-client-request-sessions-error';
+
+export const ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST = 'action-client-reschedule-session-request';
+export const ACTION_CLIENT_RESCHEDULE_SESSION_LOAD = 'action-client-reschedule-session-load';
+export const ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS = 'action-client-reschedule-session-success';
+export const ACTION_CLIENT_RESCHEDULE_SESSION_ERROR = 'action-client-reschedule-session-error';
 
 export const ACTION_TRAINER_CREATE_SESSION_REQUEST = 'action-trainer-create-sessions-request';
 export const ACTION_TRAINER_CREATE_SESSION_LOAD = 'action-trainer-create-sessions-load';
