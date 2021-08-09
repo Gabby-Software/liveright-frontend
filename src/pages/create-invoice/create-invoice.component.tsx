@@ -34,6 +34,7 @@ import {forOf} from "../../pipes/for-of.pipe";
 import {Redirect, useHistory} from "react-router-dom";
 import {Routes} from "../../enums/routes.enum";
 import {useLocation} from "react-router";
+import {useClients} from "../../hooks/clients.hook";
 
 type Props = {};
 export type InvoiceItemType = {
@@ -95,14 +96,17 @@ const CreateInvoice = ({}: Props) => {
     const {t} = useTranslation();
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const clients = useClients();
     const [client, setClient] = useState<AccountObjType | null>(null);
     const {meta, data} = useSelector((state: RootState) => state.invoices);
     const location = useLocation();
     const history = useHistory();
     const initialFormValues = useMemo(() => {
         const params = new URLSearchParams(location.search);
-        initialValues.invoice.invoice_to = params.get('cid')||'';
+        const cid = params.get('cid');
+        initialValues.invoice.invoice_to = cid||'';
         initialValues.invoice.type = params.get('type') || 'PT session';
+        setClient(clients.data.data.find((it) => it.id === +(cid||0)) || null);
         return initialValues;
     },[]);
     const TitleContent = () => (

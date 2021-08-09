@@ -6,6 +6,7 @@ import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import {Routes} from "../../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
 import FormButton from "../../../../../components/forms/form-button/form-button.component";
+import {useClients} from "../../../../../hooks/clients.hook";
 
 type Props = {};
 const AddSessionCredits = ({}: Props) => {
@@ -16,10 +17,10 @@ const AddSessionCredits = ({}: Props) => {
                 <Styles className={'add-session__form__credits'}>
                     <div>
                         <span>{t('sessions:remind-credits')}:</span>
-                        <span>&nbsp;{form.values.type === serviceTypes.PT_SESSION ? field.value - 1 : field.value}</span>
+                        <span>&nbsp;{form.values.type === 'Paid PT' ? field.value - 1 : field.value}</span>
                     </div>
                     {
-                        form.values.type === serviceTypes.PT_SESSION && field.value <= 0 ? (
+                        form.values.type === 'Paid PT' && field.value <= 0 ? (
                             <Link to={Routes.CREATE_INVOICE+`?${new URLSearchParams({type:'PT session', cid: form.values.client_id||''}).toString()}`}>
                                 <FormButton type={'default'}>Invoice Now</FormButton>
                             </Link>
