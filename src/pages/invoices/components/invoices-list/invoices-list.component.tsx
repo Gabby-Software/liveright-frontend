@@ -14,7 +14,7 @@ import {ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 const InvoicesList = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
-    const {meta, data} = useSelector((state: RootState) => state.invoices);
+    const {meta, data} = useSelector((state: RootState) => state.invoices.current);
     const head = useRef<HTMLDivElement>(null);
     const updatePage = (p: number) => {
         dispatch({

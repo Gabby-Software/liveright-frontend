@@ -12,17 +12,19 @@ import InvoicesList from "./components/invoices-list/invoices-list.component";
 import InvoicesTable from "./components/invoices-table/invoices-table.component";
 import {onlyClient} from "../../guards/client.guard";
 import {useDispatch, useSelector} from "react-redux";
-import {ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
+import {ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
 import {useAuth} from "../../hooks/auth.hook";
 import {RootState} from "../../store/reducers";
 import userTypes from "../../enums/user-types.enum";
+import {InvoiceType} from "../../types/invoice.type";
+import InvoicesAtention from "./components/invoices-atention/invoices-atention.component";
 
 const Invoices = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const isMobile = useIsMobile();
     const dispatch = useDispatch();
-    const {meta} = useSelector((state: RootState) => state.invoices);
+    const {meta} = useSelector((state: RootState) => state.invoices.current);
     useEffect(() => {
         dispatch({
             type: ACTION_GET_INVOICES_REQUEST, payload: {
@@ -30,16 +32,15 @@ const Invoices = () => {
                 include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
             }
         });
+        dispatch({
+            type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
+            }
+        });
     }, [type]);
     return (
         <Styles>
-            <PageSubtitle>Need your attention</PageSubtitle>
-            <Carousel>
-                {
-                    overdueInvoices.map((inv, i) => <InvoiceCard key={inv.id} {...inv}/>)
-                }
-            </Carousel>
-            <Hr/>
+            <InvoicesAtention/>
             <PageSubtitle>All your Invoice and billing history</PageSubtitle>
 
             <div className={'invoices__body'}>

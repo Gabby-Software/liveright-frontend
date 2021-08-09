@@ -39,6 +39,7 @@
   "never": "Never",
   "cost": "Cost",
   "thanks": "Thank you for your business",
+  "mark-paid": "Mark as Paid",
   "statuses": {
     "paid": "Paid",
     "outstanding": "Outstanding",

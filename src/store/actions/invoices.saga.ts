@@ -1,6 +1,6 @@
 import {takeLatest,throttle, put, call} from 'redux-saga/effects';
 import {
-    ACTION_CREATE_INVOICE_REQUEST,
+    ACTION_CREATE_INVOICE_REQUEST, ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_ATTENTION_INVOICES_SUCCESS,
     ACTION_GET_INVOICES_ERROR,
     ACTION_GET_INVOICES_LOAD,
     ACTION_GET_INVOICES_REQUEST, ACTION_GET_INVOICES_SUCCESS,
@@ -22,6 +22,7 @@ import {PaginationMetaType} from "../../types/pagination-meta.type";
 export function* sagaInvoicesWatcher() {
     yield throttle(400,ACTION_GET_INVOICES_REQUEST, getInvoicesWorker);
     yield takeLatest(ACTION_CREATE_INVOICE_REQUEST, createInvoiceWorker);
+    yield takeLatest(ACTION_GET_ATTENTION_INVOICES_REQUEST, getAttentionInvoicesWorker);
 }
 
 function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, search: string, include: string}&CallbackType<void>>) {
@@ -37,6 +38,14 @@ function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, 
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
         yield put({type:ACTION_GET_INVOICES_ERROR, payload: serverError(e)});
+    }
+}
+function* getAttentionInvoicesWorker({payload}: ActionType<{ include: string }>) {
+    try {
+        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?page=1&filter[status]=due_soon,overdue&include=${payload.include}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
+        yield put({type: ACTION_GET_ATTENTION_INVOICES_SUCCESS, payload: invoices});
+    } catch(e) {
+        logger.error('Field to load attention invoices', serverError(e))
     }
 }
 

@@ -1,12 +1,51 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './financials-receivables.styles';
 import Invoices from "../../../invoices/invoices.component";
+import ReceivablesAttention from "./components/receivables-attention/receivables-attention.component";
+import InvoicesAtention from "../../../invoices/components/invoices-atention/invoices-atention.component";
+import {ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
+import userTypes from "../../../../enums/user-types.enum";
+import {useAuth} from "../../../../hooks/auth.hook";
+import {useDispatch} from "react-redux";
+import {statisticRange, statisticRangeOptions} from "../../../../enums/financials.enum";
+import {FormSelectUI} from "../../../../components/forms/form-select/form-select.component";
+import FinancialsReceivablesTotals
+    from "./components/financials-receivables-totals/financials-receivables-totals.component";
+import {receivablesTotals} from "./financials-receivables.data";
+import PageSubtitle from "../../../../components/titles/page-subtitle.styles";
+import InvoiceFilters from "../../../invoices/components/invoice-filters/invoice-filters.component";
+import Hr from '../../../../components/hr/hr.styles';
+import FinancialsReceivablesTable
+    from "./components/financials-receivables-table/financials-receivables-table.component";
 
 type Props = {};
 const FinancialsReceivables = ({}:Props) => {
+    const {type, uuid} = useAuth();
+    const dispatch = useDispatch();
+    const [range, setRange] = useState(statisticRange.MONTH);
+    useEffect(() => {
+        dispatch({
+            type: ACTION_GET_INVOICES_REQUEST, payload: {
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
+            }
+        });
+        dispatch({
+            type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
+            }
+        });
+    }, [uuid]);
     return (
         <Styles>
-            <h1>Receivables</h1>
+            <InvoicesAtention/>
+            <div className={'f-receivables__range'}>
+                <FormSelectUI name={'range'} label={'Totals for...'}
+                              options={statisticRangeOptions} value={range} onUpdate={setRange}/>
+            </div>
+            <FinancialsReceivablesTotals data={receivablesTotals[range]}/>
+            <PageSubtitle>All your Issued Invoices</PageSubtitle>
+            <InvoiceFilters/>
+            <FinancialsReceivablesTable/>
         </Styles>
     );
 };
