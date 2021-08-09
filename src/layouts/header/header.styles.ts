@@ -22,11 +22,15 @@ export default styled.header`
         }
         &__profile {
             display: block;
-            img {
-                display: block;
+            &__img {
+                ${p => p.theme.extend.flexCenter};
                 width: 32px;
                 height: 32px;
                 border-radius: 40%;
+                background-color: ${p => p.theme.vars.colors.primary};
+                color: white;
+                font-size: 12px;
+                font-weight: 500;
             }
         }
         &__icon {

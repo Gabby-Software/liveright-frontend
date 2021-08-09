@@ -6,17 +6,34 @@ import {classes} from "../../pipes/classes.pipe";
 import {useHeader} from "../../hooks/header.hook";
 import {HeaderItemType, HeaderItemTypes} from "../../types/route.type";
 import headers, {DEFAULT_TITLE} from "../../config/header.config";
+import {useAuth} from "../../hooks/auth.hook";
+import userTypes from "../../enums/user-types.enum";
+import {useTrainer} from "../../hooks/trainer.hook";
+import {useClientsTrainer} from "../../hooks/clients-trainer.hook";
+import {noImage} from "../../pipes/no-image.pipe";
+import logger from "../../managers/logger.manager";
 
 const Header = () => {
     const {pathname} = useLocation();
+    const {type: userType} = useAuth();
+    const trainer = useClientsTrainer();
     const title = DEFAULT_TITLE;
     const items = headers.default;
+    logger.info("TRAINER", trainer);
     const renderHeaderItem = ({type, href, Icon}: HeaderItemType) => {
         switch (type) {
             case HeaderItemTypes.IMAGE:
+                if(userType !== userTypes.CLIENT || !trainer)
+                    return null;
                 return (
                     <Link to={href || ''} className={'header__profile'}>
-                        <img alt={'trainer'} src={profilePlaceholder}/>
+                        {
+                            trainer.avatar?.url?(
+                                <img alt={'trainer'} src={trainer.avatar.url} className={'header__profile__img'}/>
+                            ):(
+                                <div className={'header__profile__img'}>{noImage(trainer.first_name, trainer.last_name)}</div>
+                            )
+                        }
                     </Link>
                 );
             case HeaderItemTypes.ICON:
