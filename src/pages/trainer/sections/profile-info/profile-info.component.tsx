@@ -9,11 +9,13 @@ import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {TrainerContext} from "../../trainer.context";
 import FormTextarea from "../../../../components/forms/form-textarea/form-textarea.component";
+import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 
 const ProfileInfo = ({title}: {title:string}) => {
     const {type} = useAuth();
     const {editMode} = useContext(TrainerContext);
     const fields = type === userTypes.CLIENT ? lrTrainerFields : lrClientFields;
+    const {t} = useTranslation();
     // const trainer = useTrainer();
     // if(!fields.some(f => (trainer as any)[f.name as string])) return null;
     return (
@@ -22,7 +24,7 @@ const ProfileInfo = ({title}: {title:string}) => {
             <FormRow>
             {
                     fields.map(p => editMode? (
-                        <FormTextarea name={p.name as string} label={p.label as string}/>
+                        <FormTextarea name={p.name as string} label={t(p.label as string)}/>
                     ) : (<ProfileField {...p}/>))
             }
             </FormRow>
