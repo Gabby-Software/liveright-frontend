@@ -27,7 +27,7 @@ const InvoicesTable = () => {
     const {type} = useAuth();
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
-    const {meta, data} = useSelector((state: RootState) => state.invoices);
+    const {meta, data} = useSelector((state: RootState) => state.invoices.current);
     const dispatch = useDispatch();
     const updatePage = (p: number) => {
         dispatch({

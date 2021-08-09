@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {media} from "../../../../assets/styles/_media";
+import {media} from "../../../../../../assets/styles/_media";
 
 export default styled(Link)`
 margin: 32px 16px 57px 0;
