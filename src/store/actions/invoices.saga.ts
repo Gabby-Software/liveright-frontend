@@ -1,5 +1,6 @@
 import {takeLatest,throttle, put, call} from 'redux-saga/effects';
 import {
+    ACTION_CANCEL_INVOICE_REQUEST,
     ACTION_CREATE_INVOICE_REQUEST, ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_ATTENTION_INVOICES_SUCCESS,
     ACTION_GET_INVOICES_ERROR,
     ACTION_GET_INVOICES_LOAD,
@@ -23,6 +24,7 @@ export function* sagaInvoicesWatcher() {
     yield throttle(400,ACTION_GET_INVOICES_REQUEST, getInvoicesWorker);
     yield takeLatest(ACTION_CREATE_INVOICE_REQUEST, createInvoiceWorker);
     yield takeLatest(ACTION_GET_ATTENTION_INVOICES_REQUEST, getAttentionInvoicesWorker);
+    yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
 }
 
 function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, search: string, include: string}&CallbackType<void>>) {
@@ -46,6 +48,18 @@ function* getAttentionInvoicesWorker({payload}: ActionType<{ include: string }>)
         yield put({type: ACTION_GET_ATTENTION_INVOICES_SUCCESS, payload: invoices});
     } catch(e) {
         logger.error('Field to load attention invoices', serverError(e))
+    }
+}
+function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, include: string }>) {
+    const {id, ...query} = payload;
+    try {
+        const params = new URLSearchParams({
+            ...query,
+        } as any).toString();
+        yield call(() => api.delete(EP_GET_INVOICES+`/${id}`));
+        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
+        yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
+    } catch(e) {
     }
 }
 

@@ -21,6 +21,7 @@ import {Link} from "react-router-dom";
 import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
 import TablePagination from "../../../../../../components/table-pagination/table-pagination.component";
 import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../../../store/action-types";
+import {Popconfirm} from "antd";
 
 
 type Props = {};
@@ -93,7 +94,10 @@ const FinancialsReceivablesTable = ({}: Props) => {
                                 <PDFIcon className={'invoice-table__action'}
                                          onClick={() => fileManager.downloadUrl(url)}/>
                                 <SendIcon className={'invoice-table__action'}/>
-                                <TimesIcon className={'invoice-table__action'} onClick={() => cancelInvoice(id)}/>
+                                <Popconfirm title={t('invoices:confirm-delete')}
+                                            onConfirm={() => cancelInvoice(id)}>
+                                    <TimesIcon className={'invoice-table__action'}/>
+                                </Popconfirm>
                             </>
                         ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
                             <InvoiceIcon className={'invoice-table__action'}
