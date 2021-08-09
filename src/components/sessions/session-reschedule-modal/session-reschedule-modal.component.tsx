@@ -20,6 +20,8 @@ import {useIsMobile} from "../../../hooks/is-mobile.hook";
 import BottomDrawer from "../../bottom-drawer/bottom-drawer.component";
 import {hour} from "../../../pipes/hour.pipe";
 import logger from "../../../managers/logger.manager";
+import {useDispatch} from "react-redux";
+import {ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST} from "../../../store/action-types";
 
 type Props = {
     onClose: () => void;
@@ -28,10 +30,12 @@ type Props = {
 type RescheduleFormType = {
     date: string;
     time: string;
+    duration: string;
 }
 const SessionRescheduleModal = ({session, onClose}: Props) => {
     const {t} = useTranslation();
     const isMobile = useIsMobile();
+    const dispatch = useDispatch();
     const Wrapper = useMemo(() => (
         !isMobile ? (({children}:{children:React.ReactNode}) =>
             <Modal visible={!!session} onCancel={onClose}>{children}</Modal>)
@@ -46,11 +50,23 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
     ), [isMobile, session, onClose]);
     if (!session) return null;
     const initialValues: RescheduleFormType = {
-        date: session.starts_at,
-        time: session.duration
+      date: moment(session.starts_at).format('YYYY-MM-DD'),
+      time: moment(session.starts_at).format("HH:mm"),
+      duration: moment(session.duration, 'HH:mm:ss').format("HH:mm"),
     };
     const handleSubmit = (values: RescheduleFormType, helper: FormikHelpers<RescheduleFormType>) => {
-        // todo: handle form submit;
+        const {date, duration, time} = values;
+
+        dispatch({
+          type: ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST,
+          payload: {
+            id: session.id,
+            date,
+            duration: moment(duration, "HH:mm").format("HH:mm:ss"),
+            time: moment(time, "HH:mm").format("HH:mm:ss"),
+          }
+        })
+
         helper.setSubmitting(false);
         onClose();
     };
@@ -60,7 +76,8 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
             <Formik initialValues={initialValues} onSubmit={handleSubmit}
                     validationSchema={Yup.object({
                         date: Yup.date().min(moment().startOf('day')).required(),
-                        time: Yup.string().required()
+                        time: Yup.string().required(),
+                      duration: Yup.string().required(),
                     })}
             >
                 <Form>
@@ -79,6 +96,7 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                         <FormRow>
                         <FormDatepicker name={'date'} label={t('sessions:date')}/>
                         <FormTimepicker name={'time'} label={t('sessions:time')}/>
+                        <FormTimepicker name={'duration'} label={t('sessions:duration')}/>
                         </FormRow>
                         {
                             <Field name={'time'}>

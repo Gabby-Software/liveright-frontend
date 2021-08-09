@@ -38,13 +38,11 @@ const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
     const initialValues: AddSessionFormType = useMemo(() => session ? ({
         type: session.type,
         date: moment(session.starts_at).format('YYYY-MM-DD'),
-        time: moment(session.starts_at).format("h:mm"),
-        duration: moment(session.duration, 'HH:mm:ss').format("h:mm"),
+        time: moment(session.starts_at).format("HH:mm"),
+        duration: moment(session.duration, 'HH:mm:ss').format("HH:mm"),
         client_id: session.client?.id,
         notes: session.notes || '',
     }) as AddSessionFormType : initialValuesEmpty, [session])
-
-    console.log(initialValues, 'ASDASDAS')
 
     const handleSubmit = (values: AddSessionFormType, helper: FormikHelpers<AddSessionFormType>) => {
         const {duration, time, client_id, sessions, ...rest} = values
@@ -55,8 +53,8 @@ const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
                 payload: {
                     ...rest,
                     id: session?.id,
-                    duration: moment(duration, "h:mm").format("HH:mm:ss"),
-                    time: moment(time, "h:mm").format("HH:mm:ss"),
+                    duration: moment(duration, "HH:mm").format("HH:mm:ss"),
+                    time: moment(time, "HH:mm").format("HH:mm:ss"),
                 }
             });
         } else {
