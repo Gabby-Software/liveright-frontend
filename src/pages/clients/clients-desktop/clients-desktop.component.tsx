@@ -75,7 +75,11 @@ const ClientsDesktop = ({}:Props) => {
                             <DataTable labels={labels} data={data}
                                        loading={loading} error={error}
                                        keys={keys} render={{
-                                name: ({first_name, last_name, id, user_uuid}) => <Link to={`${Routes.CLIENTS}/${user_uuid}`}>{`${first_name} ${last_name}`}</Link>,
+                                name: ({first_name, last_name, id, user_uuid, status}) => (
+                                    status === 'awaiting'?<div>{`${first_name} ${last_name}`}</div>:(
+                                        <Link to={`${Routes.CLIENTS}/${user_uuid}`}>{`${first_name} ${last_name}`}</Link>
+                                    )
+                                ),
                                 actions: () => (
                                     <div className={'clients__activities'}>
                                         {actions.map((item) => (

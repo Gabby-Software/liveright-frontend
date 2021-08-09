@@ -33,17 +33,19 @@ const ClientsMobile = () => {
         <Styles>
             <div className={'clients__heading'}>
                 {
-                    data.map(({first_name, last_name, id, user_uuid, sessions}) => (
+                    data.map(({first_name, last_name, id, user_uuid, sessions, status}) => {
+                        const Wrapper = status === 'awaiting' ? ({children}:any) => <a>{children}</a> : Link;
+                        return (
                         <PopOnScroll offset={100}>
-                            <Link to={`${Routes.CLIENTS}/${user_uuid}`}>
+                            <Wrapper to={`${Routes.CLIENTS}/${user_uuid}`}>
                                 <Card className={classes('clients__card')} key={id}>
                                     <div className={classes('clients__name')}>{first_name} {last_name}</div>
                                     <div
                                         className={'clients__label'}>{t('clients:sessions-remind', {n: sessions || 0})}</div>
                                 </Card>
-                            </Link>
+                            </Wrapper>
                         </PopOnScroll>
-                    ))
+                    )})
                 }
                 <DataPagination page={meta.current_page} setPage={setPage} total={meta.total}/>
             </div>
