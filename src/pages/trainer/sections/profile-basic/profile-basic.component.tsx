@@ -9,14 +9,18 @@ import {useTrainer} from "../../../../hooks/trainer.hook";
 import {TrainerContext} from "../../trainer.context";
 import ButtonSubmit from "../../../../components/forms/button-submit/button-submit.component";
 import logger from "../../../../managers/logger.manager";
+import {useAuth} from "../../../../hooks/auth.hook";
+import userTypes from "../../../../enums/user-types.enum";
 
 const ProfileBasic = ({title}:{title:string}) => {
     const {t} = useTranslation();
     const {editMode, setEditMode} = useContext(TrainerContext);
+    const {type} = useAuth();
     return (
         <Styles>
             <ProfileTitle title={title}>
                 {
+                    type === userTypes.CLIENT ? null :
                     editMode?(
                         <ButtonSubmit>{t('profile:save-changes')}</ButtonSubmit>
                     ):(
