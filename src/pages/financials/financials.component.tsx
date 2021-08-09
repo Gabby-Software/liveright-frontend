@@ -6,6 +6,7 @@ import RoutedTabs from "../../components/routed-tabs/routed-tabs.component";
 import {Route} from "react-router-dom";
 import {Routes} from "../../enums/routes.enum";
 import {onlyTrainer} from "../../guards/trainer.guard";
+import {useIsMobile} from "../../hooks/is-mobile.hook";
 
 const FinancialsPayables = lazy(() => import("./tabs/financials-payables/financials-payables.component"));
 const FinancialsOverview = lazy(() => import("./tabs/financials-overview/financials-overview.component"));
@@ -14,6 +15,9 @@ const FinancialsGoals = lazy(() => import("./tabs/financials-goals/financials-go
 
 type Props = {};
 const Financials = ({}: Props) => {
+
+    const isMobile = useIsMobile();
+    if(isMobile) return null;
     return (
         <Styles>
             <RoutedTabs tabs={financialTabs}/>

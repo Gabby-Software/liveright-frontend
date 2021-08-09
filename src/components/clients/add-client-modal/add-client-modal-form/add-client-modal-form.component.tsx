@@ -72,6 +72,7 @@ const AddClientModalForm = ({}:Props) => {
                     <FormInputLabeled name={'address'} label={t('profile:address')} onUpdate={update}/>
                     <FormTextarea name={'dietary_restrictions'} label={t('profile:dietary-restrictions')} onUpdate={update}/>
                     <FormTextarea name={'injuries'} label={t('profile:injuries')} onUpdate={update}/>
+                    <FormTextarea name={'message'} label={t('Message')} onUpdate={update}/>
                     <ButtonSubmit>{t('submit')}</ButtonSubmit>
                     <FormButton type={'default'} onClick={() => setStep(clientFormSteps.EMAIL)}>{t('back')}</FormButton>
                 </Form>
