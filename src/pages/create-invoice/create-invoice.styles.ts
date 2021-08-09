@@ -6,8 +6,14 @@ export const SubmitLabel = styled.div`
    max-width: 300px;
    .ant-btn {
         max-width: 300px;
+        padding:0;
         &:first-child {
             margin-bottom: 24px;
+        }
+        label {
+            cursor: pointer;
+            display block;
+            padding: 15px 30px;
         }
    }
 `;

@@ -123,11 +123,12 @@ const CreateInvoice = ({}: Props) => {
     );
     useTitleContent(<TitleContent/>);
     const handleSubmit = (values: InvoiceFormType, helper: FormikHelpers<InvoiceFormType>) => {
+        logger.info('SUBMITTING', values);
         dispatch({
             type: ACTION_CREATE_INVOICE_REQUEST, payload: {
                 ...values,
                 params: {
-                    page: meta.current_page,
+                    page: meta?.current_page || 1,
                     include: "invoiceTo"
                 },
                 onSuccess: (id:number) => {
