@@ -16,6 +16,9 @@ import {
     ACTION_CLIENT_REQUEST_SESSION_SUCCESS,
     ACTION_CLIENT_REQUEST_SESSION_LOAD,
     ACTION_CLIENT_REQUEST_SESSION_ERROR,
+    ACTION_CLIENT_RESCHEDULE_SESSION_LOAD,
+    ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS,
+    ACTION_CLIENT_RESCHEDULE_SESSION_ERROR,
 } from "../action-types";
 import {APIGetType} from "../../hoc/api-get";
 
@@ -64,13 +67,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
         case ACTION_CLIENT_REQUEST_SESSION_SUCCESS:
             return {
-                data: {
-                    ...data,
-                    upcoming: {
-                        ...upcoming,
-                        data: [payload, ...upcoming.data.slice(0, upcoming.data.length - 1)]
-                    }
-                },
+                ...state,
                 loading: false,
                 error: null
             };
@@ -121,7 +118,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 loading: false,
                 error: true
             };
-        case ACTION_EDIT_SESSIONS_SUCCESS:
+        case ACTION_EDIT_SESSIONS_SUCCESS: {
             const index = upcoming.data.findIndex((it: SessionType) => it.id === payload.id);
             const nextUpcomingData = upcoming.data
             nextUpcomingData[index] = payload;
@@ -135,6 +132,36 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 loading: false,
                 error: null
             }
+        }
+        case ACTION_CLIENT_RESCHEDULE_SESSION_LOAD:
+            return {
+                ...state,
+                loading: true,
+                error: false
+            };
+        case ACTION_CLIENT_RESCHEDULE_SESSION_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: true
+            };
+        case ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS: {
+            const {data} = payload;
+            const session = data[0];
+            const index = upcoming.data.findIndex((it: SessionType) => it.id === session.id);
+            const nextUpcomingData = [...upcoming.data]
+            nextUpcomingData.splice(index, 1);
+            return {
+                data: {
+                    upcoming: {
+                        ...upcoming,
+                        data: nextUpcomingData,
+                    }
+                },
+                loading: false,
+                error: null
+            }
+        }
         case ACTION_SWITCH_ACCOUNT_SUCCESS:
             return initialValues;
         default:
