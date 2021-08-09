@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
-import {Avatar} from "antd";
-import {UserOutlined} from "@ant-design/icons";
 import Styles, {AwaitingCard, TitleContent, AddSessionAction, ManageTargetsAction} from './desktop-sessions.styles';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {SessionEdit, SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
+import {SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
@@ -32,7 +30,7 @@ import SessionUserAvatar from "../../components/session-user-avatar/session-user
 
 interface Props {
     sessions: SessionsState;
-    getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+    getSessions: (status: SessionStatus) => (page: number,filters?: SessionFilter) => void;
     onRemoveSession: (id: number) => void;
 }
 
@@ -44,6 +42,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType|null>(null);
+    const [filteredClient, setFilteredClient] = useState(0);
 
     const renderUpcomingItemOptions = (item: SessionType) => {
         return (
@@ -108,7 +107,15 @@ const DesktopSessions: React.FC<Props> = (props) => {
     useTitleContent((
         <Formik onSubmit={() => {}} initialValues={{client_filter: ''}}>
             <TitleContent>
-                <FormSelect name="client_filter" placeholder={t('sessions:filter-by-client')} options={[]} />
+                <FormSelect
+                    name="client_filter"
+                    placeholder={t('sessions:filter-by-client')}
+                    onUpdate={(id) => setFilteredClient(+id)}
+                    options={clients.data.data.map(it => ({
+                        label: `${it.first_name} ${it.last_name}`,
+                        value: it.id.toString(),
+                    }))}
+                />
                 <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>
                     {t('sessions:schedule-new')}
                 </AddSessionAction>

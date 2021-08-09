@@ -15,12 +15,13 @@ import SessionUserAvatar from "../session-user-avatar/session-user-avatar.compon
 interface Props {
     sessions: PaginatedDataType<SessionType>;
     getSessions: (page: number, filter?: SessionFilter) => void;
+    additionalFilters?: SessionFilter;
     renderOptions?: (session: SessionType) => ReactElement;
     withFilter?: boolean;
 }
 
 const SessionsTable: React.FC<Props> = (props) => {
-    const {sessions, getSessions, renderOptions, withFilter} = props;
+    const {sessions, getSessions, additionalFilters, renderOptions, withFilter} = props;
     const {data, meta} = sessions;
     const {current_page, total} = meta;
     const isTrainerType = useAuth().type === userTypes.TRAINER;
@@ -45,12 +46,13 @@ const SessionsTable: React.FC<Props> = (props) => {
     }, [renderOptions]);
 
     const handlePageSet = (page: number) => {
-        getSessions(page, filter)
+        getSessions(page, {...filter, ...additionalFilters})
     }
 
     useEffect(() => {
         handlePageSet(1)
     }, [filter])
+
 
     return (
       <Styles>
