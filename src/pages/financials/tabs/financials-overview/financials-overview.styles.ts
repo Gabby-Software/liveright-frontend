@@ -23,7 +23,6 @@ export default styled.div`
             ${p => p.theme.extend.h1};
         }
         &__body {
-            aspect-ratio: 3/2;
             background-color: white;
             border-radius: ${p => p.theme.vars.sizes.borderRadius};
             padding: 24px;

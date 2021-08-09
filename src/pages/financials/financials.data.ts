@@ -10,3 +10,4 @@ export const financialTabs: TabType[] = [
     {name: 'Payables', url: Routes.FINANCIALS_PAYABLES},
     {name: 'Goals', url: Routes.FINANCIALS_GOALS},
 ];
+
