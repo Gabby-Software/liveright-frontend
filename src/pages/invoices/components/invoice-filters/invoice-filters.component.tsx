@@ -48,16 +48,12 @@ const InvoiceFilters = () => {
                 icon={<SearchIcon/>} iconPrepend
                 value={search} name={'search'} label={t('search')} onUpdate={setSearch}/>
             <FormSelectUI value={status} name={'status'} label={t('invoices:status')} options={[{label:'All statuses', value:''}, ...statuses]} onUpdate={setStatus}/>
-            <FormSelectUI value={issuer} name={'issuer'} label={t('invoices:issuer')} options={issuers} onUpdate={setIssuer}/>
-            <div/>
-            {/*<ButtonSubmit>{t('apply-filters')}</ButtonSubmit>*/}
-            {/*{*/}
-            {/*    type === userTypes.TRAINER ? <DesktopAddInvoiceTrigger/> : null*/}
-            {/*}*/}
             {
-                type === userTypes.TRAINER ? <Link to={Routes.CREATE_INVOICE}>
-                    <FormButton type={'primary'}>{t("invoices:add")}</FormButton></Link> : null
+                type === userTypes.CLIENT?(
+                    <FormSelectUI value={issuer} name={'issuer'} label={t('invoices:issuer')} options={issuers} onUpdate={setIssuer}/>
+                ):<div/>
             }
+            <div/>
         </Styles>
     );
 };

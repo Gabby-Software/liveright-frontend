@@ -17,10 +17,15 @@ import InvoiceFilters from "../../../invoices/components/invoice-filters/invoice
 import Hr from '../../../../components/hr/hr.styles';
 import FinancialsReceivablesTable
     from "./components/financials-receivables-table/financials-receivables-table.component";
+import FormButton from "../../../../components/forms/form-button/form-button.component";
+import {Routes} from "../../../../enums/routes.enum";
+import {Link} from 'react-router-dom';
+import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 
 type Props = {};
 const FinancialsReceivables = ({}:Props) => {
     const {type, uuid} = useAuth();
+    const {t} = useTranslation();
     const dispatch = useDispatch();
     const [range, setRange] = useState(statisticRange.MONTH);
     useEffect(() => {
@@ -38,6 +43,7 @@ const FinancialsReceivables = ({}:Props) => {
     return (
         <Styles>
             <InvoicesAtention/>
+            <Link to={Routes.CREATE_INVOICE} className={'f-receivables__link'}><FormButton type={'primary'}>{t("invoices:add")}</FormButton></Link>
             <div className={'f-receivables__range'}>
                 <FormSelectUI name={'range'} label={'Totals for...'}
                               options={statisticRangeOptions} value={range} onUpdate={setRange}/>

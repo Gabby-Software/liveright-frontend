@@ -92,7 +92,7 @@ export const routes: RouteType[] = [
         url: Routes.CREATE_INVOICE,
         Component: lazy(() => import('../pages/create-invoice/create-invoice.component')),
         back: {
-          url: Routes.INVOICES,
+          url: Routes.FINANCIALS_RECEIVABLES,
           alias: "invoices"
         },
         header: {
