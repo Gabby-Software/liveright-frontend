@@ -71,7 +71,7 @@ const InvoicesTable = () => {
                 name: t => `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
                 status: t => <div
                     className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
-                options: ({status, id, url}) => (
+                options: ({status, id, pdf}) => (
                     <div className={'invoice-table__actions'}>
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
                             type === userTypes.CLIENT ? (
@@ -90,8 +90,8 @@ const InvoicesTable = () => {
                             )
                         ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
                             <InvoiceIcon className={'invoice-table__action'}
-                                         onClick={() => fileManager.downloadUrl(url)}/> : null}
-                        <PDFIcon className={'invoice-table__action'} onClick={() => fileManager.downloadUrl(url)}/>
+                                         onClick={() => fileManager.downloadUrl(pdf.url)}/> : null}
+                        <PDFIcon className={'invoice-table__action'} onClick={() => fileManager.downloadUrl(pdf.url)}/>
                         <Link to={Routes.INVOICES + '/' + id} className={'invoice-table__action'}>
                             <ReceiptIcon/>
                         </Link>
