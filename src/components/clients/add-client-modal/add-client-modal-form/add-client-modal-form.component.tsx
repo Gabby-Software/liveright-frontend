@@ -19,8 +19,8 @@ import {handleError} from "../../../../managers/api.manager";
 import logger from "../../../../managers/logger.manager";
 import FormPhone from "../../../forms/form-phone/form-phone.component";
 
-type Props = {};
-const AddClientModalForm = ({}:Props) => {
+type Props = {onSubmit?: () => void};
+const AddClientModalForm = ({onSubmit}:Props) => {
     const {step, setStep, form, update,onClose} = useContext(ClientFormContext);
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
@@ -35,6 +35,7 @@ const AddClientModalForm = ({}:Props) => {
                 helper.resetForm()
                 toast.show({type: 'success', msg: t('alerts:client-add-success')});
                 onClose();
+                onSubmit && onSubmit();
             })
             .catch(handleError(helper));
     };
