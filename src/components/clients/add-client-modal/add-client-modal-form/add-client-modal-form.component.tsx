@@ -54,7 +54,8 @@ const AddClientModalForm = ({onSubmit}:Props) => {
                     first_name: Yup.string().required().name(),
                     last_name: Yup.string().required().name(),
                     phone_number: Yup.string().phone(),
-                    birthday: Yup.date().max(moment().startOf('day').toDate())
+                    birthday: Yup.date().max(moment().startOf('day').toDate()),
+                    postal_code: Yup.string().zip().nullable()
                 })}
             >
                 <Form>
@@ -67,6 +68,7 @@ const AddClientModalForm = ({onSubmit}:Props) => {
                     <FormSwitch name={'gender'} options={genderOptions}/>
                     <FormPhone name={'phone_number'} label={t('profile:phone')} onUpdate={update}/>
                     <FormInputLabeled name={'city'} label={t('profile:city')} onUpdate={update}/>
+                    <FormInputLabeled name={'postal_code'} label={t('profile:postal-code')} onUpdate={update}/>
                     <FormCountrySelect name={'country.code'} onUpdate={code => {
                         update('country', {code})
                     }}/>

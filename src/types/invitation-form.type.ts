@@ -14,4 +14,5 @@ export type InvitationFormType = {
     dietary_restrictions: string;
     injuries: string;
     message: string;
+    postal_code: string;
 }
