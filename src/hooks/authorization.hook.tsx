@@ -3,6 +3,8 @@ import {useDispatch} from "react-redux";
 import {useEvent} from "./event.hook";
 import cookieManager from "../managers/cookie.manager";
 import {ACTION_LOGIN_SUCCESS} from "../store/action-types";
+import api from "../managers/api.manager";
+import {EP_GET_USER} from "../enums/api.enum";
 type IframeEventType = {
     event: string;
     key: string;
@@ -47,6 +49,13 @@ export type AuthResponseType = {
 
 export const useAuthorization = () => {
     const dispatch = useDispatch();
+    useEffect(() => {
+        api.get(EP_GET_USER)
+            .then(res => res.data.data)
+            .then(res => {
+                dispatch({type: ACTION_LOGIN_SUCCESS, payload: res})
+            });
+    }, []);
     useEvent('focus', () => {
         const user = cookieManager.get('auth');
         dispatch({
