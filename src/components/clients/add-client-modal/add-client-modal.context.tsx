@@ -15,6 +15,7 @@ export type ClientFormType = {
     address: string;
     injuries: string;
     dietary_restrictions: string;
+    postal_code: string;
 };
 export enum clientFormSteps {
     EMAIL,
@@ -34,7 +35,8 @@ export const defaultValues: ClientFormType = {
     country: '',
     address: '',
     injuries: '',
-    dietary_restrictions: ''
+    dietary_restrictions: '',
+    postal_code: ''
 };
 export const ClientFormContext = createContext<{
     form: ClientFormType;
