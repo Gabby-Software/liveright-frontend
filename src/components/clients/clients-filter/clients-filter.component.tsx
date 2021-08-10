@@ -29,7 +29,7 @@ const ClientsFilter = () => {
     const [query, setQuery] = useState('');
     const [type, setType] = useState('');
     const [status, setStatus] = useState('');
-    useEffect(() => {
+    const fetchClients = () => {
         clearTimeout(timer.current);
         timer.current = setTimeout(() => {
             dispatch({
@@ -39,7 +39,9 @@ const ClientsFilter = () => {
                 }
             })
         }, 400) as unknown as number;
-    }, [query, type, status]);
+    }
+    useEffect(fetchClients, [query, type, status]);
+
     const handleSubmit = (values: FilterType, helper: FormikHelpers<FilterType>) => {
         // todo: handle submition
         helper.setSubmitting(false);
@@ -76,7 +78,7 @@ const ClientsFilter = () => {
                                 onClick={() => setModalOpen(true)}
                     >{t('clients:add')}</FormButton>
                 </div>
-                <AddClientModal isOpen={modalOpen} onClose={() => setModalOpen(false)}/>
+                <AddClientModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSubmit={fetchClients}/>
             </FormRow>
         </Styles>
     )

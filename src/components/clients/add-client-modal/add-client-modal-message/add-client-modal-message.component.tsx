@@ -12,8 +12,8 @@ import InvitationManager from "../../../../managers/invitation.manager";
 import {handleError} from "../../../../managers/api.manager";
 import logger from "../../../../managers/logger.manager";
 
-type Props = {};
-const AddClientModalMessage = ({}: Props) => {
+type Props = {onSubmit?:() =>void};
+const AddClientModalMessage = ({onSubmit}: Props) => {
     const {step, setStep, form, update, onClose} = useContext(ClientFormContext);
     const {t} = useTranslation();
     const handleSubmit = (values: ClientFormType, helper: FormikHelpers<ClientFormType>) => {
@@ -24,6 +24,7 @@ const AddClientModalMessage = ({}: Props) => {
                 helper.resetForm()
                 toast.show({type: 'success', msg: t('alerts:client-add-success')});
                 onClose();
+                onSubmit && onSubmit();
             }).catch(handleError(helper));
     };
     return (

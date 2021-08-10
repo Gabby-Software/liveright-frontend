@@ -10,9 +10,10 @@ import AddClientModalForm from "./add-client-modal-form/add-client-modal-form.co
 type Props = {
     isOpen: boolean;
     onClose: () => void;
+    onSubmit?: () => void;
 };
 
-const AddClientModal = ({isOpen, onClose}: Props) => {
+const AddClientModal = ({isOpen, onClose, onSubmit}: Props) => {
     const [form, setFrom] = useState<ClientFormType>(defaultValues);
     const [step, setStep] = useState<number>(clientFormSteps.EMAIL);
     const {t} = useTranslation();
@@ -32,8 +33,8 @@ const AddClientModal = ({isOpen, onClose}: Props) => {
                     <div className={'add-client__cont'}>
                     <div className={'add-client__body'} style={{right: `${Math.min(1, step)*100}%`}}>
                         <AddClientModalEmail/>
-                        <AddClientModalMessage/>
-                        <AddClientModalForm/>
+                        <AddClientModalMessage onSubmit={onSubmit}/>
+                        <AddClientModalForm onSubmit={onSubmit}/>
                     </div>
                     </div>
                 </Styles>
