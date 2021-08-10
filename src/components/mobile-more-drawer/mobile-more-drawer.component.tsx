@@ -10,10 +10,13 @@ import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.sv
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
 import {ReactComponent as SyncIcon} from "../../assets/media/icons/sync.svg";
 import {ReactComponent as SettingsIcon} from "../../assets/media/icons/settings.svg";
+import {ReactComponent as PowerIcon} from "../../assets/media/icons/power.svg";
 import SwitchAccountModal from "../switch-account-modal/switch-account-modal.component";
 import userTypes from "../../enums/user-types.enum";
 import {useAuth} from "../../hooks/auth.hook";
 import {identity} from "../../pipes/identity.pipe";
+import {useDispatch} from "react-redux";
+import {ACTION_LOGOUT_REQUEST} from "../../store/action-types";
 
 type MobileMoreDrawerPropsType = {
     isOpen: boolean;
@@ -31,6 +34,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
     const {t} = useTranslation();
     const [switchAccountOpen, setSwitchAccountOpen] = useState(false);
     const {type} = useAuth();
+    const dispatch = useDispatch();
     const menuItems: LinkType[] = [
         {Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile'},
         {Icon: UsersIcon, url: '/clients', name: 'menu.clients', permission: userTypes.TRAINER},
@@ -39,6 +43,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
         {Icon: SessionIcon, url: '/sessions', name: 'menu.sessions'},
         {Icon: SyncIcon, onClick: () => {setSwitchAccountOpen(true);onClose()}, name: 'menu.switch-account'},
         {Icon: SettingsIcon, url: '/settings', name: 'menu.settings'},
+        {Icon: PowerIcon, onClick: () => dispatch({type: ACTION_LOGOUT_REQUEST}), name: 'menu.log-out'},
     ];
     return (
         <>
