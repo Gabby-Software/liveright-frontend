@@ -63,15 +63,20 @@ function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, 
     } catch(e) {
     }
 }
-function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number, page: number, include: string }>) {
-    const {id, ...query} = payload;
+function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number, page: number, include: string }&CallbackType<InvoiceType>>) {
+    const {id, onSuccess, onError, ...query} = payload;
     try {
         const params = new URLSearchParams({
             ...query,
         } as any).toString();
-        yield call(() => api.post(EP_MARK_INVOICE_AS_PAID(id)));
-        const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
-        yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
+        const invoice = (yield call(() => api.post(EP_MARK_INVOICE_AS_PAID(id)).then(res => res.data.data))) as InvoiceType;
+        if(onSuccess) {
+            onSuccess(invoice)
+        } else {
+            const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
+            yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
+        }
+
     } catch(e) {
     }
 }

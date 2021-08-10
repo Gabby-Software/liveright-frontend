@@ -75,6 +75,13 @@ export default styled.div`
             &:hover {
                 opacity: .8;
             }
+            &__disabled {
+                opacity: .6;
+                cursor: not-allowed;
+                &:hover {
+                    opacity: .6;
+                }
+            }
         }
     }
 `;

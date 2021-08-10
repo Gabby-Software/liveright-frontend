@@ -80,7 +80,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
         dispatch({
             type: ACTION_MARK_INVOICE_AS_PAID, payload: {
                 id,
-                page: meta.current_page,
+                page: meta?.current_page || 1,
                 include: 'invoiceTo'
             }
         })

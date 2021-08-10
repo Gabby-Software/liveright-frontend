@@ -1,5 +1,6 @@
 import {CurrencyType} from "./currency.type";
 import {AddressType} from "./address.type";
+import {FileType} from "./file.type";
 
 export type InvoiceItemType = {
     id: number;
@@ -43,6 +44,7 @@ export type InvoiceType = {
     tax_value: number;
     total: number;
     type: string;
+    pdf: null | FileType;
     invoice_to: InvoiceAttendeeType,
     invoice_from: InvoiceAttendeeType
 }
