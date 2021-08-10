@@ -27,13 +27,14 @@ const InvoicesTable = () => {
     const {type} = useAuth();
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
-    const {meta, data} = useSelector((state: RootState) => state.invoices.current);
+    const {current:{meta, data}, filters} = useSelector((state: RootState) => state.invoices);
     const dispatch = useDispatch();
     const updatePage = (p: number) => {
         dispatch({
             type: ACTION_GET_INVOICES_REQUEST, payload: {
                 page: p,
                 include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
+                filters,
                 onSuccess: () => {
                     if (!head.current) return;
                     window.scrollTo({

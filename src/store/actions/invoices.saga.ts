@@ -6,7 +6,7 @@ import {
     ACTION_GET_INVOICES_LOAD,
     ACTION_GET_INVOICES_REQUEST, ACTION_GET_INVOICES_SUCCESS,
     ACTION_GET_TRAINER_REQUEST,
-    ACTION_GET_TRAINER_SUCCESS, ACTION_MARK_INVOICE_AS_PAID,
+    ACTION_GET_TRAINER_SUCCESS, ACTION_MARK_INVOICE_AS_PAID, ACTION_UPDATE_INVOICE_FILTERS,
     ActionType
 } from "../action-types";
 import {CallbackType} from "../../types/callback.type";
@@ -27,14 +27,13 @@ export function* sagaInvoicesWatcher() {
     yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
     yield takeLatest(ACTION_MARK_INVOICE_AS_PAID, markInvoiceAsPaidWorker);
 }
-
-function* getInvoicesWorker({payload}:ActionType<{page: number, status: string, search: string, include: string}&CallbackType<void>>) {
+type GetInvoicesActionType = ActionType<{page: number, filters:{status: string, search: string, invoice_from: string},  include: string}&CallbackType<void>>;
+function* getInvoicesWorker({payload}:GetInvoicesActionType) {
     yield put({type:ACTION_GET_INVOICES_LOAD});
-    const {onSuccess, onError, ...query} = payload;
+    yield put({type:ACTION_UPDATE_INVOICE_FILTERS, payload: payload.filters});
+    const {onSuccess, onError, filters,include,page} = payload;
     try {
-        const params = new URLSearchParams({
-            ...query,
-        } as any).toString();
+        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}`;
         const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('INVOICES', invoices);
         yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});

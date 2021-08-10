@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Styles from './invoice-filters.styles';
 import {Form, Formik, FormikHelpers} from "formik";
 import FormInputLabeled, {FormInputLabeledUI} from "../../../../components/forms/form-input-labeled/form-input-labeled.component";
@@ -15,6 +15,9 @@ import DesktopAddInvoiceTrigger
 import {useAuth} from "../../../../hooks/auth.hook";
 import {Routes} from "../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {ACTION_GET_CLIENTS_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
+import FormSelectIssuer from "../form-select-issuer/form-select-issuer.component";
 
 type InvoicesFilterType = {
     search: string;
@@ -27,10 +30,13 @@ const initialValues = {
 const InvoiceFilters = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
+    const dispatch = useDispatch();
+    const timer = useRef(0);
     const [issuers, setIssuers] = useState<OptionType[]>([]);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
-    const [issuer, setIssuer] = useState('');
+    const [invoice_from, setInvoice_from] = useState('');
+
     useEffect(() => {
         setIssuers([
             {label: 'All Issuers', value: ''},
@@ -39,9 +45,19 @@ const InvoiceFilters = () => {
             {label: 'issuer 3', value: '3'},
         ]);
     }, []);
-    useEffect(() => {
-        // todo: Update inoices list
-    }, [search, status, issuers]);
+    const fetchInvoices = () => {
+        clearTimeout(timer.current);
+        timer.current = setTimeout(() => {
+            dispatch({
+                type: ACTION_GET_INVOICES_REQUEST, payload: {
+                    filters: {search, status, invoice_from},
+                    include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
+                    page: 1
+                }
+            })
+        }, 400) as unknown as number;
+    }
+    useEffect(fetchInvoices, [search, status, invoice_from]);
     return (
         <Styles className={'invoice-filters'}>
             <FormInputLabeledUI
@@ -50,7 +66,8 @@ const InvoiceFilters = () => {
             <FormSelectUI value={status} name={'status'} label={t('invoices:status')} options={[{label:'All statuses', value:''}, ...statuses]} onUpdate={setStatus}/>
             {
                 type === userTypes.CLIENT?(
-                    <FormSelectUI value={issuer} name={'issuer'} label={t('invoices:issuer')} options={issuers} onUpdate={setIssuer}/>
+                    <FormSelectIssuer value={invoice_from} name={'invoice_from'} label={t('invoices:issuer')}
+                                  onUpdate={setInvoice_from}/>
                 ):<div/>
             }
             <div/>

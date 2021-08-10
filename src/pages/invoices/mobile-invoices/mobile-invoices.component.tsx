@@ -15,12 +15,17 @@ import MobileFilterDrawer from "../../../components/invoices/mobile-filter-drawe
 import {useAuth} from "../../../hooks/auth.hook";
 import userTypes from "../../../enums/user-types.enum";
 import Overall from "../../../components/overall-card/overall-card.component";
+import {ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../store/action-types";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../store/reducers";
 
 type Props = {};
 const MobileInvoices = ({}:Props) => {
     const [page, setPage] = useState(1);
     const {type} = useAuth();
     const {t} = useTranslation();
+    const dispatch = useDispatch();
+    const {filters, current: {meta}} = useSelector((state: RootState) => state.invoices);
     useInfiniteScroll((p: number) => {
         setPage(p);
         return Promise.resolve(p - 1 > invoices.length / 10)
@@ -30,6 +35,15 @@ const MobileInvoices = ({}:Props) => {
         {label: 'invoices:statuses.outstanding', value: '3', type: 'outstanding'},
         {label: 'invoices:statuses.cancelled', value: '25', type: 'cancelled'},
     ];
+    useEffect(() => {
+        dispatch({
+            type: ACTION_GET_INVOICES_REQUEST, payload: {
+                page: meta.current_page,
+                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
+                filters
+            }
+        });
+    }, [type]);
     return (
         <Styles>
             <Overall>
