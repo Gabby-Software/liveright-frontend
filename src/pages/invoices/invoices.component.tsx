@@ -24,14 +24,8 @@ const Invoices = () => {
     const {type} = useAuth();
     const isMobile = useIsMobile();
     const dispatch = useDispatch();
-    const {meta} = useSelector((state: RootState) => state.invoices.current);
+    const {current:{meta}, filters} = useSelector((state: RootState) => state.invoices);
     useEffect(() => {
-        dispatch({
-            type: ACTION_GET_INVOICES_REQUEST, payload: {
-                page: meta.current_page,
-                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
-            }
-        });
         dispatch({
             type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
                 include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'

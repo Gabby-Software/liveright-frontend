@@ -5,12 +5,17 @@ import {
     ACTION_GET_ATTENTION_INVOICES_SUCCESS,
     ACTION_GET_INVOICES_ERROR,
     ACTION_GET_INVOICES_LOAD,
-    ACTION_GET_INVOICES_SUCCESS,
+    ACTION_GET_INVOICES_SUCCESS, ACTION_UPDATE_INVOICE_FILTERS,
     ActionType
 } from "../action-types";
 
 type InvoicesReducerType = {
     needAttention: PaginatedDataType<InvoiceType>,
+    filters: {
+        search: string;
+        status: string;
+        issuer: string;
+    },
     current: PaginatedDataType<InvoiceType>,
     loading: boolean;
     error: string;
@@ -22,7 +27,12 @@ const initialValues: InvoicesReducerType = {
             current_page: 1,
             total: 0,
             per_page: 10
-        },
+        }
+    },
+    filters: {
+        search: '',
+        status: '',
+        issuer: ''
     },
     current: {
         data: [],
@@ -48,6 +58,11 @@ export const invoicesReducer = withStorage((state = initialValues, {type, payloa
             return {
                 ...state,
                 needAttention: payload,
+            };
+        case ACTION_UPDATE_INVOICE_FILTERS:
+            return {
+                ...state,
+                filters: payload
             };
         case ACTION_GET_INVOICES_LOAD:
             return {

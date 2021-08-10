@@ -36,6 +36,7 @@ export const ACTION_GET_INVOICES_ERROR = 'action-get-invoices-error';
 export const ACTION_MARK_INVOICE_AS_PAID = 'action-mark-invoice-as-paid';
 export const ACTION_CREATE_INVOICE_REQUEST = 'action-create-invoice-request';
 export const ACTION_CREATE_INVOICE_SUCCESS = 'action-create-invoice-success';
+export const ACTION_UPDATE_INVOICE_FILTERS = 'action-update-invoice-filters';
 export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
 export const ACTION_GET_CLIENTS_SUCCESS = 'action-get-clients-success';
 export const ACTION_GET_CLIENTS_LOAD = 'action-get-clients-load';
