@@ -14,7 +14,7 @@ const InvoiceInfo = () => {
     const {t} = useTranslation();
     const {data} = useAPIData<InvoiceFullType>();
     const labels = [
-        'invoices:item', 'invoices:quantity', 'invoices:price', 'invoices:discount', 'invoices:vat', 'invoices:subtotal'
+        'invoices:item', 'invoices:quantity', 'invoices:price', 'invoices:discount', 'invoices:vat', 'invoices:item-total'
     ];
     const keys = ['item', 'qty', 'price', 'discount', 'vat', 'subtotal'];
     return (

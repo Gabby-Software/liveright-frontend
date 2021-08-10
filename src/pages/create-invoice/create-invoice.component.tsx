@@ -43,7 +43,7 @@ export type InvoiceItemType = {
     "type": string,
     "is_taxable": boolean,
     "quantity": number,
-    "unit_price": number,
+    "unit_price": string,
     "tax_rate": number,
     "discount_percent": number,
     "extras": {
@@ -70,11 +70,11 @@ const defaultInvoiceItem: InvoiceItemType = {
     name: "",
     is_taxable: true,
     quantity: 1,
-    unit_price: 1,
+    unit_price: '',
     tax_rate: 0,
     discount_percent: 0,
     extras: {
-        session_expires_on: moment().format("YYYY-MM-DD"),
+        session_expires_on: '',
     }
 };
 const initialValues: InvoiceFormType = {
@@ -131,6 +131,11 @@ const CreateInvoice = ({}: Props) => {
         dispatch({
             type: ACTION_CREATE_INVOICE_REQUEST, payload: {
                 ...values,
+                items: values.items.map((item) => ({
+                    ...item,
+                    tax_rate: item.tax_rate||0,
+                    discount_percent: item.discount_percent||0
+                })),
                 params: {
                     page: meta?.current_page || 1,
                     include: "invoiceTo"

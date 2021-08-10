@@ -9,13 +9,17 @@ export interface APIGetType<G> {
     loading: boolean;
     error: string;
 }
+export interface APIGetContextType<G> extends APIGetType<G> {
+    refetch: () => void;
+    setData: (data: G) => void;
+}
 
 type PropsType = {
     url: string;
     children: ComponentType<APIGetType<any>>
 }
-const APIDataContext = createContext<APIGetType<any>>({loading: true, error: '', data: []});
-export function useAPIData<G>(){return useContext(APIDataContext) as APIGetType<G>}
+const APIDataContext = createContext<APIGetContextType<any>>({loading: true, error: '', data: [], refetch: () => {}, setData: () => {}});
+export function useAPIData<G>(){return useContext(APIDataContext) as APIGetContextType<G>}
 const APIGet = ({url, children: Children}: PropsType) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -28,6 +32,9 @@ const APIGet = ({url, children: Children}: PropsType) => {
             return;
         }
         setLoading(true);
+        refetch();
+    }, [url]);
+    const refetch = () => {
         api.get(url)
             .then(res => res.data.data)
             .then(res => {
@@ -41,9 +48,9 @@ const APIGet = ({url, children: Children}: PropsType) => {
                 setData(null);
                 setLoading(false);
             })
-    }, [url]);
+    }
     return (
-        <APIDataContext.Provider value={{error, loading, data}}>
+        <APIDataContext.Provider value={{error, loading, data, refetch, setData}}>
             <Children data={data} error={error} loading={loading}/>
         </APIDataContext.Provider>
     );

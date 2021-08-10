@@ -26,11 +26,10 @@ const FormDatepicker = ({name, label, onUpdate, disabled, picker = 'date', ...pr
                                 {...props}
                                 suffixIcon={<CalendarIcon/>}
                                 disabled={disabled}
-                                allowClear={false}
+                                allowClear
                                 value={field.value ? moment(field.value) : null}
                                 className={classes('text_input__input', form.errors[name] && form.touched[name] && 'text_input__error',)}
                                 onChange={(date, dateString: string) => {
-                                    if (!date) return;
                                     form.setFieldValue(name, dateString);
                                     onUpdate && onUpdate(name, dateString);
                                 }} onBlur={field.onBlur}
