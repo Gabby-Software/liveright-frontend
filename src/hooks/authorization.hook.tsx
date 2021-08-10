@@ -1,4 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch} from "react-redux";
+import {useEvent} from "./event.hook";
+import cookieManager from "../managers/cookie.manager";
+import {ACTION_LOGIN_SUCCESS} from "../store/action-types";
 type IframeEventType = {
     event: string;
     key: string;
@@ -41,20 +45,13 @@ export type AuthResponseType = {
     user: AuthObjectType;
 }
 
-export const useAuthorization = (isAuthCallback: () => AuthResponseType, handleAuthCallback: (auth: AuthResponseType) => void) => {
-
-    useEffect(() => {
-        const handler = ({data:{key, event, ...payload}}: MessageEvent<IframeEventType>) => {
-            switch (event) {
-                case messages.CHECK_LOGIN:
-                    window.parent.postMessage({key, response: isAuthCallback()}, '*');
-                    break;
-                case messages.DO_LOGIN:
-                    handleAuthCallback(payload as AuthResponseType);
-                    window.parent.postMessage({key, response: 1}, '*');
-            }
-        };
-        window.addEventListener('message', handler);
-        return () => window.removeEventListener('message', handler);
-    }, []);
+export const useAuthorization = () => {
+    const dispatch = useDispatch();
+    useEvent('focus', () => {
+        const user = cookieManager.get('auth');
+        dispatch({
+            type: ACTION_LOGIN_SUCCESS,
+            payload: user?JSON.parse(user):null
+        });
+    });
 };
