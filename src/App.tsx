@@ -8,9 +8,9 @@ import styled from "styled-components";
 import Layout from "./layouts/layout/layout.component";
 import {AuthFormProvider} from "./modules/auth/auth.context";
 import Toast from "./components/toast/toast.component";
-import AuthHandler from "./pages/auth-handler/auth-handler.component";
 import PageNotFound from "./pages/page-not-found/page-not-found.component";
 import UpdatePopup from "./components/update-popup/update-popup.component";
+import {useAuthorization} from "./hooks/authorization.hook";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -27,12 +27,10 @@ const Styles = styled.div`
 
 function App() {
     useSeo();
+    useAuthorization();
     return (
         <Styles>
                 <Switch>
-                    <Route path={'/auth'} exact>
-                        <AuthHandler/>
-                    </Route>
                     <Route path={authRoutes.map(r => r.url)}>
                         <AuthFormProvider>
                             <Suspense fallback={<Skeleton className={'suspense'}/>}>
