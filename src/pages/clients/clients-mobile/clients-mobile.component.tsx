@@ -15,11 +15,13 @@ import DataPagination from "../../../components/data-pagination/data-pagination.
 import {Link} from "react-router-dom";
 import {Routes} from "../../../enums/routes.enum";
 import logger from "../../../managers/logger.manager";
+import {Simulate} from "react-dom/test-utils";
+import {Skeleton} from "antd";
 
 const ClientsMobile = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
-    const {data: {data, meta}, filters} = useClients();
+    const {data: {data, meta}, filters, loading, error} = useClients();
     const setPage = (page: number) => {
         dispatch({
             type: ACTION_GET_CLIENTS_REQUEST, payload: {
@@ -33,6 +35,11 @@ const ClientsMobile = () => {
         <Styles>
             <div className={'clients__heading'}>
                 {
+                    loading?(<Skeleton/>):error?(
+                        <p className={'clients__error'}>{error}</p>
+                        ):!data?.length?(
+                            <p>{t('clients:no-data')}</p>
+                        ) :
                     data.map(({first_name, last_name, id, user_uuid, sessions, status}) => {
                         const Wrapper = status === 'awaiting' ? ({children}:any) => <a>{children}</a> : Link;
                         return (

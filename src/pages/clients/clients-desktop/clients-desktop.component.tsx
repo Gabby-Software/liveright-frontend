@@ -73,7 +73,7 @@ const ClientsDesktop = ({}:Props) => {
                 <ClientsFilter/>
                 <div ref={dataRef}>
                             <DataTable labels={labels} data={data}
-                                       loading={loading} error={error}
+                                       loading={loading} error={error||data.length?'':t('clients:no-data')}
                                        keys={keys} render={{
                                 name: ({first_name, last_name, id, user_uuid, status}) => (
                                     status === 'awaiting'?<div>{`${first_name} ${last_name}`}</div>:(
