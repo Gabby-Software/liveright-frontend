@@ -4,12 +4,12 @@ import {noImage} from "../../../../pipes/no-image.pipe";
 
 interface Props {
     avatar?: {url?: string};
-    first_name: string;
-    last_name: string;
+    first_name?: string;
+    last_name?: string;
 }
 
 const SessionUserAvatar: React.FC<Props> = (props) => {
-    const {avatar, first_name, last_name} = props;
+    const {avatar, first_name = '', last_name = ''} = props;
 
     return (
         <Styles>

@@ -7,13 +7,13 @@ import {ACTION_EDIT_SESSIONS_REQUEST, ACTION_TRAINER_CREATE_SESSION_REQUEST} fro
 import {SessionType} from "../../../../../types/session.type";
 
 export type AddSessionFormType = {
-    "type": string,
-    "date": string,
-    "duration": string,
-    "time": string,
-    "notes": string,
-    "client_id": number,
-    sessions?: number
+    type: string,
+    date: string,
+    duration: string,
+    time: string,
+    notes: string,
+    client_id: number,
+    session_id?: number,
 }
 
 const initialValuesEmpty: AddSessionFormType = {
@@ -23,31 +23,43 @@ const initialValuesEmpty: AddSessionFormType = {
     time: '',
     notes: '',
     client_id: 0,
-    sessions: 0
+    session_id: 0,
 };
 
 type Props = {
-    forEdit?: boolean,
     children:React.ReactNode,
     onClose: () =>void,
-    session?: SessionType | null
+    session?: SessionType
 };
 
-const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
+const AddSessionForm = ({children, onClose, session}:Props) => {
     const dispatch = useDispatch();
-    const initialValues: AddSessionFormType = useMemo(() => session ? ({
-        type: session.type,
-        date: moment(session.starts_at).format('YYYY-MM-DD'),
-        time: moment(session.starts_at, 'HH:mm:ss').format("HH:mm"),
-        duration: moment(session.duration, 'HH:mm:ss').format("HH:mm"),
-        client_id: session.client?.id,
-        notes: session.notes || '',
-    }) as AddSessionFormType : initialValuesEmpty, [session])
+    const initialValues: AddSessionFormType = useMemo(() => {
+        if (session) {
+            const {client_request} = session;
+            const date = client_request?.date || moment(session.starts_at).format('YYYY-MM-DD');
+            const duration = moment(client_request?.duration || session.duration, 'HH:mm:ss').format("HH:mm");
+            const time = moment.utc(client_request?.time || session.starts_at).format("HH:mm");
+
+            return ({
+                type: session.type,
+                date,
+                time,
+                duration,
+                client_id: session.client?.id,
+                notes: session.notes || '',
+                session_id: session.id,
+                sessions: [],
+            }) as AddSessionFormType
+        } else {
+            return initialValuesEmpty
+        }
+    }, [session])
 
     const handleSubmit = (values: AddSessionFormType, helper: FormikHelpers<AddSessionFormType>) => {
-        const {duration, time, client_id, sessions, ...rest} = values
+        const {duration, time, client_id, ...rest} = values
 
-        if (forEdit) {
+        if (session) {
             dispatch({
                 type: ACTION_EDIT_SESSIONS_REQUEST,
                 payload: {
@@ -73,6 +85,7 @@ const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
         helper.resetForm();
         onClose();
     };
+
     return (
         <Formik
             enableReinitialize
@@ -83,12 +96,9 @@ const AddSessionForm = ({forEdit,children, onClose, session}:Props) => {
                 date: Yup.date().required().min(moment().startOf('day')),
                 duration: Yup.string().required(),
                 time: Yup.string().required(),
-                client_id: Yup.number()
             })}
         >
-            <Form>
-                {children}
-            </Form>
+            <Form>{children}</Form>
         </Formik>
     )
 };

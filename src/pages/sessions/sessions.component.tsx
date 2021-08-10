@@ -25,10 +25,10 @@ const Sessions = () => {
     }
 
     if(auth.type === userTypes.CLIENT) {
-        return <ClientSessions sessions={data} getSessions={getSessions('trainer')} />;
+        return <ClientSessions sessions={data} getSessions={getSessions('trainer.user')} />;
     }
 
-    return <TrainerSessions sessions={data} getSessions={getSessions('client')} />;
+    return <TrainerSessions sessions={data} getSessions={getSessions('client.user')} />;
 };
 
 export default Sessions;

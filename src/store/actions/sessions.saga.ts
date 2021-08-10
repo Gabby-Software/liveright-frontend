@@ -164,7 +164,7 @@ function* removeTrainerSessionsWorker({payload}:ActionType<{ id: number }&Callba
         logger.success('SESSIONS', session);
         yield put({
             type: ACTION_TRAINER_REMOVE_SESSION_SUCCESS,
-            payload: id
+            payload
         });
         payload.onSuccess && payload.onSuccess();
     } catch(e) {

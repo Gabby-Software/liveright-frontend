@@ -25,8 +25,6 @@ const SessionsTable: React.FC<Props> = (props) => {
     const {data, meta} = sessions;
     const {current_page, total} = meta;
     const isTrainerType = useAuth().type === userTypes.TRAINER;
-    const clients = useClients();
-    const trainer = useClientsTrainer();
     const [filter, setFilter] = useState<SessionFilter>({});
     const {labels, keys} = useMemo(() => {
         const labels = [
@@ -35,7 +33,7 @@ const SessionsTable: React.FC<Props> = (props) => {
             'sessions:time',
             'sessions:with',
         ]
-        const keys = ['type', 'starts_at', 'duration', 'with']
+        const keys = ['type', 'starts_at', 'time', 'with']
 
         if (renderOptions) {
             labels.push('sessions:options')
@@ -53,7 +51,6 @@ const SessionsTable: React.FC<Props> = (props) => {
         handlePageSet(1)
     }, [filter])
 
-
     return (
       <Styles>
           {withFilter && <SessionsFilters onUpdate={setFilter} />}
@@ -63,24 +60,20 @@ const SessionsTable: React.FC<Props> = (props) => {
             data={data}
             render={{
               with: (it: SessionType) => {
-                  let person;
-                  if (isTrainerType) {
-                    person = clients.data.data.find(client => client.id === it.client?.id) as {first_name: string;last_name:string;avatar?:{url?: string}}
-                  } else {
-                    person = trainer as {first_name: string;last_name:string;avatar?:{url?: string}}
-                  }
+                  const person = isTrainerType ? it.client : it.trainer;
 
-                  if (!person) {
-                      return null
-                  }
-
-                  return <SessionUserAvatar first_name={person.first_name} last_name={person.last_name} avatar={person.avatar} />
+                  return (
+                      <SessionUserAvatar
+                          first_name={person?.user.first_name}
+                          last_name={person?.user.last_name}
+                      />
+                  )
               },
               starts_at: ({starts_at}: SessionType) => {
                   return moment(starts_at).format("YYYY-MM-DD")
               },
-              duration: ({duration}: SessionType) => {
-                  return moment(duration, "HH:mm:ss").format("HH:mm")
+              time: ({starts_at}: SessionType) => {
+                  return moment.utc(starts_at).format("HH:mm")
               },
               options: (item) => renderOptions ? renderOptions(item) : React.Fragment
           }}/>

@@ -2,7 +2,6 @@ import React from 'react';
 import Styles from './add-session-top.styles';
 import PageSubtitle from "../../../../../components/titles/page-subtitle.styles";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
-import profilePlaceholder from "../../../../../assets/media/profile-placeholder.png";
 import {ReactComponent as CalendarIcon} from "../../../../../assets/media/icons/calendar.svg";
 import {ReactComponent as ClockIcon} from "../../../../../assets/media/icons/clock.svg";
 import {Field, FieldProps, useFormikContext} from "formik";
@@ -10,9 +9,15 @@ import FormSelect from "../../../../../components/forms/form-select/form-select.
 import {useClients} from "../../../../../hooks/clients.hook";
 import {AddSessionFormType} from "../add-session-form/add-session-form.component";
 import SessionUserAvatar from "../../../components/session-user-avatar/session-user-avatar.component";
+import {SessionType} from "../../../../../types/session.type";
+import moment from "moment";
 
-type Props = {forEdit?: boolean};
-const AddSessionTop = ({forEdit}: Props) => {
+interface Props {
+    session?: SessionType;
+}
+
+const AddSessionTop: React.FC<Props> = (props) => {
+    const {session} = props;
     const {t} = useTranslation();
     const clients = useClients();
     const {values} = useFormikContext<AddSessionFormType>()
@@ -21,7 +26,7 @@ const AddSessionTop = ({forEdit}: Props) => {
     return (
         <Styles>
             <PageSubtitle>{t('sessions:schedule-session')}</PageSubtitle>
-          {!forEdit && (
+            {!session && (
               <FormSelect
                   name="client_id"
                   label="Please select a client to schedule for..."
@@ -31,8 +36,8 @@ const AddSessionTop = ({forEdit}: Props) => {
                     })
                   }
               />
-          )}
-          {selectedClient ? (
+            )}
+            {selectedClient ? (
               <div className={'session-top__head'}>
                 <SessionUserAvatar last_name={selectedClient.last_name} first_name={selectedClient.first_name} />
                 <Field name={'sessions'}>
@@ -44,20 +49,24 @@ const AddSessionTop = ({forEdit}: Props) => {
                   )}
                 </Field>
               </div>
-          ) : null}
-            <div className={'session-top__requested'}>
-                <div className={'session-top__requested__label'}>{forEdit?t('sessions:current-time'):t('sessions:requested')}</div>
-                <div className={'session-top__requested__dates'}>
-                <div className={'session-top__requested__date'}>
-                    <CalendarIcon/>
-                    <span>2021-03-04</span>
+            ) : null}
+            {session ? (
+                <div className={'session-top__requested'}>
+                    <div className={'session-top__requested__label'}>
+                        {session ? t('sessions:current-time') : t('sessions:requested')}
+                    </div>
+                    <div className={'session-top__requested__dates'}>
+                        <div className={'session-top__requested__date'}>
+                            <CalendarIcon/>
+                            <span>{moment(session?.starts_at).format('YYYY-MM-DD')}</span>
+                        </div>
+                        <div className={'session-top__requested__date'}>
+                            <ClockIcon/>
+                            <span>{moment.utc(session?.starts_at).format('HH:mm')}</span>
+                        </div>
+                    </div>
                 </div>
-                <div className={'session-top__requested__date'}>
-                    <ClockIcon/>
-                    <span>12:30</span>
-                </div>
-                </div>
-            </div>
+            ) : null}
         </Styles>
     )
 };

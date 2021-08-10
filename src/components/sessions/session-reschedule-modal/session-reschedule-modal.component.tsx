@@ -25,7 +25,7 @@ import {ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST} from "../../../store/action-ty
 
 type Props = {
     onClose: () => void;
-    session: SessionType | null;
+    session: SessionType;
 };
 type RescheduleFormType = {
     date: string;
@@ -77,7 +77,6 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                     validationSchema={Yup.object({
                         date: Yup.date().min(moment().startOf('day')).required(),
                         time: Yup.string().required(),
-                      duration: Yup.string().required(),
                     })}
             >
                 <Form>
@@ -96,7 +95,6 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                         <FormRow>
                         <FormDatepicker name={'date'} label={t('sessions:date')}/>
                         <FormTimepicker name={'time'} label={t('sessions:time')}/>
-                        <FormTimepicker name={'duration'} label={t('sessions:duration')}/>
                         </FormRow>
                         {
                             <Field name={'time'}>

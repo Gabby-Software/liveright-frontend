@@ -1,21 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Styles from './add-session-submit.styles';
 import {Field, FieldProps} from "formik";
 import FormButton from "../../../../../components/forms/form-button/form-button.component";
 import {classes} from "../../../../../pipes/classes.pipe";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
-import {collapse, events} from "../add-session-calendar-full/add-session-calendar-full.component";
 import {serviceTypes} from "../../../../../enums/service-type.enum";
+import {SessionType} from "../../../../../types/session.type";
 
-type Props = {forEdit?: boolean};
-const AddSessionSubmit = ({forEdit}: Props) => {
+interface Props {
+    session?: SessionType;
+}
+
+const AddSessionSubmit: React.FC<Props> = (props) => {
+    const {session} = props;
     const {t} = useTranslation();
+
     return (
         <Field name={''}>
             {
                 ({form}: FieldProps) => {
-                    const isCollapse = form.values.date && form.values.time && events.some(e => collapse(e.time, e.duration, form.values.time, form.values.duration));
-                    const isUnderSessions = !forEdit && form.values.type === serviceTypes.PT_SESSION && form.values.sessions <= 0;
+                    const isCollapse = form.values.date && form.values.time && [].some(e => {});
+                    const isUnderSessions = !session && form.values.type === serviceTypes.PT_SESSION && form.values.sessions <= 0;
                     return (
                         <>
                             {
@@ -32,7 +37,7 @@ const AddSessionSubmit = ({forEdit}: Props) => {
                                 htmlType={'submit'}
                                 disabled={
                                     form.isSubmitting}
-                            >{forEdit ? t('sessions:save') :isCollapse ? t('sessions:submit-anyway') : t('sessions:submit')}</FormButton>
+                            >{session ? t('sessions:save') :isCollapse ? t('sessions:submit-anyway') : t('sessions:submit')}</FormButton>
                         </>
                     )
                 }}

@@ -8,15 +8,11 @@ import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/cal
 import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
-import SessionRescheduleModal
-    from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
 import SessionsTable from "../../components/sessions-table/sessions-table.component";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
-import EditSession from "../../sections/edit-session/edit-session.component";
 import {useTitleContent} from "../../../../layouts/desktop-layout/desktop-layout.component";
 import {Routes} from "../../../../enums/routes.enum";
 import FormSelect from "../../../../components/forms/form-select/form-select.component";
-import AddSession from "../../sections/add-session/add-session.component";
 import Tabs from "../../../../components/tabs/tabs.component";
 import PageTitle from "../../../../components/titles/page-title.styles";
 import {
@@ -27,22 +23,22 @@ import Carousel from "../../../../components/carousel/carousel.component";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {useClients} from "../../../../hooks/clients.hook";
 import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
+import AddSessionDesktop from "../../sections/add-session/add-session-desktop/add-session-desktop.component";
 
 interface Props {
     sessions: SessionsState;
     getSessions: (status: SessionStatus) => (page: number,filters?: SessionFilter) => void;
+    onFilterByClient: (id: number) => void;
     onRemoveSession: (id: number) => void;
 }
 
 const DesktopSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions, onRemoveSession} = props;
+    const {sessions, getSessions, onFilterByClient, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
     const clients = useClients();
-    const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
     const [addOpen, setAddOpen] = useState<boolean>(false);
-    const [editOpen, setEditOpen] = useState<SessionType|null>(null);
-    const [filteredClient, setFilteredClient] = useState(0);
+    const [editOpen, setEditOpen] = useState<SessionType>();
 
     const renderUpcomingItemOptions = (item: SessionType) => {
         return (
@@ -52,7 +48,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                     <ActionIcon
                         icon={CalendarIcon}
                         title="Calendar"
-                        onClick={() =>{}}
+                        onClick={() => {}}
                     />
                 </Link>
                 <ActionIcon
@@ -68,10 +64,12 @@ const DesktopSessions: React.FC<Props> = (props) => {
         return (
             <Carousel>
                 {awaiting_scheduling.data.map((it) => {
-                    const person = clients.data.data.find(client => client.id === it.client?.id)
                     return (
                         <AwaitingCard>
-                            <SessionUserAvatar first_name={person?.first_name || ''} last_name={person?.last_name || ''} avatar={person?.avatar||undefined} />
+                            <SessionUserAvatar
+                                first_name={it.client?.user.first_name}
+                                last_name={it.client?.user.last_name}
+                            />
                             <div className="schedule-button" onClick={() => setEditOpen(it)}>
                                 <span>{t("sessions:schedule-now")}</span>
                                 <RightArrowIcon />
@@ -110,7 +108,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                 <FormSelect
                     name="client_filter"
                     placeholder={t('sessions:filter-by-client')}
-                    onUpdate={(id) => setFilteredClient(+id)}
+                    onUpdate={(id) => onFilterByClient(+id)}
                     options={clients.data.data.map(it => ({
                         label: `${it.first_name} ${it.last_name}`,
                         value: it.id.toString(),
@@ -155,9 +153,8 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   <SessionProgressItem label={t("revenue")} target={500} current={350} />
               </div>
           </div>
-          <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
-          <EditSession session={editOpen} isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
-          <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+          <AddSessionDesktop isOpen={addOpen} onClose={() => setAddOpen(false)} />
+          <AddSessionDesktop isOpen={!!editOpen} session={editOpen} onClose={() => setEditOpen(undefined)}/>
       </Styles>
     );
 };

@@ -98,13 +98,14 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
             };
         case ACTION_TRAINER_REMOVE_SESSION_SUCCESS: {
             const index = upcoming.data.findIndex((it: SessionType) => it.id === payload.id);
-            const nextUpcomingData = [...upcoming.data]
+            const nextUpcomingData = [...upcoming.data];
+            nextUpcomingData.splice(index, 1);
             return {
                 data: {
                     ...data,
                     upcoming: {
                         ...upcoming,
-                        data: nextUpcomingData.splice(index, 1),
+                        data: nextUpcomingData,
                     }
                 },
                 loading: false,

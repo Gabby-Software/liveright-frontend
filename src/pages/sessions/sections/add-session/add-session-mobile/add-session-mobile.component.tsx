@@ -8,16 +8,16 @@ import {SessionType} from "../../../../../types/session.type";
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    forEdit?: boolean;
-    session?: SessionType | null;
+    session?: SessionType;
 };
-const AddSessionMobile = ({isOpen, onClose,session, forEdit}: Props) => {
+
+const AddSessionMobile = ({isOpen,onClose,session}: Props) => {
     return (
         <BottomDrawer isOpen={isOpen} onClose={onClose}>
             <BottomDrawer.Body>
                 <AddSessionForm onClose={onClose} session={session}>
-                    <AddSessionTop/>
-                    <AddSessionFieldsMobile forEdit={forEdit}/>
+                    <AddSessionTop session={session} />
+                    <AddSessionFieldsMobile session={session} />
                 </AddSessionForm>
             </BottomDrawer.Body>
         </BottomDrawer>

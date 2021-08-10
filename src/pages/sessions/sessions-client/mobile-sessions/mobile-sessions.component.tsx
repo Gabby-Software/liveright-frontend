@@ -4,31 +4,30 @@ import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {SessionType} from "../../../../types/session.type";
 import SessionRescheduleModal
     from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
-import EditSession from "../../sections/edit-session/edit-session.component";
 import SessionsCards from "../../components/sessions-mobile-cards/sessions-mobile-cards.component";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
+import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
 
 interface Props {
   sessions: SessionsState;
-  getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+  getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
     const {sessions, getSessions} = props;
-    const [workingSession] = useState<SessionType|null>(null);
-    const [rescheduleOpen, setRescheduleOpen] = useState(false);
-    const [editOpen, setEditOpen] = useState(false);
+    const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>();
+    const [editOpen, setEditOpen] = useState<SessionType>();
     const {t} = useTranslation();
     const credits = -2 // temp
 
     const renderItemOptions = (item: SessionType) => {
         return (
             <div className="sessions__options">
-                <FormButton onClick={() => setRescheduleOpen(true)}>{t('sessions:reschedule')}</FormButton>
+                <FormButton onClick={() => setRescheduleOpen(item)}>{t('sessions:reschedule')}</FormButton>
                 <ActionIcon
                     icon={CalendarIcon}
                     title="Calendar"
@@ -58,11 +57,17 @@ const MobileSessions: React.FC<Props> = (props) => {
                 getSessions={getSessions('past')}
                 sessions={sessions.upcoming}
             />
-            <SessionRescheduleModal
-                onClose={() => setRescheduleOpen(false)}
-                session={rescheduleOpen?workingSession:null}
+            {rescheduleOpen ? (
+                <SessionRescheduleModal
+                    onClose={() => setRescheduleOpen(undefined)}
+                    session={rescheduleOpen}
+                />
+            ) : null}
+            <AddSessionMobile
+                isOpen={!!editOpen}
+                session={editOpen}
+                onClose={() => setEditOpen(undefined)}
             />
-            <EditSession isOpen={editOpen} onClose={() => setEditOpen(false)}/>
         </Styles>
     );
 };
