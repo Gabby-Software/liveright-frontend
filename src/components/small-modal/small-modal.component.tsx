@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import StyledModal from './small-modal.styles';
 import {ModalProps} from "antd";
 import {classes} from "../../pipes/classes.pipe";
 
 export type MenuItem = {
     name: string;
-    onClick?: () => void;
+    value?: string;
+    onClick?: (value?: string) => void;
     type?: 'primary'|'default';
     Wrap?: React.ComponentType<any>
 };

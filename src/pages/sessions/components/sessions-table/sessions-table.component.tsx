@@ -1,7 +1,5 @@
 import React, {useState, useMemo, ReactElement, useEffect} from 'react';
-import {Avatar} from "antd";
 import moment from "moment";
-import {UserOutlined} from '@ant-design/icons';
 import Styles from './sessions-table.styles';
 import DataTable from "../../../../components/data-table/data-table.component";
 import {SessionFilter, SessionType} from "../../../../types/session.type";
@@ -10,16 +8,20 @@ import SessionsFilters from "../sessions-filters/sessions-filters.component";
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {PaginatedDataType} from "../../../../types/paginated-data.type";
+import {useClients} from "../../../../hooks/clients.hook";
+import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
+import SessionUserAvatar from "../session-user-avatar/session-user-avatar.component";
 
 interface Props {
     sessions: PaginatedDataType<SessionType>;
     getSessions: (page: number, filter?: SessionFilter) => void;
+    additionalFilters?: SessionFilter;
     renderOptions?: (session: SessionType) => ReactElement;
     withFilter?: boolean;
 }
 
 const SessionsTable: React.FC<Props> = (props) => {
-    const {sessions, getSessions, renderOptions, withFilter} = props;
+    const {sessions, getSessions, additionalFilters, renderOptions, withFilter} = props;
     const {data, meta} = sessions;
     const {current_page, total} = meta;
     const isTrainerType = useAuth().type === userTypes.TRAINER;
@@ -31,7 +33,7 @@ const SessionsTable: React.FC<Props> = (props) => {
             'sessions:time',
             'sessions:with',
         ]
-        const keys = ['type', 'starts_at', 'duration', 'with']
+        const keys = ['type', 'starts_at', 'time', 'with']
 
         if (renderOptions) {
             labels.push('sessions:options')
@@ -42,7 +44,7 @@ const SessionsTable: React.FC<Props> = (props) => {
     }, [renderOptions]);
 
     const handlePageSet = (page: number) => {
-        getSessions(page, filter)
+        getSessions(page, {...filter, ...additionalFilters})
     }
 
     useEffect(() => {
@@ -60,22 +62,18 @@ const SessionsTable: React.FC<Props> = (props) => {
               with: (it: SessionType) => {
                   const person = isTrainerType ? it.client : it.trainer;
 
-                  if (!person) {
-                      return null
-                  }
-
                   return (
-                      <div>
-                          <Avatar size="small" icon={<UserOutlined />} />
-                          {person.first_name} {person.last_name}
-                      </div>
+                      <SessionUserAvatar
+                          first_name={person?.user.first_name}
+                          last_name={person?.user.last_name}
+                      />
                   )
               },
               starts_at: ({starts_at}: SessionType) => {
                   return moment(starts_at).format("YYYY-MM-DD")
               },
-              duration: ({duration}: SessionType) => {
-                  return moment(duration, "HH:mm:ss").format("HH:mm")
+              time: ({starts_at}: SessionType) => {
+                  return moment.utc(starts_at).format("HH:mm")
               },
               options: (item) => renderOptions ? renderOptions(item) : React.Fragment
           }}/>

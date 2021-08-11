@@ -14,3 +14,4 @@ export const useNotifications = () => {
         // todo: fetch notifications count
     }, [id]);
 }
+

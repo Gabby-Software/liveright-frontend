@@ -10,20 +10,19 @@ import {SessionType} from "../../../../../types/session.type";
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    session?: SessionType | null;
-    forEdit?: boolean;
+    session?: SessionType;
 };
-const AddSessionDesktop = ({isOpen, onClose, forEdit, session}: Props) => {
+const AddSessionDesktop = ({isOpen, onClose, session}: Props) => {
     return (
         <Modal visible={isOpen} onCancel={onClose} large>
             <AddSessionForm onClose={onClose} session={session}>
               <Styles>
                       <div className={'add-session__left'}>
-                          <AddSessionTop forEdit={forEdit} />
-                          <AddSessionFieldsDesktop forEdit={forEdit}/>
+                          <AddSessionTop session={session} />
+                          <AddSessionFieldsDesktop onClose={onClose} session={session} />
                       </div>
                       <div className={'add-session__right'}>
-                          <AddSessionCalendar/>
+                          <AddSessionCalendar />
                       </div>
               </Styles>
             </AddSessionForm>

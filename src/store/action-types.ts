@@ -74,5 +74,10 @@ export const ACTION_TRAINER_CREATE_SESSION_LOAD = 'action-trainer-create-session
 export const ACTION_TRAINER_CREATE_SESSION_SUCCESS = 'action-trainer-create-sessions-success';
 export const ACTION_TRAINER_CREATE_SESSION_ERROR = 'action-trainer-create-sessions-error';
 
+export const ACTION_TRAINER_REMOVE_SESSION_REQUEST = 'action-trainer-remove-sessions-request';
+export const ACTION_TRAINER_REMOVE_SESSION_LOAD = 'action-trainer-remove-sessions-load';
+export const ACTION_TRAINER_REMOVE_SESSION_SUCCESS = 'action-trainer-remove-sessions-success';
+export const ACTION_TRAINER_REMOVE_SESSION_ERROR = 'action-trainer-remove-sessions-error';
+
 export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
 export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';

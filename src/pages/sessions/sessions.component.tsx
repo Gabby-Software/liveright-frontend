@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import userTypes from "../../enums/user-types.enum";
 import {useAuth} from "../../hooks/auth.hook";
 import ClientSessions from "./sessions-client/sessions-client.component";
@@ -25,10 +25,10 @@ const Sessions = () => {
     }
 
     if(auth.type === userTypes.CLIENT) {
-        return <ClientSessions sessions={data} getSessions={getSessions('trainer')} />;
+        return <ClientSessions sessions={data} getSessions={getSessions('trainer.user')} />;
     }
 
-    return <TrainerSessions sessions={data} getSessions={getSessions('client')} />;
+    return <TrainerSessions sessions={data} getSessions={getSessions('client.user')} />;
 };
 
 export default Sessions;
