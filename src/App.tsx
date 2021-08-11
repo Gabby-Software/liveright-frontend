@@ -11,6 +11,7 @@ import Toast from "./components/toast/toast.component";
 import PageNotFound from "./pages/page-not-found/page-not-found.component";
 import UpdatePopup from "./components/update-popup/update-popup.component";
 import {useAuthorization} from "./hooks/authorization.hook";
+import {useNotifications} from "./modules/notifications/notifications.hook";
 
 const Styles = styled.div`
     font-family: 'Work Sans', sans-serif;
@@ -28,6 +29,7 @@ const Styles = styled.div`
 function App() {
     useSeo();
     useAuthorization();
+    useNotifications();
     return (
         <Styles>
                 <Switch>
