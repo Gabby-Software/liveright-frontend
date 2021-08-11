@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Form, Formik, FormikHelpers} from "formik";
 import moment from "moment";
 import * as Yup from 'yup';
@@ -32,25 +32,27 @@ type Props = {
     session?: SessionType
 };
 
-const AddSessionForm = ({children, onClose, session}:Props) => {
+const AddSessionForm: React.FC<Props> = (props) => {
+    const {children, onClose, session} = props
     const dispatch = useDispatch();
-    const initialValues: AddSessionFormType = useMemo(() => {
+    const initialValues = useMemo<AddSessionFormType>(() => {
         if (session) {
             const {client_request} = session;
             const date = client_request?.date || moment(session.starts_at).format('YYYY-MM-DD');
             const duration = moment(client_request?.duration || session.duration, 'HH:mm:ss').format("HH:mm");
-            const time = moment.utc(client_request?.time || session.starts_at).format("HH:mm");
+            const time = client_request
+                ? moment(client_request?.time, "HH:mm:ss").format("HH:mm")
+                : moment.utc(session.starts_at).format("HH:mm");
 
             return ({
                 type: session.type,
                 date,
                 time,
                 duration,
-                client_id: session.client?.id,
+                client_id: session.client?.id || 0,
                 notes: session.notes || '',
                 session_id: session.id,
-                sessions: [],
-            }) as AddSessionFormType
+            })
         } else {
             return initialValuesEmpty
         }
@@ -64,6 +66,7 @@ const AddSessionForm = ({children, onClose, session}:Props) => {
                 type: ACTION_EDIT_SESSIONS_REQUEST,
                 payload: {
                     ...rest,
+                    isAwaiting: !!session.client_request,
                     id: session?.id,
                     duration: moment(duration, "HH:mm").format("HH:mm:ss"),
                     time: moment(time, "HH:mm").format("HH:mm:ss"),

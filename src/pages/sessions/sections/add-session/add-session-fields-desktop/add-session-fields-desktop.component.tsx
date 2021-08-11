@@ -30,10 +30,10 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
                     <FormDatepicker name={'date'} label={t('sessions:date')}
                                     disabledDate={(date) => moment(date).isBefore(moment(), 'days')}/>
                     <FormTimepicker name={'time'} label={t('sessions:time')}/>
-                    <FormInputLabeled
+                    <FormTimepicker
+                        disabled={!!session}
                         name={'duration'}
                         label={t('sessions:duration')}
-                        disabled={!!session}
                     />
                     <FormSelect
                         name={'type'}

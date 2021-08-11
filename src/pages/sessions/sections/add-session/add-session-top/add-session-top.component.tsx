@@ -50,7 +50,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
                 </Field>
               </div>
             ) : null}
-            {session ? (
+            {session && session.starts_at ? (
                 <div className={'session-top__requested'}>
                     <div className={'session-top__requested__label'}>
                         {session ? t('sessions:current-time') : t('sessions:requested')}

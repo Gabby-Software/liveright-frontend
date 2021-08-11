@@ -64,7 +64,7 @@ const initialValues: APIGetType<SessionsState> = {
 
 export const sessionsReducer = withStorage((state=initialValues, {type, payload}:ActionType<any>) => {
     const {data} = state;
-    const {upcoming} = data;
+    const {upcoming, awaiting_scheduling} = data;
 
     switch(type) {
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
@@ -146,9 +146,32 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 error: true
             };
         case ACTION_EDIT_SESSIONS_SUCCESS: {
-            const index = upcoming.data.findIndex((it: SessionType) => it.id === payload.id);
-            const nextUpcomingData = upcoming.data
-            nextUpcomingData[index] = payload;
+            const {session, isAwaiting} = payload;
+
+            if (isAwaiting) {
+                const index = awaiting_scheduling.data.findIndex((it: SessionType) => it.id === session.id);
+                const nextAwaitingData = [...awaiting_scheduling.data]
+                nextAwaitingData.splice(index, 1)
+
+                return {
+                    data: {
+                        ...data,
+                        awaiting_scheduling: {
+                            ...awaiting_scheduling,
+                            data: nextAwaitingData,
+                        }
+                    },
+                    loading: false,
+                    error: null
+                }
+            }
+
+            const index = upcoming.data.findIndex((it: SessionType) => it.id === session.id);
+            const nextUpcomingData = [...upcoming.data]
+            nextUpcomingData[index] = {
+                ...nextUpcomingData[index],
+                ...session,
+            };
             return {
                 data: {
                     ...data,
@@ -174,8 +197,7 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
                 error: true
             };
         case ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS: {
-            const {data} = payload;
-            const session = data[0];
+            const {session} = payload;
             const index = upcoming.data.findIndex((it: SessionType) => it.id === session.id);
             const nextUpcomingData = [...upcoming.data]
             nextUpcomingData.splice(index, 1);

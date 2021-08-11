@@ -98,7 +98,7 @@ function* rescheduleClientSessionWorker({payload}:ActionType<{
             client_request: data,
         }).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('SESSIONS', session);
-        yield put({type: ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS, payload: session});
+        yield put({type: ACTION_CLIENT_RESCHEDULE_SESSION_SUCCESS, payload: {session: session.data}});
         onSuccess && onSuccess();
     } catch(e) {
         yield put({type:ACTION_CLIENT_RESCHEDULE_SESSION_ERROR, payload: serverError(e)});
@@ -132,9 +132,9 @@ function* getSessionsWorker({payload}:ActionType<{
     }
 }
 
-function* editTrainerSessionsWorker({payload}:ActionType<SessionEdit&CallbackType<void>>) {
+function* editTrainerSessionsWorker({payload}:ActionType<SessionEdit&{isAwaiting?: boolean}&CallbackType<void>>) {
     yield put({type:ACTION_EDIT_SESSIONS_LOAD});
-    const {onSuccess, onError, id, ...data} = payload;
+    const {onSuccess, onError, id, isAwaiting, ...data} = payload;
     try {
         const session = (
             yield call(
@@ -144,7 +144,7 @@ function* editTrainerSessionsWorker({payload}:ActionType<SessionEdit&CallbackTyp
         logger.success('SESSIONS', session);
         yield put({
             type: ACTION_EDIT_SESSIONS_SUCCESS,
-            payload: session
+            payload: {session: session.data, isAwaiting}
         });
         payload.onSuccess && payload.onSuccess();
     } catch(e) {

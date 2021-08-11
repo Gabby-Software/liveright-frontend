@@ -51,7 +51,7 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
     if (!session) return null;
     const initialValues: RescheduleFormType = {
       date: moment(session.starts_at).format('YYYY-MM-DD'),
-      time: moment(session.starts_at).format("HH:mm"),
+      time: moment.utc(session.starts_at).format("HH:mm"),
       duration: moment(session.duration, 'HH:mm:ss').format("HH:mm"),
     };
     const handleSubmit = (values: RescheduleFormType, helper: FormikHelpers<RescheduleFormType>) => {

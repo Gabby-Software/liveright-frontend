@@ -5,7 +5,7 @@ import NotificationsManager from "./notifications.manager";
 export const useNotifications = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        NotificationsManager.subscribe();
+        // NotificationsManager.subscribe();
         // todo: fetch notifications count
     }, []);
 }
