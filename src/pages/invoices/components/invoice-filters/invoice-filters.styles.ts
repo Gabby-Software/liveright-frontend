@@ -10,4 +10,7 @@ margin: 40px 0 46px 0;
         margin-top: auto;
     `}
 }
+.text_input__wrapper, .select_input__wrapper {
+    margin-bottom: 12px;
+}
 `;

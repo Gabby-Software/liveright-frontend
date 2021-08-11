@@ -34,6 +34,7 @@
   "issued-on": "Issued on",
   "issued-to": "Issued to",
   "settle-now": "Settle Now",
+  "no-data": "No invoices found",
   "default-payment-method": "Default Payment Method",
   "session-expiry": "Session Expiry",
   "never": "Never",
