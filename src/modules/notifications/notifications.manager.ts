@@ -30,10 +30,28 @@ export default class NotificationsManager {
                 serviceWorkerRegistration: registration
             });
             beamsClient.getRegistrationState()
-                .then(state => logger.info('NOTIFICATION PERMOSSION', state));
-            beamsClient.start().then(() => {
-                logger.info('NOTIFICATION BEAM START')
-            })
+                .then(state => {
+                    let states = PusherPushNotifications.RegistrationState;
+                    switch (state) {
+                        case states.PERMISSION_DENIED: {
+                            // Notifications are blocked
+                            // Show message saying user should unblock notifications in their browser
+                            break;
+                        }
+                        case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS: {
+                            // Ready to receive notifications
+                            // Show "Disable notifications" button, onclick calls '.stop'
+                            break;
+                        }
+                        case states.PERMISSION_GRANTED_NOT_REGISTERED_WITH_BEAMS:
+                        case states.PERMISSION_PROMPT_REQUIRED: {
+                            beamsClient.start().then(() => {
+                                logger.info('NOTIFICATION BEAM START')
+                            });
+                            break;
+                        }
+                    }
+                });
         });
     }
     private static subscribeToInAppNotifications() {
