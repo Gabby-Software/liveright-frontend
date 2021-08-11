@@ -79,41 +79,51 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                         time: Yup.string().required(),
                     })}
             >
-                <Form>
-                    <Styles>
+              {({values}) => {
+                const isToday = moment(values.date).isSame(moment(), 'days')
+
+                return (
+                    <Form>
+                      <Styles>
                         <div className={'reschedule__current'}>
-                            <PrimaryLabel className={'reschedule__current__label'}>{t('sessions:currently')}</PrimaryLabel>
-                            <div className={'reschedule__current__item'}>
-                                <CalendarIcon/>
-                                <span>{date(session.starts_at)}</span>
-                            </div>
-                            <div className={'reschedule__current__item'}>
-                                <ClockIcon/>
-                                <span>{session.duration}</span>
-                            </div>
+                          <PrimaryLabel className={'reschedule__current__label'}>{t('sessions:currently')}</PrimaryLabel>
+                          <div className={'reschedule__current__item'}>
+                            <CalendarIcon/>
+                            <span>{date(session.starts_at)}</span>
+                          </div>
+                          <div className={'reschedule__current__item'}>
+                            <ClockIcon/>
+                            <span>{moment.utc(session.starts_at).format("HH:mm")}</span>
+                          </div>
                         </div>
                         <FormRow>
-                        <FormDatepicker name={'date'} label={t('sessions:date')}/>
-                        <FormTimepicker name={'time'} label={t('sessions:time')}/>
+                          <FormDatepicker
+                              name={'date'}
+                              label={t('sessions:date')}
+                              disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
+                          />
+                          <FormTimepicker name={'time'} label={t('sessions:time')} disabledUntilNow={isToday} />
                         </FormRow>
                         {
-                            <Field name={'time'}>
-                                {
-                                    ({field, form}:FieldProps) => (
-                                        hour(field.value as string)%2===0 ? (
-                                            <div className={'reschedule__warning'}>
-                                                {logger.info('time', field.value)}
-                                                <span>{t('sessions:reschedule-warning')}</span>
-                                                <Link to={Routes.CALENDAR}>{t('sessions:go-to-calendar')}</Link>
-                                            </div>
-                                        ) :null
-                                    )
-                                }
-                            </Field>
+                          <Field name={'time'}>
+                            {
+                              ({field, form}:FieldProps) => (
+                                  hour(field.value as string)%2===0 ? (
+                                      <div className={'reschedule__warning'}>
+                                        {logger.info('time', field.value)}
+                                        <span>{t('sessions:reschedule-warning')}</span>
+                                        <Link to={Routes.CALENDAR}>{t('sessions:go-to-calendar')}</Link>
+                                      </div>
+                                  ) :null
+                              )
+                            }
+                          </Field>
                         }
                         <ButtonSubmit>{t('submit')}</ButtonSubmit>
-                    </Styles>
-                </Form>
+                      </Styles>
+                    </Form>
+                )
+              }}
             </Formik>
         </Wrapper>
     );

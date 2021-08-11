@@ -72,15 +72,30 @@ const SessionAddModal: React.FC<Props> = (props) => {
                         duration: Yup.string().required(),
                         type: Yup.string().required()
                     })}>
-                <Form>
-                    <Styles>
+              {({values}) => {
+                const {date} = values;
+                const isToday = moment(date).isSame(moment(), 'days')
+
+                return (
+                    <Form>
+                      <Styles>
                         <FormSelect name={'type'} label={t('sessions:type')} options={sessionTypeOptions}/>
-                        <FormDatepicker name={'date'} label={t('sessions:date')}/>
-                        <FormTimepicker name={'time'} label={t('sessions:time')}/>
+                        <FormDatepicker
+                            name={'date'}
+                            label={t('sessions:date')}
+                            disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
+                        />
+                        <FormTimepicker
+                            name={'time'}
+                            label={t('sessions:time')}
+                            disabledUntilNow={isToday}
+                        />
                         <FormTimepicker name={'duration'} label={t('sessions:duration')}/>
                         <ButtonSubmit>{t('submit')}</ButtonSubmit>
-                    </Styles>
-                </Form>
+                      </Styles>
+                    </Form>
+                )
+              }}
             </Formik>
         </Modal>
     )
