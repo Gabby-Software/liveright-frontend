@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import {useDispatch} from "react-redux";
 import {ACTION_EDIT_SESSIONS_REQUEST, ACTION_TRAINER_CREATE_SESSION_REQUEST} from "../../../../../store/action-types";
 import {SessionType} from "../../../../../types/session.type";
+import {useClients} from "../../../../../hooks/clients.hook";
 
 export type AddSessionFormType = {
     type: string,
@@ -35,6 +36,7 @@ type Props = {
 const AddSessionForm: React.FC<Props> = (props) => {
     const {children, onClose, session} = props
     const dispatch = useDispatch();
+    const clients = useClients();
     const initialValues = useMemo<AddSessionFormType>(() => {
         if (session) {
             const {client_request} = session;
@@ -73,13 +75,16 @@ const AddSessionForm: React.FC<Props> = (props) => {
                 }
             });
         } else {
+            const client = clients.data.data.find(it => it.id === +client_id);
+
             dispatch({
                 type: ACTION_TRAINER_CREATE_SESSION_REQUEST,
                 payload: {
                     ...rest,
                     duration: moment(duration, "h:mm").format("HH:mm:ss"),
                     time: moment(time, "h:mm").format("HH:mm:ss"),
-                    client_id: +client_id
+                    client_id: +client_id,
+                    client_info: {first_name: client?.first_name, last_name: client?.last_name}
                 }
             });
         }

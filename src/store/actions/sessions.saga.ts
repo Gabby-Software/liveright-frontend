@@ -50,14 +50,23 @@ function* createTrainerSessionsWorker({payload}:ActionType<{
     duration: string,
     time: string,
     notes: string,
-    client_id: number
+    client_id: number,
+    client_info: {first_name: string, last_name: string},
 }&CallbackType<void>>) {
     yield put({type:ACTION_TRAINER_CREATE_SESSION_LOAD});
-    const {onSuccess, onError, ...data} = payload;
+    const {onSuccess, onError, client_info, ...data} = payload;
     try {
         const session = (yield call(() => api.post(EP_GET_SESSIONS, data).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('SESSIONS', session);
-        yield put({type: ACTION_TRAINER_CREATE_SESSION_SUCCESS, payload: session});
+        yield put({type: ACTION_TRAINER_CREATE_SESSION_SUCCESS, payload: {
+            session: {
+                ...session.data,
+                client: {
+                    id: payload.client_id,
+                    user: client_info
+                }
+            },
+        }});
         onSuccess && onSuccess();
     } catch(e) {
         yield put({type:ACTION_TRAINER_CREATE_SESSION_ERROR, payload: serverError(e)});
@@ -78,7 +87,7 @@ function* requestClientSessionWorker({payload}:ActionType<{
     try {
         const session = (yield call(() => api.post(EP_GET_SESSIONS, data).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('SESSIONS', session);
-        yield put({type: ACTION_CLIENT_REQUEST_SESSION_SUCCESS, payload: session});
+        yield put({type: ACTION_CLIENT_REQUEST_SESSION_SUCCESS });
         onSuccess && onSuccess();
     } catch(e) {
         yield put({type:ACTION_CLIENT_REQUEST_SESSION_ERROR, payload: serverError(e)});

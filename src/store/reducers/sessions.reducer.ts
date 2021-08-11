@@ -68,15 +68,22 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
 
     switch(type) {
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
-        case ACTION_CLIENT_REQUEST_SESSION_SUCCESS:
+            const {session} = payload;
+
             return {
                 data: {
                     ...data,
                     upcoming: {
                         ...upcoming,
-                        data: [payload, ...upcoming.data],
+                        data: [session, ...upcoming.data],
                     }
                 },
+                loading: false,
+                error: null
+            };
+        case ACTION_CLIENT_REQUEST_SESSION_SUCCESS:
+            return {
+                ...state,
                 loading: false,
                 error: null
             };
