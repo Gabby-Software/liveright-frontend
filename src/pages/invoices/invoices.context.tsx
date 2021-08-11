@@ -71,7 +71,7 @@ export const InvoicesProvider = ({children}: { children: React.ReactNode }) => {
 export const PayablesProvider = ({children}:{children: React.ReactNode}) => {
     let id = 1;
     const demoInvoice: InvoiceType = {
-        id: 1,
+        id: 100000,
         created_at: '2021-01-01',
         currency: {
             id: 1,
