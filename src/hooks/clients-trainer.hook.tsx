@@ -7,12 +7,17 @@ import {useAuth} from "./auth.hook";
 import userTypes from "../enums/user-types.enum";
 
 export const useClientsTrainer = () => {
-    const [trainer, setTrainer] = useState<null | { first_name: string; last_name: string; avatar: null | FileType }>();
+    const [trainer, setTrainer] = useState<null | {
+        accounts?: {id: number, type: string,}[];
+        first_name: string;
+        last_name: string;
+        avatar: null | FileType
+    }>();
     const {type, uuid} = useAuth();
     useEffect(() => {
         if (type !== userTypes.CLIENT || trainer)
             return;
-        api.get(EP_GET_TRAINER + '?return_minimal=1')
+        api.get(EP_GET_TRAINER)
             .then(res => res.data.data)
             .then(res => {
                 logger.success('trainer data', res);

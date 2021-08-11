@@ -2,17 +2,12 @@ import React, {useState} from 'react';
 import Styles from './mobile-sessions.styles';
 import {Formik} from "formik";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
-import {SessionStatus, SessionType} from "../../../../types/session.type";
-import SessionRescheduleModal
-    from "../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component";
-import EditSession from "../../sections/edit-session/edit-session.component";
+import {SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
 import SessionsCards from "../../components/sessions-mobile-cards/sessions-mobile-cards.component";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
 import ActionIcon from "../../../../components/action-icon/action-icon.component";
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import Tabs from "../../../../components/tabs/tabs.component";
-import {Avatar} from "antd";
-import {UserOutlined} from "@ant-design/icons";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
@@ -24,25 +19,28 @@ import FormSelect from "../../../../components/forms/form-select/form-select.com
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
 import {AwaitingCard, Form, ManageTargetsAction, TitleContent} from "./mobile-sessions.styles";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
-import AddSession from "../../sections/add-session/add-session.component";
 import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
 import SmallModal from "../../../../components/small-modal/small-modal.component";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
+import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
+import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
+import {useClients} from "../../../../hooks/clients.hook";
 
 interface Props {
   sessions: SessionsState;
-  getSessions: (status: SessionStatus) => (page: number) => void;
+  getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
+  onFilterByClient: (id: number) => void;
+  onRemoveSession: (id: number) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions} = props;
+    const {sessions, getSessions, onFilterByClient, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
-    const [workingSession] = useState<SessionType|null>(null);
-    const [rescheduleOpen, setRescheduleOpen] = useState(false);
+    const clients = useClients();
     const [addOpen, setAddOpen] = useState<boolean>(false);
-    const [editOpen, setEditOpen] = useState<SessionType|null>(null);
+    const [editOpen, setEditOpen] = useState<SessionType>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const renderUpcomingItemOptions = (item: SessionType) => {
@@ -59,7 +57,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 <ActionIcon
                     icon={TrashIcon}
                     title="Remove"
-                    onClick={() =>{}}
+                    onClick={() => onRemoveSession(item.id)}
                 />
             </div>
         )
@@ -70,10 +68,10 @@ const MobileSessions: React.FC<Props> = (props) => {
             <div>
                 {awaiting_scheduling.data.map((it) => (
                     <AwaitingCard>
-                        <div>
-                            <Avatar size="small" icon={<UserOutlined />} />
-                            {it.client?.first_name} {it.client?.last_name}
-                        </div>
+                        <SessionUserAvatar
+                            first_name={it.client?.user.first_name}
+                            last_name={it.client?.user.last_name}
+                        />
                         <div className="schedule-button" onClick={() => setEditOpen(it)}>
                             <span>{t("sessions:schedule-now")}</span>
                             <RightArrowIcon />
@@ -152,17 +150,25 @@ const MobileSessions: React.FC<Props> = (props) => {
             <ManageTargetsAction type="ghost" onClick={()=> {}}>
                 {t('sessions:manage-targets')}
             </ManageTargetsAction>
-            <SessionRescheduleModal
-                onClose={() => setRescheduleOpen(false)}
-                session={rescheduleOpen?workingSession:null}
+            <AddSessionMobile
+                isOpen={!!editOpen}
+                session={editOpen}
+                onClose={() => setEditOpen(undefined)}
             />
-            <EditSession session={editOpen} isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
-            <AddSession isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+            <AddSessionMobile isOpen={addOpen} onClose={() => setAddOpen(false)} />
             <SmallModal
                 onCancel={() => setIsFilterOpen(false)}
                 visible={isFilterOpen}
                 title={t('sessions:filter-by-client')}
-                menu={[]}
+                menu={clients.data.data.map((client) => ({
+                  name: `${client.first_name} ${client.last_name}`,
+                  value: client.id.toString(),
+                  onClick: (id) => {
+                    if (id) {
+                      onFilterByClient(+id);
+                    }
+                  },
+                }))}
             />
         </Styles>
     );

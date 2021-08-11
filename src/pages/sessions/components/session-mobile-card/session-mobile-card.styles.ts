@@ -34,9 +34,6 @@ export const StyledSessionCard = styled(Card)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    .ant-avatar {
-      margin-right: 8px;
-    }
   }
   
   .sessions-card-datetime {

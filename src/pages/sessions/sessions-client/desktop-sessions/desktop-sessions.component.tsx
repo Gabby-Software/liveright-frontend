@@ -11,24 +11,25 @@ import SessionAddModal
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import SessionsTable from "../../components/sessions-table/sessions-table.component";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
-import EditSession from "../../sections/edit-session/edit-session.component";
 import {useTitleContent} from "../../../../layouts/desktop-layout/desktop-layout.component";
 import {Routes} from "../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
-import {useTrainer} from "../../../../hooks/trainer.hook";
+import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
+import AddSessionDesktop from "../../sections/add-session/add-session-desktop/add-session-desktop.component";
 
 interface Props {
   sessions: SessionsState;
-  getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+  getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
 }
 
 const DesktopSessions: React.FC<Props> = (props) => {
     const {getSessions, sessions} = props;
     const {t} = useTranslation();
-    const [rescheduleOpen, setRescheduleOpen] = useState<SessionType|null>(null);
-    const [editOpen, setEditOpen] = useState<SessionType|null>(null);
+    const trainer = useClientsTrainer();
+    const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>();
+    const [editOpen, setEditOpen] = useState<SessionType>();
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const credits = -2 // temp
 
@@ -47,15 +48,15 @@ const DesktopSessions: React.FC<Props> = (props) => {
         )
     };
 
-    useTitleContent((
+    useTitleContent(trainer ? (
         <TitleContent credits={credits}>
-            <div className="credits">
-                <span>{t('sessions:current-credits')}</span>
-                <span>{credits}</span>
-            </div>
-            <FormButton onClick={() => setAddOpen(true)} type="primary">{t('sessions:session-request')}</FormButton>
+          <div className="credits">
+            <span>{t('sessions:current-credits')}</span>
+            <span>{credits}</span>
+          </div>
+          <FormButton onClick={() => setAddOpen(true)} type="primary">{t('sessions:session-request')}</FormButton>
         </TitleContent>
-    ));
+    ) : null);
 
     return (
       <Styles>
@@ -69,14 +70,29 @@ const DesktopSessions: React.FC<Props> = (props) => {
 
               <PageSubtitle>{t('sessions:past-title')}</PageSubtitle>
               <SessionsTable
-                  sessions={sessions.awaiting_scheduling}
-                  getSessions={getSessions('awaiting_scheduling')}
+                  sessions={sessions.past}
+                  getSessions={getSessions('past')}
                   withFilter
               />
           </div>
-          <SessionRescheduleModal session={rescheduleOpen} onClose={() => setRescheduleOpen(null)}/>
-          <EditSession isOpen={!!editOpen} onClose={() => setEditOpen(null)}/>
-          <SessionAddModal trainer_id={1} isOpen={addOpen} onClose={() => setAddOpen(false)}/>
+          <AddSessionDesktop
+              isOpen={!!editOpen}
+              session={editOpen}
+              onClose={() => setEditOpen(undefined)}
+          />
+          {rescheduleOpen ? (
+              <SessionRescheduleModal
+                  session={rescheduleOpen}
+                  onClose={() => setRescheduleOpen(undefined)}
+              />
+          ) : null}
+          {trainer?.accounts ? (
+            <SessionAddModal
+               trainer_id={trainer.accounts.find(it => it.type === 'trainer')!.id}
+               isOpen={addOpen}
+               onClose={() => setAddOpen(false)}
+            />
+          ) : null}
       </Styles>
     );
 };

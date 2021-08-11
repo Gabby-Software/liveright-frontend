@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Styles from './form-timepicker.styles';
 import {Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
-import {DatePicker, TimePicker} from 'antd';
+import {TimePicker} from 'antd';
 import moment from 'moment';
-import {ReactComponent as CalendarIcon} from "../../../assets/media/icons/calendar.svg";
 import {classes} from "../../../pipes/classes.pipe";
 
 type Props = {

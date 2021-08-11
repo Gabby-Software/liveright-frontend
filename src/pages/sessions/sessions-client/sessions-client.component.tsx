@@ -7,7 +7,7 @@ import {SessionFilter, SessionStatus} from "../../../types/session.type";
 
 interface Props {
     sessions: SessionsState;
-    getSessions: (status: SessionStatus, filters?: SessionFilter) => (page: number) => void;
+    getSessions: (status: SessionStatus) => (page: number, filter?: SessionFilter) => void;
 }
 
 const Sessions: React.FC<Props> = (props) => {

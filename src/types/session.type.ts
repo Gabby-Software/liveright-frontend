@@ -1,13 +1,27 @@
-import {ClientType} from "./client.type";
-import {TrainerType} from "./trainer.type";
+export type PersonType = {
+    id: number;
+    type: 'client' | 'trainer';
+    user: {
+        first_name: string;
+        last_name: string;
+    }
+}
+
+export type ClientRequest = {
+    date: string;
+    duration: string;
+    time: string;
+}
 
 export type SessionType = {
     id: number;
     starts_at: string;
+    ends_at: string;
     duration: string;
     type: Session;
-    client?: ClientType;
-    trainer?: TrainerType;
+    client?: PersonType;
+    trainer?: PersonType;
+    client_request?: ClientRequest;
     notes?: string | null;
 }
 
