@@ -6,6 +6,7 @@ import Pusher from 'pusher-js';
 import cookieManager from "../../managers/cookie.manager";
 import * as PusherPushNotifications from '@pusher/push-notifications-web';
 import logger from "../../managers/logger.manager";
+import {PushNotificationType} from "../../types/push-notification.type";
 
 export default class NotificationsManager {
     static get(page:number=1): Promise<PaginatedDataType<NotificationType>> {
@@ -21,7 +22,7 @@ export default class NotificationsManager {
     static async getUnreadCount() {
 
     }
-    private static subscribeToPushNotifications() {
+    private static subscribeToPushNotifications(userID: number) {
         logger.info('NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
             logger.info('NOTIFICATION SW READY')
@@ -54,8 +55,9 @@ export default class NotificationsManager {
                 });
         });
     }
-    private static subscribeToInAppNotifications() {
-        const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY as string,{
+    private static subscribeToInAppNotifications(userId: number) {
+        Pusher.logToConsole = true;
+        const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string,{
             cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
             auth: {
                 headers: {
@@ -63,10 +65,13 @@ export default class NotificationsManager {
                 },
             },
         });
-        // const channel = pusher.subscribe()
+        const channel = pusher.subscribe(`private-user.${userId}.notification`);
+        channel.bind('my-event', function(data:PushNotificationType) {
+            logger.info('IN APP NOTIFICATION RECEIVED', data);
+        });
     }
-    static async subscribe() {
-        NotificationsManager.subscribeToPushNotifications();
-        NotificationsManager.subscribeToInAppNotifications();
+    static async subscribe(user_id: number) {
+        NotificationsManager.subscribeToPushNotifications(user_id);
+        NotificationsManager.subscribeToInAppNotifications(user_id);
     }
 }
