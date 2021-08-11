@@ -82,7 +82,7 @@ const initialValues: InvoiceFormType = {
         type: "Trainer Invoice",
         invoice_to: '',
         currency_code: "AED",
-        due_on: moment().format("YYYY-MM-DD"),
+        due_on: '',
         issuance_date: moment().format("YYYY-MM-DD"),
         is_taxable: true,
         payment_method: paymentMethods.CREDIT_CARD,
@@ -157,7 +157,7 @@ const CreateInvoice = ({}: Props) => {
                     isInitialValid={false}
                     validationSchema={Yup.object({
                         invoice: Yup.object({
-                            due_on: Yup.date().future(),
+                            due_on: Yup.date().required().future(),
                             invoice_to: Yup.string().required()
                         }),
                         items: Yup.array(Yup.object({
