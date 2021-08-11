@@ -11,23 +11,19 @@ import {RootState} from "../../../../store/reducers";
 import {InvoiceType} from "../../../../types/invoice.type";
 import {ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 import {Skeleton} from "antd";
+import {useInvoices} from "../../invoices.context";
 
 const InvoicesList = () => {
     const {t} = useTranslation();
-    const dispatch = useDispatch();
-    const {current:{meta, data}, loading, error} = useSelector((state: RootState) => state.invoices);
+    const {current:{meta, data}, filters, loading, error, update} = useInvoices();
     const head = useRef<HTMLDivElement>(null);
     const updatePage = (p: number) => {
-        dispatch({
-            type: ACTION_GET_INVOICES_REQUEST, payload: {
-                page: p, onSuccess: () => {
-                    if (!head.current) return;
-                    window.scrollTo({
-                        top: window.scrollY + head.current.getBoundingClientRect().top - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            }
+        update(p, filters).then(() => {
+            if (!head.current) return;
+            window.scrollTo({
+                top: window.scrollY + head.current.getBoundingClientRect().top - 100,
+                behavior: 'smooth'
+            });
         });
     };
     logger.info(window.scrollY, head.current, head.current?.getBoundingClientRect().top, head.current?.offsetTop);

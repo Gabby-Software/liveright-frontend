@@ -38,8 +38,8 @@ const FinancialsReceivablesTable = ({}: Props) => {
         'invoices:invoice-number',
         'invoices:invoice-date',
         'invoices:client-name',
-        'invoices:price',
-        'invoices:due-date',
+        'invoices:total',
+        'invoices:invoice-due',
         'invoices:status',
         'invoices:options'
     ];
@@ -95,7 +95,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
                 name: t => `${t.invoice_to?.user.first_name} ${t.invoice_to?.user.last_name}`,
                 status: t => <div
                     className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
-                options: ({status, id, url}) => (
+                options: ({status, id, pdf}) => (
                     <div className={'invoice-table__actions'}>
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
                             <>
@@ -108,22 +108,30 @@ const FinancialsReceivablesTable = ({}: Props) => {
                                     </Popconfirm>
                                 </span>
                                 <PDFIcon className={'invoice-table__action'}
-                                         onClick={() => fileManager.downloadUrl(url)}/>
+                                         onClick={() => fileManager.downloadUrl(pdf?.url)}/>
                                 <SendIcon className={'invoice-table__action'}/>
+                                <Link to={Routes.INVOICES + '/' + id} className={'invoice-table__action'}>
+                                    <ReceiptIcon/>
+                                </Link>
                                 <Popconfirm title={t('invoices:confirm-delete')}
                                             onConfirm={() => cancelInvoice(id)}>
                                     <TimesIcon className={'invoice-table__action'}/>
                                 </Popconfirm>
                             </>
                         ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
-                            <InvoiceIcon className={'invoice-table__action'}
-                                         onClick={() => fileManager.downloadUrl(url)}/> : null}
-                    </div>
-                )
-            }}/>
-            <TablePagination page={meta.current_page} setPage={updatePage} total={meta.total}/>
-        </Styles>
-    );
-};
+                            <>
+                                <InvoiceIcon className={'invoice-table__action'}
+                                             onClick={() => fileManager.downloadUrl(pdf?.url)}/>
+                                <Link to={Routes.INVOICES + '/' + id} className={'invoice-table__action'}>
+                                    <ReceiptIcon/>
+                                </Link>
+                            </>: null}
+                            </div>
+                            )
+                        }}/>
+                        <TablePagination page={meta.current_page} setPage={updatePage} total={meta.total}/>
+                    </Styles>
+                );
+            };
 
-export default FinancialsReceivablesTable;
+                export default FinancialsReceivablesTable;

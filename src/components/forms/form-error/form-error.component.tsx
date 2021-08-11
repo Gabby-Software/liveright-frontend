@@ -13,7 +13,6 @@ const FormError = ({name}: FormErrorProps) => {
             {({field, form}: FieldProps) => {
                 const msg = byString(form.errors, name);
                 const touched = byString(form.touched, name);
-                logger.info("FIELD", field, form, msg, touched)
                 return (<Styles className={'form__error'}>{
                     !msg?null: !touched?null:
                     typeof msg === 'string'? t(`errors:${msg}`) : t(`errors:${msg.key}`, msg.values)}

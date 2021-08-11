@@ -22,33 +22,27 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/reducers";
 import {ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 import {InvoiceType} from "../../../../types/invoice.type";
+import {useInvoices} from "../../invoices.context";
 
 const InvoicesTable = () => {
     const {type} = useAuth();
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
-    const {current:{meta, data}, filters, error, loading} = useSelector((state: RootState) => state.invoices);
+    const {current:{meta, data}, filters, error, loading, update} = useInvoices();
     const dispatch = useDispatch();
     const updatePage = (p: number) => {
-        dispatch({
-            type: ACTION_GET_INVOICES_REQUEST, payload: {
-                page: p,
-                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
-                filters,
-                onSuccess: () => {
-                    if (!head.current) return;
-                    window.scrollTo({
-                        top: window.scrollY + head.current.getBoundingClientRect().top,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
+        update(p, filters).then(() => {
+            if (!head.current) return;
+            window.scrollTo({
+                top: window.scrollY + head.current.getBoundingClientRect().top,
+                behavior: 'smooth'
+            });
+        })
     };
     const labels = [
         'invoices:invoice-number',
         'invoices:invoice-date',
-        type === userTypes.TRAINER ? 'invoices:client-name' : 'invoices:trainer-name',
+        'invoices:issued-by',
         'invoices:price',
         'invoices:status',
         'invoices:options'
@@ -76,20 +70,12 @@ const InvoicesTable = () => {
                 options: ({status, id, pdf}) => (
                     <div className={'invoice-table__actions'}>
                         {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
-                            type === userTypes.CLIENT ? (
                                 <a href={payments(Routes.INVOICES) + '/' + id}
                                    className={'invoice-table__link'}>
                                     <FormButton type={'primary'}>
                                         {t('invoices:settle-now')}
                                     </FormButton>
                                 </a>
-                            ) : (
-                                <span className={'invoice-table__link'}>
-                                <FormButton type={'primary'}>
-                                    {t('invoices:remind-client')}
-                                </FormButton>
-                                </span>
-                            )
                         ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
                             <InvoiceIcon className={'invoice-table__action'}
                                          onClick={() => fileManager.downloadUrl(pdf.url)}/> : null}

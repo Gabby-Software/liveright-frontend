@@ -18,20 +18,10 @@ import {RootState} from "../../store/reducers";
 import userTypes from "../../enums/user-types.enum";
 import {InvoiceType} from "../../types/invoice.type";
 import InvoicesAtention from "./components/invoices-atention/invoices-atention.component";
+import {InvoicesProvider} from "./invoices.context";
 
 const Invoices = () => {
-    const {t} = useTranslation();
-    const {type} = useAuth();
     const isMobile = useIsMobile();
-    const dispatch = useDispatch();
-    const {current:{meta}, filters} = useSelector((state: RootState) => state.invoices);
-    useEffect(() => {
-        dispatch({
-            type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
-                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
-            }
-        });
-    }, [type]);
     return (
         <Styles>
             <InvoicesAtention/>
@@ -48,4 +38,6 @@ const Invoices = () => {
 };
 
 export default Invoices;
-export const ClientInvoices = onlyClient(Invoices);
+export const ClientInvoices = onlyClient(() => (
+    <InvoicesProvider><Invoices/></InvoicesProvider>
+));

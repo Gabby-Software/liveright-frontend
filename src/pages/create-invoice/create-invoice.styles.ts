@@ -36,6 +36,11 @@ div, label {
     &__add-item {
         max-width: 200px;
     }
+    &__add-client {
+        display: flex;
+        align-items: center;
+       
+    }
     &__preview {
         margin-bottom: 40px;
     }

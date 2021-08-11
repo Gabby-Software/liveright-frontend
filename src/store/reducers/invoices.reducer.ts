@@ -9,13 +9,14 @@ import {
     ActionType
 } from "../action-types";
 
-type InvoicesReducerType = {
+export type InvoicesFilters = {
+    search: string;
+    status: string;
+    invoice_from: string;
+}
+export type InvoicesReducerType = {
     needAttention: PaginatedDataType<InvoiceType>,
-    filters: {
-        search: string;
-        status: string;
-        issuer: string;
-    },
+    filters: InvoicesFilters,
     current: PaginatedDataType<InvoiceType>,
     loading: boolean;
     error: string;
@@ -32,7 +33,7 @@ const initialValues: InvoicesReducerType = {
     filters: {
         search: '',
         status: '',
-        issuer: ''
+        invoice_from: ''
     },
     current: {
         data: [],

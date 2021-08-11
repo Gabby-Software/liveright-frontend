@@ -18,6 +18,7 @@ import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {ACTION_GET_CLIENTS_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 import FormSelectIssuer from "../form-select-issuer/form-select-issuer.component";
+import {useInvoices} from "../../invoices.context";
 
 type InvoicesFilterType = {
     search: string;
@@ -32,30 +33,12 @@ const InvoiceFilters = () => {
     const {type} = useAuth();
     const dispatch = useDispatch();
     const timer = useRef(0);
-    const [issuers, setIssuers] = useState<OptionType[]>([]);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
     const [invoice_from, setInvoice_from] = useState('');
-
-    useEffect(() => {
-        setIssuers([
-            {label: 'All Issuers', value: ''},
-            {label: 'issuer 1', value: '1'},
-            {label: 'issuer 2', value: '2'},
-            {label: 'issuer 3', value: '3'},
-        ]);
-    }, []);
+    const {update} = useInvoices();
     const fetchInvoices = () => {
-        clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
-            dispatch({
-                type: ACTION_GET_INVOICES_REQUEST, payload: {
-                    filters: {search, status, invoice_from},
-                    include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo',
-                    page: 1
-                }
-            })
-        }, 400) as unknown as number;
+        update(1, {search, status, invoice_from});
     }
     useEffect(fetchInvoices, [search, status, invoice_from]);
     return (
