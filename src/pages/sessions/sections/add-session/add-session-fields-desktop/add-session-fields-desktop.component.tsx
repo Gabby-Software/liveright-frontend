@@ -27,8 +27,11 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
             <PageSubtitle>{t('sessions:schedule-for')}</PageSubtitle>
             <div className={'add-session__form'}>
                 <div className={'add-session__form__left'}>
-                    <FormDatepicker name={'date'} label={t('sessions:date')}
-                                    disabledDate={(date) => moment(date).isBefore(moment(), 'days')}/>
+                    <FormDatepicker
+                        name={'date'}
+                        label={t('sessions:date')}
+                        disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
+                    />
                     <FormTimepicker name={'time'} label={t('sessions:time')}/>
                     <FormTimepicker
                         disabled={!!session}

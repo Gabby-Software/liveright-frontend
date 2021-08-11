@@ -21,7 +21,7 @@ const AddSessionCalendar: React.FC = () => {
     const clients = useClients();
     const {values} = useFormikContext<AddSessionFormType>();
     const {date, time, duration, client_id, session_id} = values;
-    const start_date = moment(`${date} ${time}`);
+    const start_date = moment.utc(`${date} ${time}`);
     const range = useMemo(() => isMobile ? 2 : 4, [isMobile]);
     const dates = dateHoursRange({ date: start_date, range });
     const [sessions, setSessions] = useState<SessionType[]>([]);
@@ -86,9 +86,10 @@ const AddSessionCalendar: React.FC = () => {
             <PageSubtitle>{t('sessions:calendar-view')}</PageSubtitle>
             <CalendarWrapper>
               {dates.map((it) => {
-                const hasCurrentEvent = start_date.isBetween(it, moment(it).add(1, 'hours'))
+                const hasCurrentEvent = start_date.isBetween(it, moment(it).add(1, 'hours')) || start_date.isSame(moment(it))
                 const dateSessions = sessions.filter((session) => {
-                  return moment(session.starts_at).isBetween(it, moment(it).add(1, 'hours'))
+                  const startMoment = moment(session.starts_at);
+                  return startMoment.isBetween(it, moment(it).add(1, 'hours')) || startMoment.isSame(moment(it))
                 })
 
                 return (
