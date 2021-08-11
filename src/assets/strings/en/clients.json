@@ -8,5 +8,6 @@
   "add": "Add new client",
   "client-exist": "is on LiveRight, send him a message alongside your invite",
   "view-profile": "View Profile",
-  "no-data": "Oops... Looks like you have no clients yet."
+  "no-data": "Oops... Looks like you have no clients yet.",
+  "filters": "Clients Filters"
 }

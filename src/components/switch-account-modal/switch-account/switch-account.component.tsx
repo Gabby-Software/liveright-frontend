@@ -41,9 +41,9 @@ const SwitchAccount = () => {
                     </Card>
                 ))
             }
-            <Card className={'swa-card__add'} onClick={() => setState(AccountActions.ADD_ACCOUNT)}>
-                <span>{t('menu.add-account')}</span>
-            </Card>
+            {/*<Card className={'swa-card__add'} onClick={() => setState(AccountActions.ADD_ACCOUNT)}>*/}
+            {/*    <span>{t('menu.add-account')}</span>*/}
+            {/*</Card>*/}
         </Styles>
     )
 };

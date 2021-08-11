@@ -27,7 +27,7 @@ const InvoicesTable = () => {
     const {type} = useAuth();
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
-    const {current:{meta, data}, filters} = useSelector((state: RootState) => state.invoices);
+    const {current:{meta, data}, filters, error, loading} = useSelector((state: RootState) => state.invoices);
     const dispatch = useDispatch();
     const updatePage = (p: number) => {
         dispatch({
@@ -64,7 +64,9 @@ const InvoicesTable = () => {
     const invoiceUser = (t: InvoiceType) => type === userTypes.CLIENT ? t.invoice_from?.user : t.invoice_to?.user;
     return (
         <Styles ref={head}>
-            <DataTable labels={labels} keys={keys} data={data} render={{
+            <DataTable labels={labels} keys={keys} data={data}
+                       error={error||!loading&&!data.length?t('invoices:no-data'):''} loading={loading}
+                       render={{
                 invoice_number: (t) => `#${t.invoice_number}`,
                 due_on: (t) => date(t.due_on),
                 total: t => `${t.total} ${t.currency.code}`,

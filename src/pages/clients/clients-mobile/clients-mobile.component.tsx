@@ -17,6 +17,7 @@ import {Routes} from "../../../enums/routes.enum";
 import logger from "../../../managers/logger.manager";
 import {Simulate} from "react-dom/test-utils";
 import {Skeleton} from "antd";
+import {useMobileTitleContent} from "../../../layouts/mobile-layout/mobile-layout.component";
 
 const ClientsMobile = () => {
     const {t} = useTranslation();
@@ -31,6 +32,7 @@ const ClientsMobile = () => {
             }
         });
     };
+    useMobileTitleContent(<ClientsFilterMobile/>);
     return (
         <Styles>
             <div className={'clients__heading'}>
@@ -56,7 +58,6 @@ const ClientsMobile = () => {
                 }
                 <DataPagination page={meta.current_page} setPage={setPage} total={meta.total}/>
             </div>
-            <ClientsFilterMobile/>
             <MobileClientFooter/>
         </Styles>
     )

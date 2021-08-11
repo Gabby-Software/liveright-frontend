@@ -9,13 +9,16 @@ import FormInputLabeled from "../../forms/form-input-labeled/form-input-labeled.
 import {useDispatch} from "react-redux";
 import {useClients} from "../../../hooks/clients.hook";
 import {ACTION_GET_CLIENTS_REQUEST} from "../../../store/action-types";
+import {ReactComponent as FilterIcon} from "../../../assets/media/icons/filter.svg";
+import {OptionType} from "../../../types/option.type";
+import FormSelect, {FormSelectUI} from "../../forms/form-select/form-select.component";
 
 type FilterType = {
-    search: string;
+    query: string;
+    status: string;
+    type: string;
 }
-const initialValues: FilterType = {
-    search: ''
-};
+
 const ClientsFilterMobile = () => {
     const [isOpen, setOpen] = useState(false);
     const {t} = useTranslation();
@@ -24,9 +27,8 @@ const ClientsFilterMobile = () => {
     useEffect(() => {
         dispatch({
             type: ACTION_GET_CLIENTS_REQUEST, payload: {
-                page: meta.current_page,
-                query: filters.query,
-                status: filters.status
+                page: 1,
+                ...filters
             }
         })
     }, []);
@@ -34,8 +36,7 @@ const ClientsFilterMobile = () => {
         dispatch({
             type: ACTION_GET_CLIENTS_REQUEST, payload: {
                 page: meta.current_page,
-                query: filters.query,
-                status: filters.status,
+                ...values,
                 onSuccess: () => {
                     helper.setSubmitting(false);
                 },
@@ -46,23 +47,34 @@ const ClientsFilterMobile = () => {
         });
         setOpen(false);
     };
+    const statusOptions: OptionType[] = [
+        {label: 'All', value: ''},
+        {label: 'Active', value: 'active'},
+        {label: 'Awaiting', value: 'awaiting'},
+        {label: 'Past', value: 'past'},
+    ];
     return (
-        <>
-            <button style={{display: 'none'}} id={'filter-options'} onClick={() => setOpen(true)}/>
-            <BottomDrawer title={t('invoices:filters')} isOpen={isOpen} onClose={() => setOpen(false)}>
+        <Styles>
+            <FilterIcon className={'mobile-filters__trigger'} onClick={() => setOpen(true)}/>
+            <BottomDrawer title={t('clients:filters')} isOpen={isOpen} onClose={() => setOpen(false)}>
+                <BottomDrawer.Body>
                 <Formik
                     onSubmit={handleSubmit}
-                    initialValues={initialValues}
+                    initialValues={filters}
+                    enableReinitialize
                 >
                     <Form>
                         <Styles>
-                            <FormInputLabeled name={'search'} label={t('search')}/>
+                            <FormInputLabeled name={'query'} label={t('search')}/>
+                            <FormSelect name={'status'} label={t('clients:status')}
+                                          options={statusOptions}/>
                             <ButtonSubmit>{t('submit')}</ButtonSubmit>
                         </Styles>
                     </Form>
                 </Formik>
+                </BottomDrawer.Body>
             </BottomDrawer>
-        </>
+        </Styles>
     )
 };
 
