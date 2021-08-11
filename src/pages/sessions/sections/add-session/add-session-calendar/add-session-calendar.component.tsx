@@ -10,7 +10,7 @@ import {useClients} from "../../../../../hooks/clients.hook";
 import AddSessionCalendarEmpty from "../add-session-calendar-empty/add-session-calendar-empty.component";
 import {dateHoursRange} from "../../../../../pipes/date-range.pipe";
 import {classes} from "../../../../../pipes/classes.pipe";
-import {getStyleHelper} from "./add-session-calendar.helpers";
+import {getIsBusy, getStyleHelper} from "./add-session-calendar.helpers";
 import {SessionType} from "../../../../../types/session.type";
 import {EP_GET_SESSIONS} from "../../../../../enums/api.enum";
 import api from "../../../../../managers/api.manager";
@@ -19,39 +19,12 @@ const AddSessionCalendar: React.FC = () => {
     const {t} = useTranslation();
     const isMobile = useIsMobile();
     const clients = useClients();
-    const {values} = useFormikContext<AddSessionFormType>();
-    const {date, time, duration, client_id, session_id} = values;
+    const {values, setFieldValue} = useFormikContext<AddSessionFormType>();
+    const {date, time, duration, client_id, session_id, isBusy} = values;
     const start_date = moment.utc(`${date} ${time}`);
     const range = useMemo(() => isMobile ? 2 : 4, [isMobile]);
-    const dates = dateHoursRange({ date: start_date, range });
+    const dates = useMemo(() => dateHoursRange({ date: start_date, range }), [date, time]);
     const [sessions, setSessions] = useState<SessionType[]>([]);
-
-    useEffect(() => {
-      if (!date || !time) {
-        return
-      }
-
-      const getSessions = async () => {
-        const paramsString = `?include=client.user&filter[date]=${date}&filter[status]=upcoming`;
-
-        try {
-          const {data} = await api.get(EP_GET_SESSIONS + paramsString) as {data: {data: SessionType[]}}
-
-          if (data.data) {
-            const filteredSessions = data.data.filter((it) => it.id !== session_id)
-            setSessions(filteredSessions);
-          }
-        } catch (e) {
-          console.log(e)
-        }
-      }
-
-      getSessions();
-    }, [date, time])
-
-    if(!date || !time) {
-      return <AddSessionCalendarEmpty />;
-    }
 
     const renderCurrentEvent = () => {
       const client = clients.data.data.find((it) => it.id === client_id);
@@ -81,6 +54,41 @@ const AddSessionCalendar: React.FC = () => {
       })
     };
 
+    useEffect(() => {
+      if (!date || !time) {
+        return
+      }
+
+      const getSessions = async () => {
+        const paramsString = `?include=client.user&filter[date]=${date}&filter[status]=upcoming`;
+
+        try {
+          const {data} = await api.get(EP_GET_SESSIONS + paramsString) as {data: {data: SessionType[]}}
+
+          if (data.data) {
+            const filteredSessions = data.data.filter((it) => it.id !== session_id)
+            setSessions(filteredSessions);
+          }
+        } catch (e) {
+          console.log(e)
+        }
+      }
+
+      getSessions();
+    }, [date, time])
+
+    useEffect(() => {
+      setFieldValue('isBusy', getIsBusy({
+        sessions,
+        duration,
+        currentStartDate: start_date
+      }));
+    }, [date, time, duration])
+
+    if(!date || !time) {
+      return <AddSessionCalendarEmpty />;
+    }
+
     return (
         <Styles>
             <PageSubtitle>{t('sessions:calendar-view')}</PageSubtitle>
@@ -88,12 +96,12 @@ const AddSessionCalendar: React.FC = () => {
               {dates.map((it) => {
                 const hasCurrentEvent = start_date.isBetween(it, moment(it).add(1, 'hours')) || start_date.isSame(moment(it))
                 const dateSessions = sessions.filter((session) => {
-                  const startMoment = moment(session.starts_at);
+                  const startMoment = moment.utc(session.starts_at);
                   return startMoment.isBetween(it, moment(it).add(1, 'hours')) || startMoment.isSame(moment(it))
-                })
+                });
 
                 return (
-                  <div className={'add-session__calendar__item'}>
+                  <div key={it.format()} className={'add-session__calendar__item'}>
                     <div className={'add-session__calendar__time'}>
                       {it.format('HH:mm')}
                     </div>

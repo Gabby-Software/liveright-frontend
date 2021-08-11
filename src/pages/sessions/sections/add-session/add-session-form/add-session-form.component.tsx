@@ -15,6 +15,7 @@ export type AddSessionFormType = {
     notes: string,
     client_id: number,
     session_id?: number,
+    isBusy?: boolean,
 }
 
 const initialValuesEmpty: AddSessionFormType = {
@@ -25,6 +26,7 @@ const initialValuesEmpty: AddSessionFormType = {
     notes: '',
     client_id: 0,
     session_id: 0,
+    isBusy: false,
 };
 
 type Props = {
@@ -61,7 +63,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
     }, [session])
 
     const handleSubmit = (values: AddSessionFormType, helper: FormikHelpers<AddSessionFormType>) => {
-        const {duration, time, client_id, ...rest} = values
+        const {duration, time, client_id, isBusy, ...rest} = values
 
         if (session) {
             dispatch({

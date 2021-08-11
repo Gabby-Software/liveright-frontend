@@ -16,6 +16,7 @@ export type ClientRequest = {
 export type SessionType = {
     id: number;
     starts_at: string;
+    ends_at: string;
     duration: string;
     type: Session;
     client?: PersonType;
