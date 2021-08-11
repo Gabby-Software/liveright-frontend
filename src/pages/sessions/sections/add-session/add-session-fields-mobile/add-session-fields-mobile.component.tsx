@@ -19,10 +19,11 @@ import {SessionType} from "../../../../../types/session.type";
 
 interface Props {
     session?: SessionType;
+    onClose?: () => void;
 }
 
 const AddSessionFieldsMobile: React.FC<Props> = (props) => {
-    const {session} = props;
+    const {session, onClose} = props;
     const {t} = useTranslation();
     const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
 
@@ -67,7 +68,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
                     />
                     <FormTextarea name={'notes'} label={t('sessions:notes')} />
                     {session ? null : <AddSessionCredits />}
-                    {session ? <AddSessionDelete /> : null}
+                    {session ? <AddSessionDelete onClose={onClose} session_id={session.id} /> : null}
                     <AddSessionSubmit session={session} />
                 </div>
         </Styles>

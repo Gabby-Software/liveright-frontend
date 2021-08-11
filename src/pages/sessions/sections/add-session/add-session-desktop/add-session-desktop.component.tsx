@@ -19,7 +19,7 @@ const AddSessionDesktop = ({isOpen, onClose, session}: Props) => {
               <Styles>
                       <div className={'add-session__left'}>
                           <AddSessionTop session={session} />
-                          <AddSessionFieldsDesktop session={session} />
+                          <AddSessionFieldsDesktop onClose={onClose} session={session} />
                       </div>
                       <div className={'add-session__right'}>
                           <AddSessionCalendar />

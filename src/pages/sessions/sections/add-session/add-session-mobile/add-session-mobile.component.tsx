@@ -17,7 +17,7 @@ const AddSessionMobile = ({isOpen,onClose,session}: Props) => {
             <BottomDrawer.Body>
                 <AddSessionForm onClose={onClose} session={session}>
                     <AddSessionTop session={session} />
-                    <AddSessionFieldsMobile session={session} />
+                    <AddSessionFieldsMobile onClose={onClose} session={session} />
                 </AddSessionForm>
             </BottomDrawer.Body>
         </BottomDrawer>
