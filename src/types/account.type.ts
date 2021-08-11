@@ -27,5 +27,6 @@ export type AccountObjType = {
     is_active: boolean;
     last_name: string;
     uuid: string;
+    id?: number;
 }
 

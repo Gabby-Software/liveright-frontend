@@ -70,7 +70,7 @@ export default class NotificationsManager {
             logger.info('IN APP NOTIFICATION RECEIVED', data);
         });
     }
-    static async subscribe(user_id: number) {
+    static subscribe(user_id: number) {
         NotificationsManager.subscribeToPushNotifications(user_id);
         NotificationsManager.subscribeToInAppNotifications(user_id);
     }
