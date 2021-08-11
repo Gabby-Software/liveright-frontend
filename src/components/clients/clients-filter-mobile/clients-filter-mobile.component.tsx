@@ -56,7 +56,7 @@ const ClientsFilterMobile = () => {
     return (
         <Styles>
             <FilterIcon className={'mobile-filters__trigger'} onClick={() => setOpen(true)}/>
-            <BottomDrawer title={t('invoices:filters')} isOpen={isOpen} onClose={() => setOpen(false)}>
+            <BottomDrawer title={t('clients:filters')} isOpen={isOpen} onClose={() => setOpen(false)}>
                 <BottomDrawer.Body>
                 <Formik
                     onSubmit={handleSubmit}
