@@ -20,6 +20,13 @@ const MobileClientFooter = () => {
             }
         })
     }
+    useEffect(() => {
+        const params = new URLSearchParams(document.location.search);
+        const add = params.get('add');
+        if(add) {
+            setIsOpen(true);
+        }
+    }, []);
     return (
         <>
             <BottomButton type={'primary'}

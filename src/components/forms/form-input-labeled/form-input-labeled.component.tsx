@@ -59,8 +59,9 @@ const FormInputLabeled = ({name, label, type, onUpdate, icon, disabled, format}:
         <Field name={name}>
             {
                 ({field, form}: FieldProps) => (
-                    <FormInputLabeledUI name={name} label={label} value={field.value}
-                    onBlur={field.onChange} onUpdate={value=>{
+                    <FormInputLabeledUI label={label}
+                                        {...field}
+                                        onUpdate={value=>{
                         const val = format?format.format(value):value;
                         form.setFieldValue(name, val);
                         onUpdate && onUpdate(name, val);

@@ -7,10 +7,11 @@ import InvoiceCard from "../invoice-card/invoice-card.component";
 import Hr from "../../../../components/hr/hr.styles";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store/reducers";
+import {useInvoices} from "../../invoices.context";
 
 type Props = {};
 const InvoicesAtention = ({}: Props) => {
-    const {data} = useSelector((state: RootState) => state.invoices.needAttention);
+    const {data} = useInvoices().needAttention;
     if (!data?.length)
         return null;
     return (

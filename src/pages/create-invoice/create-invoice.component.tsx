@@ -9,17 +9,11 @@ import FormDatepicker from "../../components/forms/form-datepicker/form-datepick
 import moment from "moment";
 import FormTextarea from "../../components/forms/form-textarea/form-textarea.component";
 import FormSelect from "../../components/forms/form-select/form-select.component";
-import FormInputLabeled from "../../components/forms/form-input-labeled/form-input-labeled.component";
-import formatter from "../../managers/formatter.manager";
 import FormButton from "../../components/forms/form-button/form-button.component";
-import DataTable from "../../components/data-table/data-table.component";
-import {asPrice} from "../../pipes/price.pipe";
-import ButtonSubmit from "../../components/forms/button-submit/button-submit.component";
 import {useDispatch, useSelector} from "react-redux";
 import {useIsMobile} from "../../hooks/is-mobile.hook";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {RootState} from "../../store/reducers";
-import {OptionType} from "../../types/option.type";
 import {ACTION_CREATE_INVOICE_REQUEST} from "../../store/action-types";
 import {handleError} from "../../managers/api.manager";
 import {useTitleContent} from "../../layouts/desktop-layout/desktop-layout.component";
@@ -28,13 +22,12 @@ import CreateInvoiceSection from "./components/create-invoice-section/create-inv
 import CreateInvoiceClientCard from "./components/create-invoice-client-card/create-invoice-client-card.component";
 import {AccountObjType} from "../../types/account.type";
 import {paymentMethods, paymentMethodsOptions} from "../../enums/payment-method.enum";
-import Card from "../../components/card/card.style";
 import CreateInvoiceItem from "./components/create-invoice-item/create-invoice-item.component";
-import {forOf} from "../../pipes/for-of.pipe";
 import {Redirect, useHistory} from "react-router-dom";
 import {Routes} from "../../enums/routes.enum";
 import {useLocation} from "react-router";
 import {useClients} from "../../hooks/clients.hook";
+import Link from "../../components/link/link.component";
 
 type Props = {};
 export type InvoiceItemType = {
@@ -82,7 +75,7 @@ const initialValues: InvoiceFormType = {
         type: "Trainer Invoice",
         invoice_to: '',
         currency_code: "AED",
-        due_on: moment().format("YYYY-MM-DD"),
+        due_on: '',
         issuance_date: moment().format("YYYY-MM-DD"),
         is_taxable: true,
         payment_method: paymentMethods.CREDIT_CARD,
@@ -157,7 +150,7 @@ const CreateInvoice = ({}: Props) => {
                     isInitialValid={false}
                     validationSchema={Yup.object({
                         invoice: Yup.object({
-                            due_on: Yup.date().future(),
+                            due_on: Yup.date().required().future(),
                             invoice_to: Yup.string().required()
                         }),
                         items: Yup.array(Yup.object({
@@ -177,7 +170,7 @@ const CreateInvoice = ({}: Props) => {
                         logger.info('FORM', formik);
                         return (
                             <Form>
-                                <div className={'create-invoice__cont'}>
+                                <div className={'add-invoice__cont'}>
                                     <CreateInvoiceSection title={'Select who should receive the invoice'}>
                                         <FormRow>
                                             {
@@ -192,7 +185,9 @@ const CreateInvoice = ({}: Props) => {
                                                                       onUpdate={setClient}/>
                                                 )
                                             }
-                                            <div/>
+                                            <div className={'add-invoice__add-client'}>
+                                                <Link to={Routes.CLIENTS+'/?add=1'}>{'or add new one'}</Link>
+                                            </div>
                                             <div/>
                                             <div/>
                                         </FormRow>

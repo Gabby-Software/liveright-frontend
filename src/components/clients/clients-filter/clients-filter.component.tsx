@@ -41,6 +41,13 @@ const ClientsFilter = () => {
         }, 400) as unknown as number;
     }
     useEffect(fetchClients, [query, type, status]);
+    useEffect(() => {
+        const params = new URLSearchParams(document.location.search);
+        const add = params.get('add');
+        if(add) {
+            setModalOpen(true);
+        }
+    }, []);
 
     const handleSubmit = (values: FilterType, helper: FormikHelpers<FilterType>) => {
         // todo: handle submition
