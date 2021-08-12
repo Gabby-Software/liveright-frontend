@@ -67,6 +67,7 @@ export default class NotificationsManager {
             },
         });
         const channel = pusher.subscribe(`private-user.${userId}.notification`);
+        channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('user.notification', function(data:PushNotificationType) {
             logger.info('IN APP NOTIFICATION RECEIVED', data);
         });
