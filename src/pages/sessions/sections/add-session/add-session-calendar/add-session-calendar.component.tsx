@@ -10,10 +10,11 @@ import {useClients} from "../../../../../hooks/clients.hook";
 import AddSessionCalendarEmpty from "../add-session-calendar-empty/add-session-calendar-empty.component";
 import {dateHoursRange} from "../../../../../pipes/date-range.pipe";
 import {classes} from "../../../../../pipes/classes.pipe";
-import {getIsBusy, getStyleHelper} from "./add-session-calendar.helpers";
+import {getStyleHelper} from "./add-session-calendar.helpers";
 import {SessionType} from "../../../../../types/session.type";
 import {EP_GET_SESSIONS} from "../../../../../enums/api.enum";
 import api from "../../../../../managers/api.manager";
+import {checkIfBusy} from "../../../../../pipes/sessions-busy.pipe";
 
 const AddSessionCalendar: React.FC = () => {
     const {t} = useTranslation();
@@ -78,7 +79,7 @@ const AddSessionCalendar: React.FC = () => {
     }, [date, time])
 
     useEffect(() => {
-      setFieldValue('isBusy', getIsBusy({
+      setFieldValue('isBusy', checkIfBusy({
         sessions,
         duration,
         currentStartDate: start_date

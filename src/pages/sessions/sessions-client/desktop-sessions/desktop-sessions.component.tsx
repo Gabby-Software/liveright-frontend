@@ -17,7 +17,6 @@ import {Link} from "react-router-dom";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
 import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
-import AddSessionDesktop from "../../sections/add-session/add-session-desktop/add-session-desktop.component";
 
 interface Props {
   sessions: SessionsState;
@@ -29,7 +28,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const trainer = useClientsTrainer();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>();
-    const [editOpen, setEditOpen] = useState<SessionType>();
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const credits = -2 // temp
 
@@ -75,11 +73,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   withFilter
               />
           </div>
-          <AddSessionDesktop
-              isOpen={!!editOpen}
-              session={editOpen}
-              onClose={() => setEditOpen(undefined)}
-          />
           {rescheduleOpen ? (
               <SessionRescheduleModal
                   session={rescheduleOpen}
