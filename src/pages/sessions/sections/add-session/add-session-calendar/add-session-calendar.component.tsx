@@ -20,7 +20,7 @@ const AddSessionCalendar: React.FC = () => {
     const isMobile = useIsMobile();
     const clients = useClients();
     const {values, setFieldValue} = useFormikContext<AddSessionFormType>();
-    const {date, time, duration, client_id, session_id, isBusy} = values;
+    const {date, time, duration, client_id, session_id} = values;
     const start_date = moment.utc(`${date} ${time}`);
     const range = useMemo(() => isMobile ? 2 : 4, [isMobile]);
     const dates = useMemo(() => dateHoursRange({ date: start_date, range }), [date, time]);

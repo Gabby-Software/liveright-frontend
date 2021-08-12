@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import Styles from './session-reschedule-modal.styles';
+import React, {useMemo} from 'react';
+import Styles, {Row} from './session-reschedule-modal.styles';
 import Modal from "../../modal/modal.component";
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
 import {SessionType} from "../../../types/session.type";
@@ -9,7 +9,6 @@ import moment from 'moment';
 import FormDatepicker from "../../forms/form-datepicker/form-datepicker.component";
 import FormTimepicker from "../../forms/form-timepicker/form-timepicker.component";
 import ButtonSubmit from "../../forms/button-submit/button-submit.component";
-import FormRow from "../../forms/form-row/form-row.component";
 import PrimaryLabel from "../../primary-label/primary-label.component";
 import {ReactComponent as CalendarIcon} from "../../../assets/media/icons/calendar.svg";
 import {ReactComponent as ClockIcon} from "../../../assets/media/icons/clock.svg";
@@ -96,14 +95,14 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                             <span>{moment.utc(session.starts_at).format("HH:mm")}</span>
                           </div>
                         </div>
-                        <FormRow>
+                        <Row>
                           <FormDatepicker
                               name={'date'}
                               label={t('sessions:date')}
                               disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
                           />
                           <FormTimepicker name={'time'} label={t('sessions:time')} disabledUntilNow={isToday} />
-                        </FormRow>
+                        </Row>
                         {
                           <Field name={'time'}>
                             {
@@ -119,7 +118,7 @@ const SessionRescheduleModal = ({session, onClose}: Props) => {
                             }
                           </Field>
                         }
-                        <ButtonSubmit>{t('submit')}</ButtonSubmit>
+                        <ButtonSubmit>{t('sessions:session-request')}</ButtonSubmit>
                       </Styles>
                     </Form>
                 )

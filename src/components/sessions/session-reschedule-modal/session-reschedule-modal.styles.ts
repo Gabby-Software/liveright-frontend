@@ -1,5 +1,12 @@
 import styled from "styled-components";
 import {media} from "../../../assets/styles/_media";
+import FormRow from "../../forms/form-row/form-row.component";
+
+export const Row = styled(FormRow)`
+  & > * {
+    margin-top: 0;
+  }
+`
 
 export default styled.div`
     .text_input__wrapper {
