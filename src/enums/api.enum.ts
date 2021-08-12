@@ -10,6 +10,7 @@ export const EP_ADD_ACCOUNT = ALLRIGHT_BASE+'/user/account';
 export const EP_GET_COUNTRIES = ALLRIGHT_BASE+'/countries';
 export const EP_ADD_NOTIFICATION = ALLRIGHT_BASE+'/notifications/test';
 export const EP_GET_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/all';
+export const EP_UNREAD_NOTIFICATIONS_COUNT = ALLRIGHT_BASE+'/notifications/unread/count';
 export const EP_GET_UNREAD_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/unread';
 export const EP_CHECK_EMAIL_EXIST = ALLRIGHT_BASE+'/invitations/check';
 export const EP_INVITE_NEW_USER = ALLRIGHT_BASE+'/invitations';
