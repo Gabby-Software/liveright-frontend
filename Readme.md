@@ -31,17 +31,17 @@
 
 #### ***IPStack***
 [https://ipstack.com/](https://ipstack.com/)   
-***username:*** `liverightdevelopment@gmail.com`  
-***password:*** `liveright123`
+***username:*** `liverightdevelopment@gmail.com`   
+***password:*** `liveright123`  
 
 #### ***Pusher***  
 [https://dashboard.pusher.com/](https://dashboard.pusher.com/)
-***username:*** `allright@colorelephant.com`
-***password:*** `%V[u3tx`Me8f[KcB`
+***username:*** `allright@colorelephant.com`  
+***password:*** ``%V[u3tx`Me8f[KcB``
 
 #### ***HotJar***
 [https://hotjar.com]()
-***username:*** `allright@colorelephant.com`
+***username:*** `allright@colorelephant.com`  
 ***password:*** `t3SdVRJ@T6BjM4c`
 
 ### *Project structure*
