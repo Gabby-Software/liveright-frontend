@@ -1,4 +1,4 @@
-import {EP_GET_NOTIFICATIONS, EP_PUSHER_AUTH} from "../../enums/api.enum";
+import {EP_GET_NOTIFICATIONS, EP_PUSHER_BEAMS_AUTH, EP_PUSHER_CHANNEL_AUTH} from "../../enums/api.enum";
 import api from "../../managers/api.manager";
 import {PaginatedDataType} from "../../types/paginated-data.type";
 import {NotificationType} from "../../types/notification.type";
@@ -59,7 +59,7 @@ export default class NotificationsManager {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string,{
             cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
-            authEndpoint: EP_PUSHER_AUTH,
+            authEndpoint: EP_PUSHER_CHANNEL_AUTH,
             auth: {
                 headers: {
                     Authorization: `Bearer ${cookieManager.get('access_token')}`,
