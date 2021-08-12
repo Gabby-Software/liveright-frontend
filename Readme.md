@@ -22,18 +22,27 @@
  If any additional setup will be needed in future, please add it in the setup command.
  * Run `yarn start` to start the server. Will run om port 8022. Can be customized in .env
 
-### *Mailgun*
+### *3rd party libraries*
+
+####***MailGun***  
 [https://www.mailgun.com/](https://www.mailgun.com/)  
 ***username***: `khaki@colorelephant.com`  
 ***password***: ``S8!4^?ce.nJ%nVx!``  
 
-### *3rd party apps*
-For any 3rd party app use a dedicated account for this project development.   
+#### ***IPStack***
+[https://ipstack.com/](https://ipstack.com/)   
 ***username:*** `liverightdevelopment@gmail.com`  
 ***password:*** `liveright123`
 
-Current 3-rd party libraries in use:
- * [ipstack](https://ipstack.com/) used for initiate user with default address
+#### ***Pusher***  
+[https://dashboard.pusher.com/](https://dashboard.pusher.com/)
+***username:*** `allright@colorelephant.com`
+***password:*** `%V[u3tx`Me8f[KcB`
+
+#### ***HotJar***
+[https://hotjar.com]()
+***username:*** `allright@colorelephant.com`
+***password:*** `t3SdVRJ@T6BjM4c`
 
 ### *Project structure*
 * `assets` - save assets like media, styles, fonts and translations
