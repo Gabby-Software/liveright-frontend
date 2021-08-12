@@ -6,6 +6,7 @@ import {invoicesReducer} from "./invoices.reducer";
 import {clientsReducer} from "./clients.reducer";
 import {clientReducer} from "./client.reducer";
 import {sessionsReducer} from "./sessions.reducer";
+import {notificationsReducer} from "./notifications.reducer";
 const rootReducer = combineReducers({
     account: accountReducer,
     auth: authReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     invoices: invoicesReducer,
     clients: clientsReducer,
     client: clientReducer,
-    sessions: sessionsReducer
+    sessions: sessionsReducer,
+    notifications: notificationsReducer
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>

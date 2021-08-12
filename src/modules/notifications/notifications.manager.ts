@@ -7,8 +7,11 @@ import cookieManager from "../../managers/cookie.manager";
 import * as PusherPushNotifications from '@pusher/push-notifications-web';
 import logger from "../../managers/logger.manager";
 import {PushNotificationType} from "../../types/push-notification.type";
+import store from '../../store/config.store';
+import {ACTION_NEW_NOTIFICATION} from "../../store/action-types";
+import {NotificationSubscriptionType} from "./types/notification-subscription.type";
 
-export default class NotificationsManager {
+export class NotificationsManager {
     static get(page:number=1): Promise<PaginatedDataType<NotificationType>> {
         return api.get(EP_GET_NOTIFICATIONS+`?page=${page}`)
             .then(res => res.data)
@@ -22,7 +25,8 @@ export default class NotificationsManager {
     static async getUnreadCount() {
 
     }
-    private static subscribeToPushNotifications(userID: number) {
+    private subscriptions: NotificationSubscriptionType[] = [];
+    private subscribeToPushNotifications(userID: number) {
         logger.info('NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
             logger.info('NOTIFICATION SW READY')
@@ -55,7 +59,7 @@ export default class NotificationsManager {
                 });
         });
     }
-    private static subscribeToInAppNotifications(userId: number) {
+    private subscribeToInAppNotifications(userId: number) {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string,{
             cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
@@ -68,12 +72,24 @@ export default class NotificationsManager {
         });
         const channel = pusher.subscribe(`private-user.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
-        channel.bind('user.notification', function(data:PushNotificationType) {
+        channel.bind('user.notification', (data:PushNotificationType) => {
             logger.info('IN APP NOTIFICATION RECEIVED', data);
+            this.subscriptions.forEach(({callback}) => callback());
         });
     }
-    static subscribe(user_id: number) {
-        NotificationsManager.subscribeToPushNotifications(user_id);
-        NotificationsManager.subscribeToInAppNotifications(user_id);
+    init(user_id: number) {
+        this.subscribeToPushNotifications(user_id);
+        this.subscribeToInAppNotifications(user_id);
     }
+    subscribe(callback: ()=>void) {
+        const id = Math.random();
+        this.subscriptions.push({id, callback});
+        return id;
+    }
+    unsubscribe(subscription_id: number) {
+        this.subscriptions = this.subscriptions.filter(({id}) => id !== subscription_id);
+    }
+
 }
+const notificationManager = new NotificationsManager();
+export default notificationManager;

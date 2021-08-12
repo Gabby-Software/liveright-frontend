@@ -6,6 +6,18 @@
     "session": "session",
     "exercise": "exercise",
     "meal": "meal"
+  },
+  "message": {
+    "This is a test notification!": "This is a test notification!",
+    "invitation_accepted_notification": "Invitation #{{invitation_id}} is accepted",
+    "invitation_rejected_notification": "Invitation #{{invitation_id}} was rejected",
+    "training_invitation": "You got an invitation!",
+    "invoice_status_changed_notification": "Invoice #{{invoice_number}} changed status to {{new_status}}",
+    "invoice_created_notification": "You get a new invoice",
+    "client_requested_session": "Your client requested reschedule session #{{session_id}}",
+    "trainer_scheduled_session": "Your trainer scheduled a new session",
+    "trainer_updated_session": "Your trainer updated session #{{session_id}}",
+    "trainer_deleted_session": "Your trainer cancelled session #{{session_id}}"
   }
 
 }
