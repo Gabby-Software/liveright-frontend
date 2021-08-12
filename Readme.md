@@ -40,7 +40,7 @@
 ***password:*** ``%V[u3tx`Me8f[KcB``
 
 #### ***HotJar***
-[https://hotjar.com]()
+[https://hotjar.com](https://hotjar.com)
 ***username:*** `allright@colorelephant.com`  
 ***password:*** `t3SdVRJ@T6BjM4c`
 
