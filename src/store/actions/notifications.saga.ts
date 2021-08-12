@@ -8,7 +8,7 @@ import {EP_GET_NOTIFICATIONS, EP_GET_UNREAD_NOTIFICATIONS} from "../../enums/api
 import api from "../../managers/api.manager";
 import logger from "../../managers/logger.manager";
 
-export function* notificationsSagaWatcher() {
+export function* sagaNotificationsSagaWatcher() {
     yield takeLatest(ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST, getUnreadCount);
     yield takeLatest(ACTION_GET_NOTIFICATIONS_REQUEST, getNotifications);
 }
