@@ -1,4 +1,4 @@
-import {NotificationsType} from "../../types/notifications.type";
+import {NotificationType} from "../../types/notifications.type";
 import {PaginatedDataType} from "../../types/paginated-data.type";
 import {withStorage} from "./storage.hook";
 import {
@@ -10,7 +10,7 @@ import logger from "../../managers/logger.manager";
 
 export type NotificationsReducerType = {
     unread: number;
-    notifications: PaginatedDataType<NotificationsType>
+    notifications: PaginatedDataType<NotificationType>
 }
 const initialValues: NotificationsReducerType = {
     unread: 0,
