@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import moment from "moment";
+import moment, {Moment} from "moment";
 import Styles, {CalendarWrapper} from './add-session-calendar.styles';
 import PageSubtitle from "../../../../../components/titles/page-subtitle.styles";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
@@ -21,39 +21,64 @@ const AddSessionCalendar: React.FC = () => {
     const isMobile = useIsMobile();
     const clients = useClients();
     const {values, setFieldValue} = useFormikContext<AddSessionFormType>();
-    const {date, time, duration, client_id, session_id} = values;
+    const {date, time, duration, client_id, session_id, client_request} = values;
     const start_date = moment.utc(`${date} ${time}`);
     const range = useMemo(() => isMobile ? 2 : 4, [isMobile]);
     const dates = useMemo(() => dateHoursRange({ date: start_date, range }), [date, time]);
     const [sessions, setSessions] = useState<SessionType[]>([]);
+    const client = useMemo(() => clients.data.data.find((it) => it.id === client_id), [clients]);
 
     const renderCurrentEvent = () => {
-      const client = clients.data.data.find((it) => it.id === client_id);
-
       return (
           <div
             className={classes('add-session__calendar__event', 'add-session__calendar__event__current')}
             style={getStyleHelper(start_date, duration)}
           >
-            Current session with {client?.first_name} {client?.last_name}
+            Session with {client?.first_name} {client?.last_name}
           </div>
       )
     };
 
-  const renderDateSessions = (dateSessions: SessionType[]) => {
-      return dateSessions.map((it) => {
-        return (
-            <div
-              className={
-                classes('add-session__calendar__event', 'add-session__calendar__event__overlap')
-              }
-              style={getStyleHelper(moment(it.starts_at), it.duration)}
-            >
-              Session with {it.client?.user.first_name} {it.client?.user.last_name}
-            </div>
-        )
-      })
+    const renderSuggestedSession = (dateItem: Moment) => {
+      if (!client_request) {
+        return null;
+      }
+
+      const suggestedStart = moment.utc(`${client_request.date} ${client_request.time}`);
+      const hasSuggestedEvent = (
+          suggestedStart.isBetween(dateItem, moment(dateItem).add(1, 'hours')) ||
+          suggestedStart.isSame(moment(dateItem))
+      )
+      const client = clients.data.data.find((it) => it.id === client_id);
+
+      if (!hasSuggestedEvent || suggestedStart.isSame(start_date)) {
+        return null;
+      }
+
+      return (
+          <div
+            className={classes('add-session__calendar__event', 'add-session__calendar__event__suggested')}
+            style={getStyleHelper(suggestedStart, client_request.duration)}
+          >
+            Suggested session with {client?.first_name} {client?.last_name}
+          </div>
+      )
     };
+
+    const renderDateSessions = (dateSessions: SessionType[]) => {
+        return dateSessions.map((it) => {
+          return (
+              <div
+                className={
+                  classes('add-session__calendar__event', 'add-session__calendar__event__overlap')
+                }
+                style={getStyleHelper(moment(it.starts_at), it.duration)}
+              >
+                Session with {it.client?.user.first_name} {it.client?.user.last_name}
+              </div>
+          )
+        })
+      };
 
     useEffect(() => {
       if (!date || !time) {
@@ -108,6 +133,7 @@ const AddSessionCalendar: React.FC = () => {
                     </div>
                     {hasCurrentEvent ? renderCurrentEvent() : null}
                     {renderDateSessions(dateSessions)}
+                    {renderSuggestedSession(it)}
                   </div>
                 )
               })}

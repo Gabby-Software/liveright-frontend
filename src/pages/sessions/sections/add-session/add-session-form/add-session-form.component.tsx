@@ -16,6 +16,11 @@ export type AddSessionFormType = {
     client_id: number,
     session_id?: number,
     isBusy?: boolean,
+    client_request?: {
+        duration: string;
+        date: string;
+        time: string;
+    },
 }
 
 const initialValuesEmpty: AddSessionFormType = {
@@ -56,6 +61,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                 client_id: session.client?.id || 0,
                 notes: session.notes || '',
                 session_id: session.id,
+                client_request
             })
         } else {
             return initialValuesEmpty
