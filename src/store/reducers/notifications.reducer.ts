@@ -26,11 +26,13 @@ const initialValues: NotificationsReducerType = {
 export const notificationsReducer = withStorage((state = initialValues, {type, payload}: ActionType<any>) => {
     switch(type) {
         case ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS:
+            logger.info('REDUCER - GET UNREAD NOTIFICATIONS SUCCESS');
             return {
                 ...state,
                 unread: payload
             }
         case ACTION_GET_NOTIFICATIONS_SUCCESS:
+            logger.info('REDUCER - GET NOTIFICATIONS SUCCESS');
             return {
                 ...state,
                 notifications: payload

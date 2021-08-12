@@ -1,9 +1,9 @@
 import {notificationsTypes} from "./notification-types.enum";
 import {NotificationIconType} from "../types/notification-icon.type";
-import {ReactComponent as InvitationIcon} from "../../../assets/media/icons/profile.svg";
+import {ReactComponent as InvitationIcon} from "../../../assets/media/icons/user.svg";
 import {ReactComponent as SessionsIcon} from "../../../assets/media/icons/sessions.svg";
 import {ReactComponent as InvoicesIcon} from "../../../assets/media/icons/invoices.svg";
-import {ReactComponent as InfoIcon} from "../../../assets/media/icons/info.svg";
+import {ReactComponent as InfoIcon} from "../../../assets/media/icons/info-outlined.svg";
 
 export const notificationIcon: (notificationType: string) => NotificationIconType = (notificationType) => {
     switch(notificationType) {
