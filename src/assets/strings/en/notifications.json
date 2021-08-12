@@ -5,6 +5,8 @@
     "invoice": "invoice",
     "session": "session",
     "exercise": "exercise",
+    "info": "notifications",
+    "invitation": "notifications",
     "meal": "meal"
   },
   "message": {

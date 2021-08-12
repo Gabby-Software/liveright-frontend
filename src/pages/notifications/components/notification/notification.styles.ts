@@ -7,9 +7,20 @@ ${p => p.theme.extend.flexCenter}
 margin-bottom: 16px;
 .notification {
     &__icon {
-        width: 36px;
-        height: auto;
+        ${p => p.theme.mixin.circleImage('36px')}
+        color: white;
+        background-color: #4F6CDE;
+        padding: 6px;
         flex-shrink:0;
+        &__info {
+                background-color: #4F6CDE;
+        }
+        &__invoice {
+                background-color: #44C7FF;
+        }
+        &__session {
+                background-color: #FFDE34;
+        }
     }
     &__data {
         width: 100%;

@@ -5,7 +5,8 @@ import {ReactComponent as SessionsIcon} from "../../../assets/media/icons/sessio
 import {ReactComponent as InfoIcon} from "../../../assets/media/icons/info.svg";
 import {Routes} from "../../../enums/routes.enum";
 
-export const notificationUrl: (data:{message: string, data: {[key:string]:string}}) => string = ({message, data}) => {
+export const notificationUrl: (message: string, data: {[key:string]:string|number}) => string =
+    (message, data) => {
     switch(message) {
         case notificationsTypes.INVITATION_ACCEPT:
         case notificationsTypes.INVITATION_REJECT:

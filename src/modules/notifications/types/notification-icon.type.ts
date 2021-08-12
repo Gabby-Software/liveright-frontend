@@ -1,6 +1,6 @@
 import {ComponentType} from "react";
 
 export type NotificationIconType = {
-    Icon: ComponentType,
+    Icon: ComponentType<any>,
     color: string
 }
