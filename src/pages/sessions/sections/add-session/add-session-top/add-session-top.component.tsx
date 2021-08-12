@@ -21,7 +21,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const clients = useClients();
     const {values} = useFormikContext<AddSessionFormType>()
-    const selectedClient = clients.data.data.find((it) => it.id === +values?.client_id);
+    const selectedClient = clients.data.data.find((it) => it.id === values?.client_id);
 
     return (
         <Styles>

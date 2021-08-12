@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {Form, Formik, FormikHelpers} from "formik";
 import moment from "moment";
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ export type AddSessionFormType = {
     duration: string,
     time: string,
     notes: string,
-    client_id: number,
+    client_id?: number,
     session_id?: number,
     isBusy?: boolean,
     client_request?: {
@@ -29,7 +29,6 @@ const initialValuesEmpty: AddSessionFormType = {
     duration: '',
     time: '',
     notes: '',
-    client_id: 0,
     session_id: 0,
     isBusy: false,
 };
@@ -83,7 +82,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                 }
             });
         } else {
-            const client = clients.data.data.find(it => it.id === +client_id);
+            const client = clients.data.data.find(it => it.id === client_id);
 
             dispatch({
                 type: ACTION_TRAINER_CREATE_SESSION_REQUEST,
@@ -91,7 +90,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                     ...rest,
                     duration: moment(duration, "h:mm").format("HH:mm:ss"),
                     time: moment(time, "h:mm").format("HH:mm:ss"),
-                    client_id: +client_id,
+                    client_id: client_id,
                     client_info: {first_name: client?.first_name, last_name: client?.last_name}
                 }
             });
@@ -112,6 +111,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                 date: Yup.date().required().min(moment().startOf('day')),
                 duration: Yup.string().required(),
                 time: Yup.string().required(),
+                client_id: Yup.number().required(),
             })}
         >
             <Form>{children}</Form>

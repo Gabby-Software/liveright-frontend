@@ -45,7 +45,7 @@ export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, e
                            disabled && 'select_input__disabled')
                        }
                        onClick={() => disabled || setIsModalOpen(true)}
-                       value={options.find(op => op.value.toString() === value.toString())?.label}
+                       value={options.find(op => op.value.toString() === value?.toString())?.label}
                 />
             </label>
             {children}
@@ -71,7 +71,7 @@ export const FormSelectUI = ({name, label, options, onUpdate, value, disabled, e
                         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                     }
                     onSearch={onSearch}
-                    value={options.find(op => op.value.toString() === value.toString())}
+                    value={options.find(op => op.value.toString() === value?.toString())}
                     labelInValue
                     onChange={value => onUpdate(value.value)}
                     id={name}
