@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Styles from './mobile-sessions.styles';
 import {Formik} from "formik";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
@@ -17,7 +16,6 @@ import {ReactComponent as AddIcon} from "../../../../assets/media/icons/add.svg"
 import {sessionDateRangeOptions} from "../../../../enums/session-filters.enum";
 import FormSelect from "../../../../components/forms/form-select/form-select.component";
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
-import {AwaitingCard, Form, ManageTargetsAction, TitleContent} from "./mobile-sessions.styles";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
 import SmallModal from "../../../../components/small-modal/small-modal.component";
@@ -25,6 +23,12 @@ import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
 import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
 import {useClients} from "../../../../hooks/clients.hook";
+import Styles, {
+  AwaitingCard,
+  Form,
+  ManageTargetsAction,
+  TitleContent
+} from "./mobile-sessions.styles";
 
 interface Props {
   sessions: SessionsState;
@@ -54,11 +58,6 @@ const MobileSessions: React.FC<Props> = (props) => {
                         onClick={() =>{}}
                     />
                 </Link>
-                <ActionIcon
-                    icon={TrashIcon}
-                    title="Remove"
-                    onClick={() => onRemoveSession(item.id)}
-                />
             </div>
         )
     };
@@ -94,6 +93,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 renderOptions={renderUpcomingItemOptions}
                 sessions={upcoming}
                 getSessions={getSessions('upcoming')}
+                onRemoveSession={onRemoveSession}
             />
         )
     }

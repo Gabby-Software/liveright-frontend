@@ -43,10 +43,6 @@ export const AwaitingCard = styled(Card)`
   }
 `;
 
-export const AddSessionAction = styled(FormButton)`
-    max-width: 120px;
-`;
-
 export const ManageTargetsAction = styled(FormButton)`
 `;
 

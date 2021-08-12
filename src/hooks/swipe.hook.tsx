@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import {useEvent} from "./event.hook";
 import logger from "../managers/logger.manager";
-type SwipeType = {
+export type SwipeType = {
     x: number;
     y: number;
 }
