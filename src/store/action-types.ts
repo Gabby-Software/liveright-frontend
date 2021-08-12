@@ -81,3 +81,9 @@ export const ACTION_TRAINER_REMOVE_SESSION_ERROR = 'action-trainer-remove-sessio
 
 export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
 export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';
+
+export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST = 'action-get-unread-notification-count-request';
+export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS = 'action-get-unread-notification-count-success';
+export const ACTION_GET_NOTIFICATIONS_REQUEST = 'action-get-notifications-request';
+export const ACTION_GET_NOTIFICATIONS_SUCCESS = 'action-get-notifications-success';
+export const ACTION_NEW_NOTIFICATION = 'action-new notification';
