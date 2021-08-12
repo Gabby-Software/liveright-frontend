@@ -21,5 +21,6 @@ export const EP_ADD_INVOICE = ALLRIGHT_BASE+'/invoices';
 export const EP_GET_INVOICE_ISSUERS=ALLRIGHT_BASE+'/invoices/associated-accounts';
 export const EP_MARK_INVOICE_AS_PAID = (id:number) => ALLRIGHT_BASE+`/invoices/${id}/mark-as-paid`;
 export const EP_GET_SESSIONS = '/sessions';
-export const EP_PUSHER_AUTH = ALLRIGHT_BASE+'/pusher/beams-auth';
+export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE+'/pusher/beams-auth';
+export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE+'/pusher/auth';
 
