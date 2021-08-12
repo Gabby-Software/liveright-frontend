@@ -15,7 +15,7 @@ type Props = TimePickerProps & {
 };
 const FormTimepicker: React.FC<Props> = (props) => {
     const {name, label, onUpdate, disabled, disabledUntilNow, ...rest} = props;
-    const format = 'HH:mm';
+    const format = 'H:mm';
     const disabledHours = disabledUntilNow ? [...Array(moment().hours())].map((_, index) => index) : []
     const disabledMinutes = disabledUntilNow ? [...Array(moment().minutes())].map((_, index) => index) : []
 
