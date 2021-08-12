@@ -63,6 +63,7 @@ export default class NotificationsManager {
             auth: {
                 headers: {
                     Authorization: `Bearer ${cookieManager.get('access_token')}`,
+                    accept: 'application/json'
                 },
             },
         });
