@@ -29,7 +29,8 @@ const Notifications = ({}: Props) => {
     ));
     useEffect(() => {
         fetchNotifications(meta.current_page);
-        notificationManager.subscribe(fetchNotifications)
+        const id = notificationManager.subscribe(fetchNotifications);
+        return () => notificationManager.unsubscribe(id);
     }, []);
     const fetchNotifications = (page = meta.current_page) => {
         dispatch({type: ACTION_GET_NOTIFICATIONS_REQUEST, payload: {page}});
