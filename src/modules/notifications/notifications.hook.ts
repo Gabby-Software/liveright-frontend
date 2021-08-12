@@ -13,9 +13,10 @@ export const useNotificationsChannel = () => {
     useEffect(() => {
         if(!id) return;
         notificationsManager.init(id);
-        notificationsManager.subscribe(() => {
+        const subscription = notificationsManager.subscribe(() => {
             dispatch({type: ACTION_NEW_NOTIFICATION});
         })
+        return () => notificationsManager.unsubscribe(subscription);
     }, [id]);
 }
 
