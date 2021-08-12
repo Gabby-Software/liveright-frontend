@@ -63,7 +63,6 @@ export default class NotificationsManager {
             auth: {
                 headers: {
                     Authorization: `Bearer ${cookieManager.get('access_token')}`,
-                    accept: 'application/json'
                 },
             },
         });
@@ -71,6 +70,20 @@ export default class NotificationsManager {
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('user.notification', function(data:PushNotificationType) {
             logger.info('IN APP NOTIFICATION RECEIVED', data);
+        });
+        pusher.bind('user.notification', function(data:PushNotificationType) {
+            logger.info('IN APP NOTIFICATION RECEIVED !!!', data);
+        });
+        const pusher2 = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string,{
+            cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
+        });
+        const channel2 = pusher2.subscribe(`private-user.${userId}.notification`);
+        channel2.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER 2 SUBSCRIPTION ERROR', error));
+        channel2.bind('user.notification', function(data:PushNotificationType) {
+            logger.info('IN APP NOTIFICATION RECEIVED 2', data);
+        });
+        pusher2.bind('user.notification', function(data:PushNotificationType) {
+            logger.info('IN APP NOTIFICATION RECEIVED 2!!!', data);
         });
     }
     static subscribe(user_id: number) {
