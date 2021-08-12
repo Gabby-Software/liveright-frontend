@@ -4,11 +4,7 @@ export type NotificationType = {
     timestamp:number;
     message: string;
     target: number;
-    seen: boolean;
-    medium_delivered: {
-        app: boolean;
-        email: boolean;
-    }
+    read_at: string|null;
 }
 export type NotificationsType = DatabaseItemType & {
     account_id: number;

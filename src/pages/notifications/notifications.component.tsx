@@ -12,12 +12,15 @@ import logger from "../../managers/logger.manager";
 import {useTitleContent} from "../../layouts/desktop-layout/desktop-layout.component";
 import FormButton from "../../components/forms/form-button/form-button.component";
 import {Routes} from "../../enums/routes.enum";
+import {useNotifications} from "../../modules/notifications/notifications.hook";
+import {useDispatch} from "react-redux";
 
 type Props = {};
 const Notifications = ({}: Props) => {
     const {t} = useTranslation();
     const [page, setPage] = useState(1);
-    const [notifications, setNotifications] = useState([]);
+    const {notifications: {data, meta}} = useNotifications();
+    const dispatch = useDispatch();
     useTitleContent((
         <SettingsLink to={Routes.NOTIFICATIONS_SETTINGS}>
             <FormButton type={'ghost'}>Manage Settings</FormButton>
