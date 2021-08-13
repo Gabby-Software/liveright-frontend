@@ -25,6 +25,7 @@ importScripts("https://js.pusher.com/beams/service-worker.js");
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
+const swv = '2.0.0';
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -122,3 +123,5 @@ PusherPushNotifications.onNotificationReceived = ({
     payload.notification.title = "A new notification!";
     pushEvent.waitUntil(handleNotification(payload));
 };
+
+console.log('SERVICE WORKER VERSION', swv)
