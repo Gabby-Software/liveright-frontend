@@ -14,8 +14,12 @@ import {Routes} from "../../enums/routes.enum";
 import {useNotifications} from "../../modules/notifications/notifications.hook";
 import {useDispatch} from "react-redux";
 import {NotificationType} from "../../types/notifications.type";
-import {ACTION_GET_NOTIFICATIONS_REQUEST} from "../../store/action-types";
-import notificationManager from "../../modules/notifications/notifications.manager";
+import {
+    ACTION_GET_NOTIFICATIONS_REQUEST,
+    ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS
+} from "../../store/action-types";
+import notificationManager, {NotificationsManager} from "../../modules/notifications/notifications.manager";
+import store from "../../store/config.store";
 
 type Props = {};
 const Notifications = ({}: Props) => {
@@ -33,7 +37,15 @@ const Notifications = ({}: Props) => {
         return () => notificationManager.unsubscribe(id);
     }, []);
     const fetchNotifications = (page = meta.current_page) => {
-        dispatch({type: ACTION_GET_NOTIFICATIONS_REQUEST, payload: {page}});
+        dispatch({type: ACTION_GET_NOTIFICATIONS_REQUEST, payload: {
+            page,
+            onSuccess: () => {
+                NotificationsManager.markAllAsRead()
+                    .then(() => {
+                        dispatch({type: ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, payload: 0})
+                    })
+            }
+        }});
     }
     let seen = false;
     let lastDate = moment();

@@ -7,6 +7,9 @@ import {CallbackType} from "../../types/callback.type";
 import {EP_GET_NOTIFICATIONS, EP_GET_UNREAD_NOTIFICATIONS, EP_UNREAD_NOTIFICATIONS_COUNT} from "../../enums/api.enum";
 import api from "../../managers/api.manager";
 import logger from "../../managers/logger.manager";
+import {NotificationsManager} from "../../modules/notifications/notifications.manager";
+import {PaginatedDataType} from "../../types/paginated-data.type";
+import {NotificationType} from "../../types/notifications.type";
 
 export function* sagaNotificationsWatcher() {
     yield takeLatest(ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST, getUnreadCount);
@@ -14,14 +17,13 @@ export function* sagaNotificationsWatcher() {
 }
 
 export function* getUnreadCount({payload}: ActionType<CallbackType<void>>) {
-    const unread = (yield call(() => api.get(EP_UNREAD_NOTIFICATIONS_COUNT)
-        .then(res => res.data.data.total))) as string;
+    const unread = (yield call(() => NotificationsManager.getUnreadCount())) as number;
     logger.success('UNREAD NOTIFICATIONS', unread);
     yield put({type: ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, payload: unread});
 }
-export function* getNotifications({payload}: ActionType<{ page: number }>) {
-    const notifications = (yield call(() => api.get(EP_GET_NOTIFICATIONS+`?page=${payload.page||1}`)
-        .then(res => res.data))) as string;
+export function* getNotifications({payload}: ActionType<CallbackType<void>&{ page: number }>) {
+    const notifications = (yield call(() => NotificationsManager.get(payload.page||1))) as PaginatedDataType<NotificationType>;
     logger.success('NOTIFICATIONS RRRES', notifications);
     yield put({type: ACTION_GET_NOTIFICATIONS_SUCCESS, payload: notifications});
+    payload.onSuccess && payload.onSuccess();
 }
