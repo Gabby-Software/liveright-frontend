@@ -46,8 +46,8 @@ const CardSwipe: React.FC<Props> = (props) => {
   }, [x, focused, dropThreshold])
 
   const cardStyle = useMemo<CSSProperties>(() => ({
-    left: `${cardPosition}px`,
-    transition: animate ? 'all 0.1s ease' : 'none',
+    left: SwipeContent ? `${cardPosition}px` : 0,
+    transition: animate ? 'left 0.1s ease' : 'none',
   }), [cardPosition, animate])
 
   const swipeContentStyle = useMemo<CSSProperties>(() => ({
