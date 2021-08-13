@@ -16,7 +16,6 @@ import store from '../../store/config.store';
 import {ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, ACTION_NEW_NOTIFICATION} from "../../store/action-types";
 import {NotificationSubscriptionType} from "./types/notification-subscription.type";
 
-let uuid = '';
 export class NotificationsManager {
     static get(page: number = 1): Promise<PaginatedDataType<NotificationType>> {
         return api.get(EP_GET_NOTIFICATIONS + `?page=${page}`)
@@ -102,7 +101,7 @@ export class NotificationsManager {
                 .catch(e => logger.info('BEAM GET STATE ERROR', e))
         });
     }
-
+    private uuid = '';
     private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
@@ -117,14 +116,14 @@ export class NotificationsManager {
         const channel = pusher.subscribe(`private-account.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('account.notification', (data: PushNotificationType) => {
-            logger.info('IN APP NOTIFICATION RECEIVED', data, uuid);
-            if(data.notifiable.uuid !== uuid) return;
+            logger.info('IN APP NOTIFICATION RECEIVED', data, this.uuid);
+            if(data.notifiable.uuid !== this.uuid) return;
             this.subscriptions.forEach(({callback}) => callback());
         });
     }
 
     init(user_id: string) {
-        uuid = user_id;
+        this.uuid = user_id;
         this.subscribeToPushNotifications(user_id);
         this.subscribeToInAppNotifications(user_id);
     }
