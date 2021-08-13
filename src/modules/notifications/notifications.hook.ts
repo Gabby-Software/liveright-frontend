@@ -15,7 +15,7 @@ export const useNotificationsChannel = () => {
     const {pathname} = useLocation();
     useEffect(() => {
         if (!uuid) return;
-        notificationsManager.unsubscribeFromPushNotifications();
+        notificationsManager.unsubscribeFromNotifications();
         notificationsManager.init(uuid);
         const subscription = notificationsManager.subscribe(() => {
             if (pathname === Routes.NOTIFICATIONS) return;
@@ -30,8 +30,9 @@ export const useNotifications = () => useSelector((state: RootState) => state.no
 export const useUnreadNotifications = () => {
     const dispatch = useDispatch();
     const {unread} = useNotifications();
+    const {uuid} = useAuth();
     useEffect(() => {
         dispatch({type: ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST});
-    }, []);
+    }, [uuid]);
     return unread;
 }
