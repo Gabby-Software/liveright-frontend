@@ -57,6 +57,8 @@
     "consultation": "Consultation",
     "other": "Other"
   },
+  "credit_card": "Credit Card",
+  "cash": "Cash",
   "create": {
     "generate-and-send": "Generate Invoice and Send",
     "generate-and-back": "Generate Invoice & Go Back",

@@ -26,11 +26,12 @@ import {
     ACTION_MARK_INVOICE_AS_PAID
 } from "../../../../../../store/action-types";
 import {Popconfirm} from "antd";
+import logger from "../../../../../../managers/logger.manager";
 
 
 type Props = {};
 const FinancialsReceivablesTable = ({}: Props) => {
-    const {data, meta} = useSelector((state: RootState) => state.invoices.current);
+    const {current:{data, meta}, filters} = useSelector((state: RootState) => state.invoices);
     const dispatch = useDispatch();
     const head = useRef<HTMLDivElement>(null);
     const {t} = useTranslation();
@@ -57,6 +58,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
             type: ACTION_CANCEL_INVOICE_REQUEST, payload: {
                 id,
                 page: meta.current_page,
+                filters,
                 include: 'invoiceTo'
             }
         })
@@ -66,6 +68,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
             type: ACTION_GET_INVOICES_REQUEST, payload: {
                 page: p,
                 include: 'invoiceTo',
+                filters,
                 onSuccess: () => {
                     if (!head.current) return;
                     window.scrollTo({

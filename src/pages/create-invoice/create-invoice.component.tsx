@@ -186,7 +186,11 @@ const CreateInvoice = ({}: Props) => {
                                                 )
                                             }
                                             <div className={'add-invoice__add-client'}>
-                                                <Link to={Routes.CLIENTS+'/?add=1'}>{'or add new one'}</Link>
+                                                {
+                                                    client?null:(
+                                                        <Link to={Routes.CLIENTS+'/?add=1'}>{'or add new one'}</Link>
+                                                    )
+                                                }
                                             </div>
                                             <div/>
                                             <div/>
@@ -198,8 +202,8 @@ const CreateInvoice = ({}: Props) => {
                                                             disabledDate={date => date.isBefore(moment().startOf("day"))}/>
                                             <FormDatepicker label={'Due Date'} name={'invoice.due_on'}
                                                             disabledDate={date => date.isBefore(moment().startOf("day"))}/>
-                                            <FormSelect label={'Currency'} name={'invoice.currency_code'}
-                                                        options={[{label: 'AED', value: "AED"}]}/>
+                                            {/*<FormSelect label={'Currency'} name={'invoice.currency_code'}*/}
+                                            {/*            options={[{label: 'AED', value: "AED"}]}/>*/}
                                             <FormSelect label={"Payment Method"} name={'invoice.payment_method'}
                                                         options={paymentMethodsOptions}/>
                                         </FormRow>

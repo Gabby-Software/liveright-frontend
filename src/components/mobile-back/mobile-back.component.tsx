@@ -16,19 +16,23 @@ export const useMobileBack = (to: string, alias: string) => {
         backData.setTo(to);
         backData.setAlias(alias);
         return () => {
-            backData.setTo(Routes.HOME);
-            backData.setAlias('home');
+            backData.setTo('');
+            backData.setAlias('');
         }
     }, []);
 };
 const MobileBack = () => {
+    const [to, setTo] = useState('');
+    const [alias, setAlias] = useState('');
+    backData.setTo = setTo;
+    backData.setAlias = setAlias;
     const page = usePage();
     const {t} = useTranslation();
-    if (!page?.back) return null;
+    if (!page?.back?.url && !to) return null;
     return (
-        <Styles to={page.back.url}>
+        <Styles to={to || page?.back?.url || ''}>
             <BackIcon className={'mobile-back__icon'}/>
-            <span className={'mobile-back__alias'}>{t(`back-to`,{to:t(`menu.${page.back.alias}`)})}</span>
+            <span className={'mobile-back__alias'}>{t(`back-to`,{to:t(`menu.${alias||page?.back?.alias||''}`)})}</span>
         </Styles>
     )
 };

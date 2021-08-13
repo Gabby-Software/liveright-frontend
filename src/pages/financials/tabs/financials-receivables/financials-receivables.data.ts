@@ -24,7 +24,8 @@ export const receivablesTotals: {[key:string]: TotalsType[]} = {
         },
         {
             label: 'Left to Target',
-            value: 100
+            value: 100,
+            note: 'of 1000'
         }
     ],
     [statisticRange.QUARTER]: [
@@ -45,7 +46,8 @@ export const receivablesTotals: {[key:string]: TotalsType[]} = {
         },
         {
             label: 'Left to Target',
-            value: 300
+            value: 300,
+            note: 'of 3000'
         }
     ],
     [statisticRange.HALF_YEAR]: [
@@ -66,7 +68,8 @@ export const receivablesTotals: {[key:string]: TotalsType[]} = {
         },
         {
             label: 'Left to Target',
-            value: 600
+            value: 600,
+            note: 'of 6000'
         }
     ],
     [statisticRange.YEAR]: [
@@ -87,7 +90,8 @@ export const receivablesTotals: {[key:string]: TotalsType[]} = {
         },
         {
             label: 'Left to Target',
-            value: 1200
+            value: 1200,
+            note: 'of 12000'
         }
     ]
 }

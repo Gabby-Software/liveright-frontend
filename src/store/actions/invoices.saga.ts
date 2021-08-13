@@ -21,24 +21,25 @@ import {InvoiceFormType} from "../../pages/invoices/components/create-invoice/cr
 import {PaginationMetaType} from "../../types/pagination-meta.type";
 
 export function* sagaInvoicesWatcher() {
-    yield throttle(400,ACTION_GET_INVOICES_REQUEST, getInvoicesWorker);
+    yield takeLatest(ACTION_GET_INVOICES_REQUEST, getInvoicesWorker);
     yield takeLatest(ACTION_CREATE_INVOICE_REQUEST, createInvoiceWorker);
     yield takeLatest(ACTION_GET_ATTENTION_INVOICES_REQUEST, getAttentionInvoicesWorker);
     yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
     yield takeLatest(ACTION_MARK_INVOICE_AS_PAID, markInvoiceAsPaidWorker);
 }
-type GetInvoicesActionType = ActionType<{page: number, filters:{status: string, search: string, invoice_from: string},  include: string}&CallbackType<void>>;
+type GetInvoicesActionType = ActionType<{page: number, filters:{status: string, search: string, invoice_from?: string, invoice_to?: string},  include: string}&CallbackType<void>>;
 function* getInvoicesWorker({payload}:GetInvoicesActionType) {
     yield put({type:ACTION_GET_INVOICES_LOAD});
     yield put({type:ACTION_UPDATE_INVOICE_FILTERS, payload: payload.filters});
     const {onSuccess, onError, filters,include,page} = payload;
     try {
-        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}`;
+        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
         const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
         logger.success('INVOICES', invoices);
         yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
         payload.onSuccess && payload.onSuccess();
     } catch(e) {
+        alert(serverError(e));
         yield put({type:ACTION_GET_INVOICES_ERROR, payload: serverError(e)});
     }
 }

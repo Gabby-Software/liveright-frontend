@@ -31,8 +31,6 @@ const initialValues = {
 const InvoiceFilters = () => {
     const {t} = useTranslation();
     const {type} = useAuth();
-    const dispatch = useDispatch();
-    const timer = useRef(0);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
     const [invoice_from, setInvoice_from] = useState('');

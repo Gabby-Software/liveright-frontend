@@ -35,6 +35,7 @@ export type InvoiceType = {
     currency: CurrencyType;
     discount_amount: number;
     discount_percent: number;
+    payment_method: string;
     due_on: string;
     invoice_number: string;
     is_taxable: boolean;

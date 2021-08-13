@@ -37,7 +37,7 @@ const InvoiceInfo = () => {
                         <div className={'invoice-info__summary__left'}>
                             <div className={'invoice-info__s'}>
                                 <div className={'invoice-info__s-key'}>{t('invoices:default-payment-method')}</div>
-                                <div className={'invoice-info__s-value'}>{'Credit Card'}</div>
+                                <div className={'invoice-info__s-value'}>{t(`invoices:${data.payment_method}`)}</div>
                             </div>
                             <div className={'invoice-info__s'}>
                                 <div className={'invoice-info__s-key'}>{t('invoices:session-expiry')}</div>
@@ -56,7 +56,7 @@ const InvoiceInfo = () => {
                             className={'invoice-info__d-value'}>{asMoney(data.subtotal)} {data.currency.code}</div>
                         <div
                             className={'invoice-info__d-value'}>{data.tax_value} {data.currency.code}</div>
-                        <div className={'invoice-info__d-value'}>-{data.discount_amount} {data.currency.code}</div>
+                        <div className={'invoice-info__d-value'}>{data.discount_amount} {data.currency.code}</div>
                         <div className={'invoice-info__d-value'}>{asMoney(data.total)} {data.currency.code}</div>
                     </td>
                 </tr>

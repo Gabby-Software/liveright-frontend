@@ -10,11 +10,14 @@ import {Skeleton} from "antd";
 import {useAuth} from "../../hooks/auth.hook";
 import userTypes from "../../enums/user-types.enum";
 import {useTitle} from "../../hooks/title.hook";
+import {useMobileBack} from "../../components/mobile-back/mobile-back.component";
+import {Routes} from "../../enums/routes.enum";
 
 const Invoice = () => {
     const isMobile = useIsMobile();
     const {id} = useParams<{ id: string }>();
     const {type} = useAuth();
+    useMobileBack(type === userTypes.CLIENT?Routes.INVOICES: Routes.FINANCIALS_RECEIVABLES,'invoices');
     useTitle(`Invoice #${id}`);
     return (
         <APIGet url={EP_GET_INVOICES+`/${id}`}>
