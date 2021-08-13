@@ -6,6 +6,8 @@ import api from "../../../../managers/api.manager";
 import {EP_GET_INVOICE_ISSUERS, EP_GET_USER} from "../../../../enums/api.enum";
 import logger from "../../../../managers/logger.manager";
 import {AccountType} from "../../../../types/account.type";
+import {useAuth} from "../../../../hooks/auth.hook";
+import userTypes from "../../../../enums/user-types.enum";
 
 type Props = {
     name: string;
@@ -15,12 +17,13 @@ type Props = {
 };
 const FormSelectIssuer = ({name, label, value, onUpdate}:Props) => {
     const [options, setOptions] = useState<OptionType[]>([]);
+    const {type} = useAuth();
     useEffect(() => {
         api.get<{data:{id:number, user: {first_name:string, last_name:string}}[]}>(EP_GET_INVOICE_ISSUERS)
             .then(res => res.data.data)
             .then(res => {
                 setOptions([
-                    {label: "All issuers", value: ''},
+                    {label: type === userTypes.CLIENT?"All Issuers":"All Clients", value: ''},
                     ...res.map(({id, user}) => ({
                         label: `${user.first_name} ${user.last_name}`,
                         value: `${id}`

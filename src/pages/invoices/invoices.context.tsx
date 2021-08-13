@@ -73,6 +73,7 @@ export const PayablesProvider = ({children}:{children: React.ReactNode}) => {
     const demoInvoice: InvoiceType = {
         id: 100000,
         created_at: '2021-01-01',
+        payment_method: 'cash',
         currency: {
             id: 1,
             name: 'Derham',

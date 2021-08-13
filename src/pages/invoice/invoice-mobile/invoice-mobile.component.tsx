@@ -8,7 +8,6 @@ import {Routes} from "../../../enums/routes.enum";
 
 type Props = {};
 const InvoiceMobile = ({}:Props) => {
-    useMobileBack(Routes.INVOICES,'invoices');
     return (
         <Styles>
             <InvoiceMobileHead/>

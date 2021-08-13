@@ -6,7 +6,7 @@ import InvoicesAtention from "../../../invoices/components/invoices-atention/inv
 import {ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../../../store/action-types";
 import userTypes from "../../../../enums/user-types.enum";
 import {useAuth} from "../../../../hooks/auth.hook";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {statisticRange, statisticRangeOptions} from "../../../../enums/financials.enum";
 import {FormSelectUI} from "../../../../components/forms/form-select/form-select.component";
 import FinancialsReceivablesTotals
@@ -21,6 +21,9 @@ import FormButton from "../../../../components/forms/form-button/form-button.com
 import {Routes} from "../../../../enums/routes.enum";
 import {Link} from 'react-router-dom';
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {RootState} from "../../../../store/reducers";
+import FinanialsReceivablesFilters
+    from "./components/finanials-receivables-filters/finanials-receivables-filters.component";
 
 type Props = {};
 const FinancialsReceivables = ({}:Props) => {
@@ -28,15 +31,11 @@ const FinancialsReceivables = ({}:Props) => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
     const [range, setRange] = useState(statisticRange.MONTH);
+    const {current:{meta}, filters} = useSelector((state: RootState) => state.invoices);
     useEffect(() => {
         dispatch({
-            type: ACTION_GET_INVOICES_REQUEST, payload: {
-                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
-            }
-        });
-        dispatch({
             type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
-                include: type===userTypes.CLIENT ? 'invoiceFrom' : 'invoiceTo'
+                include:  'invoiceTo',
             }
         });
     }, [uuid]);
@@ -50,7 +49,7 @@ const FinancialsReceivables = ({}:Props) => {
             </div>
             <FinancialsReceivablesTotals data={receivablesTotals[range]}/>
             <PageSubtitle>All your Issued Invoices</PageSubtitle>
-            <InvoiceFilters/>
+            <FinanialsReceivablesFilters/>
             <FinancialsReceivablesTable/>
         </Styles>
     );
