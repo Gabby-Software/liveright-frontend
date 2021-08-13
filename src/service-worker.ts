@@ -89,7 +89,7 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 self.addEventListener("push", function (e) {
-    console.log('NATIVE PUSH NOTIFICATION RECEIVED');
+    console.log('NATIVE PUSH NOTIFICATION RECEIVED',e, e.data);
     // @ts-ignore
     if (!(self.Notification && self.Notification.permission === "granted")) {
         //notifications aren't supported or permission not granted!
@@ -118,7 +118,7 @@ PusherPushNotifications.onNotificationReceived = ({
                                                       pushEvent,
                                                       handleNotification,
                                                   }:any) => {
-    console.log('PUSH NOTIFICATION RECEIVED');
+    console.log('PUSH NOTIFICATION RECEIVED', payload, pushEvent);
     payload.notification.title = "A new notification!";
     pushEvent.waitUntil(handleNotification(payload));
 };
