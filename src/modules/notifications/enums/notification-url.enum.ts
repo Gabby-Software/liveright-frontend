@@ -28,7 +28,7 @@ export const notificationUrl: (message: string, data: {[key:string]:string|numbe
         case notificationsTypes.INVOICE_CREATED:
         case notificationsTypes.INVOICE_STATUS_CHANGED:
             return {
-                url: Routes.INVOICES+`${data.invoice_id}`,
+                url: Routes.INVOICES+`/${data.invoice_id}`,
                 slug: 'invoice'
             };
         case notificationsTypes.SESSION_DELETED:
