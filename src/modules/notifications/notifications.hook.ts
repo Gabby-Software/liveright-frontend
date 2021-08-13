@@ -17,7 +17,6 @@ export const useNotificationsChannel = () => {
         if (!uuid) return;
         notificationsManager.init(uuid);
         const subscription = notificationsManager.subscribe(() => {
-            if (pathname === Routes.NOTIFICATIONS) return;
             dispatch({type: ACTION_NEW_NOTIFICATION});
         })
         return () => notificationsManager.unsubscribe(subscription);
