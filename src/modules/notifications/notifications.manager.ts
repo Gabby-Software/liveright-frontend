@@ -48,19 +48,18 @@ export class NotificationsManager {
             beamsClient.getRegistrationState()
                 .then(state => {
                     let states = PusherPushNotifications.RegistrationState;
+                    logger.info('BEAM NOTIFICATION REGISTRATION STATE', state, states)
                     switch (state) {
                         case states.PERMISSION_DENIED: {
+                            logger.info('BEAM STATE - DENIED')
                             // Notifications are blocked
                             // Show message saying user should unblock notifications in their browser
                             break;
                         }
-                        case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS: {
-                            // Ready to receive notifications
-                            // Show "Disable notifications" button, onclick calls '.stop'
-                            break;
-                        }
+                        case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_GRANTED_NOT_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_PROMPT_REQUIRED: {
+                            logger.info('BEAM STATE - OK')
                             const tokenProvider = new PusherPushNotifications.TokenProvider({
                                 url: EP_PUSHER_BEAMS_AUTH,
                                 headers: {
@@ -75,7 +74,8 @@ export class NotificationsManager {
                             break;
                         }
                     }
-                });
+                })
+                .catch(e => logger.info('BEAM GET STATE ERROR', e))
         });
     }
 
