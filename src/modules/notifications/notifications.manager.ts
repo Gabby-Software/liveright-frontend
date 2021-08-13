@@ -51,6 +51,7 @@ export class NotificationsManager {
     }
     private subscribeToPushNotifications(userID: number) {
         logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
+        Pusher.logToConsole = true;
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
             logger.info('BEAM NOTIFICATION SW READY')
             const beamsClient = new PusherPushNotifications.Client({
@@ -86,8 +87,8 @@ export class NotificationsManager {
                             beamsClient
                                 .start()
                                 .then(() => beamsClient.setUserId(String(userID), tokenProvider))
-                                .then(() => console.log('BEAM User ID has been set'))
-                                .catch(e => console.error('Could not authenticate with Beams:', e))
+                                .then(() => logger.info('BEAM User ID has been set'))
+                                .catch(e => logger.error('Could not authenticate with Beams:', e))
                             break;
                         }
                     }
