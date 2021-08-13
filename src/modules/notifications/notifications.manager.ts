@@ -117,8 +117,8 @@ export class NotificationsManager {
         const channel = pusher.subscribe(`private-account.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('account.notification', (data: PushNotificationType) => {
-            logger.info('IN APP NOTIFICATION RECEIVED', data, this.uuid);
-            if(data.notifiable.uuid !== this.uuid) return;
+            logger.info('IN APP NOTIFICATION RECEIVED', data, this.uuid, this.subscriptions);
+            // if(data.notifiable.uuid !== this.uuid) return;
             this.subscriptions.forEach(({callback}) => callback());
         });
     }
