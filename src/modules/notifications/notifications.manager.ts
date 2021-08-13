@@ -37,6 +37,18 @@ export class NotificationsManager {
 
     private subscriptions: NotificationSubscriptionType[] = [];
 
+    public unsubscribeFromPushNotifications() {
+        navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
+            logger.info('BEAM NOTIFICATION SW READY')
+            const beamsClient = new PusherPushNotifications.Client({
+                instanceId: process.env.REACT_APP_PUSHER_KEY || '',
+                serviceWorkerRegistration: registration
+            });
+            beamsClient.stop()
+                .then(() => logger.success('push notifications stopped'))
+                .catch(e => logger.error('cannot unsubscribe from push notifications', e));
+        })
+    }
     private subscribeToPushNotifications(userID: number) {
         logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
@@ -48,19 +60,23 @@ export class NotificationsManager {
             beamsClient.getRegistrationState()
                 .then(state => {
                     let states = PusherPushNotifications.RegistrationState;
+                    logger.info('BEAM NOTIFICATION REGISTRATION STATE', state, states)
                     switch (state) {
                         case states.PERMISSION_DENIED: {
+                            logger.info('BEAM STATE - DENIED')
                             // Notifications are blocked
                             // Show message saying user should unblock notifications in their browser
                             break;
                         }
                         case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS: {
+                            logger.info('BEAM STATE - GRANTED REGISTERED');
                             // Ready to receive notifications
                             // Show "Disable notifications" button, onclick calls '.stop'
                             break;
                         }
                         case states.PERMISSION_GRANTED_NOT_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_PROMPT_REQUIRED: {
+                            logger.info('BEAM STATE - REQIRED')
                             const tokenProvider = new PusherPushNotifications.TokenProvider({
                                 url: EP_PUSHER_BEAMS_AUTH,
                                 headers: {
@@ -75,7 +91,8 @@ export class NotificationsManager {
                             break;
                         }
                     }
-                });
+                })
+                .catch(e => logger.info('BEAM GET STATE ERROR', e))
         });
     }
 
