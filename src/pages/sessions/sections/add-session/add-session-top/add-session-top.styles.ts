@@ -2,15 +2,15 @@ import styled from "styled-components";
 import {media} from "../../../../../assets/styles/_media";
 
 export default styled.div`
-
+margin-bottom: 16px;
 .session-top {
     color: ${p => p.theme.vars.colors.primaryDark};
     &__head {
-        margin-top: 40px;
+        margin: 20px 0;
         display: flex;
         justify-content: space-between;
         ${media('tablet', 'max')`
-            display: block;
+          flex-direction: column;
         `}
     }
     &__client {
@@ -36,6 +36,7 @@ export default styled.div`
         padding: 4px 12px;
         margin: auto 0;
         ${media('tablet', 'max')`
+            margin-top: 16px;
             max-width: none;
         `}
     }
@@ -43,7 +44,6 @@ export default styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 40px 0;
         ${media('tablet', 'max')`
             display: block;
             margin: 24px 0;

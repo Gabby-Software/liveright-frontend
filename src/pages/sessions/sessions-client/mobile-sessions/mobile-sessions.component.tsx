@@ -63,11 +63,6 @@ const MobileSessions: React.FC<Props> = (props) => {
                     session={rescheduleOpen}
                 />
             ) : null}
-            <AddSessionMobile
-                isOpen={!!editOpen}
-                session={editOpen}
-                onClose={() => setEditOpen(undefined)}
-            />
         </Styles>
     );
 };
