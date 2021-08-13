@@ -101,7 +101,7 @@ export class NotificationsManager {
                 .catch(e => logger.info('BEAM GET STATE ERROR', e))
         });
     }
-
+    private uuid = '';
     private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
@@ -113,16 +113,17 @@ export class NotificationsManager {
                 },
             },
         });
-        pusher.unbind_all();
         const channel = pusher.subscribe(`private-account.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('account.notification', (data: PushNotificationType) => {
-            logger.info('IN APP NOTIFICATION RECEIVED', data);
+            logger.info('IN APP NOTIFICATION RECEIVED', data, this.uuid);
+            if(data.notifiable.uuid !== this.uuid) return;
             this.subscriptions.forEach(({callback}) => callback());
         });
     }
 
     init(user_id: string) {
+        this.uuid = user_id;
         this.subscribeToPushNotifications(user_id);
         this.subscribeToInAppNotifications(user_id);
     }
