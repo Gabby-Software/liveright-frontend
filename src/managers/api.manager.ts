@@ -9,6 +9,7 @@ import {FormikHelpers} from "formik";
 import {serverError} from "../pipes/server-error.pipe";
 import {AccountType} from "../types/account.type";
 import {identity} from "../pipes/identity.pipe";
+import notificationManager from "../modules/notifications/notifications.manager";
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
@@ -37,11 +38,11 @@ api.interceptors.response.use(
         }
         logger?.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
-            // Todo: call api to logout
+            notificationManager.unsubscribeFromPushNotifications();
             api.post(EP_LOGOUT);
             localStorage.clear();
             cookieManager.removeAll();
-            document.location.href = identity(Routes.LOGIN);
+            setTimeout(() => document.location.href = identity(Routes.LOGIN));
         }
         return Promise.reject(err)
     }

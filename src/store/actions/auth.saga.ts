@@ -24,6 +24,7 @@ import {Routes} from "../../enums/routes.enum";
 import cookieManager from "../../managers/cookie.manager";
 import {identity} from "../../pipes/identity.pipe";
 import {ProfileDataType} from "../../types/profile-data.type";
+import notificationManager from "../../modules/notifications/notifications.manager";
 
 export function* sagaAuthWatcher() {
     logger.info('AUTH SAGA INIT');
@@ -111,6 +112,7 @@ export function* sagaAuthWatcher() {
 //     }
 // }
 function* logoutWorker() {
+    notificationManager.unsubscribeFromPushNotifications();
     try {
         const res = (yield call(logoutCall)) as {};
     } catch(e) {
