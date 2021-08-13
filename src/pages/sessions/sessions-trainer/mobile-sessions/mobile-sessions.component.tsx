@@ -18,7 +18,7 @@ import FormSelect from "../../../../components/forms/form-select/form-select.com
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
-import SmallModal from "../../../../components/small-modal/small-modal.component";
+import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
 import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
@@ -33,7 +33,7 @@ import Styles, {
 interface Props {
   sessions: SessionsState;
   getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
-  onFilterByClient: (id: number) => void;
+  onFilterByClient: (value: string) => void;
   onRemoveSession: (id: number) => void;
 }
 
@@ -43,6 +43,7 @@ const MobileSessions: React.FC<Props> = (props) => {
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
     const clients = useClients();
+    const clientsData = clients.data.data;
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -113,12 +114,10 @@ const MobileSessions: React.FC<Props> = (props) => {
         <TitleContent>
           <ActionIcon
               icon={FilterIcon}
-              title={t('sessions:filter-by-client')}
               onClick={() => setIsFilterOpen(true)}
           />
           <ActionIcon
               icon={AddIcon}
-              title={t('sessions:schedule-new')}
               onClick={() => setAddOpen(true)}
           />
         </TitleContent>
@@ -161,15 +160,11 @@ const MobileSessions: React.FC<Props> = (props) => {
                 onCancel={() => setIsFilterOpen(false)}
                 visible={isFilterOpen}
                 title={t('sessions:filter-by-client')}
-                menu={clients.data.data.map((client) => ({
+                menu={[{name: 'All', value: 'All', onClick: onFilterByClient}].concat(clientsData.map((client) => ({
                   name: `${client.first_name} ${client.last_name}`,
                   value: client.id.toString(),
-                  onClick: (id) => {
-                    if (id) {
-                      onFilterByClient(+id);
-                    }
-                  },
-                }))}
+                  onClick: onFilterByClient,
+                }))) as MenuItem[]}
             />
         </Styles>
     );

@@ -28,7 +28,7 @@ import AddSessionDesktop from "../../sections/add-session/add-session-desktop/ad
 interface Props {
     sessions: SessionsState;
     getSessions: (status: SessionStatus) => (page: number,filters?: SessionFilter) => void;
-    onFilterByClient: (id: number) => void;
+    onFilterByClient: (value: string) => void;
     onRemoveSession: (id: number) => void;
 }
 
@@ -37,6 +37,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
     const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
     const clients = useClients();
+    const clientsData = clients.data.data;
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
 
@@ -104,17 +105,19 @@ const DesktopSessions: React.FC<Props> = (props) => {
     }
 
     useTitleContent((
-        <Formik onSubmit={() => {}} initialValues={{client_filter: ''}}>
+        <Formik onSubmit={() => {}} initialValues={{client_filter: 'All'}}>
             <TitleContent>
-                <FormSelect
-                    name="client_filter"
-                    placeholder={t('sessions:filter-by-client')}
-                    onUpdate={(id) => onFilterByClient(+id)}
-                    options={clients.data.data.map(it => ({
-                        label: `${it.first_name} ${it.last_name}`,
-                        value: it.id.toString(),
-                    }))}
-                />
+                {clientsData.length ? (
+                    <FormSelect
+                        name="client_filter"
+                        placeholder={t('sessions:filter-by-client')}
+                        onUpdate={onFilterByClient}
+                        options={[{label: 'All', value: 'All'}].concat(clientsData.map(it => ({
+                            label: `${it.first_name} ${it.last_name}`,
+                            value: it.id.toString(),
+                        })))}
+                    />
+                ) : null}
                 <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>
                     {t('sessions:schedule-new')}
                 </AddSessionAction>

@@ -61,7 +61,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                     <span>{t('sessions:current-credits')}</span>
                     <span>{credits}</span>
                 </div>
-                {credits < 0 ? <FormButton type="primary">{t('invoices:pay')}</FormButton> : null}
+                {/*{credits < 0 ? <FormButton type="primary">{t('invoices:pay')}</FormButton> : null}*/}
             </div>
             <SessionsCards
                 renderOptions={renderItemOptions}

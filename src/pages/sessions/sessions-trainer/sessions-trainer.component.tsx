@@ -17,10 +17,12 @@ const Sessions: React.FC<Props> = (props) => {
     const dispatch = useDispatch();
     const isMobile = useIsMobile();
 
-    const handleFilterByClient = (id: number) => {
-        getSessions('upcoming')(1, {client_id: id})
-        getSessions('awaiting_scheduling')(1, {client_id: id})
-        getSessions('past')(1, {client_id: id})
+    const handleFilterByClient = (value: string) => {
+        const filters = value === 'All' ? {} : {client_id: +value};
+
+        getSessions('upcoming')(1, filters)
+        getSessions('awaiting_scheduling')(1, filters)
+        getSessions('past')(1, filters)
     }
 
     const handleRemoveSession = (id: number) => {
