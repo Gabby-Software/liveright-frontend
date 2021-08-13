@@ -59,10 +59,11 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
                         )
                     }
                     <FormTimepicker disabledUntilNow={isToday} name={'time'} label={t('sessions:time')} />
-                    <FormInputLabeled
+                    <FormTimepicker
                         disabled={!!session}
                         name={'duration'}
                         label={t('sessions:duration')}
+                        showNow={false}
                     />
                     <FormSelect
                         disabled={!!session}

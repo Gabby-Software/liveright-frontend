@@ -108,7 +108,7 @@ const AddSessionCalendar: React.FC = () => {
         duration,
         currentStartDate: start_date
       }));
-    }, [date, time, duration])
+    }, [sessions, date, time, duration])
 
     if(!date || !time) {
       return <AddSessionCalendarEmpty />;

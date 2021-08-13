@@ -8,7 +8,7 @@ import userTypes from "../enums/user-types.enum";
 
 export const useClientsTrainer = () => {
     const [trainer, setTrainer] = useState<null | {
-        accounts?: { id: number, type: string, }[];
+        id: number,
         first_name: string;
         last_name: string;
         avatar: null | FileType

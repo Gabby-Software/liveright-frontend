@@ -11,11 +11,10 @@ import {sessionTypeOptions} from "../../../enums/session-filters.enum";
 import FormDatepicker from "../../forms/form-datepicker/form-datepicker.component";
 import FormTimepicker from "../../forms/form-timepicker/form-timepicker.component";
 import ButtonSubmit from "../../forms/button-submit/button-submit.component";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {
   ACTION_CLIENT_REQUEST_SESSION_REQUEST,
 } from "../../../store/action-types";
-import {RootState} from "../../../store/reducers";
 import {useIsBusy} from "../../../hooks/sessions.hook";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../enums/routes.enum";
@@ -103,6 +102,7 @@ const SessionAddModal: React.FC<Props> = (props) => {
                             name={'duration'}
                             label={t('sessions:duration')}
                             onUpdate={(_, value) => setDuration(value)}
+                            showNow={false}
                         />
                         {isBusy ? (
                             <div className={'reschedule__warning'}>

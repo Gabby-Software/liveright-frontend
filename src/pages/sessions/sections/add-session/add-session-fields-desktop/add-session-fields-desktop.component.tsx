@@ -41,6 +41,7 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
                         disabled={!!session}
                         name={'duration'}
                         label={t('sessions:duration')}
+                        showNow={false}
                     />
                     <FormSelect
                         name={'type'}

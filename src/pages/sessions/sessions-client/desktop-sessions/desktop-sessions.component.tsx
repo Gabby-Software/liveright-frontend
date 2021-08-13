@@ -79,9 +79,9 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   onClose={() => setRescheduleOpen(undefined)}
               />
           ) : null}
-          {trainer?.accounts ? (
+          {trainer ? (
             <SessionAddModal
-               trainer_id={trainer.accounts.find(it => it.type === 'trainer')!.id}
+               trainer_id={trainer.id}
                isOpen={addOpen}
                onClose={() => setAddOpen(false)}
             />
