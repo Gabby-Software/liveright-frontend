@@ -112,7 +112,7 @@ export function* sagaAuthWatcher() {
 //     }
 // }
 function* logoutWorker() {
-    notificationManager.unsubscribeFromPushNotifications();
+    notificationManager.unsubscribeFromNotifications();
     try {
         const res = (yield call(logoutCall)) as {};
     } catch(e) {
