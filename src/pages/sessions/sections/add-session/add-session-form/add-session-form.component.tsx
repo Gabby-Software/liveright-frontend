@@ -82,7 +82,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                 }
             });
         } else {
-            const client = clients.data.data.find(it => it.id === client_id);
+            const client = clients.data.data.find(it => it.id === Number(client_id));
 
             dispatch({
                 type: ACTION_TRAINER_CREATE_SESSION_REQUEST,
@@ -90,7 +90,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
                     ...rest,
                     duration: moment(duration, "h:mm").format("HH:mm:ss"),
                     time: moment(time, "h:mm").format("HH:mm:ss"),
-                    client_id: client_id,
+                    client_id: Number(client_id),
                     client_info: {first_name: client?.first_name, last_name: client?.last_name}
                 }
             });

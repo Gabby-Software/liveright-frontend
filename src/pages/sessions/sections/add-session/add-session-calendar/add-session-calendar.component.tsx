@@ -26,7 +26,7 @@ const AddSessionCalendar: React.FC = () => {
     const range = useMemo(() => isMobile ? 2 : 4, [isMobile]);
     const dates = useMemo(() => dateHoursRange({ date: start_date, range }), [date, time]);
     const [sessions, setSessions] = useState<SessionType[]>([]);
-    const client = useMemo(() => clients.data.data.find((it) => it.id === client_id), [clients]);
+    const client = useMemo(() => clients.data.data.find((it) => it.id === Number(client_id)), [clients]);
 
     const renderCurrentEvent = () => {
       return (
@@ -49,7 +49,6 @@ const AddSessionCalendar: React.FC = () => {
           suggestedStart.isBetween(dateItem, moment(dateItem).add(1, 'hours')) ||
           suggestedStart.isSame(moment(dateItem))
       )
-      const client = clients.data.data.find((it) => it.id === client_id);
 
       if (!hasSuggestedEvent || suggestedStart.isSame(start_date)) {
         return null;

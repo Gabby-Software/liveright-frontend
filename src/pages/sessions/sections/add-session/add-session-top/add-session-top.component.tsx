@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Styles from './add-session-top.styles';
 import PageSubtitle from "../../../../../components/titles/page-subtitle.styles";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
@@ -21,7 +21,10 @@ const AddSessionTop: React.FC<Props> = (props) => {
     const {t} = useTranslation();
     const clients = useClients();
     const {values} = useFormikContext<AddSessionFormType>()
-    const selectedClient = clients.data.data.find((it) => it.id === values?.client_id);
+    const selectedClient = useMemo(
+        () => clients.data.data.find((it) => it.id === Number(values?.client_id)),
+        [clients, values.client_id],
+    );
 
     return (
         <Styles>
