@@ -38,7 +38,7 @@ api.interceptors.response.use(
         }
         logger?.error('HTTP_ERROR', err.response?.data?.message || err.message, err.response);
         if(err.response.status === 401) {
-            notificationManager.unsubscribeFromPushNotifications();
+            notificationManager.unsubscribeFromNotifications();
             api.post(EP_LOGOUT);
             localStorage.clear();
             cookieManager.removeAll();

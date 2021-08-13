@@ -61,7 +61,7 @@ class QaManager {
             .then(res=>res.data)
     }
     public unregisterPushNotifications = () => {
-        notificationManager.unsubscribeFromPushNotifications();
+        notificationManager.unsubscribeFromNotifications();
     }
 }
 const qa = new QaManager();

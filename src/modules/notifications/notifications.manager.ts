@@ -37,7 +37,7 @@ export class NotificationsManager {
 
     private subscriptions: NotificationSubscriptionType[] = [];
 
-    public unsubscribeFromPushNotifications() {
+    public unsubscribeFromNotifications() {
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
             logger.info('BEAM NOTIFICATION SW READY')
             const beamsClient = new PusherPushNotifications.Client({
@@ -48,8 +48,18 @@ export class NotificationsManager {
                 .then(() => logger.success('push notifications stopped'))
                 .catch(e => logger.error('cannot unsubscribe from push notifications', e));
         })
+        const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
+            cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
+            authEndpoint: EP_PUSHER_CHANNEL_AUTH,
+            auth: {
+                headers: {
+                    Authorization: `Bearer ${cookieManager.get('access_token')}`,
+                },
+            },
+        });
+        pusher.unbind_all();
     }
-    private subscribeToPushNotifications(userID: number) {
+    private subscribeToPushNotifications(userID: string) {
         logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         Pusher.logToConsole = true;
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
@@ -69,12 +79,7 @@ export class NotificationsManager {
                             // Show message saying user should unblock notifications in their browser
                             break;
                         }
-                        case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS: {
-                            logger.info('BEAM STATE - GRANTED REGISTERED');
-                            // Ready to receive notifications
-                            // Show "Disable notifications" button, onclick calls '.stop'
-                            break;
-                        }
+                        case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_GRANTED_NOT_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_PROMPT_REQUIRED: {
                             logger.info('BEAM STATE - REQIRED')
@@ -97,7 +102,7 @@ export class NotificationsManager {
         });
     }
 
-    private subscribeToInAppNotifications(userId: number) {
+    private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
             cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
@@ -108,15 +113,16 @@ export class NotificationsManager {
                 },
             },
         });
-        const channel = pusher.subscribe(`private-user.${userId}.notification`);
+        pusher.unbind_all();
+        const channel = pusher.subscribe(`private-account.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
-        channel.bind('user.notification', (data: PushNotificationType) => {
+        channel.bind('account.notification', (data: PushNotificationType) => {
             logger.info('IN APP NOTIFICATION RECEIVED', data);
             this.subscriptions.forEach(({callback}) => callback());
         });
     }
 
-    init(user_id: number) {
+    init(user_id: string) {
         this.subscribeToPushNotifications(user_id);
         this.subscribeToInAppNotifications(user_id);
     }
