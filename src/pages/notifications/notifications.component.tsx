@@ -20,12 +20,14 @@ import {
 } from "../../store/action-types";
 import notificationManager, {NotificationsManager} from "../../modules/notifications/notifications.manager";
 import store from "../../store/config.store";
+import {useAuth} from "../../hooks/auth.hook";
 
 type Props = {};
 const Notifications = ({}: Props) => {
     const {t} = useTranslation();
     const {notifications: {data, meta}} = useNotifications();
     const dispatch = useDispatch();
+    const {uuid} = useAuth();
     useTitleContent((
         <SettingsLink to={Routes.NOTIFICATIONS_SETTINGS}>
             <FormButton type={'ghost'}>Manage Settings</FormButton>
@@ -35,7 +37,7 @@ const Notifications = ({}: Props) => {
         fetchNotifications(meta.current_page);
         const id = notificationManager.subscribe(fetchNotifications);
         return () => notificationManager.unsubscribe(id);
-    }, []);
+    }, [uuid]);
     const fetchNotifications = (page = meta.current_page) => {
         dispatch({type: ACTION_GET_NOTIFICATIONS_REQUEST, payload: {
             page,
