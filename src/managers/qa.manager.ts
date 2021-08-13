@@ -3,6 +3,7 @@ import api from "./api.manager";
 import {EP_ADD_NOTIFICATION, EP_GET_TRAINER, EP_GET_UNREAD_NOTIFICATIONS} from "../enums/api.enum";
 import logger from "./logger.manager";
 import {toast} from "../components/toast/toast.component";
+import notificationManager from "../modules/notifications/notifications.manager";
 
 declare global {
     interface Window { QA: QaManager }
@@ -58,6 +59,9 @@ class QaManager {
     public showTrainer = () => {
         api.get(EP_GET_TRAINER)
             .then(res=>res.data)
+    }
+    public unregisterPushNotifications = () => {
+        notificationManager.unsubscribeFromPushNotifications();
     }
 }
 const qa = new QaManager();
