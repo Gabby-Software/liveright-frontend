@@ -18,17 +18,24 @@ interface Props {
 
 const CardSwipe: React.FC<Props> = (props) => {
   const {SwipeContent, children, className, dropThreshold = 150} = props;
-  const wrapperRef = useRef(null);
+  const swipeContentRef = useRef(null);
   const ref = useRef(null);
   const [focused, setFocused] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   const handleSwipeEnd = ({x}: SwipeType) => {
     if (Math.abs(x) > dropThreshold) {
       setFocused(true);
     }
+
+    setAnimate(true);
   };
 
-  const {x} = useSwipe(ref, ({x}) => x < 0, handleSwipeEnd);
+  const handleSwipeStart = () => {
+    setAnimate(false);
+  };
+
+  const {x} = useSwipe(ref, ({x}) => x < 0, handleSwipeEnd, handleSwipeStart);
 
   const cardPosition = useMemo<number>(() => {
     if (focused) {
@@ -40,21 +47,22 @@ const CardSwipe: React.FC<Props> = (props) => {
 
   const cardStyle = useMemo<CSSProperties>(() => ({
     left: `${cardPosition}px`,
-  }), [cardPosition])
+    transition: animate ? 'all 0.1s ease' : 'none',
+  }), [cardPosition, animate])
 
   const swipeContentStyle = useMemo<CSSProperties>(() => ({
     opacity: focused ? 1 : Math.abs(x * 0.5) / dropThreshold,
     width: dropThreshold,
   }), [x, focused, dropThreshold])
 
-  useOutsideClick(wrapperRef, () => setFocused(false), focused)
+  useOutsideClick(swipeContentRef, () => setFocused(false), focused)
 
   return (
-      <Wrapper ref={wrapperRef} className={className}>
+      <Wrapper className={className}>
         <CardStyled style={cardStyle} ref={ref}>
           {children}
         </CardStyled>
-        <SwipeContentWrapper style={swipeContentStyle}>
+        <SwipeContentWrapper ref={swipeContentRef} style={swipeContentStyle}>
           {SwipeContent}
         </SwipeContentWrapper>
       </Wrapper>
