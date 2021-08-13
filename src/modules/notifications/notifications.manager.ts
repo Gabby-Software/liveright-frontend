@@ -1,14 +1,19 @@
-import {EP_GET_NOTIFICATIONS, EP_PUSHER_BEAMS_AUTH, EP_PUSHER_CHANNEL_AUTH} from "../../enums/api.enum";
+import {
+    EP_GET_NOTIFICATIONS,
+    EP_PUSHER_BEAMS_AUTH,
+    EP_PUSHER_CHANNEL_AUTH, EP_READ_ALL_NOTIFICATIONS, EP_READ_NOTIFICATION,
+    EP_UNREAD_NOTIFICATIONS_COUNT
+} from "../../enums/api.enum";
 import api from "../../managers/api.manager";
 import {PaginatedDataType} from "../../types/paginated-data.type";
-import {NotificationType} from "../../types/notification.type";
+import {NotificationType} from "../../types/notifications.type";
 import Pusher from 'pusher-js';
 import cookieManager from "../../managers/cookie.manager";
 import * as PusherPushNotifications from '@pusher/push-notifications-web';
 import logger from "../../managers/logger.manager";
 import {PushNotificationType} from "../../types/push-notification.type";
 import store from '../../store/config.store';
-import {ACTION_NEW_NOTIFICATION} from "../../store/action-types";
+import {ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, ACTION_NEW_NOTIFICATION} from "../../store/action-types";
 import {NotificationSubscriptionType} from "./types/notification-subscription.type";
 
 export class NotificationsManager {
@@ -16,14 +21,15 @@ export class NotificationsManager {
         return api.get(EP_GET_NOTIFICATIONS+`?page=${page}`)
             .then(res => res.data)
     }
-    static async markAsRead(id: number) {
-
+    static markAsRead(id: string) {
+        return api.get(EP_READ_NOTIFICATION(id))
     }
-    static async markAllAsRead() {
-
+    static markAllAsRead() {
+        return api.get(EP_READ_ALL_NOTIFICATIONS)
     }
-    static async getUnreadCount() {
-
+    static getUnreadCount(): Promise<number> {
+        return api.get(EP_UNREAD_NOTIFICATIONS_COUNT)
+            .then(res => res.data.data.total);
     }
     private subscriptions: NotificationSubscriptionType[] = [];
     private subscribeToPushNotifications(userID: number) {
