@@ -10,17 +10,24 @@ import ActionIcon from "../../../../components/action-icon/action-icon.component
 import {ReactComponent as CalendarIcon} from "../../../../assets/media/icons/calendar.svg";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
-import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
+import {AccountObjType} from "../../../../types/account.type";
+import SessionAddModal from "../../../../components/sessions/session-add-modal/session-add-modal.component";
+import userTypes from "../../../../enums/user-types.enum";
+import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
+import {TitleContent} from "../../sessions-trainer/mobile-sessions/mobile-sessions.styles";
+import {ReactComponent as FilterIcon} from "../../../../assets/media/icons/filter.svg";
+import {ReactComponent as AddIcon} from "../../../../assets/media/icons/add.svg";
 
 interface Props {
   sessions: SessionsState;
+  trainer: AccountObjType;
   getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions} = props;
+    const {sessions, getSessions, trainer} = props;
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>();
-    const [editOpen, setEditOpen] = useState<SessionType>();
+    const [addOpen, setAddOpen] = useState(false);
     const {t} = useTranslation();
     const credits = -2 // temp
 
@@ -36,6 +43,16 @@ const MobileSessions: React.FC<Props> = (props) => {
             </div>
         )
     };
+
+    useMobileTitleContent((
+        <TitleContent>
+          <ActionIcon
+              icon={AddIcon}
+              title={t('sessions:schedule-new')}
+              onClick={() => setAddOpen(true)}
+          />
+        </TitleContent>
+    ));
 
     return (
         <Styles credits={credits}>
@@ -61,6 +78,13 @@ const MobileSessions: React.FC<Props> = (props) => {
                 <SessionRescheduleModal
                     onClose={() => setRescheduleOpen(undefined)}
                     session={rescheduleOpen}
+                />
+            ) : null}
+            {trainer ? (
+                <SessionAddModal
+                    trainer_id={trainer.accounts.find(it => it.type === userTypes.TRAINER)!.id}
+                    isOpen={addOpen}
+                    onClose={() => setAddOpen(false)}
                 />
             ) : null}
         </Styles>

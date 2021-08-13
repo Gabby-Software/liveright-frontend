@@ -64,6 +64,7 @@ const SessionsTable: React.FC<Props> = (props) => {
 
                   return (
                       <SessionUserAvatar
+                          avatar={person?.user.avatar || null}
                           first_name={person?.user.first_name}
                           last_name={person?.user.last_name}
                       />
