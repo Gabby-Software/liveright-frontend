@@ -69,13 +69,14 @@ export const sessionsReducer = withStorage((state=initialValues, {type, payload}
     switch(type) {
         case ACTION_TRAINER_CREATE_SESSION_SUCCESS:
             const {session} = payload;
+            const nextData = [session, ...upcoming.data].slice(0, 10);
 
             return {
                 data: {
                     ...data,
                     upcoming: {
                         ...upcoming,
-                        data: [session, ...upcoming.data],
+                        data: nextData,
                     }
                 },
                 loading: false,

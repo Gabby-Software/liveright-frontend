@@ -42,7 +42,11 @@ const AddSessionTop: React.FC<Props> = (props) => {
             )}
             {selectedClient ? (
               <div className={'session-top__head'}>
-                <SessionUserAvatar last_name={selectedClient.last_name} first_name={selectedClient.first_name} />
+                <SessionUserAvatar
+                    avatar={selectedClient.avatar}
+                    last_name={selectedClient.last_name}
+                    first_name={selectedClient.first_name}
+                />
                 <Field name={'sessions'}>
                   {({field}: FieldProps) => (
                       <div className={'session-top__credits'}>

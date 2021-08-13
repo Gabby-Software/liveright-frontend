@@ -29,7 +29,11 @@ const SessionCard: React.FC<Props> = (props) => {
             <span>{type}</span>
             <span className="session-card-with">{t("sessions:with").toLowerCase()}</span>
             <div className="session-card-name">
-                <SessionUserAvatar first_name={person?.user.first_name} last_name={person?.user.last_name} />
+                <SessionUserAvatar
+                    avatar={person?.user.avatar}
+                    first_name={person?.user.first_name}
+                    last_name={person?.user.last_name}
+                />
             </div>
             <div className="sessions-card-datetime">
                 <div>

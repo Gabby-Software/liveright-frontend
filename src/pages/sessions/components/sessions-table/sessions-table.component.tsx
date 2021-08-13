@@ -8,8 +8,6 @@ import SessionsFilters from "../sessions-filters/sessions-filters.component";
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {PaginatedDataType} from "../../../../types/paginated-data.type";
-import {useClients} from "../../../../hooks/clients.hook";
-import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
 import SessionUserAvatar from "../session-user-avatar/session-user-avatar.component";
 
 interface Props {

@@ -67,6 +67,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                     return (
                         <AwaitingCard>
                             <SessionUserAvatar
+                                avatar={it.client?.user.avatar}
                                 first_name={it.client?.user.first_name}
                                 last_name={it.client?.user.last_name}
                             />
