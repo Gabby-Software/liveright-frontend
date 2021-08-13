@@ -15,7 +15,6 @@ export const useNotificationsChannel = () => {
     const {pathname} = useLocation();
     useEffect(() => {
         if (!uuid) return;
-        notificationsManager.unsubscribeFromNotifications();
         notificationsManager.init(uuid);
         const subscription = notificationsManager.subscribe(() => {
             if (pathname === Routes.NOTIFICATIONS) return;

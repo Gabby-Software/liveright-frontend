@@ -1,6 +1,7 @@
 export type PushNotificationType = {
-    user: {
+    notifiable: {
         id: number;
+        uuid: string;
         email: string;
     },
     type: string;
