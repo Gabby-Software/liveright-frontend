@@ -6,7 +6,7 @@ export const SettingsLink = styled(Link)`
     margin-left: auto;
 `;
 export default styled.div`
-
+    margin-bottom: 100px;
     .notification {
         &__hr {
             position: relative;

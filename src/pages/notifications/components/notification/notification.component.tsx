@@ -17,7 +17,7 @@ const Notification = ({created_at, read_at, data, type}: NotificationType) => {
     const {t} = useTranslation();
     const {Icon, color} = notificationIcon(type);
     const EyeIcon = notificationSeen(!!read_at);
-    const url = notificationUrl(data.message, data);
+    const {url, slug} = notificationUrl(type, data);
     return (
         <PopOnScroll offset={70}>
             <Styles>
@@ -27,6 +27,7 @@ const Notification = ({created_at, read_at, data, type}: NotificationType) => {
                     <div className={'notification__datetime'}>{moment(created_at).format('DD.MM.YYYY • hh:mm')}</div>
                 </div>
                 {
+                    !url ? null :
                     isMobile ? (
                         <Link to={url} className={'notification__link'}><GoToIcon
                             className={'notification__link__icon'}/></Link>
@@ -34,7 +35,7 @@ const Notification = ({created_at, read_at, data, type}: NotificationType) => {
                         <>
                             <Link to={url} className={'notification__action'}>
                                 <FormButton type={'ghost'}>
-                                    {t('notifications:go-to', {type: t(`notifications:types.${color}`)})}
+                                    {t('notifications:go-to', {type: slug})}
                                 </FormButton>
                             </Link>
                             <EyeIcon className={'notification__eye'}/>

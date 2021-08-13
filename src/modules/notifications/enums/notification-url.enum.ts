@@ -4,23 +4,55 @@ import {ReactComponent as InvoicesIcon} from "../../../assets/media/icons/invoic
 import {ReactComponent as SessionsIcon} from "../../../assets/media/icons/sessions.svg";
 import {ReactComponent as InfoIcon} from "../../../assets/media/icons/info.svg";
 import {Routes} from "../../../enums/routes.enum";
+import logger from "../../../managers/logger.manager";
 
-export const notificationUrl: (message: string, data: {[key:string]:string|number}) => string =
+const EMPTY_RESPONSE = {
+    url: '', slug: ''
+}
+export const notificationUrl: (message: string, data: {[key:string]:string|number}) => {slug:string, url: string} =
     (message, data) => {
+    logger.info('URL', message, notificationsTypes.INVITATION_ACCEPT);
     switch(message) {
         case notificationsTypes.INVITATION_ACCEPT:
+            return {
+                slug: `client's profile`,
+                url: Routes.CLIENTS+`/${data.account_to_uuid}`+Routes.PROFILE
+            };
         case notificationsTypes.INVITATION_REJECT:
+            return {
+                slug: `clients`,
+                url: Routes.CLIENTS
+            }
         case notificationsTypes.INVITATION_RECEIVED:
-            return Routes.NOTIFICATIONS;
+            return EMPTY_RESPONSE;
         case notificationsTypes.INVOICE_CREATED:
         case notificationsTypes.INVOICE_STATUS_CHANGED:
-            return Routes.INVOICES+`${data.invoice_id}`;
-        case notificationsTypes.SESSION_CREATED:
+            return {
+                url: Routes.INVOICES+`${data.invoice_id}`,
+                slug: 'invoice'
+            };
         case notificationsTypes.SESSION_DELETED:
+            return {
+                url: Routes.SESSIONS,
+                slug: 'sessions'
+            }
         case notificationsTypes.SESSION_REQUESTED:
+            if(data.is_awaiting_rescheduling)
+                return {
+                    url: Routes.SESSIONS,
+                    slug: 'awaiting reschedule'
+                }
+            return {
+                url: Routes.SESSIONS+`/${data.session_id}`,
+                slug: 'session'
+            }
+        case notificationsTypes.SESSION_CREATED:
         case notificationsTypes.SESSION_UPDATED:
-            return Routes.SESSIONS+`${data.session_id}`;
+            return {
+                url: Routes.SESSIONS+`/${data.session_id}`,
+                slug: 'session'
+            }
         default:
-            return Routes.NOTIFICATIONS;
+            return EMPTY_RESPONSE
     }
 }
