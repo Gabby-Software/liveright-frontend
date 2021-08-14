@@ -67,7 +67,7 @@ export class NotificationsManager {
             logger.info('BEAM NOTIFICATION SW READY')
             this.beamsClient = new PusherPushNotifications.Client({
                 instanceId: process.env.REACT_APP_PUSHER_KEY || '',
-                serviceWorkerRegistration: registration
+                // serviceWorkerRegistration: registration
             });
             const tokenProvider = new PusherPushNotifications.TokenProvider({
                 url: EP_PUSHER_BEAMS_AUTH,
