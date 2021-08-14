@@ -89,11 +89,16 @@ export class NotificationsManager {
                                     Authorization: `Bearer ${cookieManager.get('access_token')}`,
                                 }
                             })
-                            beamsClient
-                                .start()
-                                .then(() => beamsClient.setUserId(String(userID), tokenProvider))
-                                .then(() => logger.info('BEAM User ID has been set'))
-                                .catch(e => logger.error('Could not authenticate with Beams:', e))
+                            beamsClient.stop()
+                                .then(() => {
+                                    logger.success('push notifications stopped');
+                                    beamsClient
+                                        .start()
+                                        .then(() => beamsClient.setUserId(String(userID), tokenProvider))
+                                        .then(() => logger.info('BEAM User ID has been set'))
+                                        .catch(e => logger.error('Could not authenticate with Beams:', e))
+                                })
+                                .catch(e => logger.error('cannot unsubscribe from push notifications', e));
                             break;
                         }
                     }
