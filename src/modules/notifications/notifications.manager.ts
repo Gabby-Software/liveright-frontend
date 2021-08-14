@@ -59,16 +59,17 @@ export class NotificationsManager {
         });
         pusher.unbind_all();
     }
+    private beamsClient: PusherPushNotifications.Client|null = null;
     private subscribeToPushNotifications(userID: string) {
         logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         Pusher.logToConsole = true;
         navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
             logger.info('BEAM NOTIFICATION SW READY')
-            const beamsClient = new PusherPushNotifications.Client({
+            this.beamsClient = new PusherPushNotifications.Client({
                 instanceId: process.env.REACT_APP_PUSHER_KEY || '',
                 serviceWorkerRegistration: registration
             });
-            beamsClient.getRegistrationState()
+            this.beamsClient.getRegistrationState()
                 .then(state => {
                     let states = PusherPushNotifications.RegistrationState;
                     logger.info('BEAM NOTIFICATION REGISTRATION STATE', state, states)
@@ -89,12 +90,11 @@ export class NotificationsManager {
                                     Authorization: `Bearer ${cookieManager.get('access_token')}`,
                                 }
                             })
-                            beamsClient.stop()
+                            this.beamsClient?.stop()
                                 .then(() => {
                                     logger.success('push notifications stopped');
-                                    beamsClient
-                                        .start()
-                                        .then(() => beamsClient.setUserId(String(userID), tokenProvider))
+                                    this.beamsClient?.start()
+                                        .then(() => this.beamsClient?.setUserId(String(userID), tokenProvider))
                                         .then(() => logger.info('BEAM User ID has been set'))
                                         .catch(e => logger.error('Could not authenticate with Beams:', e))
                                 })
@@ -107,6 +107,12 @@ export class NotificationsManager {
         });
     }
     private uuid = '';
+    public getBeamsData = () => {
+        logger.info('Account UUID', this.uuid);
+        logger.info('Registered UUID',this.beamsClient?.getUserId());
+        this.beamsClient?.getRegistrationState()
+            .then(state => logger.info('STATE', state))
+    }
     private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {

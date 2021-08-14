@@ -63,6 +63,9 @@ class QaManager {
     public unregisterPushNotifications = () => {
         notificationManager.unsubscribeFromNotifications();
     }
+    public showBeamsInfo=() => {
+        notificationManager.getBeamsData();
+    }
 }
 const qa = new QaManager();
 const error = console.error;
