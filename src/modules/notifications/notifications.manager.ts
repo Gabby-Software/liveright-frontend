@@ -95,7 +95,7 @@ export class NotificationsManager {
                                     logger.success('push notifications stopped');
                                     this.beamsClient?.start()
                                         .then(() => this.beamsClient?.setUserId(String(userID), tokenProvider))
-                                        .then(() => logger.info('BEAM User ID has been set'))
+                                        .then(() => logger.info('BEAM User ID has been set', userID))
                                         .catch(e => logger.error('Could not authenticate with Beams:', e))
                                 })
                                 .catch(e => logger.error('cannot unsubscribe from push notifications', e));
