@@ -109,9 +109,10 @@ export class NotificationsManager {
     private uuid = '';
     public getBeamsData = () => {
         logger.info('Account UUID', this.uuid);
-        logger.info('Registered UUID',this.beamsClient?.getUserId());
+        this.beamsClient?.getUserId().then(userID=>logger.info('Registered UUID', userID))
         this.beamsClient?.getRegistrationState()
             .then(state => logger.info('STATE', state))
+        return this.beamsClient;
     }
     private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
