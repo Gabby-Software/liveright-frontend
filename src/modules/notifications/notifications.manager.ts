@@ -69,6 +69,18 @@ export class NotificationsManager {
                 instanceId: process.env.REACT_APP_PUSHER_KEY || '',
                 serviceWorkerRegistration: registration
             });
+            const tokenProvider = new PusherPushNotifications.TokenProvider({
+                url: EP_PUSHER_BEAMS_AUTH,
+                headers: {
+                    Authorization: `Bearer ${cookieManager.get('access_token')}`,
+                }
+            })
+            const register = () => {
+                this.beamsClient?.start()
+                    .then(() => this.beamsClient?.setUserId(String(userID), tokenProvider))
+                    .then(() => logger.info('BEAM User ID has been set', userID))
+                    .catch(e => logger.error('Could not authenticate with Beams:', e))
+            }
             this.beamsClient.getRegistrationState()
                 .then(state => {
                     let states = PusherPushNotifications.RegistrationState;
@@ -81,24 +93,22 @@ export class NotificationsManager {
                             break;
                         }
                         case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS:
+                            logger.info('BEAM STATE', state);
+                            this.beamsClient?.getUserId()
+                                .then((id:string) => {
+                                    if(id === userID) return;
+                                    this.beamsClient?.stop()
+                                        .then(() => {
+                                            logger.success('push notifications stopped');
+                                            register();
+                                        })
+                                        .catch(e => logger.error('cannot unsubscribe from push notifications', e));
+                                })
+                            break;
                         case states.PERMISSION_GRANTED_NOT_REGISTERED_WITH_BEAMS:
                         case states.PERMISSION_PROMPT_REQUIRED: {
-                            logger.info('BEAM STATE - REQIRED')
-                            const tokenProvider = new PusherPushNotifications.TokenProvider({
-                                url: EP_PUSHER_BEAMS_AUTH,
-                                headers: {
-                                    Authorization: `Bearer ${cookieManager.get('access_token')}`,
-                                }
-                            })
-                            this.beamsClient?.stop()
-                                .then(() => {
-                                    logger.success('push notifications stopped');
-                                    this.beamsClient?.start()
-                                        .then(() => this.beamsClient?.setUserId(String(userID), tokenProvider))
-                                        .then(() => logger.info('BEAM User ID has been set', userID))
-                                        .catch(e => logger.error('Could not authenticate with Beams:', e))
-                                })
-                                .catch(e => logger.error('cannot unsubscribe from push notifications', e));
+                            logger.info('BEAM STATE', state);
+                            register();
                             break;
                         }
                     }

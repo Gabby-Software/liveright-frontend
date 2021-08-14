@@ -10,17 +10,17 @@ import {useLocation} from "react-router";
 import {Routes} from "../../enums/routes.enum";
 
 export const useNotificationsChannel = () => {
-    const {id} = useAuth();
+    const {uuid} = useAuth();
     const dispatch = useDispatch();
     const {pathname} = useLocation();
     useEffect(() => {
-        if (!id) return;
-        notificationsManager.init(String(id));
+        if (!uuid) return;
+        notificationsManager.init(uuid);
         const subscription = notificationsManager.subscribe(() => {
             dispatch({type: ACTION_NEW_NOTIFICATION});
         })
         return () => notificationsManager.unsubscribe(subscription);
-    }, [id]);
+    }, [uuid]);
 }
 
 export const useNotifications = () => useSelector((state: RootState) => state.notifications) as NotificationsReducerType;
