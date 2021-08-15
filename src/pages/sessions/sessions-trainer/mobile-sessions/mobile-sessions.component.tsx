@@ -10,7 +10,6 @@ import Tabs from "../../../../components/tabs/tabs.component";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
-import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
 import {ReactComponent as FilterIcon} from "../../../../assets/media/icons/filter.svg";
 import {ReactComponent as AddIcon} from "../../../../assets/media/icons/add.svg";
 import {sessionDateRangeOptions} from "../../../../enums/session-filters.enum";
@@ -33,12 +32,11 @@ import Styles, {
 interface Props {
   sessions: SessionsState;
   getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
-  onFilterByClient: (value: string) => void;
   onRemoveSession: (id: number) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions, onFilterByClient, onRemoveSession} = props;
+    const {sessions, getSessions, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
@@ -160,10 +158,10 @@ const MobileSessions: React.FC<Props> = (props) => {
                 onCancel={() => setIsFilterOpen(false)}
                 visible={isFilterOpen}
                 title={t('sessions:filter-by-client')}
-                menu={[{name: 'All', value: 'All', onClick: onFilterByClient}].concat(clientsData.map((client) => ({
+                menu={[{name: 'All', value: 'All', onClick: () => {}}].concat(clientsData.map((client) => ({
                   name: `${client.first_name} ${client.last_name}`,
                   value: client.id.toString(),
-                  onClick: onFilterByClient,
+                  onClick: () => {},
                 }))) as MenuItem[]}
             />
         </Styles>

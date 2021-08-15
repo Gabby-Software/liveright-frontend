@@ -47,7 +47,7 @@ const SessionsTable: React.FC<Props> = (props) => {
 
     useEffect(() => {
         handlePageSet(1)
-    }, [filter])
+    }, [filter, additionalFilters])
 
     return (
       <Styles>

@@ -28,18 +28,26 @@ import AddSessionDesktop from "../../sections/add-session/add-session-desktop/ad
 interface Props {
     sessions: SessionsState;
     getSessions: (status: SessionStatus) => (page: number,filters?: SessionFilter) => void;
-    onFilterByClient: (value: string) => void;
     onRemoveSession: (id: number) => void;
 }
 
 const DesktopSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions, onFilterByClient, onRemoveSession} = props;
+    const {sessions, getSessions, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
     const clients = useClients();
     const clientsData = clients.data.data;
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
+    const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>();
+
+    const handleClientFilterChange = (value: string) => {
+        if (value === "All") {
+            setAdditionalFilter(undefined);
+        } else {
+            setAdditionalFilter({client_id: +value})
+        }
+    }
 
     const renderUpcomingItemOptions = (item: SessionType) => {
         return (
@@ -89,6 +97,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                 sessions={upcoming}
                 getSessions={getSessions('upcoming')}
                 renderOptions={renderUpcomingItemOptions}
+                additionalFilters={additionalFilter}
                 withFilter
             />
         )
@@ -98,6 +107,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
         return (
             <SessionsTable
                 getSessions={getSessions('past')}
+                additionalFilters={additionalFilter}
                 sessions={past}
                 withFilter
             />
@@ -111,7 +121,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                     <FormSelect
                         name="client_filter"
                         placeholder={t('sessions:filter-by-client')}
-                        onUpdate={onFilterByClient}
+                        onUpdate={handleClientFilterChange}
                         options={[{label: 'All', value: 'All'}].concat(clientsData.map(it => ({
                             label: `${it.first_name} ${it.last_name}`,
                             value: it.id.toString(),

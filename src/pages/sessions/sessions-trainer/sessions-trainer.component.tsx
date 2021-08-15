@@ -17,14 +17,6 @@ const Sessions: React.FC<Props> = (props) => {
     const dispatch = useDispatch();
     const isMobile = useIsMobile();
 
-    const handleFilterByClient = (value: string) => {
-        const filters = value === 'All' ? {} : {client_id: +value};
-
-        getSessions('upcoming')(1, filters)
-        getSessions('awaiting_scheduling')(1, filters)
-        getSessions('past')(1, filters)
-    }
-
     const handleRemoveSession = (id: number) => {
         dispatch({
             type: ACTION_TRAINER_REMOVE_SESSION_REQUEST,
@@ -44,7 +36,6 @@ const Sessions: React.FC<Props> = (props) => {
         return (
             <MobileSessions
                 getSessions={getSessions}
-                onFilterByClient={handleFilterByClient}
                 onRemoveSession={handleRemoveSession}
                 sessions={sessions}
             />
@@ -54,7 +45,6 @@ const Sessions: React.FC<Props> = (props) => {
     return (
         <DesktopSessions
             getSessions={getSessions}
-            onFilterByClient={handleFilterByClient}
             onRemoveSession={handleRemoveSession}
             sessions={sessions}
         />
