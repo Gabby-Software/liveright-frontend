@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
-export default styled(Link)`
+export default styled.div`
     display:block;
     border-radius: 9px;
     background-color: ${p => p.theme.vars.colors.card};

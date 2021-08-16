@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, ComponentType, SVGAttributes} from 'react';
 import Styles from './invoices-list-item.styles';
 import {InvoiceType, TrainerInvoiceType} from "../../../../types/invoice.type";
 import profilePlaceholder from '../../../../assets/media/profile-placeholder.png';
@@ -14,16 +14,41 @@ import {invoiceStatuses} from "../../../../enums/invoice-statuses";
 import userTypes from "../../../../enums/user-types.enum";
 import PopOnScroll from "../../../../components/pop-on-scroll/pop-on-scroll.component";
 import {capitalize} from "../../../../pipes/capitalize.pipe";
+import CardActionsItem from "../../../../components/card-actions-item/card-actions-item.component";
+import CardActions from "../../../../components/card-actions/card-actions.component";
+import {ReactComponent as DeleteIcon} from "../../../../assets/media/icons/trash.svg";
+import {ReactComponent as SendIcon} from "../../../../assets/media/icons/send.svg";
+import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/download.svg";
+import {ReactComponent as ViewIcon} from "../../../../assets/media/icons/view.svg";
+import {ActionsStyles} from "../../../financials/tabs/financials-receivables/components/financial-receivables-list-item/financial-receivables-list-item.styles";
+import fileManager from "../../../../managers/file.manager";
 
-const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total}: InvoiceType) => {
+const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total, pdf, invoice_number}: InvoiceType) => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const user = useMemo(() => {
         return type === userTypes.CLIENT ? invoice_from?.user : invoice_to?.user
     }, [type, invoice_to, invoice_from]);
+    const downloadPDF = () => {
+        fileManager.downloadUrl(pdf?.url||'', `Invoice #${invoice_number}`)
+    }
+    const Actions = useMemo(() => () => {
+        const actions: {href?: string, onClick?: () => void, Icon: ComponentType<SVGAttributes<{}>>, disabled?:boolean}[] = [
+            {Icon: DownloadIcon, onClick: downloadPDF},
+            {Icon: ViewIcon, href: Routes.INVOICES+`/${id}`},
+        ]
+        return (
+            <ActionsStyles className={'invoice-li__extra-actions'}>
+                {
+                    actions.map(({Icon, ...attrs}) => <CardActionsItem {...attrs}><Icon/></CardActionsItem>)
+                }
+            </ActionsStyles>
+        )
+    }, [id]);
     return (
         <PopOnScroll offset={100}>
-            <Styles className={'invoice-li'} to={Routes.INVOICES + '/' + id}>
+            <CardActions actions={<Actions/>}>
+            <Styles className={'invoice-li'}>
                 <div className={'invoice-li__head'}>
                     <div className={'invoice-li__id'}>#{id}</div>
                     <div className={'invoice-li__date'}>{moment(due_on).format('YYYY-MM-DD')}</div>
@@ -54,6 +79,7 @@ const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currenc
                     }
                 </div>
             </Styles>
+            </CardActions>
         </PopOnScroll>
     )
 };
