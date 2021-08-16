@@ -17,6 +17,7 @@ import moment from 'moment';
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
+import fileManager from "../../../../managers/file.manager";
 
 type Props = {};
 const InvoiceMobileHead = ({}: Props) => {
@@ -28,7 +29,7 @@ const InvoiceMobileHead = ({}: Props) => {
 
     }
     const downloadPdf = () => {
-
+        fileManager.downloadUrl(data.pdf?.url||'', `Invoice #${data.invoice_number}.pdf`);
     }
     const moreMenu: MenuItem[] = [
         {
