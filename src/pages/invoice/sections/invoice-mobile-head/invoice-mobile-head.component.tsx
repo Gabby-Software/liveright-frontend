@@ -5,6 +5,7 @@ import FormButton from "../../../../components/forms/form-button/form-button.com
 import {ReactComponent as PrintIcon} from "../../../../assets/media/icons/print.svg";
 import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/download.svg";
 import {ReactComponent as MessagesIcon} from "../../../../assets/media/icons/messages.svg";
+import {ReactComponent as MoreIcon} from "../../../../assets/media/icons/more.svg";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
@@ -13,11 +14,36 @@ import {InvoiceFullType} from "../../../../types/invoice.type";
 import {date} from "../../../../pipes/date.pipe";
 import {capitalize} from "../../../../pipes/capitalize.pipe";
 import moment from 'moment';
+import {useAuth} from "../../../../hooks/auth.hook";
+import userTypes from "../../../../enums/user-types.enum";
+import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 
 type Props = {};
 const InvoiceMobileHead = ({}: Props) => {
     const {t} = useTranslation();
     const {data} = useAPIData<InvoiceFullType>();
+    const {type} = useAuth();
+    const [actionsOpen, setActionsOpen] = useState(false);
+    const cancel = () => {
+
+    }
+    const downloadPdf = () => {
+
+    }
+    const moreMenu: MenuItem[] = [
+        {
+            name: t('invoices:delete'),
+            onClick: cancel
+        },
+        {
+            name: t('invoices:print'),
+            onClick: window.print,
+        },
+        {
+            name: t('invoices:download-pdf'),
+            onClick: downloadPdf
+        }
+    ];
     return (
         <Styles>
             <div className={'invoice-m-head__left'}>
@@ -33,13 +59,23 @@ const InvoiceMobileHead = ({}: Props) => {
             </div>
             <div className={'invoice-m-head__right'}>
                 <FormButton type={'primary'} className={'invoice-m-head__status'}>{capitalize(data.status)}</FormButton>
-                <FormButton type={'primary'} className={'invoice-m-head__cta'}>{t('invoices:pay')}</FormButton>
+                {
+                    type === userTypes.CLIENT ? (
+                        <FormButton type={'primary'} className={'invoice-m-head__cta'}>{t('invoices:pay')}</FormButton>
+                    ) : null
+                }
                 <div className={'invoice-m-head__icons'}>
                     {/*<PrintIcon className={'invoice-m-head__action'} onClick={window.print}/>*/}
                     <DownloadIcon className={'invoice-m-head__action'}/>
                     <Link to={Routes.CHAT}><MessagesIcon className={'invoice-m-head__action'}/></Link>
+                    {
+                        type === userTypes.CLIENT?null:(
+                            <MoreIcon className={'invoice-m-head__action'} onClick={() => setActionsOpen(true)}/>
+                        )
+                    }
                 </div>
             </div>
+            <SmallModal menu={moreMenu} title={t('invoices:actions')} visible={actionsOpen} onCancel={() => setActionsOpen(false)}/>
         </Styles>
     );
 };
