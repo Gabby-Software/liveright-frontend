@@ -114,26 +114,24 @@ const DesktopSessions: React.FC<Props> = (props) => {
         )
     }
 
-    useTitleContent((
+    useTitleContent(clientsData.length ? (
         <Formik onSubmit={() => {}} initialValues={{client_filter: 'All'}}>
             <TitleContent>
-                {clientsData.length ? (
-                    <FormSelect
-                        name="client_filter"
-                        placeholder={t('sessions:filter-by-client')}
-                        onUpdate={handleClientFilterChange}
-                        options={[{label: 'All', value: 'All'}].concat(clientsData.map(it => ({
-                            label: `${it.first_name} ${it.last_name}`,
-                            value: it.id.toString(),
-                        })))}
-                    />
-                ) : null}
+                <FormSelect
+                    name="client_filter"
+                    placeholder={t('sessions:filter-by-client')}
+                    onUpdate={handleClientFilterChange}
+                    options={[{label: 'All', value: 'All'}].concat(clientsData.map(it => ({
+                        label: `${it.first_name} ${it.last_name}`,
+                        value: it.id.toString(),
+                    })))}
+                />
                 <AddSessionAction type={'primary'} onClick={()=> setAddOpen(true)}>
                     {t('sessions:schedule-new')}
                 </AddSessionAction>
             </TitleContent>
         </Formik>
-    ));
+    ) : null);
 
     return (
       <Styles>

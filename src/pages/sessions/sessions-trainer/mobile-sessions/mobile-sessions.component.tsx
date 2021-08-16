@@ -108,7 +108,7 @@ const MobileSessions: React.FC<Props> = (props) => {
         )
     }
 
-    useMobileTitleContent((
+    useMobileTitleContent(clientsData.length ? (
         <TitleContent>
           <ActionIcon
               icon={FilterIcon}
@@ -119,7 +119,7 @@ const MobileSessions: React.FC<Props> = (props) => {
               onClick={() => setAddOpen(true)}
           />
         </TitleContent>
-    ));
+    ) : null);
 
     return (
         <Styles>
