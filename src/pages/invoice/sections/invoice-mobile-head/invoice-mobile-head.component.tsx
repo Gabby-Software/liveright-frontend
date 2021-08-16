@@ -10,7 +10,7 @@ import {Link, useHistory} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {useAPIData} from "../../../../hoc/api-get";
-import {InvoiceFullType} from "../../../../types/invoice.type";
+import {InvoiceFullType, InvoiceType} from "../../../../types/invoice.type";
 import {date} from "../../../../pipes/date.pipe";
 import {capitalize} from "../../../../pipes/capitalize.pipe";
 import moment from 'moment';
@@ -19,12 +19,14 @@ import userTypes from "../../../../enums/user-types.enum";
 import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import fileManager from "../../../../managers/file.manager";
 import {useDispatch} from "react-redux";
-import {ACTION_CANCEL_INVOICE_REQUEST} from "../../../../store/action-types";
+import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_MARK_INVOICE_AS_PAID} from "../../../../store/action-types";
+import {invoiceStatuses} from "../../../../enums/invoice-statuses";
+import {Popconfirm} from "antd";
 
 type Props = {};
 const InvoiceMobileHead = ({}: Props) => {
     const {t} = useTranslation();
-    const {data} = useAPIData<InvoiceFullType>();
+    const {data, setData} = useAPIData<InvoiceFullType>();
     const {type} = useAuth();
     const [actionsOpen, setActionsOpen] = useState(false);
     const dispatch = useDispatch();
@@ -34,18 +36,27 @@ const InvoiceMobileHead = ({}: Props) => {
             type: ACTION_CANCEL_INVOICE_REQUEST,
             payload: {
                 id: data.id,
-                onSuccess: () => history.replace(type===userTypes.CLIENT?Routes.INVOICES:Routes.FINANCIALS_RECEIVABLES)
+                onSuccess: () => history.replace(type === userTypes.CLIENT ? Routes.INVOICES : Routes.FINANCIALS_RECEIVABLES)
             },
         });
     }
+    const markAsPaid = () => {
+        dispatch({
+            type: ACTION_MARK_INVOICE_AS_PAID, payload: {
+                id: data.id,
+                page: 1,
+                include: 'invoiceTo',
+                onSuccess: (invoice: InvoiceType) => setData({...data, ...invoice})
+            }
+        })
+    }
     const downloadPdf = () => {
-        fileManager.downloadUrl(data.pdf?.url||'', `Invoice #${data.invoice_number}.pdf`);
+        fileManager.downloadUrl(data.pdf?.url || '', `Invoice #${data.invoice_number}.pdf`);
+    }
+    const downloadRecipe = () => {
+
     }
     const moreMenu: MenuItem[] = [
-        {
-            name: t('invoices:delete'),
-            onClick: cancel
-        },
         {
             name: t('invoices:print'),
             onClick: window.print,
@@ -53,7 +64,15 @@ const InvoiceMobileHead = ({}: Props) => {
         {
             name: t('invoices:download-pdf'),
             onClick: downloadPdf
-        }
+        },
+        (data.status === invoiceStatuses.PAID.toLowerCase() ? {
+            name: t('invoices:download-recipe'),
+            onClick: downloadRecipe,
+        } : {
+            name: t('invoices:cancel-invoice'),
+            onClick: cancel,
+            type: 'primary'
+        }),
     ];
     return (
         <Styles>
@@ -65,28 +84,37 @@ const InvoiceMobileHead = ({}: Props) => {
                 </div>
                 <div className={'invoice-m-head__data'}>
                     <div className={'invoice-m-head__label'}>{t('invoices:invoice-due')}:</div>
-                    <div className={classes('invoice-m-head__value', moment(data.due_on).isBefore(moment())&&'invoice-m-head__value__error')}>{date(data.due_on)}</div>
+                    <div
+                        className={classes('invoice-m-head__value', moment(data.due_on).isBefore(moment()) && 'invoice-m-head__value__error')}>{date(data.due_on)}</div>
                 </div>
             </div>
             <div className={'invoice-m-head__right'}>
                 <FormButton type={'primary'} className={'invoice-m-head__status'}>{capitalize(data.status)}</FormButton>
                 {
-                    type === userTypes.CLIENT ? (
+                    data.status === 'paid' ? null :
+                        type === userTypes.CLIENT ? (
                         <FormButton type={'primary'} className={'invoice-m-head__cta'}>{t('invoices:pay')}</FormButton>
-                    ) : null
+                    ) : (
+                        <Popconfirm title={'Invoice will be marked as paid'}
+                                    onConfirm={() => markAsPaid()}>
+                            <FormButton type={'primary'} className={'invoice-m-head__cta'}
+                            >{t('invoices:mark-paid')}</FormButton>
+                        </Popconfirm>
+                    )
                 }
                 <div className={'invoice-m-head__icons'}>
                     {/*<PrintIcon className={'invoice-m-head__action'} onClick={window.print}/>*/}
                     <DownloadIcon className={'invoice-m-head__action'}/>
                     <Link to={Routes.CHAT}><MessagesIcon className={'invoice-m-head__action'}/></Link>
                     {
-                        type === userTypes.CLIENT?null:(
+                        type === userTypes.CLIENT ? null : (
                             <MoreIcon className={'invoice-m-head__action'} onClick={() => setActionsOpen(true)}/>
                         )
                     }
                 </div>
             </div>
-            <SmallModal menu={moreMenu} title={t('invoices:actions')} visible={actionsOpen} onCancel={() => setActionsOpen(false)}/>
+            <SmallModal menu={moreMenu} title={t('invoices:options')} visible={actionsOpen}
+                        onCancel={() => setActionsOpen(false)}/>
         </Styles>
     );
 };
