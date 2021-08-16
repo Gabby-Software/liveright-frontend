@@ -1,17 +1,11 @@
 import {notificationsTypes} from "./notification-types.enum";
-import {ReactComponent as InvitationIcon} from "../../../assets/media/icons/profile.svg";
-import {ReactComponent as InvoicesIcon} from "../../../assets/media/icons/invoices.svg";
-import {ReactComponent as SessionsIcon} from "../../../assets/media/icons/sessions.svg";
-import {ReactComponent as InfoIcon} from "../../../assets/media/icons/info.svg";
 import {Routes} from "../../../enums/routes.enum";
-import logger from "../../../managers/logger.manager";
 
 const EMPTY_RESPONSE = {
     url: '', slug: ''
 }
 export const notificationUrl: (message: string, data: {[key:string]:string|number}) => {slug:string, url: string} =
     (message, data) => {
-    logger.info('URL', message, notificationsTypes.INVITATION_ACCEPT);
     switch(message) {
         case notificationsTypes.INVITATION_ACCEPT:
             return {
