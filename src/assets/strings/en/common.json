@@ -39,6 +39,7 @@
     "hub": "Hub",
     "library": "Library",
     "invoices": "Invoices",
+    "financials": "Financials",
     "sessions": "Sessions",
     "trainer": "Trainer",
     "notifications": "Notifications",

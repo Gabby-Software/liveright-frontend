@@ -22,6 +22,7 @@ const RoutedTabs = ({tabs}: Props) => {
     logger.info('TAB DATA', left, width,{'--w': `${width}px`, '--l': `${left}px}`});
     return (
         <Styles className={'tabs'}>
+            <div className={'tabs__wrapper'}>
             {
                 tabs.map(({name, url}) => (
                     <div className={'tabs__item__wrapper'}
@@ -35,6 +36,7 @@ const RoutedTabs = ({tabs}: Props) => {
             <div className={'tabs__indicator'}
                  style={{'--w': `${width}px`, '--l': `${left}px`} as any}
             />
+            </div>
         </Styles>
     );
 };

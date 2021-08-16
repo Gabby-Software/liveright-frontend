@@ -8,6 +8,7 @@ import {
     ACTION_GET_INVOICES_SUCCESS, ACTION_UPDATE_INVOICE_FILTERS,
     ActionType
 } from "../action-types";
+import logger from "../../managers/logger.manager";
 
 export type InvoicesFilters = {
     search: string;

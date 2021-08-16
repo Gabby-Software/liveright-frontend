@@ -12,12 +12,12 @@ const FinancialsPayables = ({}: Props) => {
     const {t} = useTranslation();
     return (
         <Styles>
-            <PayablesProvider>
-                <Invoices/>
-            </PayablesProvider>
             <Link to={Routes.PAYMENT_METHODS} className={'invoices-cta'}>
                 <FormButton type={'primary'}>{t('invoices:manage-payment-methods')}</FormButton>
             </Link>
+            <PayablesProvider>
+                <Invoices/>
+            </PayablesProvider>
         </Styles>
     )
 };

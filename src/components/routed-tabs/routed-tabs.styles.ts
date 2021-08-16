@@ -1,11 +1,22 @@
 import styled from "styled-components";
+import {media} from "../../assets/styles/_media";
 
 export default styled.div`
-    display: flex;
-    position: relative;
     margin-bottom: 70px;
+    max-width: 100%;
+    overflow: auto;
+    display: flex;
+    ${media('tablet', 'max')`
+        margin: 0 -20px 70px -20px;
+        max-width: calc(100% + 40px);
+        justify-content: center;
+    `}
 .tabs {
-
+    &__wrapper {
+        display: flex;
+        position: relative;
+        max-width: 100%;
+    }
     &__item {
         display: block;
         color: ${p => p.theme.vars.colors.secondary};

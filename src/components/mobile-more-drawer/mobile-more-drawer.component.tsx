@@ -17,6 +17,7 @@ import {useAuth} from "../../hooks/auth.hook";
 import {identity} from "../../pipes/identity.pipe";
 import {useDispatch} from "react-redux";
 import {ACTION_LOGOUT_REQUEST} from "../../store/action-types";
+import {Routes} from "../../enums/routes.enum";
 
 type MobileMoreDrawerPropsType = {
     isOpen: boolean;
@@ -37,12 +38,13 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
     const dispatch = useDispatch();
     const menuItems: LinkType[] = [
         {Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile'},
-        {Icon: UsersIcon, url: '/clients', name: 'menu.clients', permission: userTypes.TRAINER},
+        {Icon: UsersIcon, url: Routes.CLIENTS, name: 'menu.clients', permission: userTypes.TRAINER},
         {Icon: LibraryIcon, url: '/library', name: 'menu.library'},
-        {Icon: InvoiceIcon, url: '/invoices', name: 'menu.invoices'},
-        {Icon: SessionIcon, url: '/sessions', name: 'menu.sessions'},
+        {Icon: InvoiceIcon, url: Routes.INVOICES, name: 'menu.invoices', permission: userTypes.CLIENT},
+        {Icon: InvoiceIcon, url: Routes.FINANCIALS_OVERVIEW, name: 'menu.financials', permission: userTypes.TRAINER},
+        {Icon: SessionIcon, url: Routes.SESSIONS, name: 'menu.sessions'},
         {Icon: SyncIcon, onClick: () => {setSwitchAccountOpen(true);onClose()}, name: 'menu.switch-account'},
-        {Icon: SettingsIcon, url: '/settings', name: 'menu.settings'},
+        {Icon: SettingsIcon, url: Routes.SETTINGS, name: 'menu.settings'},
         {Icon: PowerIcon, onClick: () => dispatch({type: ACTION_LOGOUT_REQUEST}), name: 'menu.log-out'},
     ];
     return (

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {media} from "../../../../assets/styles/_media";
 
 export default styled.div`
 
@@ -12,9 +13,15 @@ export default styled.div`
         margin: 40px 0;
         display: flex;
         padding: 24px;
+        ${media('tablet', 'max')`
+            display: block;
+        `}
         &__left {
             width: 100%;
             padding-right: 24px;
+            ${media('tablet', 'max')`
+                padding-right:0;
+            `}
         }
         &__right {
             flex-shrink:0;
