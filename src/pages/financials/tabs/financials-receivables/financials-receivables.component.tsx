@@ -44,7 +44,7 @@ const FinancialsReceivables = ({}:Props) => {
         });
     }, [uuid]);
     return (
-        <InvoicesProvider>
+        <InvoicesProvider include={'invoiceTo'}>
         <Styles>
             <Link to={Routes.CREATE_INVOICE} className={'f-receivables__link'}><FormButton type={'primary'}>{t("invoices:add")}</FormButton></Link>
             <InvoicesAtention/>

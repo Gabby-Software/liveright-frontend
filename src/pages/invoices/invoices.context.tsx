@@ -41,7 +41,7 @@ const InvoicesContext = createContext<InvoicesContextType>({
     update: () => Promise.resolve(),
 });
 export const useInvoices = () => useContext(InvoicesContext);
-export const InvoicesProvider = ({children}: { children: React.ReactNode }) => {
+export const InvoicesProvider = ({children, include = "invoiceFrom"}: { children: React.ReactNode, include?: string }) => {
     const invoiceData = useSelector((state: RootState) => state.invoices);
     const dispatch = useDispatch();
     const timer = useRef(0);
@@ -52,7 +52,7 @@ export const InvoicesProvider = ({children}: { children: React.ReactNode }) => {
                 dispatch({
                     type: ACTION_GET_INVOICES_REQUEST,
                     payload: {
-                        include: 'invoiceFrom',
+                        include,
                         page, filters,
                         onSuccess: res
                     }
@@ -61,7 +61,7 @@ export const InvoicesProvider = ({children}: { children: React.ReactNode }) => {
         });
     }
     useEffect(() => {
-        update(invoiceData.page, invoiceData.filters)
+        update(invoiceData.page||1, invoiceData.filters)
     }, []);
     return (
         <InvoicesContext.Provider value={{...invoiceData, update}}>
