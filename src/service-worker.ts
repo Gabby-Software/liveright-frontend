@@ -127,7 +127,7 @@ PusherPushNotifications.onNotificationReceived = ({
     pushEvent.waitUntil(handleNotification({
         notification: {
             title: data.message,
-            icon: '/maskable_icon_x48.png'
+            icon: '/maskable_icon_x96.png'
         },
         data: {
             url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data as {}).url
