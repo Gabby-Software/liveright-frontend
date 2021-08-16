@@ -6,7 +6,7 @@ import {ReactComponent as PrintIcon} from "../../../../assets/media/icons/print.
 import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/download.svg";
 import {ReactComponent as MessagesIcon} from "../../../../assets/media/icons/messages.svg";
 import {ReactComponent as MoreIcon} from "../../../../assets/media/icons/more.svg";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {useAPIData} from "../../../../hoc/api-get";
@@ -18,6 +18,8 @@ import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import fileManager from "../../../../managers/file.manager";
+import {useDispatch} from "react-redux";
+import {ACTION_CANCEL_INVOICE_REQUEST} from "../../../../store/action-types";
 
 type Props = {};
 const InvoiceMobileHead = ({}: Props) => {
@@ -25,8 +27,16 @@ const InvoiceMobileHead = ({}: Props) => {
     const {data} = useAPIData<InvoiceFullType>();
     const {type} = useAuth();
     const [actionsOpen, setActionsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
     const cancel = () => {
-
+        dispatch({
+            type: ACTION_CANCEL_INVOICE_REQUEST,
+            payload: {
+                id: data.id,
+                onSuccess: () => history.replace(type===userTypes.CLIENT?Routes.INVOICES:Routes.FINANCIALS_RECEIVABLES)
+            },
+        });
     }
     const downloadPdf = () => {
         fileManager.downloadUrl(data.pdf?.url||'', `Invoice #${data.invoice_number}.pdf`);
