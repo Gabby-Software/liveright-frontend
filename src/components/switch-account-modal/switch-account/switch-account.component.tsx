@@ -35,7 +35,7 @@ const SwitchAccount = () => {
         <Styles>
             {
                 accounts.map(({uuid, type, is_current}, i) => (
-                    <Card className={'swa-card'} onClick={() => switchAccount(uuid)} key={i}>
+                    <Card className={'swa-card'} onClick={() => !is_current && switchAccount(uuid)} key={i}>
                         <ProfileAccount first_name={first_name} last_name={last_name} type={type} image={avatar?.url || ''}
                                         active={is_current}/>
                     </Card>
