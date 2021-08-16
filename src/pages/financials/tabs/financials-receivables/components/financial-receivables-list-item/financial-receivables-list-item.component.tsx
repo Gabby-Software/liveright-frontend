@@ -91,7 +91,7 @@ const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, i
                 <div
                     className={'invoice-li__label'}>{type === userTypes.CLIENT ? t('invoices:issued-by') : t('invoices:issued-to')}</div>
                 <div className={'invoice-li__body'}>
-                    <img src={profilePlaceholder} className={'invoice-li__img'}/>
+                    <img alt={'user-image'} src={profilePlaceholder} className={'invoice-li__img'}/>
                     <div className={'invoice-li__name'}>{user?.first_name} {user?.last_name}</div>
                     <div className={'invoice-li__price'}>{total} {currency.code}</div>
                 </div>
