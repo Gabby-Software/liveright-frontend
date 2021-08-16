@@ -20,10 +20,11 @@ const AddSessionTop: React.FC<Props> = (props) => {
     const {session} = props;
     const {t} = useTranslation();
     const clients = useClients();
+    const clientsData = useMemo(() => clients.data.data.filter((it) => it.is_active), [clients]);
     const {values} = useFormikContext<AddSessionFormType>()
     const selectedClient = useMemo(
-        () => clients.data.data.find((it) => it.id === Number(values?.client_id)),
-        [clients, values.client_id],
+        () => clientsData.find((it) => it.id === Number(values?.client_id)),
+        [clientsData, values.client_id],
     );
 
     return (
@@ -34,7 +35,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
                   name="client_id"
                   label="Please select a client to schedule for..."
                   options={
-                    clients.data.data.map(({first_name, last_name, id}) => {
+                      clientsData.map(({first_name, last_name, id}) => {
                       return ({label: `${first_name} ${last_name}`, value: id.toString()})
                     })
                   }

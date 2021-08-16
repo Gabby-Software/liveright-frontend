@@ -41,7 +41,7 @@ const MobileSessions: React.FC<Props> = (props) => {
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
     const clients = useClients();
-    const clientsData = clients.data.data;
+    const clientsData = clients.data.data.filter((it) => it.is_active);
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);

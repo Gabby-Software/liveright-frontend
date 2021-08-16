@@ -36,7 +36,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
     const {upcoming, awaiting_scheduling, past} = sessions;
     const {t} = useTranslation();
     const clients = useClients();
-    const clientsData = clients.data.data;
+    const clientsData = clients.data.data.filter((it) => it.is_active);
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
     const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>();
