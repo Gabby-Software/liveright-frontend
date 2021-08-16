@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useContext} from 'react';
 import {useSelector} from "react-redux";
 import {RootState} from "../store/reducers";
-import {TrainerType} from "../types/trainer.type";
 import {TrainerContext} from "../pages/trainer/trainer.context";
 import {APIGetType} from "../hoc/api-get";
 import {AccountObjType, AccountType} from "../types/account.type";
@@ -17,5 +16,8 @@ export const useTrainer = () => {
         ...acc?.profile,
         ...addr
     } as AccountObjType & AccountType & AddressType;
-    // return useSelector((state: RootState) => state.trainer) as TrainerType;
 };
+
+export const useTrainerSelector = () => {
+    return useSelector((state: RootState) => state.trainer) as AccountObjType;
+}

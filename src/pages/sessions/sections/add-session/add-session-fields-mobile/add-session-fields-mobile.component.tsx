@@ -16,6 +16,8 @@ import AddSessionSubmit from "../add-session-submit/add-session-submit.component
 import AddSessionCredits from "../add-session-credits/add-session-credits.component";
 import AddSessionDelete from "../add-session-delete/add-session-delete.component";
 import {SessionType} from "../../../../../types/session.type";
+import {useFormikContext} from "formik";
+import {AddSessionFormType} from "../add-session-form/add-session-form.component";
 
 interface Props {
     session?: SessionType;
@@ -25,7 +27,9 @@ interface Props {
 const AddSessionFieldsMobile: React.FC<Props> = (props) => {
     const {session, onClose} = props;
     const {t} = useTranslation();
+    const {values} = useFormikContext<AddSessionFormType>();
     const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
+    const isToday = moment(values.date).isSame(moment(), 'days')
 
     return (
         <Styles>
@@ -54,11 +58,12 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
                             </div>
                         )
                     }
-                    <FormTimepicker name={'time'} label={t('sessions:time')} />
-                    <FormInputLabeled
+                    <FormTimepicker disabledUntilNow={isToday} name={'time'} label={t('sessions:time')} />
+                    <FormTimepicker
                         disabled={!!session}
                         name={'duration'}
                         label={t('sessions:duration')}
+                        showNow={false}
                     />
                     <FormSelect
                         disabled={!!session}

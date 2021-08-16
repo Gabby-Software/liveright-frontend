@@ -16,20 +16,19 @@ import {Routes} from "../../../../enums/routes.enum";
 import {Link} from "react-router-dom";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import {SessionFilter, SessionStatus} from "../../../../types/session.type";
-import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
-import AddSessionDesktop from "../../sections/add-session/add-session-desktop/add-session-desktop.component";
+import {AccountObjType} from "../../../../types/account.type";
+import userTypes from "../../../../enums/user-types.enum";
 
 interface Props {
   sessions: SessionsState;
+  trainer: AccountObjType;
   getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
 }
 
 const DesktopSessions: React.FC<Props> = (props) => {
-    const {getSessions, sessions} = props;
+    const {getSessions, sessions, trainer} = props;
     const {t} = useTranslation();
-    const trainer = useClientsTrainer();
     const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>();
-    const [editOpen, setEditOpen] = useState<SessionType>();
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const credits = -2 // temp
 
@@ -75,20 +74,15 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   withFilter
               />
           </div>
-          <AddSessionDesktop
-              isOpen={!!editOpen}
-              session={editOpen}
-              onClose={() => setEditOpen(undefined)}
-          />
           {rescheduleOpen ? (
               <SessionRescheduleModal
                   session={rescheduleOpen}
                   onClose={() => setRescheduleOpen(undefined)}
               />
           ) : null}
-          {trainer?.accounts ? (
+          {trainer ? (
             <SessionAddModal
-               trainer_id={trainer.accounts.find(it => it.type === 'trainer')!.id}
+               trainer_id={trainer.accounts.find(it => it.type === userTypes.TRAINER)!.id}
                isOpen={addOpen}
                onClose={() => setAddOpen(false)}
             />

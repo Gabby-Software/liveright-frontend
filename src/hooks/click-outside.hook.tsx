@@ -1,13 +1,28 @@
-import React, {useState, useEffect, ReactElement} from 'react';
-import {useEvent} from "./event.hook";
-export const useClickOutside = (ref: React.RefObject<HTMLElement>) => {
-    const [open, setOpen] = useState<boolean>(false);
-    useEvent('click', (e) => {
-        if(ref.current?.contains(e.target as HTMLElement)) {
-            setOpen(true);
-        } else {
-            setOpen(false);
+import {useEffect, RefObject} from 'react';
+
+export const useOutsideClick = (
+    ref: RefObject<HTMLElement>,
+    cb: (e?: MouseEvent | TouchEvent) => void,
+    focused: boolean,
+    otherDeps: any[] = [],
+): void => {
+    const handleMouseDown = (e: MouseEvent | TouchEvent) => {
+        if (ref.current?.contains(e.target as Node)) {
+            return;
         }
-    });
-    return open;
+
+        cb(e);
+    };
+
+    useEffect(() => {
+        if (focused) {
+            document.addEventListener('mousedown', handleMouseDown);
+            document.addEventListener('touchstart', handleMouseDown);
+
+            return () => {
+                document.removeEventListener('mousedown', handleMouseDown);
+                document.addEventListener('touchend', handleMouseDown);
+            };
+        }
+    }, [focused, ...otherDeps]);
 };

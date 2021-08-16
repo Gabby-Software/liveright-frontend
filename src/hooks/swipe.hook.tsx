@@ -1,11 +1,16 @@
 import React, {useState, useEffect, useMemo, useRef} from 'react';
 import {useEvent} from "./event.hook";
 import logger from "../managers/logger.manager";
-type SwipeType = {
+export type SwipeType = {
     x: number;
     y: number;
 }
-export const useSwipe = (ref: React.RefObject<HTMLElement>, minSwipe:(e:SwipeType) => boolean, onSwipeEnd: (e:SwipeType) => void) => {
+export const useSwipe = (
+    ref: React.RefObject<HTMLElement>,
+    minSwipe:(e:SwipeType) => boolean,
+    onSwipeEnd: (e:SwipeType) => void,
+    onSwipeStart?: (e: SwipeType) => void,
+) => {
     const swiping = useRef<boolean>(false);
     const swipeStart = useRef<SwipeType>({x: 0, y: 0});
     const [startData, setStartData] = useState<SwipeType>({x:0,y:0});
@@ -17,6 +22,7 @@ export const useSwipe = (ref: React.RefObject<HTMLElement>, minSwipe:(e:SwipeTyp
             setStartData(getTouchPoints(e as TouchEvent));
             setCurrentData(getTouchPoints(e as TouchEvent));
             swipeStart.current = getTouchPoints(e as TouchEvent);
+            onSwipeStart && onSwipeStart(getTouchPoints(e as TouchEvent));
         }
     });
     useEvent('touchend', (e) => {

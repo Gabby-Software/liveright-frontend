@@ -32,6 +32,7 @@
   "submit": "Schedule Session",
   "schedule-new": "Schedule new Session",
   "submit-anyway": "Schedule Anyway",
+  "request-anyway": "Request Anyway",
   "delete": "Delete and create new",
   "delete-info": "You can not change Duration and Type...Instead you can",
   "save": "Save Changes",

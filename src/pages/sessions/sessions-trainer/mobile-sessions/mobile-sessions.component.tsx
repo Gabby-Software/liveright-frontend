@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Styles from './mobile-sessions.styles';
 import {Formik} from "formik";
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {SessionFilter, SessionStatus, SessionType} from "../../../../types/session.type";
@@ -11,34 +10,38 @@ import Tabs from "../../../../components/tabs/tabs.component";
 import {ReactComponent as RightArrowIcon} from "../../../../assets/media/icons/right-arrow.svg";
 import {Link} from "react-router-dom";
 import {Routes} from "../../../../enums/routes.enum";
-import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
 import {ReactComponent as FilterIcon} from "../../../../assets/media/icons/filter.svg";
 import {ReactComponent as AddIcon} from "../../../../assets/media/icons/add.svg";
 import {sessionDateRangeOptions} from "../../../../enums/session-filters.enum";
 import FormSelect from "../../../../components/forms/form-select/form-select.component";
 import SessionProgressItem from "../../components/session-progress-item/session-progress-item.component";
-import {AwaitingCard, Form, ManageTargetsAction, TitleContent} from "./mobile-sessions.styles";
 import DataPagination from "../../../../components/data-pagination/data-pagination.component";
 import {useMobileTitleContent} from "../../../../layouts/mobile-layout/mobile-layout.component";
-import SmallModal from "../../../../components/small-modal/small-modal.component";
+import SmallModal, {MenuItem} from "../../../../components/small-modal/small-modal.component";
 import {SessionsState} from "../../../../store/reducers/sessions.reducer";
 import SessionUserAvatar from "../../components/session-user-avatar/session-user-avatar.component";
 import AddSessionMobile from "../../sections/add-session/add-session-mobile/add-session-mobile.component";
 import {useClients} from "../../../../hooks/clients.hook";
+import Styles, {
+  AwaitingCard,
+  Form,
+  ManageTargetsAction,
+  TitleContent
+} from "./mobile-sessions.styles";
 
 interface Props {
   sessions: SessionsState;
   getSessions: (status: SessionStatus) => (page: number, filters?: SessionFilter) => void;
-  onFilterByClient: (id: number) => void;
   onRemoveSession: (id: number) => void;
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-    const {sessions, getSessions, onFilterByClient, onRemoveSession} = props;
+    const {sessions, getSessions, onRemoveSession} = props;
     const {upcoming, awaiting_scheduling, past} = sessions;
     const awaitingMeta = awaiting_scheduling.meta;
     const {t} = useTranslation();
     const clients = useClients();
+    const clientsData = clients.data.data;
     const [addOpen, setAddOpen] = useState<boolean>(false);
     const [editOpen, setEditOpen] = useState<SessionType>();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -54,11 +57,6 @@ const MobileSessions: React.FC<Props> = (props) => {
                         onClick={() =>{}}
                     />
                 </Link>
-                <ActionIcon
-                    icon={TrashIcon}
-                    title="Remove"
-                    onClick={() => onRemoveSession(item.id)}
-                />
             </div>
         )
     };
@@ -69,6 +67,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 {awaiting_scheduling.data.map((it) => (
                     <AwaitingCard>
                         <SessionUserAvatar
+                            avatar={it.client?.user.avatar}
                             first_name={it.client?.user.first_name}
                             last_name={it.client?.user.last_name}
                         />
@@ -94,6 +93,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 renderOptions={renderUpcomingItemOptions}
                 sessions={upcoming}
                 getSessions={getSessions('upcoming')}
+                onRemoveSession={onRemoveSession}
             />
         )
     }
@@ -112,12 +112,10 @@ const MobileSessions: React.FC<Props> = (props) => {
         <TitleContent>
           <ActionIcon
               icon={FilterIcon}
-              title={t('sessions:filter-by-client')}
               onClick={() => setIsFilterOpen(true)}
           />
           <ActionIcon
               icon={AddIcon}
-              title={t('sessions:schedule-new')}
               onClick={() => setAddOpen(true)}
           />
         </TitleContent>
@@ -160,15 +158,11 @@ const MobileSessions: React.FC<Props> = (props) => {
                 onCancel={() => setIsFilterOpen(false)}
                 visible={isFilterOpen}
                 title={t('sessions:filter-by-client')}
-                menu={clients.data.data.map((client) => ({
+                menu={[{name: 'All', value: 'All', onClick: () => {}}].concat(clientsData.map((client) => ({
                   name: `${client.first_name} ${client.last_name}`,
                   value: client.id.toString(),
-                  onClick: (id) => {
-                    if (id) {
-                      onFilterByClient(+id);
-                    }
-                  },
-                }))}
+                  onClick: () => {},
+                }))) as MenuItem[]}
             />
         </Styles>
     );

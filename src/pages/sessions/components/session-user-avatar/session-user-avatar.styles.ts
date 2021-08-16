@@ -4,6 +4,10 @@ import ProfileImage from "../../../../components/profile-image/profile-image.com
 export const ProfileImageStyled = styled(ProfileImage)`
     display: inline-block;
   margin-right: 8px;
+  .profile-image__img {
+    width: 28px;
+    height: 28px;
+  }
   .profile-image__placeholder {
       width: 28px;
       height: 28px;

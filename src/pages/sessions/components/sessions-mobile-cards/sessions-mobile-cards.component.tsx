@@ -6,12 +6,15 @@ import SessionsFilter from "../sessions-filters/sessions-filters.component";
 import PageSubtitle from "../../../../components/titles/page-subtitle.styles";
 import SessionCard from "../session-mobile-card/session-mobile-card.component"
 import {PaginatedDataType} from "../../../../types/paginated-data.type";
+import ActionIcon from "../../../../components/action-icon/action-icon.component";
+import {ReactComponent as TrashIcon} from "../../../../assets/media/icons/trash.svg";
+import {SwipeContent} from "./sessions-mobile-cards.styles";
 
 interface Props {
     sessions: PaginatedDataType<SessionType>;
     getSessions: (page: number, filter?: SessionFilter) => void;
     renderOptions?: (session: SessionType) => ReactElement;
-    renderSwipeComponent?: (session: SessionType) => ReactElement;
+    onRemoveSession?: (id: number) => void;
     withFilter?: boolean;
     title?: boolean;
 }
@@ -21,9 +24,9 @@ const SessionsCards: React.FC<Props> = (props) => {
         sessions,
         getSessions,
         renderOptions,
+        onRemoveSession,
         withFilter,
         title,
-        renderSwipeComponent
     } = props;
     const {data, meta} = sessions;
     const {current_page, total} = meta;
@@ -46,8 +49,16 @@ const SessionsCards: React.FC<Props> = (props) => {
                   <SessionCard
                       session={it}
                       key={it.id}
-                      renderSwipeComponent={renderSwipeComponent}
                       renderOptions={renderOptions}
+                      SwipeContent={onRemoveSession ? (
+                          <SwipeContent>
+                              <ActionIcon
+                                  icon={TrashIcon}
+                                  title="Remove"
+                                  onClick={() => onRemoveSession(it.id)}
+                              />
+                          </SwipeContent>
+                      ) : undefined}
                   />
               )
           })}

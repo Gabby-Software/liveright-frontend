@@ -8,8 +8,6 @@ import SessionsFilters from "../sessions-filters/sessions-filters.component";
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {PaginatedDataType} from "../../../../types/paginated-data.type";
-import {useClients} from "../../../../hooks/clients.hook";
-import {useClientsTrainer} from "../../../../hooks/clients-trainer.hook";
 import SessionUserAvatar from "../session-user-avatar/session-user-avatar.component";
 
 interface Props {
@@ -49,7 +47,7 @@ const SessionsTable: React.FC<Props> = (props) => {
 
     useEffect(() => {
         handlePageSet(1)
-    }, [filter])
+    }, [filter, additionalFilters])
 
     return (
       <Styles>
@@ -64,6 +62,7 @@ const SessionsTable: React.FC<Props> = (props) => {
 
                   return (
                       <SessionUserAvatar
+                          avatar={person?.user.avatar || null}
                           first_name={person?.user.first_name}
                           last_name={person?.user.last_name}
                       />

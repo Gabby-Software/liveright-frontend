@@ -3,7 +3,7 @@ import Styles, {ProfileImageStyled} from './session-user-avatar.styles';
 import {noImage} from "../../../../pipes/no-image.pipe";
 
 interface Props {
-    avatar?: {url?: string};
+    avatar?: {url: string} | null;
     first_name?: string;
     last_name?: string;
 }
