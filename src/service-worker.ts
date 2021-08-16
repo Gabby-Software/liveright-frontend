@@ -26,7 +26,7 @@ importScripts("https://js.pusher.com/beams/service-worker.js");
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
-const swv = '2.1.3';
+const swv = '2.2.0';
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -90,25 +90,25 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
-self.addEventListener("push", function (e) {
-    console.log('NATIVE PUSH NOTIFICATION RECEIVED',e, e.data, {...e.data});
-    // // @ts-ignore
-    // if (!(self.Notification && self.Notification.permission === "granted")) {
-    //     //notifications aren't supported or permission not granted!
-    //     return;
-    // }
-    // if (e.data) {
-    //     let msg: NotificationOptions & { title?: string } = {};
-    //     try {
-    //         msg = e.data.json();
-    //     } catch (er) {
-    //         msg = {...e.data, icon: "/maskable_icon_x72.png"};
-    //     }
-    //     e.waitUntil(
-    //         self.registration.showNotification(msg.title || '', msg)
-    //     );
-    // }
-});
+// self.addEventListener("push", function (e) {
+//     console.log('NATIVE PUSH NOTIFICATION RECEIVED',e, e.data, {...e.data});
+//     // @ts-ignore
+//     if (!(self.Notification && self.Notification.permission === "granted")) {
+//         //notifications aren't supported or permission not granted!
+//         return;
+//     }
+//     if (e.data) {
+//         let msg: NotificationOptions & { title?: string } = {};
+//         try {
+//             msg = e.data.json();
+//         } catch (er) {
+//             msg = {...e.data, icon: "/maskable_icon_x72.png"};
+//         }
+//         e.waitUntil(
+//             self.registration.showNotification(msg.title || '', msg)
+//         );
+//     }
+// });
 self.addEventListener("notificationclick", function (event) {
     event.notification.close();
     console.log('NATIVE PUSH NOTIFICATION CLICK', event.notification, event.notification.data.pusher);
@@ -121,16 +121,16 @@ PusherPushNotifications.onNotificationReceived = ({
                                                       pushEvent,
                                                       handleNotification,
                                                   }:any) => {
-    console.log('PUSH NOTIFICATION RECEIVED', payload, pushEvent);
     payload.notification.title = "A new notification!";
     const data: {message:string,type:string,data:{}} = JSON.parse(payload.notification.body);
+    console.log('PUSH NOTIFICATION DATA', data);
     pushEvent.waitUntil(handleNotification({
         notification: {
             title: data.message,
-            icon: '/maskable_icon_x48.png'
+            icon: '/maskable_icon_x96.png'
         },
         data: {
-            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data.data).url
+            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data as {}).url
         }
     }));
 };
