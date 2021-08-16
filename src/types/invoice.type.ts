@@ -26,6 +26,7 @@ export type InvoiceAttendeeType = {
         email: string;
         first_name: string;
         last_name: string;
+        avatar?: FileType;
     },
     address?: AddressType
 }

@@ -5,12 +5,6 @@ export default styled.div`
         &__img {
             ${p =>p.theme.mixin.circleImage("114px")}
             display: block;
-            @media all and (max-width:${p =>p.theme.vars.media.tablet}px) {
-                ${p =>p.theme.mixin.circleImage("86px")}
-                margin: auto;
-            }
-        }
-        &__placeholder {
             ${p => p.theme.extend.flexCenter}
             border-radius: 50%;
             width: 114px;
@@ -20,9 +14,8 @@ export default styled.div`
             background-color: ${p => p.theme.vars.colors.primary};
             color:white;
             @media all and (max-width:${p =>p.theme.vars.media.tablet}px) {
+                ${p =>p.theme.mixin.circleImage("86px")}
                 margin: auto;
-                width: 86px;
-                height:86px;
             }
         }
 }
