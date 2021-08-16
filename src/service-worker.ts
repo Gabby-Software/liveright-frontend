@@ -14,6 +14,7 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import {precacheAndRoute, createHandlerBoundToURL} from 'workbox-precaching';
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
+import {notification} from "antd";
 
 declare const self: ServiceWorkerGlobalScope;
 declare const PusherPushNotifications: any;
@@ -90,7 +91,7 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 self.addEventListener("push", function (e) {
-    console.log('NATIVE PUSH NOTIFICATION RECEIVED',e, e.data);
+    console.log('NATIVE PUSH NOTIFICATION RECEIVED',e, e.data, {...e.data});
     // @ts-ignore
     if (!(self.Notification && self.Notification.permission === "granted")) {
         //notifications aren't supported or permission not granted!
@@ -101,7 +102,7 @@ self.addEventListener("push", function (e) {
         try {
             msg = e.data.json();
         } catch (er) {
-            msg = {...e.data, icon: "/static/images/favicon/favicon-32x32.png"};
+            msg = {...e.data, icon: "/maskable_icon_x72.png"};
         }
         e.waitUntil(
             self.registration.showNotification(msg.title || '', msg)
@@ -110,6 +111,7 @@ self.addEventListener("push", function (e) {
 });
 self.addEventListener("notificationclick", function (event) {
     event.notification.close();
+    console.log('NATIVE PUSH NOTIFICATION CLICK', event, event.notification.data, {...event.notification.data}, event.notification);
     event.waitUntil(
         self.clients.openWindow(process.env.REACT_APP_BASE_URL + event.notification.actions[0].action || '')
     );
