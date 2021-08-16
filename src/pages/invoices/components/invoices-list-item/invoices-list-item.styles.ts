@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import ProfileImage from "../../../../components/profile-image/profile-image.component";
 
+export const StyledAvatar = styled(ProfileImage)`
+    .profile-image__img {
+        ${p => p.theme.mixin.circleImage('31px')}
+        ${p => p.theme.extend.flexCenter}
+        font-size: 12px;
+        margin-right:10px;
+    }
+`
 export default styled.div`
     display:block;
     border-radius: 9px;

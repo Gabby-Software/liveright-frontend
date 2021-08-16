@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo, ComponentType, SVGAttributes} from 'react';
-import Styles from './invoices-list-item.styles';
+import Styles, {StyledAvatar} from './invoices-list-item.styles';
 import {InvoiceType, TrainerInvoiceType} from "../../../../types/invoice.type";
 import profilePlaceholder from '../../../../assets/media/profile-placeholder.png';
 import moment from 'moment';
@@ -22,6 +22,7 @@ import {ReactComponent as DownloadIcon} from "../../../../assets/media/icons/dow
 import {ReactComponent as ViewIcon} from "../../../../assets/media/icons/view.svg";
 import {ActionsStyles} from "../../../financials/tabs/financials-receivables/components/financial-receivables-list-item/financial-receivables-list-item.styles";
 import fileManager from "../../../../managers/file.manager";
+import {noImage} from "../../../../pipes/no-image.pipe";
 
 const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total, pdf, invoice_number}: InvoiceType) => {
     const {t} = useTranslation();
@@ -57,7 +58,8 @@ const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currenc
                 <div
                     className={'invoice-li__label'}>{type === userTypes.CLIENT ? t('invoices:issued-by') : t('invoices:issued-to')}</div>
                 <div className={'invoice-li__body'}>
-                    <img src={profilePlaceholder} className={'invoice-li__img'}/>
+                    <StyledAvatar url={user?.avatar?.url} placeholder={noImage(user?.first_name, user?.last_name)}/>
+                    {/*<img src={profilePlaceholder} className={'invoice-li__img'}/>*/}
                     <div className={'invoice-li__name'}>{user?.first_name} {user?.last_name}</div>
                     <div className={'invoice-li__price'}>{total} {currency.code}</div>
                 </div>

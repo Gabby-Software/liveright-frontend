@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import CardSwipe from "../../../../../../components/card-swipe/card-swipe.component";
+import ProfileImage from "../../../../../../components/profile-image/profile-image.component";
 
 export const ActionsStyles = styled.div`
     width: 200px;
@@ -8,6 +9,14 @@ export const ActionsStyles = styled.div`
     ${p => p.theme.extend.flexCenter}
     flex-wrap: wrap;
 `;
+export const StyledAvatar = styled(ProfileImage)`
+    .profile-image__img {
+        ${p => p.theme.mixin.circleImage('31px')}
+        ${p => p.theme.extend.flexCenter}
+        margin-right:10px;
+        font-size: 12px;
+    }
+`
 
 
 export default styled.div`

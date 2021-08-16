@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo, ComponentType, HTMLAttributes, SVGAttributes} from 'react';
-import Styles, {ActionsStyles} from './financial-receivables-list-item.styles';
+import Styles, {ActionsStyles, StyledAvatar} from './financial-receivables-list-item.styles';
 import {InvoiceType} from "../../../../../../types/invoice.type";
 import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../../../hooks/auth.hook";
@@ -25,6 +25,7 @@ import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_MARK_INVOICE_AS_PAID} from "../../
 import {useInvoices} from "../../../../../invoices/invoices.context";
 import logger from "../../../../../../managers/logger.manager";
 import fileManager from "../../../../../../managers/file.manager";
+import {noImage} from "../../../../../../pipes/no-image.pipe";
 
 const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, invoice_from, status, currency, total, pdf}: InvoiceType) => {
     const {t} = useTranslation();
@@ -91,7 +92,7 @@ const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, i
                 <div
                     className={'invoice-li__label'}>{type === userTypes.CLIENT ? t('invoices:issued-by') : t('invoices:issued-to')}</div>
                 <div className={'invoice-li__body'}>
-                    <img alt={'user-image'} src={profilePlaceholder} className={'invoice-li__img'}/>
+                    <StyledAvatar placeholder={noImage(user?.first_name, user?.last_name)} url={user?.avatar?.url}/>
                     <div className={'invoice-li__name'}>{user?.first_name} {user?.last_name}</div>
                     <div className={'invoice-li__price'}>{total} {currency.code}</div>
                 </div>

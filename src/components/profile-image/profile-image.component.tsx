@@ -16,7 +16,7 @@ const ProfileImage = ({url, placeholder, ...props}: Props) => {
             {url ? (
                 <img alt={'profile'} src={url} className={'profile-image__img'}/>
             ) : (
-                <div className={'profile-image__placeholder'}><span>{placeholder}</span></div>
+                <div className={'profile-image__img'}><span>{placeholder}</span></div>
             )}
         </Styles>
     );
