@@ -122,7 +122,7 @@ PusherPushNotifications.onNotificationReceived = ({
                                                       handleNotification,
                                                   }:any) => {
     payload.notification.title = "A new notification!";
-    const data: {message:string,type:string,data:{}} = JSON.parse(payload.notification.body);
+    const data: {message:string,notification_type:string,data:{}} = JSON.parse(payload.notification.body);
     console.log('PUSH NOTIFICATION DATA', data);
     pushEvent.waitUntil(handleNotification({
         notification: {
@@ -130,7 +130,7 @@ PusherPushNotifications.onNotificationReceived = ({
             icon: '/maskable_icon_x96.png'
         },
         data: {
-            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data as {}).url
+            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.notification_type, data as {}).url
         }
     }));
 };
