@@ -1,4 +1,5 @@
 import axios, {AxiosRequestConfig} from 'axios';
+import moment from "moment-timezone";
 import cookieManager from "./cookie.manager";
 import {EP_LOGOUT} from "../enums/api.enum";
 import {toast} from "../components/toast/toast.component";
@@ -20,6 +21,7 @@ api.interceptors.request.use(
         const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find((acc:AccountType) => acc.is_current)?.uuid;
         if(uuid) config.headers['Account-Token'] =  uuid;
         if(token) config.headers['Authorization'] =  `Bearer ${token}`;
+        config.headers['Timezone'] = moment.tz.guess();
         logger?.info('HTTP_REQUEST', config.url, config.data, config.headers);
         return config;
     },
