@@ -14,7 +14,6 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import {precacheAndRoute, createHandlerBoundToURL} from 'workbox-precaching';
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
-import {notification} from "antd";
 import {notificationUrl} from "./modules/notifications/enums/notification-url.enum";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -27,7 +26,7 @@ importScripts("https://js.pusher.com/beams/service-worker.js");
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
-const swv = '2.1.0';
+const swv = '2.1.1';
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
