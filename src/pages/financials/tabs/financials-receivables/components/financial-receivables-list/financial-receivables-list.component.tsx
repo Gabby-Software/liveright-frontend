@@ -23,23 +23,22 @@ const FinancialReceivablesList = ({}:Props) => {
             });
         });
     };
-    logger.info('RECEIVABLE LIST INFO',window.scrollY, head.current, head.current?.getBoundingClientRect().top, head.current?.offsetTop);
-    logger.info('RECEIVABLE LIST INFO',loading, error, data);
     return (
         <Styles ref={head}>
             {
+                data?.length?(
+                    <>
+                        {data.map((inv: InvoiceType) => <FinancialReceivablesListItem {...inv} key={inv.id}/>)}
+                        <DataPagination page={meta.current_page} setPage={updatePage} total={meta.total}/>
+                    </>
+                ):
                 loading?(
                     <Skeleton/>
                 ) : error ?(
                     <p>{error}</p>
                 ) : !data.length? (
                     <p>{t('invoices:no-data')}</p>
-                ) : (
-                    <>
-                        {data.map((inv: InvoiceType) => <FinancialReceivablesListItem {...inv} key={inv.id}/>)}
-                        <DataPagination page={meta.current_page} setPage={updatePage} total={meta.total}/>
-                    </>
-                )
+                ) : null
             }
         </Styles>
     );

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, ComponentType, HTMLAttributes, SVGAttributes} from 'react';
 import Styles, {ActionsStyles} from './financial-receivables-list-item.styles';
 import {InvoiceType} from "../../../../../../types/invoice.type";
 import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
@@ -43,21 +43,27 @@ const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, sta
             }
         });
     }
+    const cancel = () => {
+
+    }
+    const downloadPDF = () => {
+
+    }
+    const resend = () => {
+
+    }
     const Actions = useMemo(() => () => {
+        const actions: {href?: string, onClick?: () => void, Icon: ComponentType<SVGAttributes<{}>>}[] = [
+            {Icon: DeleteIcon, onClick: cancel},
+            {Icon: SendIcon, onClick: resend},
+            {Icon: DownloadIcon, onClick: downloadPDF},
+            {Icon: ViewIcon, href: Routes.INVOICES+`/${id}`},
+        ]
         return (
             <ActionsStyles className={'invoice-li__extra-actions'}>
-                <CardActionsItem>
-                    <DeleteIcon/>
-                </CardActionsItem>
-                <CardActionsItem>
-                    <SendIcon/>
-                </CardActionsItem>
-                <CardActionsItem>
-                    <DownloadIcon/>
-                </CardActionsItem>
-                <CardActionsItem>
-                    <ViewIcon/>
-                </CardActionsItem>
+                {
+                    actions.map(({Icon, ...attrs}) => <CardActionsItem {...attrs}><Icon/></CardActionsItem>)
+                }
             </ActionsStyles>
         )
     }, [id]);
