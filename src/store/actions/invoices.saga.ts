@@ -51,12 +51,11 @@ function* getAttentionInvoicesWorker({payload}: ActionType<{ include: string }>)
         logger.error('Field to load attention invoices', serverError(e))
     }
 }
-function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, include: string }& CallbackType<void>>) {
-    const {id,onSuccess, onError, ...query} = payload;
+function* deleteInvoiceWorker({payload}: ActionType<{id:number}&GetInvoicesActionType<void>>) {
+    const {onSuccess, onError,id, filters,include,page} = payload;
+    logger.info('cancelling saga worker..');
     try {
-        const params = new URLSearchParams({
-            ...query,
-        } as any).toString();
+        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
         yield call(() => api.delete(EP_GET_INVOICES+`/${id}`));
         if(onSuccess) {
             onSuccess();
@@ -65,6 +64,7 @@ function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, 
             yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
         }
     } catch(e) {
+        logger.info('cancelling error');
     }
 }
 function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number} & GetInvoicesActionType<InvoiceType>>) {

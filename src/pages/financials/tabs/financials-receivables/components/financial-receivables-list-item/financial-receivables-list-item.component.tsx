@@ -21,10 +21,12 @@ import {ReactComponent as ViewIcon} from "../../../../../../assets/media/icons/v
 import {ReactComponent as ReceiptIcon} from "../../../../../../assets/media/icons/receipt.svg";
 import ActionIcon from "../../../../../../components/action-icon/action-icon.component";
 import {useDispatch} from "react-redux";
-import {ACTION_MARK_INVOICE_AS_PAID} from "../../../../../../store/action-types";
+import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_MARK_INVOICE_AS_PAID} from "../../../../../../store/action-types";
 import {useInvoices} from "../../../../../invoices/invoices.context";
+import logger from "../../../../../../managers/logger.manager";
+import fileManager from "../../../../../../managers/file.manager";
 
-const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total}: InvoiceType) => {
+const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, invoice_from, status, currency, total, pdf}: InvoiceType) => {
     const {t} = useTranslation();
     const {type} = useAuth();
     const dispatch = useDispatch();
@@ -44,17 +46,25 @@ const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, sta
         });
     }
     const cancel = () => {
-
+        logger.info('cancelling...');
+        dispatch({
+            type: ACTION_CANCEL_INVOICE_REQUEST, payload: {
+                id,
+                page: meta.current_page,
+                filters,
+                include: 'invoiceTo'
+            }
+        })
     }
     const downloadPDF = () => {
-
+        fileManager.downloadUrl(pdf?.url||'', `Invoice #${invoice_number}`)
     }
     const resend = () => {
 
     }
     const Actions = useMemo(() => () => {
-        const actions: {href?: string, onClick?: () => void, Icon: ComponentType<SVGAttributes<{}>>}[] = [
-            {Icon: DeleteIcon, onClick: cancel},
+        const actions: {href?: string, onClick?: () => void, Icon: ComponentType<SVGAttributes<{}>>, disabled?:boolean}[] = [
+            {Icon: DeleteIcon, onClick: cancel, disabled: status === invoiceStatuses.PAID.toLowerCase()},
             {Icon: SendIcon, onClick: resend},
             {Icon: DownloadIcon, onClick: downloadPDF},
             {Icon: ViewIcon, href: Routes.INVOICES+`/${id}`},

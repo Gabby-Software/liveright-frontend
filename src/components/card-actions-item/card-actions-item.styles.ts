@@ -8,13 +8,13 @@ export default styled.div`
     height: calc(50% - ${margin/2}px);
     background-color: ${p => p.theme.vars.colors.card};
     border-radius: ${p => p.theme.vars.sizes.borderRadius};
-    padding: ${padding}px;
     color: ${p => p.theme.vars.colors.secondary};
     a {
         display: block;
         width: 100%;
         height: 100%;
         color: ${p => p.theme.vars.colors.secondary};
+        padding: ${padding}px;
     }
     svg {
         width: 100%;
@@ -28,5 +28,13 @@ export default styled.div`
     }
     &:nth-child(n+3) {
         margin-top: ${margin}px;
+    }
+    &.card-action-item {
+        &__disabled {
+            opacity: .3;
+            &:hover {
+                color: ${p => p.theme.vars.colors.secondary};
+            }
+        }
     }
 `;
