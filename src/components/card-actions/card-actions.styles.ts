@@ -6,7 +6,7 @@ z-index:1;
 .swipe {
     &__content {
         position: relative;
-        z-index:1;
+        z-index:2;
     }
     &__actions {
         position: absolute;
@@ -14,7 +14,7 @@ z-index:1;
         bottom:0;
         right:0;
         width: 200px;
-        z-index:0;
+        z-index:1;
     }
 }
 `;
