@@ -53,28 +53,27 @@ function* getAttentionInvoicesWorker({payload}: ActionType<{ include: string }>)
 }
 function* deleteInvoiceWorker({payload}: ActionType<{id:number}&GetInvoicesActionType<void>>) {
     const {onSuccess, onError,id, filters,include,page} = payload;
-    logger.info('cancelling saga worker..');
     try {
-        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
         yield call(() => api.delete(EP_GET_INVOICES+`/${id}`));
         if(onSuccess) {
             onSuccess();
         } else {
+            const params = `page=${page}&include=${include}&filter[search]=${filters?.search||''}&filter[status]=${filters?.status||''}&filter[invoice_from]=${filters?.invoice_from||''}&filter[invoice_to]=${filters?.invoice_to||''}`;
             const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
             yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
         }
     } catch(e) {
-        logger.info('cancelling error');
+        logger.info('cancelling error', e);
     }
 }
 function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number} & GetInvoicesActionType<InvoiceType>>) {
     const {id, onSuccess, onError, page, include, filters} = payload;
     try {
-        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
         const invoice = (yield call(() => api.post(EP_MARK_INVOICE_AS_PAID(id)).then(res => res.data.data))) as InvoiceType;
         if(onSuccess) {
             onSuccess(invoice)
         } else {
+            const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
             const invoices = (yield call(() => api.get(EP_GET_INVOICES+`?${params}`).then(res => res.data))) as PaginatedDataType<InvoiceType>;
             yield put({type: ACTION_GET_INVOICES_SUCCESS, payload: invoices});
         }

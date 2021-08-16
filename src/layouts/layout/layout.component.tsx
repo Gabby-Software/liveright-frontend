@@ -6,13 +6,14 @@ import {useWindowSize} from "../../hooks/window-size.hook";
 import {screenSizes} from "../../enums/screen-sizes.enum";
 import {onlyAuth} from "../../guards/auth.guard";
 import {onlyActive} from "../../guards/active.guard";
+import {useIsMobile} from "../../hooks/is-mobile.hook";
 
 type Props = {
     children: React.ReactNode;
 }
 const Layout = ({children}: Props) => {
-    const {width} = useWindowSize();
-    return width <= screenSizes.TABLET ? (
+    const isMobile = useIsMobile();
+    return isMobile ? (
             <MobileLayout>{children}</MobileLayout>
         ) : (
             <DesktopLayout>{children}</DesktopLayout>

@@ -45,6 +45,7 @@ display: flex;
             display: block;
             height: 25px;
             width: auto;
+            max-width: 24px;
             color: ${p => p.theme.vars.colors.primaryDark};
             cursor: pointer;
             transition: ${p => p.theme.vars.defaults.transition};
