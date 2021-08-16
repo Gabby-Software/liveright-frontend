@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import Styles from './financial-receivables-list-item.styles';
+import Styles, {ActionsStyles} from './financial-receivables-list-item.styles';
 import {InvoiceType} from "../../../../../../types/invoice.type";
 import {useTranslation} from "../../../../../../modules/i18n/i18n.hook";
 import {useAuth} from "../../../../../../hooks/auth.hook";
@@ -12,6 +12,12 @@ import {classes} from "../../../../../../pipes/classes.pipe";
 import {capitalize} from "../../../../../../pipes/capitalize.pipe";
 import {invoiceStatuses} from "../../../../../../enums/invoice-statuses";
 import {payments} from "../../../../../../pipes/payments.pipe";
+import CardActions from "../../../../../../components/card-actions/card-actions.component";
+import CardActionsItem from "../../../../../../components/card-actions-item/card-actions-item.component";
+import {ReactComponent as DeleteIcon} from "../../../../../../assets/media/icons/trash.svg";
+import {ReactComponent as SendIcon} from "../../../../../../assets/media/icons/send.svg";
+import {ReactComponent as DownloadIcon} from "../../../../../../assets/media/icons/download.svg";
+import {ReactComponent as ViewIcon} from "../../../../../../assets/media/icons/view.svg";
 
 const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total}: InvoiceType) => {
     const {t} = useTranslation();
@@ -19,8 +25,27 @@ const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, sta
     const user = useMemo(() => {
         return type === userTypes.CLIENT ? invoice_from?.user : invoice_to?.user
     }, [type, invoice_to, invoice_from]);
+    const Actions = useMemo(() => () => {
+        return (
+            <ActionsStyles className={'invoice-li__extra-actions'}>
+                <CardActionsItem>
+                    <DeleteIcon/>
+                </CardActionsItem>
+                <CardActionsItem>
+                    <SendIcon/>
+                </CardActionsItem>
+                <CardActionsItem>
+                    <DownloadIcon/>
+                </CardActionsItem>
+                <CardActionsItem>
+                    <ViewIcon/>
+                </CardActionsItem>
+            </ActionsStyles>
+        )
+    }, [id]);
     return (
         <PopOnScroll offset={100}>
+            <CardActions actions={<Actions/>}>
             <Styles className={'invoice-li'}
                     // to={Routes.INVOICES + '/' + id}
             >
@@ -54,6 +79,7 @@ const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, sta
                     }
                 </div>
             </Styles>
+            </CardActions>
         </PopOnScroll>
     )
 };

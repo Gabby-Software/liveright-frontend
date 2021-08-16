@@ -1,8 +1,18 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import CardSwipe from "../../../../../../components/card-swipe/card-swipe.component";
+
+export const ActionsStyles = styled.div`
+    width: 200px;
+    height: 100%;
+    ${p => p.theme.extend.flexCenter}
+    flex-wrap: wrap;
+`;
+
 
 export default styled.div`
     display:block;
+    position: relative;
     border-radius: 9px;
     background-color: ${p => p.theme.vars.colors.card};
     padding: 16px;
@@ -76,6 +86,12 @@ export default styled.div`
                 background-color: ${p => p.theme.vars.colors.secondary2};
                 color: ${p => p.theme.vars.colors.primaryDark};
             }
+        }
+        &__extra-actions {
+            ${p => p.theme.extend.flexCenter}
+            width: 200px;
+            height: 100%;
+            background-color: blue;
         }
     }
 `;
