@@ -26,7 +26,7 @@ importScripts("https://js.pusher.com/beams/service-worker.js");
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
-const swv = '2.1.2';
+const swv = '2.1.3';
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -130,7 +130,7 @@ PusherPushNotifications.onNotificationReceived = ({
             icon: '/maskable_icon_x48.png'
         },
         data: {
-            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data.data)
+            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data.data).url
         }
     }));
 };
