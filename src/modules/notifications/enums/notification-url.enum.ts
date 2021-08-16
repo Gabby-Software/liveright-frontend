@@ -37,14 +37,14 @@ export const notificationUrl: (message: string, data: {[key:string]:string|numbe
                     slug: 'awaiting reschedule'
                 }
             return {
-                url: Routes.SESSIONS+`/${data.session_id}`,
-                slug: 'session'
+                url: Routes.SESSIONS,
+                slug: 'sessions'
             }
         case notificationsTypes.SESSION_CREATED:
         case notificationsTypes.SESSION_UPDATED:
             return {
-                url: Routes.SESSIONS+`/${data.session_id}`,
-                slug: 'session'
+                url: Routes.SESSIONS,
+                slug: 'sessions'
             }
         default:
             return EMPTY_RESPONSE
