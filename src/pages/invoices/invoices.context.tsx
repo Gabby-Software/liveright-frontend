@@ -34,6 +34,7 @@ const InvoicesContext = createContext<InvoicesContextType>({
         search: '',
         status: '',
         invoice_from: '',
+        invoice_to: '',
     },
     error: '',
     loading: true,

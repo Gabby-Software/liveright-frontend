@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const margin = 20;
-const padding = 30;
+const padding = 34;
 export default styled.div`
     width: calc(50% - ${margin/2}px);
     height: calc(50% - ${margin/2}px);

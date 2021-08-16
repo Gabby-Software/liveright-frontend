@@ -27,8 +27,8 @@ export function* sagaInvoicesWatcher() {
     yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
     yield takeLatest(ACTION_MARK_INVOICE_AS_PAID, markInvoiceAsPaidWorker);
 }
-type GetInvoicesActionType = ActionType<{page: number, filters:{status: string, search: string, invoice_from?: string, invoice_to?: string},  include: string}&CallbackType<void>>;
-function* getInvoicesWorker({payload}:GetInvoicesActionType) {
+type GetInvoicesActionType<G> = {page: number, filters:{status: string, search: string, invoice_from?: string, invoice_to?: string},  include: string}&CallbackType<G>;
+function* getInvoicesWorker({payload}:ActionType<GetInvoicesActionType<void>>) {
     yield put({type:ACTION_GET_INVOICES_LOAD});
     yield put({type:ACTION_UPDATE_INVOICE_FILTERS, payload: payload.filters});
     const {onSuccess, onError, filters,include,page} = payload;
@@ -67,12 +67,10 @@ function* deleteInvoiceWorker({payload}: ActionType<{ id: number, page: number, 
     } catch(e) {
     }
 }
-function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number, page: number, include: string }&CallbackType<InvoiceType>>) {
-    const {id, onSuccess, onError, ...query} = payload;
+function* markInvoiceAsPaidWorker({payload}: ActionType<{ id: number} & GetInvoicesActionType<InvoiceType>>) {
+    const {id, onSuccess, onError, page, include, filters} = payload;
     try {
-        const params = new URLSearchParams({
-            ...query,
-        } as any).toString();
+        const params = `page=${page}&include=${include}&filter[search]=${filters.search||''}&filter[status]=${filters.status||''}&filter[invoice_from]=${filters.invoice_from||''}&filter[invoice_to]=${filters.invoice_to||''}`;
         const invoice = (yield call(() => api.post(EP_MARK_INVOICE_AS_PAID(id)).then(res => res.data.data))) as InvoiceType;
         if(onSuccess) {
             onSuccess(invoice)

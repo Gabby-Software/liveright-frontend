@@ -13,7 +13,8 @@ import logger from "../../managers/logger.manager";
 export type InvoicesFilters = {
     search: string;
     status: string;
-    invoice_from: string;
+    invoice_from?: string;
+    invoice_to?: string;
 }
 export type InvoicesReducerType = {
     needAttention: PaginatedDataType<InvoiceType>,

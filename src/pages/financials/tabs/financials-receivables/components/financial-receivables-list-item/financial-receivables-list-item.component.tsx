@@ -18,13 +18,31 @@ import {ReactComponent as DeleteIcon} from "../../../../../../assets/media/icons
 import {ReactComponent as SendIcon} from "../../../../../../assets/media/icons/send.svg";
 import {ReactComponent as DownloadIcon} from "../../../../../../assets/media/icons/download.svg";
 import {ReactComponent as ViewIcon} from "../../../../../../assets/media/icons/view.svg";
+import {ReactComponent as ReceiptIcon} from "../../../../../../assets/media/icons/receipt.svg";
+import ActionIcon from "../../../../../../components/action-icon/action-icon.component";
+import {useDispatch} from "react-redux";
+import {ACTION_MARK_INVOICE_AS_PAID} from "../../../../../../store/action-types";
+import {useInvoices} from "../../../../../invoices/invoices.context";
 
 const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, status, currency, total}: InvoiceType) => {
     const {t} = useTranslation();
     const {type} = useAuth();
+    const dispatch = useDispatch();
+    const {current:{meta}, filters} = useInvoices();
     const user = useMemo(() => {
         return type === userTypes.CLIENT ? invoice_from?.user : invoice_to?.user
     }, [type, invoice_to, invoice_from]);
+    const markAsPaid = (id: number) => {
+        dispatch({
+            type: ACTION_MARK_INVOICE_AS_PAID,
+            payload: {
+                id,
+                page: meta.current_page,
+                filters,
+                include: 'invoiceTo',
+            }
+        });
+    }
     const Actions = useMemo(() => () => {
         return (
             <ActionsStyles className={'invoice-li__extra-actions'}>
@@ -65,17 +83,13 @@ const FinancialReceivablesListItem = ({id, due_on, invoice_to, invoice_from, sta
                     <div
                         className={classes('invoice-li__status', `invoice-li__status__${status.toLowerCase()}`)}>{capitalize(status)}</div>
                     {
-                        [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(status) ? (
-                            type === userTypes.CLIENT ? (
-                                <a href={payments(Routes.INVOICES + '/' + id)} className={'invoice-li__cta'}
-                                   onClick={e => e.stopPropagation()}
-                                >{t('invoices:settle-now')}</a>
-                            ) : (
+                        [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(capitalize(status)) ? (
                                 <a className={'invoice-li__cta'}
-                                   onClick={e => e.stopPropagation()}
-                                >{t('invoices:remind-client')}</a>
-                            )
-                        ) : null
+                                   onClick={() => markAsPaid(id)}
+                                >{t('invoices:mark-paid')}</a>
+                        ) : invoiceStatuses.PAID.toLowerCase() === status ? (
+                            <ActionIcon icon={ReceiptIcon} onClick={() => {}}/>
+                        ): null
                     }
                 </div>
             </Styles>
