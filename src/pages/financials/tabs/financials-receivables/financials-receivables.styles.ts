@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {media} from "../../../../assets/styles/_media";
 
 export default styled.div`
 position: relative;
@@ -11,6 +12,11 @@ position: relative;
         position: absolute;
         top:0;
         right:0;
+        ${media('tablet', 'max')`
+            display: block;
+            position: static;
+            margin-bottom: 24px;
+        `}
     }
 }
 `;
