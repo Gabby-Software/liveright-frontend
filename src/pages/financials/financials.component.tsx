@@ -17,7 +17,6 @@ type Props = {};
 const Financials = ({}: Props) => {
 
     const isMobile = useIsMobile();
-    if(isMobile) return null;
     return (
         <Styles>
             <RoutedTabs tabs={financialTabs}/>
