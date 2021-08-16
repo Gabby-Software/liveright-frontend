@@ -26,7 +26,7 @@ importScripts("https://js.pusher.com/beams/service-worker.js");
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
-const swv = '2.1.1';
+const swv = '2.1.2';
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -111,10 +111,9 @@ self.addEventListener("push", function (e) {
 });
 self.addEventListener("notificationclick", function (event) {
     event.notification.close();
-    console.log('NATIVE PUSH NOTIFICATION CLICK', event, event.notification.data, {...event.notification.data}, event.notification);
-    const data: {message:string,type:string,data:{}} = JSON.parse(event.notification.body);
+    console.log('NATIVE PUSH NOTIFICATION CLICK', event.notification, event.notification.data.pusher);
     event.waitUntil(
-        self.clients.openWindow((process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data.data))
+        self.clients.openWindow(event.notification.data.pusher.customerPayload.data.url||'')
     );
 });
 PusherPushNotifications.onNotificationReceived = ({
@@ -131,6 +130,7 @@ PusherPushNotifications.onNotificationReceived = ({
             icon: '/maskable_icon_x48.png'
         },
         data: {
+            url: (process.env.REACT_APP_BASE_URL||'') + notificationUrl(data.type, data.data)
         }
     }));
 };
