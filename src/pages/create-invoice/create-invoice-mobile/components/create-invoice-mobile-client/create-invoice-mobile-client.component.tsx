@@ -16,8 +16,7 @@ import CreateInvoiceMobileActions from "../create-invoice-mobile-actions/create-
 
 const CreateInvoiceMobileClient = () => {
 
-    const {values, setValues, setStep} = useInvoiceForm();
-    const [client, setClient] = useState<AccountObjType|null>(null);
+    const {values, setValues, setStep, client, setClient} = useInvoiceForm();
     const handleSubmit = (formValues: InvoiceFormType, helper: FormikHelpers<InvoiceFormType>) => {
         setValues(formValues);
         setStep(createInvoiceSteps.DETAILS);

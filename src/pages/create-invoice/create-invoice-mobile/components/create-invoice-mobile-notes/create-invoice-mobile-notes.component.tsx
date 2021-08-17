@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Styles from './create-invoice-mobile-notes.styles';
 import {useInvoiceForm} from "../../../create-invoice.context";
-import {createInvoiceSteps, InvoiceFormType} from "../../../create-invoice.data";
+import {InvoiceFormType} from "../../../create-invoice.data";
 import {Formik, Form, FormikHelpers, FormikProps} from "formik";
 import CreateInvoiceSection from "../../../components/create-invoice-section/create-invoice-section.component";
 import FormTextarea from "../../../../../components/forms/form-textarea/form-textarea.component";
-import ButtonSubmit from "../../../../../components/forms/button-submit/button-submit.component";
 import {useTranslation} from "../../../../../modules/i18n/i18n.hook";
 import FormButton from "../../../../../components/forms/form-button/form-button.component";
 import logger from "../../../../../managers/logger.manager";
@@ -14,6 +13,12 @@ import {Routes} from "../../../../../enums/routes.enum";
 import {handleError} from "../../../../../managers/api.manager";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
+import CreateInvoiceMobileClientView
+    from "../create-invoice-mobile-client-view/create-invoice-mobile-client-view.component";
+import CreateInvoiceMobileDetailsView
+    from "../create-invoice-mobile-details-view/create-invoice-mobile-details-view.component";
+import CreateInvoiceMobileItemsView
+    from "../create-invoice-mobile-items-view/create-invoice-mobile-items-view.component";
 
 type Props = {};
 const CreateInvoiceMobileNotes = ({}: Props) => {
@@ -43,6 +48,9 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
     }
     return (
         <Styles>
+            <CreateInvoiceMobileClientView/>
+            <CreateInvoiceMobileDetailsView/>
+            <CreateInvoiceMobileItemsView/>
             <Formik initialValues={values} onSubmit={handleSubmit}
                     enableReinitialize
             >
