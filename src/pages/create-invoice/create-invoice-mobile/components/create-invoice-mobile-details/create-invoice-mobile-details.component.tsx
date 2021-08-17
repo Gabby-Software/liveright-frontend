@@ -11,6 +11,8 @@ import FormSelect from "../../../../../components/forms/form-select/form-select.
 import {paymentMethodsOptions} from "../../../../../enums/payment-method.enum";
 import CreateInvoiceSection from "../../../components/create-invoice-section/create-invoice-section.component";
 import CreateInvoiceMobileActions from "../create-invoice-mobile-actions/create-invoice-mobile-actions.component";
+import CreateInvoiceMobileClientView
+    from "../create-invoice-mobile-client-view/create-invoice-mobile-client-view.component";
 
 type Props = {};
 const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
@@ -22,6 +24,7 @@ const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
     }
     return (
         <Styles>
+            <CreateInvoiceMobileClientView/>
             <Formik initialValues={values} onSubmit={handleSubmit}
                     isInitialValid={false}
                     enableReinitialize
