@@ -1,22 +1,8 @@
 import {CurrencyType} from "./currency.type";
 import {AddressType} from "./address.type";
 import {FileType} from "./file.type";
+import {InvoiceItemType} from "../pages/create-invoice/create-invoice.data";
 
-export type InvoiceItemType = {
-    id: number;
-    type: string;
-    name: string;
-    is_taxable: boolean;
-    description: string;
-    discount_amount: number;
-    discount_percent: number;
-    quantity: number;
-    subtotal: number;
-    tax_rate: number;
-    tax_value: number;
-    total: number;
-    unit_price: number;
-}
 export type InvoiceAttendeeType = {
     id: number;
     type: string;

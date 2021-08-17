@@ -29,6 +29,7 @@ import FormSelect from "../../../components/forms/form-select/form-select.compon
 import {paymentMethodsOptions} from "../../../enums/payment-method.enum";
 import CreateInvoiceItem from "../components/create-invoice-item/create-invoice-item.component";
 import FormTextarea from "../../../components/forms/form-textarea/form-textarea.component";
+import CreateInvoiceSummary from "../components/create-invoice-summary/create-invoice-summary.component";
 
 type Props = {};
 const CreateInvoiceDesktop = ({}:Props) => {
@@ -169,7 +170,9 @@ const CreateInvoiceDesktop = ({}:Props) => {
                                                     </>
                                                 )
                                             }
+
                                         </FieldArray>
+                                        <CreateInvoiceSummary items={values.items}/>
                                     </CreateInvoiceSection>
                                     <CreateInvoiceSection title={'Add Notes'}>
                                         <FormTextarea name={'invoice.description'} label={'Notes'}/>

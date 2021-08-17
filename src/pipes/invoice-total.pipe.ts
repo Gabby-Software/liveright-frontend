@@ -1,6 +1,6 @@
 import {asMoney} from "./as-money.pipe";
 import {asPrice} from "./price.pipe";
-import {InvoiceItemType} from "../types/invoice.type";
+import {InvoiceItemType} from "../pages/create-invoice/create-invoice.data";
 
 export const invoiceItemTotal = (item: InvoiceItemType) => {
     return +item.unit_price*item.quantity*(1-item.discount_percent/100)*(1+item.tax_rate/100);

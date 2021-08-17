@@ -33,7 +33,7 @@ const InvoiceMobileSummary = () => {
                             <div className={'invoice-m-summary__item invoice-m-summary__bold'}>{asMoney(asPrice(invoiceItemTotal(item)))} {data.currency.code}</div>
                         </div>
                         <div className={'invoice-m-summary__row invoice-m-summary__row__space'}>
-                            <div className={'invoice-m-summary__item'}>{item.quantity} X {item.unit_price*(1-item.discount_percent/100)} {data.currency.code}</div>
+                            <div className={'invoice-m-summary__item'}>{item.quantity} X {+item.unit_price*(1-item.discount_percent/100)} {data.currency.code}</div>
                             <div className={'invoice-m-summary__item'}>({asMoney(asPrice(invoiceItemTax(item)))} {data.currency.code} {t('invoices:vat')})</div>
                         </div>
                     </>
@@ -42,7 +42,7 @@ const InvoiceMobileSummary = () => {
             <div className={'invoice-m-summary__hr'}/>
             <div className={'invoice-m-summary__row invoice-m-summary__row__big'}>
                 <div className={'invoice-m-summary__item'}>{t('invoices:subtotal')}</div>
-                <div className={'invoice-m-summary__item invoice-m-summary__bold'}>{asMoney(asPrice(data.items.reduce((a,b) => a+b.unit_price*b.quantity, 0)))} {data.currency.code}</div>
+                <div className={'invoice-m-summary__item invoice-m-summary__bold'}>{asMoney(asPrice(data.items.reduce((a,b) => a+(+b.unit_price)*b.quantity, 0)))} {data.currency.code}</div>
             </div>
             <div className={'invoice-m-summary__row invoice-m-summary__row__big'}>
                 <div className={'invoice-m-summary__item'}>{t('invoices:discount')}</div>
