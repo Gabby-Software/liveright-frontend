@@ -11,7 +11,8 @@ export type NotificationType = {
         session_id?: number,
         is_awaiting_scheduling?: number,
         is_awaiting_rescheduling?: number,
-        account_to_uuid?: string
+        account_to_uuid?: string,
+        account_to_user_uuid?: string,
     }
     id: string;
     type: string;

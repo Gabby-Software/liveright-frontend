@@ -16,16 +16,32 @@ import {addressLine} from "../../../../pipes/address-line.pipe";
 import {useAuth} from "../../../../hooks/auth.hook";
 import userTypes from "../../../../enums/user-types.enum";
 import {Popconfirm} from "antd";
-import {ACTION_CANCEL_INVOICE_REQUEST, ACTION_MARK_INVOICE_AS_PAID} from "../../../../store/action-types";
+import {
+    ACTION_CANCEL_INVOICE_REQUEST,
+    ACTION_DOWNLOAD_INVOICE_PDF,
+    ACTION_MARK_INVOICE_AS_PAID
+} from "../../../../store/action-types";
 import {useDispatch} from "react-redux";
 import {classes} from "../../../../pipes/classes.pipe";
+import logger from "../../../../managers/logger.manager";
 
 const InvoiceAttendees = () => {
     const {t} = useTranslation();
-    const {data, refetch, setData} = useAPIData<InvoiceFullType>();
+    const {data, refetch, setData, loading} = useAPIData<InvoiceFullType>();
     const {type} = useAuth();
     const history = useHistory();
     const dispatch = useDispatch();
+    // useEffect(() => {
+    //     if (!loading && data && !data.pdf?.url) {
+    //         logger.info('^^PDF', data, data?.pdf, loading);
+    //         dispatch({
+    //             type: ACTION_DOWNLOAD_INVOICE_PDF, payload: {
+    //                 id: data.id,
+    //                 // onSuccess: setData
+    //             }
+    //         })
+    //     }
+    // }, [data?.pdf]);
     const markAsPaid = (id: number) => {
         dispatch({
             type: ACTION_MARK_INVOICE_AS_PAID, payload: {
@@ -84,12 +100,12 @@ const InvoiceAttendees = () => {
                 }
                 <div className={'invoice-att__icons'}>
                     {
-                        type === userTypes.TRAINER && data.status !== 'paid'?(
+                        type === userTypes.TRAINER && data.status !== 'paid' ? (
                             <Popconfirm title={'Are you sure you want to delete this invoice?'}
                                         onConfirm={remove}>
                                 <TimesIcon className={'invoice-att__action'}/>
                             </Popconfirm>
-                        ):null
+                        ) : null
                     }
                     <PrintIcon className={'invoice-att__action'} onClick={window.print}/>
                     <a href={data.pdf?.url} target={'_blank'} download={`invoice-${data.invoice_number}.pdf`}>
@@ -107,4 +123,4 @@ const InvoiceAttendees = () => {
     );
 };
 
-export default InvoiceAttendees;
+export default React.memo(InvoiceAttendees);

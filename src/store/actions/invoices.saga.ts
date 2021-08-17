@@ -1,17 +1,29 @@
 import {takeLatest,throttle, put, call} from 'redux-saga/effects';
 import {
     ACTION_CANCEL_INVOICE_REQUEST,
-    ACTION_CREATE_INVOICE_REQUEST, ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_ATTENTION_INVOICES_SUCCESS,
+    ACTION_CREATE_INVOICE_REQUEST,
+    ACTION_DOWNLOAD_INVOICE_PDF,
+    ACTION_GET_ATTENTION_INVOICES_REQUEST,
+    ACTION_GET_ATTENTION_INVOICES_SUCCESS,
     ACTION_GET_INVOICES_ERROR,
     ACTION_GET_INVOICES_LOAD,
-    ACTION_GET_INVOICES_REQUEST, ACTION_GET_INVOICES_SUCCESS,
+    ACTION_GET_INVOICES_REQUEST,
+    ACTION_GET_INVOICES_SUCCESS,
     ACTION_GET_TRAINER_REQUEST,
-    ACTION_GET_TRAINER_SUCCESS, ACTION_MARK_INVOICE_AS_PAID, ACTION_UPDATE_INVOICE_FILTERS,
+    ACTION_GET_TRAINER_SUCCESS,
+    ACTION_MARK_INVOICE_AS_PAID,
+    ACTION_UPDATE_INVOICE_FILTERS,
     ActionType
 } from "../action-types";
 import {CallbackType} from "../../types/callback.type";
 import {AccountObjType} from "../../types/account.type";
-import {EP_ADD_INVOICE, EP_GET_INVOICES, EP_GET_TRAINER, EP_MARK_INVOICE_AS_PAID} from "../../enums/api.enum";
+import {
+    EP_ADD_INVOICE,
+    EP_GET_INVOICE_PDF,
+    EP_GET_INVOICES,
+    EP_GET_TRAINER,
+    EP_MARK_INVOICE_AS_PAID
+} from "../../enums/api.enum";
 import api from "../../managers/api.manager";
 import logger from "../../managers/logger.manager";
 import {PaginatedDataType} from "../../types/paginated-data.type";
@@ -26,6 +38,7 @@ export function* sagaInvoicesWatcher() {
     yield takeLatest(ACTION_GET_ATTENTION_INVOICES_REQUEST, getAttentionInvoicesWorker);
     yield takeLatest(ACTION_CANCEL_INVOICE_REQUEST, deleteInvoiceWorker);
     yield takeLatest(ACTION_MARK_INVOICE_AS_PAID, markInvoiceAsPaidWorker);
+    yield throttle(1000,ACTION_DOWNLOAD_INVOICE_PDF, downloadInvoicePDFWorker);
 }
 type GetInvoicesActionType<G> = {page: number, filters:{status: string, search: string, invoice_from?: string, invoice_to?: string},  include: string}&CallbackType<G>;
 function* getInvoicesWorker({payload}:ActionType<GetInvoicesActionType<void>>) {
@@ -94,4 +107,17 @@ function* createInvoiceWorker({payload}:ActionType<InvoiceFormType&CallbackType<
     } catch (e) {
         onError && onError(serverError(e))
     }
+}
+
+function* downloadInvoicePDFWorker({payload}: ActionType<{id:number}&CallbackType<InvoiceType>>) {
+    logger.info('downloading invoice pdf');
+    // const {id, onError, onSuccess} = payload;
+    // try {
+    //     // const res = (yield call(() => api.post(EP_GET_INVOICE_PDF(id)).then(res => res.data.data))) as InvoiceType;
+    //     // logger.success('PDF RES', res);
+    //     onSuccess && onSuccess({} as any);
+    // } catch(e) {
+    //     logger.error('Cannot download invoice', e);
+    //     onError && onError(serverError(e))
+    // }
 }

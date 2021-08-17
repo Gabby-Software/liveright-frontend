@@ -12,13 +12,15 @@ export const EP_CHECK_EMAIL_EXIST = ALLRIGHT_BASE+'/invitations/check';
 export const EP_INVITE_NEW_USER = ALLRIGHT_BASE+'/invitations';
 export const EP_GET_TRAINER = ALLRIGHT_BASE+'/training/trainer';
 export const EP_GET_CLIENTS = ALLRIGHT_BASE+'/training/clients';
+export const EP_GET_SESSIONS = '/sessions';
+export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE+'/pusher/beams-auth';
+export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE+'/pusher/auth';
+
 export const EP_GET_INVOICES = ALLRIGHT_BASE+'/invoices';
 export const EP_ADD_INVOICE = ALLRIGHT_BASE+'/invoices';
 export const EP_GET_INVOICE_ISSUERS=ALLRIGHT_BASE+'/invoices/associated-accounts';
 export const EP_MARK_INVOICE_AS_PAID = (id:number) => ALLRIGHT_BASE+`/invoices/${id}/mark-as-paid`;
-export const EP_GET_SESSIONS = '/sessions';
-export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE+'/pusher/beams-auth';
-export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE+'/pusher/auth';
+export const EP_GET_INVOICE_PDF = (id:number) => ALLRIGHT_BASE+`/invoices/${id}/generate-pdf`;
 
 export const EP_ADD_NOTIFICATION = ALLRIGHT_BASE+'/notifications/test';
 export const EP_GET_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/all';
