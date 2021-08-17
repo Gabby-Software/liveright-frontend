@@ -28,6 +28,8 @@ export const ACTION_SWITCH_ACCOUNT_SUCCESS = 'action-switch-account-success';
 export const ACTION_ADD_ACCOUNT_REQUEST = 'action-add-account-request';
 export const ACTION_ADD_ACCOUNT_SUCCESS = 'action-add-account-success';
 export const ACTION_UPDATE_PROFILE_REQUEST = 'action-update-user-request';
+
+// invoices
 export const ACTION_GET_INVOICES_REQUEST = 'action-get-invoices-request';
 export const ACTION_GET_INVOICES_SUCCESS = 'action-get-invoices-success';
 export const ACTION_CANCEL_INVOICE_REQUEST = 'action-cancel-invoice-request';
@@ -39,6 +41,9 @@ export const ACTION_MARK_INVOICE_AS_PAID = 'action-mark-invoice-as-paid';
 export const ACTION_CREATE_INVOICE_REQUEST = 'action-create-invoice-request';
 export const ACTION_CREATE_INVOICE_SUCCESS = 'action-create-invoice-success';
 export const ACTION_UPDATE_INVOICE_FILTERS = 'action-update-invoice-filters';
+export const ACTION_DOWNLOAD_INVOICE_PDF = 'action-download-invoice-pdf';
+
+// clients
 export const ACTION_GET_CLIENTS_REQUEST = 'action-get-clients-request';
 export const ACTION_GET_CLIENTS_SUCCESS = 'action-get-clients-success';
 export const ACTION_GET_CLIENTS_LOAD = 'action-get-clients-load';
@@ -51,6 +56,10 @@ export const ACTION_UPDATE_CLIENT_REQUEST = 'action-update-client-request';
 export const ACTION_UPDATE_CLIENT_SUCCESS = 'action-update-client-success';
 export const ACTION_UPDATE_CLIENTS_FILTERS = 'action-update-clients-filters';
 
+export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
+export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';
+
+// sessions
 export const ACTION_GET_SESSIONS_REQUEST = 'action-get-sessions-request';
 export const ACTION_GET_SESSIONS_SUCCESS = 'action-get-sessions-success';
 export const ACTION_GET_SESSIONS_LOAD = 'action-get-sessions-load';
@@ -81,9 +90,7 @@ export const ACTION_TRAINER_REMOVE_SESSION_LOAD = 'action-trainer-remove-session
 export const ACTION_TRAINER_REMOVE_SESSION_SUCCESS = 'action-trainer-remove-sessions-success';
 export const ACTION_TRAINER_REMOVE_SESSION_ERROR = 'action-trainer-remove-sessions-error';
 
-export const ACTION_GET_CLIENT_MINIMAL_REQUEST = 'action-get-client-minimal-request';
-export const ACTION_GET_CLIENT_MINIMAL_SUCCESS = 'action-get-client-minimal-success';
-
+// notifications
 export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST = 'action-get-unread-notification-count-request';
 export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS = 'action-get-unread-notification-count-success';
 export const ACTION_GET_NOTIFICATIONS_REQUEST = 'action-get-notifications-request';

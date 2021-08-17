@@ -10,7 +10,7 @@ export const notificationUrl: (message: string, data: {[key:string]:string|numbe
         case notificationsTypes.INVITATION_ACCEPT:
             return {
                 slug: `client's profile`,
-                url: Routes.CLIENTS+`/${data.account_to_uuid}`+Routes.PROFILE
+                url: Routes.CLIENTS+`/${data.account_to_user_uuid}`+Routes.PROFILE
             };
         case notificationsTypes.INVITATION_REJECT:
             return {
