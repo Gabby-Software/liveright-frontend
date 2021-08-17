@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export default styled.div`
-.ci-items {
-    
-    &__summary {
+max-width: 200px;
+margin-left:auto;
+.ci-items__summary {
         margin: 40px 0;
         &__item {
             display: flex;
@@ -17,6 +17,5 @@ export default styled.div`
             color: ${p => p.theme.vars.colors.primary};
             font-weight: 600;
         }
-    }
 }
 `;
