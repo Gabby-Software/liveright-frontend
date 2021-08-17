@@ -28,10 +28,8 @@ export const authReducer = withCookies((state = initialState, {type, payload}: A
     switch(type) {
         case ACTION_LOGIN_SUCCESS:
         case ACTION_REGISTER_SUCCESS:
-            logger.info('setting user', payload);
             return payload;
         case ACTION_UPDATE_AUTH_SUCCESS:
-            logger.info('updating user', payload);
             return {
                 ...state,
                 ...payload

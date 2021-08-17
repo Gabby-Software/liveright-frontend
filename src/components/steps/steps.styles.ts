@@ -26,6 +26,7 @@ export default styled.div`
         }
         &__step {
             width: 100%;
+            overflow:hidden;
         }
     }
 `;

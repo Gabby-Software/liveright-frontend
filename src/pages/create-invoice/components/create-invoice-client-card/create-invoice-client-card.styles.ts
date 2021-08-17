@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Card from "../../../../components/card/card.style";
+import {media} from "../../../../assets/styles/_media";
 
 export default styled(Card)`
 position: relative;
@@ -13,6 +14,10 @@ ${p => p.theme.extend.flexCenter}
         font-size: 24px;
         color: ${p => p.theme.vars.colors.error};
         cursor: pointer;
+        ${media('tablet', 'max')`
+                top: 6px;
+                right: 6px;
+        `}
     }
     &__img {
         ${p => p.theme.mixin.circleImage('40px')}

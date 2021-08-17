@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './create-invoice-item.styles';
-import {InvoiceFormType, InvoiceItemType} from "../../create-invoice.component";
+import {InvoiceFormType, InvoiceItemType} from "../../create-invoice.data";
 import {ArrayHelpers, FormikProps} from "formik";
 import FormRow from '../../../../components/forms/form-row/form-row.component';
 import FormSelect from "../../../../components/forms/form-select/form-select.component";
@@ -13,6 +13,7 @@ import FormDatepicker from "../../../../components/forms/form-datepicker/form-da
 import {asPrice} from "../../../../pipes/price.pipe";
 import {asMoney} from "../../../../pipes/as-money.pipe";
 import moment from "moment";
+import logger from "../../../../managers/logger.manager";
 
 type Props = {
     form: FormikProps<InvoiceFormType>,
@@ -26,9 +27,8 @@ const typeOptions: OptionType[] = [
     {label: 'Coaching session', value: 'Coaching session'},
     {label: 'Complimentary session', value: 'Complimentary session'},
 ];
-const CreateInvoiceItem = ({form, helper, item, i, credits}: Props) => {
+const CreateInvoiceItem = ({form, helper, i, item, credits}: Props) => {
     const {t} = useTranslation();
-
     return (
         <Styles>
             <FormRow>
