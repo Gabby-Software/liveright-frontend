@@ -61,7 +61,7 @@ const InvoiceInfo = () => {
                     </td>
                 </tr>
             </DataTable>
-            <p className={'invoice-info__thanks'}>{t('invoices:thanks')}</p>
+            <p className={'invoice-info__thanks'}>{data.description}</p>
         </Styles>
     )
 };

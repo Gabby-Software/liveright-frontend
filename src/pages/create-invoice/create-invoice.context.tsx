@@ -11,7 +11,7 @@ export type CreateInvoiceContextType = {
     setClient: (client: AccountObjType|null) => void;
 }
 export const CreateInvoiceContext = createContext<CreateInvoiceContextType>({
-    values:createInvoiceInitialValues,
+    values:{...createInvoiceInitialValues,items:[]},
     setValues: () => {},
     step: createInvoiceSteps.CLIENT,
     setStep: () => {},
@@ -21,7 +21,7 @@ export const CreateInvoiceContext = createContext<CreateInvoiceContextType>({
 
 export const useInvoiceForm = () => useContext(CreateInvoiceContext);
 export const CreateInvoiceProvider: FC<{}> = ({children}) => {
-    const [values, setValues] = useState(createInvoiceInitialValues);
+    const [values, setValues] = useState<InvoiceFormType>({...createInvoiceInitialValues,items:[]});
     const [step, setStep] = useState(createInvoiceSteps.CLIENT);
     const [client, setClient] = useState<AccountObjType|null>(null);
     return (
