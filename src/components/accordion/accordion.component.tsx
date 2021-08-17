@@ -1,15 +1,22 @@
-import React, {useState, useEffect, HTMLProps, useRef} from 'react';
+import React, {useState, useEffect, HTMLProps, useRef, createContext} from 'react';
 import Styles from './accordion.styles';
 import Card from "../card/card.style";
 import {ReactComponent as DownArrowIcon} from "../../assets/media/icons/down-arrow.svg";
 import {classes} from "../../pipes/classes.pipe";
 
-export type ItemPropsType =  {
+export type ItemPropsType = {
     children: React.ReactNode,
     title: string;
     open?: boolean;
     switchOpen?: () => void;
 }
+type AccordionContextType = {
+    closeAll: () => void
+}
+export const AccordionContext = createContext<AccordionContextType>({
+    closeAll: () => {
+    }
+});
 const Item = ({children, title, open, switchOpen}: ItemPropsType) => {
     const content = useRef<HTMLDivElement>(null);
     return (
@@ -20,9 +27,9 @@ const Item = ({children, title, open, switchOpen}: ItemPropsType) => {
                     <DownArrowIcon className={classes('accordion__icon', open && 'accordion__icon__open')}/>
                 </div>
                 <div className={'accordion__body'}
-                    style={{height: `${open?(content?.current?.scrollHeight || ''):0}px`}} ref={content}>
+                     style={{height: `${open ? (content?.current?.scrollHeight || '') : 0}px`}} ref={content}>
                     <div>
-                    {children}
+                        {children}
                     </div>
                 </div>
             </Card>
@@ -35,18 +42,22 @@ type AccordionPropsType = HTMLProps<HTMLDivElement> & {
 const Accordion = ({children, ...props}: AccordionPropsType) => {
     const [open, setOpen] = useState(-1);
     return (
-        <Styles onClick={props.onClick} style={props.style} className={classes(props.className, 'accordion')}>
-            {
-                React.Children.map(children, ((child, i) => {
-                    if (React.isValidElement(child)) {
-                        return React.cloneElement(child, {...child.props,
-                            open: i === open,
-                            switchOpen: () => setOpen(i === open ? -1 : i)})
-                    }
-                    return child;
-                }))
-            }
-        </Styles>
+        <AccordionContext.Provider value={{closeAll: () => setOpen(-1)}}>
+            <Styles onClick={props.onClick} style={props.style} className={classes(props.className, 'accordion')}>
+                {
+                    React.Children.map(children, ((child, i) => {
+                        if (React.isValidElement(child)) {
+                            return React.cloneElement(child, {
+                                ...child.props,
+                                open: i === open,
+                                switchOpen: () => setOpen(i === open ? -1 : i)
+                            })
+                        }
+                        return child;
+                    }))
+                }
+            </Styles>
+        </AccordionContext.Provider>
     )
 };
 Accordion.Item = Item;

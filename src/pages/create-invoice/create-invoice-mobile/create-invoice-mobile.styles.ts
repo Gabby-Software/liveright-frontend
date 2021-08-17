@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export default styled.div`
-.steps__step {
+[class$=wrapper] {
+    margin-bottom: 24px;
 }
 `;
