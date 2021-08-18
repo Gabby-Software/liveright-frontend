@@ -28,6 +28,8 @@ const vars = {
         primaryDark2_v2: '#404040',
         secondary1_v2: '#E4E8ED',
         secondary2_v2: '#9E9E9E',
+        secondary3_v2: '#F8F8F8',
+        secondary4_v2: '#5E5E5E',
         inputBorder_v2: '#E0E0E0'
     },
     sizes: {

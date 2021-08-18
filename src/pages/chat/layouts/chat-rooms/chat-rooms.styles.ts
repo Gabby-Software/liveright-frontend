@@ -5,4 +5,9 @@ width: 368px;
 max-width: 100%;
 flex-shrink: 0;
 padding: 22px 24px;
+.chat-rooms {
+    &__container {
+        margin-top: 20px;
+    }
+}
 `;
