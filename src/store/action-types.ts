@@ -104,3 +104,9 @@ export const ACTION_UPDATE_NOTIFICATIONS_SETTINGS_REQUEST = 'action-update-notif
 export const ACTION_UPDATE_NOTIFICATIONS_SETTINGS_SUCCESS = 'action-update-notifications-settings-success';
 export const ACTION_RESET_NOTIFICATIONS_SETTINGS_REQUEST = 'action-reset-notifications-settings-request';
 export const ACTION_RESET_NOTIFICATIONS_SETTINGS_SUCCESS = 'action-reset-notifications-settings-success';
+
+// progress
+export const ACTION_GET_PROGRESS_REQUEST = 'action-get-progress-request';
+export const ACTION_GET_PROGRESS_LOAD = 'action-get-progress-load';
+export const ACTION_GET_PROGRESS_SUCCESS = 'action-get-progress-success';
+export const ACTION_GET_PROGRESS_ERROR = 'action-get-progress-error';

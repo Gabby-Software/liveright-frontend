@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Button from './form-button.styles';
 import {ButtonProps} from "antd/lib/button";
 

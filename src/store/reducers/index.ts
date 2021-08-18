@@ -6,6 +6,7 @@ import {invoicesReducer} from "./invoices.reducer";
 import {clientsReducer} from "./clients.reducer";
 import {clientReducer} from "./client.reducer";
 import {sessionsReducer} from "./sessions.reducer";
+import {progressReducer} from "./progress.reducer";
 import {notificationsReducer} from "./notifications.reducer";
 const rootReducer = combineReducers({
     account: accountReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     clients: clientsReducer,
     client: clientReducer,
     sessions: sessionsReducer,
-    notifications: notificationsReducer
+    progress: progressReducer,
+    notifications: notificationsReducer,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>

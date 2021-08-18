@@ -167,6 +167,14 @@ export const routes: RouteType[] = [
         footer: footerTypes.TRAINER
     },
     {
+        title: 'Progress',
+        url: Routes.PROGRESS,
+        Component: lazy(() => import('../pages/progress/progress.component')),
+        header: {
+            title: "Progress",
+        }
+    },
+    {
         title: 'Sessions',
         url: Routes.SESSIONS+'/:id',
         Component: lazy(() => import('../pages/session/session.component')),

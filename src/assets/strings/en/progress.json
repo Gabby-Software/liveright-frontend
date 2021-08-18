@@ -1,0 +1,41 @@
+{
+  "title": "Your Progress and Metrics",
+  "todayHighlights": "Today's Highlights",
+  "overTime": "Over time",
+  "noLogs": "No Logs Yet",
+  "logNow": "Log Now",
+  "date": "Date",
+  "reportedBy": "Reported by",
+  "qualityLabel": "Quality",
+  "startTime": "Start Time",
+  "endTime": "End Time",
+  "napStarts": "Nap Starts",
+  "napEnds": "Nap Ends",
+  "averageHeartRate": "Average Heart Rate",
+  "steps": "Steps",
+  "glicose": "Glicose (mg/l)",
+  "missingDay": "Some day missing? Add it",
+  "seeGraph": "See graphic view",
+  "sleep": "Sleep",
+  "heartRate": "Heart Rate",
+  "bloodGlicose": "Blood Glicose",
+  "week": "This Week",
+  "month": "This Month",
+  "quarter": "This Quarter",
+  "ytd": "YTD",
+  "lastYear": "Last Year",
+  "average": "Average",
+  "specificDates": "Specific Dates",
+  "quality": {
+    "low": "Low",
+    "average": "Average",
+    "good": "Good",
+    "high": "High"
+  },
+  "sections": {
+    "log": "Log Data",
+    "healthData": "Health Data",
+    "measurements": "Measurements",
+    "photos": "Photos"
+  }
+}
