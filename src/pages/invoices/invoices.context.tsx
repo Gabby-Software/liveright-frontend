@@ -4,7 +4,7 @@ import {PaginatedDataType} from "../../types/paginated-data.type";
 import {InvoicesFilters, InvoicesReducerType} from "../../store/reducers/invoices.reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/reducers";
-import {ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
+import {ACTION_GET_ATTENTION_INVOICES_REQUEST, ACTION_GET_INVOICES_REQUEST} from "../../store/action-types";
 import {CurrencyType} from "../../types/currency.type";
 import {FileType} from "../../types/file.type";
 import {AddressType} from "../../types/address.type";
@@ -61,7 +61,13 @@ export const InvoicesProvider = ({children, include = "invoiceFrom"}: { children
         });
     }
     useEffect(() => {
-        update(invoiceData.page||1, invoiceData.filters)
+        update(invoiceData.page||1, invoiceData.filters);
+        dispatch({
+            type: ACTION_GET_ATTENTION_INVOICES_REQUEST,
+            payload: {
+                include,
+            }
+        })
     }, []);
     return (
         <InvoicesContext.Provider value={{...invoiceData, update}}>
