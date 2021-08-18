@@ -36,13 +36,6 @@ const FinancialsReceivables = ({}:Props) => {
     const dispatch = useDispatch();
     const [range, setRange] = useState(statisticRange.MONTH);
     const {current:{meta}, filters} = useSelector((state: RootState) => state.invoices);
-    useEffect(() => {
-        dispatch({
-            type: ACTION_GET_ATTENTION_INVOICES_REQUEST, payload: {
-                include:  'invoiceTo',
-            }
-        });
-    }, [uuid]);
     return (
         <InvoicesProvider include={'invoiceTo'}>
         <Styles>

@@ -17,7 +17,7 @@ const InvoiceCard = ({invoice_number, invoice_from, invoice_to, status, total, c
     const name = useMemo(() => {
         const user = (type === userTypes.CLIENT ? invoice_from : invoice_to)?.user;
         return user?`${user.first_name} ${user.last_name}`:'';
-    }, []);
+    }, [type]);
     return (
         <Styles to={Routes.INVOICES+'/'+id}>
             <div className={'invoice-card__left'}>
