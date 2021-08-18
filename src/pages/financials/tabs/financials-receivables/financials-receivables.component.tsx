@@ -35,7 +35,6 @@ const FinancialsReceivables = ({}:Props) => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
     const [range, setRange] = useState(statisticRange.MONTH);
-    const {current:{meta}, filters} = useSelector((state: RootState) => state.invoices);
     return (
         <InvoicesProvider include={'invoiceTo'}>
         <Styles>

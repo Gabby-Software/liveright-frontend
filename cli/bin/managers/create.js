@@ -5,12 +5,15 @@ const camelCase = name => name.split('-').map(s => s[0].toUpperCase() + s.substr
 const hookTemplate = name => `import React, {useState, useEffect} from 'react';
 export const use${camelCase(name)} = () => {};`;
 const pipeTemplate = name => `export const ${name[0]}${camelCase(name).substring(1)} = () => {}`;
-const componentJSTemplate = (name) => `import React, {useState, useEffect} from 'react';
+const componentJSTemplate = (name) => `import React, {useState, useEffect, FC} from 'react';
 import Styles from './${name}.styles';
 
 type Props = {};
-const ${camelCase(name)} = ({}:Props) => {
-    return null;
+const ${camelCase(name)}: FC<Props> = ({}) => {
+    return (
+        <Styles>
+        </Styles>
+    );
 };
 
 export default ${camelCase(name)};
@@ -46,8 +49,8 @@ const createComponent = (name, folder, d) => {
     }
     logger.info(`creating ${name}.component.tsx`);
     fs.writeFileSync(`${dir}/${name}.component.tsx`, componentJSTemplate(name));
-    logger.info(`creating ${name}.test.tsx`);
-    fs.writeFileSync(`${dir}/${name}.test.tsx`, testTemplate(name));
+    // logger.info(`creating ${name}.test.tsx`);
+    // fs.writeFileSync(`${dir}/${name}.test.tsx`, testTemplate(name));
     logger.info(`creating ${name}.styles.ts`);
     fs.writeFileSync(`${dir}/${name}.styles.ts`, componentSCSSTemplate(!!d));
     exec(`git add ${dir}`);
@@ -56,8 +59,8 @@ const createManager = (name) => {
     const dir = 'src/managers';
     logger.info(`creating ${name}.manager.ts`);
     fs.writeFileSync(`${dir}/${name}.manager.ts`, managerTemplate(name));
-    logger.info(`creating ${name}.manager.test.ts`);
-    fs.writeFileSync(`${dir}/${name}.manager.test.ts`, testTemplate(name));
+    // logger.info(`creating ${name}.manager.test.ts`);
+    // fs.writeFileSync(`${dir}/${name}.manager.test.ts`, testTemplate(name));
     exec(`git add ${dir}`);
 };
 const createHook = name => {
@@ -70,8 +73,8 @@ const createPipe = name => {
     const dir = 'src/pipes';
     logger.info(`creating ${name}.pipe.ts`);
     fs.writeFileSync(`${dir}/${name}.pipe.ts`, pipeTemplate(name));
-    logger.info(`creating ${name}.pipe.test.ts`);
-    fs.writeFileSync(`${dir}/${name}.pipe.test.ts`, testTemplate(name));
+    // logger.info(`creating ${name}.pipe.test.ts`);
+    // fs.writeFileSync(`${dir}/${name}.pipe.test.ts`, testTemplate(name));
     exec(`git add ${dir}`);
 };
 const createEnum = name => {
