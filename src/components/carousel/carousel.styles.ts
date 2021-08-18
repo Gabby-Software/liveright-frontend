@@ -19,7 +19,7 @@ position: relative;
         top:0;
         bottom:0;
         width: 40px;
-        background-color: #ffffff88;
+        // background-color: #ffffff88;
         cursor: pointer;
         ${p => p.theme.extend.flexCenter}
         svg {

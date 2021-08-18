@@ -250,9 +250,9 @@ export const clients: {id: number, first_name: string, last_name: string}[] = [
 ];
 
 export const statuses: OptionType[] = [
-    {label: invoiceStatuses.OUTSTANDING, value: invoiceStatuses.OUTSTANDING.toLowerCase()},
-    {label: invoiceStatuses.PAID, value: invoiceStatuses.PAID.toLowerCase()},
-    {label: invoiceStatuses.CANCELLED, value: invoiceStatuses.CANCELLED.toLowerCase()},
-    {label: invoiceStatuses.DUE_SOON, value: invoiceStatuses.DUE_SOON.toLowerCase()},
-    {label: invoiceStatuses.OVERDUE, value: invoiceStatuses.OVERDUE.toLowerCase()},
+    {label: 'Outstanding', value: invoiceStatuses.OUTSTANDING},
+    {label: 'Paid', value: invoiceStatuses.PAID},
+    {label: 'Cancelled', value: invoiceStatuses.CANCELLED},
+    {label: 'Due soon', value: invoiceStatuses.DUE_SOON},
+    {label: 'Overdue', value: invoiceStatuses.OVERDUE},
 ];

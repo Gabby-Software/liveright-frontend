@@ -61,7 +61,7 @@ const InvoicesTable = () => {
             <DataTable labels={labels} keys={keys} data={data}
                        error={error||!loading&&!data.length?t('invoices:no-data'):''} loading={loading}
                        render={{
-                invoice_number: (t) => `#${t.invoice_number}`,
+                invoice_number: (t) => `#${t.id}`,
                 due_on: (t) => date(t.due_on),
                 total: t => `${t.total} ${t.currency.code}`,
                 name: t => `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
@@ -69,14 +69,14 @@ const InvoicesTable = () => {
                     className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
                 options: ({status, id, pdf}) => (
                     <div className={'invoice-table__actions'}>
-                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
+                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(status) ? (
                                 <a href={payments(Routes.INVOICES) + '/' + id}
                                    className={'invoice-table__link'}>
                                     <FormButton type={'primary'}>
                                         {t('invoices:settle-now')}
                                     </FormButton>
                                 </a>
-                        ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
+                        ) : [invoiceStatuses.PAID].includes(status) ?
                             <InvoiceIcon className={'invoice-table__action'}
                                          onClick={() => fileManager.downloadUrl(pdf.url)}/> : null}
                         <PDFIcon className={'invoice-table__action'} onClick={() => fileManager.downloadUrl(pdf.url)}/>

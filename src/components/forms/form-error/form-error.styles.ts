@@ -6,4 +6,5 @@ export default styled.span`
     margin-top: 4px;
     display: block;
     text-align: left;
+    position: absolute;
 `;

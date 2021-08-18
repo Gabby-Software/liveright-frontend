@@ -45,7 +45,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
         'invoices:options'
     ];
     const keys = [
-        'invoice_number',
+        'id',
         'created_at',
         'name',
         'total',
@@ -91,16 +91,16 @@ const FinancialsReceivablesTable = ({}: Props) => {
     return (
         <Styles ref={head}>
             <DataTable labels={labels} data={data} keys={keys} render={{
-                invoice_number: (t) => `#${t.invoice_number}`,
+                id: (t) => `#${t.id}`,
                 created_at: (t) => date(t.created_at),
                 due_on: (t) => date(t.due_on),
                 total: t => `${t.total} ${t.currency.code}`,
                 name: t => `${t.invoice_to?.user.first_name} ${t.invoice_to?.user.last_name}`,
-                status: t => <div
-                    className={`invoice-table__status__${t.status?.toLowerCase()}`}>{capitalize(t.status)}</div>,
+                status: item => <div
+                    className={`invoice-table__status__${item.status?.toLowerCase()}`}>{t(`invoices:statuses.${item.status}`)}</div>,
                 options: ({status, id, pdf}) => (
                     <div className={'invoice-table__actions'}>
-                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(capitalize(status)) ? (
+                        {[invoiceStatuses.OVERDUE, invoiceStatuses.DUE_SOON, invoiceStatuses.OUTSTANDING].includes(status) ? (
                             <>
                                 <span className={'invoice-table__link'}>
                                     <Popconfirm title={'Invoice will be marked as paid'}
@@ -121,7 +121,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
                                     <TimesIcon className={'invoice-table__action'}/>
                                 </Popconfirm>
                             </>
-                        ) : [invoiceStatuses.PAID].includes(capitalize(status)) ?
+                        ) : [invoiceStatuses.PAID].includes(status) ?
                             <>
                                 <InvoiceIcon className={'invoice-table__action'}
                                              onClick={() => fileManager.downloadUrl(pdf?.url)}/>
