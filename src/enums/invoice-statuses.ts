@@ -1,8 +1,8 @@
 export const invoiceStatuses = {
-    PAID: 'Paid',
-    OUTSTANDING: 'Outstanding',
-    ISSUED: 'Issued',
-    DUE_SOON: 'Due Soon',
-    OVERDUE: 'Overdue',
-    CANCELLED: 'Cancelled'
+    PAID: 'paid',
+    OUTSTANDING: 'outstanding',
+    ISSUED: 'issued',
+    DUE_SOON: 'due_soon',
+    OVERDUE: 'overdue',
+    CANCELLED: 'cancelled'
 };

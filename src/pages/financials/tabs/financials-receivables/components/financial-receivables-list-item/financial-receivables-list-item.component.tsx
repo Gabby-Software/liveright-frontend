@@ -65,7 +65,7 @@ const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, i
     }
     const Actions = useMemo(() => () => {
         const actions: {href?: string, onClick?: () => void, Icon: ComponentType<SVGAttributes<{}>>, disabled?:boolean}[] = [
-            {Icon: DeleteIcon, onClick: cancel, disabled: status === invoiceStatuses.PAID.toLowerCase()},
+            {Icon: DeleteIcon, onClick: cancel, disabled: status === invoiceStatuses.PAID},
             {Icon: SendIcon, onClick: resend},
             {Icon: DownloadIcon, onClick: downloadPDF},
             {Icon: ViewIcon, href: Routes.INVOICES+`/${id}`},
@@ -98,9 +98,9 @@ const FinancialReceivablesListItem = ({id, invoice_number, due_on, invoice_to, i
                 </div>
                 <div className={'invoice-li__actions'}>
                     <div
-                        className={classes('invoice-li__status', `invoice-li__status__${status.toLowerCase()}`)}>{capitalize(status)}</div>
+                        className={classes('invoice-li__status', `invoice-li__status__${status.toLowerCase()}`)}>{t(t(`invoices:statuses.${status}`))}</div>
                     {
-                        [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(capitalize(status)) ? (
+                        [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(status) ? (
                                 <a className={'invoice-li__cta'}
                                    onClick={() => markAsPaid(id)}
                                 >{t('invoices:mark-paid')}</a>

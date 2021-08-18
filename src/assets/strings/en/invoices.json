@@ -52,7 +52,8 @@
     "cancelled": "Cancelled",
     "issued": "Issued",
     "overdue": "Overdue",
-    "due-soon": "Due Soon"
+    "due-soon": "Due Soon",
+    "due_soon": "Due Soon"
   },
   "service-type": {
     "title": "Service Type",

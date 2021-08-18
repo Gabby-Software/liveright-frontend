@@ -40,7 +40,7 @@ const DesktopInvoices = () => {
     ];
     const keys = [
         'client_name',
-        'invoice_number',
+        'id',
         'price',
         'status'
     ];
@@ -84,7 +84,7 @@ const DesktopInvoices = () => {
                 <DataTable
                     labels={labels}
                     data={invoices.slice((pagMeta.current_page - 1) * pagMeta.per_page, (pagMeta.current_page - 1) * pagMeta.per_page + pagMeta.per_page)}
-                    keys={keys} onClick={({id}) => setInvoice(id)} active={invoice || undefined}/>
+                    keys={keys} onClick={({id}) => setInvoice(id)} active={invoice || undefined} render={{id: ({id}) => `#${id}`}}/>
                 <DataPagination page={pagMeta.current_page} setPage={(page) => {
                     setPagMeta({...pagMeta, current_page: page})
                 }} total={pagMeta.total}/>

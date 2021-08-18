@@ -68,15 +68,9 @@ const InvoicesListItem = ({id, due_on, invoice_to, invoice_from, status, currenc
                         className={classes('invoice-li__status', `invoice-li__status__${status.toLowerCase()}`)}>{capitalize(status)}</div>
                     {
                         [invoiceStatuses.OUTSTANDING, invoiceStatuses.DUE_SOON, invoiceStatuses.OVERDUE].includes(status) ? (
-                            type === userTypes.CLIENT ? (
                                 <a href={payments(Routes.INVOICES + '/' + id)} className={'invoice-li__cta'}
                                    onClick={e => e.stopPropagation()}
                                 >{t('invoices:settle-now')}</a>
-                            ) : (
-                                <a className={'invoice-li__cta'}
-                                   onClick={e => e.stopPropagation()}
-                                >{t('invoices:remind-client')}</a>
-                            )
                         ) : null
                     }
                 </div>

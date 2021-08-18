@@ -89,7 +89,7 @@ const InvoiceMobileHead = ({}: Props) => {
                 </div>
             </div>
             <div className={'invoice-m-head__right'}>
-                <FormButton type={'primary'} className={'invoice-m-head__status'}>{capitalize(data.status)}</FormButton>
+                <FormButton type={'primary'} className={'invoice-m-head__status'}>{t(`invoices:statuses.${data.status}`)}</FormButton>
                 {
                     data.status === 'paid' ? null :
                         type === userTypes.CLIENT ? (

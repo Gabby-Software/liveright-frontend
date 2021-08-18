@@ -14,7 +14,6 @@ import {InvoiceItemType} from "../../../create-invoice.data";
 const typeOptions: OptionType[] = [
     {label: 'PT session', value: 'PT session'},
     {label: 'Coaching session', value: 'Coaching session'},
-    {label: 'Complimentary session', value: 'Complimentary session'},
 ];
 const CreateInvoiceMobileItemForm: FC<InvoiceItemType> = ({
     type, quantity, unit_price, is_taxable, tax_rate, discount_percent

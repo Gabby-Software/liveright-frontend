@@ -116,7 +116,7 @@ const InvoiceAttendees = () => {
                 </div>
             </div>
             <div className={'invoice-att__print'}>
-                <FormButton type={'primary'} className={'invoice-att__status'}>{capitalize(data.status)}</FormButton>
+                <FormButton type={'primary'} className={'invoice-att__status'}>{t(`invoices:statuses.${data.status}`)}</FormButton>
                 <div className={'invoice-att__date'}><i>{`as of ${moment().format('DD-MM-YYYY')}`}</i></div>
             </div>
         </Styles>

@@ -28,7 +28,7 @@ const InvoiceCard = ({invoice_number, invoice_from, invoice_to, status, total, c
             <div className={'invoice-card__right'}>
                 <FormButton type={'primary'}
                             className={classes('invoice-card__status', `invoice-card__${status}`)}
-                >{capitalize(status)}</FormButton>
+                >{t(`invoices:statuses.${status}`)}</FormButton>
                 <h2 className={'invoice-card__price mobile'}>{total} {currency.code}</h2>
                 {
                     type === userTypes.CLIENT?(
