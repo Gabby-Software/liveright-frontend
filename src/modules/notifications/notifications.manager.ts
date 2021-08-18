@@ -36,14 +36,15 @@ export class NotificationsManager {
             .then(res => res.data.data.total);
     }
 
-    static getSettings(): Promise<number> {
+    static getSettings(): Promise<NotificationSettingsType> {
         return api.get(EP_SETTINGS)
+            .then(res => void logger.success('NOTIFICATIONS SETTINGS GET', res) || res)
             .then(res => res.data.data)
-            .then(res => res.notifications)
+            .then(res => res.notification)
     }
 
-    static updateSettings(notifications: NotificationSettingsType): Promise<void> {
-        return api.patch(EP_SETTINGS, {notifications})
+    static updateSettings(notification: NotificationSettingsType): Promise<void> {
+        return api.patch(EP_SETTINGS, {notification})
     }
 
     static resetSettings(): Promise<void> {

@@ -32,7 +32,9 @@ const NotificationsSettings = () => {
         setData({...data});
         dispatch({type:ACTION_UPDATE_NOTIFICATIONS_SETTINGS_REQUEST, payload: data})
     };
-    logger.info('data', data);
+    // useEffect(() => {
+    //     setData(settings)
+    // }, [settings]);
     useEffect(() => {
         dispatch({type:ACTION_GET_NOTIFICATIONS_SETTINGS_REQUEST})
     }, []);
