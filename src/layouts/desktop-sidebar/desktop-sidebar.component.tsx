@@ -10,6 +10,7 @@ import {ReactComponent as LibraryIcon} from "../../assets/media/icons/library.sv
 import {ReactComponent as InvoiceIcon} from "../../assets/media/icons/invoice.svg";
 import {ReactComponent as SessionIcon} from "../../assets/media/icons/session.svg";
 import {ReactComponent as CalendarIcon} from "../../assets/media/icons/calendar.svg";
+import {ReactComponent as ChatIcon} from "../../assets/media/icons/chat.svg";
 import {useTranslation} from "../../modules/i18n/i18n.hook";
 import {classes} from "../../pipes/classes.pipe";
 import {useAuth} from "../../hooks/auth.hook";
@@ -28,11 +29,11 @@ type MenuItemType = {
     type?: string;
 }
 const menuItems: MenuItemType[] = [
-    {name: 'home', url: '/', Icon: HomeIcon},
-    {name: 'clients', url: '/clients', Icon: UsersIcon, type: userTypes.TRAINER},
-    {name: 'plans', url: '/plans', Icon: PlanIcon},
-    {name: 'progress', url: '/progress', Icon: ProgressIcon},
-    {name: 'library', url: '/library', Icon: LibraryIcon},
+    {name: 'home', url: Routes.HOME, Icon: HomeIcon},
+    {name: 'clients', url: Routes.CLIENTS, Icon: UsersIcon, type: userTypes.TRAINER},
+    {name: 'plans', url: Routes.PLANS, Icon: PlanIcon},
+    {name: 'progress', url: Routes.PROGRESS, Icon: ProgressIcon},
+    {name: 'library', url: Routes.CHAT, Icon: ChatIcon, type: userTypes.TRAINER},
     {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon, type: userTypes.CLIENT},
     {name: 'invoices', url: Routes.FINANCIALS_OVERVIEW, Icon: InvoiceIcon, type: userTypes.TRAINER},
     {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Styles from './chat.styles';
 
-type Props = {};
-const Chat = ({}:Props) => {
+const Chat = () => {
+
     return null;
 };
 
