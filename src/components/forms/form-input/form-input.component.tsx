@@ -2,6 +2,8 @@ import React, {useState, useEffect, FC, FocusEventHandler, ReactNode} from 'reac
 import Styles from './form-input.styles';
 import {Field, FieldProps} from "formik";
 import FormError from "../form-error/form-error.component";
+import {classes} from "../../../pipes/classes.pipe";
+import logger from "../../../managers/logger.manager";
 
 type UIProps = {
     name: string;
@@ -10,10 +12,11 @@ type UIProps = {
     type?: string;
     onUpdate: (val: string) => void;
     onBlur?: FocusEventHandler;
+    icon?: ReactNode
 }
-export const FormInputUI: FC<UIProps> = ({name, value, label, type, onUpdate, onBlur, children}) => {
+export const FormInputUI: FC<UIProps> = ({name, value, label, type, onUpdate, onBlur, icon, children}) => {
     return (
-        <Styles className={'text_input__wrapper'}>
+        <Styles className={classes('text_input__wrapper', icon && 'text_input__icon')}>
             <div className={'text_input__cont'}>
                 <input className={'text_input__input'}
                        type={type||'text'}
@@ -22,6 +25,7 @@ export const FormInputUI: FC<UIProps> = ({name, value, label, type, onUpdate, on
                        onChange={e => {
                            onUpdate(e.target.value);
                        }}/>
+                {icon}
                 <label className={'text_input__label'}>{label}</label>
             </div>
             {children}

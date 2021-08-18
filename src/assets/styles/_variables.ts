@@ -25,7 +25,10 @@ const vars = {
         // V2
         background_v2: '#F1F4F7',
         primaryDark_v2: '#2E2F31',
+        primaryDark2_v2: '#404040',
         secondary1_v2: '#E4E8ED',
+        secondary2_v2: '#9E9E9E',
+        inputBorder_v2: '#E0E0E0'
     },
     sizes: {
         borderRadius: '6px',
