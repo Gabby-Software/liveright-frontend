@@ -7,6 +7,7 @@ import {ReactComponent as DownloadIcon} from "../assets/media/icons/download.svg
 import {ReactComponent as FilterIcon} from "../assets/media/icons/filter.svg";
 import {ReactComponent as BackIcon} from "../assets/media/icons/back-arrow.svg";
 import {ReactComponent as AddIcon} from "../assets/media/icons/add.svg";
+import {ReactComponent as ChatIcon} from "../assets/media/icons/chat.svg";
 import {HeaderItemType, HeaderItemTypes} from "../types/route.type";
 import {Routes} from "../enums/routes.enum";
 import NotificationIcon from "../components/notification-icon/notification-icon.component";
@@ -14,7 +15,7 @@ import NotificationIcon from "../components/notification-icon/notification-icon.
 export const DEFAULT_TITLE = 'LiveRight';
 const headers: {[key: string]: HeaderItemType[]} = {
     default: [
-        {type: HeaderItemTypes.IMAGE, href: Routes.CHAT},
+        {type: HeaderItemTypes.IMAGE, href: Routes.CHAT, Icon: ChatIcon},
         {type: HeaderItemTypes.SPACE},
         {type: HeaderItemTypes.ICON, Icon: CalendarIcon, href: Routes.CALENDAR},
         {type: HeaderItemTypes.ICON, Icon: NotificationIcon, href: Routes.NOTIFICATIONS},

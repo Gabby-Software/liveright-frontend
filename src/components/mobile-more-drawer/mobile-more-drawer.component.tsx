@@ -39,7 +39,7 @@ const MobileMoreDrawer = ({isOpen, onClose}: MobileMoreDrawerPropsType) => {
     const menuItems: LinkType[] = [
         {Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile'},
         {Icon: UsersIcon, url: Routes.CLIENTS, name: 'menu.clients', permission: userTypes.TRAINER},
-        {Icon: ChatIcon, url: Routes.CHAT, name: 'menu.chat', permission: userTypes.TRAINER},
+        // {Icon: ChatIcon, url: Routes.CHAT, name: 'menu.chat', permission: userTypes.TRAINER},
         {Icon: InvoiceIcon, url: Routes.INVOICES, name: 'menu.invoices', permission: userTypes.CLIENT},
         {Icon: InvoiceIcon, url: Routes.FINANCIALS_OVERVIEW, name: 'menu.financials', permission: userTypes.TRAINER},
         {Icon: SessionIcon, url: Routes.SESSIONS, name: 'menu.sessions'},
