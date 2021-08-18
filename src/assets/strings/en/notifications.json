@@ -9,6 +9,12 @@
     "invitation": "notifications",
     "meal": "meal"
   },
+  "categories": {
+    "payment": "Payment",
+    "training": "Training",
+    "chat": "Chat",
+    "other": "Other"
+  },
   "message": {
     "This is a test notification!": "This is a test notification!",
     "invitation_accepted_notification": "Invitation #{{invitation_id}} is accepted",

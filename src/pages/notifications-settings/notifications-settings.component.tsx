@@ -8,24 +8,42 @@ import {notificationsSettingsData} from "./notifications-settings.data";
 import NotificationSettingItem from "./components/notification-setting-item/notification-setting-item.component";
 import {NotificationsSettingsType} from "./notifications-settings.type";
 import logger from "../../managers/logger.manager";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    ACTION_GET_NOTIFICATIONS_SETTINGS_REQUEST,
+    ACTION_UPDATE_NOTIFICATIONS_SETTINGS_REQUEST
+} from "../../store/action-types";
+import {RootState} from "../../store/reducers";
+import {
+    NotificationSettingsCategoryType,
+    NotificationSettingsCategoryValuesType,
+    NotificationSettingsType
+} from "../../modules/notifications/types/notification-settings.type";
+import {throttle} from "../../pipes/throttle.pipe";
 
 const NotificationsSettings = () => {
     const {t} = useTranslation();
-    const [data, setData] = useState<NotificationsSettingsType[]>(notificationsSettingsData);
-    const update = (i: number, t: NotificationsSettingsType) => {
-        logger.info('updating', i, t);
-        data[i] = t;
-        setData([...data]);
+    const settings = useSelector((state:RootState) => state.notifications.settings);
+    const [data, setData] = useState<NotificationSettingsType>(settings);
+    const dispatch = useDispatch();
+    const update = (key: NotificationSettingsCategoryType, t: NotificationSettingsCategoryValuesType) => {
+        logger.info('updating', key, t);
+        data[key] = t;
+        setData({...data});
+        dispatch({type:ACTION_UPDATE_NOTIFICATIONS_SETTINGS_REQUEST, payload: data})
     };
     logger.info('data', data);
+    useEffect(() => {
+        dispatch({type:ACTION_GET_NOTIFICATIONS_SETTINGS_REQUEST})
+    }, []);
     return (
         <Styles>
             <PageSubtitle>{t('settings:notifications.title')}</PageSubtitle>
             <PageDesc>{t('settings:notifications.desc')}</PageDesc>
             <div className={'notif-settings__cont'}>
                 {
-                    data.map((n, i) => <NotificationSettingItem {...n} key={i}
-                                                                                     onUpdate={(t) => update(i, t)}/>)
+                    Object.entries(data).map(([key, value], i) =>
+                        <NotificationSettingItem title={key} {...value} key={i}  onUpdate={(t) => update(key as NotificationSettingsCategoryType, t)}/>)
                 }
             </div>
             <p className={'notif-settings__note'}>{t('settings:notifications.note')}</p>

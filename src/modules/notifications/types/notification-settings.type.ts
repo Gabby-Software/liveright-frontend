@@ -1,8 +1,9 @@
 export type NotificationSettingsCategoryType = 'payment'|'training'|'chat'|'other';
 export type NotificationSettingsChannelType = 'browser'|'email';
 
+export type NotificationSettingsCategoryValuesType = {
+    [Options in NotificationSettingsChannelType]: boolean
+}
 export type NotificationSettingsType = {
-        [Property in keyof NotificationSettingsCategoryType]: {
-            [Property in keyof NotificationSettingsChannelType]: boolean
-        }
+        [Option in NotificationSettingsCategoryType]: NotificationSettingsCategoryValuesType
 }
