@@ -2,6 +2,8 @@ export type ActionType<G> = {
     type: string;
     payload: G;
 }
+
+// auth
 export const ACTION_INIT = '@@redux/INIT';
 export const ACTION_LOGIN_REQUEST = 'action-login-request';
 export const ACTION_LOGIN_SUCCESS = 'action-login-success';
@@ -95,4 +97,10 @@ export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST = 'action-get-unread-
 export const ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS = 'action-get-unread-notification-count-success';
 export const ACTION_GET_NOTIFICATIONS_REQUEST = 'action-get-notifications-request';
 export const ACTION_GET_NOTIFICATIONS_SUCCESS = 'action-get-notifications-success';
-export const ACTION_NEW_NOTIFICATION = 'action-new notification';
+export const ACTION_NEW_NOTIFICATION = 'action-new-notification';
+export const ACTION_GET_NOTIFICATIONS_SETTINGS_REQUEST = 'action-get-notifications-settings-request';
+export const ACTION_GET_NOTIFICATIONS_SETTINGS_SUCCESS = 'action-get-notifications-settings-success';
+export const ACTION_UPDATE_NOTIFICATIONS_SETTINGS_REQUEST = 'action-update-notifications-settings-request';
+export const ACTION_UPDATE_NOTIFICATIONS_SETTINGS_SUCCESS = 'action-update-notifications-settings-success';
+export const ACTION_RESET_NOTIFICATIONS_SETTINGS_REQUEST = 'action-reset-notifications-settings-request';
+export const ACTION_RESET_NOTIFICATIONS_SETTINGS_SUCCESS = 'action-reset-notifications-settings-success';

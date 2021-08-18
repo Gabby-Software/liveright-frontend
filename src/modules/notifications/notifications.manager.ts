@@ -1,7 +1,7 @@
 import {
     EP_GET_NOTIFICATIONS,
     EP_PUSHER_BEAMS_AUTH,
-    EP_PUSHER_CHANNEL_AUTH, EP_READ_ALL_NOTIFICATIONS, EP_READ_NOTIFICATION,
+    EP_PUSHER_CHANNEL_AUTH, EP_READ_ALL_NOTIFICATIONS, EP_READ_NOTIFICATION, EP_SETTINGS,
     EP_UNREAD_NOTIFICATIONS_COUNT
 } from "../../enums/api.enum";
 import api from "../../managers/api.manager";
@@ -15,6 +15,7 @@ import {PushNotificationType} from "../../types/push-notification.type";
 import store from '../../store/config.store';
 import {ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, ACTION_NEW_NOTIFICATION} from "../../store/action-types";
 import {NotificationSubscriptionType} from "./types/notification-subscription.type";
+import {NotificationSettingsType} from "./types/notification-settings.type";
 
 export class NotificationsManager {
     static get(page: number = 1): Promise<PaginatedDataType<NotificationType>> {
@@ -33,6 +34,19 @@ export class NotificationsManager {
     static getUnreadCount(): Promise<number> {
         return api.get(EP_UNREAD_NOTIFICATIONS_COUNT)
             .then(res => res.data.data.total);
+    }
+
+    static getSettings(): Promise<number> {
+        return api.get(EP_SETTINGS)
+            .then(res => res.data.data)
+    }
+
+    static updateSettings(notifications: NotificationSettingsType): Promise<void> {
+        return api.patch(EP_SETTINGS, {notifications})
+    }
+
+    static resetSettings(): Promise<void> {
+        return api.delete(EP_SETTINGS)
     }
 
     private subscriptions: NotificationSubscriptionType[] = [];

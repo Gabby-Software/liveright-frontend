@@ -38,7 +38,7 @@ transition: ${p => p.theme.vars.defaults.transition};
             right:0;
             border-left: 1px solid ${p => p.theme.vars.colors.secondary2};
         }
-        .profile-image__placeholder, img {
+        .profile-image__placeholder, .profile-image__img {
             ${p => p.theme.mixin.circleImage('40px')}
             flex-shrink: 0;
             cursor: pointer;

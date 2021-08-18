@@ -28,4 +28,5 @@ export const EP_UNREAD_NOTIFICATIONS_COUNT = ALLRIGHT_BASE+'/notifications/unrea
 export const EP_GET_UNREAD_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/unread';
 export const EP_READ_ALL_NOTIFICATIONS = ALLRIGHT_BASE+'/notifications/mark-all-as-read';
 export const EP_READ_NOTIFICATION = (id: string) => ALLRIGHT_BASE+`/notifications/${id}/mark-as-read`;
+export const EP_SETTINGS = ALLRIGHT_BASE+`/user/settings`;
 
