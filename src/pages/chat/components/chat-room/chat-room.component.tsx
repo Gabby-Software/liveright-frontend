@@ -1,13 +1,12 @@
 import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-messages.styles';
+import Styles from './chat-room.styles';
 
 type Props = {};
-const ChatMessages: FC<Props> = ({}) => {
+const ChatRoom: FC<Props> = ({}) => {
     return (
         <Styles>
-
         </Styles>
     );
 };
 
-export default ChatMessages;
+export default ChatRoom;
