@@ -11,7 +11,7 @@ import logger from "../../managers/logger.manager";
 import {useTitleContent} from "../../layouts/desktop-layout/desktop-layout.component";
 import FormButton from "../../components/forms/form-button/form-button.component";
 import {Routes} from "../../enums/routes.enum";
-import {useNotifications} from "../../modules/notifications/notifications.hook";
+import {useNotifications} from "../../modules/notifications/hooks/notifications.hook";
 import {useDispatch} from "react-redux";
 import {NotificationType} from "../../types/notifications.type";
 import {

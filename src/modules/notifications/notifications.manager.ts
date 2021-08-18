@@ -36,30 +36,16 @@ export class NotificationsManager {
     }
 
     private subscriptions: NotificationSubscriptionType[] = [];
+    public pusher: Pusher | null = null;
+    private beamsClient: PusherPushNotifications.Client | null = null;
 
     public unsubscribeFromNotifications() {
-        navigator.serviceWorker.ready.then((registration: ServiceWorkerRegistration) => {
-            logger.info('BEAM NOTIFICATION SW READY')
-            const beamsClient = new PusherPushNotifications.Client({
-                instanceId: process.env.REACT_APP_PUSHER_KEY || '',
-                serviceWorkerRegistration: registration
-            });
-            beamsClient.stop()
-                .then(() => logger.success('push notifications stopped'))
-                .catch(e => logger.error('cannot unsubscribe from push notifications', e));
-        })
-        const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
-            cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
-            authEndpoint: EP_PUSHER_CHANNEL_AUTH,
-            auth: {
-                headers: {
-                    Authorization: `Bearer ${cookieManager.get('access_token')}`,
-                },
-            },
-        });
-        pusher.unbind_all();
+        this.beamsClient?.stop()
+            .then(() => logger.success('push notifications stopped'))
+            .catch(e => logger.error('cannot unsubscribe from push notifications', e));
+        this.pusher?.unbind_all();
     }
-    private beamsClient: PusherPushNotifications.Client|null = null;
+
     private subscribeToPushNotifications(userID: string) {
         logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
         Pusher.logToConsole = true;
@@ -95,8 +81,8 @@ export class NotificationsManager {
                         case states.PERMISSION_GRANTED_REGISTERED_WITH_BEAMS:
                             logger.info('BEAM STATE', state);
                             this.beamsClient?.getUserId()
-                                .then((id:string) => {
-                                    if(id === userID) return;
+                                .then((id: string) => {
+                                    if (id === userID) return;
                                     this.beamsClient?.stop()
                                         .then(() => {
                                             logger.success('push notifications stopped');
@@ -116,17 +102,19 @@ export class NotificationsManager {
                 .catch(e => logger.info('BEAM GET STATE ERROR', e))
         });
     }
+
     private uuid = '';
     public getBeamsData = () => {
         logger.info('Account UUID', this.uuid);
-        this.beamsClient?.getUserId().then(userID=>logger.info('Registered UUID', userID))
+        this.beamsClient?.getUserId().then(userID => logger.info('Registered UUID', userID))
         this.beamsClient?.getRegistrationState()
             .then(state => logger.info('STATE', state))
         return this.beamsClient;
     }
+
     private subscribeToInAppNotifications(userId: string) {
         Pusher.logToConsole = true;
-        const pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
+        this.pusher = new Pusher(process.env.REACT_APP_PUSHER_CHANNEL_KEY as string, {
             cluster: process.env.REACT_APP_PUSHER_CLUSTER as string,
             authEndpoint: EP_PUSHER_CHANNEL_AUTH,
             auth: {
@@ -135,8 +123,8 @@ export class NotificationsManager {
                 },
             },
         });
-        pusher.unbind_all();
-        const channel = pusher.subscribe(`private-account.${userId}.notification`);
+        this.pusher.unbind_all();
+        const channel = this.pusher.subscribe(`private-account.${userId}.notification`);
         channel.bind("pusher:subscription_error", (error: string) => logger.error('PUSHER SUBSCRIPTION ERROR', error));
         channel.bind('account.notification', (data: PushNotificationType) => {
             logger.info('IN APP NOTIFICATION RECEIVED', data, this.uuid, this.subscriptions);
