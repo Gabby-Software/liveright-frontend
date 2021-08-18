@@ -1,6 +1,6 @@
-import {OverTimeType} from "./progress.types";
+import {OverTimeType, ProgressSectionsType} from "./progress.types";
 
-export const PROGRESS_SECTIONS = {
+export const PROGRESS_SECTIONS: {[key: string]: ProgressSectionsType} = {
   LOG: 'log',
   HEALTH_DATA: 'healthData',
   MEASUREMENTS: 'measurements',

@@ -4,18 +4,19 @@ import {map} from 'lodash';
 
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
 import {PROGRESS_SECTIONS} from "../../progress.constants";
+import {ProgressSectionsType} from "../../progress.types";
 import {StyledButton} from "./progress-title-button.styles";
 
 interface Props {
-  onMenuClick: (value: string) => void;
+  onMenuClick: (value: ProgressSectionsType) => void;
 }
 
 const TitleButton: React.FC<Props> = (props) => {
   const {onMenuClick} = props;
   const {t} = useTranslation();
 
-  const handleMenuClick = ({item}: any) => {
-    onMenuClick(item as string);
+  const handleMenuClick = ({key}: any) => {
+    onMenuClick(key as ProgressSectionsType);
   };
 
   const menu = useMemo(() => {

@@ -12,7 +12,8 @@ import HealthTable from "../progress-table/progress-table.component";
 import {OverTimeType} from "../../progress.types";
 import {OVER_TIME} from "../../progress.constants";
 import {FormSelectUI} from "../../../../components/forms/form-select/form-select.component";
-import {Wrapper, CardsWrapper, TableWrapper} from "./progress-health-data.styles";
+import {Wrapper, CardsWrapper, FilterWrapper, TableWrapper, SwitchViewButton} from "./progress-health-data.styles";
+import HealthChart from "../progress-chart/progress-chart.component";
 
 interface Props {
 }
@@ -20,6 +21,7 @@ interface Props {
 const HealthData: React.FC<Props> = (props) => {
   const {t} = useTranslation();
   const [overTime, setOverTime] = useState<OverTimeType>(OVER_TIME.MONTH);
+  const [isGraphView, setIsGraphView] = useState(false);
   const overTimeOptions = useMemo(() => [
     {label: t(`progress:${OVER_TIME.WEEK}`), value: OVER_TIME.WEEK},
     {label: t(`progress:${OVER_TIME.MONTH}`), value: OVER_TIME.MONTH},
@@ -29,10 +31,12 @@ const HealthData: React.FC<Props> = (props) => {
     {label: t(`progress:${OVER_TIME.SPECIFIC}`), value: OVER_TIME.SPECIFIC},
   ], [])
 
+  const handleSwitchViewClick = () => {
+    setIsGraphView(!isGraphView)
+  }
+
   const renderDataTable = () => () => {
-    return (
-        <HealthTable />
-    )
+    return isGraphView ? <HealthChart /> : <HealthTable />
   }
 
   return (
@@ -57,13 +61,18 @@ const HealthData: React.FC<Props> = (props) => {
           />
         </CardsWrapper>
         <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
-        <FormSelectUI
-            name="overTime"
-            value={overTime}
-            label=""
-            options={overTimeOptions}
-            onUpdate={(value) => setOverTime(value as OverTimeType)}
-        />
+        <FilterWrapper>
+          <FormSelectUI
+              name="overTime"
+              value={overTime}
+              label=""
+              options={overTimeOptions}
+              onUpdate={(value) => setOverTime(value as OverTimeType)}
+          />
+          <SwitchViewButton onClick={handleSwitchViewClick} type="link">
+            {isGraphView ? t('progress:seeTable') : t('progress:seeGraph')}
+          </SwitchViewButton>
+        </FilterWrapper>
         <TableWrapper>
           <Tabs
               tabPosition="left"
