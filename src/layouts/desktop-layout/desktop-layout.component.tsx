@@ -4,6 +4,9 @@ import DesktopSidebar from "../desktop-sidebar/desktop-sidebar.component";
 import PageTitle from "../../components/titles/page-title.styles";
 import {useHeader} from "../../hooks/header.hook";
 import MobileBack from "../../components/mobile-back/mobile-back.component";
+import {usePage} from "../../hooks/page.hook";
+import {classes} from "../../pipes/classes.pipe";
+import {useDesignVersion} from "../../hooks/design-version.hook";
 
 const desktopTitleRef: {setTitleContent: (el: React.ReactNode) => void} = {setTitleContent: () => {}};
 export const useTitleContent = (el: React.ReactNode) => {
@@ -14,12 +17,13 @@ export const useTitleContent = (el: React.ReactNode) => {
 };
 const DesktopLayout = ({children}: {children:React.ReactNode}) => {
     const {title} = useHeader();
+    const version = useDesignVersion();
     const [titleContent, setTitleContent] = useState<React.ReactNode>(null);
     desktopTitleRef.setTitleContent = setTitleContent;
     return (
         <Styles>
             <DesktopSidebar/>
-            <div className={'layout__wrapper'}>
+            <div className={classes('layout__wrapper', `design-v__${version}`)}>
                 {/*<DesktopHeader/>*/}
                 <MobileBack/>
                 <PageTitle>

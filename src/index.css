@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "Circular Std";
+  src: url("./assets/fonts/circular-std.otf");
+}
 body {
   margin: 0;
   font-family: 'Work Sans', sans-serif;

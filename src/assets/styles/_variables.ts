@@ -21,6 +21,16 @@ const vars = {
         info: '#2F86EC',
         warning: '#FC7D08',
         warningDark: '#c46106',
+
+        // V2
+        background_v2: '#F1F4F7',
+        primaryDark_v2: '#2E2F31',
+        primaryDark2_v2: '#404040',
+        secondary1_v2: '#E4E8ED',
+        secondary2_v2: '#9E9E9E',
+        secondary3_v2: '#F8F8F8',
+        secondary4_v2: '#5E5E5E',
+        inputBorder_v2: '#E0E0E0'
     },
     sizes: {
         borderRadius: '6px',

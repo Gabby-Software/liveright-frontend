@@ -23,7 +23,17 @@ const Header = () => {
     const renderHeaderItem = ({type, href, Icon}: HeaderItemType) => {
         switch (type) {
             case HeaderItemTypes.IMAGE:
-                if(userType !== userTypes.CLIENT || !trainer)
+                if(userType !== userTypes.CLIENT){
+                    Icon = Icon as React.ComponentType;
+                    return (
+                        <Link to={href || ''}
+                              className={classes('header__icon',
+                                  pathname === href && 'header__icon__active')}>
+                            <Icon/>
+                        </Link>
+                    );
+                }
+                if(!trainer)
                     return null;
                 return (
                     <Link to={href || ''} className={'header__profile'}>

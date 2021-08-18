@@ -232,6 +232,7 @@ export const routes: RouteType[] = [
         title: 'Chat',
         url: Routes.CHAT,
         Component: lazy(() => import('../pages/chat/chat.component')),
+        version: 2,
         header: {
             title: "Chat",
             items: headers.default
@@ -241,6 +242,7 @@ export const routes: RouteType[] = [
         title: 'Chat',
         url: Routes.CHAT+'/:room',
         Component: lazy(() => import('../pages/chat/chat.component')),
+        version: 2,
         header: {
             title: "Chat",
             items: headers.default

@@ -15,6 +15,13 @@ export default styled.div`
             @media only print {
                 padding: 0 0 0 40px;
             }
+            &.design-v {
+                &__2 {
+                    background-color: ${p => p.theme.vars.colors.background_v2};
+                    padding: 0 35px;
+                }
+            }
         }
     }
+
 `;
