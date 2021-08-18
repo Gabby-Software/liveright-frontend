@@ -4,8 +4,6 @@ import {
     ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_REQUEST, ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS, ActionType,
 } from "../action-types";
 import {CallbackType} from "../../types/callback.type";
-import {EP_GET_NOTIFICATIONS, EP_GET_UNREAD_NOTIFICATIONS, EP_UNREAD_NOTIFICATIONS_COUNT} from "../../enums/api.enum";
-import api from "../../managers/api.manager";
 import logger from "../../managers/logger.manager";
 import {NotificationsManager} from "../../modules/notifications/notifications.manager";
 import {PaginatedDataType} from "../../types/paginated-data.type";

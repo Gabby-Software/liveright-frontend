@@ -12,7 +12,7 @@ justify-content: center;
 .profile-image {
         &__img {
             ${p =>p.theme.mixin.circleImage("114px")}
-            display: block;
+            display: flex;
             @media all and (max-width:${p =>p.theme.vars.media.tablet}px) {
                 ${p =>p.theme.mixin.circleImage("86px")}
                 margin: auto;
