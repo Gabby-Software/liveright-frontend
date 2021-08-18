@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Styles from './notification-icon.styles';
 import {classes} from "../../pipes/classes.pipe";
 import {ReactComponent as Icon} from "../../assets/media/icons/bell.svg";
-import {useUnreadNotifications} from "../../modules/notifications/notifications.hook";
+import {useUnreadNotifications} from "../../modules/notifications/hooks/notifications.hook";
 import logger from "../../managers/logger.manager";
 
 const NotificationIcon = () => {
