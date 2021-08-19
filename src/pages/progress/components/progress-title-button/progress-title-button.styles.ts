@@ -1,12 +1,8 @@
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import FormButton from "../../../../components/forms/form-button/form-button.component";
 
-const desktopStyles = css`
+export const StyledButton = styled(FormButton)`
   width: 200px;
   padding: 0;
   margin-left: auto;
-`;
-
-export const StyledButton = styled(FormButton)<{isMobile?: boolean}>`
-  ${({isMobile}) => isMobile ? '' : desktopStyles};
 `

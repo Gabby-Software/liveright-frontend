@@ -1,7 +1,10 @@
-import {OverTimeType, ProgressLogType, ProgressSectionsType} from "./progress.types";
+import {
+  OverTimeType,
+  ProgressLogType,
+  ProgressSectionsType
+} from "./progress.types";
 
 export const PROGRESS_SECTIONS: {[key: string]: ProgressSectionsType} = {
-  LOG: 'log',
   HEALTH_DATA: 'healthData',
   MEASUREMENTS: 'measurements',
   PHOTOS: 'photos'

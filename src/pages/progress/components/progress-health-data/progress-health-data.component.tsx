@@ -34,14 +34,6 @@ const HealthData: React.FC<Props> = (props) => {
     {label: t(`progress:${OVER_TIME.SPECIFIC}`), value: OVER_TIME.SPECIFIC},
   ], [])
 
-  const handleSwitchViewClick = () => {
-    setIsGraphView(!isGraphView)
-  }
-
-  const renderDataContent = () => () => {
-    return isGraphView ? <HealthChart /> : <HealthTable />
-  }
-
   return (
       <Wrapper>
         <PageSubtitle>{t('progress:todayHighlights')}</PageSubtitle>

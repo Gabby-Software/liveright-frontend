@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
+import map from 'lodash/map';
 
 import {useTranslation} from "../../../modules/i18n/i18n.hook";
-import TitleButton from "../components/progress-title-button/progress-title-button.component";
 import HealthData from "../components/progress-health-data/progress-health-data.component";
-import {ProgressSectionsType} from "../progress.types";
+import SmallModal from "../../../components/small-modal/small-modal.component";
+import FormButton from "../../../components/forms/form-button/form-button.component";
 import {PROGRESS_SECTIONS} from "../progress.constants";
 import {StyledTabs, Wrapper} from "./progress-mobile.styles";
 
 const ProgressMobile = () => {
     const {t} = useTranslation();
-    const [activeTab, setActiveTab] = useState<ProgressSectionsType>('healthData');
+    const [logModal, setLogModal] = useState(false);
 
     const renderHealthData = () => {
         return <HealthData />
@@ -21,23 +22,35 @@ const ProgressMobile = () => {
 
     return (
         <Wrapper>
-            <TitleButton onMenuClick={setActiveTab} />
-            <StyledTabs
-                activeKey={activeTab}
-                onChange={(key) => setActiveTab(key as ProgressSectionsType)}
-                tabs={[
-                    {
-                        label: t('progress:sections.healthData'),
-                        renderContent: renderHealthData,
-                        key: PROGRESS_SECTIONS.HEALTH_DATA
-                    },
-                    {
-                        label: t('progress:sections.measurements'),
-                        renderContent: renderMeasurements,
-                        key: PROGRESS_SECTIONS.MEASUREMENTS
-                    },
-                ]}
-            />
+          <FormButton
+            onClick={() => setLogModal(true)}
+            type="primary"
+          >
+            {t('progress:sections.log')}
+          </FormButton>
+          <StyledTabs
+            tabs={[
+                {
+                    label: t('progress:sections.healthData'),
+                    renderContent: renderHealthData,
+                    key: PROGRESS_SECTIONS.HEALTH_DATA
+                },
+                {
+                    label: t('progress:sections.measurements'),
+                    renderContent: renderMeasurements,
+                    key: PROGRESS_SECTIONS.MEASUREMENTS
+                },
+            ]}
+          />
+          <SmallModal
+            onCancel={() => setLogModal(false)}
+            visible={logModal}
+            title={t('progress:sections.log')}
+            menu={map(PROGRESS_SECTIONS, (value) => ({
+              name: t(`progress:sections.${value}`),
+              onClick: () => {}
+            }))}
+          />
         </Wrapper>
     )
 };
