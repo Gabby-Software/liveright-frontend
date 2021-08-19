@@ -7,22 +7,25 @@ import {ReactComponent as SleepIcon} from "../../../../assets/media/icons/sleep.
 import {ReactComponent as CardiogramIcon} from "../../../../assets/media/icons/cardiogram.svg";
 import {ReactComponent as StepsIcon} from "../../../../assets/media/icons/steps.svg";
 import {ReactComponent as BloodIcon} from "../../../../assets/media/icons/blood.svg";
-import Tabs from "../../../../components/tabs/tabs.component";
+import {useIsMobile} from "../../../../hooks/is-mobile.hook";
+import {OptionType} from "../../../../types/option.type";
 import HealthTable from "../progress-table/progress-table.component";
 import {OverTimeType} from "../../progress.types";
 import {OVER_TIME} from "../../progress.constants";
-import {FormSelectUI} from "../../../../components/forms/form-select/form-select.component";
-import {Wrapper, CardsWrapper, FilterWrapper, TableWrapper, SwitchViewButton} from "./progress-health-data.styles";
+import {Wrapper, CardsWrapper} from "./progress-health-data.styles";
 import HealthChart from "../progress-chart/progress-chart.component";
+import OverTimeMobile from "../progress-overtime-mobile/progress-overtime-mobile.component";
+import OverTimeDesktop from "../progress-overtime-desktop/progress-overtime-desktop.component";
 
 interface Props {
 }
 
 const HealthData: React.FC<Props> = (props) => {
   const {t} = useTranslation();
-  const [overTime, setOverTime] = useState<OverTimeType>(OVER_TIME.MONTH);
+  const isMobile = useIsMobile();
   const [isGraphView, setIsGraphView] = useState(false);
-  const overTimeOptions = useMemo(() => [
+  const [overTime, setOverTime] = useState<OverTimeType>(OVER_TIME.MONTH);
+  const overTimeOptions = useMemo<OptionType[]>(() => [
     {label: t(`progress:${OVER_TIME.WEEK}`), value: OVER_TIME.WEEK},
     {label: t(`progress:${OVER_TIME.MONTH}`), value: OVER_TIME.MONTH},
     {label: t(`progress:${OVER_TIME.QUARTER}`), value: OVER_TIME.QUARTER},
@@ -35,7 +38,7 @@ const HealthData: React.FC<Props> = (props) => {
     setIsGraphView(!isGraphView)
   }
 
-  const renderDataTable = () => () => {
+  const renderDataContent = () => () => {
     return isGraphView ? <HealthChart /> : <HealthTable />
   }
 
@@ -60,30 +63,25 @@ const HealthData: React.FC<Props> = (props) => {
               icon={<BloodIcon />}
           />
         </CardsWrapper>
-        <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
-        <FilterWrapper>
-          <FormSelectUI
-              name="overTime"
-              value={overTime}
-              label=""
-              options={overTimeOptions}
-              onUpdate={(value) => setOverTime(value as OverTimeType)}
-          />
-          <SwitchViewButton onClick={handleSwitchViewClick} type="link">
-            {isGraphView ? t('progress:seeTable') : t('progress:seeGraph')}
-          </SwitchViewButton>
-        </FilterWrapper>
-        <TableWrapper>
-          <Tabs
-              tabPosition="left"
-              tabs={[
-                {label: t('progress:sleep'), renderContent: renderDataTable()},
-                {label: t('progress:heartRate'), renderContent: renderDataTable()},
-                {label: t('progress:steps'), renderContent: renderDataTable()},
-                {label: t('progress:bloodGlicose'), renderContent: renderDataTable()},
-              ]}
-          />
-        </TableWrapper>
+
+        {isMobile ? (
+            <OverTimeMobile
+                filter={overTime}
+                setFilter={setOverTime}
+                filterOptions={overTimeOptions}
+                graphView={isGraphView}
+                setGraphView={setIsGraphView}
+            />
+        ) : (
+            <OverTimeDesktop
+                filter={overTime}
+                setFilter={setOverTime}
+                filterOptions={overTimeOptions}
+                graphView={isGraphView}
+                setGraphView={setIsGraphView}
+            />
+        )}
+
         <PageSubtitle>{t('progress:average')}</PageSubtitle>
         <CardsWrapper size="middle">
           <HealthCard

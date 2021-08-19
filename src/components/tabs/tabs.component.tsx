@@ -1,27 +1,42 @@
 import React, {ReactElement} from 'react';
 import {TabsPosition} from "antd/es/tabs";
+import {Tabs as AntdTabs} from "antd";
 
-import AntdTabs from './tabs.styles'
+import {LabelWrapper} from './tabs.styles';
 
 interface Props {
+    className?: string;
     tabPosition?: TabsPosition;
     activeKey?: string;
     onChange?: (key: string) => void;
     tabs: {
+        icon?: ReactElement;
         key?: string;
-        label: string;
-        renderContent: () => ReactElement
+        label?: string;
+        renderContent: () => ReactElement;
     }[];
 }
 
 const Tabs: React.FC<Props> = (props) => {
-    const {tabs, tabPosition, activeKey, onChange} = props;
+    const {tabs, tabPosition, activeKey, onChange, className} = props;
 
     return (
-        <AntdTabs tabPosition={tabPosition} activeKey={activeKey} onChange={onChange}>
-            {tabs.map(({label, key, renderContent}) => {
+        <AntdTabs
+            className={className}
+            tabPosition={tabPosition}
+            activeKey={activeKey}
+            onChange={onChange}
+        >
+            {tabs.map(({label, icon, key, renderContent}) => {
+                const tab = icon ? (
+                    <LabelWrapper className="tabs-label-wrapper">
+                        {icon}
+                        {label}
+                    </LabelWrapper>
+                ) : label;
+
                 return (
-                    <AntdTabs.TabPane tab={label} key={key || label}>
+                    <AntdTabs.TabPane tab={tab} key={key || label}>
                         {renderContent()}
                     </AntdTabs.TabPane>
                 )

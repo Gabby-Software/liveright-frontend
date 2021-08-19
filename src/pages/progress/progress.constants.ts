@@ -1,4 +1,4 @@
-import {OverTimeType, ProgressSectionsType} from "./progress.types";
+import {OverTimeType, ProgressLogType, ProgressSectionsType} from "./progress.types";
 
 export const PROGRESS_SECTIONS: {[key: string]: ProgressSectionsType} = {
   LOG: 'log',
@@ -14,6 +14,13 @@ export const OVER_TIME: {[key: string]: OverTimeType} = {
   YTD: 'ytd',
   LAST_YEAR: 'lastYear',
   SPECIFIC: 'specificDates',
+};
+
+export const PROGRESS_LOG: {[key: string]: ProgressLogType} = {
+  SLEEP: 'sleep',
+  STEPS: 'steps',
+  HEART_RATE: 'heartRate',
+  GLICOSE: 'glicose',
 };
 
 export const TEMP_DATA: {

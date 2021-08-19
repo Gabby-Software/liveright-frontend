@@ -3,6 +3,7 @@ import {Dropdown, Menu} from "antd";
 import {map} from 'lodash';
 
 import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {useIsMobile} from "../../../../hooks/is-mobile.hook";
 import {PROGRESS_SECTIONS} from "../../progress.constants";
 import {ProgressSectionsType} from "../../progress.types";
 import {StyledButton} from "./progress-title-button.styles";
@@ -13,6 +14,7 @@ interface Props {
 
 const TitleButton: React.FC<Props> = (props) => {
   const {onMenuClick} = props;
+  const isMobile = useIsMobile();
   const {t} = useTranslation();
 
   const handleMenuClick = ({key}: any) => {
@@ -35,7 +37,7 @@ const TitleButton: React.FC<Props> = (props) => {
 
   return (
       <Dropdown overlay={menu}>
-        <StyledButton type="primary">
+        <StyledButton isMobile={isMobile} type="primary">
           {t('progress:sections.log')}
         </StyledButton>
       </Dropdown>
