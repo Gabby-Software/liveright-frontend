@@ -33,7 +33,7 @@ const menuItems: MenuItemType[] = [
     {name: 'clients', url: Routes.CLIENTS, Icon: UsersIcon, type: userTypes.TRAINER},
     {name: 'plans', url: Routes.PLANS, Icon: PlanIcon},
     {name: 'progress', url: Routes.PROGRESS, Icon: ProgressIcon},
-    {name: 'library', url: Routes.CHAT, Icon: ChatIcon, type: userTypes.TRAINER},
+    {name: 'library', url: Routes.CHAT, Icon: ChatIcon},
     {name: 'invoices', url: Routes.INVOICES, Icon: InvoiceIcon, type: userTypes.CLIENT},
     {name: 'invoices', url: Routes.FINANCIALS_OVERVIEW, Icon: InvoiceIcon, type: userTypes.TRAINER},
     {name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon},
