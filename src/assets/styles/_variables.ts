@@ -32,9 +32,12 @@ const vars = {
     secondary3_v2: '#F8F8F8',
     secondary4_v2: '#5E5E5E',
     secondary5_v2: '#A1ADB9',
+    secondary6_v2: '#8A95A7',
     inputBorder_v2: '#E0E0E0',
     link: '#2E81ED',
-    link_darken: '#2871d0'
+    link_darken: '#2871d0',
+    chat_blue: '#DFE6F1',
+    chat_dark: '#404040'
   },
   sizes: {
     borderRadius: '6px',
