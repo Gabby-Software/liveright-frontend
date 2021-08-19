@@ -36,7 +36,6 @@ function App() {
   useSeo()
   useAuthorization()
   useNotificationsChannel()
-  console.log('1111')
   return (
     <Styles>
       <Switch>
