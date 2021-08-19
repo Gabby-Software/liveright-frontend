@@ -13,6 +13,7 @@ export default styled.div`
     display: flex;
     padding: 26px 35px;
     background-color: white;
+    flex-shrink: 0;
     .chat-header {
         &__body {
             width: 100%;

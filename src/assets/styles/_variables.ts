@@ -31,6 +31,7 @@ const vars = {
         secondary2_v2: '#9E9E9E',
         secondary3_v2: '#F8F8F8',
         secondary4_v2: '#5E5E5E',
+        secondary5_v2: '#A1ADB9',
         inputBorder_v2: '#E0E0E0',
         link: '#2E81ED',
         link_darken: '#2871d0',
