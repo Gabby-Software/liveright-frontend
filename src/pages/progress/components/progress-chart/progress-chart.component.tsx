@@ -1,15 +1,7 @@
-import React from 'react';
-
-interface Props {
-
-}
+import React from 'react'
 
 const HealthChart = () => {
-  return (
-      <div>
-        TBD
-      </div>
-  )
-};
+  return <div>TBD</div>
+}
 
-export default HealthChart;
+export default HealthChart

@@ -1,11 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import "regenerator-runtime/runtime";
-import rootReducer from "./reducers";
-import rootSaga from './actions';
+import 'regenerator-runtime/runtime'
 
-const saga = createSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(saga));
-saga.run(rootSaga);
+import { applyMiddleware, createStore } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 
-export default store;
+import rootSaga from './actions'
+import rootReducer from './reducers'
+
+const saga = createSagaMiddleware()
+const store = createStore(rootReducer, applyMiddleware(saga))
+saga.run(rootSaga)
+
+export default store

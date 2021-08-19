@@ -1,1 +1,1 @@
-export const asPrice = (x: number) => +x.toFixed(2);
+export const asPrice = (x: number) => +x.toFixed(2)

@@ -1,12 +1,10 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-actions.styles';
+import React, { FC } from 'react'
 
-type Props = {};
+import Styles from './chat-actions.styles'
+
+type Props = {}
 const ChatActions: FC<Props> = ({}) => {
-    return (
-        <Styles>
-        </Styles>
-    );
-};
+  return <Styles></Styles>
+}
 
-export default ChatActions;
+export default ChatActions

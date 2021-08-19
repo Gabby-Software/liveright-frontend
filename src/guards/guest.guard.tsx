@@ -1,11 +1,13 @@
-import React from 'react';
-import {useAuth} from "../hooks/auth.hook";
-import {Redirect} from "react-router-dom";
-import {Routes} from "../enums/routes.enum";
+import React from 'react'
+import { Redirect } from 'react-router-dom'
 
-export const onlyGuest = (Component: React.ComponentType<any>) => (props: any) => {
-    const auth = useAuth();
-    if(auth.uuid && auth.email_verified_at)
-        return <Redirect to={Routes.HOME}/>;
-    return <Component {...props}/>;
-};
+import { Routes } from '../enums/routes.enum'
+import { useAuth } from '../hooks/auth.hook'
+
+export const onlyGuest =
+  (Component: React.ComponentType<any>) => (props: any) => {
+    const auth = useAuth()
+    if (auth.uuid && auth.email_verified_at)
+      return <Redirect to={Routes.HOME} />
+    return <Component {...props} />
+  }

@@ -1,5 +1,5 @@
 enum AccountActions {
-    SWITCH_ACCOUNT,
-    ADD_ACCOUNT
+  SWITCH_ACCOUNT,
+  ADD_ACCOUNT
 }
-export default AccountActions;
+export default AccountActions

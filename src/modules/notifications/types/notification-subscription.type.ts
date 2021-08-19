@@ -1,4 +1,4 @@
 export type NotificationSubscriptionType = {
-    id: number;
-    callback: () => void;
+  id: number
+  callback: () => void
 }

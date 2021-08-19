@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import {media} from "../../assets/styles/_media";
+import styled from 'styled-components'
+
+import { media } from '../../assets/styles/_media'
 
 export default styled.div`
-    
-    ${media('tablet', 'min')`
+  ${media('tablet', 'min')`
         margin: 40px;
         padding:0;
     `}
-    .plans {
-        &__filters {
-            max-width: 540px;
-            margin-bottom: 40px;
-        }
-    }    
-`;
+  .plans {
+    &__filters {
+      max-width: 540px;
+      margin-bottom: 40px;
+    }
+  }
+`

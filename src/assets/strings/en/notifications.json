@@ -27,5 +27,4 @@
     "trainer_updated_session": "Your trainer updated session #{{session_id}}",
     "trainer_deleted_session": "Your trainer cancelled session #{{session_id}}"
   }
-
 }

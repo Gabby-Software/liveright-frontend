@@ -1,4 +1,4 @@
 export type InvoiceFiltersType = {
-    client_name: string;
-    status: string;
+  client_name: string
+  status: string
 }

@@ -1,5 +1,4 @@
-import React from 'react';
-
 test('ResetPassword initial test', () => {
-    expect(true).toBeTruthy();
-});
+  expect(true).toBeTruthy()
+})
+export {}

@@ -1,8 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './file-dropper.styles';
-
 const FileDropper = () => {
-    return null;
-};
+  return null
+}
 
-export default FileDropper;
+export default FileDropper

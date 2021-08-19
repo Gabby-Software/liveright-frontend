@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import CardSwipe from "../../../../components/card-swipe/card-swipe.component";
+import styled from 'styled-components'
+
+import CardSwipe from '../../../../components/card-swipe/card-swipe.component'
 
 export const Wrapper = styled(CardSwipe)`
   & > div:first-child {
@@ -9,7 +10,7 @@ export const Wrapper = styled(CardSwipe)`
     width: 100%;
     margin-bottom: 16px;
     box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-    ${p => p.theme.extend.p1};
+    ${(p) => p.theme.extend.p1};
 
     & > *:not(:last-child) {
       max-width: 70%;
@@ -46,13 +47,13 @@ export const Wrapper = styled(CardSwipe)`
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
 
         span {
-          ${p => p.theme.extend.label};
+          ${(p) => p.theme.extend.label};
         }
       }
 
       span {
-        color: ${p => p.theme.vars.colors.labelLight};
-        ${p => p.theme.extend.h2};
+        color: ${(p) => p.theme.vars.colors.labelLight};
+        ${(p) => p.theme.extend.h2};
       }
     }
   }

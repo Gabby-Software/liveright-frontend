@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react'
 
 export type TableActionType = {
-    icon: React.ComponentType<any>,
-    title?: string;
-    onClick: () => void;
-    color?: string;
+  icon: React.ComponentType<any>
+  title?: string
+  onClick: () => void
+  color?: string
 }

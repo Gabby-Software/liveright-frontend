@@ -1,6 +1,6 @@
-import vars from "./_variables";
-import mixin from "./_mixins";
-import extend from "./_extends";
+import extend from './_extends'
+import mixin from './_mixins'
+import vars from './_variables'
 
-const theme = {vars, mixin, extend};
-export default theme;
+const theme = { vars, mixin, extend }
+export default theme

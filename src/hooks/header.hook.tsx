@@ -1,30 +1,29 @@
-import React, {useState, useEffect} from 'react';
-import {usePage} from "./page.hook";
-import {HeaderConfigType} from "../types/route.type";
-import {ReactComponent as CalendarIcon} from '../assets/media/icons/calendar.svg';
-import {ReactComponent as BellIcon} from '../assets/media/icons/bell.svg';
-import headers, {DEFAULT_TITLE} from "../config/header.config";
-import logger from "../managers/logger.manager";
+import { useState } from 'react'
+
+import headers, { DEFAULT_TITLE } from '../config/header.config'
+import { HeaderConfigType } from '../types/route.type'
+import { usePage } from './page.hook'
 
 const defaultHeader: HeaderConfigType = {
-    title: DEFAULT_TITLE,
-    items: headers.default
-};
+  title: DEFAULT_TITLE,
+  items: headers.default
+}
 export const manualHeader: any = {
-    title: '',
-    setTitle: (title:string) => {}
-};
+  title: '',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setTitle: (title: string) => {}
+}
 export const useHeader = () => {
-    const {header} = usePage() || {};
-    const [manual, setManual] = useState('');
-    manualHeader.title = manual;
-    manualHeader.setTitle = setManual;
-    const res = {
-        ...defaultHeader,
-        ...header
-    };
-    if(manual) {
-        res.title = manual
-    }
-    return res;
-};
+  const { header } = usePage() || {}
+  const [manual, setManual] = useState('')
+  manualHeader.title = manual
+  manualHeader.setTitle = setManual
+  const res = {
+    ...defaultHeader,
+    ...header
+  }
+  if (manual) {
+    res.title = manual
+  }
+  return res
+}

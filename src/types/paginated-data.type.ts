@@ -1,6 +1,6 @@
-import {PaginationMetaType} from "./pagination-meta.type";
+import { PaginationMetaType } from './pagination-meta.type'
 
 export type PaginatedDataType<G> = {
-    data: G[];
-    meta: PaginationMetaType;
+  data: G[]
+  meta: PaginationMetaType
 }
