@@ -182,7 +182,20 @@ export const routes: RouteType[] = [
     url: Routes.PROGRESS,
     Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
-      title: 'Progress'
+      title: 'Your Progress and Metrics'
+    }
+  },
+  {
+    title: 'Progress',
+    url: Routes.PROGRESS_LOG_HEALTH_DATA,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/progress-log/log-health-data/log-health-data.component'
+        )
+    ),
+    header: {
+      title: 'Log Health Data'
     }
   },
   {

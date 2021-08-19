@@ -1,3 +1,4 @@
+import { Routes } from '../../enums/routes.enum'
 import {
   OverTimeType,
   ProgressLogType,
@@ -8,6 +9,12 @@ export const PROGRESS_SECTIONS: { [key: string]: ProgressSectionsType } = {
   HEALTH_DATA: 'healthData',
   MEASUREMENTS: 'measurements',
   PHOTOS: 'photos'
+}
+
+export const PROGRESS_LOG_URL: { [key: string]: string } = {
+  healthData: Routes.PROGRESS_LOG_HEALTH_DATA,
+  measurements: Routes.PROGRESS_LOG_MEASUREMENTS,
+  photos: Routes.PROGRESS_LOG_PHOTOS
 }
 
 export const OVER_TIME: { [key: string]: OverTimeType } = {
@@ -24,36 +31,4 @@ export const PROGRESS_LOG: { [key: string]: ProgressLogType } = {
   STEPS: 'steps',
   HEART_RATE: 'heartRate',
   GLICOSE: 'glicose'
-}
-
-export const TEMP_DATA: {
-  [key: string]: {
-    date: string
-    value:
-      | number
-      | {
-          from: string
-          to: string
-        }
-  }
-} = {
-  sleep: {
-    date: '2021-04-12',
-    value: {
-      from: '21:00',
-      to: '7:00'
-    }
-  },
-  heart: {
-    date: '2021-04-12',
-    value: 80
-  },
-  steps: {
-    date: '2021-04-12',
-    value: 1000
-  },
-  blood: {
-    date: '2021-04-12',
-    value: 20
-  }
 }

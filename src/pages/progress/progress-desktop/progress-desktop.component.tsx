@@ -6,12 +6,18 @@ import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import TitleButton from '../components/progress-title-button/progress-title-button.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
+import { ProgressSectionsType } from '../progress.types'
 import { Wrapper } from './progress-desktop.styles'
 
-const ProgressDesktop = () => {
+interface Props {
+  onLogClick: (value: ProgressSectionsType) => void
+}
+
+const ProgressDesktop: React.FC<Props> = (props) => {
+  const { onLogClick } = props
   const { t } = useTranslation()
 
-  useTitleContent(<TitleButton onMenuClick={() => {}} />)
+  useTitleContent(<TitleButton onMenuClick={onLogClick} />)
 
   const renderHealthData = () => {
     return <HealthData />
