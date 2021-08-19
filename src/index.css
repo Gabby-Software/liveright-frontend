@@ -1,10 +1,7 @@
-@font-face {
-  font-family: "Circular Std";
-  src: url("./assets/fonts/circular-std.otf");
-}
+@import "assets/fonts/circular-font/style.css";
 body {
   margin: 0;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Circular Std', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -13,7 +10,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .ant-tooltip-inner {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Circular Std', sans-serif;
 }
 .ant-select-item-option-content {
   padding: 8px 4px;

@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+    import React, {Suspense} from 'react';
 import './App.css';
 import {Route, Switch} from 'react-router-dom';
 import {routes, authRoutes} from "./config/routes.config";
@@ -14,7 +14,7 @@ import {useAuthorization} from "./hooks/authorization.hook";
 import {useNotificationsChannel} from "./modules/notifications/hooks/notifications.hook";
 
 const Styles = styled.div`
-    font-family: 'Work Sans', sans-serif;
+   font-family: 'Circular Std', sans-serif;
     .suspense {
         ${p =>p.theme.extend.layout};
     }
