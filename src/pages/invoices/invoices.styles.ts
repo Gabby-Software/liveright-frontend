@@ -1,10 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-.invoices {
+  .invoices {
     &__body {
-        max-width: 1300px;
-       
+      max-width: 1300px;
     }
-}
-`;
+  }
+`

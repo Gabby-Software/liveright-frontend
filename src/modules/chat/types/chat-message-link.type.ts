@@ -1,4 +1,4 @@
 export type ChatMessageLinkType = {
-    title: string;
-    url: string;
+  title: string
+  url: string
 }

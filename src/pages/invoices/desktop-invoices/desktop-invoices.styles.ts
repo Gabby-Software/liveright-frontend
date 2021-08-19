@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
     padding: 40px;
@@ -15,7 +15,7 @@ export default styled.div`
         }
         &__view {
             margin:  0 0 auto 40px;
-            transition: ${p =>p.theme.vars.defaults.transition};
+            transition: ${(p) => p.theme.vars.defaults.transition};
             width: 0;
             overflow: hidden;
             flex-shrink:0;
@@ -32,7 +32,7 @@ export default styled.div`
             cursor:pointer;
             height: 14px;
             width: auto;
-            color: ${p =>p.theme.vars.colors.primaryDark};
+            color: ${(p) => p.theme.vars.colors.primaryDark};
         }
         &__filter {
             max-width: 242px;
@@ -42,4 +42,4 @@ export default styled.div`
             margin-bottom: 24px;
         }
     
-`;
+`

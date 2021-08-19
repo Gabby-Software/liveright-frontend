@@ -1,3 +1,1 @@
-export default class SocketManager {
-
-}
+export default class SocketManager {}

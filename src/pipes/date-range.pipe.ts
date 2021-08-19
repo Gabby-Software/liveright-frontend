@@ -1,22 +1,25 @@
-import moment, {Moment} from "moment";
-import {forOf} from "./for-of.pipe";
+import moment, { Moment } from 'moment'
 
-interface DateRangeOptions  {
-  date: Moment;
-  range: number;
+import { forOf } from './for-of.pipe'
+
+interface DateRangeOptions {
+  date: Moment
+  range: number
 }
 
 export const dateHoursRange = (options: DateRangeOptions): Moment[] => {
-  const {date, range} = options;
-  const initialDate = moment(date).startOf('hours');
-  const dates = [initialDate];
+  const { date, range } = options
+  const initialDate = moment(date).startOf('hours')
+  const dates = [initialDate]
 
   forOf(range, (index) => {
-    const amount = index + 1;
+    const amount = index + 1
 
-    dates.unshift(moment(initialDate).subtract(amount, 'hours').startOf('hours'))
+    dates.unshift(
+      moment(initialDate).subtract(amount, 'hours').startOf('hours')
+    )
     dates.push(moment(initialDate).add(amount, 'hours').startOf('hours'))
   })
 
-  return dates;
+  return dates
 }

@@ -1,13 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-display: flex;
-.layout {
+  display: flex;
+  .layout {
     &__wrapper {
-        
     }
-}
-main {
+  }
+  main {
     display: block;
-}
-`;
+  }
+`

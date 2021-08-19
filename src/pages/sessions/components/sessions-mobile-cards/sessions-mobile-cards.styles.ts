@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const SwipeContent = styled.div`
   display: flex;
@@ -7,13 +7,12 @@ export const SwipeContent = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-        
+
   svg {
     width: 70px;
     height: 70px;
-    color: ${({theme}) => theme.vars.colors.primaryLight};
+    color: ${({ theme }) => theme.vars.colors.primaryLight};
   }
-`;
+`
 
-export default styled.div`
-`;
+export default styled.div``

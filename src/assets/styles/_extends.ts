@@ -1,14 +1,14 @@
-import vars from "./_variables";
-import mixin from "./_mixins";
+import mixin from './_mixins'
+import vars from './_variables'
 // import mixin from "./_mixins";
 
 const extend = {
-    flexCenter: `
+  flexCenter: `
         display: flex;
         justify-content: center;
         align-items: center;
     `,
-    absCenter: `
+  absCenter: `
         position: absolute;
         top: 0;
         left: 0;
@@ -16,47 +16,47 @@ const extend = {
         bottom: 0;
         margin: auto;
     `,
-    absCover: `
+  absCover: `
         position: absolute;
         top:0;
         left:0;
         width: 100%;
         height:100%;
     `,
-    pseudo:`
+  pseudo: `
         content: '';
         position: absolute;
         display: block;
     `,
-    onlyDesktop:`
+  onlyDesktop: `
         margin-left: auto;
         width: fit-content;
         position: relative;
         bottom: 5px;
-        @media all and (max-width: ${vars.media.tablet-1}px) {
+        @media all and (max-width: ${vars.media.tablet - 1}px) {
             display: none;
         }
     `,
-    onlyMobile:`
+  onlyMobile: `
         @media all and (min-width: ${vars.media.tablet}px) {
             display: none;
         }
     `,
-    layout:`
+  layout: `
         padding: 39px 20px 160px 20px;
     `,
-    title:`
+  title: `
         color: ${vars.colors.dark2};
         font-size: 1.5rem;
         font-weight: 700;
         text-align: center;
     `,
-    subtitle:`
+  subtitle: `
         color: ${vars.colors.primaryDark};
         font-size: 16px;
         font-weight: 600;
     `,
-    profileCard: `
+  profileCard: `
             display: flex;
             &__img {
                 ${mixin.circleImage('36px')}
@@ -74,7 +74,7 @@ const extend = {
                 color: ${vars.colors.secondary};
             }
     `,
-    radioCircle: `
+  radioCircle: `
             &:before {
             content: '';
             display: block;
@@ -92,48 +92,48 @@ const extend = {
                 } 
             }
     `,
-    big: `
+  big: `
         font-weight: 500;
         font-size: 32px;
         line-height: 140%;
     `,
-    h1: `
+  h1: `
         font-weight: 500;
         font-size: 24px;
         line-height: 140%;
     `,
-    h2: `
+  h2: `
         font-weight: 500;
         font-size: 18px;
         line-height: 140%;
     `,
-    h3: `
+  h3: `
         font-weight: 500;
         font-size: 16px;
         line-height: 140%;
     `,
-    p1: `
+  p1: `
         font-weight: 500;
         font-size: 14px;
         line-height: 140%;
     `,
-    p2: `
+  p2: `
         font-weight: 500;
         font-size: 12px;
         line-height: 140%;
     `,
-    small: `
+  small: `
         font-weight: 500;
         font-size: 10px;
         line-height: 140%;
         letter-spacing: .8px;
     `,
-    label: `
+  label: `
         color: ${vars.colors.primaryDark};
         font-size: 14px;
         font-weight: 600;
         text-align: left;
     `
-};
+}
 
-export default extend;
+export default extend

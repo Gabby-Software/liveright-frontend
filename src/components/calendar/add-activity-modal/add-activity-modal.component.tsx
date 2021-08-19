@@ -1,23 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './add-activity-modal.styles';
-import Modal from "../../modal/modal.component";
-import {Formik, Form} from 'formik';
-import * as Yup from 'yup';
+import React from 'react'
+
+import Modal from '../../modal/modal.component'
+import Styles from './add-activity-modal.styles'
 
 type Props = {
-    isOpen: boolean;
-    onCancel: () => boolean;
+  isOpen: boolean
+  onCancel: () => boolean
 }
-const AddActivityModal = ({isOpen, onCancel}: Props) => {
-    return (
-        <Modal visible>
-            <Styles>
-                {/*<Formik>*/}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AddActivityModal = ({ isOpen, onCancel }: Props) => {
+  return (
+    <Modal visible>
+      <Styles>
+        {/*<Formik>*/}
 
-                {/*</Formik>*/}
-            </Styles>
-        </Modal>
-    )
-};
+        {/*</Formik>*/}
+      </Styles>
+    </Modal>
+  )
+}
 
-export default AddActivityModal;
+export default AddActivityModal

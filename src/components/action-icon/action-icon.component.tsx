@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './action-icon.styles';
-import {TableActionType} from "../../types/table-action.type";
-import {HtmlType} from "../../types/html.type";
-import {Tooltip} from "antd";
+import { Tooltip } from 'antd'
+import React from 'react'
 
-type Props = TableActionType & HtmlType;
-const ActionIcon = ({icon, title,  ...props}:Props) => {
-    const Action = Styles(icon);
-    return (
-        <Tooltip title={title}>
-             <Action {...props}/>
-        </Tooltip>
-    )
-};
+import { HtmlType } from '../../types/html.type'
+import { TableActionType } from '../../types/table-action.type'
+import Styles from './action-icon.styles'
 
-export default ActionIcon;
+type Props = TableActionType & HtmlType
+const ActionIcon = ({ icon, title, ...props }: Props) => {
+  const Action = Styles(icon)
+  return (
+    <Tooltip title={title}>
+      <Action {...props} />
+    </Tooltip>
+  )
+}
+
+export default ActionIcon

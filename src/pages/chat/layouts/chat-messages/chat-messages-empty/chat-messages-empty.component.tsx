@@ -1,15 +1,14 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-messages-empty.styles';
+import React, { FC } from 'react'
 
-type Props = {};
+import Styles from './chat-messages-empty.styles'
+
+type Props = {}
 const ChatMessagesEmpty: FC<Props> = ({}) => {
-    return (
-        <Styles>
-            <div className={'messages-empty'}>
-                Select a chat to see messages
-            </div>
-        </Styles>
-    );
-};
+  return (
+    <Styles>
+      <div className={'messages-empty'}>Select a chat to see messages</div>
+    </Styles>
+  )
+}
 
-export default ChatMessagesEmpty;
+export default ChatMessagesEmpty

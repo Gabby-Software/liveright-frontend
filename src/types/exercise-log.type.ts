@@ -1,5 +1,5 @@
 export type ExerciseLogType = {
-    sets: number;
-    reps: number;
-    set_weight: number;
+  sets: number
+  reps: number
+  set_weight: number
 }

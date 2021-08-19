@@ -1,5 +1,5 @@
 export type NotificationsSettingsType = {
-    title: string,
-    email: boolean;
-    browser: boolean;
+  title: string
+  email: boolean
+  browser: boolean
 }

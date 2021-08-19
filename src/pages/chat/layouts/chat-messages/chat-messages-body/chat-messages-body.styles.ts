@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-height: 100%;
-overflow: auto;
-`;
+  height: 100%;
+  overflow: auto;
+`

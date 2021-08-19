@@ -1,16 +1,17 @@
-import React from 'react';
-import {useIsMobile} from "../../hooks/is-mobile.hook";
-import ProgressMobile from "./progress-mobile/progress-mobile.component";
-import ProgressDesktop from "./progress-desktop/progress-desktop.component";
+import React from 'react'
+
+import { useIsMobile } from '../../hooks/is-mobile.hook'
+import ProgressDesktop from './progress-desktop/progress-desktop.component'
+import ProgressMobile from './progress-mobile/progress-mobile.component'
 
 const Progress = () => {
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile()
 
-    if (isMobile) {
-        return <ProgressMobile />;
-    }
+  if (isMobile) {
+    return <ProgressMobile />
+  }
 
-    return <ProgressDesktop />;
-};
+  return <ProgressDesktop />
+}
 
-export default Progress;
+export default Progress

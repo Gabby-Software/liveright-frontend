@@ -1,5 +1,5 @@
 export enum footerTypes {
-    NONE,
-    DEFAULT,
-    TRAINER
+  NONE,
+  DEFAULT,
+  TRAINER
 }

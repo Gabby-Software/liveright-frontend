@@ -1,3 +1,1 @@
-export default class MediaManager {
-
-}
+export default class MediaManager {}

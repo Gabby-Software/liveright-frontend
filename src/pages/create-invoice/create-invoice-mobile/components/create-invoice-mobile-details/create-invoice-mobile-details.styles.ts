@@ -1,5 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-//counter-set: create-section 1;
-`;
+  //counter-set: create-section 1;
+`

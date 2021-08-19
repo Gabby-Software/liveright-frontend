@@ -1,21 +1,24 @@
-import styled from "styled-components";
-import {media} from "../../assets/styles/_media";
+import styled from 'styled-components'
+
+import { media } from '../../assets/styles/_media'
 
 export default styled.div`
-    @media all and (min-width: ${p => p.theme.vars.media.tablet}px) {
-        display: flex;
+  @media all and (min-width: ${(p) => p.theme.vars.media.tablet}px) {
+    display: flex;
+  }
+  .profile {
+    &__main {
+      width: 100%;
+      max-width: 1080px;
     }
-    .profile {
-        &__main {
-            width: 100%;
-            max-width:1080px;
-            
-        }
-    }
-    [class$=input__wrapper], .radio__wrapper, .textarea__wrapper, .text_input__wrapper {
-        margin-bottom: 24px;
-    }
-${media('tablet', 'min')`
+  }
+  [class$='input__wrapper'],
+  .radio__wrapper,
+  .textarea__wrapper,
+  .text_input__wrapper {
+    margin-bottom: 24px;
+  }
+  ${media('tablet', 'min')`
     .row {
     >div {
         width:33%;
@@ -32,5 +35,4 @@ ${media('tablet', 'min')`
         }
     }
 `}\`;
-   
-`;
+`

@@ -1,5 +1,4 @@
-import React from 'react';
-
 test('AddSessionFieldsMobile initial test', () => {
-    expect(true).toBeTruthy();
-});
+  expect(true).toBeTruthy()
+})
+export {}

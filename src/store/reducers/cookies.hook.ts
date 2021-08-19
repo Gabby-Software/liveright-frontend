@@ -1,17 +1,24 @@
-import {ActionType} from "../action-types";
-import cookieManager from "../../managers/cookie.manager";
+import cookieManager from '../../managers/cookie.manager'
+import { ActionType } from '../action-types'
 
-export const withCookies = (reducer: (state: any, action: ActionType<any>) => {}, initialState: any, key: string) => (state: any, action: any) => {
-    if(!state) {
-        const savedData = cookieManager.get(key);
-        if(savedData) {
-            state = JSON.parse(savedData);
-        } else {
-            state = initialState;
-        }
+export const withCookies =
+  (
+    // eslint-disable-next-line no-unused-vars
+    reducer: (state: any, action: ActionType<any>) => {},
+    initialState: any,
+    key: string
+  ) =>
+  (state: any, action: any) => {
+    if (!state) {
+      const savedData = cookieManager.get(key)
+      if (savedData) {
+        state = JSON.parse(savedData)
+      } else {
+        state = initialState
+      }
     }
-    const newState = reducer(state, action);
+    const newState = reducer(state, action)
     if (!action.type.startsWith('@@redux'))
-        cookieManager.set(key, JSON.stringify(newState),60*60*24*7);
-    return newState;
-};
+      cookieManager.set(key, JSON.stringify(newState), 60 * 60 * 24 * 7)
+    return newState
+  }

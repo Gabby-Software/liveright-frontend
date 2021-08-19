@@ -1,3 +1,4 @@
 export const calendarView = {
-    MONTH: 'month', WEEK: 'week'
-};
+  MONTH: 'month',
+  WEEK: 'week'
+}

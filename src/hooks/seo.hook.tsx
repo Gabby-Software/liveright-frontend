@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {usePage} from "./page.hook";
+import { useEffect } from 'react'
+
+import { usePage } from './page.hook'
 
 export const useSeo = () => {
-    const page = usePage();
-    useEffect(() => {
-        if(page) {
-            document.title = page.header?.title || page.title;
-        }
-    }, [page]);
-};
+  const page = usePage()
+  useEffect(() => {
+    if (page) {
+      document.title = page.header?.title || page.title
+    }
+  }, [page])
+}

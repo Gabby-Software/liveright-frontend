@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import ProfileImage from "../../../../components/profile-image/profile-image.component";
+import styled from 'styled-components'
+
+import ProfileImage from '../../../../components/profile-image/profile-image.component'
 
 export const ProfileImageStyled = styled(ProfileImage)`
   display: inline-block;
@@ -10,12 +11,12 @@ export const ProfileImageStyled = styled(ProfileImage)`
     font-size: 12px;
   }
   .profile-image__placeholder {
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-      font-weight: 500;
-      background-color: ${p => p.theme.vars.colors.primary};
-      color:white;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: ${(p) => p.theme.vars.colors.primary};
+    color: white;
   }
 `
 

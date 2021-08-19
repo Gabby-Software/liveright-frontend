@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './financials-receivables-totals.styles';
-import {TotalsType} from "../../financials-receivables.data";
-import FinancialsReceivablesTotal from "../financials-receivables-total/financials-receivables-total.component";
+import React from 'react'
+
+import { TotalsType } from '../../financials-receivables.data'
+import FinancialsReceivablesTotal from '../financials-receivables-total/financials-receivables-total.component'
+import Styles from './financials-receivables-totals.styles'
 
 type Props = {
-    data: TotalsType[]
-};
-const FinancialsReceivablesTotals = ({data}:Props) => {
-    return (
-        <Styles>
-            {
-                data.map(total => <FinancialsReceivablesTotal {...total}/>)
-            }
-        </Styles>
-    )
-};
+  data: TotalsType[]
+}
+const FinancialsReceivablesTotals = ({ data }: Props) => {
+  return (
+    <Styles>
+      {data.map((total) => (
+        // eslint-disable-next-line react/jsx-key
+        <FinancialsReceivablesTotal {...total} />
+      ))}
+    </Styles>
+  )
+}
 
-export default FinancialsReceivablesTotals;
+export default FinancialsReceivablesTotals

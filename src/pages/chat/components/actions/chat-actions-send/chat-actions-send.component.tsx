@@ -1,13 +1,16 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-actions-send.styles';
-import ChatActionsAction from "../chat-actions-action/chat-actions-action.component";
-import {ReactComponent as SendIcon} from "../../../../../assets/media/icons/chat-send.svg";
+import React, { FC } from 'react'
 
-type Props = {};
+import { ReactComponent as SendIcon } from '../../../../../assets/media/icons/chat-send.svg'
+import ChatActionsAction from '../chat-actions-action/chat-actions-action.component'
+
+type Props = {}
 const ChatActionsSend: FC<Props> = ({}) => {
-    return (
-        <ChatActionsAction color={'primary'} icon={<SendIcon onClick={e => e.preventDefault()}/>}/>
-    );
-};
+  return (
+    <ChatActionsAction
+      color={'primary'}
+      icon={<SendIcon onClick={(e) => e.preventDefault()} />}
+    />
+  )
+}
 
-export default ChatActionsSend;
+export default ChatActionsSend

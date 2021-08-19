@@ -1,13 +1,13 @@
-import React, {ComponentProps} from "react";
-import {useAuth} from "../hooks/auth.hook";
-import userTypes from "../enums/user-types.enum";
-import PageNotFound from "../pages/page-not-found/page-not-found.component";
-import {Redirect} from "react-router";
-import {Routes} from "../enums/routes.enum";
+import React, { ComponentProps } from 'react'
+import { Redirect } from 'react-router'
 
-export const onlyTrainer = (Component: React.ComponentType<any>) => (props: ComponentProps<any>) => {
-    const {type} = useAuth();
-    if(type !== userTypes.TRAINER)
-        return <Redirect to={Routes.HOME}/>;
-    return <Component {...props}/>;
-};
+import { Routes } from '../enums/routes.enum'
+import userTypes from '../enums/user-types.enum'
+import { useAuth } from '../hooks/auth.hook'
+
+export const onlyTrainer =
+  (Component: React.ComponentType<any>) => (props: ComponentProps<any>) => {
+    const { type } = useAuth()
+    if (type !== userTypes.TRAINER) return <Redirect to={Routes.HOME} />
+    return <Component {...props} />
+  }

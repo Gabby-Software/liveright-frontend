@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-width: 368px;
-max-width: 100%;
-flex-shrink: 0;
-padding: 22px 24px;
-.chat-rooms {
+  width: 368px;
+  max-width: 100%;
+  flex-shrink: 0;
+  padding: 22px 24px;
+  .chat-rooms {
     &__container {
-        margin-top: 20px;
+      margin-top: 20px;
     }
-}
-`;
+  }
+`

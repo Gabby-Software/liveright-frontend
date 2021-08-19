@@ -1,9 +1,10 @@
-import styled from "styled-components";
-import Card from "../card/card.style";
+import styled from 'styled-components'
+
+import Card from '../card/card.style'
 
 export const Wrapper = styled.div`
   position: relative;
-`;
+`
 
 export const CardStyled = styled(Card)`
   position: absolute;

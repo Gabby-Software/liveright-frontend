@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import Styles from './primary-label.styles';
+import Styles from './primary-label.styles'
 
-type Props = {};
-const PrimaryLabel = Styles;
+const PrimaryLabel = Styles
 
-export default PrimaryLabel;
+export default PrimaryLabel

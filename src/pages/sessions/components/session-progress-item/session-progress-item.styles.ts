@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, { css } from 'styled-components'
 
 const rowStyles = css`
   flex-direction: row;
@@ -11,20 +11,20 @@ const rowStyles = css`
     margin-right: 16px;
     margin-bottom: 0;
   }
-  
+
   div:last-child {
     border-top-width: 1px;
-  }  
+  }
 `
 
-export default styled.div<{row?: boolean}>`
+export default styled.div<{ row?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-right: 16px;
 
   & > span {
-    ${p => p.theme.extend.label};
+    ${(p) => p.theme.extend.label};
     margin-bottom: 8px;
   }
 
@@ -33,19 +33,19 @@ export default styled.div<{row?: boolean}>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid ${({theme}) => theme.vars.colors.secondary};
+    border: 1px solid ${({ theme }) => theme.vars.colors.secondary};
     width: 100px;
     height: 75px;
 
     span:nth-child(2) {
-      color: ${({theme}) => theme.vars.colors.primary};
+      color: ${({ theme }) => theme.vars.colors.primary};
     }
   }
 
   div:last-child {
     border-top-width: 0;
-    background-color: ${({theme}) => theme.vars.colors.light};
+    background-color: ${({ theme }) => theme.vars.colors.light};
   }
-  
-  ${({row}) => row ? rowStyles : ''}
-`;
+
+  ${({ row }) => (row ? rowStyles : '')}
+`

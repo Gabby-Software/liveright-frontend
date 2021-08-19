@@ -1,5 +1,4 @@
-import React from 'react';
-
 test('AddClientModalMessage initial test', () => {
-    expect(true).toBeTruthy();
-});
+  expect(true).toBeTruthy()
+})
+export default {}

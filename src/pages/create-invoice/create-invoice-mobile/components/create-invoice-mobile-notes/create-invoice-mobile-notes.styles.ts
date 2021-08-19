@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-.add-invoice {
+  .add-invoice {
     &__submit {
-        margin-top: 24px;
+      margin-top: 24px;
     }
-}
-`;
+  }
+`

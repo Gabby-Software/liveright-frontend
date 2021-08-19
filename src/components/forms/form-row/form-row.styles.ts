@@ -1,8 +1,9 @@
-import styled from "styled-components";
-import {media} from "../../../assets/styles/_media";
+import styled from 'styled-components'
+
+import { media } from '../../../assets/styles/_media'
 
 export default styled.div`
-${media('tablet', 'min')`
+  ${media('tablet', 'min')`
     display: flex;
     >* {
         width:100%;
@@ -12,4 +13,5 @@ ${media('tablet', 'min')`
             margin-right: 0;
         }
     }
-`}`;
+`}
+`

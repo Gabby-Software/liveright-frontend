@@ -1,24 +1,24 @@
 {
   "short_name": "LiveRight",
   "name": "LiveRight",
-  "shortcuts" : [
+  "shortcuts": [
     {
       "name": "Dashboard",
       "url": "/",
       "description": "General view of your staff",
-      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
+      "icons": [{ "src": "logo96.png", "type": "image/png", "sizes": "96x96" }]
     },
     {
       "name": "Calendar",
       "url": "/calendar",
       "description": "See what is your plans for today",
-      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
+      "icons": [{ "src": "logo96.png", "type": "image/png", "sizes": "96x96" }]
     },
     {
       "name": "Notifications",
       "url": "/notifications",
       "description": "See what happen when you where out",
-      "icons": [{"src": "logo96.png", "type": "image/png","sizes": "96x96"}]
+      "icons": [{ "src": "logo96.png", "type": "image/png", "sizes": "96x96" }]
     }
   ],
   "icons": [

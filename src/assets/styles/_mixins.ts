@@ -1,14 +1,12 @@
-import vars from "./_variables";
-
 const mixin = {
-    circleImage: (size: string) => `
+  circleImage: (size: string) => `
         display: block;
         width:${size};
         height:${size};
         border-radius: 50%;
         object-fit:cover;
     `,
-    dashedBorder: (color: string) => `
+  dashedBorder: (color: string) => `
         background-image:   linear-gradient(to right, transparent 50%, ${color} 50%), 
                             linear-gradient(to right, transparent 50%, ${color} 50%), 
                             linear-gradient(to bottom, transparent 50%, ${color} 50%), 
@@ -17,6 +15,6 @@ const mixin = {
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
         background-size: 22px 2px, 22px 2px, 2px 22px, 2px 22px;
     `
-};
+}
 
-export default mixin;
+export default mixin

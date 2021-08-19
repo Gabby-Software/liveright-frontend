@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
-[class$=wrapper] {
+  [class$='wrapper'] {
     margin-bottom: 24px;
-}
-`;
+  }
+`

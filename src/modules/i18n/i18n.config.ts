@@ -1,4 +1,4 @@
 export const config = {
-  defaultLanguage: "en",
-  availableLanguages: ["en", "es"]
+  defaultLanguage: 'en',
+  availableLanguages: ['en', 'es']
 }
