@@ -6,5 +6,5 @@ export type ChatRoomType = {
     last_message: string;
     unread_count: number;
     last_message_date: string;
-    room_number: string;
+    room_id: string;
 };

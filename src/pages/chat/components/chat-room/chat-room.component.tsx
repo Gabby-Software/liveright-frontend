@@ -12,7 +12,7 @@ type Props = {
 const ChatRoom: FC<Props> = ({room}) => {
     return (
         <Styles className={classes(room.unread_count&&'chat-room__unread')}
-        to={Routes.CHAT + `/${room.room_number}`}>
+        to={Routes.CHAT + `/${room.room_id}`}>
             <div className={'chat-room__left'}>
                 <AvatarStyled url={room.avatar} placeholder={noImage(room.first_name, room.last_name)}/>
             </div>
