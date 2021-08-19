@@ -1,4 +1,7 @@
-import { Tabs as AntdTabs } from 'antd'
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export default styled(AntdTabs)``
+export const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;

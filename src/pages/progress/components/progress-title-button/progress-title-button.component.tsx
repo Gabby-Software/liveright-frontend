@@ -1,42 +1,43 @@
-import { Dropdown, Menu } from 'antd'
-import { map } from 'lodash'
-import React, { useMemo } from 'react'
+import React, {useMemo} from 'react';
+import {Dropdown, Menu} from "antd";
+import {map} from 'lodash';
 
-import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { PROGRESS_SECTIONS } from '../../progress.constants'
-import { ProgressSectionsType } from '../../progress.types'
-import { StyledButton } from './progress-title-button.styles'
+import {useTranslation} from "../../../../modules/i18n/i18n.hook";
+import {PROGRESS_SECTIONS} from "../../progress.constants";
+import {ProgressSectionsType} from "../../progress.types";
+import {StyledButton} from "./progress-title-button.styles";
 
 interface Props {
-  onMenuClick: (value: ProgressSectionsType) => void
+  onMenuClick: (value: ProgressSectionsType) => void;
 }
 
 const TitleButton: React.FC<Props> = (props) => {
-  const { onMenuClick } = props
-  const { t } = useTranslation()
+  const {onMenuClick} = props;
+  const {t} = useTranslation();
 
-  const handleMenuClick = ({ key }: any) => {
-    onMenuClick(key as ProgressSectionsType)
-  }
+  const handleMenuClick = ({key}: any) => {
+    onMenuClick(key as ProgressSectionsType);
+  };
 
   const menu = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { LOG, ...menuItems } = PROGRESS_SECTIONS
-
     return (
-      <Menu onClick={handleMenuClick}>
-        {map(menuItems, (it) => (
-          <Menu.Item key={it}>{t(`progress:sections.${it}`)}</Menu.Item>
-        ))}
-      </Menu>
+        <Menu onClick={handleMenuClick}>
+          {map(PROGRESS_SECTIONS, (it) => (
+              <Menu.Item key={it}>
+                {t(`progress:sections.${it}`)}
+              </Menu.Item>
+          ))}
+        </Menu>
     )
   }, [])
 
   return (
-    <Dropdown overlay={menu}>
-      <StyledButton type="primary">{t('progress:sections.log')}</StyledButton>
-    </Dropdown>
+      <Dropdown overlay={menu}>
+        <StyledButton type="primary">
+          {t('progress:sections.log')}
+        </StyledButton>
+      </Dropdown>
   )
-}
+};
 
-export default TitleButton
+export default TitleButton;
