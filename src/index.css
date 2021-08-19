@@ -1,13 +1,17 @@
-@import "assets/fonts/circular-font/style.css";
+@import 'assets/fonts/circular-font/style.css';
 body {
   margin: 0;
   font-family: 'Circular Std', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-@page { size: auto;  margin: 0mm; }
+@page {
+  size: auto;
+  margin: 0mm;
+}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 .ant-tooltip-inner {
   font-family: 'Circular Std', sans-serif;
@@ -21,19 +25,20 @@ code {
   margin: 4px 8px;
   border-radius: 6px;
 }
-.ant-select-item-option-selected, .ant-select-item-option-active {
-  background-color: #F9F9F9 !important;
+.ant-select-item-option-selected,
+.ant-select-item-option-active {
+  background-color: #f9f9f9 !important;
 }
 .rc-virtual-list-scrollbar {
-  background-color: #DFDFE1 !important;
+  background-color: #dfdfe1 !important;
   border-radius: 4px !important;
   margin-right: 4px;
 }
 .rc-virtual-list-scrollbar-thumb {
   border-radius: 4px !important;
-  background-color: #EE223B !important;
+  background-color: #ee223b !important;
 }
 .ant-drawer-content-wrapper {
   max-height: 80%;
-  overflow:auto;
+  overflow: auto;
 }
