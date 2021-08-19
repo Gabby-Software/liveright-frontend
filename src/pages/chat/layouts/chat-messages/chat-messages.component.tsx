@@ -1,26 +1,19 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-messages.styles';
-import ChatMessagesEmpty from "./chat-messages-empty/chat-messages-empty.component";
-import {useParams} from "react-router";
-import ChatMessagesFull from "./chat-messages-full/chat-messages-full.component";
-import {ChatRoomProvider} from "../../../../modules/chat/contexts/chat-room.context";
+import React, { FC } from 'react'
+import { useParams } from 'react-router'
 
-type Props = {};
+import { ChatRoomProvider } from '../../../../modules/chat/contexts/chat-room.context'
+import Styles from './chat-messages.styles'
+import ChatMessagesEmpty from './chat-messages-empty/chat-messages-empty.component'
+import ChatMessagesFull from './chat-messages-full/chat-messages-full.component'
+
+type Props = {}
 const ChatMessages: FC<Props> = ({}) => {
-    const {room} = useParams<{room?: string}>();
-    return (
-        <ChatRoomProvider>
-        <Styles>
-            {
-                room? (
-                    <ChatMessagesFull/>
-                ): (
-                    <ChatMessagesEmpty/>
-                )
-            }
-        </Styles>
-        </ChatRoomProvider>
-    );
-};
+  const { room } = useParams<{ room?: string }>()
+  return (
+    <ChatRoomProvider>
+      <Styles>{room ? <ChatMessagesFull /> : <ChatMessagesEmpty />}</Styles>
+    </ChatRoomProvider>
+  )
+}
 
-export default ChatMessages;
+export default ChatMessages

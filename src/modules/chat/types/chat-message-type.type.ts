@@ -1,1 +1,9 @@
-export type ChatMessageTypeType = 'text'|'image'|'video'|'audio'|'file'|'request_session'|'session_reschedule'|'invoice';
+export type ChatMessageTypeType =
+  | 'text'
+  | 'image'
+  | 'video'
+  | 'audio'
+  | 'file'
+  | 'request_session'
+  | 'session_reschedule'
+  | 'invoice'

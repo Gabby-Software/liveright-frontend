@@ -1,6 +1,5 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './blue-link.styles';
+import Styles from './blue-link.styles'
 
-const BlueLink=Styles;
+const BlueLink = Styles
 
-export default BlueLink;
+export default BlueLink

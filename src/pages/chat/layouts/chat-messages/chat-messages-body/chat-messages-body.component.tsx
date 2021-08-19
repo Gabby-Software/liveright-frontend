@@ -1,12 +1,10 @@
-import React, {useState, useEffect, FC} from 'react';
-import Styles from './chat-messages-body.styles';
+import React, { FC } from 'react'
 
-type Props = {};
+import Styles from './chat-messages-body.styles'
+
+type Props = {}
 const ChatMessagesBody: FC<Props> = ({}) => {
-    return (
-        <Styles>
-        </Styles>
-    );
-};
+  return <Styles></Styles>
+}
 
-export default ChatMessagesBody;
+export default ChatMessagesBody
