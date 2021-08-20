@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import moment from 'moment'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
@@ -8,8 +10,13 @@ import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
+import { getHealthDataAsync } from '../../progress.api'
 import { OVER_TIME } from '../../progress.constants'
-import { OverTimeType } from '../../progress.types'
+import {
+  HealthData as HealthDataType,
+  OverTimeType
+} from '../../progress.types'
+import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
 import HealthCard from '../progress-health-card/progress-health-card.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
 import OverTimeMobile from '../progress-overtime-mobile/progress-overtime-mobile.component'
@@ -20,6 +27,7 @@ interface Props {}
 const HealthData: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const [rangeHighlights, setRangeHighlights] = useState<HealthDataType>()
   const [isGraphView, setIsGraphView] = useState(false)
   const [overTime, setOverTime] = useState<OverTimeType>(OVER_TIME.MONTH)
   const overTimeOptions = useMemo<OptionType[]>(
@@ -40,16 +48,7 @@ const HealthData: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <PageSubtitle>{t('progress:todayHighlights')}</PageSubtitle>
-      <CardsWrapper size="middle">
-        <HealthCard
-          icon={<SleepIcon />}
-          data="From 22:10 to 07:00"
-          quality="good"
-        />
-        <HealthCard icon={<CardiogramIcon />} data="80" quality="good" />
-        <HealthCard icon={<StepsIcon />} />
-        <HealthCard icon={<BloodIcon />} />
-      </CardsWrapper>
+      <DateHighLights />
 
       {isMobile ? (
         <OverTimeMobile

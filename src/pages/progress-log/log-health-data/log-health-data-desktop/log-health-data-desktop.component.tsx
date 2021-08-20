@@ -2,6 +2,7 @@ import { Space, Tooltip } from 'antd'
 import { useFormikContext } from 'formik'
 import React, { useMemo } from 'react'
 
+import { ReactComponent as BackArrowIcon } from '../../../../assets/media/icons/back-arrow.svg'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
 import { ReactComponent as InfoIcon } from '../../../../assets/media/icons/info.svg'
@@ -18,23 +19,29 @@ import LogCardDesktop from '../components/log-card-desktop/log-card-desktop.comp
 import {
   LogName,
   LogQuality,
-  Wrapper as SleepCardWrapper,
+  Wrapper as SleepCardWrapper
 } from '../components/log-card-desktop/log-card-desktop.styles'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
-  getStepsQuality,
+  getStepsQuality
 } from '../log-health-data.helpers'
 import {
   CardsWrapper,
   InputsWrapper,
   PickersWrapper,
+  ReturnButton,
   SubmitButton,
   SubmitButtonWrapper,
-  Wrapper,
+  Wrapper
 } from './log-health-data-desktop.styles'
 
-const LogHealthDataDesktop = () => {
+interface Props {
+  handleReturn: () => void
+}
+
+const LogHealthDataDesktop: React.FC<Props> = (props) => {
+  const { handleReturn } = props
   const { t } = useTranslation()
   const { values } = useFormikContext<HealthData>()
   const sleepOptions = useMemo(
@@ -42,23 +49,26 @@ const LogHealthDataDesktop = () => {
       { value: QUALITY.LOW, label: t(`progress:quality.${QUALITY.LOW}`) },
       {
         value: QUALITY.AVERAGE,
-        label: t(`progress:quality.${QUALITY.AVERAGE}`),
+        label: t(`progress:quality.${QUALITY.AVERAGE}`)
       },
       { value: QUALITY.GOOD, label: t(`progress:quality.${QUALITY.GOOD}`) },
-      { value: QUALITY.HIGH, label: t(`progress:quality.${QUALITY.HIGH}`) },
+      { value: QUALITY.HIGH, label: t(`progress:quality.${QUALITY.HIGH}`) }
     ],
-    [],
+    []
   )
 
   return (
     <Wrapper>
+      <ReturnButton icon={<BackArrowIcon />} onClick={handleReturn} type="link">
+        {t('progress:returnHealthData')}
+      </ReturnButton>
       <PickersWrapper size="middle">
         <FormDatepicker name="date" label={t('progress:loggingDate')} />
         <FormTimepicker name="time" label={t('progress:loggingTime')} />
       </PickersWrapper>
       <CardsWrapper>
         <LogCardDesktop
-          name={t('progress:heartRate')}
+          name={t('progress:heart_rate')}
           inputName="heart_rate.avg_rate"
           inputLabel={`${t('progress:average')} ${t('progress:heartRate')}`}
           getQuality={getHeartRateQuality}
@@ -72,7 +82,7 @@ const LogHealthDataDesktop = () => {
           Icon={<StepsIcon />}
         />
         <LogCardDesktop
-          name={t('progress:bloodGlicose')}
+          name={t('progress:blood_glucose')}
           inputName="blood_glucose.glucose"
           inputLabel={t('progress:glicose')}
           getQuality={getGlucoseQuality}
@@ -102,7 +112,7 @@ const LogHealthDataDesktop = () => {
                   <span>
                     {getDuration(
                       values.sleep?.start_time,
-                      values.sleep?.end_time,
+                      values.sleep?.end_time
                     ) || '-'}
                   </span>
                 </LogQuality>
@@ -121,7 +131,7 @@ const LogHealthDataDesktop = () => {
                   <span>
                     {getDuration(
                       values.sleep?.nap_start_time,
-                      values.sleep?.nap_end_time,
+                      values.sleep?.nap_end_time
                     ) || '-'}
                   </span>
                 </LogQuality>

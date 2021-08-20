@@ -51,7 +51,7 @@ const qualityColors: { [key: string]: string } = {
   low: 'error',
   average: 'warning',
   good: 'success',
-  high: 'error',
+  high: 'error'
 }
 
 export const LogQuality = styled.div<{

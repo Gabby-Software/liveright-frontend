@@ -7,13 +7,13 @@ import {
 } from './progress.types'
 
 export const PROGRESS_SECTIONS: { [key: string]: ProgressSectionsType } = {
-  HEALTH_DATA: 'healthData',
+  HEALTH_DATA: 'health_data',
   MEASUREMENTS: 'measurements',
   PHOTOS: 'photos'
 }
 
 export const PROGRESS_LOG_URL: { [key: string]: string } = {
-  healthData: Routes.PROGRESS_LOG_HEALTH_DATA,
+  health_data: Routes.PROGRESS_LOG_HEALTH_DATA,
   measurements: Routes.PROGRESS_LOG_MEASUREMENTS,
   photos: Routes.PROGRESS_LOG_PHOTOS
 }
@@ -23,8 +23,8 @@ export const OVER_TIME: { [key: string]: OverTimeType } = {
   MONTH: 'month',
   QUARTER: 'quarter',
   YTD: 'ytd',
-  LAST_YEAR: 'lastYear',
-  SPECIFIC: 'specificDates'
+  LAST_YEAR: 'last_year',
+  SPECIFIC: 'specific_dates'
 }
 
 export const QUALITY: { [key: string]: QualityType } = {
@@ -37,6 +37,6 @@ export const QUALITY: { [key: string]: QualityType } = {
 export const PROGRESS_LOG: { [key: string]: ProgressLogType } = {
   SLEEP: 'sleep',
   STEPS: 'steps',
-  HEART_RATE: 'heartRate',
-  GLICOSE: 'glicose'
+  HEART_RATE: 'heart_rate',
+  GLICOSE: 'blood_glucose'
 }

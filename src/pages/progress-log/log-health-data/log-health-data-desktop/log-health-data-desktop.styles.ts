@@ -1,4 +1,4 @@
-import { Space } from 'antd'
+import { Button, Space } from 'antd'
 import styled from 'styled-components'
 
 import ButtonSubmit from '../../../../components/forms/button-submit/button-submit.component'
@@ -10,8 +10,20 @@ export const Wrapper = styled.div`
   margin-bottom: 64px;
 `
 
+export const ReturnButton = styled(Button)`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  width: fit-content;
+  padding: 0;
+
+  svg {
+    margin-right: 8px;
+  }
+`
+
 export const PickersWrapper = styled(Space)`
-  margin-bottom: 32px;
+  margin: 32px 0;
 
   .ant-space-item {
     width: 250px;

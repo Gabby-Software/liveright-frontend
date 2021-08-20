@@ -1,21 +1,19 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars */
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { EP_GET_SESSIONS, EP_HEALTH_DATA_LOGS } from '../../enums/api.enum'
+import { EP_HEALTH_DATA_LOGS } from '../../enums/api.enum'
 import api from '../../managers/api.manager'
-import logger from '../../managers/logger.manager'
-import { HealthData } from '../../pages/progress/progress.types'
+import {
+  HealthData,
+  OverTimeType,
+  ProgressLogType
+} from '../../pages/progress/progress.types'
 import { queryFiltersPipe } from '../../pipes/query-filters.pipe'
 import { serverError } from '../../pipes/server-error.pipe'
 import { CallbackType } from '../../types/callback.type'
-import { InvoiceType } from '../../types/invoice.type'
-import { PaginatedDataType } from '../../types/paginated-data.type'
-import { Session, SessionEdit, SessionFilter } from '../../types/session.type'
 import {
-  ACTION_CLIENT_REQUEST_SESSION_ERROR,
-  ACTION_CLIENT_REQUEST_SESSION_LOAD,
-  ACTION_CLIENT_REQUEST_SESSION_REQUEST,
-  ACTION_CLIENT_REQUEST_SESSION_SUCCESS,
+  ACTION_GET_HEALTH_DATA_ERROR,
+  ACTION_GET_HEALTH_DATA_REQUEST,
+  ACTION_GET_HEALTH_DATA_SUCCESS,
   ACTION_SET_HEALTH_DATA_ERROR,
   ACTION_SET_HEALTH_DATA_LOAD,
   ACTION_SET_HEALTH_DATA_REQUEST,
@@ -25,6 +23,7 @@ import {
 
 export function* sagaProgressWatcher() {
   yield takeLatest(ACTION_SET_HEALTH_DATA_REQUEST, setHealthDataWorker)
+  yield takeLatest(ACTION_GET_HEALTH_DATA_REQUEST, getHealthDataWorker)
 }
 
 function* setHealthDataWorker({
@@ -43,5 +42,42 @@ function* setHealthDataWorker({
       type: ACTION_SET_HEALTH_DATA_ERROR,
       payload: serverError(e)
     })
+
+    onError && onError(e)
+  }
+}
+
+function* getHealthDataWorker({
+  payload
+}: ActionType<
+  {
+    id?: string
+    only_include?: ProgressLogType
+    date?: string
+    account_id?: number
+    range?: OverTimeType
+    from_date?: string
+    to_date?: string
+  } & CallbackType<void>
+>) {
+  yield put({ type: ACTION_GET_HEALTH_DATA_REQUEST })
+  const { onSuccess, onError, only_include, id, ...filters } = payload
+  const filtersQuery = queryFiltersPipe(filters)
+  const params = new URLSearchParams({
+    only_include,
+    ...filtersQuery
+  } as any).toString()
+  try {
+    yield call(() => api.get(EP_HEALTH_DATA_LOGS + `?${params}&per_page=10`))
+    yield put({ type: ACTION_GET_HEALTH_DATA_SUCCESS })
+
+    onSuccess && onSuccess()
+  } catch (e) {
+    yield put({
+      type: ACTION_GET_HEALTH_DATA_ERROR,
+      payload: serverError(e)
+    })
+
+    onError && onError(e)
   }
 }

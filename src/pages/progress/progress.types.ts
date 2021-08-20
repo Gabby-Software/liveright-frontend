@@ -5,12 +5,12 @@ export type OverTimeType =
   | 'month'
   | 'quarter'
   | 'ytd'
-  | 'lastYear'
-  | 'specificDates'
+  | 'last_year'
+  | 'specific_dates'
 
-export type ProgressSectionsType = 'healthData' | 'measurements' | 'photos'
+export type ProgressSectionsType = 'health_data' | 'measurements' | 'photos'
 
-export type ProgressLogType = 'sleep' | 'heartRate' | 'steps' | 'glicose'
+export type ProgressLogType = 'sleep' | 'heart_rate' | 'steps' | 'blood_glucose'
 
 export interface HealthData {
   id?: string
