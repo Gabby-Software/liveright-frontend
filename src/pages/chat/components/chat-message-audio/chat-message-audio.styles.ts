@@ -8,7 +8,7 @@ export default styled.div`
   width: 292px;
   max-width: 100%;
   ${media('tablet', 'max')`
-    width: 100%;
+    width: 240px;
   `}
   .cm-audio {
     &__microphone {
