@@ -19,12 +19,6 @@ export const TableWrapper = styled.div`
     }
   }
 
-  .ant-tabs-tab {
-    display: flex;
-    flex: 1;
-    margin: 0;
-  }
-
   .tabs-label-wrapper {
     flex-direction: column;
     align-items: center;

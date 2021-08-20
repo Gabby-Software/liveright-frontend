@@ -13,6 +13,7 @@
   "napEnds": "Nap Ends",
   "averageHeartRate": "Average Heart Rate",
   "steps": "Steps",
+  "dailySteps": "Daily Steps",
   "glicose": "Glicose (mg/l)",
   "missingDay": "Some day missing? Add it",
   "seeGraph": "See graphic view",
@@ -28,6 +29,8 @@
   "lastYear": "Last Year",
   "average": "Average",
   "specificDates": "Specific Dates",
+  "loggingDate": "Logging Date",
+  "loggingTime": "Logging Time",
   "quality": {
     "low": "Low",
     "average": "Average",

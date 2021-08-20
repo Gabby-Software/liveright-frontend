@@ -6,9 +6,15 @@ import SmallModal from '../../../components/small-modal/small-modal.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
+import { ProgressSectionsType } from '../progress.types'
 import { StyledTabs, Wrapper } from './progress-mobile.styles'
 
-const ProgressMobile = () => {
+interface Props {
+  onLogClick: (value: ProgressSectionsType) => void
+}
+
+const ProgressMobile: React.FC<Props> = (props) => {
+  const { onLogClick } = props
   const { t } = useTranslation()
   const [logModal, setLogModal] = useState(false)
 
@@ -45,7 +51,7 @@ const ProgressMobile = () => {
         title={t('progress:sections.log')}
         menu={map(PROGRESS_SECTIONS, (value) => ({
           name: t(`progress:sections.${value}`),
-          onClick: () => {}
+          onClick: () => onLogClick(value)
         }))}
       />
     </Wrapper>
