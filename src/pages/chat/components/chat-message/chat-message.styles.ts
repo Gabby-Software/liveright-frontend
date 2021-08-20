@@ -19,7 +19,7 @@ export default styled.div`
       color: ${(p) => p.theme.vars.colors.primaryDark_v2};
       font-size: 14px;
       border-radius: 0 8px 8px 8px;
-      margin: 10px 0;
+      margin: 10px 0 0 0;
       &.me {
         background-color: ${(p) => p.theme.vars.colors.chat_dark};
         color: white;
