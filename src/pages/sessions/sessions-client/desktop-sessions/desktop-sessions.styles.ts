@@ -39,6 +39,7 @@ export const TitleContent = styled.div<{ credits: number }>`
 export default styled.div`
   display: flex;
   overflow: auto;
+
   .sessions {
     width: 100%;
 

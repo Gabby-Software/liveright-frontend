@@ -30,7 +30,7 @@
   "notes": "Notes",
   "remind-credits": "Credits After This",
   "submit": "Schedule Session",
-  "schedule-new": "Schedule new Session",
+  "schedule-new": "Schedule New Session",
   "submit-anyway": "Schedule Anyway",
   "request-anyway": "Request Anyway",
   "delete": "Delete and create new",
@@ -48,9 +48,11 @@
   "progress": "Your Progress",
   "manage-targets": "Manage Targets",
   "target": "Target",
+  "you-earn": "You earn",
   "current": "Current",
   "consultation": "Consultation",
-  "ptSession": "PT Session",
+  "ptSessions": "PT Sessions",
   "schedule-now": "Schedule Now",
-  "past-title": "Past Sessions"
+  "past-title": "Past Sessions",
+  "coaching": "Coaching"
 }

@@ -1,88 +1,25 @@
-import { Form } from 'formik'
 import styled from 'styled-components'
 
-import Card from '../../../../components/card/card.style'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
+import Card from '../../../../components/cards/card/card.component'
 
-export const AwaitingCard = styled(Card)`
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-  padding: 24px 16px;
-  margin-right: 24px;
-  min-width: 300px;
-
-  div:first-child {
-    display: flex;
-    flex-direction: row;
-    user-select: none;
-
-    .ant-avatar {
-      margin-right: 8px;
-    }
-  }
-
-  .schedule-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: fit-content;
-    cursor: pointer;
-    user-select: none;
-    margin-top: 24px;
-    color: ${({ theme }) => theme.vars.colors.primary};
-
-    span:first-child {
-      margin-right: 8px;
-      transition: all 0.1s linear;
-      border-bottom: 1px solid ${({ theme }) => theme.vars.colors.primary};
-    }
-
-    &:hover {
-      span:first-child {
-        margin-right: 12px;
-      }
-    }
-  }
-`
-
-export const AddSessionAction = styled(FormButton)`
-  max-width: 220px;
-`
-
-export const ManageTargetsAction = styled(AddSessionAction)``
-
-export const TitleContent = styled(Form)`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 32px;
-  width: 100%;
-
-  .select_input__cont {
-    max-width: 200px;
-    .ant-select {
-      display: flex;
-      align-items: center;
-      padding: 0;
-      height: 40px;
-    }
-  }
-
-  button {
-    padding: 4px 17px;
-    box-shadow: none;
-    width: auto;
-    height: 40px;
-  }
+export const ScheduleCard = styled(Card)`
+  padding: 31px 28px 28px 28px;
+  background-color: ${(props) => props.theme.vars.colors.neutral_10};
+  border: 1px solid ${(props) => props.theme.vars.colors.background_v2};
 `
 
 export default styled.div`
   display: flex;
   overflow: auto;
+
   .sessions {
     width: 100%;
-    padding-bottom: 100px;
+    display: flex;
+
+    &__title {
+      display: flex;
+      justify-content: space-between;
+    }
 
     .carousel__cont {
       padding: 16px;
@@ -93,28 +30,93 @@ export default styled.div`
       flex-direction: row;
       align-items: center;
       height: 40px;
-
-      button {
-        padding: 4px 17px;
-        box-shadow: none;
-        width: auto;
-        height: 40px;
-        margin-right: 4px;
-      }
     }
 
     &__progress {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+    }
 
-      div:first-child {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding-top: 54px;
-        padding-bottom: 32px;
-        margin-right: 32px;
+    &__tabs {
+      & .ant-tabs-nav {
+        background-color: #fff;
+        padding: 0 1.75rem;
+        border-radius: 10px;
+        margin-bottom: 2.125rem;
       }
+      & .ant-tabs-tab {
+        padding: 17px 0;
+        font-size: 0.875rem;
+
+        &:hover {
+          color: ${(props) => props.theme.vars.colors.blue_70};
+        }
+      }
+      & .ant-tabs-tab-active .ant-tabs-tab-btn {
+        text-shadow: none;
+        font-weight: 700;
+        color: ${(props) => props.theme.vars.colors.blue_70};
+      }
+      & .ant-tabs-tab-btn {
+        transition: none;
+      }
+      & .ant-tabs-ink-bar {
+        background-color: ${(props) => props.theme.vars.colors.blue_70};
+      }
+    }
+
+    &__main {
+      flex: 1;
+      padding: 0 2.25rem 103px 2.25rem;
+    }
+
+    &__right {
+      width: 349px;
+      padding: 0 2.25rem;
+      overflow: hidden;
+      border-left: 1px solid
+        ${(props) => props.theme.vars.colors.inputBorder_v2};
+    }
+
+    &__filter-form-wrapper {
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid
+        ${(props) => props.theme.vars.colors.inputBorder_v2};
+      margin-bottom: 1.5rem;
+
+      & .select_input__wrapper {
+        max-width: 253px;
+      }
+    }
+
+    &__cards-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.875rem;
+    }
+
+    &__schedule_button {
+      padding-top: 2.375rem;
+      font-size: 0.875rem;
+      color: ${(props) => props.theme.vars.colors.link};
+      cursor: pointer;
+
+      & svg {
+        margin-left: 0.75rem;
+      }
+    }
+
+    &__date-range {
+      margin-bottom: 1.875rem;
+    }
+
+    &__right-footer {
+      padding: 2.125rem 0;
+    }
+
+    &__manage-btn {
+      width: 100%;
     }
   }
 `

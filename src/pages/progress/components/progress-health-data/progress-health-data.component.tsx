@@ -17,7 +17,7 @@ import { CardsWrapper, Wrapper } from './progress-health-data.styles'
 
 interface Props {}
 
-const HealthData: React.FC<Props> = (props) => {
+const HealthData: React.FC<Props> = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [isGraphView, setIsGraphView] = useState(false)

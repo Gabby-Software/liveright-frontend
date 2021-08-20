@@ -5,7 +5,6 @@ import React, { ReactElement } from 'react'
 import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info.svg'
 import FormInput from '../../../../../components/forms/form-input/form-input.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { HealthDataType } from '../../../../../types/health-data.type'
 import { HealthData, QualityType } from '../../../../progress/progress.types'
 import { LogName, LogQuality, Wrapper } from './log-card-desktop.styles'
 

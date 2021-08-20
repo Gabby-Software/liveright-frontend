@@ -1,0 +1,5 @@
+export { ReactComponent as GroupSolidIcon } from './group-solid.svg'
+export { ReactComponent as ClientSolidIcon } from './client-solid.svg'
+export { ReactComponent as PhoneSolidIcon } from './phone-solid.svg'
+export { ReactComponent as RevenueSolidIcon } from './revenue-solid.svg'
+export { ReactComponent as OptionSolidIcon } from './option-solid.svg'

@@ -23,6 +23,7 @@ const vars = {
     warningDark: '#c46106',
 
     // V2
+    primary_v2: '#EF1733',
     background_v2: '#F1F4F7',
     primaryDark_v2: '#2E2F31',
     primaryDark2_v2: '#404040',
@@ -37,7 +38,14 @@ const vars = {
     link: '#2E81ED',
     link_darken: '#2871d0',
     chat_blue: '#DFE6F1',
-    chat_dark: '#404040'
+    chat_dark: '#404040',
+    blue_70: '#1268E4',
+    neutral_10: '#FAFAFA',
+    neutral_50: '#C2C2C2',
+    red_60: '#ED2E32',
+    red_100: '#870002',
+    green_90: '#00B334',
+    green_80: '#00D721'
   },
   sizes: {
     borderRadius: '6px',

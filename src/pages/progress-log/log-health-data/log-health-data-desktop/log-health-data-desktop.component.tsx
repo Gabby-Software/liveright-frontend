@@ -2,7 +2,6 @@ import React from 'react'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
-import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
 import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
