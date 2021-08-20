@@ -2,7 +2,8 @@ import { Routes } from '../../enums/routes.enum'
 import {
   OverTimeType,
   ProgressLogType,
-  ProgressSectionsType
+  ProgressSectionsType,
+  QualityType
 } from './progress.types'
 
 export const PROGRESS_SECTIONS: { [key: string]: ProgressSectionsType } = {
@@ -24,6 +25,13 @@ export const OVER_TIME: { [key: string]: OverTimeType } = {
   YTD: 'ytd',
   LAST_YEAR: 'lastYear',
   SPECIFIC: 'specificDates'
+}
+
+export const QUALITY: { [key: string]: QualityType } = {
+  LOW: 'low',
+  AVERAGE: 'average',
+  GOOD: 'good',
+  HIGH: 'high'
 }
 
 export const PROGRESS_LOG: { [key: string]: ProgressLogType } = {

@@ -6,19 +6,17 @@ import { QualityType } from '../../../../progress/progress.types'
 export const Wrapper = styled(Card)`
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
+  margin-bottom: 12px;
   padding: 16px 32px;
   color: ${({ theme }) => theme.vars.colors.primaryDark};
-  width: 80%;
 
   div:first-child {
     display: flex;
-    flex-direction: row;
     align-items: center;
 
     .text_input__input {
-      width: 250px;
-      margin-right: 64px;
+      width: 200px;
+      margin-right: 16px;
     }
   }
 `
@@ -53,16 +51,19 @@ const qualityColors: { [key: string]: string } = {
   low: 'error',
   average: 'warning',
   good: 'success',
-  high: 'error'
+  high: 'error',
 }
 
-export const LogQuality = styled.div<{ quality: QualityType; show: boolean }>`
+export const LogQuality = styled.div<{
+  quality?: QualityType | ''
+}>`
   display: flex;
   flex-direction: column;
   margin-bottom: 28px;
-  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
 
   span:first-child {
+    ${({ theme }) => theme.extend.label};
+
     svg {
       width: 14px;
       height: 14px;
@@ -73,7 +74,8 @@ export const LogQuality = styled.div<{ quality: QualityType; show: boolean }>`
 
   span:last-child {
     margin-top: 8px;
-    color: ${({ quality, theme }) => theme.vars.colors[qualityColors[quality]]};
+    color: ${({ quality, theme }) =>
+      theme.vars.colors[qualityColors[quality || 'error']]};
     ${({ theme }) => theme.extend.h3};
   }
 `
