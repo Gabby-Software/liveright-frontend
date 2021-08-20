@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export default styled.div`
+export default styled.form`
   padding: 14px 35px;
   background-color: white;
   flex-shrink: 0;

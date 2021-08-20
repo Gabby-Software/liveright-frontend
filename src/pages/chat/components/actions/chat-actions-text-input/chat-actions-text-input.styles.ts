@@ -3,11 +3,12 @@ import styled from 'styled-components'
 export default styled.label`
   display: flex;
   width: 100%;
-  padding: 13px 18px;
+  padding: 12px 18px;
   background-color: ${(p) => p.theme.vars.colors.background_v2};
   border-radius: 8px;
   .chat-input {
     &__input {
+      padding: 0;
       display: block;
       width: 100%;
       background: none;
