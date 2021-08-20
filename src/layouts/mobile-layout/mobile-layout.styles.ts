@@ -15,4 +15,9 @@ export default styled.div`
       margin: 0 0 24px 0;
     }
   }
+  &.mobile-layout {
+    &__v2 {
+      background-color: ${(p) => p.theme.vars.colors.background_v2};
+    }
+  }
 `

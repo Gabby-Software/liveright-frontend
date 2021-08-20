@@ -3,7 +3,7 @@ import { lazy } from 'react'
 import { footerTypes } from '../enums/footer-types'
 import { Routes } from '../enums/routes.enum'
 import { RouteType } from '../types/route.type'
-import headers, { headerBackTo } from './header.config'
+import headers from './header.config'
 
 export const authRoutes: RouteType[] = [
   // {
@@ -71,7 +71,7 @@ export const routes: RouteType[] = [
     url: Routes.CALENDAR,
     Component: lazy(() => import('../pages/calendar/calendar.component')),
     header: {
-      items: headers.default_inside
+      items: headers.default
     },
     footer: footerTypes.NONE
   },
@@ -87,7 +87,7 @@ export const routes: RouteType[] = [
     Component: lazy(() => import('../pages/trainer/trainer.component')),
     header: {
       title: 'My Trainer',
-      items: headers.default_inside
+      items: headers.default
     }
   },
   {
@@ -102,7 +102,7 @@ export const routes: RouteType[] = [
     },
     header: {
       title: 'Generate new Invoice',
-      items: headers.default_inside
+      items: headers.default
     }
   },
   {
@@ -111,7 +111,7 @@ export const routes: RouteType[] = [
     Component: lazy(() => import('../pages/invoice/invoice.component')),
     header: {
       title: 'Invoice',
-      items: headerBackTo(Routes.INVOICES)
+      items: headers.default
     },
     back: {
       url: Routes.INVOICES,
@@ -128,7 +128,7 @@ export const routes: RouteType[] = [
     ),
     header: {
       title: 'Invoices',
-      items: headers.default_inside
+      items: headers.default
     }
   },
   {
@@ -204,7 +204,7 @@ export const routes: RouteType[] = [
     Component: lazy(() => import('../pages/session/session.component')),
     header: {
       title: 'Sessions',
-      items: headers.add
+      items: headers.default
     }
   },
   {
@@ -213,7 +213,7 @@ export const routes: RouteType[] = [
     Component: lazy(() => import('../pages/sessions/sessions.component')),
     header: {
       title: 'Your Sessions',
-      items: headers.filter
+      items: headers.default
     }
   },
   {
@@ -277,7 +277,8 @@ export const routes: RouteType[] = [
     header: {
       title: 'Chat',
       items: headers.default
-    }
+    },
+    footer: footerTypes.NONE
   }
 ]
 

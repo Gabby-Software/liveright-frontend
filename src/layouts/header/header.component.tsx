@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import headers, { DEFAULT_TITLE } from '../../config/header.config'
+import { DEFAULT_TITLE } from '../../config/header.config'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
-import logger from '../../managers/logger.manager'
+import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
 import { HeaderItemType, HeaderItemTypes } from '../../types/route.type'
@@ -15,9 +15,8 @@ const Header = () => {
   const { pathname } = useLocation()
   const { type: userType } = useAuth()
   const trainer = useClientsTrainer()
-  const title = DEFAULT_TITLE
-  const items = headers.default
-  logger.info('TRAINER', trainer)
+  const { items } = useHeader()
+  if (!items) return null
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
     switch (type) {
       case HeaderItemTypes.IMAGE:
@@ -75,11 +74,12 @@ const Header = () => {
         )
     }
   }
+
   return (
     <Styles>
       <div className={'header__placeholder'} />
       <nav className={'header__nav'}>
-        <h1 className={'header__title'}>{title}</h1>
+        <h1 className={'header__title'}>{DEFAULT_TITLE}</h1>
         {items?.map((t, i) => (
           <React.Fragment key={i}>{renderHeaderItem(t)}</React.Fragment>
         ))}
