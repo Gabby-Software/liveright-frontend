@@ -1,10 +1,15 @@
 import styled from 'styled-components'
 
+import { media } from '../../../../assets/styles/_media'
+
 export default styled.div`
   ${(p) => p.theme.extend.flexCenter}
   padding: 6px 12px;
   width: 292px;
   max-width: 100%;
+  ${media('tablet', 'max')`
+    width: 240px;
+  `}
   .cm-audio {
     &__microphone {
       flex-shrink: 0;

@@ -1,13 +1,13 @@
 import React from 'react'
 
-import logger from '../../../../managers/logger.manager'
+import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
 import { classes } from '../../../../pipes/classes.pipe'
 import Styles from './chat-message-gallery.styles'
 type Props = {
   images: string[]
 }
 const ChatMessageGallery = ({ images }: Props) => {
-  logger.info('Images to render', images)
+  const { setOpenedImage } = useChatRoom()
   return (
     <Styles className={classes('cm-image', `cm-images-${images.length}`)}>
       {images.map((img, i) => (
@@ -15,6 +15,7 @@ const ChatMessageGallery = ({ images }: Props) => {
           alt={'chat message'}
           src={img}
           key={i}
+          onClick={() => setOpenedImage(img)}
           className={'cm-image__image'}
         />
       ))}
