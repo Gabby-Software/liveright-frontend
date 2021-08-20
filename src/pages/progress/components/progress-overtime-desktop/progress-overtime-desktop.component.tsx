@@ -67,7 +67,7 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
             },
             {
               icon: <CardiogramIcon />,
-              label: t('progress:heartRate'),
+              label: t('progress:heart_rate'),
               key: PROGRESS_LOG.HEART_RATE,
               renderContent: renderDataContent()
             },
@@ -79,7 +79,7 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
             },
             {
               icon: <BloodIcon />,
-              label: t('progress:bloodGlicose'),
+              label: t('progress:blood_glucose'),
               key: PROGRESS_LOG.GLICOSE,
               renderContent: renderDataContent()
             }

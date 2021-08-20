@@ -1,5 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, FormEventHandler } from 'react'
 
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
+import ChatActionsAdd from '../../components/actions/chat-actions-add/chat-actions-add.component'
 import ChatActionsAttachment from '../../components/actions/chat-actions-attachment/chat-actions-attachment.component'
 import ChatActionsRecord from '../../components/actions/chat-actions-record/chat-actions-record.component'
 import ChatActionsSend from '../../components/actions/chat-actions-send/chat-actions-send.component'
@@ -8,11 +11,24 @@ import Styles from './chat-actions.styles'
 
 type Props = {}
 const ChatActions: FC<Props> = ({}) => {
+  const isMobile = useIsMobile()
+  const { sendTextMessage, textMessage } = useChatRoom()
+  const handleSubmit: FormEventHandler = (e) => {
+    e.preventDefault()
+    if (!textMessage) return
+    sendTextMessage()
+  }
   return (
-    <Styles>
+    <Styles onSubmit={handleSubmit}>
       <ChatActionsTextInput />
-      <ChatActionsAttachment />
-      <ChatActionsRecord />
+      {isMobile ? (
+        <ChatActionsAdd />
+      ) : (
+        <>
+          <ChatActionsAttachment />
+          <ChatActionsRecord />
+        </>
+      )}
       <ChatActionsSend />
     </Styles>
   )

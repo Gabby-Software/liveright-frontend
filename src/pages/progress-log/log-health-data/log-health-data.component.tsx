@@ -1,23 +1,90 @@
 import { Form, Formik } from 'formik'
 import React, { useMemo } from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import { Routes } from '../../../enums/routes.enum'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import { getDuration } from '../../../pipes/duration.pipe'
+import { timeWithSeconds } from '../../../pipes/time.pipe'
+import { ACTION_SET_HEALTH_DATA_REQUEST } from '../../../store/action-types'
 import { HealthData } from '../../progress/progress.types'
+import {
+  getGlucoseQuality,
+  getHeartRateQuality,
+  getStepsQuality
+} from './log-health-data.helpers'
 import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desktop.component'
 import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
 const LogHealthData = () => {
+  const dispatch = useDispatch()
   const isMobile = useIsMobile()
+  const history = useHistory()
   const initialValues = useMemo<HealthData>(() => {
     return {
       id: ''
     }
   }, [])
 
+  const handleReturn = () => {
+    history.push(Routes.PROGRESS)
+  }
+
+  const handleSubmit = (values: HealthData) => {
+    const { time, sleep, heart_rate, steps, blood_glucose } = values
+    const payload = {
+      ...values,
+      time: timeWithSeconds(time)
+    }
+
+    if (heart_rate) {
+      payload.heart_rate = {
+        ...heart_rate,
+        quality: getHeartRateQuality(heart_rate.avg_rate)
+      }
+    }
+
+    if (steps) {
+      payload.steps = {
+        ...steps,
+        quality: getStepsQuality(steps.daily_steps)
+      }
+    }
+
+    if (blood_glucose) {
+      payload.blood_glucose = {
+        ...blood_glucose,
+        quality: getGlucoseQuality(blood_glucose.glucose)
+      }
+    }
+
+    if (sleep) {
+      const { start_time, end_time, nap_start_time, nap_end_time, quality } =
+        sleep
+
+      payload.sleep = {
+        start_time: timeWithSeconds(start_time),
+        end_time: timeWithSeconds(end_time),
+        sleep_duration: getDuration(start_time, end_time),
+        nap_start_time: timeWithSeconds(nap_start_time),
+        nap_end_time: timeWithSeconds(nap_end_time),
+        nap_duration: getDuration(nap_start_time, nap_end_time),
+        quality
+      }
+    }
+
+    dispatch({
+      type: ACTION_SET_HEALTH_DATA_REQUEST,
+      payload,
+      onSuccess: handleReturn
+    })
+  }
+
   return (
     <Formik
-      onSubmit={() => {}}
+      onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={Yup.object({
         date: Yup.string().required(),
@@ -34,7 +101,11 @@ const LogHealthData = () => {
       })}
     >
       <Form>
-        {isMobile ? <LogHealthDataMobile /> : <LogHealthDataDesktop />}
+        {isMobile ? (
+          <LogHealthDataMobile />
+        ) : (
+          <LogHealthDataDesktop handleReturn={handleReturn} />
+        )}
       </Form>
     </Formik>
   )

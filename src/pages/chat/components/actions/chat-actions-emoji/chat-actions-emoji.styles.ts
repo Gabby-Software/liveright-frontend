@@ -16,4 +16,19 @@ export default styled.div`
       filter: drop-shadow(0 0 2px ${(p) => p.theme.vars.colors.secondary2_v2});
     }
   }
+  .emoji-picker-react {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) scaleY(0);
+    transition: ${(p) => p.theme.vars.defaults.transition};
+    opacity: 0;
+    transform-origin: bottom center;
+  }
+  &.emoji-picker__open {
+    .emoji-picker-react {
+      transform: translateX(-50%) scaleY(1);
+      opacity: 1;
+    }
+  }
 `

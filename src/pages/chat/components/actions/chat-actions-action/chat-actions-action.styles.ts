@@ -28,6 +28,13 @@ export default styled.div`
   &.chat-action {
     &__disabled {
       opacity: 0.7;
+      cursor: not-allowed;
+      &:hover {
+        background-color: ${(p) =>
+          p.color === 'primary'
+            ? p.theme.vars.colors.primary
+            : p.theme.vars.colors.background_v2};
+      }
     }
   }
 `
