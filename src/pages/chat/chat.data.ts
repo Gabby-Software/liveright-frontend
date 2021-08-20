@@ -168,5 +168,49 @@ export const mockMessages: ChatMessageType[] = [
     createdAt: '2021-08-18T23:27:05.383Z',
     updatedAt: '2021-08-18T23:27:05.383Z',
     __v: 0
+  },
+  {
+    meta: {
+      sent_at: moment().add(-3, 'minutes').format(),
+      delivered_at: moment().add(-3, 'minutes').format(),
+      read_at: null
+    },
+    content: {
+      text: '',
+      files: [
+        'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3'
+      ],
+      embedLinks: []
+    },
+    types: ['audio'],
+    _id: '611d974911dcb63c1064fd75',
+    senderId: '941cbce2-fa1f-4e0f-9afe-2b04369a819a',
+    receiverId: '941cbd93-10c1-4a0d-b922-b39908a7227d',
+    chat_room_id: '6116a782093e0a5e500e8eb6',
+    createdAt: '2021-08-18T23:27:05.383Z',
+    updatedAt: '2021-08-18T23:27:05.383Z',
+    __v: 0
+  },
+  {
+    meta: {
+      sent_at: moment().add(-3, 'minutes').format(),
+      delivered_at: moment().add(-3, 'minutes').format(),
+      read_at: null
+    },
+    content: {
+      text: '',
+      files: [
+        'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3'
+      ],
+      embedLinks: []
+    },
+    types: ['audio'],
+    _id: '611d974911dcb63c1064id75',
+    senderId: '123',
+    receiverId: '941cbd93-10c1-4a0d-b922-b39908a7227d',
+    chat_room_id: '6116a782093e0a5e500e8eb6',
+    createdAt: '2021-08-18T23:27:05.383Z',
+    updatedAt: '2021-08-18T23:27:05.383Z',
+    __v: 0
   }
 ]
