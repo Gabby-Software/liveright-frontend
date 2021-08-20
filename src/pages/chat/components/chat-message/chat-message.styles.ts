@@ -6,6 +6,7 @@ export default styled.div`
   .message {
     &__body {
       max-width: 500px;
+      width: 100%;
       background-color: ${(p) => p.theme.vars.colors.chat_blue};
       color: ${(p) => p.theme.vars.colors.primaryDark_v2};
       font-size: 14px;

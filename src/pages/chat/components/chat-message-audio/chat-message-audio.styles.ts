@@ -4,6 +4,7 @@ export default styled.div`
   ${(p) => p.theme.extend.flexCenter}
   padding: 6px 12px;
   width: 292px;
+  max-width: 100%;
   .cm-audio {
     &__microphone {
       flex-shrink: 0;

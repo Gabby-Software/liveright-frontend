@@ -7,7 +7,7 @@ type Props = {
 }
 const InfiniteScroll = ({}: Props) => {
   // const
-  return <Styles></Styles>
+  return <Styles />
 }
 
 export default InfiniteScroll
