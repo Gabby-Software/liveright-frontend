@@ -10,6 +10,8 @@ type ChatRoomContextType = {
   setMessages: Dispatch<ChatMessageType[]>
   playing: string | null
   setPlaying: Dispatch<string | null>
+  openedImage: string
+  setOpenedImage: Dispatch<string>
 }
 
 const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
@@ -21,9 +23,19 @@ export const ChatRoomProvider: FC<{}> = ({ children }) => {
   const [mode, setMode] = useState<ChatRoomModes>(ChatRoomModes.DEFAULT)
   const [messages, setMessages] = useState<ChatMessageType[]>([])
   const [playing, setPlaying] = useState<string | null>(null)
+  const [openedImage, setOpenedImage] = useState<string>('')
   return (
     <ChatRoomContext.Provider
-      value={{ mode, setMode, messages, setMessages, playing, setPlaying }}
+      value={{
+        mode,
+        setMode,
+        messages,
+        setMessages,
+        playing,
+        setPlaying,
+        openedImage,
+        setOpenedImage
+      }}
     >
       {children}
     </ChatRoomContext.Provider>

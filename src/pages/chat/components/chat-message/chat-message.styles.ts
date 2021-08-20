@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 
+import ProfileImage from '../../../../components/profile-image/profile-image.component'
+
+export const ProfileImageStyled = styled(ProfileImage)`
+  margin: 10px 13px 0 0;
+  .profile-image__img {
+    width: 32px;
+    height: 32px;
+  }
+`
 export default styled.div`
   display: flex;
   padding: 2px;
