@@ -76,7 +76,7 @@ export const mockMessages: ChatMessageType[] = [
     },
     content: {
       text: '',
-      files: ['https://picsum.photos/id/1/200/300'],
+      files: ['https://picsum.photos/id/1/1200/920'],
       embedLinks: []
     },
     types: ['image'],
@@ -97,8 +97,8 @@ export const mockMessages: ChatMessageType[] = [
     content: {
       text: 'Lorem ipsum dolor sit ammet',
       files: [
-        'https://picsum.photos/id/1/200/300',
-        'https://picsum.photos/id/2/200/300'
+        'https://picsum.photos/id/1/1200/920',
+        'https://picsum.photos/id/8/1200/920'
       ],
       embedLinks: []
     },
@@ -140,14 +140,14 @@ export const mockMessages: ChatMessageType[] = [
     content: {
       text: '',
       files: [
-        'https://picsum.photos/id/53/200/300',
-        'https://picsum.photos/id/67/500/500',
-        'https://picsum.photos/id/46/800/200',
-        'https://picsum.photos/id/23/500/800',
-        'https://picsum.photos/id/54/500/800',
-        'https://picsum.photos/id/55/800/1200',
-        'https://picsum.photos/id/56/500/600',
-        'https://picsum.photos/id/77/400/800'
+        'https://picsum.photos/id/53/1080/920',
+        'https://picsum.photos/id/67/800/800',
+        'https://picsum.photos/id/46/800/600',
+        'https://picsum.photos/id/23/1080/1200',
+        'https://picsum.photos/id/54/1200/1080',
+        'https://picsum.photos/id/55/920/1200',
+        'https://picsum.photos/id/56/600/920',
+        'https://picsum.photos/id/77/920/800'
       ],
       embedLinks: []
     },

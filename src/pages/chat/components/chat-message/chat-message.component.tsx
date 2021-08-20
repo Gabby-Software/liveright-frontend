@@ -1,5 +1,6 @@
 import React from 'react'
 
+import profilePlaceholder from '../../../../assets/media/profile-placeholder.png'
 import logger from '../../../../managers/logger.manager'
 import { chatMessageTypes } from '../../../../modules/chat/enums/chat-message-types.enum'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
@@ -8,7 +9,7 @@ import ChatMessageAttachment from '../chat-message-attachment/chat-message-attac
 import ChatMessageAudio from '../chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from '../chat-message-gallery/chat-message-gallery.component'
 import ChatMessageText from '../chat-message-text/chat-message-text.component'
-import Styles from './chat-message.styles'
+import Styles, { ProfileImageStyled } from './chat-message.styles'
 type Props = {
   msg: ChatMessageType
 }
@@ -48,6 +49,9 @@ const ChatMessage = ({ msg }: Props) => {
   }
   return (
     <Styles>
+      {isMe ? null : (
+        <ProfileImageStyled url={profilePlaceholder} placeholder={'YT'} />
+      )}
       <div className={classes('message__body', isMe && 'me')}>
         {renderText()}
         {renderImages()}
