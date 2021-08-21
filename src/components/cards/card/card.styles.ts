@@ -6,5 +6,5 @@ export default styled.div`
   width: 100%;
   border-radius: 10px;
   background-color: #fff;
-  padding: 24px 27px;
+  padding: 1.5rem 1.75rem;
 `

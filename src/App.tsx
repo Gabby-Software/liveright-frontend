@@ -53,8 +53,8 @@ function App() {
         <Route exact path={routes.map((r) => r.url)}>
           <Layout>
             <Suspense fallback={<Skeleton className={'suspense'} />}>
-              {routes.map((R) => (
-                <Route exact path={R.url} key={R.url} {...R.props}>
+              {routes.map((R, index) => (
+                <Route exact path={R.url} key={R.url + index} {...R.props}>
                   <R.Component />
                 </Route>
               ))}

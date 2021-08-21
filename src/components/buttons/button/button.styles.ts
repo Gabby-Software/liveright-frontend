@@ -1,18 +1,18 @@
-import { Button, ButtonProps as _ButtonProps } from 'antd'
+import { Button } from 'antd'
 import styled from 'styled-components'
 
 import { getColor } from '../../../pipes/theme-color.pipe'
+import { getFontSize, getHeight, getPadding } from '../utils.styles'
 
-interface ButtonProps extends _ButtonProps {
-  secondary?: boolean
-}
-
-export default styled(Button)<ButtonProps>`
-  padding: 11px 36px;
-  font-size: 1rem;
+export default styled(Button)<any>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${getPadding};
+  font-size: ${getFontSize};
   line-height: 1.5rem;
-  height: 46px;
-  border-radius: 10px;
+  height: ${getHeight};
+  border-radius: 0.625rem;
   box-shadow: none;
   border: 1px solid ${getBorderColor};
   background-color: ${getBgColor};
@@ -26,14 +26,33 @@ export default styled(Button)<ButtonProps>`
   }
 `
 
-function getBgColor(props: ButtonProps): string {
-  return props.secondary ? 'transparent' : getColor(props, 'primary_v2')
+function getBgColor(props: any): string {
+  switch (props.$var) {
+    case 'secondary':
+    case 'text':
+      return 'transparent'
+    default:
+      return getColor(props, 'primary_v2')
+  }
 }
 
-function getBorderColor(props: ButtonProps): string {
-  return getColor(props, props.secondary ? 'link' : 'primary_v2')
+function getBorderColor(props: any): string {
+  switch (props.$var) {
+    case 'secondary':
+      return getColor(props, 'link')
+    case 'text':
+      return 'transparent'
+    default:
+      return getColor(props, 'primary_v2')
+  }
 }
 
-function getTextColor(props: ButtonProps): string {
-  return props.secondary ? getColor(props, 'link') : '#fff'
+function getTextColor(props: any): string {
+  switch (props.$var) {
+    case 'secondary':
+    case 'text':
+      return getColor(props, 'link')
+    default:
+      return '#fff'
+  }
 }

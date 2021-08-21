@@ -48,6 +48,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'jsx-a11y/heading-has-content': 'off',
     'jsx-a11y/tabindex-no-positive': 'off',
-    'jsx-a11y/no-noninteractive-tabindex': 'off'
+    'jsx-a11y/no-noninteractive-tabindex': 'off',
+    'jsx-a11y/label-has-associated-control': 'off'
   }
 }

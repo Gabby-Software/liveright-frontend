@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function */
 import moment from 'moment'
 import React, { ReactElement, useEffect, useMemo, useState } from 'react'
 
+import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import userTypes from '../../../../enums/user-types.enum'
@@ -10,7 +10,6 @@ import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
 import SessionUserAvatar from '../session-user-avatar/session-user-avatar.component'
 import SessionsFilters from '../sessions-filters/sessions-filters.component'
-import Styles from './sessions-table.styles'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>
@@ -18,6 +17,7 @@ interface Props {
   additionalFilters?: SessionFilter
   renderOptions?: (session: SessionType) => ReactElement
   withFilter?: boolean
+  FilterProps?: any
 }
 
 const SessionsTable: React.FC<Props> = (props) => {
@@ -26,12 +26,14 @@ const SessionsTable: React.FC<Props> = (props) => {
     getSessions,
     additionalFilters,
     renderOptions,
-    withFilter
+    withFilter,
+    FilterProps
   } = props
   const { data, meta } = sessions
   const { current_page, total } = meta
   const isTrainerType = useAuth().type === userTypes.TRAINER
   const [filter, setFilter] = useState<SessionFilter>({})
+
   const { labels, keys } = useMemo(() => {
     const labels = [
       'sessions:type',
@@ -58,12 +60,14 @@ const SessionsTable: React.FC<Props> = (props) => {
   }, [filter, additionalFilters])
 
   return (
-    <Styles>
-      {withFilter && <SessionsFilters onUpdate={setFilter} />}
+    <Card>
+      {withFilter && <SessionsFilters onUpdate={setFilter} {...FilterProps} />}
+
       <DataTable
         labels={labels}
         keys={keys}
         data={data}
+        className="sessions__table"
         render={{
           with: (it: SessionType) => {
             const person = isTrainerType ? it.client : it.trainer
@@ -91,7 +95,7 @@ const SessionsTable: React.FC<Props> = (props) => {
         setPage={handlePageSet}
         total={total}
       />
-    </Styles>
+    </Card>
   )
 }
 

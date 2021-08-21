@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const ScheduleCard = styled(Card)`
   padding: 31px 28px 28px 28px;
@@ -97,8 +98,9 @@ export default styled.div`
     }
 
     &__schedule_button {
-      padding-top: 2.375rem;
-      font-size: 0.875rem;
+      margin-top: 2.375rem;
+      padding: 0 0.25rem;
+      width: max-content;
       color: ${(props) => props.theme.vars.colors.link};
       cursor: pointer;
 
@@ -117,6 +119,56 @@ export default styled.div`
 
     &__manage-btn {
       width: 100%;
+    }
+
+    &__row-doc-btn {
+      color: ${getColorCarry('orange_60')};
+      margin: 0 0.5rem;
+    }
+
+    &__row-remove-btn {
+      color: ${getColorCarry('primary_v2')};
+    }
+
+    &__table {
+      width: auto;
+      margin: 0 -1.75rem;
+    }
+
+    &__filter-search,
+    &__filter-select {
+      margin-right: 0.75rem;
+    }
+
+    &__filter-search {
+      width: 100%;
+      max-width: 320px;
+    }
+
+    &__filter-select {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    &__awaiting-filter {
+      width: 100%;
+      max-width: 253px;
+    }
+
+    &__filter-col {
+      display: flex;
+
+      &_form {
+        flex: 1;
+      }
+    }
+
+    &__filter-calendar-btn {
+      font-weight: 500;
+
+      & svg {
+        margin-right: 0.25rem;
+      }
     }
   }
 `

@@ -48,7 +48,8 @@ const vars = {
     red_60: '#ED2E32',
     red_100: '#870002',
     green_90: '#00B334',
-    green_80: '#00D721'
+    green_80: '#00D721',
+    orange_60: '#ED9C30'
   },
   sizes: {
     borderRadius: '6px',

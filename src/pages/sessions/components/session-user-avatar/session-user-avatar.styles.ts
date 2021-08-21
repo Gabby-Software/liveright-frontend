@@ -24,6 +24,7 @@ export const ProfileImageStyled = styled(ProfileImage)`
 
 export const Text = styled.span`
   font-size: 0.875rem;
+  font-weight: 400;
   color: ${(props) => props.theme.vars.colors.primaryDark_v2};
 `
 
