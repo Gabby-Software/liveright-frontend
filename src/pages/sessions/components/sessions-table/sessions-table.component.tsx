@@ -60,7 +60,7 @@ const SessionsTable: React.FC<Props> = (props) => {
   }, [filter, additionalFilters])
 
   return (
-    <Card>
+    <Card className="sessions__table-card">
       {withFilter && <SessionsFilters onUpdate={setFilter} {...FilterProps} />}
 
       <DataTable

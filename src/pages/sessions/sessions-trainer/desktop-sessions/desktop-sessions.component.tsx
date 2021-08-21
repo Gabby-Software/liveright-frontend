@@ -173,7 +173,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
         <div className="sessions">
           <div className="sessions__main">
             <PageTitle className="sessions__title">
-              Your Sessions
+              {t('sessions:title')}
               <Button onClick={() => clientsData.length && setAddOpen(true)}>
                 {t('sessions:schedule-new')}
               </Button>

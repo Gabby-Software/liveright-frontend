@@ -51,7 +51,7 @@ export default styled.table`
       }
     }
     &__td {
-      padding: 1.625rem 0.5rem 1.875rem 0.5rem;
+      padding: 1.25rem 0.5rem 1.25rem 0.5rem;
       color: ${(p) => p.theme.vars.colors.secondary3};
       font-size: 0.875rem;
       font-weight: 400;

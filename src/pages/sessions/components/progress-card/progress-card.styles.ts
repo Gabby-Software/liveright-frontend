@@ -35,6 +35,7 @@ export const ProgressCardStyles = styled.div<any>`
     align-items: center;
     background-color: ${getColorCarry('primaryDark2_v2')};
     border-radius: 9999px;
+    color: #fff;
   }
 
   & .progress-card__title-container {
