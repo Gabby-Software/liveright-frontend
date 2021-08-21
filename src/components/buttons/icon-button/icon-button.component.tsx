@@ -10,6 +10,8 @@ interface IconButtonProps {
   to?: string
   className?: string
   onClick?: any
+  TooltipProps?: any
+  LinkProps?: any
 }
 
 export default function IconButton({
@@ -17,7 +19,9 @@ export default function IconButton({
   size,
   to,
   tooltip,
-  className
+  className,
+  TooltipProps,
+  LinkProps
 }: PropsWithChildren<IconButtonProps>) {
   let content
   content = (
@@ -27,11 +31,19 @@ export default function IconButton({
   )
 
   if (to) {
-    content = <Link to={to}>{content}</Link>
+    content = (
+      <Link to={to} {...LinkProps}>
+        {content}
+      </Link>
+    )
   }
 
   if (tooltip) {
-    content = <Tooltip title={tooltip}>{content}</Tooltip>
+    content = (
+      <Tooltip title={tooltip} {...TooltipProps}>
+        {content}
+      </Tooltip>
+    )
   }
 
   return content

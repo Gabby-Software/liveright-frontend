@@ -1,5 +1,5 @@
 import { Input as AntdInput } from 'antd'
-import { ReactNode } from 'react'
+import { ChangeEvent, ReactNode } from 'react'
 
 import Styles from './input.styles'
 
@@ -11,6 +11,9 @@ interface InputProps {
   size?: 'sm'
   suffix?: ReactNode
   prefix?: ReactNode
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  defaultValue?: string
+  value?: string
 }
 
 export default function Input({
@@ -20,7 +23,10 @@ export default function Input({
   placeholder,
   size,
   suffix,
-  prefix
+  prefix,
+  defaultValue,
+  value,
+  onChange
 }: InputProps) {
   return (
     <Styles $size={size}>
@@ -32,6 +38,9 @@ export default function Input({
         className="input__input"
         suffix={suffix}
         prefix={prefix}
+        defaultValue={defaultValue}
+        value={value}
+        onChange={onChange}
       />
     </Styles>
   )

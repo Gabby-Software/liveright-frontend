@@ -13,7 +13,7 @@ interface SelectProps {
   name?: string
   value?: any
   defaultValue?: any
-  onChange?: any
+  onChange?: (value: any) => void
 }
 
 export default function Select({

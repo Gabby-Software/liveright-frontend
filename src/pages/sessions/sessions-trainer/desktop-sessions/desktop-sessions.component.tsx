@@ -102,7 +102,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
             <Select
               id="sessions-client-filter"
               placeholder={t('sessions:filter-by-client')}
-              // onUpdate={handleClientFilterChange}
+              onChange={handleClientFilterChange}
               options={[{ label: 'All', value: 'All' }].concat(
                 clientsData.map((it) => ({
                   label: `${it.first_name} ${it.last_name}`,

@@ -1,11 +1,11 @@
+import debounce from 'lodash.debounce'
 import React, { useEffect, useState } from 'react'
 
 import { CalendarIcon, SearchIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
-import { FormInputLabeledUI } from '../../../../components/forms/form-input-labeled/form-input-labeled.component'
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -44,13 +44,13 @@ const SessionsFilters: React.FC<Props> = (props) => {
     onUpdate(result)
   }
 
-  const handleInputBlur = () => {
-    handleUpdateFilters()
-  }
-
   useEffect(() => {
     handleUpdateFilters()
   }, [type])
+
+  const handleInputChange = debounce((e) => {
+    setDate(e.target.value)
+  }, 400)
 
   return (
     <Styles row={!isMobile}>
@@ -60,13 +60,15 @@ const SessionsFilters: React.FC<Props> = (props) => {
             id="sessions-search"
             placeholder={t('sessions:filter-input')}
             prefix={<SearchIcon />}
+            onChange={handleInputChange}
           />
         </div>
         <div className="sessions__filter-select">
           <Select
             id="sessions-type"
             placeholder={t('sessions:type')}
-            options={[]}
+            options={sessionTypeOptions}
+            onChange={(e) => setType(e)}
           />
         </div>
         <div className="sessions__filter-select">
@@ -84,27 +86,13 @@ const SessionsFilters: React.FC<Props> = (props) => {
             variant="text"
             size="sm"
             className="sessions__filter-calendar-btn"
+            to={Routes.CALENDAR}
           >
             <CalendarIcon />
             {t('sessions:open-calendar-link')}
           </Button>
         </div>
       )}
-      {/*<FormInputLabeledUI*/}
-      {/*  name="dateType"*/}
-      {/*  placeholder="For example 2021-12-31"*/}
-      {/*  label={t('sessions:filter-input')}*/}
-      {/*  value={date}*/}
-      {/*  onUpdate={setDate}*/}
-      {/*  onBlur={handleInputBlur}*/}
-      {/*/>*/}
-      {/*<FormSelectUI*/}
-      {/*  name="type"*/}
-      {/*  value={type}*/}
-      {/*  label={t('sessions:type')}*/}
-      {/*  options={sessionTypeOptions}*/}
-      {/*  onUpdate={setType}*/}
-      {/*/>*/}
     </Styles>
   )
 }
