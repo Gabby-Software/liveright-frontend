@@ -1,24 +1,25 @@
-import { Moment } from 'moment'
+import { Form, Formik } from 'formik'
 import React from 'react'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
+import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
 import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
-import { PROGRESS_LOG } from '../../progress.constants'
+import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
 import {
-  HealthData,
   HealthData as HealthDataType,
   OverTimeType,
   ProgressLogType
 } from '../../progress.types'
 import HealthChart from '../progress-chart/progress-chart.component'
+import HealthMobileCards from '../progress-mobile-cards/progress-mobile-cards.component'
 import {
   FilterWrapper,
   SwitchViewButton,
@@ -66,7 +67,15 @@ const OverTimeMobile: React.FC<Props> = (props) => {
         <SwitchViewButton onClick={handleSwitchViewClick} type="link">
           {graphView ? t('progress:seeCards') : t('progress:seeGraph')}
         </SwitchViewButton>
-        {graphView ? <HealthChart /> : <div></div>}
+        {graphView ? (
+          <HealthChart />
+        ) : (
+          <HealthMobileCards
+            data={data}
+            activeTab={activeTab}
+            onPageChange={onPageChange}
+          />
+        )}
       </div>
     )
   }
@@ -82,6 +91,26 @@ const OverTimeMobile: React.FC<Props> = (props) => {
           options={filterOptions}
           onUpdate={(value) => setFilter(value as OverTimeType)}
         />
+        <Formik
+          enableReinitialize
+          initialValues={specificDates}
+          onSubmit={() => {}}
+        >
+          {filter === OVER_TIME.SPECIFIC ? (
+            <Form>
+              <FormDatepicker
+                onUpdate={onSpecificDateChange}
+                name="from_date"
+                label={t('from')}
+              />
+              <FormDatepicker
+                onUpdate={onSpecificDateChange}
+                name="to_date"
+                label={t('to')}
+              />
+            </Form>
+          ) : null}
+        </Formik>
       </FilterWrapper>
       <TableWrapper>
         <Tabs
@@ -97,7 +126,7 @@ const OverTimeMobile: React.FC<Props> = (props) => {
             },
             {
               icon: <CardiogramIcon />,
-              label: t('progress:heartRate'),
+              label: t('progress:heart_rate'),
               key: PROGRESS_LOG.HEART_RATE,
               renderContent: renderDataContent()
             },
@@ -109,7 +138,7 @@ const OverTimeMobile: React.FC<Props> = (props) => {
             },
             {
               icon: <BloodIcon />,
-              label: t('progress:bloodGlicose'),
+              label: t('progress:blood_glucose'),
               key: PROGRESS_LOG.GLICOSE,
               renderContent: renderDataContent()
             }
