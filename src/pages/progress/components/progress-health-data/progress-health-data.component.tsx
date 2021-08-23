@@ -17,6 +17,7 @@ import {
   OverTimeType,
   ProgressLogType
 } from '../../progress.types'
+import AverageHighLights from '../progress-average-highlights/progress-average-highlights.component'
 import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
 import HealthCard from '../progress-health-card/progress-health-card.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
@@ -117,14 +118,7 @@ const HealthData: React.FC<Props> = (props) => {
       )}
 
       <PageSubtitle>{t('progress:average')}</PageSubtitle>
-      <CardsWrapper size="middle">
-        <HealthCard
-          icon={<SleepIcon />}
-          data="From 22:10 to 07:00"
-          quality="good"
-        />
-        <HealthCard icon={<CardiogramIcon />} data="80" quality="good" />
-      </CardsWrapper>
+      <AverageHighLights />
     </Wrapper>
   )
 }

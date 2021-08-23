@@ -20,6 +20,16 @@ export const getHealthDataAsync = async (payload: GetHealthDataPayload) => {
   }
 }
 
+export const getAverageHealthDataAsync = async () => {
+  try {
+    const { data } = await api.get(EP_HEALTH_DATA_LOGS + `/averages`)
+
+    return data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export const logHealthDataAsync = async (
   payload: HealthData & { edit?: boolean }
 ) => {

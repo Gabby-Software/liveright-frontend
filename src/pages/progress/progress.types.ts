@@ -22,6 +22,13 @@ export interface GetHealthDataPayload {
   to_date?: string
 }
 
+export interface AverageHealthData {
+  avg_glucose?: number
+  avg_heart_rate?: number
+  avg_sleep?: string
+  avg_steps?: number
+}
+
 export interface HealthData {
   id?: string
   date?: string

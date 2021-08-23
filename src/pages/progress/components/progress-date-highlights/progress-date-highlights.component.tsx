@@ -17,8 +17,8 @@ interface Props {
 }
 
 const DateHighLights: React.FC<Props> = (props) => {
-  const { t } = useTranslation()
   const { date = moment() } = props
+  const { t } = useTranslation()
   const [dateHighlights, setDateHighlights] = useState<HealthDataType>()
   const sleepData = useMemo(() => {
     if (dateHighlights?.sleep) {
