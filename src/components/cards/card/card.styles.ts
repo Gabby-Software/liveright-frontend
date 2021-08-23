@@ -3,8 +3,8 @@ import styled from 'styled-components'
 export default styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 42px;
-  .ant-pagination {
-    margin-bottom: 0;
-  }
+  width: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 1.5rem 1.75rem;
 `

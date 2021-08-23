@@ -34,7 +34,7 @@ const ProgressMobile: React.FC<Props> = (props) => {
       <StyledTabs
         tabs={[
           {
-            label: t('progress:sections.healthData'),
+            label: t('progress:sections.health_data'),
             renderContent: renderHealthData,
             key: PROGRESS_SECTIONS.HEALTH_DATA
           },

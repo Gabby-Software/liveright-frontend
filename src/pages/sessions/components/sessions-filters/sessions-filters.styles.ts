@@ -1,25 +1,13 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-const rowStyles = css`
+export default styled.div<any>`
+  margin-bottom: 1.75rem;
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-
-  .text_input__wrapper {
-    width: 500px;
-    margin-right: 16px;
-    margin-bottom: 0;
-  }
-  .ant-select {
-    max-width: 200px;
-  }
-`
-
-export default styled.div<{ row: boolean }>`
-  margin-bottom: 16px;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
 
   .text_input__wrapper {
     margin-bottom: 16px;
   }
-  ${({ row }) => (row ? rowStyles : '')}
 `

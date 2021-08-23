@@ -5,7 +5,6 @@ import React, { ReactElement } from 'react'
 import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info.svg'
 import FormInput from '../../../../../components/forms/form-input/form-input.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { HealthDataType } from '../../../../../types/health-data.type'
 import { HealthData, QualityType } from '../../../../progress/progress.types'
 import { LogName, LogQuality, Wrapper } from './log-card-desktop.styles'
 
@@ -13,15 +12,16 @@ interface Props {
   name: string
   inputName: string
   inputLabel: string
-  quality: QualityType
   Icon: ReactElement
+  getQuality: (value: number) => QualityType
 }
 
 const LogCardDesktop: React.FC<Props> = (props) => {
-  const { Icon, name, inputName, inputLabel, quality } = props
+  const { Icon, name, inputName, inputLabel, getQuality } = props
   const { t } = useTranslation()
   const { getFieldMeta } = useFormikContext<HealthData>()
-  const { value } = getFieldMeta(inputName)
+  const { value } = getFieldMeta<string>(inputName)
+  const quality = Number(value) ? getQuality(+value) : ''
 
   return (
     <Wrapper>
@@ -34,14 +34,14 @@ const LogCardDesktop: React.FC<Props> = (props) => {
           </Tooltip>
         </LogName>
         <FormInput name={inputName} label={inputLabel} />
-        <LogQuality show={!!value} quality={quality}>
+        <LogQuality quality={quality}>
           <span>
             {t('progress:qualityLabel')}
             <Tooltip title="TBD">
               <InfoIcon />
             </Tooltip>
           </span>
-          <span>{t(`progress:quality.${quality}`)}</span>
+          <span>{quality ? t(`progress:${quality}`) : '-'}</span>
         </LogQuality>
       </div>
     </Wrapper>

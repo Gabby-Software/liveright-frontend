@@ -199,6 +199,19 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Progress',
+    url: Routes.PROGRESS_LOG_HEALTH_DATA + '/:date',
+    Component: lazy(
+      () =>
+        import(
+          '../pages/progress-log/log-health-data/log-health-data.component'
+        )
+    ),
+    header: {
+      title: 'Log Health Data'
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),
@@ -211,8 +224,9 @@ export const routes: RouteType[] = [
     title: 'Sessions',
     url: Routes.SESSIONS,
     Component: lazy(() => import('../pages/sessions/sessions.component')),
+    version: 2,
     header: {
-      title: 'Your Sessions',
+      title: null,
       items: headers.default
     }
   },

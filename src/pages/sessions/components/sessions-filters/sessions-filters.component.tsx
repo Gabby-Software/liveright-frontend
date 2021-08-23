@@ -1,69 +1,83 @@
+import debounce from 'lodash.debounce'
 import React, { useEffect, useState } from 'react'
 
-import { FormInputLabeledUI } from '../../../../components/forms/form-input-labeled/form-input-labeled.component'
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
+import { CalendarIcon, SearchIcon } from '../../../../assets/media/icons'
+import Button from '../../../../components/buttons/button/button.component'
+import Input from '../../../../components/form/input/input.component'
+import Select from '../../../../components/form/select/select.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { Session, SessionFilter } from '../../../../types/session.type'
+import { formatFilters } from '../../sessions.utils'
 import Styles from './sessions-filters.styles'
 
 interface Props {
   onUpdate: (filter: SessionFilter) => void
+  calendar?: boolean
 }
 
 const SessionsFilters: React.FC<Props> = (props) => {
-  const { onUpdate } = props
+  const { onUpdate, calendar } = props
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [date, setDate] = useState('')
   const [type, setType] = useState('All')
 
   const handleUpdateFilters = () => {
-    const result: Pick<SessionFilter, 'type' | 'date'> = {}
-
-    if (type !== 'All') {
-      result.type = type
-    }
-
-    if (date.trim()) {
-      const isDate = /^\d{4}-\d{2}-\d{2}$/.test(date)
-
-      if (isDate) {
-        result.date = date
-      } else if (type === 'All' && (date as Session)) {
-        result.type = date
-      }
-    }
-
-    onUpdate(result)
-  }
-
-  const handleInputBlur = () => {
-    handleUpdateFilters()
+    formatFilters(type, date, onUpdate)
   }
 
   useEffect(() => {
     handleUpdateFilters()
-  }, [type])
+  }, [type, date])
+
+  const handleInputChange = debounce((e) => {
+    setDate(e.target.value)
+  }, 400)
 
   return (
     <Styles row={!isMobile}>
-      <FormInputLabeledUI
-        name="dateType"
-        placeholder="For example 2021-12-31"
-        label={t('sessions:filter-input')}
-        value={date}
-        onUpdate={setDate}
-        onBlur={handleInputBlur}
-      />
-      <FormSelectUI
-        name="type"
-        value={type}
-        label={t('sessions:type')}
-        options={sessionTypeOptions}
-        onUpdate={setType}
-      />
+      <div className="sessions__filter-col sessions__filter-col_form">
+        <div className="sessions__filter-search">
+          <Input
+            id="sessions-search"
+            placeholder={t('sessions:filter-input')}
+            prefix={<SearchIcon />}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="sessions__filter-select">
+          <Select
+            id="sessions-type"
+            placeholder={t('sessions:type')}
+            options={sessionTypeOptions}
+            onChange={(e) => setType(e)}
+          />
+        </div>
+        <div className="sessions__filter-select">
+          <Select
+            id="sessions-client"
+            placeholder={t('sessions:filter-by-client')}
+            options={[]}
+          />
+        </div>
+      </div>
+
+      {calendar && (
+        <div className="sessions__filter-col">
+          <Button
+            variant="text"
+            size="sm"
+            className="sessions__filter-calendar-btn"
+            to={Routes.CALENDAR}
+          >
+            <CalendarIcon />
+            {t('sessions:open-calendar-link')}
+          </Button>
+        </div>
+      )}
     </Styles>
   )
 }

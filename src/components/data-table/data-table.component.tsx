@@ -1,6 +1,12 @@
 import { Skeleton } from 'antd'
+import get from 'lodash/get'
 import React from 'react'
 
+import {
+  SortAscIcon,
+  SortDescIcon,
+  SortGroupIcon
+} from '../../assets/media/icons'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
 import Styles from './data-table.styles'
@@ -35,7 +41,14 @@ const DataTable = ({
       <thead className={'data-table__head'}>
         {labels.map((label) => (
           // eslint-disable-next-line react/jsx-key
-          <th className={'data-table__th'}>{t(label)}</th>
+          <th className={'data-table__th'}>
+            <div className="data-table__th-container">
+              {t(label)}
+              <SortGroupIcon />
+              {false && <SortAscIcon />}
+              {false && <SortDescIcon />}
+            </div>
+          </th>
         ))}
       </thead>
       <tbody className={'data-table__body'}>
@@ -62,7 +75,7 @@ const DataTable = ({
                     ? { width: 1 }
                     : {})}
                 >
-                  {render && render[key] ? render[key](item) : item[key]}
+                  {render && render[key] ? render[key](item) : get(item, key)}
                 </td>
               ))}
             </tr>
