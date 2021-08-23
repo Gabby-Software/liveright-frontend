@@ -3,15 +3,24 @@ import styled from 'styled-components'
 
 import Card from '../../../../components/card/card.style'
 
-export const Wrapper = styled.div``
+export const Wrapper = styled.div`
+  max-width: 1200px;
+`
 
 export const FilterWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 16px;
+
+  & > :first-child {
+    margin-right: 8px;
+  }
+
+  .ant-btn-link {
+    margin-left: auto;
+  }
 `
 
 export const SwitchViewButton = styled(Button)``
@@ -20,7 +29,7 @@ export const TableWrapper = styled(Card)<{ isMobile?: boolean }>`
   margin-bottom: 32px;
 
   .ant-tabs {
-    height: 350px;
+    min-height: 350px;
 
     svg {
       width: 18px;

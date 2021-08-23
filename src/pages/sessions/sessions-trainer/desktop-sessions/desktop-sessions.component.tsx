@@ -1,21 +1,28 @@
-/* eslint-disable no-unused-vars,jsx-a11y/click-events-have-key-events,react/jsx-key,jsx-a11y/no-static-element-interactions,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function,react/prop-types */
 import { Formik } from 'formik'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 
-import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
-import { ReactComponent as RightArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
-import { ReactComponent as TrashIcon } from '../../../../assets/media/icons/trash.svg'
-import ActionIcon from '../../../../components/action-icon/action-icon.component'
-import Carousel from '../../../../components/carousel/carousel.component'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
+import {
+  ClientSolidIcon,
+  DeleteOutlinedIcon,
+  DocumentOutlinedIcon,
+  GroupSolidIcon,
+  OptionSolidIcon,
+  PhoneSolidIcon,
+  RevenueSolidIcon
+} from '../../../../assets/media/icons'
+import { ReactComponent as RightArrowIcon } from '../../../../assets/media/icons/caret-right.svg'
+import Button from '../../../../components/buttons/button/button.component'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import Card from '../../../../components/cards/card/card.component'
+import DataPagination from '../../../../components/data-pagination/data-pagination.component'
+import Select from '../../../../components/form/select/select.component'
 import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
 import { useClients } from '../../../../hooks/clients.hook'
-import { useTitleContent } from '../../../../layouts/desktop-layout/desktop-layout.component'
+import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
 import {
@@ -23,16 +30,11 @@ import {
   SessionStatus,
   SessionType
 } from '../../../../types/session.type'
-import SessionProgressItem from '../../components/session-progress-item/session-progress-item.component'
+import ProgressCard from '../../components/progress-card/progress-card.component'
 import SessionUserAvatar from '../../components/session-user-avatar/session-user-avatar.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
-import Styles, {
-  AddSessionAction,
-  AwaitingCard,
-  ManageTargetsAction,
-  TitleContent
-} from './desktop-sessions.styles'
+import Styles, { ScheduleCard } from './desktop-sessions.styles'
 
 interface Props {
   sessions: SessionsState
@@ -51,6 +53,11 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
   const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
+  const [activeTab, setActiveTab] = useState('')
+
+  useDesktopLayoutConfig({
+    className: 'sessions__layout'
+  })
 
   const handleClientFilterChange = (value: string) => {
     if (value === 'All') {
@@ -63,40 +70,74 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
       <div className="sessions__options">
-        <FormButton onClick={() => setEditOpen(item)}>
+        <Button variant="secondary" size="sm" onClick={() => setEditOpen(item)}>
           {t('sessions:edit-reschedule')}
-        </FormButton>
-        <Link to={Routes.CALENDAR}>
-          <ActionIcon icon={CalendarIcon} title="Calendar" onClick={() => {}} />
-        </Link>
-        <ActionIcon
-          icon={TrashIcon}
-          title="Remove"
+        </Button>
+
+        <IconButton
+          size="sm"
+          tooltip="Calendar"
+          to={Routes.CALENDAR}
+          className="sessions__row-doc-btn"
+        >
+          <DocumentOutlinedIcon />
+        </IconButton>
+        <IconButton
+          size="sm"
+          tooltip="Remove"
           onClick={() => onRemoveSession(item.id)}
-        />
+          className="sessions__row-remove-btn"
+        >
+          <DeleteOutlinedIcon />
+        </IconButton>
       </div>
     )
   }
 
   const renderAwaitingContent = () => {
     return (
-      <Carousel>
-        {awaiting_scheduling.data.map((it) => {
-          return (
-            <AwaitingCard>
-              <SessionUserAvatar
-                avatar={it.client?.user.avatar}
-                first_name={it.client?.user.first_name}
-                last_name={it.client?.user.last_name}
-              />
-              <div className="schedule-button" onClick={() => setEditOpen(it)}>
-                <span>{t('sessions:schedule-now')}</span>
-                <RightArrowIcon />
-              </div>
-            </AwaitingCard>
-          )
-        })}
-      </Carousel>
+      <Card>
+        <div className="sessions__filter-form-wrapper">
+          <div className="sessions__awaiting-filter">
+            <Select
+              id="sessions-client-filter"
+              placeholder={t('sessions:filter-by-client')}
+              onChange={handleClientFilterChange}
+              options={[{ label: 'All', value: 'All' }].concat(
+                clientsData.map((it) => ({
+                  label: `${it.first_name} ${it.last_name}`,
+                  value: it.id.toString()
+                }))
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="sessions__cards-grid">
+          {awaiting_scheduling.data.map((it) => {
+            return (
+              <ScheduleCard key={it.id}>
+                <SessionUserAvatar
+                  avatar={it.client?.user.avatar}
+                  first_name={it.client?.user.first_name}
+                  last_name={it.client?.user.last_name}
+                />
+                <Button
+                  size="sm"
+                  variant="text"
+                  className="sessions__schedule_button"
+                  onClick={() => setEditOpen(it)}
+                >
+                  <span>{t('sessions:schedule-now')}</span>
+                  <RightArrowIcon />
+                </Button>
+              </ScheduleCard>
+            )
+          })}
+        </div>
+
+        <DataPagination page={1} setPage={() => {}} total={1} />
+      </Card>
     )
   }
 
@@ -108,6 +149,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
         renderOptions={renderUpcomingItemOptions}
         additionalFilters={additionalFilter}
         withFilter
+        FilterProps={{ calendar: true }}
       />
     )
   }
@@ -119,95 +161,108 @@ const DesktopSessions: React.FC<Props> = (props) => {
         additionalFilters={additionalFilter}
         sessions={past}
         withFilter
+        FilterProps={{ calendar: false }}
       />
     )
   }
 
-  useTitleContent(
-    clientsData.length ? (
-      <Formik onSubmit={() => {}} initialValues={{ client_filter: 'All' }}>
-        <TitleContent>
-          <FormSelect
-            name="client_filter"
-            placeholder={t('sessions:filter-by-client')}
-            onUpdate={handleClientFilterChange}
-            options={[{ label: 'All', value: 'All' }].concat(
-              clientsData.map((it) => ({
-                label: `${it.first_name} ${it.last_name}`,
-                value: it.id.toString()
-              }))
-            )}
-          />
-          <AddSessionAction type={'primary'} onClick={() => setAddOpen(true)}>
-            {t('sessions:schedule-new')}
-          </AddSessionAction>
-        </TitleContent>
-      </Formik>
-    ) : null
-  )
-
+  const isPast = activeTab === 'Past'
   return (
-    <Styles>
-      <div className={'sessions'}>
-        <Tabs
-          tabs={[
-            {
-              label: t('sessions:awaiting'),
-              renderContent: renderAwaitingContent
-            },
-            {
-              label: t('sessions:upcoming'),
-              renderContent: renderUpcomingContent
-            },
-            { label: t('sessions:past'), renderContent: renderPastContent }
-          ]}
-        />
+    <>
+      <Styles>
+        <div className="sessions">
+          <div className="sessions__main">
+            <PageTitle className="sessions__title">
+              {t('sessions:title')}
+              <Button onClick={() => clientsData.length && setAddOpen(true)}>
+                {t('sessions:schedule-new')}
+              </Button>
+            </PageTitle>
 
-        <PageTitle>
-          {t('sessions:progress')}
-          <Formik
-            onSubmit={() => {}}
-            initialValues={{ date_range: sessionDateRangeOptions[0].value }}
-          >
-            <TitleContent>
-              <FormSelect name="date_range" options={sessionDateRangeOptions} />
-              <ManageTargetsAction type="ghost" onClick={() => {}}>
-                {t('sessions:manage-targets')}
-              </ManageTargetsAction>
-            </TitleContent>
-          </Formik>
-        </PageTitle>
-
-        <div className="sessions__progress">
-          <div>
-            <span>{t('sessions:target')}</span>
-            <span>{t('sessions:current')}</span>
+            <Tabs
+              className="sessions__tabs"
+              onChange={(e) => setActiveTab(e)}
+              tabs={[
+                {
+                  label: t('sessions:awaiting'),
+                  renderContent: renderAwaitingContent
+                },
+                {
+                  label: t('sessions:upcoming'),
+                  renderContent: renderUpcomingContent
+                },
+                { label: t('sessions:past'), renderContent: renderPastContent }
+              ]}
+            />
           </div>
-          <SessionProgressItem
-            label={t('sessions:consultation')}
-            target={15}
-            current={5}
-          />
-          <SessionProgressItem
-            label={t('sessions:ptSession')}
-            target={20}
-            current={6}
-          />
-          <SessionProgressItem label={t('other')} target={10} current={5} />
-          <SessionProgressItem
-            label={t('revenue')}
-            target={500}
-            current={350}
-          />
+
+          {!isPast && (
+            <div className="sessions__right">
+              <PageTitle>{t('sessions:progress')}</PageTitle>
+
+              <div className="sessions__date-range">
+                <Select
+                  id="sessions-progress-range"
+                  options={sessionDateRangeOptions}
+                  defaultValue={sessionDateRangeOptions[0].value}
+                />
+              </div>
+
+              <div className="sessions__progress">
+                <ProgressCard
+                  title={t('revenue')}
+                  current={300}
+                  target={400}
+                  icon={<RevenueSolidIcon />}
+                  money
+                />
+                <ProgressCard
+                  title={t('sessions:ptSessions')}
+                  current={5}
+                  target={10}
+                  icon={<GroupSolidIcon />}
+                  earn={500}
+                />
+                <ProgressCard
+                  title={t('sessions:coaching')}
+                  current={5}
+                  target={10}
+                  icon={<ClientSolidIcon />}
+                  earn={500}
+                />
+                <ProgressCard
+                  title={t('sessions:consultation')}
+                  current={5}
+                  target={10}
+                  icon={<PhoneSolidIcon />}
+                  earn={500}
+                />
+                <ProgressCard
+                  title={t('sessions:other')}
+                  current={12}
+                  target={10}
+                  icon={<OptionSolidIcon />}
+                  earn={500}
+                />
+              </div>
+
+              <div className="sessions__right-footer">
+                <Button className="sessions__manage-btn" variant="secondary">
+                  Manage Target
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      </Styles>
+
       <AddSessionDesktop isOpen={addOpen} onClose={() => setAddOpen(false)} />
       <AddSessionDesktop
         isOpen={!!editOpen}
         session={editOpen}
         onClose={() => setEditOpen(undefined)}
       />
-    </Styles>
+    </>
   )
 }
 

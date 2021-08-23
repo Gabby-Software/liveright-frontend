@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import api from '../../../../managers/api.manager'
 import { noImage } from '../../../../pipes/no-image.pipe'
-import Styles, { ProfileImageStyled } from './session-user-avatar.styles'
+import Styles, { ProfileImageStyled, Text } from './session-user-avatar.styles'
 
 interface Props {
   avatar?: { url: string } | null
@@ -35,7 +35,9 @@ const SessionUserAvatar: React.FC<Props> = (props) => {
         url={url}
         placeholder={noImage(first_name, last_name)}
       />
-      {first_name} {last_name}
+      <Text>
+        {first_name} {last_name}
+      </Text>
     </Styles>
   )
 }

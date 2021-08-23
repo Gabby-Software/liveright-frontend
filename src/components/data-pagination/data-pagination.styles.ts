@@ -1,43 +1,67 @@
-import { Pagination } from 'antd'
+import { Pagination as AntdPagination } from 'antd'
 import styled from 'styled-components'
 
-export default styled(Pagination)`
-  margin: 60px 0;
-  padding: 32px 0;
-  border-top: 1px solid ${(p) => p.theme.vars.colors.light};
-  text-align: center;
+import { getColorCarry } from '../../pipes/theme-color.pipe'
+
+export const Styles = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1.25rem;
+`
+
+export const Pagination = styled(AntdPagination)`
   .ant-pagination {
     &-item,
     &-prev,
-    &-next {
-      ${(p) => p.theme.extend.h2}
-      display:inline-flex;
+    &-next,
+    &-jump-prev,
+    &-jump-next {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       min-width: 24px;
-      height: 43px;
-      width: 43px;
-      background-color: #f3f3f3;
-      border-color: #f3f3f3;
-      border-radius: 8px;
+      height: 36px;
+      width: 36px;
+      background-color: ${getColorCarry('secondary3_v2')};
+      border-color: ${getColorCarry('secondary3_v2')};
+      border-radius: 6px;
+
       .ant-pagination-item-link {
-        background-color: #f3f3f3;
-        border-color: #f3f3f3;
-        border-radius: 8px;
+        background-color: ${getColorCarry('secondary3_v2')};
+        border-color: ${getColorCarry('secondary3_v2')};
+        border-radius: 6px;
       }
+    }
+    &-next,
+    &-prev {
+      color: ${getColorCarry('primary_v2')};
+      background-color: transparent;
+
+      &:hover {
+        background-color: ${getColorCarry('secondary3_v2')};
+      }
+    }
+    &-prev {
+      & svg {
+        transform: rotate(180deg);
+      }
+    }
+    &-item,
+    &-jump-prev,
+    &-jump-next {
+      color: ${getColorCarry('secondary2_v2')};
+      font-size: 0.875rem;
+
+      & a {
+        color: inherit;
+        font-size: inherit;
+      }
+
       &-active,
       &:hover {
-        border-color: ${(p) => p.theme.vars.colors.primary} !important;
-        background-color: ${(p) => p.theme.vars.colors.primary} !important;
-        a {
-          color: white !important;
-        }
-        .ant-pagination-item-link {
-          color: white !important;
-          border-color: ${(p) => p.theme.vars.colors.primary} !important;
-          background-color: ${(p) => p.theme.vars.colors.primary} !important;
-          border-radius: 8px;
-        }
+        border-color: ${getColorCarry('primary_v2')};
+        background-color: ${getColorCarry('primary_v2')};
+        color: #fff;
       }
     }
   }

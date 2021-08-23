@@ -6,6 +6,7 @@ import { sagaClientWatcher } from './client.saga'
 import { sagaClientsWatcher } from './clients.saga'
 import { sagaInvoicesWatcher } from './invoices.saga'
 import { sagaNotificationsWatcher } from './notifications.saga'
+import { sagaProgressWatcher } from './progress.saga'
 import { sagaSessionsWatcher } from './sessions.saga'
 import { sagaTrainerWatcher } from './trainer.saga'
 
@@ -18,4 +19,5 @@ export default function* rootSaga() {
   yield spawn(sagaSessionsWatcher)
   yield spawn(sagaNotificationsWatcher)
   yield spawn(sagaTrainerWatcher)
+  yield spawn(sagaProgressWatcher)
 }

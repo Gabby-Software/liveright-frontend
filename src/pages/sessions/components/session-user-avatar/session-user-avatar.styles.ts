@@ -4,20 +4,28 @@ import ProfileImage from '../../../../components/profile-image/profile-image.com
 
 export const ProfileImageStyled = styled(ProfileImage)`
   display: inline-block;
-  margin-right: 8px;
+  margin-right: 0.75rem;
+
   .profile-image__img {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     font-size: 12px;
-  }
-  .profile-image__placeholder {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-    font-weight: 500;
-    background-color: ${(p) => p.theme.vars.colors.primary};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${(p) => p.theme.vars.colors.primary_v2};
     color: white;
+
+    & span {
+      line-height: 1.5;
+    }
   }
+`
+
+export const Text = styled.span`
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: ${(props) => props.theme.vars.colors.primaryDark_v2};
 `
 
 export default styled.div`

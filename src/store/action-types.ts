@@ -141,3 +141,13 @@ export const ACTION_GET_PROGRESS_REQUEST = 'action-get-progress-request'
 export const ACTION_GET_PROGRESS_LOAD = 'action-get-progress-load'
 export const ACTION_GET_PROGRESS_SUCCESS = 'action-get-progress-success'
 export const ACTION_GET_PROGRESS_ERROR = 'action-get-progress-error'
+
+export const ACTION_SET_HEALTH_DATA_REQUEST = 'action-set-health-data-request'
+export const ACTION_SET_HEALTH_DATA_LOAD = 'action-set-health-data-load'
+export const ACTION_SET_HEALTH_DATA_SUCCESS = 'action-set-health-data-success'
+export const ACTION_SET_HEALTH_DATA_ERROR = 'action-set-health-data-error'
+
+export const ACTION_GET_HEALTH_DATA_REQUEST = 'action-set-health-data-request'
+export const ACTION_GET_HEALTH_DATA_LOAD = 'action-get-health-data-load'
+export const ACTION_GET_HEALTH_DATA_SUCCESS = 'action-get-health-data-success'
+export const ACTION_GET_HEALTH_DATA_ERROR = 'action-get-health-data-error'

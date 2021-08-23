@@ -1,60 +1,83 @@
 import styled from 'styled-components'
 
-export const TitleContent = styled.div<{ credits: number }>`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-
-  .credits {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    max-height: 32px;
-    border: 1px solid ${(p) => p.theme.vars.colors.secondary3};
-    font-size: 14px;
-    margin-right: 8px;
-    padding: 16px;
-    user-select: none;
-
-    span:first-child {
-      margin-right: 48px;
-    }
-    span:last-child {
-      color: ${({ theme, credits }) =>
-        credits > 0 ? theme.vars.colors.dark : theme.vars.colors.primaryLight};
-    }
-  }
-
-  button {
-    padding: 4px 17px;
-    box-shadow: none;
-    width: auto;
-    height: 40px;
-    margin-right: 8px;
-  }
-`
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled.div`
   display: flex;
+  flex-direction: column;
   overflow: auto;
+
   .sessions {
     width: 100%;
+
+    &__main {
+      padding: 0 2.25rem 3rem 2.25rem;
+    }
 
     &__options {
       display: flex;
       flex-direction: row;
       align-items: center;
-      height: 40px;
+    }
 
-      button {
-        padding: 4px 17px;
-        box-shadow: none;
-        width: auto;
-        height: 40px;
-        margin-right: 4px;
+    &__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__subtitle {
+      padding: 2rem 0 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &_past {
+        padding: 3.25rem 0 1.25rem 0;
       }
+    }
+
+    &__table {
+      width: auto;
+      margin: -1.5rem -1.75rem 0 -1.75rem;
+    }
+
+    &__table-card {
+      overflow-x: hidden;
+    }
+
+    &__calendar-btn {
+      font-weight: 500;
+
+      & svg {
+        margin-right: 0.25rem;
+      }
+    }
+
+    &__row-doc-btn {
+      color: ${getColorCarry('orange_60')};
+      margin: 0 0.5rem;
+    }
+
+    &__row-options-btn {
+      color: ${getColorCarry('secondary2_v2')};
+    }
+
+    &__filters-form {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    &__filters-type {
+      width: 100%;
+      max-width: 200px;
+      margin-right: 0.75rem;
+    }
+
+    &__filters-search {
+      width: 100%;
+      max-width: 320px;
     }
   }
 `

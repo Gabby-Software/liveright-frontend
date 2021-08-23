@@ -1,26 +1,40 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
-import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
-import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
-import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
-import { OVER_TIME } from '../../progress.constants'
-import { OverTimeType } from '../../progress.types'
-import HealthCard from '../progress-health-card/progress-health-card.component'
+import { PaginatedDataType } from '../../../../types/paginated-data.type'
+import { getHealthDataAsync } from '../../progress.api'
+import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
+import {
+  GetHealthDataPayload,
+  HealthData as HealthDataType,
+  OverTimeType,
+  ProgressLogType
+} from '../../progress.types'
+import AverageHighLights from '../progress-average-highlights/progress-average-highlights.component'
+import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
 import OverTimeMobile from '../progress-overtime-mobile/progress-overtime-mobile.component'
-import { CardsWrapper, Wrapper } from './progress-health-data.styles'
+import { Wrapper } from './progress-health-data.styles'
 
 interface Props {}
 
-const HealthData: React.FC<Props> = (props) => {
+const HealthData: React.FC<Props> = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const [rangeHighlights, setRangeHighlights] = useState<
+    PaginatedDataType<HealthDataType>
+  >({ data: [], meta: { current_page: 1, total: 1, per_page: 10 } })
+  const [activeTab, setActiveTab] = useState<ProgressLogType>(
+    PROGRESS_LOG.SLEEP
+  )
   const [isGraphView, setIsGraphView] = useState(false)
+  const [specificDates, setSpecificDates] = useState({
+    from_date: '',
+    to_date: ''
+  })
   const [overTime, setOverTime] = useState<OverTimeType>(OVER_TIME.MONTH)
   const overTimeOptions = useMemo<OptionType[]>(
     () => [
@@ -37,19 +51,40 @@ const HealthData: React.FC<Props> = (props) => {
     []
   )
 
+  const getHealthData = async (page = 1) => {
+    if (
+      overTime !== OVER_TIME.SPECIFIC ||
+      (specificDates.from_date && specificDates.to_date)
+    ) {
+      const payload: GetHealthDataPayload = { only_include: activeTab, page }
+
+      if (overTime === OVER_TIME.SPECIFIC) {
+        payload.from_date = specificDates.from_date
+        payload.to_date = specificDates.to_date
+      } else {
+        payload.range = overTime
+      }
+
+      const data = await getHealthDataAsync(payload)
+
+      setRangeHighlights(data)
+    }
+  }
+
+  const handleSpecificDateChange = (name: string, date: string) => {
+    if (date) {
+      setSpecificDates({ ...specificDates, [name]: date })
+    }
+  }
+
+  useEffect(() => {
+    getHealthData()
+  }, [activeTab, overTime, specificDates])
+
   return (
     <Wrapper>
       <PageSubtitle>{t('progress:todayHighlights')}</PageSubtitle>
-      <CardsWrapper size="middle">
-        <HealthCard
-          icon={<SleepIcon />}
-          data="From 22:10 to 07:00"
-          quality="good"
-        />
-        <HealthCard icon={<CardiogramIcon />} data="80" quality="good" />
-        <HealthCard icon={<StepsIcon />} />
-        <HealthCard icon={<BloodIcon />} />
-      </CardsWrapper>
+      <DateHighLights />
 
       {isMobile ? (
         <OverTimeMobile
@@ -58,6 +93,12 @@ const HealthData: React.FC<Props> = (props) => {
           filterOptions={overTimeOptions}
           graphView={isGraphView}
           setGraphView={setIsGraphView}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          data={rangeHighlights}
+          onSpecificDateChange={handleSpecificDateChange}
+          specificDates={specificDates}
+          onPageChange={getHealthData}
         />
       ) : (
         <OverTimeDesktop
@@ -66,18 +107,17 @@ const HealthData: React.FC<Props> = (props) => {
           filterOptions={overTimeOptions}
           graphView={isGraphView}
           setGraphView={setIsGraphView}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          data={rangeHighlights}
+          onSpecificDateChange={handleSpecificDateChange}
+          specificDates={specificDates}
+          onPageChange={getHealthData}
         />
       )}
 
       <PageSubtitle>{t('progress:average')}</PageSubtitle>
-      <CardsWrapper size="middle">
-        <HealthCard
-          icon={<SleepIcon />}
-          data="From 22:10 to 07:00"
-          quality="good"
-        />
-        <HealthCard icon={<CardiogramIcon />} data="80" quality="good" />
-      </CardsWrapper>
+      <AverageHighLights />
     </Wrapper>
   )
 }
