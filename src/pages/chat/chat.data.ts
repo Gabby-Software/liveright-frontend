@@ -12,7 +12,7 @@ export const mockRooms: ChatRoomType[] = [
     avatar: profilePlaceholder,
     last_message: 'Sound Great!',
     last_message_date: moment().add(-24, 'minutes').format(),
-    room_id: Math.random().toString(36).substring(2),
+    room_id: 'aaa',
     unread_count: 2
   },
   {
@@ -22,7 +22,7 @@ export const mockRooms: ChatRoomType[] = [
     avatar: profilePlaceholder,
     last_message: 'Lorem Ipsum dolor sit ammet tralala trululu lalali lula',
     last_message_date: moment().add(-2, 'hours').format(),
-    room_id: Math.random().toString(36).substring(2),
+    room_id: 'bbb',
     unread_count: 1
   },
   {
@@ -32,7 +32,7 @@ export const mockRooms: ChatRoomType[] = [
     avatar: profilePlaceholder,
     last_message: 'Sound Great!',
     last_message_date: moment().add(-2, 'days').format(),
-    room_id: Math.random().toString(36).substring(2),
+    room_id: 'ccc',
     unread_count: 0
   },
   {
@@ -42,7 +42,7 @@ export const mockRooms: ChatRoomType[] = [
     avatar: profilePlaceholder,
     last_message: 'Sound Great!',
     last_message_date: moment().add(-1, 'week').format(),
-    room_id: Math.random().toString(36).substring(2),
+    room_id: 'ddd',
     unread_count: 0
   }
 ]

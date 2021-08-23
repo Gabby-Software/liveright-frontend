@@ -49,6 +49,7 @@ export default styled.div`
       svg {
         display: block;
         margin-left: 12px;
+        cursor: pointer;
       }
     }
   }

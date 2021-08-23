@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
 import { APIGetType } from '../../../hoc/api-get'
-import { mockMessages } from '../../../pages/chat/chat.data'
 import { ChatMessageType } from '../types/chat-message.type'
 
 export type ChatsContextType = {
@@ -33,7 +32,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   }
 
   const collapse = (roomId: string) => {
-    setPopups([...popups, roomId])
+    setPopups([...new Set([roomId, ...popups])])
     history.push(Routes.HOME)
   }
   const getRoom = (roomId: string) => {
@@ -42,7 +41,9 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       [roomId]: {
         loading: false,
         error: '',
-        data: [...mockMessages]
+        data: [
+          // ...mockMessages
+        ]
       }
     })
   }

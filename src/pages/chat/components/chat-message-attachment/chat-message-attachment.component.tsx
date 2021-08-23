@@ -1,16 +1,18 @@
 import React, { FC } from 'react'
 
 import { chatIcons } from '../../../../modules/chat/enums/chat-icons.enum'
+import { classes } from '../../../../pipes/classes.pipe'
 import Styles from './chat-message-attachment.styles'
 
 type Props = {
   file: string
+  me?: boolean
 }
-const ChatMessageAttachment: FC<Props> = ({ file }) => {
+const ChatMessageAttachment: FC<Props> = ({ file, me }) => {
   const Icon = chatIcons['pdf']
   return (
     <Styles
-      className={'cm-file'}
+      className={classes('cm-file', me && 'me')}
       target={'_blank'}
       download={'Example File.pdf'}
       href={file}

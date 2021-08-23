@@ -49,7 +49,7 @@ const ChatMessage = ({ msg }: Props) => {
   const renderFile = () => {
     if (types[0] === chatMessageTypes.FILE) {
       types.shift()
-      return <ChatMessageAttachment file={files.shift() || ''} />
+      return <ChatMessageAttachment file={files.shift() || ''} me={isMe} />
     }
   }
   return (
