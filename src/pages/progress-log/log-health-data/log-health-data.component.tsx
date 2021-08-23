@@ -1,14 +1,16 @@
 import { Form, Formik } from 'formik'
-import React, { useMemo } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Routes } from '../../../enums/routes.enum'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
-import { ACTION_SET_HEALTH_DATA_REQUEST } from '../../../store/action-types'
+import {
+  getHealthDataAsync,
+  logHealthDataAsync
+} from '../../progress/progress.api'
 import { HealthData } from '../../progress/progress.types'
 import {
   getGlucoseQuality,
@@ -19,41 +21,38 @@ import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desk
 import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
 const LogHealthData = () => {
-  const dispatch = useDispatch()
   const isMobile = useIsMobile()
+  const { date } = useParams<{ date: string }>()
   const history = useHistory()
-  const initialValues = useMemo<HealthData>(() => {
-    return {
-      id: ''
-    }
-  }, [])
+  const [initialValues, setInitialValues] = useState<HealthData>({ id: '' })
 
   const handleReturn = () => {
     history.push(Routes.PROGRESS)
   }
 
-  const handleSubmit = (values: HealthData) => {
+  const handleSubmit = async (values: HealthData) => {
+    console.log({ values })
     const { time, sleep, heart_rate, steps, blood_glucose } = values
-    const payload = {
-      ...values,
+    const payload: HealthData = {
+      date: values.date,
       time: timeWithSeconds(time)
     }
 
-    if (heart_rate) {
+    if (heart_rate?.avg_rate) {
       payload.heart_rate = {
         ...heart_rate,
         quality: getHeartRateQuality(heart_rate.avg_rate)
       }
     }
 
-    if (steps) {
+    if (steps?.daily_steps) {
       payload.steps = {
         ...steps,
         quality: getStepsQuality(steps.daily_steps)
       }
     }
 
-    if (blood_glucose) {
+    if (blood_glucose?.glucose) {
       payload.blood_glucose = {
         ...blood_glucose,
         quality: getGlucoseQuality(blood_glucose.glucose)
@@ -75,15 +74,33 @@ const LogHealthData = () => {
       }
     }
 
-    dispatch({
-      type: ACTION_SET_HEALTH_DATA_REQUEST,
-      payload,
-      onSuccess: handleReturn
+    await logHealthDataAsync({
+      ...payload,
+      edit: date === values.date,
+      id: values.id
     })
+    handleReturn()
   }
+
+  useEffect(() => {
+    if (date) {
+      const getHealthData = async () => {
+        const { data } = await getHealthDataAsync({ date })
+
+        if (data.length) {
+          setInitialValues(data[0])
+        } else {
+          setInitialValues({ ...initialValues, date })
+        }
+      }
+
+      getHealthData()
+    }
+  }, [])
 
   return (
     <Formik
+      enableReinitialize
       onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={Yup.object({
@@ -91,13 +108,13 @@ const LogHealthData = () => {
         time: Yup.string().required(),
         heart_rate: Yup.object({
           avg_rate: Yup.string().number()
-        }),
+        }).nullable(),
         steps: Yup.object({
           daily_steps: Yup.string().number()
-        }),
+        }).nullable(),
         blood_glicose: Yup.object({
           glucose: Yup.string().number()
-        })
+        }).nullable()
       })}
     >
       <Form>

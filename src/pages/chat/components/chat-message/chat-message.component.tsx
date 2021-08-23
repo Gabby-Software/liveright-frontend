@@ -1,8 +1,11 @@
 import React from 'react'
 
+import { ReactComponent as SeenIcon } from '../../../../assets/media/icons/chat-seen.svg'
+import { ReactComponent as SentIcon } from '../../../../assets/media/icons/chat-sent.svg'
 import profilePlaceholder from '../../../../assets/media/profile-placeholder.png'
 import logger from '../../../../managers/logger.manager'
 import { chatMessageTypes } from '../../../../modules/chat/enums/chat-message-types.enum'
+import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
 import { classes } from '../../../../pipes/classes.pipe'
 import ChatMessageAttachment from '../chat-message-attachment/chat-message-attachment.component'
@@ -52,11 +55,23 @@ const ChatMessage = ({ msg }: Props) => {
       {isMe ? null : (
         <ProfileImageStyled url={profilePlaceholder} placeholder={'YT'} />
       )}
-      <div className={classes('message__body', isMe && 'me')}>
-        {renderText()}
-        {renderImages()}
-        {renderAudio()}
-        {renderFile()}
+      <div className={classes('message__cont', isMe && 'me')}>
+        <div className={classes('message__body', isMe && 'me')}>
+          {renderText()}
+          {renderImages()}
+          {renderAudio()}
+          {renderFile()}
+        </div>
+        <div className={classes('message__time', isMe && 'me')}>
+          <span>{chatTime(msg.meta.sent_at)}</span>
+          {isMe ? (
+            msg.meta.read_at ? (
+              <SeenIcon />
+            ) : msg.meta.delivered_at ? (
+              <SentIcon />
+            ) : null
+          ) : null}
+        </div>
       </div>
     </Styles>
   )
