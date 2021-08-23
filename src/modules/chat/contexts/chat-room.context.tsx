@@ -30,6 +30,7 @@ type ChatRoomContextType = {
   setTextMessage: Dispatch<string>
   sendTextMessage: () => void
   sendFile: (file: FileList) => void
+  sendAudio: (file: File) => void
   isPopup: boolean
 }
 
@@ -118,6 +119,12 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       }
     }
   }
+  const sendAudio = (file: File) => {
+    const msg: ChatMessageType = msgBase()
+    msg.types = [chatMessageTypes.AUDIO]
+    msg.content.files = [URL.createObjectURL(file)]
+    setMessages([...messages, msg])
+  }
   return (
     <ChatRoomContext.Provider
       value={{
@@ -132,6 +139,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         textMessage,
         setTextMessage,
         sendFile,
+        sendAudio,
         isPopup
       }}
     >

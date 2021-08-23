@@ -40,7 +40,8 @@ const vars = {
     link_lighten: '#82B8FA',
     link_darken: '#2871d0',
     chat_blue: '#DFE6F1',
-    chat_dark: '#404040'
+    chat_dark: '#404040',
+    orange: '#E48713'
   },
   sizes: {
     borderRadius: '6px',
