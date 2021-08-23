@@ -13,4 +13,8 @@ export default styled.div`
     min-height: 100vh;
     overflow: visible;
   }
+  &.popup {
+    padding: 26px 14px;
+    margin-top: -30px;
+  }
 `

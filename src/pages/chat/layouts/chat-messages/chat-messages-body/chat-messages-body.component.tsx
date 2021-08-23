@@ -2,11 +2,12 @@ import React, { FC, useEffect, useRef } from 'react'
 
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
+import { classes } from '../../../../../pipes/classes.pipe'
 import ChatMessage from '../../../components/chat-message/chat-message.component'
 import Styles from './chat-messages-body.styles'
 
 const ChatMessagesBody: FC<{}> = () => {
-  const { messages } = useChatRoom()
+  const { messages, isPopup } = useChatRoom()
   const ref = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
   useEffect(() => {
@@ -18,7 +19,7 @@ const ChatMessagesBody: FC<{}> = () => {
     })
   }, [messages])
   return (
-    <Styles ref={ref}>
+    <Styles ref={ref} className={classes(isPopup && 'popup')}>
       {messages.map((msg) => (
         <ChatMessage key={msg._id} msg={msg} />
       ))}

@@ -60,7 +60,8 @@ const vars = {
   zIndex: {
     header: 40,
     footer: 40,
-    modal: 50,
+    chatPopup: 50,
+    modal: 60,
     toast: 1001
   },
   media: {

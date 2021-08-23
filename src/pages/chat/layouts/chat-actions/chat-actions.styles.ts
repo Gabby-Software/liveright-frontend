@@ -5,6 +5,9 @@ export default styled.form`
   background-color: white;
   flex-shrink: 0;
   display: flex;
+  &.popup {
+    padding: 14px;
+  }
   @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {
     position: fixed;
     bottom: 0;

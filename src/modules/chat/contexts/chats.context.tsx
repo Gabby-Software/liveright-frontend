@@ -11,6 +11,7 @@ export type ChatsContextType = {
   popups: string[]
   expand: (roomID: string) => void
   collapse: (roomID: string) => void
+  close: (roomID: string) => void
   getRoom: (roomId: string) => void
   updateRoom: (roomId: string, msgs: ChatMessageType[]) => void
 }
@@ -23,10 +24,14 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   }>({})
   const [popups, setPopups] = useState<string[]>([])
   const history = useHistory()
-  const expand = (roomId: string) => {
+  const close = (roomId: string) => {
     setPopups(popups.filter((p) => p !== roomId))
+  }
+  const expand = (roomId: string) => {
+    close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
   }
+
   const collapse = (roomId: string) => {
     setPopups([...popups, roomId])
     history.push(Routes.HOME)
@@ -57,6 +62,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         rooms,
         popups,
         expand,
+        close,
         collapse,
         getRoom,
         updateRoom

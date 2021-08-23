@@ -49,5 +49,9 @@ export default styled.div`
         color: ${(p) => p.theme.vars.colors.secondary2_v2};
       }
     }
+    &__minimize {
+      cursor: pointer;
+      margin-left: auto;
+    }
   }
 `
