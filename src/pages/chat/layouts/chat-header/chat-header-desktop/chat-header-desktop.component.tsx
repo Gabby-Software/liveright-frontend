@@ -3,11 +3,14 @@ import React, { FC } from 'react'
 
 import { ReactComponent as CalendarIcon } from '../../../../../assets/media/icons/calendar.svg'
 import { ReactComponent as ClockIcon } from '../../../../../assets/media/icons/clock.svg'
+import { ReactComponent as MinimizeIcon } from '../../../../../assets/media/icons/minimize.svg'
 import { ReactComponent as RevenueIcon } from '../../../../../assets/media/icons/revenue.svg'
 import { ReactComponent as ArrowIcon } from '../../../../../assets/media/icons/right-arrow.svg'
 import profilePlaceholder from '../../../../../assets/media/profile-placeholder.png'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
 import { Routes } from '../../../../../enums/routes.enum'
+import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
+import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { noImage } from '../../../../../pipes/no-image.pipe'
 import Styles, { StyledAvatar } from './chat-header-desktop.styles'
 
@@ -24,6 +27,8 @@ const user = {
   last_login: moment().add(-1, 'day')
 }
 const ChatHeaderDesktop: FC<Props> = ({}) => {
+  const { collapse } = useChats()
+  const { room } = useChatRoom()
   return (
     <Styles>
       <StyledAvatar
@@ -53,6 +58,10 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
             <ClockIcon />
             <span>Last logged {moment(user.last_login).fromNow()}</span>
           </div>
+          <MinimizeIcon
+            className={'chat-header__minimize'}
+            onClick={() => collapse(room)}
+          />
         </div>
       </div>
     </Styles>

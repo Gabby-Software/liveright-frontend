@@ -5,6 +5,7 @@ import PageTitle from '../../components/titles/page-title.styles'
 import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
+import ChatPopups from '../chat-popups/chat-popups.component'
 import DesktopSidebar from '../desktop-sidebar/desktop-sidebar.component'
 import { configRef } from './desktop-layout.config'
 import Styles from './desktop-layout.styles'
@@ -49,6 +50,7 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
         )}
         <main>{children}</main>
       </div>
+      <ChatPopups />
     </Styles>
   )
 }

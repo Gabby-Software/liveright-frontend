@@ -10,6 +10,7 @@ export default styled.div`
   ${media('tablet', 'max')`
     width: 240px;
   `}
+
   .cm-audio {
     &__microphone {
       flex-shrink: 0;
@@ -55,6 +56,9 @@ export default styled.div`
     }
   }
   &.cm-audio {
+    &__popup {
+      max-width: 240px;
+    }
     &__me {
       .cm-audio {
         &__microphone {

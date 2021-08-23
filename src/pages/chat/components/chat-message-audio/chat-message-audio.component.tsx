@@ -22,7 +22,7 @@ type Props = {
   me: boolean
 }
 const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
-  const { playing, setPlaying } = useChatRoom()
+  const { playing, setPlaying, isPopup } = useChatRoom()
   const [paused, setPaused] = useState(true)
   const [progress, setProgress] = useState(0)
   const progressFlag = useRef(0) // remove unused calls
@@ -90,7 +90,8 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
       className={classes(
         'cm-audio',
         paused || 'cm-audio__playing',
-        me && 'sm-audio__me'
+        me && 'cm-audio__me',
+        isPopup && 'cm-audio__popup'
       )}
     >
       <MicIcon className={'cm-audio__microphone'} />

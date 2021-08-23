@@ -19,13 +19,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nProvider>
-        <ChatsProvider>
-          <ThemeProvider theme={theme}>
-            <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <ChatsProvider>
               <App />
-            </BrowserRouter>
-          </ThemeProvider>
-        </ChatsProvider>
+            </ChatsProvider>
+          </BrowserRouter>
+        </ThemeProvider>
       </I18nProvider>
     </Provider>
   </React.StrictMode>,

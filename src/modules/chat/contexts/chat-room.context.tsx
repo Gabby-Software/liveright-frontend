@@ -32,6 +32,7 @@ type ChatRoomContextType = {
   sendFile: (file: FileList) => void
   sendAudio: (file: File) => void
   isPopup: boolean
+  room: string
 }
 
 const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
@@ -140,7 +141,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         setTextMessage,
         sendFile,
         sendAudio,
-        isPopup
+        isPopup,
+        room
       }}
     >
       {children}

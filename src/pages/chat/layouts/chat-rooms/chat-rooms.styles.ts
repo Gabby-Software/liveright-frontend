@@ -10,4 +10,25 @@ export default styled.div`
       margin-top: 20px;
     }
   }
+  @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {
+    padding: 0;
+    .chat-rooms {
+      &__title {
+        display: flex;
+        font-size: 22px;
+        margin: -39px -20px 0 -20px;
+        padding: 20px;
+        height: 100px;
+        background-color: ${(p) => p.theme.vars.colors.primaryDark_v2};
+        color: white;
+      }
+      &__head {
+        position: sticky;
+        top: 100px;
+      }
+    }
+    .text_input__input {
+      margin-top: -24px;
+    }
+  }
 `

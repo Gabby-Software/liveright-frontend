@@ -27,6 +27,10 @@ export default styled.div`
   right: 0;
   z-index: ${(p) => p.theme.vars.zIndex.header};
   ${(p) => p.theme.extend.flexCenter}
+  &.chat-header__popup {
+    padding-top: 0;
+    height: 73px;
+  }
   .chat-header {
     &__back {
       svg {
@@ -40,6 +44,13 @@ export default styled.div`
     }
     &__link {
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      svg {
+        display: block;
+        margin-left: 12px;
+        cursor: pointer;
+      }
     }
   }
 `
