@@ -10,8 +10,8 @@ const ChatMessagesBody: FC<{}> = () => {
   useEffect(() => {
     if (!ref.current) return
     ref.current.scrollTo({
-      top: ref.current.scrollHeight,
-      behavior: 'smooth'
+      top: ref.current.scrollHeight
+      // behavior: 'smooth'
     })
   }, [messages])
   return (

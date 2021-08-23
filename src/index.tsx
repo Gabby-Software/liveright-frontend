@@ -10,6 +10,7 @@ import { ThemeProvider } from 'styled-components'
 
 import App from './App'
 import theme from './assets/styles'
+import { ChatsProvider } from './modules/chat/contexts/chats.context'
 import { I18nProvider } from './modules/i18n/i18n.context'
 import reportWebVitals from './reportWebVitals'
 import store from './store/config.store'
@@ -18,11 +19,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ThemeProvider>
+        <ChatsProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ThemeProvider>
+        </ChatsProvider>
       </I18nProvider>
     </Provider>
   </React.StrictMode>,
