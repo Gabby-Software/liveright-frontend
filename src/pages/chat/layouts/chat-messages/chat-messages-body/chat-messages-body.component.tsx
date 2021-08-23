@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react'
 
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import ChatMessage from '../../../components/chat-message/chat-message.component'
 import Styles from './chat-messages-body.styles'
@@ -7,9 +8,11 @@ import Styles from './chat-messages-body.styles'
 const ChatMessagesBody: FC<{}> = () => {
   const { messages } = useChatRoom()
   const ref = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
   useEffect(() => {
     if (!ref.current) return
-    ref.current.scrollTo({
+    const el = isMobile ? window : ref.current
+    el.scrollTo({
       top: ref.current.scrollHeight
       // behavior: 'smooth'
     })
