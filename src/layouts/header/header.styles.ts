@@ -67,6 +67,7 @@ export const HeaderV2 = styled.header`
 export default styled.header`
   display: block;
   height: ${height};
+  
   .header {
     &__nav {
       position: fixed;

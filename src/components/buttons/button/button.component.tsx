@@ -2,15 +2,7 @@ import { PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
 
 import Root from './button.styles'
-
-interface ButtonProps {
-  variant?: 'secondary' | 'text'
-  size?: 'sm'
-  onClick?: any
-  className?: string
-  to?: string
-  LinkProps?: any
-}
+import { ButtonProps } from './button.types'
 
 export default function Button({
   children,

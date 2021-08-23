@@ -1,5 +1,6 @@
 import { default as alerts } from './alerts.json'
 import { default as auth } from './auth.json'
+import { default as buttons } from './buttons.json'
 import { default as calendar } from './calendar.json'
 import { default as clients } from './clients.json'
 import { default as common } from './common.json'
@@ -27,5 +28,6 @@ export default {
   progress,
   plans,
   notifications,
-  financials
+  financials,
+  buttons
 }

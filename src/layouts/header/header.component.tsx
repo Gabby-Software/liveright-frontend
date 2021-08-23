@@ -19,6 +19,7 @@ const Header = () => {
   const { items } = useHeader()
   const version = useDesignVersion()
   if (!items?.length) return null
+
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
     switch (type) {
       case HeaderItemTypes.IMAGE:

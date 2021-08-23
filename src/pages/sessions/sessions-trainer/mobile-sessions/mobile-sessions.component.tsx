@@ -116,14 +116,14 @@ const MobileSessions: React.FC<Props> = (props) => {
     )
   }
 
-  useMobileTitleContent(
-    clientsData.length ? (
-      <TitleContent>
-        <ActionIcon icon={FilterIcon} onClick={() => setIsFilterOpen(true)} />
-        <ActionIcon icon={AddIcon} onClick={() => setAddOpen(true)} />
-      </TitleContent>
-    ) : null
-  )
+  // useMobileTitleContent(
+  //   clientsData.length ? (
+  //     <TitleContent>
+  //       <ActionIcon icon={FilterIcon} onClick={() => setIsFilterOpen(true)} />
+  //       <ActionIcon icon={AddIcon} onClick={() => setAddOpen(true)} />
+  //     </TitleContent>
+  //   ) : null
+  // )
 
   return (
     <Styles>
