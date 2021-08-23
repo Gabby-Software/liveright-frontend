@@ -14,7 +14,7 @@ export default styled.div`
     overflow: visible;
   }
   &.popup {
-    padding: 26px 14px;
+    padding: 26px 18px;
     margin-top: -30px;
   }
 `

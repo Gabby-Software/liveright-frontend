@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react'
 
 import { useWindowSize } from '../../hooks/window-size.hook'
 import { useChats } from '../../modules/chat/contexts/chats.context'
-import ChatPopup from '../chat-popup/chat-popup.component'
+import ChatPopup from './chat-popup/chat-popup.component'
 import Styles from './chat-popups.styles'
 
 type Props = {}

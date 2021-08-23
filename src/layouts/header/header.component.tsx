@@ -10,7 +10,7 @@ import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
 import { HeaderItemType, HeaderItemTypes } from '../../types/route.type'
-import Styles from './header.styles'
+import Styles, { HeaderV2 } from './header.styles'
 
 const Header = () => {
   const { pathname } = useLocation()
@@ -18,8 +18,6 @@ const Header = () => {
   const trainer = useClientsTrainer()
   const { items } = useHeader()
   const version = useDesignVersion()
-  console.log(version)
-
   if (!items?.length) return null
 
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
@@ -79,17 +77,16 @@ const Header = () => {
         )
     }
   }
-
+  const Header = version === 2 ? HeaderV2 : Styles
   return (
-    <Styles>
-      <div className={'header__placeholder'} />
+    <Header>
       <nav className={'header__nav'}>
         <h1 className={'header__title'}>{DEFAULT_TITLE}</h1>
         {items?.map((t, i) => (
           <React.Fragment key={i}>{renderHeaderItem(t)}</React.Fragment>
         ))}
       </nav>
-    </Styles>
+    </Header>
   )
 }
 

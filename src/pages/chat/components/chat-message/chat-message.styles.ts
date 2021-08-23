@@ -53,6 +53,7 @@ export default styled.div`
       margin-top: auto;
       margin-left: 13px;
       order: 2;
+      white-space: nowrap;
       svg {
         display: block;
         margin: 0 4px 0 0;
