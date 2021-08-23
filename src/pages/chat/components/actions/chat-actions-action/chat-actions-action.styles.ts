@@ -24,6 +24,7 @@ export default styled.div`
     height: 45px;
     padding: 11px;
     display: block;
+    cursor: pointer;
   }
   &.chat-action {
     &__disabled {
@@ -34,6 +35,9 @@ export default styled.div`
           p.color === 'primary'
             ? p.theme.vars.colors.primary
             : p.theme.vars.colors.background_v2};
+      }
+      svg {
+        cursor: not-allowed;
       }
     }
   }

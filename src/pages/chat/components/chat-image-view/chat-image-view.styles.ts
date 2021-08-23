@@ -16,6 +16,7 @@ export default styled.div`
       position: relative;
     }
     &__times {
+      cursor: pointer;
       position: absolute;
       width: 36px;
       height: 36px;
