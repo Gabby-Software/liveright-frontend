@@ -34,7 +34,7 @@ const ChatActionsRecording: FC<Props> = ({}) => {
       )
   }
   const stopRecording = () => {
-    setMode(ChatRoomModes.DEFAULT)
+    recorder.current.stopRecord()?.then(() => setMode(ChatRoomModes.DEFAULT))
   }
   return (
     <Styles onSubmit={handleSubmit}>

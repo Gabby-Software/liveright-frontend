@@ -22,7 +22,7 @@ export default class RecorderManager {
       .getUserMedia({ audio, video })
       .then((stream) => {
         const options = { mimeType }
-        this.stream = stream as MediaStream
+        this.stream = stream
         this.mediaRecorder = new MediaRecorder(stream, options)
         this.recordedChunks = []
         if (!this.mediaRecorder) return
