@@ -1,14 +1,10 @@
-import { Moment } from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
-import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
-import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
-import { PaginationMetaType } from '../../../../types/pagination-meta.type'
+import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { getHealthDataAsync } from '../../progress.api'
 import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
 import {
@@ -19,17 +15,18 @@ import {
 } from '../../progress.types'
 import AverageHighLights from '../progress-average-highlights/progress-average-highlights.component'
 import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
-import HealthCard from '../progress-health-card/progress-health-card.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
 import OverTimeMobile from '../progress-overtime-mobile/progress-overtime-mobile.component'
-import { CardsWrapper, Wrapper } from './progress-health-data.styles'
+import { Wrapper } from './progress-health-data.styles'
 
 interface Props {}
 
 const HealthData: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const [rangeHighlights, setRangeHighlights] = useState<HealthDataType[]>([])
+  const [rangeHighlights, setRangeHighlights] = useState<
+    PaginatedDataType<HealthDataType>
+  >({ data: [], meta: { current_page: 1, total: 1, per_page: 10 } })
   const [activeTab, setActiveTab] = useState<ProgressLogType>(
     PROGRESS_LOG.SLEEP
   )
@@ -54,19 +51,24 @@ const HealthData: React.FC<Props> = (props) => {
     []
   )
 
-  const getHealthData = async () => {
-    const payload: GetHealthDataPayload = { only_include: activeTab }
+  const getHealthData = async (page = 1) => {
+    if (
+      overTime !== OVER_TIME.SPECIFIC ||
+      (specificDates.from_date && specificDates.to_date)
+    ) {
+      const payload: GetHealthDataPayload = { only_include: activeTab, page }
 
-    if (overTime === OVER_TIME.SPECIFIC) {
-      payload.from_date = specificDates.from_date
-      payload.to_date = specificDates.to_date
-    } else {
-      payload.range = overTime
+      if (overTime === OVER_TIME.SPECIFIC) {
+        payload.from_date = specificDates.from_date
+        payload.to_date = specificDates.to_date
+      } else {
+        payload.range = overTime
+      }
+
+      const data = await getHealthDataAsync(payload)
+
+      setRangeHighlights(data)
     }
-
-    const { data = [] } = await getHealthDataAsync(payload)
-
-    setRangeHighlights(data)
   }
 
   const handleSpecificDateChange = (name: string, date: string) => {
@@ -76,12 +78,7 @@ const HealthData: React.FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    if (
-      overTime !== OVER_TIME.SPECIFIC ||
-      (specificDates.from_date && specificDates.to_date)
-    ) {
-      getHealthData()
-    }
+    getHealthData()
   }, [activeTab, overTime, specificDates])
 
   return (
@@ -101,6 +98,7 @@ const HealthData: React.FC<Props> = (props) => {
           data={rangeHighlights}
           onSpecificDateChange={handleSpecificDateChange}
           specificDates={specificDates}
+          onPageChange={getHealthData}
         />
       ) : (
         <OverTimeDesktop
@@ -114,6 +112,7 @@ const HealthData: React.FC<Props> = (props) => {
           data={rangeHighlights}
           onSpecificDateChange={handleSpecificDateChange}
           specificDates={specificDates}
+          onPageChange={getHealthData}
         />
       )}
 

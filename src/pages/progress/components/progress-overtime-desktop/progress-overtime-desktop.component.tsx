@@ -13,8 +13,13 @@ import Tabs from '../../../../components/tabs/tabs.component'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
+import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
-import { HealthData, OverTimeType, ProgressLogType } from '../../progress.types'
+import {
+  HealthData as HealthDataType,
+  OverTimeType,
+  ProgressLogType
+} from '../../progress.types'
 import HealthChart from '../progress-chart/progress-chart.component'
 import HealthTable from '../progress-table/progress-table.component'
 import {
@@ -32,9 +37,10 @@ interface Props {
   setGraphView: (value: boolean) => void
   activeTab: ProgressLogType
   setActiveTab: (value: ProgressLogType) => void
-  data: HealthData[]
+  data: PaginatedDataType<HealthDataType>
   specificDates: { from_date: string; to_date: string }
   onSpecificDateChange: (name: string, date: string) => void
+  onPageChange: (page?: number) => void
 }
 
 const OverTimeDesktop: React.FC<Props> = (props) => {
@@ -48,7 +54,8 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
     setActiveTab,
     data,
     specificDates,
-    onSpecificDateChange
+    onSpecificDateChange,
+    onPageChange
   } = props
   const { t } = useTranslation()
 
@@ -60,7 +67,11 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
     return graphView ? (
       <HealthChart />
     ) : (
-      <HealthTable data={data} activeTab={activeTab} />
+      <HealthTable
+        onPageChange={onPageChange}
+        data={data}
+        activeTab={activeTab}
+      />
     )
   }
 

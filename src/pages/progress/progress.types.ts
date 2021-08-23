@@ -20,6 +20,7 @@ export interface GetHealthDataPayload {
   range?: OverTimeType
   from_date?: string
   to_date?: string
+  page?: number
 }
 
 export interface AverageHealthData {

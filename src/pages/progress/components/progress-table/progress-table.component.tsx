@@ -6,17 +6,25 @@ import { ReactComponent as EditIcon } from '../../../../assets/media/icons/edit.
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { PROGRESS_LOG_URL, PROGRESS_TABLE_KEYS } from '../../progress.constants'
-import { HealthData, ProgressLogType } from '../../progress.types'
+import {
+  HealthData,
+  HealthData as HealthDataType,
+  ProgressLogType
+} from '../../progress.types'
 import { DateButton, Wrapper } from './progress-table.styles'
 
 interface Props {
   activeTab: ProgressLogType
-  data: HealthData[]
+  data: PaginatedDataType<HealthDataType>
+  onPageChange?: (page?: number) => void
 }
 
 const HealthTable: React.FC<Props> = (props) => {
-  const { data, activeTab } = props
+  const { data, activeTab, onPageChange } = props
+  const { data: logs, meta } = data
+  const { current_page, total } = meta
   const { t } = useTranslation()
   const history = useHistory()
   const qualityKey = `${activeTab}.quality`
@@ -38,14 +46,16 @@ const HealthTable: React.FC<Props> = (props) => {
     return { labels, keys }
   }, [])
 
-  const handlePageSet = () => {}
+  const handlePageSet = (p: number) => {
+    onPageChange && onPageChange(p)
+  }
 
   return (
     <Wrapper>
       <DataTable
         labels={labels}
         keys={keys}
-        data={data}
+        data={logs}
         render={{
           date: (item: HealthData) => {
             return (
@@ -72,7 +82,11 @@ const HealthTable: React.FC<Props> = (props) => {
           }
         }}
       />
-      <DataPagination page={1} setPage={handlePageSet} total={1} />
+      <DataPagination
+        page={current_page}
+        setPage={handlePageSet}
+        total={total}
+      />
     </Wrapper>
   )
 }
