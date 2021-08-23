@@ -45,6 +45,13 @@ const ChatImageView: FC<{}> = () => {
     >
       <div className={'chat-image-view__cont'}>
         <img
+          onLoad={() =>
+            logger.info(
+              'size',
+              imgRef.current?.naturalWidth,
+              imgRef.current?.naturalHeight
+            )
+          }
           src={openedImage}
           className={'chat-image-view__img'}
           alt={'view'}

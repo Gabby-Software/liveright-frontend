@@ -10,6 +10,7 @@ import React, {
 } from 'react'
 
 import fileManager from '../../../managers/file.manager'
+import logger from '../../../managers/logger.manager'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
@@ -101,10 +102,11 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       const ext = file.name.split('.').pop()?.toLowerCase()
       let type: ChatMessageTypeType = chatMessageTypes.FILE
       if (imageExtentions.includes(ext || '')) {
+        logger.info('Image file type')
         type = chatMessageTypes.IMAGE
         msg.types.push(type)
-        fileManager.resize(file, 920).then(([url]) => {
-          msg.content.files.push(url)
+        fileManager.resize(file, 920).then(([resizedurl]) => {
+          msg.content.files.push(resizedurl)
           setMessages([...messages, msg])
         })
       } else {
