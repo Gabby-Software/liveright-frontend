@@ -20,7 +20,10 @@ const ChatActionsRecording: FC<Props> = ({}) => {
     const interval = setInterval(() => {
       setTimeOver(Math.round((new Date().getTime() - startTime.current) / 1000))
     }, 1000)
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      recorder.current?.stopRecord()
+    }
   }, [])
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()

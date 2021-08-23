@@ -24,12 +24,14 @@ const ChatHeaderMobile: FC<Props> = ({}) => {
       <Styles
         className={classes('chat-header', isPopup && 'chat-header__popup')}
       >
-        <Link
-          to={type === userTypes.CLIENT ? Routes.HOME : Routes.CHAT}
-          className={'chat-header__back'}
-        >
-          <BackIcon />
-        </Link>
+        {isPopup ? null : (
+          <Link
+            to={type === userTypes.CLIENT ? Routes.HOME : Routes.CHAT}
+            className={'chat-header__back'}
+          >
+            <BackIcon />
+          </Link>
+        )}
         <StyledAvatar placeholder={'YT'} url={profilePlaceholder} />
         <div className={'chat-header__name'}>John Travolta</div>
         {isPopup ? (

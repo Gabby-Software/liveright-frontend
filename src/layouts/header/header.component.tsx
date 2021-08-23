@@ -5,17 +5,19 @@ import { DEFAULT_TITLE } from '../../config/header.config'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
+import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
 import { HeaderItemType, HeaderItemTypes } from '../../types/route.type'
-import Styles from './header.styles'
+import Styles, { HeaderV2 } from './header.styles'
 
 const Header = () => {
   const { pathname } = useLocation()
   const { type: userType } = useAuth()
   const trainer = useClientsTrainer()
   const { items } = useHeader()
+  const version = useDesignVersion()
   if (!items?.length) return null
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
     switch (type) {
@@ -74,17 +76,16 @@ const Header = () => {
         )
     }
   }
-
+  const Header = version === 2 ? HeaderV2 : Styles
   return (
-    <Styles>
-      <div className={'header__placeholder'} />
+    <Header>
       <nav className={'header__nav'}>
         <h1 className={'header__title'}>{DEFAULT_TITLE}</h1>
         {items?.map((t, i) => (
           <React.Fragment key={i}>{renderHeaderItem(t)}</React.Fragment>
         ))}
       </nav>
-    </Styles>
+    </Header>
   )
 }
 
