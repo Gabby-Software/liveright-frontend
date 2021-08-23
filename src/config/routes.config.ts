@@ -266,7 +266,7 @@ export const routes: RouteType[] = [
     version: 2,
     header: {
       title: 'Chat',
-      items: headers.default
+      items: []
     }
   },
   {
@@ -276,7 +276,7 @@ export const routes: RouteType[] = [
     version: 2,
     header: {
       title: 'Chat',
-      items: headers.default
+      items: []
     },
     footer: footerTypes.NONE
   }

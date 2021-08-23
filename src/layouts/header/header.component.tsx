@@ -16,7 +16,7 @@ const Header = () => {
   const { type: userType } = useAuth()
   const trainer = useClientsTrainer()
   const { items } = useHeader()
-  if (!items) return null
+  if (!items?.length) return null
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
     switch (type) {
       case HeaderItemTypes.IMAGE:
