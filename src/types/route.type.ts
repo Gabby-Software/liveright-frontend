@@ -17,7 +17,7 @@ export type HeaderItemType = {
 }
 export type HeaderConfigType = {
   items?: HeaderItemType[]
-  title?: string
+  title?: string | null
 }
 export type RouteType = {
   title: string

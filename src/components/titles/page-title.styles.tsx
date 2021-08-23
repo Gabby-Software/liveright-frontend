@@ -2,6 +2,7 @@ import { FC, HTMLProps } from 'react'
 import styled from 'styled-components'
 
 import { useDesignVersion } from '../../hooks/design-version.hook'
+import { classes } from '../../pipes/classes.pipe'
 
 const PageTitleStyles = styled.h1`
   display: flex;
@@ -24,10 +25,13 @@ const PageTitleStyles = styled.h1`
   }
 `
 
-const PageTitle: FC<HTMLProps<HTMLTitleElement>> = ({ children }) => {
+const PageTitle: FC<HTMLProps<HTMLTitleElement>> = ({
+  children,
+  className
+}) => {
   const version = useDesignVersion()
   return (
-    <PageTitleStyles className={`design-v__${version}`}>
+    <PageTitleStyles className={classes(`design-v__${version}`, className)}>
       {children}
     </PageTitleStyles>
   )

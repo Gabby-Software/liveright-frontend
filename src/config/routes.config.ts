@@ -224,8 +224,9 @@ export const routes: RouteType[] = [
     title: 'Sessions',
     url: Routes.SESSIONS,
     Component: lazy(() => import('../pages/sessions/sessions.component')),
+    version: 2,
     header: {
-      title: 'Your Sessions',
+      title: null,
       items: headers.default
     }
   },
