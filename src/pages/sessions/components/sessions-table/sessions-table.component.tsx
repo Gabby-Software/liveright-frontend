@@ -18,6 +18,7 @@ interface Props {
   renderOptions?: (session: SessionType) => ReactElement
   withFilter?: boolean
   FilterProps?: any
+  onFilterRef?: (ref: any) => void
 }
 
 const SessionsTable: React.FC<Props> = (props) => {
@@ -27,12 +28,17 @@ const SessionsTable: React.FC<Props> = (props) => {
     additionalFilters,
     renderOptions,
     withFilter,
-    FilterProps
+    FilterProps,
+    onFilterRef
   } = props
   const { data, meta } = sessions
   const { current_page, total } = meta
   const isTrainerType = useAuth().type === userTypes.TRAINER
   const [filter, setFilter] = useState<SessionFilter>({})
+
+  useEffect(() => {
+    onFilterRef && onFilterRef(setFilter)
+  }, [])
 
   const { labels, keys } = useMemo(() => {
     const labels = [

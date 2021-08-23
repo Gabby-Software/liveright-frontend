@@ -10,6 +10,7 @@ import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { Session, SessionFilter } from '../../../../types/session.type'
+import { formatFilters } from '../../sessions.utils'
 import Styles from './sessions-filters.styles'
 
 interface Props {
@@ -25,28 +26,12 @@ const SessionsFilters: React.FC<Props> = (props) => {
   const [type, setType] = useState('All')
 
   const handleUpdateFilters = () => {
-    const result: Pick<SessionFilter, 'type' | 'date'> = {}
-
-    if (type !== 'All') {
-      result.type = type
-    }
-
-    if (date.trim()) {
-      const isDate = /^\d{4}-\d{2}-\d{2}$/.test(date)
-
-      if (isDate) {
-        result.date = date
-      } else if (type === 'All' && (date as Session)) {
-        result.type = date
-      }
-    }
-
-    onUpdate(result)
+    formatFilters(type, date, onUpdate)
   }
 
   useEffect(() => {
     handleUpdateFilters()
-  }, [type])
+  }, [type, date])
 
   const handleInputChange = debounce((e) => {
     setDate(e.target.value)

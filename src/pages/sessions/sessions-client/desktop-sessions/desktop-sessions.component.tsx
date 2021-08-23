@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import debounce from 'lodash.debounce'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   DocumentOutlinedIcon,
@@ -23,6 +24,7 @@ import { AccountObjType } from '../../../../types/account.type'
 import { SessionType } from '../../../../types/session.type'
 import { SessionFilter, SessionStatus } from '../../../../types/session.type'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
+import { formatFilters } from '../../sessions.utils'
 import Styles from './desktop-sessions.styles'
 
 interface Props {
@@ -38,10 +40,18 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>()
   const [addOpen, setAddOpen] = useState<boolean>(false)
+  const filterRef = useRef()
+  const [date, setDate] = useState('')
+  const [type, setType] = useState('All')
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
   })
+
+  useEffect(() => {
+    const onUpdate = filterRef.current || (() => {})
+    formatFilters(type, date, onUpdate)
+  }, [date, type])
 
   const renderItemOptions = (item: SessionType) => {
     return (
@@ -71,6 +81,10 @@ const DesktopSessions: React.FC<Props> = (props) => {
     )
   }
 
+  const handleInputChange = debounce((e) => {
+    setDate(e.target.value)
+  }, 400)
+
   return (
     <Styles>
       <div className="sessions">
@@ -79,7 +93,9 @@ const DesktopSessions: React.FC<Props> = (props) => {
             {t('sessions:title')}
 
             <div>
-              <Button>{t('sessions:session-request')}</Button>
+              <Button onClick={() => setAddOpen(true)}>
+                {t('sessions:session-request')}
+              </Button>
             </div>
           </PageTitle>
 
@@ -107,7 +123,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   id="sessions-type"
                   placeholder={t('sessions:type')}
                   options={sessionTypeOptions}
-                  // onChange={(e) => setType(e)}
+                  onChange={(e) => setType(e)}
                 />
               </div>
 
@@ -116,7 +132,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   id="sessions-search"
                   placeholder={t('sessions:filter-input')}
                   prefix={<SearchIcon />}
-                  // onChange={handleInputChange}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -125,6 +141,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
           <SessionsTable
             sessions={sessions.past}
             getSessions={getSessions('past')}
+            onFilterRef={(ref) => (filterRef.current = ref)}
           />
         </div>
         {rescheduleOpen ? (
