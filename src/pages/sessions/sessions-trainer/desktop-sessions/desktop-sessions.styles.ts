@@ -84,6 +84,7 @@ export default styled.div`
       border-bottom: 1px solid
         ${(props) => props.theme.vars.colors.inputBorder_v2};
       margin-bottom: 1.5rem;
+      display: flex;
 
       & .select_input__wrapper {
         max-width: 253px;
@@ -153,6 +154,7 @@ export default styled.div`
     &__awaiting-filter {
       width: 100%;
       max-width: 253px;
+      margin-right: 1rem;
     }
 
     &__filter-col {
