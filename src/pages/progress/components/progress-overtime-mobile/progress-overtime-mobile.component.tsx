@@ -1,3 +1,4 @@
+import { Moment } from 'moment'
 import React from 'react'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
@@ -10,7 +11,7 @@ import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
 import { PROGRESS_LOG } from '../../progress.constants'
-import { OverTimeType } from '../../progress.types'
+import { HealthData, OverTimeType, ProgressLogType } from '../../progress.types'
 import HealthChart from '../progress-chart/progress-chart.component'
 import {
   FilterWrapper,
@@ -25,10 +26,26 @@ interface Props {
   filterOptions: OptionType[]
   graphView: boolean
   setGraphView: (value: boolean) => void
+  activeTab: ProgressLogType
+  setActiveTab: (value: ProgressLogType) => void
+  data: HealthData[]
+  specificDates: { from_date: string; to_date: string }
+  onSpecificDateChange: (name: string, date: string) => void
 }
 
 const OverTimeMobile: React.FC<Props> = (props) => {
-  const { filter, setFilter, filterOptions, graphView, setGraphView } = props
+  const {
+    filter,
+    setFilter,
+    filterOptions,
+    graphView,
+    setGraphView,
+    activeTab,
+    setActiveTab,
+    specificDates,
+    onSpecificDateChange,
+    data
+  } = props
   const { t } = useTranslation()
 
   const handleSwitchViewClick = () => {
@@ -60,6 +77,8 @@ const OverTimeMobile: React.FC<Props> = (props) => {
       </FilterWrapper>
       <TableWrapper>
         <Tabs
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as ProgressLogType)}
           tabPosition="top"
           tabs={[
             {

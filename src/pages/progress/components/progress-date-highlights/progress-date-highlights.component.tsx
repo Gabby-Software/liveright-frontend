@@ -24,7 +24,7 @@ const DateHighLights: React.FC<Props> = (props) => {
         date: date.format('YYYY-MM-DD')
       })
 
-      setDateHighlights(data[3]) // Temp
+      setDateHighlights(data[0])
     }
 
     getHealthData()
@@ -33,21 +33,25 @@ const DateHighLights: React.FC<Props> = (props) => {
   return (
     <CardsWrapper size="middle">
       <HealthCard
+        date={date}
         icon={<SleepIcon />}
         data="From 22:10 to 07:00"
         quality={dateHighlights?.sleep?.quality}
       />
       <HealthCard
+        date={date}
         icon={<CardiogramIcon />}
         data={dateHighlights?.heart_rate?.avg_rate.toString()}
         quality={dateHighlights?.heart_rate?.quality}
       />
       <HealthCard
+        date={date}
         icon={<StepsIcon />}
         data={dateHighlights?.steps?.daily_steps.toString()}
         quality={dateHighlights?.steps?.quality}
       />
       <HealthCard
+        date={date}
         icon={<BloodIcon />}
         data={dateHighlights?.blood_glucose?.glucose.toString()}
         quality={dateHighlights?.blood_glucose?.quality}

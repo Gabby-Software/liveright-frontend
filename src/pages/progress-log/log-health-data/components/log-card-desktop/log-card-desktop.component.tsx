@@ -41,7 +41,7 @@ const LogCardDesktop: React.FC<Props> = (props) => {
               <InfoIcon />
             </Tooltip>
           </span>
-          <span>{quality ? t(`progress:quality.${quality}`) : '-'}</span>
+          <span>{quality ? t(`progress:${quality}`) : '-'}</span>
         </LogQuality>
       </div>
     </Wrapper>

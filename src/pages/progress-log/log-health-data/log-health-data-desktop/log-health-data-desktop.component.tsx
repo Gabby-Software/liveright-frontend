@@ -43,16 +43,17 @@ interface Props {
 const LogHealthDataDesktop: React.FC<Props> = (props) => {
   const { handleReturn } = props
   const { t } = useTranslation()
-  const { values } = useFormikContext<HealthData>()
+  const { values, errors } = useFormikContext<HealthData>()
+  console.log(values, errors)
   const sleepOptions = useMemo(
     () => [
-      { value: QUALITY.LOW, label: t(`progress:quality.${QUALITY.LOW}`) },
+      { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
       {
         value: QUALITY.AVERAGE,
-        label: t(`progress:quality.${QUALITY.AVERAGE}`)
+        label: t(`progress:${QUALITY.AVERAGE}`)
       },
-      { value: QUALITY.GOOD, label: t(`progress:quality.${QUALITY.GOOD}`) },
-      { value: QUALITY.HIGH, label: t(`progress:quality.${QUALITY.HIGH}`) }
+      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) },
+      { value: QUALITY.HIGH, label: t(`progress:${QUALITY.HIGH}`) }
     ],
     []
   )
@@ -70,21 +71,21 @@ const LogHealthDataDesktop: React.FC<Props> = (props) => {
         <LogCardDesktop
           name={t('progress:heart_rate')}
           inputName="heart_rate.avg_rate"
-          inputLabel={`${t('progress:average')} ${t('progress:heartRate')}`}
+          inputLabel={`${t('progress:average')} ${t('progress:heart_rate')}`}
           getQuality={getHeartRateQuality}
           Icon={<CardiogramIcon />}
         />
         <LogCardDesktop
           name={t('progress:steps')}
           inputName="steps.daily_steps"
-          inputLabel={t('progress:dailySteps')}
+          inputLabel={t('progress:daily_steps')}
           getQuality={getStepsQuality}
           Icon={<StepsIcon />}
         />
         <LogCardDesktop
           name={t('progress:blood_glucose')}
           inputName="blood_glucose.glucose"
-          inputLabel={t('progress:glicose')}
+          inputLabel={t('progress:glucose')}
           getQuality={getGlucoseQuality}
           Icon={<BloodIcon />}
         />
@@ -101,11 +102,11 @@ const LogHealthDataDesktop: React.FC<Props> = (props) => {
               <Space>
                 <FormTimepicker
                   name="sleep.start_time"
-                  label={t('progress:startTime')}
+                  label={t('progress:start_time')}
                 />
                 <FormTimepicker
                   name="sleep.end_time"
-                  label={t('progress:endTime')}
+                  label={t('progress:end_time')}
                 />
                 <LogQuality>
                   <span>{t('progress:duration')}</span>
@@ -120,11 +121,11 @@ const LogHealthDataDesktop: React.FC<Props> = (props) => {
               <Space>
                 <FormTimepicker
                   name="sleep.nap_start_time"
-                  label={t('progress:napStarts')}
+                  label={t('progress:nap_start_time')}
                 />
                 <FormTimepicker
                   name="sleep.nap_end_time"
-                  label={t('progress:napEnds')}
+                  label={t('progress:nap_end_time')}
                 />
                 <LogQuality>
                   <span>{t('progress:duration')}</span>

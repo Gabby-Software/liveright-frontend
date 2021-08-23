@@ -1,4 +1,5 @@
 import { Skeleton } from 'antd'
+import get from 'lodash/get'
 import React from 'react'
 
 import { useTranslation } from '../../modules/i18n/i18n.hook'
@@ -62,7 +63,7 @@ const DataTable = ({
                     ? { width: 1 }
                     : {})}
                 >
-                  {render && render[key] ? render[key](item) : item[key]}
+                  {render && render[key] ? render[key](item) : get(item, key)}
                 </td>
               ))}
             </tr>
