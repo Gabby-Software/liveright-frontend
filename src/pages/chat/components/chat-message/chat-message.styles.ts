@@ -9,6 +9,9 @@ export const ProfileImageStyled = styled(ProfileImage)`
     width: 32px;
     height: 32px;
   }
+  &.popup {
+    margin-top: 32px;
+  }
 `
 export default styled.div`
   display: flex;
@@ -22,6 +25,9 @@ export default styled.div`
       ${media('tablet', 'max')`
         margin-top: 20px;
       `}
+      .popup {
+        margin-top: 20px;
+      }
       &.me {
         margin-left: auto;
       }
@@ -70,6 +76,17 @@ export default styled.div`
                 margin: 4px 0 0 0;
             }
         `};
+      &.popup {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin: 4px 0 0 0;
+        &.me {
+          left: auto;
+          right: 0;
+          margin: 4px 0 0 0;
+        }
+      }
     }
   }
 `

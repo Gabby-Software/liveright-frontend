@@ -1,3 +1,5 @@
+import logger from './logger.manager'
+
 class FileManager {
   public urlToImage(url: string): Promise<HTMLImageElement> {
     return new Promise((res) => {
@@ -49,8 +51,10 @@ class FileManager {
             const ratio = width / img.naturalWidth
             canvas.width = img.naturalWidth * ratio
             canvas.height = img.naturalHeight * ratio
+            logger.info('image size', canvas.width, canvas.height)
             ctx?.drawImage(img, 0, 0, canvas.width, canvas.height)
-            return [url, canvas] as [string, HTMLCanvasElement]
+            const smallerUrl = canvas.toDataURL('jpg', 80)
+            return [smallerUrl, canvas] as [string, HTMLCanvasElement]
           })
           .then(([url, canvas]) =>
             this.canvasToFile(canvas).then((file) => res([url, file]))
@@ -64,8 +68,7 @@ class FileManager {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
         this.urlToImage(url).then((img) => {
-          let w = 0,
-            h = 0
+          let w, h
           if (img.naturalHeight * ratio > img.naturalWidth) {
             w = img.naturalWidth
             h = img.naturalWidth / ratio

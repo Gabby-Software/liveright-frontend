@@ -10,6 +10,7 @@ import { ThemeProvider } from 'styled-components'
 
 import App from './App'
 import theme from './assets/styles'
+import { ChatsProvider } from './modules/chat/contexts/chats.context'
 import { I18nProvider } from './modules/i18n/i18n.context'
 import reportWebVitals from './reportWebVitals'
 import store from './store/config.store'
@@ -20,7 +21,9 @@ ReactDOM.render(
       <I18nProvider>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
-            <App />
+            <ChatsProvider>
+              <App />
+            </ChatsProvider>
           </BrowserRouter>
         </ThemeProvider>
       </I18nProvider>

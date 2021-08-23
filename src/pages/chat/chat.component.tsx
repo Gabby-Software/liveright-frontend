@@ -18,12 +18,12 @@ const Chat = () => {
     return <Redirect to={Routes.CHAT + '/jdskjawcakj'} />
   }
   if (isMobile) {
-    return room ? <ChatMessages /> : <ChatRooms />
+    return room ? <ChatMessages room={room} /> : <ChatRooms />
   }
   return (
     <Styles>
       <ChatRooms />
-      <ChatMessages />
+      <ChatMessages room={room || ''} />
     </Styles>
   )
 }

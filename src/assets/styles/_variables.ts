@@ -42,6 +42,7 @@ const vars = {
     link_darken: '#2871d0',
     chat_blue: '#DFE6F1',
     chat_dark: '#404040',
+    orange: '#E48713',
     blue_70: '#1268E4',
     neutral_10: '#FAFAFA',
     neutral_50: '#C2C2C2',
@@ -59,7 +60,8 @@ const vars = {
   zIndex: {
     header: 40,
     footer: 40,
-    modal: 50,
+    chatPopup: 50,
+    modal: 60,
     toast: 1001
   },
   media: {

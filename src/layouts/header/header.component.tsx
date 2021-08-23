@@ -20,7 +20,7 @@ const Header = () => {
   const version = useDesignVersion()
   console.log(version)
 
-  if (!items) return null
+  if (!items?.length) return null
 
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {
     switch (type) {

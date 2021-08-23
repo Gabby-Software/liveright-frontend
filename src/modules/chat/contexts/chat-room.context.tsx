@@ -1,19 +1,27 @@
 import moment from 'moment'
-import React, { createContext, Dispatch, FC, useContext, useState } from 'react'
+import React, {
+  createContext,
+  Dispatch,
+  FC,
+  useCallback,
+  useContext,
+  useMemo,
+  useState
+} from 'react'
 
 import fileManager from '../../../managers/file.manager'
-import { mockMessages } from '../../../pages/chat/chat.data'
+import logger from '../../../managers/logger.manager'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
+import { useChats } from './chats.context'
 
 type ChatRoomContextType = {
   mode: ChatRoomModes
   setMode: Dispatch<ChatRoomModes>
   messages: ChatMessageType[]
-  setMessages: Dispatch<ChatMessageType[]>
   playing: string | null
   setPlaying: Dispatch<string | null>
   openedImage: string
@@ -22,6 +30,9 @@ type ChatRoomContextType = {
   setTextMessage: Dispatch<string>
   sendTextMessage: () => void
   sendFile: (file: FileList) => void
+  sendAudio: (file: File) => void
+  isPopup: boolean
+  room: string
 }
 
 const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
@@ -29,12 +40,30 @@ const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
 export const useChatRoom = () =>
   useContext(ChatRoomContext) as ChatRoomContextType
 
-export const ChatRoomProvider: FC<{}> = ({ children }) => {
+export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
+  children,
+  isPopup,
+  room
+}) => {
   const [mode, setMode] = useState<ChatRoomModes>(ChatRoomModes.DEFAULT)
-  const [messages, setMessages] = useState<ChatMessageType[]>(mockMessages)
   const [playing, setPlaying] = useState<string | null>(null)
   const [openedImage, setOpenedImage] = useState<string>('')
   const [textMessage, setTextMessage] = useState<string>('')
+  const { rooms, getRoom, updateRoom } = useChats()
+  const messages = useMemo(() => {
+    if (!room) return []
+    if (rooms[room]) {
+      return rooms[room].data
+    }
+    getRoom(room)
+    return []
+  }, [rooms, room])
+  const setMessages = useCallback(
+    (msgs: ChatMessageType[]) => {
+      updateRoom(room, msgs)
+    },
+    [room, messages]
+  )
   const msgBase = () => ({
     meta: {
       sent_at: moment().format(),
@@ -75,14 +104,27 @@ export const ChatRoomProvider: FC<{}> = ({ children }) => {
       const ext = file.name.split('.').pop()?.toLowerCase()
       let type: ChatMessageTypeType = chatMessageTypes.FILE
       if (imageExtentions.includes(ext || '')) {
+        logger.info('Image file type')
         type = chatMessageTypes.IMAGE
+        msg.types.push(type)
+        fileManager.resize(file, 920).then(([resizedurl]) => {
+          msg.content.files.push(resizedurl)
+          setMessages([...messages, msg])
+        })
+      } else {
+        msg.types.push(type)
+        fileManager.readAsUrl(file).then((url) => {
+          msg.content.files.push(url)
+          setMessages([...messages, msg])
+        })
       }
-      msg.types.push(type)
-      fileManager.readAsUrl(file).then((url) => {
-        msg.content.files.push(url)
-        setMessages([...messages, msg])
-      })
     }
+  }
+  const sendAudio = (file: File) => {
+    const msg: ChatMessageType = msgBase()
+    msg.types = [chatMessageTypes.AUDIO]
+    msg.content.files = [URL.createObjectURL(file)]
+    setMessages([...messages, msg])
   }
   return (
     <ChatRoomContext.Provider
@@ -90,7 +132,6 @@ export const ChatRoomProvider: FC<{}> = ({ children }) => {
         mode,
         setMode,
         messages,
-        setMessages,
         sendTextMessage,
         playing,
         setPlaying,
@@ -98,7 +139,10 @@ export const ChatRoomProvider: FC<{}> = ({ children }) => {
         setOpenedImage,
         textMessage,
         setTextMessage,
-        sendFile
+        sendFile,
+        sendAudio,
+        isPopup,
+        room
       }}
     >
       {children}

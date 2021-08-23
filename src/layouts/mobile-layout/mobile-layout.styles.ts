@@ -5,6 +5,7 @@ export default styled.div`
     &__main {
       display: block;
       ${(p) => p.theme.extend.layout}
+      min-height: 100vh;
     }
     &__title {
       display: flex;

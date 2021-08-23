@@ -27,4 +27,11 @@ export default styled.a`
       background-color: ${(p) => p.theme.vars.colors.secondary6_v2};
     }
   }
+  &.me {
+    .cm-file {
+      &__name {
+        color: white;
+      }
+    }
+  }
 `
