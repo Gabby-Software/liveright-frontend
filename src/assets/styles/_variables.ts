@@ -42,7 +42,7 @@ const vars = {
     link_darken: '#2871d0',
     chat_blue: '#DFE6F1',
     chat_dark: '#404040',
-    orange: '#E48713'
+    orange: '#E48713',
     blue_70: '#1268E4',
     neutral_10: '#FAFAFA',
     neutral_50: '#C2C2C2',
@@ -51,7 +51,6 @@ const vars = {
     green_90: '#00B334',
     green_80: '#00D721',
     orange_60: '#ED9C30'
-
   },
   sizes: {
     borderRadius: '6px',

@@ -8,6 +8,9 @@ export default styled.div`
   @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {
     background-color: ${(p) => p.theme.vars.colors.background_v2};
     padding: 0;
-    margin-bottom: -50px;
+    margin: -30px 0;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
   }
 `
