@@ -42,6 +42,10 @@ export const HeaderV2 = styled.header`
       &__active {
         // color: ${(p) => p.theme.vars.colors.primary};
       }
+      &__first:not(:last-child) {
+        order: -1;
+        margin-right: 0;
+      }
       svg {
         height: 24px;
         width: auto;
@@ -52,7 +56,7 @@ export const HeaderV2 = styled.header`
     }
     &__title {
       color: white;
-      position: absolute;
+      // position: absolute;
       font-weight: 500;
       font-size: 18px;
       width: 100%;
@@ -67,7 +71,7 @@ export const HeaderV2 = styled.header`
 export default styled.header`
   display: block;
   height: ${height};
-  
+
   .header {
     &__nav {
       position: fixed;

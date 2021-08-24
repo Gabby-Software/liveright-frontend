@@ -30,6 +30,7 @@ const Header = () => {
               to={href || ''}
               className={classes(
                 'header__icon',
+                'header__icon__first',
                 pathname === href && 'header__icon__active'
               )}
             >
