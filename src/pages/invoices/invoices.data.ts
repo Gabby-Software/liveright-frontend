@@ -271,7 +271,7 @@ export const clients: { id: number; first_name: string; last_name: string }[] =
 export const statuses: OptionType[] = [
   { label: 'Outstanding', value: invoiceStatuses.OUTSTANDING },
   { label: 'Paid', value: invoiceStatuses.PAID },
-  { label: 'Cancelled', value: invoiceStatuses.CANCELLED },
+  // { label: 'Cancelled', value: invoiceStatuses.CANCELLED },
   { label: 'Due soon', value: invoiceStatuses.DUE_SOON },
   { label: 'Overdue', value: invoiceStatuses.OVERDUE }
 ]
