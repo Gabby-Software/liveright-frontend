@@ -35,7 +35,7 @@ export const Styles = styled(Tabs)`
     background-color: ${(props) => props.theme.vars.colors.blue_70};
   }
 
-  @media (${mediaQueries.MOBILE}) {
+  @media ${mediaQueries.MOBILE} {
     & .ant-tabs-nav-wrap {
       justify-content: center;
     }

@@ -16,6 +16,7 @@ interface InputProps {
   value?: string
   onClick?: any
   onFocus?: FocusEventHandler<HTMLInputElement>
+  readOnly?: boolean
 }
 
 export default function Input({
@@ -30,7 +31,8 @@ export default function Input({
   value,
   onChange,
   onClick,
-  onFocus
+  onFocus,
+  readOnly
 }: InputProps) {
   return (
     <Styles $size={size} onClick={onClick}>
@@ -46,6 +48,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         onFocus={onFocus}
+        readOnly={readOnly}
       />
     </Styles>
   )

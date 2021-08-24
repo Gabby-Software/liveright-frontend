@@ -74,6 +74,10 @@ const vars = {
   defaults: {
     transition: 'all .3s ease',
     font: "'Work Sans', sans-serif"
+  },
+  shadows: {
+    primary: '0px 4px 20px rgba(74, 74, 74, 0.13)',
+    secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
   }
 }
 export default vars

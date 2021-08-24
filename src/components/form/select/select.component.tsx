@@ -37,11 +37,13 @@ export default function Select({
     return (
       <>
         <Input
+          readOnly
           id={id}
           label={label}
           placeholder={placeholder}
           size={size}
           suffix={<CaretDownIcon />}
+          value={options.find((o) => o.value === value || defaultValue)?.label}
           onClick={() => setModal(true)}
           onFocus={(e) => e.target.blur()}
         />

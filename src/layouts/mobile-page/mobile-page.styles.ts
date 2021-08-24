@@ -7,7 +7,7 @@ export default styled.div`
 
   .mobile-page {
     &__content {
-      padding: 0 1.25rem 9rem 1.25rem;
+      padding: 0 1.25rem 7.5rem 1.25rem;
     }
   }
 `
