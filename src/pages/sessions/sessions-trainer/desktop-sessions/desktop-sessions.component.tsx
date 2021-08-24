@@ -18,6 +18,7 @@ import DataPagination from '../../../../components/data-pagination/data-paginati
 import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
 import { useClients } from '../../../../hooks/clients.hook'
@@ -30,7 +31,6 @@ import {
   SessionType
 } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
-import SessionUserAvatar from '../../components/session-user-avatar/session-user-avatar.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
 import { ScheduleCard } from '../sessions-trainer.styles'
@@ -120,10 +120,10 @@ const DesktopSessions: React.FC<Props> = (props) => {
           {awaiting_scheduling.data.map((it) => {
             return (
               <ScheduleCard key={it.id}>
-                <SessionUserAvatar
-                  avatar={it.client?.user.avatar}
-                  first_name={it.client?.user.first_name}
-                  last_name={it.client?.user.last_name}
+                <UserBadge
+                  avatar={it.client?.user.avatar?.url}
+                  firstName={it.client?.user.first_name}
+                  lastName={it.client?.user.last_name}
                 />
                 <Button
                   size="sm"

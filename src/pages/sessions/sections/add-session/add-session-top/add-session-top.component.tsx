@@ -9,9 +9,10 @@ import PageSubtitle from '../../../../../components/titles/page-subtitle.styles'
 import { useClients } from '../../../../../hooks/clients.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
-import SessionUserAvatar from '../../../components/session-user-avatar/session-user-avatar.component'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
 import Styles from './add-session-top.styles'
+import UserBadge
+  from '../../../../../components/user-badge/user-badge.component'
 
 interface Props {
   session?: SessionType
@@ -45,10 +46,10 @@ const AddSessionTop: React.FC<Props> = (props) => {
       )}
       {selectedClient ? (
         <div className={'session-top__head'}>
-          <SessionUserAvatar
-            avatar={selectedClient.avatar}
-            last_name={selectedClient.last_name}
-            first_name={selectedClient.first_name}
+          <UserBadge
+            avatar={selectedClient.avatar?.url}
+            lastName={selectedClient.last_name}
+            firstName={selectedClient.first_name}
           />
           <Field name={'sessions'}>
             {({ field }: FieldProps) => (

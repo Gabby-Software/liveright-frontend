@@ -12,10 +12,19 @@ export const TitleContent = styled.div`
 export default styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
-  overflow: auto;
 
   .sessions {
+    &__tabs {
+      position: relative;
+      top: -25px;
+
+      & .ant-tabs-tab {
+        max-width: 33%;
+        white-space: normal;
+        text-align: center;
+      }
+    }
+
     &__options {
       display: flex;
       justify-content: space-between;

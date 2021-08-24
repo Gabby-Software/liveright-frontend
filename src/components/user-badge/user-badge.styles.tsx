@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import ProfileImage from '../../../../components/profile-image/profile-image.component'
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
+import ProfileImage from '../profile-image/profile-image.component'
 
 export const ProfileImageStyled = styled(ProfileImage)<any>`
   display: inline-block;

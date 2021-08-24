@@ -12,6 +12,15 @@ export function getPadding(props: any): string {
   }
 }
 
+export function getMobilePadding(props: any): string {
+  switch (props.$size) {
+    case 'sm':
+      return '16px'
+    default:
+      return '20px'
+  }
+}
+
 export function getFontSize(props: any): string {
   switch (props.$size) {
     case 'sm':

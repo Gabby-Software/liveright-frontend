@@ -5,10 +5,10 @@ import {
   CalendarSmallIcon,
   ClockSmallIcon
 } from '../../../../assets/media/icons'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { SessionType } from '../../../../types/session.type'
-import SessionUserAvatar from '../session-user-avatar/session-user-avatar.component'
 import Styles from './session-mobile-card.styles'
 
 interface Props {
@@ -31,11 +31,11 @@ const SessionCard: React.FC<Props> = (props) => {
       <div className="session-card__container">
         <div className="session-card__info">
           <p className="session-card__title">{type}</p>
-          <SessionUserAvatar
+          <UserBadge
             size="sm"
-            avatar={person?.user.avatar}
-            first_name={person?.user.first_name}
-            last_name={person?.user.last_name}
+            avatar={person?.user.avatar?.url}
+            firstName={person?.user.first_name}
+            lastName={person?.user.last_name}
           />
         </div>
 

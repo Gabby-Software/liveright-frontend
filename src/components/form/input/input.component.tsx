@@ -1,5 +1,5 @@
 import { Input as AntdInput } from 'antd'
-import { ChangeEvent, ReactNode } from 'react'
+import { ChangeEvent, FocusEventHandler, ReactNode } from 'react'
 
 import Styles from './input.styles'
 
@@ -14,6 +14,8 @@ interface InputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   defaultValue?: string
   value?: string
+  onClick?: any
+  onFocus?: FocusEventHandler<HTMLInputElement>
 }
 
 export default function Input({
@@ -26,10 +28,12 @@ export default function Input({
   prefix,
   defaultValue,
   value,
-  onChange
+  onChange,
+  onClick,
+  onFocus
 }: InputProps) {
   return (
-    <Styles $size={size}>
+    <Styles $size={size} onClick={onClick}>
       {label && <label htmlFor={id}>{label}</label>}
       <AntdInput
         id={id}
@@ -41,6 +45,7 @@ export default function Input({
         defaultValue={defaultValue}
         value={value}
         onChange={onChange}
+        onFocus={onFocus}
       />
     </Styles>
   )

@@ -1,7 +1,13 @@
 import { Tabs } from 'antd'
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
+
 export const Styles = styled(Tabs)`
+  &.ant-tabs {
+    overflow: visible;
+  }
+
   & .ant-tabs-nav {
     background-color: #fff;
     padding: 0 1.75rem;
@@ -11,6 +17,7 @@ export const Styles = styled(Tabs)`
   & .ant-tabs-tab {
     padding: 17px 0;
     font-size: 0.875rem;
+    line-height: 1.125rem;
 
     &:hover {
       color: ${(props) => props.theme.vars.colors.blue_70};
@@ -26,6 +33,34 @@ export const Styles = styled(Tabs)`
   }
   & .ant-tabs-ink-bar {
     background-color: ${(props) => props.theme.vars.colors.blue_70};
+  }
+
+  @media (${mediaQueries.MOBILE}) {
+    & .ant-tabs-nav-wrap {
+      justify-content: center;
+    }
+
+    & .ant-tabs-ink-bar {
+      display: none;
+    }
+
+    & .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 0;
+    }
+
+    & .ant-tabs-tab {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    & .ant-tabs-nav-list {
+      justify-content: space-between;
+    }
+
+    &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations,
+    .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations {
+      display: none;
+    }
   }
 `
 

@@ -35,6 +35,17 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
   const noTitlePages = [Routes.CHAT, Routes.SESSIONS]
   const renderTitle = !noTitlePages.some((p) => pathname.startsWith(p))
 
+  const footer = footerType === footerTypes.NONE ? null : <MobileFooter />
+
+  if (typeof page?.mobileLayout === 'boolean' && !page.mobileLayout) {
+    return (
+      <>
+        {children}
+        {footer}
+      </>
+    )
+  }
+
   return (
     <Styles className={classes(`mobile-layout__v${version}`)}>
       <Header />
@@ -48,7 +59,7 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
         ) : null}
         {children}
       </main>
-      {footerType === footerTypes.NONE ? null : <MobileFooter />}
+      {footer}
     </Styles>
   )
 }

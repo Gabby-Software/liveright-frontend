@@ -1,7 +1,11 @@
 import { Select as AntdSelect } from 'antd'
+import { useState } from 'react'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
+import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { OptionType } from '../../../types/option.type'
+import SmallModal from '../../small-modal/small-modal.component'
+import Input from '../input/input.component'
 import Styles from './select.styles'
 
 interface SelectProps {
@@ -26,6 +30,34 @@ export default function Select({
   defaultValue,
   onChange
 }: SelectProps) {
+  const isMobile = useIsMobile()
+  const [modal, setModal] = useState(false)
+
+  if (isMobile) {
+    return (
+      <>
+        <Input
+          id={id}
+          label={label}
+          placeholder={placeholder}
+          size={size}
+          suffix={<CaretDownIcon />}
+          onClick={() => setModal(true)}
+          onFocus={(e) => e.target.blur()}
+        />
+        <SmallModal
+          visible={modal}
+          onCancel={() => setModal(false)}
+          title={label || 'Select'}
+          menu={options.map(({ label }) => ({
+            name: label,
+            onClick: () => {}
+          }))}
+        />
+      </>
+    )
+  }
+
   return (
     <Styles $size={size}>
       {label && <label htmlFor={id}>{label}</label>}

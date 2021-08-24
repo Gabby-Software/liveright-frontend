@@ -12,6 +12,7 @@ export default styled(Modal)`
       max-width: 80%;
       width: 1248px;
       border-radius: 16px;
+      overflow: hidden;
     }
     &-body {
       padding: 0;
