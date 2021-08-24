@@ -31,7 +31,7 @@
   "switch-to": "Switch to {{type}}",
   "not-found-desc": "You seem to be lost, or maybe this page never existed?",
   "back-home": "Go Back Home",
-  "back-to": "Back to {{to}}",
+  "back-to": "Return To {{to}}",
   "menu": {
     "home": "Home",
     "clients": "Clients",
@@ -53,6 +53,7 @@
     "more": "More",
     "personal-details": "Personal Details",
     "log-out": "Log Out",
-    "chat": "Chat"
+    "chat": "Chat",
+    "health-data": "Health Data"
   }
 }

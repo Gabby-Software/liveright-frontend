@@ -1,6 +1,7 @@
-import { Button, Space } from 'antd'
+import { Space } from 'antd'
 import styled from 'styled-components'
 
+import { media } from '../../../../assets/styles/_media'
 import ButtonSubmit from '../../../../components/forms/button-submit/button-submit.component'
 
 export const Wrapper = styled.div`
@@ -8,18 +9,6 @@ export const Wrapper = styled.div`
   flex: 1;
   flex-direction: column;
   margin-bottom: 64px;
-`
-
-export const ReturnButton = styled(Button)`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  width: fit-content;
-  padding: 0;
-
-  svg {
-    margin-right: 8px;
-  }
 `
 
 export const PickersWrapper = styled(Space)`
@@ -31,15 +20,18 @@ export const PickersWrapper = styled(Space)`
 `
 
 export const CardsWrapper = styled.div`
-  width: 80%;
-  max-width: 800px;
+  width: 100%;
+  max-width: 860px;
   position: relative;
 `
 
 export const SubmitButtonWrapper = styled.div`
-  position: absolute;
-  right: -150px;
-  top: 0;
+  max-width: 250px;
+  margin: 0 0 auto 40px;
+  ${media('tablet', 'max')`
+        max-width: none;
+        margin: 40px 0 0 0;
+  `}
 `
 
 export const SubmitButton = styled(ButtonSubmit)`
@@ -52,12 +44,12 @@ export const SubmitButton = styled(ButtonSubmit)`
 export const InputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
-  & > * {
-    margin-bottom: 8px;
+  width: 100%;
+  .text_input__cont {
+    width: 100%;
   }
 
-  &:last-child {
-    width: 425px;
+  & > * {
+    margin-bottom: 22px;
   }
 `
