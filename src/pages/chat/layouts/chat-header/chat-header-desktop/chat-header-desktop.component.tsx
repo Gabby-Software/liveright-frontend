@@ -9,10 +9,15 @@ import { ReactComponent as ArrowIcon } from '../../../../../assets/media/icons/r
 import profilePlaceholder from '../../../../../assets/media/profile-placeholder.png'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
 import { Routes } from '../../../../../enums/routes.enum'
+import userTypes from '../../../../../enums/user-types.enum'
+import { useAuth } from '../../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { noImage } from '../../../../../pipes/no-image.pipe'
-import Styles, { StyledAvatar } from './chat-header-desktop.styles'
+import Styles, {
+  ClientHeader,
+  StyledAvatar
+} from './chat-header-desktop.styles'
 
 type Props = {}
 const user = {
@@ -29,6 +34,9 @@ const user = {
 const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { collapse } = useChats()
   const { room } = useChatRoom()
+  const { type } = useAuth()
+  if (type === userTypes.CLIENT)
+    return <ClientHeader>Lucas Travolta</ClientHeader>
   return (
     <Styles>
       <StyledAvatar

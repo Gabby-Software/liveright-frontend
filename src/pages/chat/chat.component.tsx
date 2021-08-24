@@ -9,6 +9,7 @@ import { useIsMobile } from '../../hooks/is-mobile.hook'
 import Styles from './chat.styles'
 import ChatMessages from './layouts/chat-messages/chat-messages.component'
 import ChatRooms from './layouts/chat-rooms/chat-rooms.component'
+import ChatTrainer from './layouts/chat-trainer/chat-trainer.component'
 
 const Chat = () => {
   const { type } = useAuth()
@@ -22,7 +23,7 @@ const Chat = () => {
   }
   return (
     <Styles>
-      <ChatRooms />
+      {type === userTypes.CLIENT ? <ChatTrainer /> : <ChatRooms />}
       <ChatMessages room={room || ''} />
     </Styles>
   )
