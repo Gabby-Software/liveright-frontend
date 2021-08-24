@@ -59,6 +59,7 @@ export default styled.div`
     &__minimize {
       cursor: pointer;
       margin-left: auto;
+      color: ${(p) => p.theme.vars.colors.secondary2_v2};
     }
   }
 `
