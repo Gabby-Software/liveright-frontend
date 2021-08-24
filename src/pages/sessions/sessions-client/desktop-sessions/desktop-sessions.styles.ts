@@ -79,5 +79,13 @@ export default styled.div`
       width: 100%;
       max-width: 320px;
     }
+
+    &__title-btn {
+      display: flex;
+    }
+
+    &__title-credits {
+      margin-right: 1.875rem;
+    }
   }
 `

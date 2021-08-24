@@ -8,6 +8,7 @@ import {
 } from '../../../../assets/media/icons'
 import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
 import Button from '../../../../components/buttons/button/button.component'
+import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
@@ -92,7 +93,8 @@ const DesktopSessions: React.FC<Props> = (props) => {
           <PageTitle className="sessions__title">
             {t('sessions:title')}
 
-            <div>
+            <div className="sessions__title-btn">
+              <CreditsButton count={6} className="sessions__title-credits" />
               <Button onClick={() => setAddOpen(true)}>
                 {t('sessions:session-request')}
               </Button>

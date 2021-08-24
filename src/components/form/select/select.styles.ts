@@ -36,6 +36,7 @@ export default styled.div<any>`
     & .ant-select-selection-placeholder {
       display: flex;
       align-items: center;
+      color: ${getColorCarry('secondary2_v2')};
     }
 
     & .ant-select-selection-item {

@@ -12,11 +12,11 @@ import {
 } from '../../../../assets/media/icons'
 import { ReactComponent as RightArrowIcon } from '../../../../assets/media/icons/caret-right.svg'
 import Button from '../../../../components/buttons/button/button.component'
+import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import Select from '../../../../components/form/select/select.component'
-import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import { Routes } from '../../../../enums/routes.enum'
@@ -111,6 +111,9 @@ const DesktopSessions: React.FC<Props> = (props) => {
               )}
             />
           </div>
+          {additionalFilter?.['client_id'] && (
+            <CreditsButton color="secondary" count={-3} />
+          )}
         </div>
 
         <div className="sessions__cards-grid">
@@ -248,7 +251,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
 
               <div className="sessions__right-footer">
                 <Button className="sessions__manage-btn" variant="secondary">
-                  Manage Target
+                  {t('sessions:manage-targets')}
                 </Button>
               </div>
             </div>

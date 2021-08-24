@@ -11,6 +11,7 @@ export default styled(Button)<any>`
   padding: ${getPadding};
   font-size: ${getFontSize};
   line-height: 1.5rem;
+  font-weight: 500;
   height: ${getHeight};
   border-radius: 0.625rem;
   box-shadow: none;
