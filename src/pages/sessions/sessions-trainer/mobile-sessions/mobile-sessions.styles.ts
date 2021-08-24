@@ -1,64 +1,6 @@
-import { Form as UnstyledForm } from 'formik'
 import styled from 'styled-components'
 
-import Card from '../../../../components/card/card.style'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
-
-export const AwaitingCard = styled(Card)`
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-  padding: 24px 16px;
-  margin: 8px;
-  margin-bottom: 16px;
-
-  div:first-child {
-    display: flex;
-    flex-direction: row;
-    user-select: none;
-
-    .ant-avatar {
-      margin-right: 8px;
-    }
-  }
-
-  .schedule-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: fit-content;
-    cursor: pointer;
-    user-select: none;
-    margin-top: 24px;
-    color: ${({ theme }) => theme.vars.colors.primary};
-
-    span:first-child {
-      margin-right: 8px;
-      transition: all 0.1s linear;
-      border-bottom: 1px solid ${({ theme }) => theme.vars.colors.primary};
-    }
-
-    &:hover {
-      span:first-child {
-        margin-right: 12px;
-      }
-    }
-  }
-`
-
-export const ManageTargetsAction = styled(FormButton)``
-
-export const Form = styled(UnstyledForm)`
-  width: 100%;
-
-  .select_input__cont {
-    width: 100%;
-    .ant-select {
-      display: flex;
-      align-items: center;
-      padding: 0;
-      height: 40px;
-    }
-  }
-`
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const TitleContent = styled.div`
   margin-left: auto;
@@ -76,31 +18,70 @@ export default styled.div`
   .sessions {
     &__options {
       display: flex;
-      flex-direction: row;
-      max-width: 100%;
-      margin-top: 16px;
+      justify-content: space-between;
+      padding-top: 1.25rem;
+    }
 
-      button:nth-child(1) {
-        width: 75%;
-        box-shadow: none;
-        margin-right: 8px;
+    &__doc-btn {
+      color: ${getColorCarry('orange_60')};
+      &:hover,
+      &:focus {
+        color: ${getColorCarry('orange_60')};
       }
     }
 
     &__progress {
       display: flex;
       flex-direction: column;
-      margin: 40px 0;
+      margin-top: 2.875rem;
+    }
 
-      &__labels {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 24px 24px 16px;
-        width: 200px;
-        margin-left: auto;
-        ${({ theme }) => theme.extend.label};
+    &__container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__client-filter-container {
+      margin-bottom: 1.5rem;
+    }
+
+    &__schedule-card {
+      margin-bottom: 0.75rem;
+    }
+
+    &__schedule-card-btn {
+      margin-top: 1.25rem;
+      padding: 0 0.25rem;
+
+      & svg {
+        margin-left: 0.75rem;
       }
+    }
+
+    &__awaiting {
+      margin-bottom: 2.625rem;
+    }
+
+    &__divider {
+      width: 100%;
+      height: 1px;
+      background-color: ${getColorCarry('inputBorder_v2')};
+    }
+
+    &__progress-range-container {
+      margin-bottom: 1.25rem;
+    }
+
+    &__manage-btn {
+      margin: 1.875rem 0 0 0;
+    }
+
+    &__title {
+      margin: 1.625rem 0 1.5rem 0;
+    }
+
+    &__cards-container {
     }
   }
 `

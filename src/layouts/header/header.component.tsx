@@ -5,7 +5,6 @@ import { DEFAULT_TITLE } from '../../config/header.config'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
-import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
@@ -17,8 +16,6 @@ const Header = () => {
   const { type: userType } = useAuth()
   const trainer = useClientsTrainer()
   const { items } = useHeader()
-  const version = useDesignVersion()
-  console.log(version)
 
   if (!items?.length) return null
 

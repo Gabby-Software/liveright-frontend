@@ -1,4 +1,3 @@
-import { Formik } from 'formik'
 import React, { useState } from 'react'
 
 import {
@@ -34,7 +33,8 @@ import ProgressCard from '../../components/progress-card/progress-card.component
 import SessionUserAvatar from '../../components/session-user-avatar/session-user-avatar.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
-import Styles, { ScheduleCard } from './desktop-sessions.styles'
+import { ScheduleCard } from '../sessions-trainer.styles'
+import Styles from './desktop-sessions.styles'
 
 interface Props {
   sessions: SessionsState
@@ -183,7 +183,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
             </PageTitle>
 
             <Tabs
-              className="sessions__tabs"
               onChange={(e) => setActiveTab(e)}
               tabs={[
                 {

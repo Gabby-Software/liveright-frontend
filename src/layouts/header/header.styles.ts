@@ -4,7 +4,7 @@ const height = '100px'
 export default styled.header`
   display: block;
   height: ${height};
-  
+
   .header {
     &__nav {
       position: fixed;

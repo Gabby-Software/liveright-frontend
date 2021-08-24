@@ -3,6 +3,6 @@ export function getHeight(props: any): string {
     case 'sm':
       return '36px'
     default:
-      return '46px'
+      return '44px'
   }
 }

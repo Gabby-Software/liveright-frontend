@@ -32,8 +32,9 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
     [page]
   )
   mobileTitleRef.setTitleContent = setTitleContent
-  const noTitlePages = [Routes.CHAT]
+  const noTitlePages = [Routes.CHAT, Routes.SESSIONS]
   const renderTitle = !noTitlePages.some((p) => pathname.startsWith(p))
+
   return (
     <Styles className={classes(`mobile-layout__v${version}`)}>
       <Header />

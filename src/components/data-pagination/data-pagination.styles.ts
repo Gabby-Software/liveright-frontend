@@ -3,11 +3,22 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export const Styles = styled.div`
+export const Styles = styled.div<any>`
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${getJustify};
   padding-top: 1.25rem;
 `
+
+function getJustify(props: any): string {
+  switch (props.$justify) {
+    case 'start':
+      return 'flex-start'
+    case 'center':
+      return 'center'
+    default:
+      return 'flex-end'
+  }
+}
 
 export const Pagination = styled(AntdPagination)`
   .ant-pagination {

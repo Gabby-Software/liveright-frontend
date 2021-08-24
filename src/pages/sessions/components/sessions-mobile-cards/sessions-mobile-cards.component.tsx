@@ -1,14 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 
-import { ReactComponent as TrashIcon } from '../../../../assets/media/icons/trash.svg'
-import ActionIcon from '../../../../components/action-icon/action-icon.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
 import SessionCard from '../session-mobile-card/session-mobile-card.component'
 import SessionsFilter from '../sessions-filters/sessions-filters.component'
-import { SwipeContent } from './sessions-mobile-cards.styles'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>
@@ -24,7 +21,7 @@ const SessionsCards: React.FC<Props> = (props) => {
     sessions,
     getSessions,
     renderOptions,
-    onRemoveSession,
+    // onRemoveSession,
     withFilter,
     title
   } = props
@@ -46,25 +43,15 @@ const SessionsCards: React.FC<Props> = (props) => {
       {withFilter && <SessionsFilter onUpdate={setFilter} />}
       {data.map((it) => {
         return (
-          <SessionCard
-            session={it}
-            key={it.id}
-            renderOptions={renderOptions}
-            SwipeContent={
-              onRemoveSession ? (
-                <SwipeContent>
-                  <ActionIcon
-                    icon={TrashIcon}
-                    title="Remove"
-                    onClick={() => onRemoveSession(it.id)}
-                  />
-                </SwipeContent>
-              ) : undefined
-            }
-          />
+          <SessionCard session={it} key={it.id} renderOptions={renderOptions} />
         )
       })}
-      <DataPagination page={current_page} setPage={getSessions} total={total} />
+      <DataPagination
+        justify="center"
+        page={current_page}
+        setPage={getSessions}
+        total={total}
+      />
     </div>
   )
 }

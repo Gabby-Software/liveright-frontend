@@ -8,10 +8,11 @@ interface Props {
   avatar?: { url: string } | null
   first_name?: string
   last_name?: string
+  size?: 'sm'
 }
 
 const SessionUserAvatar: React.FC<Props> = (props) => {
-  const { avatar, first_name = '', last_name = '' } = props
+  const { avatar, first_name = '', last_name = '', size } = props
   const [url, setUrl] = useState('')
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const SessionUserAvatar: React.FC<Props> = (props) => {
   return (
     <Styles>
       <ProfileImageStyled
+        $size={size}
         url={url}
         placeholder={noImage(first_name, last_name)}
       />

@@ -3,3 +3,7 @@ export const screenSizes = {
   TABLET: 720,
   MOBILE: 530
 }
+
+export const mediaQueries = {
+  MOBILE: `(max-width: ${screenSizes.MOBILE}px)`
+}
