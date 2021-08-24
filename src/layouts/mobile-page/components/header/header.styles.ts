@@ -63,6 +63,10 @@ export default styled.div<any>`
       font-weight: 700;
       color: #fff;
     }
+
+    &__component {
+      width: 100%;
+    }
   }
 `
 

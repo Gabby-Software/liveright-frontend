@@ -1,46 +1,74 @@
 import styled from 'styled-components'
 
-export default styled.div<{ credits: number }>`
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+
+export const Styles = styled.div`
   .sessions {
     &__options {
       display: flex;
       flex-direction: row;
-      max-width: 100%;
-      margin-top: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1.25rem;
+    }
 
-      button:nth-child(1) {
-        box-shadow: none;
-        margin-right: 8px;
+    &__cards-title-container {
+      display: flex;
+      align-items: center;
+    }
+
+    &__cards-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 1.5rem 1.5rem 1.5rem 0;
+      flex: 1;
+    }
+
+    &__cards-title-btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 52px;
+      height: 52px;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+
+    &__cards-title-calendar-btn {
+      color: ${getColorCarry('link')};
+
+      &:hover,
+      &:focus {
+        color: ${getColorCarry('link')};
       }
     }
 
-    &__credits {
-      margin-bottom: 32px;
+    &__doc-btn {
+      color: ${getColorCarry('orange_60')};
 
-      div:first-child {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0,
-          rgba(27, 31, 35, 0.15) 0 0 0 1px;
-        border-radius: 5px;
-        font-size: 14px;
-        padding: 8px 16px;
-        user-select: none;
-        margin-bottom: 8px;
-
-        span:last-child {
-          color: ${({ theme, credits }) =>
-            credits > 0
-              ? theme.vars.colors.dark
-              : theme.vars.colors.primaryLight};
-        }
-      }
-
-      button:last-child {
-        padding: 10px;
+      &:hover,
+      &:active {
+        color: ${getColorCarry('orange_60')};
       }
     }
+
+    &__divider {
+      width: 100%;
+      height: 1px;
+      background-color: ${getColorCarry('inputBorder_v2')};
+    }
+    
+    &__upcoming-container {
+      padding-bottom: 3.25rem;
+    }
+  }
+`
+
+export const HeaderComponent = styled.div`
+  width: 100%;
+  padding-top: 1.25rem;
+
+  & .sessions__credits-btn {
+    width: 100%;
   }
 `

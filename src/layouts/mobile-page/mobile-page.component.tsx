@@ -7,13 +7,15 @@ interface MobilePageProps {
   title: string
   actionComponent: ReactNode
   headerSpacing?: number
+  headerComponent?: ReactNode
 }
 
 export default function MobilePage({
   children,
   title,
   actionComponent,
-  headerSpacing
+  headerSpacing,
+  headerComponent
 }: PropsWithChildren<MobilePageProps>) {
   return (
     <Styles className="mobile-page">
@@ -21,6 +23,7 @@ export default function MobilePage({
         title={title}
         actionComponent={actionComponent}
         spacing={headerSpacing}
+        component={headerComponent}
       />
 
       <div className="mobile-page__content">{children}</div>

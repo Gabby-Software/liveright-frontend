@@ -10,6 +10,7 @@
   "options": "Actions",
   "add": "Add Session",
   "with": "Trainee",
+  "request": "Request",
   "client-name": "Client Name",
   "trainer-name": "Trainer Name",
   "date": "Date",

@@ -59,9 +59,11 @@ const SessionsFilters: React.FC<Props> = (props) => {
             <IconButton size="sm">
               <FilterIcon />
             </IconButton>
-            <IconButton size="sm" className="sessions__filter-btn-calendar">
-              <CalendarIcon />
-            </IconButton>
+            {calendar && (
+              <IconButton size="sm" className="sessions__filter-btn-calendar">
+                <CalendarIcon />
+              </IconButton>
+            )}
           </div>
         </div>
       </Styles>

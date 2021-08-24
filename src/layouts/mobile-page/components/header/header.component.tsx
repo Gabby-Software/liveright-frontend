@@ -7,7 +7,8 @@ import { HeaderProps } from './header.types'
 export default function Header({
   title,
   actionComponent,
-  spacing
+  spacing,
+  component
 }: HeaderProps) {
   return (
     <Styles className="mobile-page-header" $spacing={spacing}>
@@ -38,6 +39,8 @@ export default function Header({
         </div>
         <div>{actionComponent}</div>
       </div>
+
+      {!!component && <div className="mobile-page-header__component">{component}</div>}
     </Styles>
   )
 }
