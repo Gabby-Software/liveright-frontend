@@ -12,7 +12,7 @@ const ChatActionsAction: FC<Props> = ({ icon, color, disabled }) => {
   return (
     <Styles
       color={color}
-      className={classes(disabled && 'chat-action__disabled')}
+      className={classes(disabled && 'chat-action__disabled', 'chat-action')}
     >
       {icon}
     </Styles>

@@ -118,6 +118,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
           setMessages([...messages, msg])
         })
       }
+      setMode(ChatRoomModes.DEFAULT)
     }
   }
   const sendAudio = (file: File) => {
