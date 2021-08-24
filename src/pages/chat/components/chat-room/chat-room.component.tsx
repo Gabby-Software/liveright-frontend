@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useParams } from 'react-router'
 
 import { Routes } from '../../../../enums/routes.enum'
 import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
@@ -11,9 +12,13 @@ type Props = {
   room: ChatRoomType
 }
 const ChatRoom: FC<Props> = ({ room }) => {
+  const { room: roomId } = useParams<{ room?: string }>()
   return (
     <Styles
-      className={classes(room.unread_count && 'chat-room__unread')}
+      className={classes(
+        room.unread_count && 'chat-room__unread',
+        room.room_id === roomId && 'chat-room__active'
+      )}
       to={Routes.CHAT + `/${room.room_id}`}
     >
       <div className={'chat-room__left'}>
@@ -35,7 +40,9 @@ const ChatRoom: FC<Props> = ({ room }) => {
           {chatTime(room.last_message_date)}
         </div>
         {room.unread_count ? (
-          <div className={'chat-room__unreads'}>{room.unread_count}</div>
+          <div className={'chat-room__unreads'}>
+            <span>{room.unread_count}</span>
+          </div>
         ) : null}
       </div>
     </Styles>

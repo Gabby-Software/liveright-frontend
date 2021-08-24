@@ -37,10 +37,14 @@ export const HeaderV2 = styled.header`
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: relative;
       &:not(:last-child) {
-        margin-right: 34px;
+        margin-right: 24px;
       }
       &__active {
         // color: ${(p) => p.theme.vars.colors.primary};
+      }
+      &__first:not(:last-child) {
+        order: -1;
+        margin-right: 0;
       }
       svg {
         height: 24px;
@@ -52,12 +56,10 @@ export const HeaderV2 = styled.header`
     }
     &__title {
       color: white;
-      position: absolute;
       font-weight: 500;
       font-size: 18px;
-      width: 100%;
       text-align: center;
-      margin: 0;
+      margin: 0 0 0 12px;
       pointer-events: none;
       touch-action: none;
       padding-bottom: 6px;
@@ -67,7 +69,7 @@ export const HeaderV2 = styled.header`
 export default styled.header`
   display: block;
   height: ${height};
-  
+
   .header {
     &__nav {
       position: fixed;

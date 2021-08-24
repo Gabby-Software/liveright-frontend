@@ -13,11 +13,12 @@ import { ReactComponent as MicIcon } from '../../../../assets/media/icons/microp
 import { ReactComponent as PauseIcon } from '../../../../assets/media/icons/pause.svg'
 import { ReactComponent as PlayIcon } from '../../../../assets/media/icons/play.svg'
 import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
+import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
 import { classes } from '../../../../pipes/classes.pipe'
 import Styles from './chat-message-audio.styles'
 
 type Props = {
-  file: string
+  file: ChatFileType
   id: string
   me: boolean
 }
@@ -103,14 +104,14 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
         onClick={handleChangeTime}
       />
       <audio
-        src={file}
+        src={file.url}
         className={'cm-audio__audio'}
         ref={audioRef}
         onTimeUpdate={updateProgress}
         onEnded={handleEnd}
       >
-        <source src={file} />
-        <track src={file} kind={'captions'} />
+        <source src={file.url} />
+        <track src={file.url} kind={'captions'} />
       </audio>
     </Styles>
   )

@@ -1,7 +1,7 @@
 import React, { FC, FormEventHandler, useEffect, useRef, useState } from 'react'
 
 import { ReactComponent as TimesIcon } from '../../../../../assets/media/icons/cross.svg'
-import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphon.svg'
+import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphone-filled.svg'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { ChatRoomModes } from '../../../../../modules/chat/enums/chat-room-modes.enum'
 import RecorderManager from '../../../../../modules/chat/managers/recorder.manager'
