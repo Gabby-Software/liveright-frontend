@@ -31,7 +31,7 @@ const MobileBack = () => {
   const { t } = useTranslation()
   if (!page?.back?.url && !to) return null
   return (
-    <Styles to={to || page?.back?.url || ''}>
+    <Styles to={to || page?.back?.url || ''} className={'mobile-back'}>
       <BackIcon className={'mobile-back__icon'} />
       <span className={'mobile-back__alias'}>
         {t(`back-to`, { to: t(`menu.${alias || page?.back?.alias || ''}`) })}

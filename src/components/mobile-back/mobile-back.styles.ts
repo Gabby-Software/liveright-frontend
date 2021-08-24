@@ -8,7 +8,7 @@ export default styled(Link)`
   font-weight: 600;
   font-size: 18px;
   color: ${(p) => p.theme.vars.colors.primaryDark};
-  margin: 0 0 32px 0;
+  margin: 0 0 28px 0;
   &:hover {
     color: ${(p) => p.theme.vars.colors.primaryDark};
   }

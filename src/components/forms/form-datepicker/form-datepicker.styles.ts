@@ -10,10 +10,10 @@ export default styled.div`
       display: block;
     }
     &__label {
-      color: ${(p) => p.theme.vars.colors.primaryDark};
+      color: ${(p) => p.theme.vars.colors.secondary2_v2};
       transition: ${(p) => p.theme.vars.defaults.transition};
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 300;
       margin-bottom: 8px;
       text-align: left;
     }
@@ -21,9 +21,9 @@ export default styled.div`
       outline: none;
       box-shadow: none;
       display: block;
-      background-color: #fbfbfb;
+      background-color: white;
+      border: 1px solid #e0e0e0;
       padding: 14px 16px;
-      border: 1px solid #c4c4c4;
       color: ${(p) => p.theme.vars.colors.dark};
       border-radius: ${(p) => p.theme.vars.sizes.borderRadius};
       outline: none;

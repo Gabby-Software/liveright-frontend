@@ -53,7 +53,7 @@ const vars = {
     orange_60: '#ED9C30'
   },
   sizes: {
-    borderRadius: '6px',
+    borderRadius: '10px',
     boxShadow: '0px 4px 25px rgba(0, 0, 0, 0.15)',
     space: '8px'
   },

@@ -136,9 +136,9 @@ const extend = {
         letter-spacing: .8px;
     `,
   label: `
-        color: ${vars.colors.primaryDark};
+        color: ${vars.colors.secondary2_v2};
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 300;
         text-align: left;
     `
 }

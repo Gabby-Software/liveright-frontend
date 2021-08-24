@@ -28,7 +28,7 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
   const [className, setClassName] = useState('')
   configRef.setClassName = setClassName
   desktopTitleRef.setTitleContent = setTitleContent
-
+  console.log('VERSION', version)
   return (
     <Styles>
       <DesktopSidebar />
@@ -43,7 +43,7 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
         <MobileBack />
 
         {title && (
-          <PageTitle>
+          <PageTitle className={'page-title'}>
             {title}
             {titleContent}
           </PageTitle>
