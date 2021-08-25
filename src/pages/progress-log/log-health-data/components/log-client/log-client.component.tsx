@@ -52,7 +52,7 @@ const LogClient = () => {
               <ChatIcon className={'log-client__chat'} />
             </Link>
           ) : null}
-          <Link to={Routes.TRAINER}>
+          <Link to={Routes.CLIENTS}>
             <FormButton type={'text'}>Open Profile</FormButton>
           </Link>
           <ArrowIcon

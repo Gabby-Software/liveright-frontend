@@ -10,12 +10,15 @@ import ButtonSubmit from '../../../../components/forms/button-submit/button-subm
 import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
 import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import logger from '../../../../managers/logger.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { classes } from '../../../../pipes/classes.pipe'
 import { getDuration } from '../../../../pipes/duration.pipe'
 import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
+import LogClientMobile from '../components/log-client-mobile/log-client-mobile.component'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
@@ -90,6 +93,7 @@ const LogHealthValue: FC<{
 }
 const LogHealthDataMobile = () => {
   const { t } = useTranslation()
+  const { type } = useAuth()
   const { getFieldMeta, isValid } = useFormikContext<HealthData>()
   const sleepOptions = useMemo(
     () => [
@@ -116,6 +120,7 @@ const LogHealthDataMobile = () => {
   )
   return (
     <Wrapper>
+      {type !== userTypes.CLIENT ? <LogClientMobile /> : null}
       <WhiteCard>
         <FormDatepicker name="date" label={t('progress:loggingDate')} />
         <FormTimepicker name="time" label={t('progress:loggingTime')} />
