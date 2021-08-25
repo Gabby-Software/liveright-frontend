@@ -1,13 +1,15 @@
 import React, { useMemo, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 
-import { ReactComponent as AddIcon } from '../../assets/media/icons/add.svg'
-import { ReactComponent as HomeIcon } from '../../assets/media/icons/home.svg'
+import {
+  FlashIcon,
+  HomeIcon,
+  OptionSolidIcon,
+  PlanIcon,
+  ProgressIcon
+} from '../../assets/media/icons'
 import { ReactComponent as HubIcon } from '../../assets/media/icons/hub.svg'
-import { ReactComponent as MoreIcon } from '../../assets/media/icons/more.svg'
-import { ReactComponent as PlanIcon } from '../../assets/media/icons/plan.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/media/icons/profile.svg'
-import { ReactComponent as ProgressIcon } from '../../assets/media/icons/progress.svg'
 import MobileLogDrawer from '../../components/mobile-log-drawer/mobile-log-drawer.component'
 import MobileMoreDrawer from '../../components/mobile-more-drawer/mobile-more-drawer.component'
 import { footerTypes } from '../../enums/footer-types'
@@ -50,8 +52,8 @@ const MobileFooter = () => {
         url: Routes.PLANS
       },
       {
-        Icon: AddIcon,
-        title: 'log',
+        Icon: FlashIcon,
+        title: '',
         className: 'mobile-footer__add',
         onClick: () => setLogDrawerOpen(true)
       },
@@ -62,7 +64,7 @@ const MobileFooter = () => {
         url: Routes.PROGRESS
       },
       {
-        Icon: MoreIcon,
+        Icon: OptionSolidIcon,
         title: 'more',
         className: 'mobile-footer__item',
         onClick: () => setMoreDrawerOpen(true)
@@ -76,7 +78,7 @@ const MobileFooter = () => {
         url: `${Routes.CLIENTS}/${id}${Routes.HUB}`
       },
       {
-        Icon: AddIcon,
+        Icon: FlashIcon,
         title: 'log',
         className: 'mobile-footer__add',
         onClick: () => setLogDrawerOpen(true)
@@ -100,9 +102,11 @@ const MobileFooter = () => {
           const child = (
             <div>
               <Icon />
-              <span className={'mobile-footer__label'}>
-                {t(`menu.${title}`)}
-              </span>
+              {title && (
+                <span className={'mobile-footer__label'}>
+                  {t(`menu.${title}`)}
+                </span>
+              )}
             </div>
           )
           return url ? (

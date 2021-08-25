@@ -1,13 +1,6 @@
 import styled from 'styled-components'
 
-import Card from '../../../../components/cards/card/card.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-
-export const ScheduleCard = styled(Card)`
-  padding: 31px 28px 28px 28px;
-  background-color: ${(props) => props.theme.vars.colors.neutral_10};
-  border: 1px solid ${(props) => props.theme.vars.colors.background_v2};
-`
 
 export default styled.div`
   display: flex;
@@ -36,34 +29,6 @@ export default styled.div`
     &__progress {
       display: flex;
       flex-direction: column;
-    }
-
-    &__tabs {
-      & .ant-tabs-nav {
-        background-color: #fff;
-        padding: 0 1.75rem;
-        border-radius: 10px;
-        margin-bottom: 2.125rem;
-      }
-      & .ant-tabs-tab {
-        padding: 17px 0;
-        font-size: 0.875rem;
-
-        &:hover {
-          color: ${(props) => props.theme.vars.colors.blue_70};
-        }
-      }
-      & .ant-tabs-tab-active .ant-tabs-tab-btn {
-        text-shadow: none;
-        font-weight: 700;
-        color: ${(props) => props.theme.vars.colors.blue_70};
-      }
-      & .ant-tabs-tab-btn {
-        transition: none;
-      }
-      & .ant-tabs-ink-bar {
-        background-color: ${(props) => props.theme.vars.colors.blue_70};
-      }
     }
 
     &__main {

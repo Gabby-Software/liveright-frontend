@@ -1,8 +1,14 @@
 import { Button } from 'antd'
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColor } from '../../../pipes/theme-color.pipe'
-import { getFontSize, getHeight, getPadding } from '../utils.styles'
+import {
+  getFontSize,
+  getHeight,
+  getMobilePadding,
+  getPadding
+} from '../utils.styles'
 
 export default styled(Button)<any>`
   display: flex;
@@ -24,6 +30,10 @@ export default styled(Button)<any>`
     background-color: ${getBgColor};
     color: ${getTextColor};
     border-color: ${getBorderColor};
+  }
+
+  @media (${mediaQueries.MOBILE}) {
+    padding: ${getMobilePadding};
   }
 `
 

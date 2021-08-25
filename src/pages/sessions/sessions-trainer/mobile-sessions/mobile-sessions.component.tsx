@@ -1,24 +1,24 @@
-/* eslint-disable no-unused-vars,react/jsx-key,jsx-a11y/no-static-element-interactions,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function,react/prop-types,jsx-a11y/click-events-have-key-events */
-import { Formik } from 'formik'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 
-import { ReactComponent as AddIcon } from '../../../../assets/media/icons/add.svg'
-import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
-import { ReactComponent as FilterIcon } from '../../../../assets/media/icons/filter.svg'
+import {
+  ClientSolidIcon,
+  DocumentOutlinedIcon,
+  GroupSolidIcon,
+  OptionSolidIcon,
+  PhoneSolidIcon,
+  RevenueSolidIcon
+} from '../../../../assets/media/icons'
 import { ReactComponent as RightArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
-import ActionIcon from '../../../../components/action-icon/action-icon.component'
+import Button from '../../../../components/buttons/button/button.component'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
-import FormSelect from '../../../../components/forms/form-select/form-select.component'
-import SmallModal, {
-  MenuItem
-} from '../../../../components/small-modal/small-modal.component'
+import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
-import { Routes } from '../../../../enums/routes.enum'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
 import { useClients } from '../../../../hooks/clients.hook'
-import { useMobileTitleContent } from '../../../../layouts/mobile-layout/mobile-layout.component'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
 import {
@@ -26,16 +26,11 @@ import {
   SessionStatus,
   SessionType
 } from '../../../../types/session.type'
-import SessionProgressItem from '../../components/session-progress-item/session-progress-item.component'
-import SessionUserAvatar from '../../components/session-user-avatar/session-user-avatar.component'
+import ProgressCard from '../../components/progress-card/progress-card.component'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
 import AddSessionMobile from '../../sections/add-session/add-session-mobile/add-session-mobile.component'
-import Styles, {
-  AwaitingCard,
-  Form,
-  ManageTargetsAction,
-  TitleContent
-} from './mobile-sessions.styles'
+import { ScheduleCard } from '../sessions-trainer.styles'
+import Styles from './mobile-sessions.styles'
 
 interface Props {
   sessions: SessionsState
@@ -54,42 +49,75 @@ const MobileSessions: React.FC<Props> = (props) => {
   const clientsData = clients.data.data.filter((it) => it.is_active)
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [currentTab, setCurrentTab] = useState('')
 
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
       <div className="sessions__options">
-        <FormButton onClick={() => setEditOpen(item)}>
-          {t('sessions:edit-reschedule')}
-        </FormButton>
-        <Link to={Routes.CALENDAR}>
-          <ActionIcon icon={CalendarIcon} title="Calendar" onClick={() => {}} />
-        </Link>
+        <div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setEditOpen(item)}
+          >
+            {t('sessions:edit-reschedule')}
+          </Button>
+        </div>
+
+        <div>
+          <IconButton size="sm" className="sessions__doc-btn">
+            <DocumentOutlinedIcon />
+          </IconButton>
+        </div>
       </div>
     )
   }
 
   const renderAwaitingContent = () => {
     return (
-      <div>
-        {awaiting_scheduling.data.map((it) => (
-          <AwaitingCard>
-            <SessionUserAvatar
-              avatar={it.client?.user.avatar}
-              first_name={it.client?.user.first_name}
-              last_name={it.client?.user.last_name}
-            />
-            <div className="schedule-button" onClick={() => setEditOpen(it)}>
-              <span>{t('sessions:schedule-now')}</span>
-              <RightArrowIcon />
-            </div>
-          </AwaitingCard>
-        ))}
-        <DataPagination
-          page={awaitingMeta.current_page}
-          setPage={getSessions('awaiting_scheduling')}
-          total={awaitingMeta.current_page}
-        />
+      <div className="sessions__container">
+        <div className="sessions__client-filter-container">
+          <Select
+            id="sessions-client-filter"
+            placeholder={t('sessions:filter-by-client')}
+            options={[{ label: 'All', value: 'All' }].concat(
+              clientsData.map((it) => ({
+                label: `${it.first_name} ${it.last_name}`,
+                value: it.id.toString()
+              }))
+            )}
+          />
+        </div>
+
+        <Card>
+          {awaiting_scheduling.data.map((it) => (
+            <ScheduleCard key={it.id} className="sessions__schedule-card">
+              <UserBadge
+                avatar={it.client?.user.avatar?.url}
+                firstName={it.client?.user.first_name}
+                lastName={it.client?.user.last_name}
+              />
+
+              <div>
+                <Button
+                  variant="text"
+                  size="sm"
+                  onClick={() => setEditOpen(it)}
+                  className="sessions__schedule-card-btn"
+                >
+                  <span>{t('sessions:schedule-now')}</span>
+                  <RightArrowIcon />
+                </Button>
+              </div>
+            </ScheduleCard>
+          ))}
+          <DataPagination
+            justify="start"
+            page={awaitingMeta.current_page}
+            setPage={getSessions('awaiting_scheduling')}
+            total={awaitingMeta.current_page}
+          />
+        </Card>
       </div>
     )
   }
@@ -108,97 +136,116 @@ const MobileSessions: React.FC<Props> = (props) => {
 
   const renderPastContent = () => {
     return (
-      <SessionsCards
-        withFilter
-        sessions={past}
-        getSessions={getSessions('past')}
-      />
+      <div className="sessions__cards-container">
+        <SessionsCards
+          withFilter
+          sessions={past}
+          getSessions={getSessions('past')}
+        />
+      </div>
     )
   }
 
-  // useMobileTitleContent(
-  //   clientsData.length ? (
-  //     <TitleContent>
-  //       <ActionIcon icon={FilterIcon} onClick={() => setIsFilterOpen(true)} />
-  //       <ActionIcon icon={AddIcon} onClick={() => setAddOpen(true)} />
-  //     </TitleContent>
-  //   ) : null
-  // )
-
+  const isPast = currentTab === 'Past'
   return (
-    <Styles>
-      <Tabs
-        tabs={[
-          {
-            label: t('sessions:awaiting'),
-            renderContent: renderAwaitingContent
-          },
-          {
-            label: t('sessions:upcoming'),
-            renderContent: renderUpcomingContent
-          },
-          { label: t('sessions:past'), renderContent: renderPastContent }
-        ]}
-      />
+    <>
+      <MobilePage
+        title={t('sessions:title')}
+        actionComponent={
+          <Button onClick={() => setAddOpen(true)}>
+            {t('sessions:new-session')}
+          </Button>
+        }
+        headerSpacing={15}
+      >
+        <Styles>
+          <Tabs
+            className="sessions__tabs"
+            tabs={[
+              {
+                label: t('sessions:awaiting'),
+                renderContent: renderAwaitingContent
+              },
+              {
+                label: t('sessions:upcoming'),
+                renderContent: renderUpcomingContent
+              },
+              { label: t('sessions:past'), renderContent: renderPastContent }
+            ]}
+            onChange={(e) => setCurrentTab(e)}
+          />
 
-      <div className="sessions__progress">
-        <h1 className={'mobile-layout__title'}>{t('sessions:progress')}</h1>
-        <Formik
-          onSubmit={() => {}}
-          initialValues={{ date_range: sessionDateRangeOptions[0].value }}
-        >
-          <Form>
-            <FormSelect name="date_range" options={sessionDateRangeOptions} />
-          </Form>
-        </Formik>
-        <div className="sessions__progress__labels">
-          <span>{t('sessions:target')}</span>
-          <span>{t('sessions:current')}</span>
-        </div>
-        <SessionProgressItem
-          row
-          label={t('sessions:consultation')}
-          target={15}
-          current={5}
-        />
-        <SessionProgressItem
-          row
-          label={t('sessions:ptSession')}
-          target={20}
-          current={6}
-        />
-        <SessionProgressItem row label={t('other')} target={10} current={5} />
-        <SessionProgressItem
-          row
-          label={t('revenue')}
-          target={500}
-          current={350}
-        />
-      </div>
-      <ManageTargetsAction type="ghost" onClick={() => {}}>
-        {t('sessions:manage-targets')}
-      </ManageTargetsAction>
+          {!isPast && (
+            <div className="sessions__progress">
+              <div className="sessions__divider" />
+
+              <h1 className="mobile-layout__title sessions__title">
+                {t('sessions:progress')}
+              </h1>
+
+              <div className="sessions__progress-range-container">
+                <Select
+                  id="sessions-progress-range"
+                  options={sessionDateRangeOptions}
+                  defaultValue={sessionDateRangeOptions[0].value}
+                />
+              </div>
+
+              <ProgressCard
+                title={t('revenue')}
+                current={300}
+                target={400}
+                icon={<RevenueSolidIcon />}
+                money
+              />
+              <ProgressCard
+                title={t('sessions:ptSessions')}
+                current={5}
+                target={10}
+                icon={<GroupSolidIcon />}
+                earn={500}
+              />
+              <ProgressCard
+                title={t('sessions:coaching')}
+                current={5}
+                target={10}
+                icon={<ClientSolidIcon />}
+                earn={500}
+              />
+              <ProgressCard
+                title={t('sessions:consultation')}
+                current={5}
+                target={10}
+                icon={<PhoneSolidIcon />}
+                earn={500}
+              />
+              <ProgressCard
+                title={t('sessions:other')}
+                current={12}
+                target={10}
+                icon={<OptionSolidIcon />}
+                earn={500}
+              />
+
+              <Button
+                variant="secondary"
+                onClick={() => {}}
+                className="sessions__manage-btn"
+              >
+                {t('sessions:manage-targets')}
+              </Button>
+            </div>
+          )}
+        </Styles>
+      </MobilePage>
+
       <AddSessionMobile
         isOpen={!!editOpen}
         session={editOpen}
         onClose={() => setEditOpen(undefined)}
       />
       <AddSessionMobile isOpen={addOpen} onClose={() => setAddOpen(false)} />
-      <SmallModal
-        onCancel={() => setIsFilterOpen(false)}
-        visible={isFilterOpen}
-        title={t('sessions:filter-by-client')}
-        menu={
-          [{ name: 'All', value: 'All', onClick: () => {} }].concat(
-            clientsData.map((client) => ({
-              name: `${client.first_name} ${client.last_name}`,
-              value: client.id.toString(),
-              onClick: () => {}
-            }))
-          ) as MenuItem[]
-        }
-      />
-    </Styles>
+    </>
   )
 }
 

@@ -8,8 +8,8 @@ import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
-import SessionUserAvatar from '../session-user-avatar/session-user-avatar.component'
 import SessionsFilters from '../sessions-filters/sessions-filters.component'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>
@@ -79,10 +79,10 @@ const SessionsTable: React.FC<Props> = (props) => {
             const person = isTrainerType ? it.client : it.trainer
 
             return (
-              <SessionUserAvatar
-                avatar={person?.user.avatar || null}
-                first_name={person?.user.first_name}
-                last_name={person?.user.last_name}
+              <UserBadge
+                avatar={person?.user.avatar?.url}
+                firstName={person?.user.first_name}
+                lastName={person?.user.last_name}
               />
             )
           },

@@ -47,10 +47,12 @@ const vars = {
     neutral_10: '#FAFAFA',
     neutral_50: '#C2C2C2',
     red_60: '#ED2E32',
+    red_80: '#D70004',
     red_100: '#870002',
     green_90: '#00B334',
     green_80: '#00D721',
-    orange_60: '#ED9C30'
+    orange_60: '#ED9C30',
+    red_10: '#FFF3F3'
   },
   sizes: {
     borderRadius: '10px',
@@ -72,6 +74,10 @@ const vars = {
   defaults: {
     transition: 'all .3s ease',
     font: "'Work Sans', sans-serif"
+  },
+  shadows: {
+    primary: '0px 4px 20px rgba(74, 74, 74, 0.13)',
+    secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
   }
 }
 export default vars

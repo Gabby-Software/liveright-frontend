@@ -2,7 +2,7 @@ import { Tabs as AntdTabs } from 'antd'
 import { TabsPosition } from 'antd/es/tabs'
 import React, { ReactElement } from 'react'
 
-import { LabelWrapper } from './tabs.styles'
+import { LabelWrapper, Styles } from './tabs.styles'
 
 interface Props {
   className?: string
@@ -21,7 +21,7 @@ const Tabs: React.FC<Props> = (props) => {
   const { tabs, tabPosition, activeKey, onChange, className } = props
 
   return (
-    <AntdTabs
+    <Styles
       className={className}
       tabPosition={tabPosition}
       activeKey={activeKey}
@@ -43,7 +43,7 @@ const Tabs: React.FC<Props> = (props) => {
           </AntdTabs.TabPane>
         )
       })}
-    </AntdTabs>
+    </Styles>
   )
 }
 

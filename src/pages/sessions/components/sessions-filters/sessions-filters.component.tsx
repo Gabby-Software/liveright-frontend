@@ -1,15 +1,20 @@
 import debounce from 'lodash.debounce'
 import React, { useEffect, useState } from 'react'
 
-import { CalendarIcon, SearchIcon } from '../../../../assets/media/icons'
+import {
+  CalendarIcon,
+  FilterIcon,
+  SearchIcon
+} from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { Session, SessionFilter } from '../../../../types/session.type'
+import { SessionFilter } from '../../../../types/session.type'
 import { formatFilters } from '../../sessions.utils'
 import Styles from './sessions-filters.styles'
 
@@ -37,8 +42,36 @@ const SessionsFilters: React.FC<Props> = (props) => {
     setDate(e.target.value)
   }, 400)
 
+  if (isMobile) {
+    return (
+      <Styles>
+        <div className="sessions__filter-row">
+          <div className="sessions__filter-search">
+            <Input
+              id="sessions-search"
+              placeholder={t('sessions:filter-input-mobile')}
+              prefix={<SearchIcon />}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="sessions__filter-buttons">
+            <IconButton size="sm">
+              <FilterIcon />
+            </IconButton>
+            {calendar && (
+              <IconButton size="sm" className="sessions__filter-btn-calendar">
+                <CalendarIcon />
+              </IconButton>
+            )}
+          </div>
+        </div>
+      </Styles>
+    )
+  }
+
   return (
-    <Styles row={!isMobile}>
+    <Styles>
       <div className="sessions__filter-col sessions__filter-col_form">
         <div className="sessions__filter-search">
           <Input

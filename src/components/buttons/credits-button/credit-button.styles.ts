@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColor, getColorCarry } from '../../../pipes/theme-color.pipe'
 import Button from '../button/button.component'
 
@@ -39,6 +40,10 @@ export default styled(Button)<any>`
           ? getColor(props, 'primary_v2')
           : getColor(props, 'green_90')};
     }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    font-size: 0.875rem;
   }
 `
 

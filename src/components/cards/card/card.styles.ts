@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
+
 export default styled.div`
   display: flex;
   flex-direction: column;
@@ -7,4 +9,8 @@ export default styled.div`
   border-radius: 10px;
   background-color: #fff;
   padding: 1.5rem 1.75rem;
+
+  @media (${mediaQueries.MOBILE}) {
+    padding: 1.5rem 1.25rem;
+  }
 `

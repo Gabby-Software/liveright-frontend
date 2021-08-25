@@ -7,10 +7,11 @@ type Props = {
   page: number
   setPage: (page: number) => void
   total: number
+  justify?: 'start' | 'center'
 }
-const DataPagination = ({ page, setPage, total }: Props) => {
+const DataPagination = ({ page, setPage, total, justify }: Props) => {
   return (
-    <Styles>
+    <Styles $justify={justify}>
       <Pagination
         current={page}
         defaultCurrent={1}
