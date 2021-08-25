@@ -106,13 +106,13 @@ const LogHealthData = () => {
         date: Yup.string().required(),
         time: Yup.string().required(),
         heart_rate: Yup.object({
-          avg_rate: Yup.string().number().min(25).max(200)
+          avg_rate: Yup.number().min(25).max(200)
         }).nullable(),
         steps: Yup.object({
-          daily_steps: Yup.string().number().min(0).max(1e5)
+          daily_steps: Yup.number().min(0).max(1e5)
         }).nullable(),
         blood_glucose: Yup.object({
-          glucose: Yup.string().number().min(25).max(350)
+          glucose: Yup.number().min(25).max(350)
         }).nullable()
       })}
     >
