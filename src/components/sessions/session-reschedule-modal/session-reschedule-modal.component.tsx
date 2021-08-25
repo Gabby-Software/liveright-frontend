@@ -1,39 +1,36 @@
-import { Form, Formik, FormikHelpers } from 'formik'
+import { FormikHelpers, useFormik } from 'formik'
 import moment from 'moment'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import * as Yup from 'yup'
 
-import { ReactComponent as CalendarIcon } from '../../../assets/media/icons/calendar.svg'
+import { CalendarBoldIcon } from '../../../assets/media/icons'
 import { ReactComponent as ClockIcon } from '../../../assets/media/icons/clock.svg'
-import { Routes } from '../../../enums/routes.enum'
-import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../hooks/sessions.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { date as datePipe } from '../../../pipes/date.pipe'
 import { ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST } from '../../../store/action-types'
 import { SessionType } from '../../../types/session.type'
-import BottomDrawer from '../../bottom-drawer/bottom-drawer.component'
-import ButtonSubmit from '../../forms/button-submit/button-submit.component'
-import FormDatepicker from '../../forms/form-datepicker/form-datepicker.component'
-import FormTimepicker from '../../forms/form-timepicker/form-timepicker.component'
-import Modal from '../../modal/modal.component'
-import PrimaryLabel from '../../primary-label/primary-label.component'
-import Styles, { Row } from './session-reschedule-modal.styles'
+import Button from '../../buttons/button/button.component'
+import Card from '../../cards/card/card.component'
+import Dialog from '../../dialogs/dialog/dialog.component'
+import DatePicker from '../../form/date-picker/date-picker.component'
+import TimePicker from '../../form/time-picker/time-picker.component'
+import Styles from './session-reschedule-modal.styles'
 
 type Props = {
   onClose: () => void
   session: SessionType
+  open: boolean
 }
+
 type RescheduleFormType = {
   date: string
   time: string
   duration: string
 }
-const SessionRescheduleModal = ({ session, onClose }: Props) => {
+
+function SessionRescheduleModalContent({ session, onClose }: Props) {
   const { t } = useTranslation()
-  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const initialValues: RescheduleFormType = useMemo(() => {
     return {
@@ -42,38 +39,6 @@ const SessionRescheduleModal = ({ session, onClose }: Props) => {
       duration: moment(session.duration, 'HH:mm:ss').format('HH:mm')
     }
   }, [session])
-  const [date, setDate] = useState(initialValues.date)
-  const [time, setTime] = useState(initialValues.time)
-  const isBusy = useIsBusy({
-    date,
-    time,
-    duration: session.duration,
-    sessionId: session.id
-  })
-
-  const Wrapper = useMemo(
-    () =>
-      !isMobile
-        ? ({ children }: { children: React.ReactNode }) => (
-            <Modal visible={!!session} onCancel={onClose}>
-              {children}
-            </Modal>
-          )
-        : ({ children }: { children: React.ReactNode }) => (
-            <BottomDrawer isOpen={!!session} onClose={onClose}>
-              <BottomDrawer.Body>{children}</BottomDrawer.Body>
-            </BottomDrawer>
-          ),
-    [isMobile, session, onClose]
-  )
-
-  const handleDateUpdate = (_: string, value: string) => {
-    setDate(value)
-  }
-
-  const handleTimeUpdate = (_: string, value: string) => {
-    setTime(value)
-  }
 
   const handleSubmit = (
     values: RescheduleFormType,
@@ -95,75 +60,94 @@ const SessionRescheduleModal = ({ session, onClose }: Props) => {
     onClose()
   }
 
-  if (!session) {
-    return null
-  }
+  const { values, submitForm, setFieldValue } = useFormik({
+    initialValues,
+    onSubmit: handleSubmit
+  })
+
+  const { date, time } = values
+
+  const isBusy = useIsBusy({
+    date,
+    time,
+    duration: session.duration,
+    sessionId: session.id
+  })
 
   return (
-    <Wrapper>
-      <Modal.Title>{t('sessions:reschedule')}</Modal.Title>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={Yup.object({
-          date: Yup.date().min(moment().startOf('day')).required(),
-          time: Yup.string().required()
-        })}
-      >
-        {({ values }) => {
-          const isToday = moment(values.date).isSame(moment(), 'days')
+    <Styles>
+      <Card>
+        <div className="reschedule-session__current">
+          <div className="reschedule-session__current-item">
+            <CalendarBoldIcon />
+            <div className="reschedule-session__current-item-container">
+              <p className="reschedule-session__current-item-title">
+                {t('sessions:current-date')}
+              </p>
+              <p className="reschedule-session__current-item-value">
+                {datePipe(session.starts_at)}
+              </p>
+            </div>
+          </div>
+          <div className="reschedule-session__current-item">
+            <ClockIcon />
+            <div className="reschedule-session__current-item-container">
+              <p className="reschedule-session__current-item-title">
+                {t('sessions:current-time')}
+              </p>
+              <p className="reschedule-session__current-item-value">
+                {moment.utc(session.starts_at).format('HH:mm')}
+              </p>
+            </div>
+          </div>
+        </div>
 
-          return (
-            <Form>
-              <Styles>
-                <div className={'reschedule__current'}>
-                  <PrimaryLabel className={'reschedule__current__label'}>
-                    {t('sessions:currently')}
-                  </PrimaryLabel>
-                  <div className={'reschedule__current__item'}>
-                    <CalendarIcon />
-                    <span>{datePipe(session.starts_at)}</span>
-                  </div>
-                  <div className={'reschedule__current__item'}>
-                    <ClockIcon />
-                    <span>{moment.utc(session.starts_at).format('HH:mm')}</span>
-                  </div>
-                </div>
-                <Row>
-                  <FormDatepicker
-                    name={'date'}
-                    label={t('sessions:date')}
-                    disabledDate={(date) =>
-                      moment(date).isBefore(moment(), 'days')
-                    }
-                    onUpdate={handleDateUpdate}
-                  />
-                  <FormTimepicker
-                    name={'time'}
-                    label={t('sessions:time')}
-                    disabledUntilNow={isToday}
-                    onUpdate={handleTimeUpdate}
-                  />
-                </Row>
-                {isBusy ? (
-                  <div className={'reschedule__warning'}>
-                    <span>{t('sessions:reschedule-warning')}</span>
-                    <Link to={Routes.CALENDAR}>
-                      {t('sessions:go-to-calendar')}
-                    </Link>
-                  </div>
-                ) : null}
-                <ButtonSubmit>
-                  {t(
-                    `sessions:${isBusy ? 'request-anyway' : 'session-request'}`
-                  )}
-                </ButtonSubmit>
-              </Styles>
-            </Form>
-          )
-        }}
-      </Formik>
-    </Wrapper>
+        <form>
+          <DatePicker
+            id="reschedule-date"
+            label={t('sessions:new-date')}
+            className="reschedule-session__form-item"
+            value={date}
+            onChange={(e, date) => setFieldValue('date', date)}
+          />
+          <TimePicker
+            id="reschedule-time"
+            label={t('sessions:new-time')}
+            className="reschedule-session__form-item"
+            value={time}
+            onChange={(e, date) => setFieldValue('time', date)}
+          />
+
+          <Button
+            className="reschedule-session__submit-btn"
+            onClick={submitForm}
+          >
+            {t(isBusy ? 'sessions:request-anyway' : 'sessions:reschedule')}
+          </Button>
+        </form>
+      </Card>
+    </Styles>
+  )
+}
+
+interface SessionRescheduleModalProps {
+  session?: SessionType
+  open: boolean
+  onClose: any
+}
+
+const SessionRescheduleModal = (props: SessionRescheduleModalProps) => {
+  const { t } = useTranslation()
+  return (
+    <Dialog
+      title={t('sessions:reschedule')}
+      open={props.open}
+      onClose={props.onClose}
+    >
+      {props.session && (
+        <SessionRescheduleModalContent {...props} session={props.session} />
+      )}
+    </Dialog>
   )
 }
 

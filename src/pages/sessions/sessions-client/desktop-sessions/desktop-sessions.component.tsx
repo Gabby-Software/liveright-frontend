@@ -39,7 +39,8 @@ interface Props {
 const DesktopSessions: React.FC<Props> = (props) => {
   const { getSessions, sessions, trainer } = props
   const { t } = useTranslation()
-  const [rescheduleOpen, setRescheduleOpen] = useState<SessionType>()
+  const [rescheduleOpen, setRescheduleOpen] = useState(false)
+  const [rescheduleSession, setRescheduleSession] = useState<SessionType>()
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const filterRef = useRef()
   const [date, setDate] = useState('')
@@ -60,7 +61,10 @@ const DesktopSessions: React.FC<Props> = (props) => {
         <Button
           size="sm"
           variant="secondary"
-          onClick={() => setRescheduleOpen(item)}
+          onClick={() => {
+            setRescheduleOpen(true)
+            setRescheduleSession(item)
+          }}
         >
           {t('sessions:reschedule')}
         </Button>
@@ -147,12 +151,11 @@ const DesktopSessions: React.FC<Props> = (props) => {
           />
         </div>
 
-        {rescheduleOpen ? (
-          <SessionRescheduleModal
-            session={rescheduleOpen}
-            onClose={() => setRescheduleOpen(undefined)}
-          />
-        ) : null}
+        <SessionRescheduleModal
+          open={rescheduleOpen}
+          session={rescheduleSession}
+          onClose={() => setRescheduleOpen(false)}
+        />
         {trainer ? (
           <SessionAddModal
             trainer_id={
