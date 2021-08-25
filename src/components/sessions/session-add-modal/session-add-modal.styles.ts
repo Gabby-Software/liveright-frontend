@@ -1,34 +1,27 @@
 import styled from 'styled-components'
 
-import { media } from '../../../assets/styles/_media'
+import Card from '../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
-export default styled.div`
-  .text_input__wrapper,
-  .select_input__wrapper {
-    margin-bottom: 24px;
-  }
-  .ant-btn-primary {
-    margin-top: 40px;
-  }
+export default styled(Card)`
+  .add-session {
+    &__credits-btn {
+      width: 100%;
+    }
 
-  .reschedule-warning {
-    color: ${(p) => p.theme.vars.colors.primaryDark};
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 140%;
-    a {
-      font-weight: 600;
-      color: ${(p) => p.theme.vars.colors.primary};
-      transition: ${(p) => p.theme.vars.defaults.transition};
-      margin-left: 10px;
-      ${media('tablet', 'max')`
-                display: block;
-                margin-left:0;
-                margin-top: 4px;
-            `}
-      &:hover {
-        color: ${(p) => p.theme.vars.colors.primaryLight};
-      }
+    &__title {
+      margin: 1.875rem 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${getColorCarry('primaryDark_v2')};
+    }
+
+    &__form-item {
+      margin-bottom: 1.25rem;
+    }
+
+    &__submit-btn {
+      width: 100%;
     }
   }
 `

@@ -146,6 +146,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
             onFilterRef={(ref) => (filterRef.current = ref)}
           />
         </div>
+
         {rescheduleOpen ? (
           <SessionRescheduleModal
             session={rescheduleOpen}
