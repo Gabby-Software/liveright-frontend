@@ -68,6 +68,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             inputLabel={`${t('progress:avg_rate')}`}
             getQuality={getHeartRateQuality}
             Icon={<CardiogramIcon />}
+            max={200}
           />
           <LogCardDesktop
             name={t('progress:steps')}
@@ -75,6 +76,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             inputLabel={t('progress:daily_steps')}
             getQuality={getStepsQuality}
             Icon={<StepsIcon />}
+            max={1e5}
           />
           <LogCardDesktop
             name={t('progress:blood_glucose')}
@@ -82,6 +84,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             inputLabel={t('progress:glucose')}
             getQuality={getGlucoseQuality}
             Icon={<BloodIcon />}
+            max={350}
           />
           <SleepCardWrapper>
             <div>

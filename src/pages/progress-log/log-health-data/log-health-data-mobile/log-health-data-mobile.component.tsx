@@ -35,7 +35,8 @@ const GrayInput: FC<{
   name: string
   label: string
   time?: boolean
-}> = ({ name, label, time }) => {
+  max?: number
+}> = ({ name, label, time, max }) => {
   return (
     <div>
       <div className={'log-health__label'}>{label}</div>
@@ -60,8 +61,8 @@ const GrayInput: FC<{
             <GrayStyledInput
               {...field}
               onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, '')
-                form.setFieldValue(name, val)
+                const val = +e.target.value.replace(/\D/g, '')
+                form.setFieldValue(name, Math.min(val, max || Infinity))
               }}
             />
           )
@@ -130,6 +131,7 @@ const LogHealthDataMobile = () => {
           <GrayInput
             name={'heart_rate.avg_rate'}
             label={t('progress:avg_rate')}
+            max={200}
           />
           <LogHealthValue
             name={'heart_rate.avg_rate'}
@@ -147,6 +149,7 @@ const LogHealthDataMobile = () => {
           <GrayInput
             name={'steps.daily_steps'}
             label={t('progress:daily_steps')}
+            max={1e5}
           />
           <LogHealthValue
             name={'steps.daily_steps'}
@@ -164,6 +167,7 @@ const LogHealthDataMobile = () => {
           <GrayInput
             name={'blood_glucose.glucose'}
             label={t('progress:glucose')}
+            max={350}
           />
           <LogHealthValue
             name={'blood_glucose.glucose'}

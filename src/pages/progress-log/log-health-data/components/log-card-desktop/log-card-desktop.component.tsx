@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react'
 
 import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info-fill.svg'
 import FormInputLabeled from '../../../../../components/forms/form-input-labeled/form-input-labeled.component'
+import formatter from '../../../../../managers/formatter.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { HealthData, QualityType } from '../../../../progress/progress.types'
 import {
@@ -20,10 +21,11 @@ interface Props {
   inputLabel: string
   Icon: ReactElement
   getQuality: (value: number) => QualityType
+  max?: number
 }
 
 const LogCardDesktop: React.FC<Props> = (props) => {
-  const { Icon, name, inputName, inputLabel, getQuality } = props
+  const { Icon, name, inputName, inputLabel, getQuality, max } = props
   const { t } = useTranslation()
   const { getFieldMeta } = useFormikContext<HealthData>()
   const { value } = getFieldMeta<string>(inputName)
@@ -41,7 +43,13 @@ const LogCardDesktop: React.FC<Props> = (props) => {
           <Space />
           <Border />
         </LogName>
-        <FormInputLabeled name={inputName} label={inputLabel} />
+        <FormInputLabeled
+          name={inputName}
+          label={inputLabel}
+          format={formatter()
+            .number()
+            .max(max || Infinity)}
+        />
         <LogQuality quality={quality}>
           <Border />
           <div>
