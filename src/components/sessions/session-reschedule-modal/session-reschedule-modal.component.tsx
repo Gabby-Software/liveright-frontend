@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from 'formik'
 import moment from 'moment'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { CalendarBoldIcon } from '../../../assets/media/icons'
@@ -32,13 +32,6 @@ type RescheduleFormType = {
 function SessionRescheduleModalContent({ session, onClose }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const initialValues: RescheduleFormType = useMemo(() => {
-    return {
-      date: moment(session.starts_at).format('YYYY-MM-DD'),
-      time: moment.utc(session.starts_at).format('HH:mm'),
-      duration: moment(session.duration, 'HH:mm:ss').format('HH:mm')
-    }
-  }, [session])
 
   const handleSubmit = (
     values: RescheduleFormType,
@@ -60,10 +53,22 @@ function SessionRescheduleModalContent({ session, onClose }: Props) {
     onClose()
   }
 
-  const { values, submitForm, setFieldValue } = useFormik({
-    initialValues,
+  const { values, submitForm, setFieldValue, setValues } = useFormik({
+    initialValues: {
+      date: '',
+      time: '',
+      duration: ''
+    },
     onSubmit: handleSubmit
   })
+
+  useEffect(() => {
+    setValues({
+      date: moment(session.starts_at).format('YYYY-MM-DD'),
+      time: moment.utc(session.starts_at).format('HH:mm'),
+      duration: moment(session.duration, 'HH:mm:ss').format('HH:mm')
+    })
+  }, [session.starts_at, session.duration])
 
   const { date, time } = values
 
