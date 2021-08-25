@@ -9,4 +9,5 @@ export default styled.div`
   right: 0;
   pointer-events: none;
   touch-action: none;
+  overflow: hidden;
 `

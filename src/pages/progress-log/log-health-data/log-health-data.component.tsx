@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Routes } from '../../../enums/routes.enum'
-import { useIsMobile } from '../../../hooks/is-mobile.hook'
+// import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
 import {
@@ -18,10 +18,10 @@ import {
   getStepsQuality
 } from './log-health-data.helpers'
 import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desktop.component'
-import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
+// import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
 const LogHealthData = () => {
-  const isMobile = useIsMobile()
+  // const isMobile = useIsMobile()
   const { date } = useParams<{ date: string }>()
   const history = useHistory()
   const [initialValues, setInitialValues] = useState<HealthData>({ id: '' })
@@ -118,11 +118,11 @@ const LogHealthData = () => {
       })}
     >
       <Form>
-        {isMobile ? (
-          <LogHealthDataMobile />
-        ) : (
-          <LogHealthDataDesktop handleReturn={handleReturn} />
-        )}
+        {/*{isMobile ? (*/}
+        {/*  <LogHealthDataMobile />*/}
+        {/*) : (*/}
+        <LogHealthDataDesktop />
+        {/*)}*/}
       </Form>
     </Formik>
   )

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ProfileImage from '../../../../../components/profile-image/profile-image.component'
 
 export const StyledAvatar = styled(ProfileImage)`
-  margin: 0 12px;
+  margin: 0 12px 0 0;
   .profile-image__img {
     width: 38px;
     height: 38px;
@@ -28,7 +28,7 @@ export default styled.div`
   z-index: ${(p) => p.theme.vars.zIndex.header};
   ${(p) => p.theme.extend.flexCenter}
   &.chat-header__popup {
-    padding-top: 0;
+    padding: 0 20px;
     height: 73px;
   }
   .chat-header {
@@ -36,7 +36,7 @@ export default styled.div`
       svg {
         color: white;
         height: 9px;
-        margin-right: 3px;
+        margin-right: 15px;
       }
     }
     &__name {

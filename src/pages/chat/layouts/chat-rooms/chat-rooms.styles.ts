@@ -5,6 +5,7 @@ export default styled.div`
   max-width: 100%;
   flex-shrink: 0;
   padding: 22px 24px;
+  background-color: white;
   .chat-rooms {
     &__container {
       margin-top: 20px;
@@ -16,7 +17,7 @@ export default styled.div`
       &__title {
         display: flex;
         font-size: 22px;
-        margin: -39px -20px 0 -20px;
+        margin: -42px -20px 0 -20px;
         padding: 20px;
         height: 100px;
         background-color: ${(p) => p.theme.vars.colors.primaryDark_v2};
@@ -24,7 +25,7 @@ export default styled.div`
       }
       &__head {
         position: sticky;
-        top: 100px;
+        top: 98px;
       }
     }
     .text_input__input {

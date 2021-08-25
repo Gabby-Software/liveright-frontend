@@ -2,11 +2,17 @@ import { Tooltip } from 'antd'
 import { useFormikContext } from 'formik'
 import React, { ReactElement } from 'react'
 
-import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info.svg'
-import FormInput from '../../../../../components/forms/form-input/form-input.component'
+import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info-fill.svg'
+import FormInputLabeled from '../../../../../components/forms/form-input-labeled/form-input-labeled.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { HealthData, QualityType } from '../../../../progress/progress.types'
-import { LogName, LogQuality, Wrapper } from './log-card-desktop.styles'
+import {
+  Border,
+  LogName,
+  LogQuality,
+  Space,
+  Wrapper
+} from './log-card-desktop.styles'
 
 interface Props {
   name: string
@@ -32,16 +38,23 @@ const LogCardDesktop: React.FC<Props> = (props) => {
           <Tooltip title="TBD">
             <InfoIcon />
           </Tooltip>
+          <Space />
+          <Border />
         </LogName>
-        <FormInput name={inputName} label={inputLabel} />
+        <FormInputLabeled name={inputName} label={inputLabel} />
         <LogQuality quality={quality}>
-          <span>
-            {t('progress:qualityLabel')}
-            <Tooltip title="TBD">
-              <InfoIcon />
-            </Tooltip>
-          </span>
-          <span>{quality ? t(`progress:${quality}`) : '-'}</span>
+          <Border />
+          <div>
+            <span className={'log-quality-label'}>
+              {t('progress:qualityLabel')}
+              <Tooltip title="TBD">
+                <InfoIcon />
+              </Tooltip>
+            </span>
+            <span className={'log-quality-value'}>
+              {quality ? t(`progress:${quality}`) : '-'}
+            </span>
+          </div>
         </LogQuality>
       </div>
     </Wrapper>

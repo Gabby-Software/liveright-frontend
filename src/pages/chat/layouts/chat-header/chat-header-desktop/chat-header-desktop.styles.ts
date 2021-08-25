@@ -10,6 +10,13 @@ export const StyledAvatar = styled(ProfileImage)`
     height: 61px;
   }
 `
+export const ClientHeader = styled.div`
+  padding: 25px 29px;
+  font-size: 14px;
+  font-weight: 700;
+  color: ${(p) => p.theme.vars.colors.primaryDark_v2};
+  background-color: white;
+`
 export default styled.div`
   display: flex;
   padding: 26px 35px;
@@ -52,6 +59,7 @@ export default styled.div`
     &__minimize {
       cursor: pointer;
       margin-left: auto;
+      color: ${(p) => p.theme.vars.colors.secondary2_v2};
     }
   }
 `

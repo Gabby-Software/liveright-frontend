@@ -10,11 +10,10 @@ export default styled.div`
     padding: 0;
     margin: -30px 0;
     height: auto;
-    min-height: 100vh;
     overflow: visible;
   }
   &.popup {
-    padding: 26px 14px;
+    padding: 26px 18px;
     margin-top: -30px;
   }
 `

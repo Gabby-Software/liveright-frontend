@@ -14,6 +14,7 @@ import logger from '../../../managers/logger.manager'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
+import { toFileType } from '../pipes/to-file-type.pipe'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
 import { useChats } from './chats.context'
@@ -107,23 +108,24 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         logger.info('Image file type')
         type = chatMessageTypes.IMAGE
         msg.types.push(type)
-        fileManager.resize(file, 920).then(([resizedurl]) => {
-          msg.content.files.push(resizedurl)
+        fileManager.resize(file, 920).then(([resizedurl, f]) => {
+          msg.content.files.push(toFileType(resizedurl, f))
           setMessages([...messages, msg])
         })
       } else {
         msg.types.push(type)
         fileManager.readAsUrl(file).then((url) => {
-          msg.content.files.push(url)
+          msg.content.files.push(toFileType(url, file))
           setMessages([...messages, msg])
         })
       }
+      setMode(ChatRoomModes.DEFAULT)
     }
   }
   const sendAudio = (file: File) => {
     const msg: ChatMessageType = msgBase()
     msg.types = [chatMessageTypes.AUDIO]
-    msg.content.files = [URL.createObjectURL(file)]
+    msg.content.files = [toFileType(URL.createObjectURL(file), file)]
     setMessages([...messages, msg])
   }
   return (

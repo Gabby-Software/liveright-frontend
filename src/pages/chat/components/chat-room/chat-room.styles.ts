@@ -17,13 +17,28 @@ export default styled(Link)`
   padding: 14px 16px;
   border-radius: 8px;
   transition: ${(p) => p.theme.vars.defaults.transition};
+  border: 1px solid transparent;
   &:hover {
     background-color: #e8e8e8;
   }
-  &.chat-room__unread {
-    background-color: #fff8f8;
-    &:hover {
-      background-color: #faecec;
+  &.chat-room {
+    &__unread {
+      background-color: #fff8f8;
+      &:hover {
+        background-color: #faecec;
+      }
+      .chat-room {
+        &__date {
+          color: ${(p) => p.theme.vars.colors.primary};
+        }
+      }
+    }
+    &__active {
+      background-color: #e6eefa;
+      border: 1px solid #b9c9e0;
+      &:hover {
+        background-color: #e6eefa;
+      }
     }
   }
   .chat-room {
@@ -53,14 +68,15 @@ export default styled(Link)`
       text-overflow: ellipsis;
     }
     &__date {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.secondary2_v2};
       font-size: 12px;
       white-space: nowrap;
     }
     &__unreads {
       ${(p) => p.theme.mixin.circleImage('21px')}
       ${(p) => p.theme.extend.flexCenter}
-            background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary};
+      line-height: 0;
       color: white;
       flex-shrink: 0;
       font-size: 12px;

@@ -24,6 +24,19 @@ export default styled.div`
           &.sessions__layout {
             padding: 0;
           }
+          .mobile-back {
+            color: ${(p) => p.theme.vars.colors.link};
+            font-size: 14px;
+            font-weight: 400;
+            &__icon {
+              height: 8px;
+              width: auto;
+            }
+            & + .page-title {
+              font-size: 18px;
+              margin: 28px 0;
+            }
+          }
         }
       }
     }

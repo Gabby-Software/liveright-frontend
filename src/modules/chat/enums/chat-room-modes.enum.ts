@@ -1,5 +1,6 @@
 export enum ChatRoomModes {
   DEFAULT,
   DROPPING,
-  RECORDING
+  RECORDING,
+  MORE_ACTIONS
 }

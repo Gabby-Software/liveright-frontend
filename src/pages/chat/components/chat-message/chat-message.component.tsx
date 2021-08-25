@@ -7,6 +7,7 @@ import logger from '../../../../managers/logger.manager'
 import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
 import { chatMessageTypes } from '../../../../modules/chat/enums/chat-message-types.enum'
 import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
+import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
 import { classes } from '../../../../pipes/classes.pipe'
 import ChatMessageAttachment from '../chat-message-attachment/chat-message-attachment.component'
@@ -16,6 +17,12 @@ import ChatMessageText from '../chat-message-text/chat-message-text.component'
 import Styles, { ProfileImageStyled } from './chat-message.styles'
 type Props = {
   msg: ChatMessageType
+}
+const emptyFile: ChatFileType = {
+  url: '',
+  original_name: '',
+  mimetype: '',
+  size: 0
 }
 const ChatMessage = ({ msg }: Props) => {
   const types = [...msg.types]
@@ -42,14 +49,20 @@ const ChatMessage = ({ msg }: Props) => {
     if (types[0] === chatMessageTypes.AUDIO) {
       types.shift()
       return (
-        <ChatMessageAudio file={files.shift() || ''} id={msg._id} me={isMe} />
+        <ChatMessageAudio
+          file={files.shift() || emptyFile}
+          id={msg._id}
+          me={isMe}
+        />
       )
     }
   }
   const renderFile = () => {
     if (types[0] === chatMessageTypes.FILE) {
       types.shift()
-      return <ChatMessageAttachment file={files.shift() || ''} me={isMe} />
+      return (
+        <ChatMessageAttachment file={files.shift() || emptyFile} me={isMe} />
+      )
     }
   }
   return (

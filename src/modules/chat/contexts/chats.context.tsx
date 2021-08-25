@@ -1,4 +1,4 @@
-import React, { createContext, FC, useContext, useState } from 'react'
+import React, { createContext, FC, useContext, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
@@ -21,6 +21,9 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   const [rooms, setRooms] = useState<{
     [roomId: string]: APIGetType<ChatMessageType[]>
   }>({})
+  const roomsRef = useRef<{
+    [roomId: string]: APIGetType<ChatMessageType[]>
+  }>({})
   const [popups, setPopups] = useState<string[]>([])
   const history = useHistory()
   const close = (roomId: string) => {
@@ -36,25 +39,25 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     history.push(Routes.HOME)
   }
   const getRoom = (roomId: string) => {
+    roomsRef.current[roomId] = {
+      loading: false,
+      error: '',
+      data: [
+        // ...mockMessages
+      ]
+    }
     setRooms({
-      ...rooms,
-      [roomId]: {
-        loading: false,
-        error: '',
-        data: [
-          // ...mockMessages
-        ]
-      }
+      ...roomsRef.current
     })
   }
   const updateRoom = (roomId: string, msgs: ChatMessageType[]) => {
+    roomsRef.current[roomId] = {
+      error: '',
+      loading: false,
+      data: msgs
+    }
     setRooms({
-      ...rooms,
-      [roomId]: {
-        error: '',
-        loading: false,
-        data: msgs
-      }
+      ...roomsRef.current
     })
   }
   return (

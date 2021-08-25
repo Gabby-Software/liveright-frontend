@@ -1,7 +1,7 @@
 import React, { FC, FormEventHandler, useEffect, useRef, useState } from 'react'
 
 import { ReactComponent as TimesIcon } from '../../../../../assets/media/icons/cross.svg'
-import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphon.svg'
+import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphone-filled.svg'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { ChatRoomModes } from '../../../../../modules/chat/enums/chat-room-modes.enum'
 import RecorderManager from '../../../../../modules/chat/managers/recorder.manager'
@@ -20,7 +20,10 @@ const ChatActionsRecording: FC<Props> = ({}) => {
     const interval = setInterval(() => {
       setTimeOver(Math.round((new Date().getTime() - startTime.current) / 1000))
     }, 1000)
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      recorder.current?.stopRecord()
+    }
   }, [])
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { ChatRoomModes } from '../../../../../modules/chat/enums/chat-room-modes.enum'
@@ -10,7 +10,10 @@ import Styles from './chat-messages-full.styles'
 
 type Props = {}
 const ChatMessagesFull: FC<Props> = ({}) => {
-  const { mode } = useChatRoom()
+  const { mode, setMode, room } = useChatRoom()
+  useEffect(() => {
+    setMode(ChatRoomModes.DEFAULT)
+  }, [room])
   return (
     <Styles>
       <ChatHeader />

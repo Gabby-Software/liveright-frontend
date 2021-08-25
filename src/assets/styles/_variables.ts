@@ -55,7 +55,7 @@ const vars = {
     red_10: '#FFF3F3'
   },
   sizes: {
-    borderRadius: '6px',
+    borderRadius: '10px',
     boxShadow: '0px 4px 25px rgba(0, 0, 0, 0.15)',
     space: '8px'
   },

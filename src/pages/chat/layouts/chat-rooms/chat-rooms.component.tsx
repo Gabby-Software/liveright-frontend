@@ -24,8 +24,7 @@ const ChatRooms: FC<Props> = ({}) => {
       </div>
       <div className={'chat-rooms__container'}>
         {mockRooms.map((room) => (
-          // eslint-disable-next-line react/jsx-key
-          <ChatRoom room={room} />
+          <ChatRoom room={room} key={room.room_id} />
         ))}
       </div>
     </Styles>
