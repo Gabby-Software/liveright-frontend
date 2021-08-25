@@ -90,7 +90,7 @@ const LogHealthValue: FC<{
 }
 const LogHealthDataMobile = () => {
   const { t } = useTranslation()
-  const { getFieldMeta } = useFormikContext<HealthData>()
+  const { getFieldMeta, isValid } = useFormikContext<HealthData>()
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -98,8 +98,7 @@ const LogHealthDataMobile = () => {
         value: QUALITY.AVERAGE,
         label: t(`progress:${QUALITY.AVERAGE}`)
       },
-      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) },
-      { value: QUALITY.HIGH, label: t(`progress:${QUALITY.HIGH}`) }
+      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) }
     ],
     []
   )
@@ -217,7 +216,7 @@ const LogHealthDataMobile = () => {
           options={sleepOptions}
         />
       </WhiteCard>
-      <ButtonSubmit>Save Logs</ButtonSubmit>
+      <ButtonSubmit disabled={!isValid}>Save Logs</ButtonSubmit>
     </Wrapper>
   )
 }

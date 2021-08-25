@@ -24,7 +24,10 @@ const LogHealthData = () => {
   const isMobile = useIsMobile()
   const { date } = useParams<{ date: string }>()
   const history = useHistory()
-  const [initialValues, setInitialValues] = useState<HealthData>({ id: '' })
+  const [initialValues, setInitialValues] = useState<HealthData>({
+    id: '',
+    sleep: {}
+  })
 
   const handleReturn = () => {
     history.push(Routes.PROGRESS)
@@ -113,7 +116,35 @@ const LogHealthData = () => {
         }).nullable(),
         blood_glucose: Yup.object({
           glucose: Yup.number().min(25).max(350)
+        }).nullable(),
+        sleep: Yup.object({
+          start_time: Yup.string(),
+          // .when('end_time', {
+          //   is: (field: string) => !!field,
+          //   then: Yup.string().required()
+          // }),
+          end_time: Yup.string().when('start_time', {
+            is: (field: string) => !!field,
+            then: Yup.string().required()
+          }),
+          nap_start_time: Yup.string(),
+          // .when('nap_end_time', {
+          //   is: (field: string) => !!field,
+          //   then: Yup.string().required()
+          // }),
+          nap_end_time: Yup.string().when('nap_start_time', {
+            is: (field: string) => !!field,
+            then: Yup.string().required()
+          })
         }).nullable()
+      }).test((values) => {
+        return !(
+          values.heart_rate?.avg_rate ||
+          values.blood_glucose?.glucose ||
+          values.steps?.daily_steps ||
+          (values.sleep?.start_time && values.sleep?.end_time) ||
+          (values.sleep?.nap_start_time && values.sleep?.nap_end_time)
+        )
       })}
     >
       <Form>

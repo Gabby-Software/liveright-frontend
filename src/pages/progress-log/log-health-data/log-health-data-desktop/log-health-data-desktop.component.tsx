@@ -39,7 +39,7 @@ import {
 
 const LogHealthDataDesktop: React.FC<{}> = () => {
   const { t } = useTranslation()
-  const { values, errors } = useFormikContext<HealthData>()
+  const { values, errors, isValid } = useFormikContext<HealthData>()
   console.log(values, errors)
   const sleepOptions = useMemo(
     () => [
@@ -48,8 +48,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
         value: QUALITY.AVERAGE,
         label: t(`progress:${QUALITY.AVERAGE}`)
       },
-      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) },
-      { value: QUALITY.HIGH, label: t(`progress:${QUALITY.HIGH}`) }
+      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) }
     ],
     []
   )
@@ -157,7 +156,9 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
           </SleepCardWrapper>
         </CardsWrapper>
         <SubmitButtonWrapper>
-          <SubmitButton>{t('progress:saveLogs')}</SubmitButton>
+          <SubmitButton disabled={!isValid}>
+            {t('progress:saveLogs')}
+          </SubmitButton>
         </SubmitButtonWrapper>
       </FormRow>
     </Wrapper>
