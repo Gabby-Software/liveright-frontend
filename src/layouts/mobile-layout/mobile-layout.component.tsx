@@ -34,13 +34,19 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
   mobileTitleRef.setTitleContent = setTitleContent
   const noTitlePages = [Routes.CHAT]
   const renderTitle = !noTitlePages.some((p) => pathname.startsWith(p))
+  const v = useDesignVersion()
   return (
     <Styles className={classes(`mobile-layout__v${version}`)}>
       <Header />
       <main className={'mobile-layout__main'}>
-        <MobileBack />
+        {v === 1 ? <MobileBack /> : null}
         {renderTitle ? (
-          <h1 className={'mobile-layout__title'}>
+          <h1
+            className={classes(
+              'mobile-layout__title',
+              `mobile-layout__title__v${v}`
+            )}
+          >
             {title}
             {titleContent}
           </h1>
