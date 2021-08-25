@@ -3,7 +3,7 @@ export const getDuration = (t1?: string, t2?: string): string | undefined => {
   // eslint-disable-next-line prefer-const
   let [h2, m2] = (t2 || ':').split(':').map((t) => +t)
   console.log('h2h1', h2, h1, h2 < h1, h2 === h1)
-  if (h2 < h1 || (h2 === h1 && m2 > m1)) {
+  if (h2 < h1 || (h2 === h1 && m2 < m1)) {
     h2 += 24
   }
   const minutes = h2 * 60 + m2 - h1 * 60 - m1
