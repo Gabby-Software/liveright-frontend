@@ -19,7 +19,7 @@ export default styled.div`
         color: white;
         font-size: 22px;
         font-weight: 700;
-        margin: -39px -20px 0 -20px;
+        margin: 0px -20px 0 -20px;
         padding: 26px 20px;
       }
     }
