@@ -1,37 +1,48 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../pipes/theme-color.pipe'
+import { getShadow } from '../../pipes/theme-shadow.pipe'
+
 export default styled.div`
-  background-color: ${(p) => p.theme.vars.colors.background};
-  height: 100px;
+  background-color: ${getColorCarry('background')};
+  height: 77px;
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
-  border: 1px solid #f5f5f5;
   box-sizing: border-box;
   display: flex;
   z-index: ${(p) => p.theme.vars.zIndex.footer};
+  box-shadow: ${getShadow('primary')};
+
   .mobile-footer {
     &__cont {
       display: flex;
       width: 100%;
-      padding-bottom: 25px;
     }
+
     &__item {
       width: 100%;
-      color: ${(p) => p.theme.vars.colors.secondary2};
-      ${(p) => p.theme.extend.flexCenter}
-      text-align:center;
+      color: ${getColorCarry('dark_v2')};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       cursor: pointer;
       position: relative;
+      font-size: 0.75rem;
+      padding: 1rem 0;
+
       svg {
         height: 22px;
         width: 30px;
         display: block;
-        margin: 0 auto 0.5rem auto;
+        margin: 0 auto 0.625rem auto;
       }
+
       &__active {
-        color: ${(p) => p.theme.vars.colors.primaryDark};
+        color: ${getColorCarry('primaryDark')};
+
         &:before {
           ${(p) => p.theme.extend.pseudo}
           height: 3px;
@@ -40,26 +51,32 @@ export default styled.div`
           right: 0;
           margin: auto;
           top: 0;
-          background-color: ${(p) => p.theme.vars.colors.primaryDark};
-          border-radius: 0px 0px 1.5px 1.5px;
+          background-color: ${getColorCarry('primaryDark')};
+          border-radius: 0 0 1.5px 1.5px;
         }
       }
     }
     &__add {
       width: 100%;
-      text-align: center;
-      ${(p) => p.theme.extend.flexCenter}
-      svg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & div {
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: ${getColorCarry('primary_v2')};
+        color: #fff;
+        border-radius: 8px;
         cursor: pointer;
-        color: white;
-        height: 22px;
-        display: block;
-        padding: 16px;
-        border-radius: 50%;
-        background-color: ${(p) => p.theme.vars.colors.primaryDark};
-        box-sizing: content-box;
-        margin: -31px 0 0.5rem 0;
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+
+        & svg {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }

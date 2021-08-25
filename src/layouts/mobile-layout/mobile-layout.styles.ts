@@ -27,6 +27,10 @@ export default styled.div`
   &.mobile-layout {
     &__v2 {
       background-color: ${(p) => p.theme.vars.colors.background_v2};
+
+      & .mobile-layout__main {
+        padding-top: 0;
+      }
     }
   }
 `

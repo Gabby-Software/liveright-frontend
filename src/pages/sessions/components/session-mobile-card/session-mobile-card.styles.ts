@@ -1,59 +1,43 @@
 import styled from 'styled-components'
 
-import CardSwipe from '../../../../components/card-swipe/card-swipe.component'
+import Card from '../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Wrapper = styled(CardSwipe)`
-  & > div:first-child {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-    margin-bottom: 16px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-    ${(p) => p.theme.extend.p1};
-
-    & > *:not(:last-child) {
-      max-width: 70%;
-    }
-
-    .session-card-with {
-      font-weight: 600;
-      margin: 12px 0;
-    }
-
-    .session-card-name {
+export default styled(Card)`
+  margin-bottom: 1rem;
+  .session-card {
+    &__container {
       display: flex;
-      flex-direction: row;
-      align-items: center;
+      justify-content: space-between;
     }
 
-    .sessions-card-datetime {
+    &__info {
+    }
+
+    &__date {
+      background-color: ${getColorCarry('red_10')};
+      border-radius: 8px;
+      color: ${getColorCarry('red_80')};
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.5rem 1.25rem;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    &__title {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &__date-item {
+      display: flex;
       align-items: center;
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 100px;
 
-      div {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 8px;
-        border-radius: 5px;
-        margin-bottom: 8px;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
-
-        span {
-          ${(p) => p.theme.extend.label};
-        }
-      }
-
-      span {
-        color: ${(p) => p.theme.vars.colors.labelLight};
-        ${(p) => p.theme.extend.h2};
+      & svg {
+        margin-left: 1rem;
       }
     }
   }

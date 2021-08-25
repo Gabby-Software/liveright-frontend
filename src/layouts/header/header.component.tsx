@@ -18,6 +18,7 @@ const Header = () => {
   const trainer = useClientsTrainer()
   const { items } = useHeader()
   const version = useDesignVersion()
+
   if (!items?.length) return null
 
   const renderHeaderItem = ({ type, href, Icon }: HeaderItemType) => {

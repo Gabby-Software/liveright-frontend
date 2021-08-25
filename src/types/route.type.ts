@@ -27,6 +27,7 @@ export type RouteType = {
   header: HeaderConfigType
   footer?: footerTypes
   version?: number
+  mobileLayout?: boolean
   back?: {
     url: string
     alias: string

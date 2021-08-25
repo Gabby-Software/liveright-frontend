@@ -1,14 +1,10 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 
-import { ReactComponent as TrashIcon } from '../../../../assets/media/icons/trash.svg'
-import ActionIcon from '../../../../components/action-icon/action-icon.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
-import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
 import SessionCard from '../session-mobile-card/session-mobile-card.component'
 import SessionsFilter from '../sessions-filters/sessions-filters.component'
-import { SwipeContent } from './sessions-mobile-cards.styles'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>
@@ -17,6 +13,7 @@ interface Props {
   onRemoveSession?: (id: number) => void
   withFilter?: boolean
   title?: boolean
+  titleComponent?: ReactNode
 }
 
 const SessionsCards: React.FC<Props> = (props) => {
@@ -24,9 +21,10 @@ const SessionsCards: React.FC<Props> = (props) => {
     sessions,
     getSessions,
     renderOptions,
-    onRemoveSession,
+    // onRemoveSession,
     withFilter,
-    title
+    title,
+    titleComponent
   } = props
   const { data, meta } = sessions
   const { current_page, total } = meta
@@ -42,29 +40,24 @@ const SessionsCards: React.FC<Props> = (props) => {
 
   return (
     <div>
-      {title && <PageSubtitle>{title}</PageSubtitle>}
-      {withFilter && <SessionsFilter onUpdate={setFilter} />}
+      {title && (
+        <div className="sessions__cards-title-container">
+          <h3 className="sessions__cards-title">{title}</h3>
+          {titleComponent}
+        </div>
+      )}
+      {withFilter && <SessionsFilter onUpdate={setFilter} calendar={false} />}
       {data.map((it) => {
         return (
-          <SessionCard
-            session={it}
-            key={it.id}
-            renderOptions={renderOptions}
-            SwipeContent={
-              onRemoveSession ? (
-                <SwipeContent>
-                  <ActionIcon
-                    icon={TrashIcon}
-                    title="Remove"
-                    onClick={() => onRemoveSession(it.id)}
-                  />
-                </SwipeContent>
-              ) : undefined
-            }
-          />
+          <SessionCard session={it} key={it.id} renderOptions={renderOptions} />
         )
       })}
-      <DataPagination page={current_page} setPage={getSessions} total={total} />
+      <DataPagination
+        justify="center"
+        page={current_page}
+        setPage={getSessions}
+        total={total}
+      />
     </div>
   )
 }
