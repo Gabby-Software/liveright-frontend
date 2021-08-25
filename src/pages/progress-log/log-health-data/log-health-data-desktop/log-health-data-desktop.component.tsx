@@ -55,12 +55,14 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
 
   return (
     <Wrapper>
-      <PickersWrapper size="middle">
-        <FormDatepicker name="date" label={t('progress:loggingDate')} />
-        <FormTimepicker name="time" label={t('progress:loggingTime')} />
-      </PickersWrapper>
       <FormRow>
         <CardsWrapper>
+          <SleepCardWrapper>
+            <PickersWrapper size="middle">
+              <FormDatepicker name="date" label={t('progress:loggingDate')} />
+              <FormTimepicker name="time" label={t('progress:loggingTime')} />
+            </PickersWrapper>
+          </SleepCardWrapper>
           <LogCardDesktop
             name={t('progress:heart_rate')}
             inputName="heart_rate.avg_rate"
