@@ -18,6 +18,7 @@
 - [Clickup board](https://app.clickup.com/2164322/v/b/221k2-2507)
 - [API documentation](https://documenter.getpostman.com/view/8741108/Tzeak6s7)
 - [ALLRight API documentation](https://documenter.getpostman.com/view/8741108/Tzm5GGb9#3e3d073b-7da1-41cc-b805-d1f97bb15425)
+- [Chat API documentation](https://documenter.getpostman.com/view/6844927/TzzBovPK#ce59eb5f-ca7f-41b3-a7f1-077246af2d04)
 
 ### _Getting started_
 

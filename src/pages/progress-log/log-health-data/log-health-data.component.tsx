@@ -74,12 +74,11 @@ const LogHealthData = () => {
       }
     }
 
-    await logHealthDataAsync({
+    logHealthDataAsync({
       ...payload,
       edit: date === values.date,
       id: values.id
-    })
-    handleReturn()
+    }).then(handleReturn)
   }
 
   useEffect(() => {
@@ -107,13 +106,13 @@ const LogHealthData = () => {
         date: Yup.string().required(),
         time: Yup.string().required(),
         heart_rate: Yup.object({
-          avg_rate: Yup.string().number()
+          avg_rate: Yup.string().number().min(25).max(200)
         }).nullable(),
         steps: Yup.object({
-          daily_steps: Yup.string().number()
+          daily_steps: Yup.string().number().min(0).max(1e5)
         }).nullable(),
-        blood_glicose: Yup.object({
-          glucose: Yup.string().number()
+        blood_glucose: Yup.object({
+          glucose: Yup.string().number().min(25).max(350)
         }).nullable()
       })}
     >
