@@ -37,7 +37,7 @@ export const logHealthDataAsync = async (
 
   try {
     if (edit) {
-      await api.put(EP_HEALTH_DATA_LOGS + `/${id}`, body)
+      await api.post(EP_HEALTH_DATA_LOGS + `/${id}`, body)
     } else {
       await api.post(EP_HEALTH_DATA_LOGS, body)
     }

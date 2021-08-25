@@ -66,10 +66,10 @@ const LogHealthData = () => {
       payload.sleep = {
         start_time: timeWithSeconds(start_time),
         end_time: timeWithSeconds(end_time),
-        sleep_duration: getDuration(start_time, end_time),
+        sleep_duration: getDuration(start_time, end_time) + ':00',
         nap_start_time: timeWithSeconds(nap_start_time),
         nap_end_time: timeWithSeconds(nap_end_time),
-        nap_duration: getDuration(nap_start_time, nap_end_time),
+        nap_duration: getDuration(nap_start_time, nap_end_time) + ':00',
         quality
       }
     }
