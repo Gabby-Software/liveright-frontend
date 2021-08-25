@@ -12,8 +12,6 @@ export const Wrapper = styled.div`
 `
 
 export const PickersWrapper = styled(Space)`
-  margin: 32px 0;
-
   .ant-space-item {
     width: 250px;
   }

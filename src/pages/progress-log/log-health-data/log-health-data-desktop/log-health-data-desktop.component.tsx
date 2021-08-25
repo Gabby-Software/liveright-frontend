@@ -11,6 +11,8 @@ import FormDatepicker from '../../../../components/forms/form-datepicker/form-da
 import FormRow from '../../../../components/forms/form-row/form-row.component'
 import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getDuration } from '../../../../pipes/duration.pipe'
 import { QUALITY } from '../../../progress/progress.constants'
@@ -23,6 +25,7 @@ import {
   Space as Spacer,
   Wrapper as SleepCardWrapper
 } from '../components/log-card-desktop/log-card-desktop.styles'
+import LogClient from '../components/log-client/log-client.component'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
@@ -39,8 +42,8 @@ import {
 
 const LogHealthDataDesktop: React.FC<{}> = () => {
   const { t } = useTranslation()
-  const { values, errors, isValid } = useFormikContext<HealthData>()
-  console.log(values, errors)
+  const { values, isValid } = useFormikContext<HealthData>()
+  const { type } = useAuth()
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -55,12 +58,15 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
 
   return (
     <Wrapper>
-      <PickersWrapper size="middle">
-        <FormDatepicker name="date" label={t('progress:loggingDate')} />
-        <FormTimepicker name="time" label={t('progress:loggingTime')} />
-      </PickersWrapper>
+      {type === userTypes.CLIENT ? null : <LogClient />}
       <FormRow>
         <CardsWrapper>
+          <SleepCardWrapper>
+            <PickersWrapper size="middle">
+              <FormDatepicker name="date" label={t('progress:loggingDate')} />
+              <FormTimepicker name="time" label={t('progress:loggingTime')} />
+            </PickersWrapper>
+          </SleepCardWrapper>
           <LogCardDesktop
             name={t('progress:heart_rate')}
             inputName="heart_rate.avg_rate"
