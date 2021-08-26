@@ -254,6 +254,30 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Edit Session',
+    url: Routes.SESSIONS + '/schedule/edit',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Confirm Session',
+    url: Routes.SESSIONS + '/schedule/confirm',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),

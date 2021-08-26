@@ -59,10 +59,16 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             <Button
               variant="text"
               className="add-session__toggle-calendar-btn"
-              onClick={() => setIsShowCalendar(true)}
+              onClick={() => setIsShowCalendar(!isShowCalendar)}
             >
               <CalendarBoldIcon />
-              <span>{t('sessions:hide-calendar')}</span>
+              <span>
+                {t(
+                  isShowCalendar
+                    ? 'sessions:hide-calendar'
+                    : 'sessions:show-calendar'
+                )}
+              </span>
             </Button>
 
             {isShowCalendar && <AddSessionCalendar />}

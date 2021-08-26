@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -28,16 +29,28 @@ export default styled.div`
       color: ${getColorCarry('neutral_50')};
       font-size: 0.875rem;
       line-height: 1.25rem;
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 0.75rem;
+      }
     }
 
     &__item-value {
       font-size: 1.125rem;
       font-weight: 700;
       line-height: 1.5rem;
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 0.875rem;
+      }
     }
 
     &__item-container {
       margin-left: 1.875rem;
+
+      @media ${mediaQueries.MOBILE} {
+        margin-left: 0.75rem;
+      }
     }
   }
 `

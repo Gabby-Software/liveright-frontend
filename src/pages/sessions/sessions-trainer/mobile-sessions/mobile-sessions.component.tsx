@@ -46,8 +46,6 @@ const MobileSessions: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const clients = useClients()
   const clientsData = clients.data.data.filter((it) => it.is_active)
-  // const [addOpen, setAddOpen] = useState<boolean>(false)
-  // const [editOpen, setEditOpen] = useState<SessionType>()
   const [currentTab, setCurrentTab] = useState('')
 
   const renderUpcomingItemOptions = (item: SessionType) => {
@@ -57,7 +55,7 @@ const MobileSessions: React.FC<Props> = (props) => {
           <Button
             variant="secondary"
             size="sm"
-            // onClick={() => setEditOpen(item)}
+            to={`/sessions/schedule/edit?session=${JSON.stringify(item)}`}
           >
             {t('sessions:edit-reschedule')}
           </Button>
@@ -101,7 +99,9 @@ const MobileSessions: React.FC<Props> = (props) => {
                 <Button
                   variant="text"
                   size="sm"
-                  // onClick={() => setEditOpen(it)}
+                  to={`/sessions/schedule/confirm?session=${JSON.stringify(
+                    it
+                  )}`}
                   className="sessions__schedule-card-btn"
                 >
                   <span>{t('sessions:schedule-now')}</span>
@@ -147,104 +147,93 @@ const MobileSessions: React.FC<Props> = (props) => {
 
   const isPast = currentTab === 'Past'
   return (
-    <>
-      <MobilePage
-        title={t('sessions:title')}
-        actionComponent={
-          <Button to="/sessions/schedule/new">
-            {t('sessions:new-session')}
-          </Button>
-        }
-        headerSpacing={15}
-      >
-        <Styles>
-          <Tabs
-            className="sessions__tabs"
-            tabs={[
-              {
-                label: t('sessions:awaiting'),
-                renderContent: renderAwaitingContent
-              },
-              {
-                label: t('sessions:upcoming'),
-                renderContent: renderUpcomingContent
-              },
-              { label: t('sessions:past'), renderContent: renderPastContent }
-            ]}
-            onChange={(e) => setCurrentTab(e)}
-          />
+    <MobilePage
+      title={t('sessions:title')}
+      actionComponent={
+        <Button to="/sessions/schedule/new">{t('sessions:new-session')}</Button>
+      }
+      headerSpacing={15}
+    >
+      <Styles>
+        <Tabs
+          className="sessions__tabs"
+          tabs={[
+            {
+              label: t('sessions:awaiting'),
+              renderContent: renderAwaitingContent
+            },
+            {
+              label: t('sessions:upcoming'),
+              renderContent: renderUpcomingContent
+            },
+            { label: t('sessions:past'), renderContent: renderPastContent }
+          ]}
+          onChange={(e) => setCurrentTab(e)}
+        />
 
-          {!isPast && (
-            <div className="sessions__progress">
-              <div className="sessions__divider" />
+        {!isPast && (
+          <div className="sessions__progress">
+            <div className="sessions__divider" />
 
-              <h1 className="mobile-layout__title sessions__title">
-                {t('sessions:progress')}
-              </h1>
+            <h1 className="mobile-layout__title sessions__title">
+              {t('sessions:progress')}
+            </h1>
 
-              <div className="sessions__progress-range-container">
-                <Select
-                  id="sessions-progress-range"
-                  options={sessionDateRangeOptions}
-                  defaultValue={sessionDateRangeOptions[0].value}
-                />
-              </div>
-
-              <ProgressCard
-                title={t('revenue')}
-                current={300}
-                target={400}
-                icon={<RevenueSolidIcon />}
-                money
+            <div className="sessions__progress-range-container">
+              <Select
+                id="sessions-progress-range"
+                options={sessionDateRangeOptions}
+                defaultValue={sessionDateRangeOptions[0].value}
               />
-              <ProgressCard
-                title={t('sessions:ptSessions')}
-                current={5}
-                target={10}
-                icon={<GroupSolidIcon />}
-                earn={500}
-              />
-              <ProgressCard
-                title={t('sessions:coaching')}
-                current={5}
-                target={10}
-                icon={<ClientSolidIcon />}
-                earn={500}
-              />
-              <ProgressCard
-                title={t('sessions:consultation')}
-                current={5}
-                target={10}
-                icon={<PhoneSolidIcon />}
-                earn={500}
-              />
-              <ProgressCard
-                title={t('sessions:other')}
-                current={12}
-                target={10}
-                icon={<OptionSolidIcon />}
-                earn={500}
-              />
-
-              <Button
-                variant="secondary"
-                onClick={() => {}}
-                className="sessions__manage-btn"
-              >
-                {t('sessions:manage-targets')}
-              </Button>
             </div>
-          )}
-        </Styles>
-      </MobilePage>
 
-      {/*<AddSessionMobile*/}
-      {/*  isOpen={!!editOpen}*/}
-      {/*  session={editOpen}*/}
-      {/*  onClose={() => setEditOpen(undefined)}*/}
-      {/*/>*/}
-      {/*<AddSessionMobile isOpen={addOpen} onClose={() => setAddOpen(false)} />*/}
-    </>
+            <ProgressCard
+              title={t('revenue')}
+              current={300}
+              target={400}
+              icon={<RevenueSolidIcon />}
+              money
+            />
+            <ProgressCard
+              title={t('sessions:ptSessions')}
+              current={5}
+              target={10}
+              icon={<GroupSolidIcon />}
+              earn={500}
+            />
+            <ProgressCard
+              title={t('sessions:coaching')}
+              current={5}
+              target={10}
+              icon={<ClientSolidIcon />}
+              earn={500}
+            />
+            <ProgressCard
+              title={t('sessions:consultation')}
+              current={5}
+              target={10}
+              icon={<PhoneSolidIcon />}
+              earn={500}
+            />
+            <ProgressCard
+              title={t('sessions:other')}
+              current={12}
+              target={10}
+              icon={<OptionSolidIcon />}
+              earn={500}
+            />
+
+            <Button
+              variant="secondary"
+              onClick={() => {}}
+              className="sessions__manage-btn"
+            >
+              {t('sessions:manage-targets')}
+            </Button>
+          </div>
+        )}
+      </Styles>
+    </MobilePage>
   )
 }
 
