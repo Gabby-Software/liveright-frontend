@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import io, { Socket } from 'socket.io-client'
+import { Socket } from 'socket.io-client'
 
 import cookieManager from '../../../managers/cookie.manager'
 import { AccountType } from '../../../types/account.type'
@@ -18,27 +18,27 @@ class SocketManager {
     )?.uuid
     this.init(uuid)
   }
-  init(accountToken: string) {
-    const token = cookieManager.get('access_token')
-    this.socket = io(`http://api.chat.liverightdev.xyz:5000/chat`, {
-      auth: {
-        token,
-        accountToken
-      }
-    })
-    this.socket.on('connect', () => {
-      console.log('socket connected!', this.socket?.id)
-    })
-    this.socket.on('disconnect', () => {
-      console.log('socket dissconected!', this.socket?.connected) // false
-    })
-    this.socket.on('message:receive', this.handleMessageReceived.bind(this))
+  init() {
+    // const token = cookieManager.get('access_token')
+    // this.socket = io(`http://api.chat.liverightdev.xyz:5000/chat`, {
+    //   auth: {
+    //     token,
+    //     accountToken
+    //   }
+    // })
+    // this.socket.on('connect', () => {
+    //   console.log('socket connected!', this.socket?.id)
+    // })
+    // this.socket.on('disconnect', () => {
+    //   console.log('socket dissconected!', this.socket?.connected)
+    // })
+    // this.socket.on('message:receive', this.handleMessageReceived.bind(this))
   }
-  private handleMessageReceived(msg: ChatMessageType) {
-    for (const { callback } of this.receivedHandlers) {
-      callback(msg)
-    }
-  }
+  // private handleMessageReceived(msg: ChatMessageType) {
+  //   for (const { callback } of this.receivedHandlers) {
+  //     callback(msg)
+  //   }
+  // }
   join(roomId: string) {
     if (!this.socket) return
     this.socket.emit('room:join', { roomId })

@@ -40,7 +40,9 @@ export default function Header({
         <div>{actionComponent}</div>
       </div>
 
-      {!!component && <div className="mobile-page-header__component">{component}</div>}
+      {!!component && (
+        <div className="mobile-page-header__component">{component}</div>
+      )}
     </Styles>
   )
 }
