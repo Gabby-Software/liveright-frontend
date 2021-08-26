@@ -218,6 +218,18 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Request Session',
+    url: Routes.SESSIONS + '/request',
+    Component: lazy(
+      () => import('../pages/sessions-request/session-request.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),

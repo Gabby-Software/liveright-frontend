@@ -5,9 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/c
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
-import SessionAddModal from '../../../../components/sessions/session-add-modal/session-add-modal.component'
 import SessionRescheduleModal from '../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component'
-import userTypes from '../../../../enums/user-types.enum'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -26,10 +24,9 @@ interface Props {
 }
 
 const MobileSessions: React.FC<Props> = (props) => {
-  const { sessions, getSessions, trainer } = props
+  const { sessions, getSessions } = props
   const [rescheduleOpen, setRescheduleOpen] = useState(false)
   const [rescheduleSession, setRescheduleSession] = useState<SessionType>()
-  const [addOpen, setAddOpen] = useState(false)
   const { t } = useTranslation()
 
   const renderItemOptions = (item: SessionType) => {
@@ -58,9 +55,7 @@ const MobileSessions: React.FC<Props> = (props) => {
       <MobilePage
         title={t('sessions:title')}
         actionComponent={
-          <Button onClick={() => setAddOpen(true)}>
-            {t('sessions:request')}
-          </Button>
+          <Button to="/sessions/request">{t('sessions:request')}</Button>
         }
         headerComponent={
           <HeaderComponent>
@@ -103,15 +98,6 @@ const MobileSessions: React.FC<Props> = (props) => {
         onClose={() => setRescheduleOpen(false)}
         session={rescheduleSession}
       />
-      {trainer ? (
-        <SessionAddModal
-          trainer_id={
-            trainer.accounts.find((it) => it.type === userTypes.TRAINER)!.id
-          }
-          isOpen={addOpen}
-          onClose={() => setAddOpen(false)}
-        />
-      ) : null}
     </>
   )
 }

@@ -8,20 +8,25 @@ export default function Header({
   title,
   actionComponent,
   spacing,
-  component
+  component,
+  topComponent
 }: HeaderProps) {
   return (
     <Styles className="mobile-page-header" $spacing={spacing}>
       <div className="mobile-page-header__info">
         <div className="mobile-page-header__info-item">
-          <UserBadge
-            avatar=""
-            firstName="A"
-            lastName="B"
-            className="mobile-page-header__badge"
-            avatarOnly
-          />
-          <h5 className="mobile-page-header__title">LiveRight</h5>
+          {topComponent || (
+            <>
+              <UserBadge
+                avatar=""
+                firstName="A"
+                lastName="B"
+                className="mobile-page-header__badge"
+                avatarOnly
+              />
+              <h5 className="mobile-page-header__title">LiveRight</h5>
+            </>
+          )}
         </div>
         <div className="mobile-page-header__info-item">
           <IconButton size="sm" className="mobile-page-header__action-icon">
@@ -40,7 +45,9 @@ export default function Header({
         <div>{actionComponent}</div>
       </div>
 
-      {!!component && <div className="mobile-page-header__component">{component}</div>}
+      {!!component && (
+        <div className="mobile-page-header__component">{component}</div>
+      )}
     </Styles>
   )
 }
