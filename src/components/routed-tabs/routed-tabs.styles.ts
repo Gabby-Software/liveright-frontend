@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 import { media } from '../../assets/styles/_media'
+import { WhiteCard } from '../../pages/progress-log/log-health-data/log-health-data-mobile/log-health-data-mobile.styles'
 
-export default styled.div`
+export default styled(WhiteCard)`
   margin-bottom: 70px;
   max-width: 100%;
   overflow: auto;
@@ -20,16 +21,16 @@ export default styled.div`
     }
     &__item {
       display: block;
-      color: ${(p) => p.theme.vars.colors.secondary};
+      color: ${(p) => p.theme.vars.colors.primaryDark_v2};
       transition: ${(p) => p.theme.vars.defaults.transition};
       font-weight: 500;
       font-size: 14px;
-      padding: 4px 12px;
+      padding: 0 12px;
       &:hover {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.link};
       }
       &__active {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.link};
       }
       &__wrapper {
       }
@@ -37,11 +38,11 @@ export default styled.div`
     &__indicator {
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: absolute;
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.link};
       height: 2px;
-      width: var(--w);
-      left: var(--l);
-      bottom: 0;
+      width: calc(var(--w) - 30px);
+      left: calc(var(--l) + 15px);
+      bottom: -20px;
     }
   }
 `
