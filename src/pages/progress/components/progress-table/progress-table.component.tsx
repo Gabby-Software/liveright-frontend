@@ -13,7 +13,7 @@ import {
   HealthData as HealthDataType,
   ProgressLogType
 } from '../../progress.types'
-import { DateButton, Wrapper } from './progress-table.styles'
+import { DateButton, Pagination, Wrapper } from './progress-table.styles'
 
 interface Props {
   activeTab: ProgressLogType
@@ -82,11 +82,13 @@ const HealthTable: React.FC<Props> = (props) => {
           }
         }}
       />
-      <DataPagination
-        page={current_page}
-        setPage={handlePageSet}
-        total={total}
-      />
+      <Pagination>
+        <DataPagination
+          page={current_page}
+          setPage={handlePageSet}
+          total={total}
+        />
+      </Pagination>
     </Wrapper>
   )
 }

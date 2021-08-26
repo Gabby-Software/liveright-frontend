@@ -24,6 +24,7 @@
   "returnHealthData": "Return to Health Data",
   "sleep": "Sleep",
   "heart_rate": "Morning Resting Heart Rate",
+  "heart_rate_short": "Heart Rate",
   "blood_glucose": "Blood Glucose",
   "week": "This Week",
   "month": "This Month",

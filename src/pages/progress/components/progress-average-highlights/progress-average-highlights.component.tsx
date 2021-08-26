@@ -39,28 +39,28 @@ const AverageHighLights: React.FC<Props> = (props) => {
       {highlights?.avg_sleep ? (
         <HealthCard
           icon={<SleepIcon />}
-          data={timeWithoutSeconds(highlights?.avg_sleep)}
+          data={timeWithoutSeconds(highlights?.avg_sleep) + ' Hours'}
           quality="good"
         />
       ) : null}
       {highlights?.avg_heart_rate ? (
         <HealthCard
           icon={<CardiogramIcon />}
-          data={highlights?.avg_heart_rate?.toFixed(0).toString()}
+          data={highlights?.avg_heart_rate?.toFixed(0).toString() + ' BPM'}
           quality={getHeartRateQuality(highlights?.avg_heart_rate)}
         />
       ) : null}
       {highlights?.avg_steps ? (
         <HealthCard
           icon={<StepsIcon />}
-          data={highlights?.avg_steps?.toFixed(0).toString()}
+          data={highlights?.avg_steps?.toFixed(0).toString() + ' Steps'}
           quality={getStepsQuality(highlights?.avg_steps)}
         />
       ) : null}
       {highlights?.avg_glucose ? (
         <HealthCard
           icon={<BloodIcon />}
-          data={highlights?.avg_glucose?.toFixed(0).toString()}
+          data={highlights?.avg_glucose?.toFixed(0).toString() + ' mg/dl'}
           quality={getGlucoseQuality(highlights?.avg_glucose)}
         />
       ) : null}
