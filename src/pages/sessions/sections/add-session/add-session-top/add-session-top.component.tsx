@@ -6,13 +6,12 @@ import { ReactComponent as CalendarIcon } from '../../../../../assets/media/icon
 import { ReactComponent as ClockIcon } from '../../../../../assets/media/icons/clock.svg'
 import FormSelect from '../../../../../components/forms/form-select/form-select.component'
 import PageSubtitle from '../../../../../components/titles/page-subtitle.styles'
+import UserBadge from '../../../../../components/user-badge/user-badge.component'
 import { useClients } from '../../../../../hooks/clients.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
 import Styles from './add-session-top.styles'
-import UserBadge
-  from '../../../../../components/user-badge/user-badge.component'
 
 interface Props {
   session?: SessionType

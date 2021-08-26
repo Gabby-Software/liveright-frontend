@@ -4,12 +4,12 @@ import React, { ReactElement, useEffect, useMemo, useState } from 'react'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
 import SessionsFilters from '../sessions-filters/sessions-filters.component'
-import UserBadge from '../../../../components/user-badge/user-badge.component'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>

@@ -61,7 +61,7 @@ function* getHealthDataWorker({
   } & CallbackType<void>
 >) {
   yield put({ type: ACTION_GET_HEALTH_DATA_REQUEST })
-  const { onSuccess, onError, only_include, id, ...filters } = payload
+  const { onSuccess, onError, only_include, ...filters } = payload
   const filtersQuery = queryFiltersPipe(filters)
   const params = new URLSearchParams({
     only_include,
