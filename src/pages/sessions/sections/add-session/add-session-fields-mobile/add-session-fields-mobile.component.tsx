@@ -2,20 +2,14 @@ import { useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-import {
-  CalendarBoldIcon,
-  CalendarIcon
-} from '../../../../../assets/media/icons'
-import { ReactComponent as TimesIcon } from '../../../../../assets/media/icons/times.svg'
+import { CalendarBoldIcon, InfoIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import Card from '../../../../../components/cards/card/card.component'
 import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../../components/form/select/select.component'
 import Textarea from '../../../../../components/form/textarea/textarea.component'
 import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
-import FormSelect from '../../../../../components/forms/form-select/form-select.component'
-import FormTextarea from '../../../../../components/forms/form-textarea/form-textarea.component'
-import FormTimepicker from '../../../../../components/forms/form-timepicker/form-timepicker.component'
+import Tooltip from '../../../../../components/tooltip/tooltip.component'
 import { serviceTypeOptions } from '../../../../../enums/service-type.enum'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
@@ -49,9 +43,6 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             label={t('sessions:schedule-date')}
             value={values.date}
             onChange={(e, date) => setFieldValue('date', date)}
-            disabledDate={(date: any) =>
-              moment(date).isBefore(moment(), 'days')
-            }
             className="add-session__form-date"
           />
 
@@ -101,6 +92,16 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             className="add-session__form-item"
             onChange={(e) => setFieldValue('type', e)}
           />
+
+          {!!session && (
+            <p className="add-session__want-change">
+              {t('sessions:want-to-change')}
+
+              <Tooltip title="Lorem Ipsum is simple." placement="right">
+                <InfoIcon />
+              </Tooltip>
+            </p>
+          )}
 
           <Textarea
             id="add-session-notes"

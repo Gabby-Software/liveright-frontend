@@ -7,6 +7,7 @@ export default styled.div<any>`
   display: flex;
   flex-direction: column;
   width: 100%;
+  pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
 
   & .input__input {
     height: ${getHeight};

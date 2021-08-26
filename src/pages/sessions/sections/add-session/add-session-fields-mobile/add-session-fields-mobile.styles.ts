@@ -49,5 +49,18 @@ export default styled.div`
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
     }
+
+    &__want-change {
+      margin-bottom: 1.25rem;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+
+      & svg {
+        width: 20px;
+        height: 20px;
+        margin-left: 0.5rem;
+      }
+    }
   }
 `

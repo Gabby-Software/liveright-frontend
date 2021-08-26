@@ -69,13 +69,15 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
               onChange={(e) => setFieldValue('type', e)}
             />
 
-            <p className="add-session__want-change">
-              {t('sessions:want-to-change')}
+            {!!session && (
+              <p className="add-session__want-change">
+                {t('sessions:want-to-change')}
 
-              <Tooltip title="Lorem Ipsum is simple." placement="right">
-                <InfoIcon />
-              </Tooltip>
-            </p>
+                <Tooltip title="Lorem Ipsum is simple." placement="right">
+                  <InfoIcon />
+                </Tooltip>
+              </p>
+            )}
           </div>
         </div>
 

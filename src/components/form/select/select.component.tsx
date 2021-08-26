@@ -50,6 +50,7 @@ export default function Select({
           placeholder={placeholder}
           size={size}
           prefix={prefix}
+          disabled={disabled}
           suffix={<CaretDownIcon />}
           value={options.find((o) => o.value === value || defaultValue)?.label}
           onClick={() => setModal(true)}
