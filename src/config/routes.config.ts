@@ -230,6 +230,18 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Reschedule Session',
+    url: Routes.SESSIONS + '/reschedule',
+    Component: lazy(
+      () => import('../pages/session-reschedule/session-reschedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),

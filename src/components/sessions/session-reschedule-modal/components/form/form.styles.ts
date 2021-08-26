@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export default styled.div`
-  .reschedule-session {
+  .reschedule-form {
     &__form-item {
       margin-bottom: 1.25rem;
     }
@@ -12,6 +12,12 @@ export default styled.div`
 
     &__current-card {
       margin-bottom: 1.875rem;
+    }
+
+    &__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
     }
   }
 `

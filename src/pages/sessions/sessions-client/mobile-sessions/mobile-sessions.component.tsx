@@ -25,8 +25,6 @@ interface Props {
 
 const MobileSessions: React.FC<Props> = (props) => {
   const { sessions, getSessions } = props
-  const [rescheduleOpen, setRescheduleOpen] = useState(false)
-  const [rescheduleSession, setRescheduleSession] = useState<SessionType>()
   const { t } = useTranslation()
 
   const renderItemOptions = (item: SessionType) => {
@@ -35,10 +33,7 @@ const MobileSessions: React.FC<Props> = (props) => {
         <Button
           variant="secondary"
           size="sm"
-          onClick={() => {
-            setRescheduleOpen(true)
-            setRescheduleSession(item)
-          }}
+          to={`/sessions/reschedule?session=${JSON.stringify(item)}`}
         >
           {t('sessions:reschedule')}
         </Button>
@@ -92,12 +87,6 @@ const MobileSessions: React.FC<Props> = (props) => {
           />
         </Styles>
       </MobilePage>
-
-      <SessionRescheduleModal
-        open={rescheduleOpen}
-        onClose={() => setRescheduleOpen(false)}
-        session={rescheduleSession}
-      />
     </>
   )
 }
