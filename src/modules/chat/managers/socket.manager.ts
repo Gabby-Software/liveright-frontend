@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { Socket } from 'socket.io-client'
 
-import cookieManager from '../../../managers/cookie.manager'
-import { AccountType } from '../../../types/account.type'
+// import cookieManager from '../../../managers/cookie.manager'
+// import { AccountType } from '../../../types/account.type'
 import { ChatMessageType } from '../types/chat-message.type'
 
 type SocketCallbackType = {
@@ -13,10 +13,10 @@ class SocketManager {
   private socket: Socket | null = null
   private receivedHandlers: SocketCallbackType[] = []
   constructor() {
-    const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find(
-      (acc: AccountType) => acc.is_current
-    )?.uuid
-    this.init(uuid)
+    // const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find(
+    //   (acc: AccountType) => acc.is_current
+    // )?.uuid
+    // this.init(uuid)
   }
   init() {
     // const token = cookieManager.get('access_token')
