@@ -194,6 +194,10 @@ export const routes: RouteType[] = [
           '../pages/progress-log/log-health-data/log-health-data.component'
         )
     ),
+    back: {
+      url: Routes.PROGRESS,
+      alias: 'health-data'
+    },
     version: 2,
     header: {
       title: 'Log Health Data'

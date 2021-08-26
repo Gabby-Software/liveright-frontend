@@ -37,7 +37,7 @@ const menuItems: MenuItemType[] = [
     type: userTypes.TRAINER
   },
   { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
-  { name: 'progress', url: Routes.PROGRESS, Icon: ProgressIcon },
+  { name: 'progress', url: Routes.PROGRESS_HEALTH_DATA, Icon: ProgressIcon },
   { name: 'library', url: Routes.CHAT, Icon: ChatIcon },
   {
     name: 'invoices',

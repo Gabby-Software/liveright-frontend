@@ -54,19 +54,31 @@ const DateHighLights: React.FC<Props> = (props) => {
       <HealthCard
         date={date}
         icon={<CardiogramIcon />}
-        data={dateHighlights?.heart_rate?.avg_rate.toString()}
+        data={
+          dateHighlights?.heart_rate?.avg_rate
+            ? dateHighlights?.heart_rate?.avg_rate + ' BPM'
+            : ''
+        }
         quality={dateHighlights?.heart_rate?.quality}
       />
       <HealthCard
         date={date}
         icon={<StepsIcon />}
-        data={dateHighlights?.steps?.daily_steps.toString()}
+        data={
+          dateHighlights?.steps?.daily_steps
+            ? dateHighlights?.steps?.daily_steps + ' Steps'
+            : ''
+        }
         quality={dateHighlights?.steps?.quality}
       />
       <HealthCard
         date={date}
         icon={<BloodIcon />}
-        data={dateHighlights?.blood_glucose?.glucose.toString()}
+        data={
+          dateHighlights?.blood_glucose?.glucose
+            ? dateHighlights?.blood_glucose?.glucose + ' mg/dl'
+            : ''
+        }
         quality={dateHighlights?.blood_glucose?.quality}
       />
     </CardsWrapper>
