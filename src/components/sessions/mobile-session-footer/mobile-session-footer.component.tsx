@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 // import AddSessionMobile from '../../../pages/sessions/sections/add-session/add-session-mobile/add-session-mobile.component'

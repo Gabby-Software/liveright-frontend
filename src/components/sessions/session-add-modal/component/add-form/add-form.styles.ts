@@ -6,7 +6,7 @@ import Card from '../../../../cards/card/card.component'
 
 export default styled(Card)`
   flex: 1;
-  
+
   .add-session {
     &__credits-btn {
       width: 100%;

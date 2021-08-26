@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { DocumentOutlinedIcon } from '../../../../assets/media/icons'
 import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
-import SessionRescheduleModal from '../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
