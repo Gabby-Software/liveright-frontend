@@ -242,6 +242,18 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Schedule Session',
+    url: Routes.SESSIONS + '/schedule/new',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),

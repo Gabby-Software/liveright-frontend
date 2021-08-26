@@ -1,49 +1,53 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
+
 export default styled.div`
   .add-session {
-    &__for {
-      margin: 24px 0;
+    &__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('#2E2F31')};
+      margin-bottom: 1.25rem;
     }
-    &__form {
-      [class$='__wrapper'] {
-        margin-bottom: 12px;
-      }
-      &__submit {
-        margin-top: 40px;
-      }
-      &__credits {
-        margin: 40px 0 12px 0;
-        font-weight: 500;
-        border-top: 1px solid ${(p) => p.theme.vars.colors.secondary2};
-        border-bottom: 1px solid ${(p) => p.theme.vars.colors.secondary2};
-        padding: 12px 0;
+
+    &__form-date {
+      margin-bottom: 0.75rem;
+    }
+
+    &__toggle-calendar-btn {
+      padding: 0;
+
+      & svg {
+        margin-right: 0.625rem;
       }
     }
-    &__calendar {
-      &__open {
-        position: relative;
-        margin: 40px 0;
-      }
-      &__close {
-        ${(p) => p.theme.extend.p1}
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        margin: 40px 0;
-        svg {
-          width: 16px;
-          height: auto;
-          margin-right: 12px;
-        }
-      }
-      &__times {
-        position: absolute;
-        top: 7px;
-        right: 0;
-        width: 16px;
-        height: auto;
-      }
+
+    &__calendar-wrapper {
+      margin-bottom: 1.25rem;
+    }
+
+    &__form-item {
+      margin-bottom: 0.75rem;
+    }
+
+    &__form-notes {
+      margin-bottom: 1.25rem;
+    }
+
+    &__submit-btn {
+      width: 100%;
+    }
+
+    &__delete-btn {
+      width: 100%;
+      margin-top: 1.25rem;
+    }
+
+    &__form-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
     }
   }
 `

@@ -2,13 +2,20 @@ import { useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-import { ReactComponent as CalendarIcon } from '../../../../../assets/media/icons/calendar.svg'
+import {
+  CalendarBoldIcon,
+  CalendarIcon
+} from '../../../../../assets/media/icons'
 import { ReactComponent as TimesIcon } from '../../../../../assets/media/icons/times.svg'
-import FormDatepicker from '../../../../../components/forms/form-datepicker/form-datepicker.component'
+import Button from '../../../../../components/buttons/button/button.component'
+import Card from '../../../../../components/cards/card/card.component'
+import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
+import Select from '../../../../../components/form/select/select.component'
+import Textarea from '../../../../../components/form/textarea/textarea.component'
+import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
 import FormSelect from '../../../../../components/forms/form-select/form-select.component'
 import FormTextarea from '../../../../../components/forms/form-textarea/form-textarea.component'
 import FormTimepicker from '../../../../../components/forms/form-timepicker/form-timepicker.component'
-import PageSubtitle from '../../../../../components/titles/page-subtitle.styles'
 import { serviceTypeOptions } from '../../../../../enums/service-type.enum'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
@@ -27,62 +34,84 @@ interface Props {
 const AddSessionFieldsMobile: React.FC<Props> = (props) => {
   const { session, onClose } = props
   const { t } = useTranslation()
-  const { values } = useFormikContext<AddSessionFormType>()
+  const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
   const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false)
   const isToday = moment(values.date).isSame(moment(), 'days')
 
   return (
     <Styles>
-      <div className={'add-session__form'}>
-        <PageSubtitle className={'add-session__for'}>
-          {t('sessions:schedule-for')}
-        </PageSubtitle>
-        <FormDatepicker
-          name={'date'}
-          label={t('sessions:date')}
-          disabledDate={(date: any) => moment(date).isBefore(moment(), 'days')}
-        />
-        {isShowCalendar ? (
-          <div className={'add-session__calendar__open'}>
-            <TimesIcon
-              className={'add-session__calendar__times'}
-              onClick={() => setIsShowCalendar(false)}
-            />
-            <AddSessionCalendar />
+      <Card>
+        <div className={'add-session__form'}>
+          <h3 className={'add-session__title'}>{t('sessions:schedule-for')}</h3>
+
+          <DatePicker
+            id="add-session-date"
+            label={t('sessions:schedule-date')}
+            value={values.date}
+            onChange={(e, date) => setFieldValue('date', date)}
+            disabledDate={(date: any) =>
+              moment(date).isBefore(moment(), 'days')
+            }
+            className="add-session__form-date"
+          />
+
+          <div className="add-session__calendar-wrapper">
+            <Button
+              variant="text"
+              className="add-session__toggle-calendar-btn"
+              onClick={() => setIsShowCalendar(true)}
+            >
+              <CalendarBoldIcon />
+              <span>{t('sessions:hide-calendar')}</span>
+            </Button>
+
+            {isShowCalendar && <AddSessionCalendar />}
           </div>
-        ) : (
-          <div
-            className={'add-session__calendar__close'}
-            onClick={() => setIsShowCalendar(true)}
-          >
-            <CalendarIcon />
-            <span>{t('sessions:open-calendar')}</span>
-          </div>
-        )}
-        <FormTimepicker
-          disabledUntilNow={isToday}
-          name={'time'}
-          label={t('sessions:time')}
-        />
-        <FormTimepicker
-          disabled={!!session}
-          name={'duration'}
-          label={t('sessions:duration')}
-          showNow={false}
-        />
-        <FormSelect
-          disabled={!!session}
-          name={'type'}
-          label={t('sessions:type')}
-          options={serviceTypeOptions}
-        />
-        <FormTextarea name={'notes'} label={t('sessions:notes')} />
-        {session ? null : <AddSessionCredits />}
-        {session ? (
-          <AddSessionDelete onClose={onClose} session_id={session.id} />
-        ) : null}
-        <AddSessionSubmit session={session} />
-      </div>
+
+          <TimePicker
+            id="add-session-time"
+            disabledUntilNow={isToday}
+            value={values.time}
+            onChange={(e, date) => setFieldValue('time', date)}
+            label={t('sessions:schedule-time')}
+            className="add-session__form-item"
+          />
+          <TimePicker
+            id="add-session-duration"
+            disabled={!!session}
+            label={t('sessions:duration')}
+            value={values.duration}
+            onChange={(e, date) => setFieldValue('duration', date)}
+            className="add-session__form-item"
+          />
+
+          <Select
+            id="add-session-type"
+            disabled={!!session}
+            name={'type'}
+            label={t('sessions:type')}
+            options={serviceTypeOptions}
+            value={values.type}
+            className="add-session__form-item"
+            onChange={(e) => setFieldValue('type', e)}
+          />
+
+          <Textarea
+            id="add-session-notes"
+            label={t('sessions:notes')}
+            value={values.notes}
+            onChange={(e) => setFieldValue('notes', e.target.value)}
+            className="add-session__form-notes"
+          />
+
+          {!session && <AddSessionCredits />}
+
+          <AddSessionSubmit session={session} />
+          {session && (
+            <AddSessionDelete onClose={onClose} session_id={session.id} />
+          )}
+        </div>
+      </Card>
     </Styles>
   )
 }

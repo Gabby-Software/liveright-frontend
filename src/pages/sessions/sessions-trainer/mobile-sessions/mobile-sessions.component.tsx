@@ -28,7 +28,6 @@ import {
 } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
-import AddSessionMobile from '../../sections/add-session/add-session-mobile/add-session-mobile.component'
 import { ScheduleCard } from '../sessions-trainer.styles'
 import Styles from './mobile-sessions.styles'
 
@@ -47,8 +46,8 @@ const MobileSessions: React.FC<Props> = (props) => {
   const { t } = useTranslation()
   const clients = useClients()
   const clientsData = clients.data.data.filter((it) => it.is_active)
-  const [addOpen, setAddOpen] = useState<boolean>(false)
-  const [editOpen, setEditOpen] = useState<SessionType>()
+  // const [addOpen, setAddOpen] = useState<boolean>(false)
+  // const [editOpen, setEditOpen] = useState<SessionType>()
   const [currentTab, setCurrentTab] = useState('')
 
   const renderUpcomingItemOptions = (item: SessionType) => {
@@ -58,7 +57,7 @@ const MobileSessions: React.FC<Props> = (props) => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => setEditOpen(item)}
+            // onClick={() => setEditOpen(item)}
           >
             {t('sessions:edit-reschedule')}
           </Button>
@@ -102,7 +101,7 @@ const MobileSessions: React.FC<Props> = (props) => {
                 <Button
                   variant="text"
                   size="sm"
-                  onClick={() => setEditOpen(it)}
+                  // onClick={() => setEditOpen(it)}
                   className="sessions__schedule-card-btn"
                 >
                   <span>{t('sessions:schedule-now')}</span>
@@ -152,7 +151,7 @@ const MobileSessions: React.FC<Props> = (props) => {
       <MobilePage
         title={t('sessions:title')}
         actionComponent={
-          <Button onClick={() => setAddOpen(true)}>
+          <Button to="/sessions/schedule/new">
             {t('sessions:new-session')}
           </Button>
         }
@@ -239,12 +238,12 @@ const MobileSessions: React.FC<Props> = (props) => {
         </Styles>
       </MobilePage>
 
-      <AddSessionMobile
-        isOpen={!!editOpen}
-        session={editOpen}
-        onClose={() => setEditOpen(undefined)}
-      />
-      <AddSessionMobile isOpen={addOpen} onClose={() => setAddOpen(false)} />
+      {/*<AddSessionMobile*/}
+      {/*  isOpen={!!editOpen}*/}
+      {/*  session={editOpen}*/}
+      {/*  onClose={() => setEditOpen(undefined)}*/}
+      {/*/>*/}
+      {/*<AddSessionMobile isOpen={addOpen} onClose={() => setAddOpen(false)} />*/}
     </>
   )
 }

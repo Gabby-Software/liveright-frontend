@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -9,6 +10,11 @@ export default styled.div`
 
       & .ant-select-selector {
         padding: 1rem 1rem 1rem 4rem;
+        height: auto;
+      }
+
+      & .input__input {
+        padding: 1rem;
         height: auto;
       }
 
@@ -26,6 +32,10 @@ export default styled.div`
       grid-template-columns: 1fr 1fr;
       gap: 1.875rem;
       margin-bottom: 1.875rem;
+
+      @media ${mediaQueries.MOBILE} {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__head-card {

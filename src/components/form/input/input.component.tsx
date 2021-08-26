@@ -18,6 +18,7 @@ interface InputProps {
   onClick?: any
   onFocus?: FocusEventHandler<HTMLInputElement>
   readOnly?: boolean
+  className?: string
 }
 
 export default function Input({
@@ -33,10 +34,11 @@ export default function Input({
   onChange,
   onClick,
   onFocus,
-  readOnly
+  readOnly,
+  className
 }: InputProps) {
   return (
-    <Styles $size={size} onClick={onClick}>
+    <Styles $size={size} onClick={onClick} className={className}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <AntdInput
         id={id}

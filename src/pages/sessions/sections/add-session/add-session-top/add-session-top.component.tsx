@@ -9,6 +9,7 @@ import CurrentDateCard from '../../../../../components/cards/current-date-card/c
 import UserBadgeCard from '../../../../../components/cards/user-bardge-card/user-badge-card.component'
 import Select from '../../../../../components/form/select/select.component'
 import { useClients } from '../../../../../hooks/clients.hook'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
@@ -27,6 +28,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
     [clients]
   )
   const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
+  const isMobile = useIsMobile()
 
   const selectedClient = useMemo(
     () => clientsData.find((it) => it.id === Number(values?.client_id)),
@@ -41,6 +43,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
           className="add-session__client-select"
           id="add-sessions-id"
           placeholder={t('sessions:select-client')}
+          value={values.client_id}
           onChange={(e) => setFieldValue('client_id', e)}
           options={clientsData.map(({ first_name, last_name, id }) => {
             return {
@@ -72,15 +75,18 @@ const AddSessionTop: React.FC<Props> = (props) => {
               userRole="Client"
             />
           </Card>
-          <Field name={'sessions'}>
-            {({ field }: FieldProps) => (
-              <CreditsButton
-                className="add-session__credit-btn"
-                count={field.value}
-                readOnly
-              />
-            )}
-          </Field>
+
+          {!isMobile && (
+            <Field name={'sessions'}>
+              {({ field }: FieldProps) => (
+                <CreditsButton
+                  className="add-session__credit-btn"
+                  count={field.value}
+                  readOnly
+                />
+              )}
+            </Field>
+          )}
         </div>
       )}
 

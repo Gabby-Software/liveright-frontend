@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -9,13 +10,17 @@ export default styled.div`
   flex-direction: column;
   justify-content: center;
 
+  @media ${mediaQueries.MOBILE} {
+    padding: 6.25rem 0;
+  }
+
   .add-session {
     &__empty {
       &__icon {
         width: 60px;
         height: auto;
         display: block;
-        margin: 2rem 0;
+        margin: 0 0 2rem 0;
         color: ${getColorCarry('primaryDark_v2')};
       }
       &__desc {

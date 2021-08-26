@@ -49,18 +49,20 @@ export default function Select({
           label={label}
           placeholder={placeholder}
           size={size}
+          prefix={prefix}
           suffix={<CaretDownIcon />}
           value={options.find((o) => o.value === value || defaultValue)?.label}
           onClick={() => setModal(true)}
           onFocus={(e) => e.target.blur()}
+          className={className}
         />
         <SmallModal
           visible={modal}
           onCancel={() => setModal(false)}
           title={label || 'Select'}
-          menu={options.map(({ label }) => ({
+          menu={options.map(({ label, value }) => ({
             name: label,
-            onClick: () => {}
+            onClick: () => onChange?.(value)
           }))}
         />
       </>

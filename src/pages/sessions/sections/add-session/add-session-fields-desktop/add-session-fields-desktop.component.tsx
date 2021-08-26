@@ -87,6 +87,7 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
           label={t('sessions:notes')}
           placeholder={t('sessions:type-here')}
           className="add-session__form-item"
+          onChange={(e) => setFieldValue('notes', e.target.value)}
         />
 
         {!session && <AddSessionCredits />}
