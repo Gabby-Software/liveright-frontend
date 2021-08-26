@@ -46,8 +46,8 @@ const AverageHighLights: React.FC<Props> = (props) => {
       {highlights?.avg_heart_rate ? (
         <HealthCard
           icon={<CardiogramIcon />}
-          data={highlights?.avg_heart_rate?.toFixed(0).toString()}
-          quality={getHeartRateQuality(highlights?.avg_heart_rate) + ' BPM'}
+          data={highlights?.avg_heart_rate?.toFixed(0).toString() + ' BPM'}
+          quality={getHeartRateQuality(highlights?.avg_heart_rate)}
         />
       ) : null}
       {highlights?.avg_steps ? (
