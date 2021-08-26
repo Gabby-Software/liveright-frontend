@@ -12,6 +12,7 @@ export default function Button({
   LinkProps,
   type,
   to,
+  disabled,
   ...props
 }: PropsWithChildren<ButtonProps>) {
   let content = (
@@ -20,6 +21,7 @@ export default function Button({
       $var={variant}
       className={className}
       type={type}
+      disabled={disabled}
       {...props}
     >
       {children}

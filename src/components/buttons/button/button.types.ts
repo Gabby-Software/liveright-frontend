@@ -6,4 +6,5 @@ export interface ButtonProps {
   to?: string
   LinkProps?: any
   type?: string
+  disabled?: boolean
 }

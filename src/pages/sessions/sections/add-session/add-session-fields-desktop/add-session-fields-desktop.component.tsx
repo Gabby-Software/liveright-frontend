@@ -82,7 +82,6 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
 
         <Textarea
           id="add-session-notes"
-          // name={'notes'}
           value={values.notes}
           label={t('sessions:notes')}
           placeholder={t('sessions:type-here')}

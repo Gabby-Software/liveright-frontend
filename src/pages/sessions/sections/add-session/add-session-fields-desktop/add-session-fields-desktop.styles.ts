@@ -61,5 +61,9 @@ export default styled.div`
         }
       }
     }
+
+    &__busy {
+      margin-bottom: 1.5rem;
+    }
   }
 `
