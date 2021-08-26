@@ -5,6 +5,7 @@ import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/bloo
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { timeWithoutSeconds } from '../../../../pipes/time.pipe'
 import { getHealthDataAsync } from '../../progress.api'
@@ -19,17 +20,18 @@ interface Props {
 const DateHighLights: React.FC<Props> = (props) => {
   const { date = moment() } = props
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const [dateHighlights, setDateHighlights] = useState<HealthDataType>()
   const sleepData = useMemo(() => {
     if (dateHighlights?.sleep) {
       const { start_time, end_time } = dateHighlights.sleep
       const start = timeWithoutSeconds(start_time)
       const end = timeWithoutSeconds(end_time)
-      return `${t('from')} ${start} ${t('to')} ${end}`
+      return `${isMobile ? '' : t('from')} ${start} ${t('to')} ${end}`
     } else {
       return ''
     }
-  }, [dateHighlights])
+  }, [dateHighlights, isMobile])
 
   useEffect(() => {
     const getHealthData = async () => {
@@ -44,7 +46,7 @@ const DateHighLights: React.FC<Props> = (props) => {
   }, [])
 
   return (
-    <CardsWrapper size="middle">
+    <CardsWrapper>
       <HealthCard
         date={date}
         icon={<SleepIcon />}

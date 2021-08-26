@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
+import { media } from '../../../../assets/styles/_media'
 import Card from '../../../../components/card/card.style'
 import FormButton from '../../../../components/forms/form-button/form-button.component'
 
@@ -12,6 +13,9 @@ const noLogsStyles = css`
     order: 2;
     margin-left: auto;
     margin-right: 10px;
+    ${media('tablet', 'max')`
+      order: 0;
+    `}
   }
 `
 
@@ -20,7 +24,7 @@ export const StyledCard = styled(Card)<{ noLogs: boolean }>`
   align-items: center;
   height: 93px;
   width: 280px;
-  padding: 20px 10px 20px 20px;
+  padding: 20px 18px;
   color: white;
   font-size: 16px;
   user-select: none;
@@ -34,6 +38,22 @@ export const StyledCard = styled(Card)<{ noLogs: boolean }>`
     margin-right: 25px;
   }
   ${({ noLogs }) => (noLogs ? noLogsStyles : '')}
+  ${media('tablet', 'max')`
+      width: calc(50% - 10px);
+      margin-right: 20px;
+      height: auto;
+      flex-direction: column;
+      text-align: center;
+      &:nth-child(even) {
+        margin-right: 0;
+      }
+      &:nth-child(-n +2) {
+        margin-bottom: 20px;
+      }
+      svg {
+        margin: 0 0 5px 0;
+      }
+  `}
 `
 
 export const Quality = styled.div`
@@ -44,6 +64,7 @@ export const Quality = styled.div`
 export const Data = styled.span`
   font-size: 16px;
   font-weight: 400;
+  white-space: nowrap;
   text-align: center;
 `
 export const LogLink = styled(Link)`
@@ -55,8 +76,11 @@ export const LogLink = styled(Link)`
   svg {
     height: 8px;
     width: auto;
-    margin-left: 13px;
+    margin: 0 0 0 13px;
   }
+  ${media('tablet', 'max')`
+    justify-content: center;
+  `}
 `
 export const Button = styled(FormButton)`
   padding: 4px;
