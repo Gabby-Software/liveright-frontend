@@ -1,8 +1,11 @@
 import React from 'react'
 
 import Tabs from '../../../components/tabs/tabs.component'
+import userTypes from '../../../enums/user-types.enum'
+import { useAuth } from '../../../hooks/auth.hook'
 import { useTitleContent } from '../../../layouts/desktop-layout/desktop-layout.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
+import LogClient from '../../progress-log/log-health-data/components/log-client/log-client.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import TitleButton from '../components/progress-title-button/progress-title-button.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
@@ -16,6 +19,7 @@ interface Props {
 const ProgressDesktop: React.FC<Props> = (props) => {
   const { onLogClick } = props
   const { t } = useTranslation()
+  const { type } = useAuth()
 
   useTitleContent(<TitleButton onMenuClick={onLogClick} />)
 
@@ -29,6 +33,7 @@ const ProgressDesktop: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
+      {type === userTypes.CLIENT ? null : <LogClient />}
       <Tabs
         tabs={[
           {

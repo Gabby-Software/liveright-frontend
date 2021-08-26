@@ -59,4 +59,18 @@ export default styled(Button)`
       color: ${(p) => p.theme.vars.colors.primaryDark};
     }
   }
+  &.ant-btn-text {
+    box-shadow: none;
+    border: 1px solid ${(p) => p.theme.vars.colors.link};
+    color: ${(p) => p.theme.vars.colors.link};
+    background-color: white;
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    &:hover {
+      background-color: white;
+      border: 1px solid ${(p) => p.theme.vars.colors.link_lighten};
+      color: ${(p) => p.theme.vars.colors.link_lighten};
+    }
+  }
 `

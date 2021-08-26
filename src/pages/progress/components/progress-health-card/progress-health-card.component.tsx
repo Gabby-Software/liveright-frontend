@@ -1,12 +1,12 @@
 import { Moment } from 'moment'
 import React, { ReactElement } from 'react'
-import { useHistory } from 'react-router-dom'
 
+import { ReactComponent as ArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { PROGRESS_LOG_URL } from '../../progress.constants'
 import {
-  Button,
   Data,
+  LogLink,
   Quality,
   StyledCard
 } from './progress-health-card.styles'
@@ -21,30 +21,25 @@ interface Props {
 const HealthCard: React.FC<Props> = (props) => {
   const { icon, quality, data, date } = props
   const { t } = useTranslation()
-  const history = useHistory()
 
   return (
     <StyledCard noLogs={!data}>
       {icon}
       {data ? (
-        <React.Fragment>
-          <Quality>{t(`progress:${quality}`)}</Quality>
+        <div>
+          <Quality>{t(`progress:${quality || ''}`)}</Quality>
           <Data>{data}</Data>
-        </React.Fragment>
+        </div>
       ) : (
-        <React.Fragment>
+        <div>
           <Data>{t('progress:noLogs')}</Data>
-          <Button
-            onClick={() =>
-              history.push(
-                PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`
-              )
-            }
-            type="primary"
+          <LogLink
+            to={PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`}
           >
-            {t('progress:logNow')}
-          </Button>
-        </React.Fragment>
+            <span>{t('progress:logNow')}</span>
+            <ArrowIcon />
+          </LogLink>
+        </div>
       )}
     </StyledCard>
   )

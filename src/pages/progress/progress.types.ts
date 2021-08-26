@@ -30,6 +30,16 @@ export interface AverageHealthData {
   avg_steps?: number
 }
 
+export type SleepData = {
+  start_time?: string
+  end_time?: string
+  sleep_duration?: string
+  nap_start_time?: string
+  nap_end_time?: string
+  nap_duration?: string
+  quality?: QualityType
+  reported_by?: number
+}
 export interface HealthData {
   id?: string
   date?: string
@@ -49,14 +59,5 @@ export interface HealthData {
     quality: QualityType
     reported_by?: number
   }
-  sleep?: {
-    start_time?: string
-    end_time?: string
-    sleep_duration?: string
-    nap_start_time?: string
-    nap_end_time?: string
-    nap_duration?: string
-    quality?: QualityType
-    reported_by?: number
-  }
+  sleep?: SleepData
 }

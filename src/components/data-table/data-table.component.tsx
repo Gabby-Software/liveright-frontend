@@ -3,8 +3,8 @@ import get from 'lodash/get'
 import React from 'react'
 
 import {
-  SortAscIcon,
-  SortDescIcon,
+  // SortAscIcon,
+  // SortDescIcon,
   SortGroupIcon
 } from '../../assets/media/icons'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
@@ -45,8 +45,8 @@ const DataTable = ({
             <div className="data-table__th-container">
               {t(label)}
               <SortGroupIcon />
-              {false && <SortAscIcon />}
-              {false && <SortDescIcon />}
+              {/*{false && <SortAscIcon />}*/}
+              {/*{false && <SortDescIcon />}*/}
             </div>
           </th>
         ))}

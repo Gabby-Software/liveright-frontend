@@ -14,6 +14,14 @@ export default styled.div`
       font-size: 24px;
       font-weight: 600;
       margin: 0 0 24px 0;
+      &__v2 {
+        background-color: ${(p) => p.theme.vars.colors.primaryDark_v2};
+        color: white;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0px -20px 0 -20px;
+        padding: 26px 20px;
+      }
     }
   }
   &.mobile-layout {

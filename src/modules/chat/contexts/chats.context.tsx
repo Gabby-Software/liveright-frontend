@@ -1,8 +1,19 @@
-import React, { createContext, FC, useContext, useRef, useState } from 'react'
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
 import { APIGetType } from '../../../hoc/api-get'
+import api from '../../../managers/api.manager'
+import logger from '../../../managers/logger.manager'
+import { Chat_EP } from '../enums/chat-ep.enum'
+// import socketManager from '../managers/socket.manager'
 import { ChatMessageType } from '../types/chat-message.type'
 
 export type ChatsContextType = {
@@ -33,7 +44,13 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
   }
-
+  // socketManager.log()
+  useEffect(() => {
+    api
+      .get(Chat_EP.USERS)
+      .then((res) => res.data)
+      .then((res) => logger.success('USERS', res))
+  }, [])
   const collapse = (roomId: string) => {
     setPopups([...new Set([roomId, ...popups])])
     history.push(Routes.HOME)

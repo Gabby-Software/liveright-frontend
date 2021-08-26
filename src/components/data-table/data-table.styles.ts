@@ -2,8 +2,11 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled.table`
+export default styled.table<{ roundBottom?: boolean }>`
   width: 100%;
+  border-radius: ${({ roundBottom }) =>
+    roundBottom ? '10px' : '10px 10px 0 0'};
+  overflow: hidden;
 
   .data-table {
     &__error {

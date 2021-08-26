@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Routes } from '../../../enums/routes.enum'
-// import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
 import {
@@ -18,13 +18,16 @@ import {
   getStepsQuality
 } from './log-health-data.helpers'
 import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desktop.component'
-// import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
+import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
 const LogHealthData = () => {
-  // const isMobile = useIsMobile()
+  const isMobile = useIsMobile()
   const { date } = useParams<{ date: string }>()
   const history = useHistory()
-  const [initialValues, setInitialValues] = useState<HealthData>({ id: '' })
+  const [initialValues, setInitialValues] = useState<HealthData>({
+    id: '',
+    sleep: {}
+  })
 
   const handleReturn = () => {
     history.push(Routes.PROGRESS)
@@ -66,20 +69,19 @@ const LogHealthData = () => {
       payload.sleep = {
         start_time: timeWithSeconds(start_time),
         end_time: timeWithSeconds(end_time),
-        sleep_duration: getDuration(start_time, end_time),
+        sleep_duration: getDuration(start_time, end_time) + ':00',
         nap_start_time: timeWithSeconds(nap_start_time),
         nap_end_time: timeWithSeconds(nap_end_time),
-        nap_duration: getDuration(nap_start_time, nap_end_time),
+        nap_duration: getDuration(nap_start_time, nap_end_time) + ':00',
         quality
       }
     }
 
-    await logHealthDataAsync({
+    logHealthDataAsync({
       ...payload,
       edit: date === values.date,
       id: values.id
-    })
-    handleReturn()
+    }).then(handleReturn)
   }
 
   useEffect(() => {
@@ -107,22 +109,46 @@ const LogHealthData = () => {
         date: Yup.string().required(),
         time: Yup.string().required(),
         heart_rate: Yup.object({
-          avg_rate: Yup.string().number()
+          avg_rate: Yup.number().min(25).max(200)
         }).nullable(),
         steps: Yup.object({
-          daily_steps: Yup.string().number()
+          daily_steps: Yup.number().min(0).max(1e5)
         }).nullable(),
-        blood_glicose: Yup.object({
-          glucose: Yup.string().number()
+        blood_glucose: Yup.object({
+          glucose: Yup.number().min(25).max(350)
+        }).nullable(),
+        sleep: Yup.object({
+          start_time: Yup.string(),
+          // .when('end_time', {
+          //   is: (field: string) => !!field,
+          //   then: Yup.string().required()
+          // }),
+          end_time: Yup.string().when('start_time', {
+            is: (field: string) => !!field,
+            then: Yup.string().required()
+          }),
+          nap_start_time: Yup.string(),
+          // .when('nap_end_time', {
+          //   is: (field: string) => !!field,
+          //   then: Yup.string().required()
+          // }),
+          nap_end_time: Yup.string().when('nap_start_time', {
+            is: (field: string) => !!field,
+            then: Yup.string().required()
+          })
         }).nullable()
+      }).test((values) => {
+        return !(
+          values.heart_rate?.avg_rate ||
+          values.blood_glucose?.glucose ||
+          values.steps?.daily_steps ||
+          (values.sleep?.start_time && values.sleep?.end_time) ||
+          (values.sleep?.nap_start_time && values.sleep?.nap_end_time)
+        )
       })}
     >
       <Form>
-        {/*{isMobile ? (*/}
-        {/*  <LogHealthDataMobile />*/}
-        {/*) : (*/}
-        <LogHealthDataDesktop />
-        {/*)}*/}
+        {isMobile ? <LogHealthDataMobile /> : <LogHealthDataDesktop />}
       </Form>
     </Formik>
   )

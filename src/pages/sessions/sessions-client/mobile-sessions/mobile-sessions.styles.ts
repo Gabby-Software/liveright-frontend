@@ -57,7 +57,7 @@ export const Styles = styled.div`
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
     }
-    
+
     &__upcoming-container {
       padding-bottom: 3.25rem;
     }

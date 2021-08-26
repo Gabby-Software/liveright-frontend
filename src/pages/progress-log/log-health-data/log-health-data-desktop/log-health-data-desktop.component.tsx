@@ -11,6 +11,8 @@ import FormDatepicker from '../../../../components/forms/form-datepicker/form-da
 import FormRow from '../../../../components/forms/form-row/form-row.component'
 import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getDuration } from '../../../../pipes/duration.pipe'
 import { QUALITY } from '../../../progress/progress.constants'
@@ -23,6 +25,7 @@ import {
   Space as Spacer,
   Wrapper as SleepCardWrapper
 } from '../components/log-card-desktop/log-card-desktop.styles'
+import LogClient from '../components/log-client/log-client.component'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
@@ -39,8 +42,8 @@ import {
 
 const LogHealthDataDesktop: React.FC<{}> = () => {
   const { t } = useTranslation()
-  const { values, errors } = useFormikContext<HealthData>()
-  console.log(values, errors)
+  const { values, isValid } = useFormikContext<HealthData>()
+  const { type } = useAuth()
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -48,26 +51,29 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
         value: QUALITY.AVERAGE,
         label: t(`progress:${QUALITY.AVERAGE}`)
       },
-      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) },
-      { value: QUALITY.HIGH, label: t(`progress:${QUALITY.HIGH}`) }
+      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) }
     ],
     []
   )
 
   return (
     <Wrapper>
-      <PickersWrapper size="middle">
-        <FormDatepicker name="date" label={t('progress:loggingDate')} />
-        <FormTimepicker name="time" label={t('progress:loggingTime')} />
-      </PickersWrapper>
+      {type === userTypes.CLIENT ? null : <LogClient />}
       <FormRow>
         <CardsWrapper>
+          <SleepCardWrapper>
+            <PickersWrapper size="middle">
+              <FormDatepicker name="date" label={t('progress:loggingDate')} />
+              <FormTimepicker name="time" label={t('progress:loggingTime')} />
+            </PickersWrapper>
+          </SleepCardWrapper>
           <LogCardDesktop
             name={t('progress:heart_rate')}
             inputName="heart_rate.avg_rate"
             inputLabel={`${t('progress:avg_rate')}`}
             getQuality={getHeartRateQuality}
             Icon={<CardiogramIcon />}
+            max={200}
           />
           <LogCardDesktop
             name={t('progress:steps')}
@@ -75,6 +81,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             inputLabel={t('progress:daily_steps')}
             getQuality={getStepsQuality}
             Icon={<StepsIcon />}
+            max={1e5}
           />
           <LogCardDesktop
             name={t('progress:blood_glucose')}
@@ -82,6 +89,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             inputLabel={t('progress:glucose')}
             getQuality={getGlucoseQuality}
             Icon={<BloodIcon />}
+            max={350}
           />
           <SleepCardWrapper>
             <div>
@@ -154,7 +162,9 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
           </SleepCardWrapper>
         </CardsWrapper>
         <SubmitButtonWrapper>
-          <SubmitButton>{t('progress:saveLogs')}</SubmitButton>
+          <SubmitButton disabled={!isValid}>
+            {t('progress:saveLogs')}
+          </SubmitButton>
         </SubmitButtonWrapper>
       </FormRow>
     </Wrapper>

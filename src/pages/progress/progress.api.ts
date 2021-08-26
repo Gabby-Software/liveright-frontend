@@ -1,6 +1,8 @@
+import { toast } from '../../components/toast/toast.component'
 import { EP_HEALTH_DATA_LOGS } from '../../enums/api.enum'
 import api from '../../managers/api.manager'
 import { queryFiltersPipe } from '../../pipes/query-filters.pipe'
+import { serverError } from '../../pipes/server-error.pipe'
 import { GetHealthDataPayload, HealthData } from './progress.types'
 
 export const getHealthDataAsync = async (payload: GetHealthDataPayload) => {
@@ -33,15 +35,16 @@ export const getAverageHealthDataAsync = async () => {
 export const logHealthDataAsync = async (
   payload: HealthData & { edit?: boolean }
 ) => {
-  const { edit, id, ...body } = payload
+  const { id, ...body } = payload
 
   try {
-    if (edit) {
+    if (id) {
       await api.put(EP_HEALTH_DATA_LOGS + `/${id}`, body)
     } else {
       await api.post(EP_HEALTH_DATA_LOGS, body)
     }
   } catch (e) {
     console.log(e)
+    toast.show({ type: 'error', msg: serverError(e) })
   }
 }

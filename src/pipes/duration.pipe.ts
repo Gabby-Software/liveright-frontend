@@ -1,12 +1,14 @@
-import moment from 'moment'
-
 export const getDuration = (t1?: string, t2?: string): string | undefined => {
-  const time1Moment = moment(t1, 'HH:mm')
-  const time2Moment = moment(t2, 'HH:mm')
-  const duration = moment.duration(time2Moment.diff(time1Moment))
-  return t1 && t2
-    ? moment(`${duration.hours()}:${duration.minutes()}`, 'H:m').format(
-        'HH:mm:ss'
-      )
-    : undefined
+  const [h1, m1] = (t1 || ':').split(':').map((t) => +t)
+  // eslint-disable-next-line prefer-const
+  let [h2, m2] = (t2 || ':').split(':').map((t) => +t)
+  console.log('h2h1', h2, h1, h2 < h1, h2 === h1)
+  if (h2 < h1 || (h2 === h1 && m2 < m1)) {
+    h2 += 24
+  }
+  const minutes = h2 * 60 + m2 - h1 * 60 - m1
+  if (isNaN(minutes)) return '-'
+  return `${Math.floor(minutes / 60)
+    .toString()
+    .padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
 }
