@@ -1,10 +1,10 @@
 import { Space } from 'antd'
 import { Form, Formik } from 'formik'
-import { Moment } from 'moment'
 import React from 'react'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
+import { ReactComponent as TableIcon } from '../../../../assets/media/icons/menu.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
@@ -25,7 +25,6 @@ import HealthTable from '../progress-table/progress-table.component'
 import {
   FilterWrapper,
   SwitchViewButton,
-  TableWrapper,
   Wrapper
 } from './progress-overtime-desktop.styles'
 
@@ -77,74 +76,74 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
-      <FilterWrapper>
-        <FormSelectUI
-          name="overTime"
-          value={filter}
-          label=""
-          options={filterOptions}
-          onUpdate={(value) => setFilter(value as OverTimeType)}
-        />
-        <Formik
-          enableReinitialize
-          initialValues={specificDates}
-          onSubmit={() => {}}
-        >
-          {filter === OVER_TIME.SPECIFIC ? (
-            <Form>
-              <Space>
-                <FormDatepicker
-                  onUpdate={onSpecificDateChange}
-                  name="from_date"
-                  label={t('from')}
-                />
-                <FormDatepicker
-                  onUpdate={onSpecificDateChange}
-                  name="to_date"
-                  label={t('to')}
-                />
-              </Space>
-            </Form>
-          ) : null}
-        </Formik>
+      <div className={'progress-overtime__header'}>
+        <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
         <SwitchViewButton onClick={handleSwitchViewClick} type="link">
+          {graphView ? <TableIcon /> : <CardiogramIcon />}
           {graphView ? t('progress:seeTable') : t('progress:seeGraph')}
         </SwitchViewButton>
-      </FilterWrapper>
-      <TableWrapper>
-        <Tabs
-          activeKey={activeTab}
-          onChange={(key) => setActiveTab(key as ProgressLogType)}
-          tabPosition="left"
-          tabs={[
-            {
-              icon: <SleepIcon />,
-              label: t('progress:sleep'),
-              key: PROGRESS_LOG.SLEEP,
-              renderContent: renderDataContent
-            },
-            {
-              icon: <CardiogramIcon />,
-              label: t('progress:heart_rate'),
-              key: PROGRESS_LOG.HEART_RATE,
-              renderContent: renderDataContent
-            },
-            {
-              icon: <StepsIcon />,
-              label: t('progress:steps'),
-              key: PROGRESS_LOG.STEPS,
-              renderContent: renderDataContent
-            },
-            {
-              icon: <BloodIcon />,
-              label: t('progress:blood_glucose'),
-              key: PROGRESS_LOG.GLICOSE,
-              renderContent: renderDataContent
-            }
-          ]}
-        />
-      </TableWrapper>
+        <FilterWrapper>
+          <FormSelectUI
+            name="overTime"
+            value={filter}
+            label=""
+            options={filterOptions}
+            onUpdate={(value) => setFilter(value as OverTimeType)}
+          />
+          <Formik
+            enableReinitialize
+            initialValues={specificDates}
+            onSubmit={() => {}}
+          >
+            {filter === OVER_TIME.SPECIFIC ? (
+              <Form>
+                <Space>
+                  <FormDatepicker
+                    onUpdate={onSpecificDateChange}
+                    name="from_date"
+                    label={t('from')}
+                  />
+                  <FormDatepicker
+                    onUpdate={onSpecificDateChange}
+                    name="to_date"
+                    label={t('to')}
+                  />
+                </Space>
+              </Form>
+            ) : null}
+          </Formik>
+        </FilterWrapper>
+      </div>
+      <Tabs
+        activeKey={activeTab}
+        onChange={(key) => setActiveTab(key as ProgressLogType)}
+        tabs={[
+          {
+            icon: <SleepIcon />,
+            label: t('progress:sleep'),
+            key: PROGRESS_LOG.SLEEP,
+            renderContent: renderDataContent
+          },
+          {
+            icon: <CardiogramIcon />,
+            label: t('progress:heart_rate_short'),
+            key: PROGRESS_LOG.HEART_RATE,
+            renderContent: renderDataContent
+          },
+          {
+            icon: <StepsIcon />,
+            label: t('progress:steps'),
+            key: PROGRESS_LOG.STEPS,
+            renderContent: renderDataContent
+          },
+          {
+            icon: <BloodIcon />,
+            label: t('progress:blood_glucose'),
+            key: PROGRESS_LOG.GLICOSE,
+            renderContent: renderDataContent
+          }
+        ]}
+      />
     </Wrapper>
   )
 }

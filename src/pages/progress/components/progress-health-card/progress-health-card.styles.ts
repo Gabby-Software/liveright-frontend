@@ -30,6 +30,10 @@ export const StyledCard = styled(Card)<{ noLogs: boolean }>`
   user-select: none;
   border: 1px solid transparent;
   background-color: ${({ theme }) => theme.vars.colors.primaryDark_v2};
+  margin-right: 24px;
+  &:last-child {
+    margin-right: 0;
+  }
   svg {
     display: block;
     width: 40px;

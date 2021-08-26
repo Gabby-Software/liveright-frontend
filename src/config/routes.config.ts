@@ -180,6 +180,7 @@ export const routes: RouteType[] = [
   {
     title: 'Progress',
     url: Routes.PROGRESS,
+    version: 2,
     Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
       title: 'Your Progress and Metrics'
@@ -195,7 +196,7 @@ export const routes: RouteType[] = [
         )
     ),
     back: {
-      url: Routes.PROGRESS,
+      url: Routes.PROGRESS_HEALTH_DATA,
       alias: 'health-data'
     },
     version: 2,

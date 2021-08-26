@@ -15,7 +15,6 @@ const RoutedTabs = ({ tabs }: Props) => {
   const [[left, width], setIndicator] = useState([0, 0])
   useEffect(() => {
     logger.info(
-      'UPDATING ACTIVE TAB',
       activeRef.current,
       activeRef.current?.offsetWidth,
       activeRef.current?.offsetLeft
@@ -35,8 +34,8 @@ const RoutedTabs = ({ tabs }: Props) => {
     <Styles className={'tabs'}>
       <div className={'tabs__wrapper'}>
         {tabs.map(({ name, url }) => (
-          // eslint-disable-next-line react/jsx-key
           <div
+            key={url}
             className={'tabs__item__wrapper'}
             ref={pathname === url ? activeRef : null}
           >

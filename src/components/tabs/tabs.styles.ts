@@ -22,6 +22,11 @@ export const Styles = styled(Tabs)`
     &:hover {
       color: ${(props) => props.theme.vars.colors.blue_70};
     }
+    svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
   }
   & .ant-tabs-tab-active .ant-tabs-tab-btn {
     text-shadow: none;
