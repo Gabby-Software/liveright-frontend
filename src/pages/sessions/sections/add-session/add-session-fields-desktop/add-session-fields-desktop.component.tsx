@@ -41,7 +41,6 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
             id="add-session-date"
             label={t('sessions:date')}
             value={values.date}
-            disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
             onChange={(e, date) => setFieldValue('date', date)}
           />
           <TimePicker

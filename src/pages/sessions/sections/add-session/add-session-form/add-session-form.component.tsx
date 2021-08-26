@@ -123,7 +123,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
       onSubmit={handleSubmit}
       validationSchema={Yup.object({
         type: Yup.string().required(),
-        date: Yup.date().required().min(moment().startOf('day')),
+        date: Yup.date().required(),
         duration: Yup.string().required(),
         time: Yup.string().required(),
         client_id: Yup.number().required()

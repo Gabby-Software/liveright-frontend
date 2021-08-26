@@ -20,7 +20,7 @@ const AddSessionSubmit: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      {isBusy && <BusyBadge className="add-session__busy" />}
+      {isBusy && <BusyBadge />}
       <Button
         className="add-session__submit-btn"
         type="submit"

@@ -13,6 +13,8 @@ export default styled.div`
   align-items: center;
   border-radius: 10px;
   height: 38px;
+  font-size: 0.75rem;
+  margin-bottom: 1.25rem;
 
   & svg {
     margin-right: 1rem;

@@ -141,52 +141,54 @@ const AddSessionCalendar: React.FC = () => {
     <Styles>
       <h3 className="add-session__form-title">{t('sessions:calendar-view')}</h3>
 
-      {/*<div className="add-session__calendar-nav">*/}
-      {/*  <p className="add-session__calendar-nav-date">*/}
-      {/*    {start_date.format('YYYY-MM-DD')}*/}
-      {/*  </p>*/}
-      {/*</div>*/}
-
-      {/*<div className="add-session__calendar-nav-divider" />*/}
-
-      <div className="add-session__calendar-current">
-        <p className="add-session__calendar-current-weekday">
-          {start_date.format('ddd')}
-        </p>
-        <span className="add-session__calendar-current-day">
-          {start_date.format('DD')}
-        </span>
-      </div>
-
       {date && time ? (
-        <CalendarWrapper>
-          <div className="add-session__calendar-divider" />
+        <>
+          {/*<div className="add-session__calendar-nav">*/}
+          {/*  <p className="add-session__calendar-nav-date">*/}
+          {/*    {start_date.format('YYYY-MM-DD')}*/}
+          {/*  </p>*/}
+          {/*</div>*/}
 
-          {dates.map((it, index) => {
-            const hasCurrentEvent =
-              start_date.isBetween(it, moment(it).add(1, 'hours')) ||
-              start_date.isSame(moment(it))
+          {/*<div className="add-session__calendar-nav-divider" />*/}
 
-            const dateSessions = sessions.filter((session) => {
-              const startMoment = moment.utc(session.starts_at)
+          <div className="add-session__calendar-current">
+            <p className="add-session__calendar-current-weekday">
+              {start_date.format('ddd')}
+            </p>
+            <span className="add-session__calendar-current-day">
+              {start_date.format('DD')}
+            </span>
+          </div>
+
+          <CalendarWrapper>
+            <div className="add-session__calendar-divider" />
+
+            {dates.map((it, index) => {
+              const hasCurrentEvent =
+                start_date.isBetween(it, moment(it).add(1, 'hours')) ||
+                start_date.isSame(moment(it))
+
+              const dateSessions = sessions.filter((session) => {
+                const startMoment = moment.utc(session.starts_at)
+                return (
+                  startMoment.isBetween(it, moment(it).add(1, 'hours')) ||
+                  startMoment.isSame(moment(it))
+                )
+              })
+
               return (
-                startMoment.isBetween(it, moment(it).add(1, 'hours')) ||
-                startMoment.isSame(moment(it))
-              )
-            })
-
-            return (
-              <div key={index} className={'add-session__calendar__item'}>
-                <div className={'add-session__calendar__time'}>
-                  {it.format('HH:mm')}
+                <div key={index} className={'add-session__calendar__item'}>
+                  <div className={'add-session__calendar__time'}>
+                    {it.format('HH:mm')}
+                  </div>
+                  {hasCurrentEvent ? renderCurrentEvent() : null}
+                  {renderDateSessions(dateSessions)}
+                  {renderSuggestedSession(it)}
                 </div>
-                {hasCurrentEvent ? renderCurrentEvent() : null}
-                {renderDateSessions(dateSessions)}
-                {renderSuggestedSession(it)}
-              </div>
-            )
-          })}
-        </CalendarWrapper>
+              )
+            })}
+          </CalendarWrapper>
+        </>
       ) : (
         <AddSessionCalendarEmpty />
       )}
