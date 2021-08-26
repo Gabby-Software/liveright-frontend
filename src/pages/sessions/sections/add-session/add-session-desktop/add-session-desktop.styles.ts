@@ -2,14 +2,37 @@ import styled from 'styled-components'
 
 export default styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
+
   .add-session {
-    &__left {
-      width: 50%;
-      padding: 20px;
+    &__form {
+      width: 100%;
+      display: flex;
+      height: 100%;
     }
+
+    &__left {
+      width: 100%;
+      max-width: 60%;
+      padding-right: 1.875rem;
+      display: flex;
+      flex-direction: column;
+    }
+
     &__right {
-      width: 50%;
-      padding: 20px;
+      width: 100%;
+      max-width: 40%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__top-container {
+      margin-bottom: 1.875rem;
+    }
+
+    &__calendar-card {
+      flex: 1;
     }
   }
 `

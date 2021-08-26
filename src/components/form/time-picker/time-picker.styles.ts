@@ -23,6 +23,10 @@ export default styled.div`
     }
   }
 
+  & .ant-picker-disabled {
+    pointer-events: none;
+  }
+
   & .ant-picker-input {
     height: 100%;
     font-size: 0.875rem;

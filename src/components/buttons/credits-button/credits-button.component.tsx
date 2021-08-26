@@ -7,12 +7,14 @@ import Button from './credit-button.styles'
 interface CreditsButtonProps extends ButtonProps {
   count: number
   color?: 'secondary'
+  readOnly?: boolean
 }
 
 export default function CreditsButton({
   count,
   className,
   color,
+  readOnly,
   ...props
 }: CreditsButtonProps) {
   const { t } = useTranslation()
@@ -23,13 +25,14 @@ export default function CreditsButton({
       {...props}
       $off={off}
       $color={color}
+      $readOnly={readOnly}
     >
       <div className="credits-btn__items">
         <CreditIcon />
         <span>{t('buttons:current-credits')}</span>
       </div>
 
-      <span className="credits-btn__count">{count}</span>
+      <span className="credits-btn__count">{count || '-'}</span>
     </Button>
   )
 }

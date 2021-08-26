@@ -129,7 +129,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
         client_id: Yup.number().required()
       })}
     >
-      <Form>{children}</Form>
+      <Form className="add-session__form">{children}</Form>
     </Formik>
   )
 }

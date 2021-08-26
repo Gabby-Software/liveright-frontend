@@ -2,11 +2,13 @@ import { useFormikContext } from 'formik'
 import moment from 'moment'
 import React from 'react'
 
-import FormDatepicker from '../../../../../components/forms/form-datepicker/form-datepicker.component'
-import FormSelect from '../../../../../components/forms/form-select/form-select.component'
-import FormTextarea from '../../../../../components/forms/form-textarea/form-textarea.component'
-import FormTimepicker from '../../../../../components/forms/form-timepicker/form-timepicker.component'
-import PageSubtitle from '../../../../../components/titles/page-subtitle.styles'
+import { InfoIcon } from '../../../../../assets/media/icons'
+import Card from '../../../../../components/cards/card/card.component'
+import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
+import Select from '../../../../../components/form/select/select.component'
+import Textarea from '../../../../../components/form/textarea/textarea.component'
+import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
+import Tooltip from '../../../../../components/tooltip/tooltip.component'
 import { serviceTypeOptions } from '../../../../../enums/service-type.enum'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
@@ -24,46 +26,77 @@ interface Props {
 const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
   const { session, onClose } = props
   const { t } = useTranslation()
-  const { values } = useFormikContext<AddSessionFormType>()
+  const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
   const isToday = moment(values.date).isSame(moment(), 'days')
 
   return (
     <Styles>
-      <PageSubtitle>{t('sessions:schedule-for')}</PageSubtitle>
-      <div className={'add-session__form'}>
-        <div className={'add-session__form__left'}>
-          <FormDatepicker
-            name={'date'}
+      <Card className="add-session__form-card">
+        <h3 className="add-session__form-title">
+          {t('sessions:schedule-for')}
+        </h3>
+
+        <div className="add-session__form-grid">
+          <DatePicker
+            id="add-session-date"
             label={t('sessions:date')}
+            value={values.date}
             disabledDate={(date) => moment(date).isBefore(moment(), 'days')}
+            onChange={(e, date) => setFieldValue('date', date)}
           />
-          <FormTimepicker
+          <TimePicker
+            id="add-session-time"
             disabledUntilNow={isToday}
-            name={'time'}
+            value={values.time}
             label={t('sessions:time')}
+            onChange={(e, date) => setFieldValue('time', date)}
           />
-          <FormTimepicker
+          <TimePicker
+            id="add-sessions-duration"
             disabled={!!session}
-            name={'duration'}
+            value={values.duration}
             label={t('sessions:duration')}
-            showNow={false}
+            onChange={(e, date) => setFieldValue('duration', date)}
           />
-          <FormSelect
-            name={'type'}
-            label={t('sessions:type')}
-            options={serviceTypeOptions}
-            disabled={!!session}
-          />
-          {session ? (
-            <AddSessionDelete session_id={session.id} onClose={onClose} />
-          ) : null}
+          <div className="add-session__type-wrapper">
+            <Select
+              id="add-session-type"
+              name={'type'}
+              label={t('sessions:type')}
+              placeholder={t('sessions:select-type')}
+              options={serviceTypeOptions}
+              value={values.type}
+              disabled={!!session}
+              onChange={(e) => setFieldValue('type', e)}
+            />
+
+            <p className="add-session__want-change">
+              {t('sessions:want-to-change')}
+
+              <Tooltip title="Lorem Ipsum is simple." placement="right">
+                <InfoIcon />
+              </Tooltip>
+            </p>
+          </div>
         </div>
-        <div className={'add-session__form__right'}>
-          <FormTextarea name={'notes'} label={t('sessions:notes')} />
-          {session ? null : <AddSessionCredits />}
-        </div>
-      </div>
-      <AddSessionSubmit session={session} />
+
+        <Textarea
+          id="add-session-notes"
+          // name={'notes'}
+          value={values.notes}
+          label={t('sessions:notes')}
+          placeholder={t('sessions:type-here')}
+          className="add-session__form-item"
+        />
+
+        {!session && <AddSessionCredits />}
+
+        <AddSessionSubmit session={session} />
+
+        {session && (
+          <AddSessionDelete session_id={session.id} onClose={onClose} />
+        )}
+      </Card>
     </Styles>
   )
 }

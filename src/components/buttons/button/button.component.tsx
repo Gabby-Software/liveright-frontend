@@ -10,11 +10,18 @@ export default function Button({
   variant,
   className,
   LinkProps,
+  type,
   to,
   ...props
 }: PropsWithChildren<ButtonProps>) {
   let content = (
-    <Root $size={size} $var={variant} className={className} {...props}>
+    <Root
+      $size={size}
+      $var={variant}
+      className={className}
+      type={type}
+      {...props}
+    >
       {children}
     </Root>
   )

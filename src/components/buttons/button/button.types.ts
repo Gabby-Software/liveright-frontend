@@ -5,4 +5,5 @@ export interface ButtonProps {
   className?: string
   to?: string
   LinkProps?: any
+  type?: string
 }

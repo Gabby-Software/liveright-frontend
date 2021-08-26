@@ -1,6 +1,7 @@
 import { Input as AntdInput } from 'antd'
 import { ChangeEvent, FocusEventHandler, ReactNode } from 'react'
 
+import Label from '../label/label.component'
 import Styles from './input.styles'
 
 interface InputProps {
@@ -36,7 +37,7 @@ export default function Input({
 }: InputProps) {
   return (
     <Styles $size={size} onClick={onClick}>
-      {label && <label htmlFor={id}>{label}</label>}
+      {label && <Label htmlFor={id}>{label}</Label>}
       <AntdInput
         id={id}
         type={type}

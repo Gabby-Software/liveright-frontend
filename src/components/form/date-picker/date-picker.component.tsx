@@ -12,6 +12,7 @@ interface DatePickerProps {
   className?: string
   value?: any
   onChange?: (date: Moment | null, dateStr: string) => void
+  disabledDate?: (date: Moment) => boolean
 }
 
 export default function DatePicker({
@@ -20,7 +21,8 @@ export default function DatePicker({
   label,
   className,
   value,
-  onChange
+  onChange,
+  disabledDate
 }: DatePickerProps) {
   return (
     <Styles className={className}>
@@ -31,6 +33,7 @@ export default function DatePicker({
         suffixIcon={<CalendarBoldIcon />}
         value={value ? moment(value) : null}
         onChange={onChange}
+        disabledDate={disabledDate}
       />
     </Styles>
   )

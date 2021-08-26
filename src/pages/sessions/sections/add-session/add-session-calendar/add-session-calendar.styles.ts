@@ -1,17 +1,29 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
+
 export default styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  .add-session {
+    &__form-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
+    }
+  }
 `
 
 export const CalendarWrapper = styled.div`
   height: 100%;
   display: flex;
+  flex: 1;
   flex-direction: column;
   margin-top: 12px;
   overflow: hidden;
+
   .add-session__calendar {
     &__item {
       height: 100%;

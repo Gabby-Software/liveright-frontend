@@ -14,12 +14,14 @@ const AddSessionCredits = ({}: Props) => {
     <Field name={'sessions'}>
       {({ field, form }: FieldProps) => (
         <Styles className={'add-session__form__credits'}>
-          <div>
-            <span>{t('sessions:remind-credits')}:</span>
-            <span>
+          <div className="add-session__credits-left">
+            <p className="add-session__credits-left-text">
+              {t('sessions:remind-credits')}
+            </p>
+            <p className="add-session__credits-left-value">
               &nbsp;
               {form.values.type === 'Paid PT' ? field.value - 1 : field.value}
-            </span>
+            </p>
           </div>
           {form.values.type === 'Paid PT' && field.value <= 0 ? (
             <Link

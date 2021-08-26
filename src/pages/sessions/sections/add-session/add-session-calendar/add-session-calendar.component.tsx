@@ -133,38 +133,39 @@ const AddSessionCalendar: React.FC = () => {
     )
   }, [sessions, date, time, duration])
 
-  if (!date || !time) {
-    return <AddSessionCalendarEmpty />
-  }
-
   return (
     <Styles>
-      <PageSubtitle>{t('sessions:calendar-view')}</PageSubtitle>
-      <CalendarWrapper>
-        {dates.map((it) => {
-          const hasCurrentEvent =
-            start_date.isBetween(it, moment(it).add(1, 'hours')) ||
-            start_date.isSame(moment(it))
-          const dateSessions = sessions.filter((session) => {
-            const startMoment = moment.utc(session.starts_at)
-            return (
-              startMoment.isBetween(it, moment(it).add(1, 'hours')) ||
-              startMoment.isSame(moment(it))
-            )
-          })
+      <h3 className="add-session__form-title">{t('sessions:calendar-view')}</h3>
 
-          return (
-            <div key={it.format()} className={'add-session__calendar__item'}>
-              <div className={'add-session__calendar__time'}>
-                {it.format('HH:mm')}
+      {date && time ? (
+        <CalendarWrapper>
+          {dates.map((it) => {
+            const hasCurrentEvent =
+              start_date.isBetween(it, moment(it).add(1, 'hours')) ||
+              start_date.isSame(moment(it))
+            const dateSessions = sessions.filter((session) => {
+              const startMoment = moment.utc(session.starts_at)
+              return (
+                startMoment.isBetween(it, moment(it).add(1, 'hours')) ||
+                startMoment.isSame(moment(it))
+              )
+            })
+
+            return (
+              <div key={it.format()} className={'add-session__calendar__item'}>
+                <div className={'add-session__calendar__time'}>
+                  {it.format('HH:mm')}
+                </div>
+                {hasCurrentEvent ? renderCurrentEvent() : null}
+                {renderDateSessions(dateSessions)}
+                {renderSuggestedSession(it)}
               </div>
-              {hasCurrentEvent ? renderCurrentEvent() : null}
-              {renderDateSessions(dateSessions)}
-              {renderSuggestedSession(it)}
-            </div>
-          )
-        })}
-      </CalendarWrapper>
+            )
+          })}
+        </CalendarWrapper>
+      ) : (
+        <AddSessionCalendarEmpty />
+      )}
     </Styles>
   )
 }

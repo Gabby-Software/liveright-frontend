@@ -1,9 +1,8 @@
 import { useFormikContext } from 'formik'
 import React from 'react'
 
-import FormButton from '../../../../../components/forms/form-button/form-button.component'
+import Button from '../../../../../components/buttons/button/button.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { classes } from '../../../../../pipes/classes.pipe'
 import { SessionType } from '../../../../../types/session.type'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
 import Styles from './add-session-submit.styles'
@@ -21,19 +20,18 @@ const AddSessionSubmit: React.FC<Props> = (props) => {
   return (
     <React.Fragment>
       {isBusy ? <Styles>{t('sessions:collapse')}</Styles> : null}
-      <FormButton
-        className={classes('button-submit', 'add-session__form__submit')}
-        type={'primary'}
-        htmlType={'submit'}
-        loading={isSubmitting}
-        disabled={isSubmitting}
+      <Button
+        className="add-session__submit-btn"
+        type="submit"
+        // loading={isSubmitting}
+        // disabled={isSubmitting}
       >
         {session
           ? t('sessions:save')
           : isBusy
           ? t('sessions:submit-anyway')
           : t('sessions:submit')}
-      </FormButton>
+      </Button>
     </React.Fragment>
   )
 }

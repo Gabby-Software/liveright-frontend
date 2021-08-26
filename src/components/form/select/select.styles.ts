@@ -8,7 +8,28 @@ export default styled.div<any>`
   flex-direction: column;
   display: flex;
 
+  & .select__container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  & .select__prefix {
+    position: absolute;
+    left: 1rem;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+
+    & svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   & .select__input {
+    width: 100%;
+
     &.ant-select-focused.ant-select {
       & .ant-select-selector {
         border-color: ${getColorCarry('link')};
@@ -26,6 +47,10 @@ export default styled.div<any>`
       &:hover {
         border-color: ${getColorCarry('link')};
       }
+    }
+
+    &.ant-select-disabled {
+      pointer-events: none;
     }
 
     & .ant-select-selection-search {

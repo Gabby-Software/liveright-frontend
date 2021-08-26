@@ -14,6 +14,7 @@ export default styled(Button)<any>`
   width: 250px;
   justify-content: space-between;
   padding: 11px 24px;
+  pointer-events: ${(props) => (props.$readOnly ? 'none' : 'auto')};
 
   &:hover,
   &:focus {

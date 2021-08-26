@@ -12,6 +12,7 @@ import { ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST } from '../../../store/action-
 import { SessionType } from '../../../types/session.type'
 import Button from '../../buttons/button/button.component'
 import Card from '../../cards/card/card.component'
+import CurrentDateCard from '../../cards/current-date-card/current-date-card.component'
 import Dialog from '../../dialogs/dialog/dialog.component'
 import DatePicker from '../../form/date-picker/date-picker.component'
 import TimePicker from '../../form/time-picker/time-picker.component'
@@ -82,30 +83,10 @@ function SessionRescheduleModalContent({ session, onClose }: Props) {
   return (
     <Styles>
       <Card>
-        <div className="reschedule-session__current">
-          <div className="reschedule-session__current-item">
-            <CalendarBoldIcon />
-            <div className="reschedule-session__current-item-container">
-              <p className="reschedule-session__current-item-title">
-                {t('sessions:current-date')}
-              </p>
-              <p className="reschedule-session__current-item-value">
-                {datePipe(session.starts_at)}
-              </p>
-            </div>
-          </div>
-          <div className="reschedule-session__current-item">
-            <ClockIcon />
-            <div className="reschedule-session__current-item-container">
-              <p className="reschedule-session__current-item-title">
-                {t('sessions:current-time')}
-              </p>
-              <p className="reschedule-session__current-item-value">
-                {moment.utc(session.starts_at).format('HH:mm')}
-              </p>
-            </div>
-          </div>
-        </div>
+        <CurrentDateCard
+          date={session.starts_at}
+          className="reschedule-session__current-card"
+        />
 
         <form>
           <DatePicker
