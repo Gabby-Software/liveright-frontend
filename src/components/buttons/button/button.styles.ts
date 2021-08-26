@@ -17,7 +17,7 @@ export default styled(Button)<any>`
   padding: ${getPadding};
   font-size: ${getFontSize};
   line-height: 1.5rem;
-  font-weight: 500;
+  font-weight: ${getFontWeight};
   height: ${getHeight};
   border-radius: 0.625rem;
   box-shadow: none;
@@ -65,5 +65,14 @@ function getTextColor(props: any): string {
       return getColor(props, 'link')
     default:
       return '#fff'
+  }
+}
+
+function getFontWeight(props: any): string {
+  switch (props.$size) {
+    case 'sm':
+      return '400'
+    default:
+      return '500'
   }
 }

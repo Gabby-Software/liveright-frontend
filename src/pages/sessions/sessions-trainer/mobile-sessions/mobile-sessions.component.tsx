@@ -125,6 +125,7 @@ const MobileSessions: React.FC<Props> = (props) => {
     return (
       <SessionsCards
         withFilter
+        filterCalendar
         renderOptions={renderUpcomingItemOptions}
         sessions={upcoming}
         getSessions={getSessions('upcoming')}
