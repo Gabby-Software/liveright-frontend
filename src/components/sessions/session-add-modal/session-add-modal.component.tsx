@@ -20,7 +20,7 @@ const SessionAddModal: React.FC<Props> = (props) => {
       open={isOpen}
       onClose={onClose}
     >
-      <AddForm trainerId={trainer_id} onClose={onClose} />
+      <AddForm trainerId={trainer_id} onSuccess={onClose} />
     </Dialog>
   )
 }

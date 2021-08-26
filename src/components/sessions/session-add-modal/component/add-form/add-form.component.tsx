@@ -30,11 +30,11 @@ const initialValues: FormValues = {
 }
 
 interface AddFormProps {
-  onClose?: () => void
+  onSuccess?: () => void
   trainerId: number
 }
 
-export default function AddForm({ onClose, trainerId }: AddFormProps) {
+export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
@@ -59,7 +59,7 @@ export default function AddForm({ onClose, trainerId }: AddFormProps) {
     })
 
     helper.setSubmitting(false)
-    onClose?.()
+    onSuccess?.()
   }
 
   const { values, setFieldValue, submitForm } = useFormik({

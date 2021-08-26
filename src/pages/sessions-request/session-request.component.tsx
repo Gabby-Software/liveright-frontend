@@ -1,3 +1,5 @@
+import { useHistory } from 'react-router-dom'
+
 import CreditsButton from '../../components/buttons/credits-button/credits-button.component'
 import AddForm from '../../components/sessions/session-add-modal/component/add-form/add-form.component'
 import userTypes from '../../enums/user-types.enum'
@@ -10,6 +12,7 @@ import { HeaderComponent, Styles } from './session-request.styles'
 export default function SessionRequest() {
   const { t } = useTranslation()
   const trainer = useTrainerSelector()
+  const history = useHistory()
   return (
     <MobilePage
       title={t('sessions:session-request-submit')}
@@ -27,6 +30,7 @@ export default function SessionRequest() {
           trainerId={
             trainer.accounts.find((it) => it.type === userTypes.TRAINER)!.id
           }
+          onSuccess={() => history.push('/sessions')}
         />
       </Styles>
     </MobilePage>
