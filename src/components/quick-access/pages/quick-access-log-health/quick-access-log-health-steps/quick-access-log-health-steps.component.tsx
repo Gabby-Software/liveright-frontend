@@ -33,7 +33,9 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
         label={'health-data'}
         route={quickAccessRoutes.LOG_HEALTH_DATA}
       />
-      <QuickAccessTitle>{t('quickaccess:menu.steps')}</QuickAccessTitle>
+      <QuickAccessTitle label={'Today'}>
+        {t('quickaccess:menu.steps')}
+      </QuickAccessTitle>
       <Formik
         initialValues={{ data: '' }}
         onSubmit={onSubmit}

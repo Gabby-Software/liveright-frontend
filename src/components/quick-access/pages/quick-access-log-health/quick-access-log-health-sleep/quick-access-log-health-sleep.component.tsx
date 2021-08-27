@@ -15,7 +15,9 @@ const QuickAccessLogHealthSleep: FC<Props> = ({}) => {
         label={'health-data'}
         route={quickAccessRoutes.LOG_HEALTH_DATA}
       />
-      <QuickAccessTitle>{t('quickaccess:log-sleep')}</QuickAccessTitle>
+      <QuickAccessTitle label={'Today'}>
+        {t('quickaccess:log-sleep')}
+      </QuickAccessTitle>
     </Styles>
   )
 }

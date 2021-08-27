@@ -33,7 +33,9 @@ const QuickAccessLogHealthHeartRate: FC<Props> = ({}) => {
         label={'health-data'}
         route={quickAccessRoutes.LOG_HEALTH_DATA}
       />
-      <QuickAccessTitle>{t('quickaccess:menu.heart-rate')}</QuickAccessTitle>
+      <QuickAccessTitle label={'Today'}>
+        {t('quickaccess:menu.heart-rate')}
+      </QuickAccessTitle>
       <Formik
         initialValues={{ data: '' }}
         onSubmit={onSubmit}
