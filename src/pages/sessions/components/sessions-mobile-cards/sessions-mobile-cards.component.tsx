@@ -14,6 +14,7 @@ interface Props {
   withFilter?: boolean
   title?: boolean
   titleComponent?: ReactNode
+  filterCalendar?: boolean
 }
 
 const SessionsCards: React.FC<Props> = (props) => {
@@ -24,6 +25,7 @@ const SessionsCards: React.FC<Props> = (props) => {
     // onRemoveSession,
     withFilter,
     title,
+    filterCalendar,
     titleComponent
   } = props
   const { data, meta } = sessions
@@ -46,7 +48,9 @@ const SessionsCards: React.FC<Props> = (props) => {
           {titleComponent}
         </div>
       )}
-      {withFilter && <SessionsFilter onUpdate={setFilter} calendar={false} />}
+      {withFilter && (
+        <SessionsFilter onUpdate={setFilter} calendar={filterCalendar} />
+      )}
       {data.map((it) => {
         return (
           <SessionCard session={it} key={it.id} renderOptions={renderOptions} />

@@ -1,84 +1,61 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../../assets/styles/_media'
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
-  margin-bottom: 16px;
-  .session-top {
-    color: ${(p) => p.theme.vars.colors.primaryDark};
+  .add-session {
+    &__client-select {
+      margin-bottom: 1.875rem;
+
+      & .ant-select-selector {
+        padding: 1rem 1rem 1rem 4rem;
+        height: auto;
+      }
+
+      & .input__input {
+        padding: 1rem;
+        height: auto;
+      }
+
+      & .select__prefix {
+        left: 1.5rem;
+      }
+
+      & .ant-select-arrow {
+        right: 1.5rem;
+      }
+    }
+
     &__head {
-      margin: 20px 0;
-      display: flex;
-      justify-content: space-between;
-      ${media('tablet', 'max')`
-          flex-direction: column;
-        `}
-    }
-    &__client {
-      display: flex;
-      align-items: center;
-      ${media('tablet', 'max')`
-            margin-bottom: 24px;
-        `}
-    }
-    &__image {
-      ${(p) => p.theme.mixin.circleImage('32px')}
-      margin-right: 10px;
-    }
-    &__name {
-      ${(p) => p.theme.extend.p1}
-    }
-    &__credits {
-      border: 1px solid ${(p) => p.theme.vars.colors.secondary};
-      color: ${(p) => p.theme.vars.colors.secondary};
-      display: flex;
-      justify-content: space-between;
-      max-width: 320px;
-      padding: 4px 12px;
-      margin: auto 0;
-      ${media('tablet', 'max')`
-            margin-top: 16px;
-            max-width: none;
-        `}
-    }
-    &__requested {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      ${media('tablet', 'max')`
-            display: block;
-            margin: 24px 0;
-        `}
-      &__label {
-        background-color: ${(p) => p.theme.vars.colors.primary}88;
-        padding: 6px 12px;
-        font-weight: 600;
-        white-space: nowrap;
-        width: 100%;
-        flex-shrink: 2;
-        ${media('tablet', 'max')`
-                margin-bottom: 24px;
-            `}
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.875rem;
+      margin-bottom: 1.875rem;
+
+      @media ${mediaQueries.MOBILE} {
+        grid-template-columns: 1fr;
       }
-      &__dates {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-        ${media('tablet', 'max')`
-                justify-content: flex-start;
-            `}
+    }
+
+    &__head-card {
+      padding: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__credit-btn {
+      width: 100%;
+      color: ${getColorCarry('secondary2_v2')};
+      height: 100%;
+
+      & .credits-btn__count {
+        color: ${getColorCarry('primaryDark_v2')};
       }
-      &__date {
-        ${(p) => p.theme.extend.flexCenter}
-        ${media('tablet', 'max')`
-                margin-right: 24px;
-            `}
-            svg {
-          width: 16px;
-          height: auto;
-          display: block;
-          margin-right: 10px;
+
+      & .credits-btn__items {
+        & svg {
+          color: ${getColorCarry('primaryDark_v2')};
         }
       }
     }

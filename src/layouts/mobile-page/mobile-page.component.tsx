@@ -5,9 +5,10 @@ import Styles from './mobile-page.styles'
 
 interface MobilePageProps {
   title: string
-  actionComponent: ReactNode
+  actionComponent?: ReactNode
   headerSpacing?: number
   headerComponent?: ReactNode
+  headerTopComponent?: ReactNode
 }
 
 export default function MobilePage({
@@ -15,7 +16,8 @@ export default function MobilePage({
   title,
   actionComponent,
   headerSpacing,
-  headerComponent
+  headerComponent,
+  headerTopComponent
 }: PropsWithChildren<MobilePageProps>) {
   return (
     <Styles className="mobile-page">
@@ -24,6 +26,7 @@ export default function MobilePage({
         actionComponent={actionComponent}
         spacing={headerSpacing}
         component={headerComponent}
+        topComponent={headerTopComponent}
       />
 
       <div className="mobile-page__content">{children}</div>

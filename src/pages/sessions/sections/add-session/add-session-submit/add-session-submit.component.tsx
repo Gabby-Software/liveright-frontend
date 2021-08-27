@@ -1,12 +1,11 @@
 import { useFormikContext } from 'formik'
 import React from 'react'
 
-import FormButton from '../../../../../components/forms/form-button/form-button.component'
+import BusyBadge from '../../../../../components/busy-badge/busy-badge.component'
+import Button from '../../../../../components/buttons/button/button.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { classes } from '../../../../../pipes/classes.pipe'
 import { SessionType } from '../../../../../types/session.type'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
-import Styles from './add-session-submit.styles'
 
 interface Props {
   session?: SessionType
@@ -15,25 +14,25 @@ interface Props {
 const AddSessionSubmit: React.FC<Props> = (props) => {
   const { session } = props
   const { t } = useTranslation()
-  const { values, isSubmitting } = useFormikContext<AddSessionFormType>()
+  const { values, isSubmitting, submitForm } =
+    useFormikContext<AddSessionFormType>()
   const { isBusy } = values
 
   return (
     <React.Fragment>
-      {isBusy ? <Styles>{t('sessions:collapse')}</Styles> : null}
-      <FormButton
-        className={classes('button-submit', 'add-session__form__submit')}
-        type={'primary'}
-        htmlType={'submit'}
-        loading={isSubmitting}
+      {isBusy && <BusyBadge />}
+      <Button
+        className="add-session__submit-btn"
+        type="submit"
         disabled={isSubmitting}
+        onClick={submitForm}
       >
         {session
           ? t('sessions:save')
           : isBusy
           ? t('sessions:submit-anyway')
           : t('sessions:submit')}
-      </FormButton>
+      </Button>
     </React.Fragment>
   )
 }

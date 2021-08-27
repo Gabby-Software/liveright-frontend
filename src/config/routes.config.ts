@@ -223,6 +223,66 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Request Session',
+    url: Routes.SESSIONS + '/request',
+    Component: lazy(
+      () => import('../pages/sessions-request/session-request.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Reschedule Session',
+    url: Routes.SESSIONS + '/reschedule',
+    Component: lazy(
+      () => import('../pages/session-reschedule/session-reschedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Schedule Session',
+    url: Routes.SESSIONS + '/schedule/new',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Edit Session',
+    url: Routes.SESSIONS + '/schedule/edit',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Confirm Session',
+    url: Routes.SESSIONS + '/schedule/confirm',
+    Component: lazy(
+      () => import('../pages/session-schedule/session-schedule.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Sessions',
     url: Routes.SESSIONS + '/:id',
     Component: lazy(() => import('../pages/session/session.component')),

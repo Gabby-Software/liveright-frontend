@@ -22,7 +22,7 @@ export default styled.table<{ roundBottom?: boolean }>`
       font-size: 0.875rem;
       color: #fff;
       font-weight: 500;
-      padding: 1.25rem 0.5rem 1.5rem 0.5rem;
+      padding: 1.25rem 1rem 1.5rem 1rem;
 
       &:first-child {
         padding-left: 1.75rem;
@@ -54,7 +54,7 @@ export default styled.table<{ roundBottom?: boolean }>`
       }
     }
     &__td {
-      padding: 1.25rem 0.5rem 1.25rem 0.5rem;
+      padding: 1.25rem 1rem 1.25rem 1rem;
       color: ${(p) => p.theme.vars.colors.secondary3};
       font-size: 0.875rem;
       font-weight: 400;

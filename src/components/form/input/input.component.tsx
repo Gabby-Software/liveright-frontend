@@ -1,6 +1,7 @@
 import { Input as AntdInput } from 'antd'
 import { ChangeEvent, FocusEventHandler, ReactNode } from 'react'
 
+import Label from '../label/label.component'
 import Styles from './input.styles'
 
 interface InputProps {
@@ -17,6 +18,8 @@ interface InputProps {
   onClick?: any
   onFocus?: FocusEventHandler<HTMLInputElement>
   readOnly?: boolean
+  className?: string
+  disabled?: boolean
 }
 
 export default function Input({
@@ -32,11 +35,18 @@ export default function Input({
   onChange,
   onClick,
   onFocus,
-  readOnly
+  readOnly,
+  className,
+  disabled
 }: InputProps) {
   return (
-    <Styles $size={size} onClick={onClick}>
-      {label && <label htmlFor={id}>{label}</label>}
+    <Styles
+      $size={size}
+      onClick={onClick}
+      className={className}
+      $disabled={disabled}
+    >
+      {label && <Label htmlFor={id}>{label}</Label>}
       <AntdInput
         id={id}
         type={type}
@@ -49,6 +59,7 @@ export default function Input({
         onChange={onChange}
         onFocus={onFocus}
         readOnly={readOnly}
+        disabled={disabled}
       />
     </Styles>
   )

@@ -17,7 +17,7 @@ export function getMobilePadding(props: any): string {
     case 'sm':
       return '16px'
     default:
-      return '20px'
+      return '0 20px'
   }
 }
 
