@@ -48,7 +48,6 @@ const FormTimepicker: React.FC<Props> = (props) => {
               )}
               onChange={(date, dateString: string) => {
                 if (!date) return
-                console.log('lol')
                 form.setFieldValue(name, dateString)
                 onUpdate && onUpdate(name, dateString)
               }}
