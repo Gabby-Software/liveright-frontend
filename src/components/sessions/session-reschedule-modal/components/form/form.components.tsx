@@ -98,6 +98,7 @@ export default function Form({ session, onSuccess }: FormProps) {
             className="reschedule-form__form-item"
             value={date}
             onChange={(e, date) => setFieldValue('date', date)}
+            disabledDate={(date) => date.isBefore(moment().startOf('day'))}
           />
           <TimePicker
             id="reschedule-time"
@@ -105,6 +106,7 @@ export default function Form({ session, onSuccess }: FormProps) {
             className="reschedule-form__form-item"
             value={time}
             onChange={(e, date) => setFieldValue('time', date)}
+            disabledUntilNow={moment(date).isSame(moment(), 'days')}
           />
 
           <Button className="reschedule-form__submit-btn" onClick={submitForm}>

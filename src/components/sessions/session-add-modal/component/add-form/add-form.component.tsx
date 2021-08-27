@@ -54,7 +54,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           duration: moment(duration, 'h:mm').format('HH:mm:ss'),
           time: moment(time, 'h:mm').format('HH:mm:ss')
         },
-        trainerId
+        trainer_id: trainerId
       }
     })
 
@@ -102,6 +102,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           className="add-session__form-item"
           value={date}
           onChange={(e, dateStr) => setFieldValue('date', dateStr)}
+          disabledPast
         />
         <TimePicker
           id="request-session-time"
@@ -111,6 +112,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           className="add-session__form-item"
           value={time}
           onChange={(e, dateStr) => setFieldValue('time', dateStr)}
+          disabledUntilNow={moment(date).isSame(moment(), 'days')}
         />
 
         <Button onClick={submitForm} className="add-session__submit-btn">

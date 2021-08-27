@@ -2,6 +2,7 @@ import { TimePicker as AntdTimePicker } from 'antd'
 import moment, { Moment } from 'moment'
 
 import { ClockIcon } from '../../../assets/media/icons'
+import { getDisabledHours, getDisabledMinutes } from '../../../utils/date'
 import Label from '../label/label.component'
 import Styles from './time-picker.styles'
 
@@ -24,7 +25,8 @@ export default function TimePicker({
   className,
   value,
   disabled,
-  onChange
+  onChange,
+  disabledUntilNow
 }: TimePickerProps) {
   return (
     <Styles className={className}>
@@ -35,6 +37,10 @@ export default function TimePicker({
         value={value ? moment(value, format) : null}
         onChange={onChange}
         format={format}
+        disabledHours={() => getDisabledHours(disabledUntilNow || false)}
+        disabledMinutes={(hour) =>
+          getDisabledMinutes(disabledUntilNow || false, hour)
+        }
       />
     </Styles>
   )
