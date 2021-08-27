@@ -98,7 +98,7 @@ const LogHealthData = () => {
 
       getHealthData()
     }
-  }, [])
+  }, [date])
 
   return (
     <Formik
