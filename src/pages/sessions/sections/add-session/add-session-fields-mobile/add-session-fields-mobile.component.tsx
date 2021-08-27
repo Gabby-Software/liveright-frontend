@@ -97,7 +97,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             <p className="add-session__want-change">
               {t('sessions:want-to-change')}
 
-              <Tooltip title="Lorem Ipsum is simple." placement="right">
+              <Tooltip title={t('sessions:change-type-hint')} placement="right">
                 <InfoIcon />
               </Tooltip>
             </p>

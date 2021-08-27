@@ -1,5 +1,4 @@
 import { useFormikContext } from 'formik'
-import moment from 'moment'
 import React from 'react'
 
 import { InfoIcon } from '../../../../../assets/media/icons'
@@ -27,13 +26,14 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
   const { session, onClose } = props
   const { t } = useTranslation()
   const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
-  const isToday = moment(values.date).isSame(moment(), 'days')
 
   return (
     <Styles>
       <Card className="add-session__form-card">
         <h3 className="add-session__form-title">
-          {t('sessions:schedule-for')}
+          {session
+            ? t('sessions:reschedule-title')
+            : t('sessions:schedule-for')}
         </h3>
 
         <div className="add-session__form-grid">
@@ -45,14 +45,12 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
           />
           <TimePicker
             id="add-session-time"
-            disabledUntilNow={isToday}
             value={values.time}
             label={t('sessions:time')}
             onChange={(e, date) => setFieldValue('time', date)}
           />
           <TimePicker
             id="add-sessions-duration"
-            disabled={!!session}
             value={values.duration}
             label={t('sessions:duration')}
             onChange={(e, date) => setFieldValue('duration', date)}
@@ -73,7 +71,10 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
               <p className="add-session__want-change">
                 {t('sessions:want-to-change')}
 
-                <Tooltip title="Lorem Ipsum is simple." placement="right">
+                <Tooltip
+                  title={t('sessions:change-type-hint')}
+                  placement="right"
+                >
                   <InfoIcon />
                 </Tooltip>
               </p>

@@ -90,8 +90,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
         </div>
       )}
 
-      {session?.starts_at && <CurrentDateCard date={session.starts_at} />}
-      {session?.client_request && (
+      {session?.client_request ? (
         <CurrentDateCard
           timeLabel={t('sessions:requested-time')}
           dateLabel={t('sessions:requested-date')}
@@ -104,7 +103,9 @@ const AddSessionTop: React.FC<Props> = (props) => {
             )
             .toISOString()}
         />
-      )}
+      ) : session?.starts_at ? (
+        <CurrentDateCard date={session.starts_at} />
+      ) : null}
     </Styles>
   )
 }
