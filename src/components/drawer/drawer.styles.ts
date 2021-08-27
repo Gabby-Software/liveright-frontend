@@ -32,5 +32,6 @@ export default styled(Drawer)<any>`
   & .ant-drawer-body {
     background-color: ${getColorCarry('background_v2')};
     padding: 1.875rem;
+    min-height: calc(100% - 55px);
   }
 `

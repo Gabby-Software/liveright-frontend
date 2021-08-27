@@ -42,18 +42,22 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
             label={t('sessions:date')}
             value={values.date}
             onChange={(e, date) => setFieldValue('date', date)}
+            name="date"
           />
+
           <TimePicker
             id="add-session-time"
             value={values.time}
             label={t('sessions:time')}
             onChange={(e, date) => setFieldValue('time', date)}
+            name="time"
           />
           <TimePicker
             id="add-sessions-duration"
             value={values.duration}
             label={t('sessions:duration')}
             onChange={(e, date) => setFieldValue('duration', date)}
+            name="duration"
           />
           <div className="add-session__type-wrapper">
             <Select

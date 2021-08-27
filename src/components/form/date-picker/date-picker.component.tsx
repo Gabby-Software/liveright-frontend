@@ -2,6 +2,7 @@ import { DatePicker as AntdDatePicker } from 'antd'
 import moment, { Moment } from 'moment'
 
 import { CalendarBoldIcon } from '../../../assets/media/icons'
+import FormError from '../../forms/form-error/form-error.component'
 import Label from '../label/label.component'
 import Styles from './date-picker.styles'
 
@@ -14,6 +15,8 @@ interface DatePickerProps {
   onChange?: (date: Moment | null, dateStr: string) => void
   disabledDate?: (date: Moment) => boolean
   disabledPast?: boolean
+  error?: string
+  name?: string
 }
 
 export default function DatePicker({
@@ -24,7 +27,8 @@ export default function DatePicker({
   value,
   onChange,
   disabledDate,
-  disabledPast
+  disabledPast,
+  name
 }: DatePickerProps) {
   return (
     <Styles className={className}>
@@ -37,6 +41,7 @@ export default function DatePicker({
         onChange={onChange}
         disabledDate={disabledPast ? onDisablePast : disabledDate}
       />
+      {name && <FormError name={name} className="field-error" />}
     </Styles>
   )
 }

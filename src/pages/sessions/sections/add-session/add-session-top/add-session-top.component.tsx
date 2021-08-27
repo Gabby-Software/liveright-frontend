@@ -27,7 +27,8 @@ const AddSessionTop: React.FC<Props> = (props) => {
     () => clients.data.data.filter((it) => it.is_active),
     [clients]
   )
-  const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
+  const { values, setFieldValue, setFieldTouched } =
+    useFormikContext<AddSessionFormType>()
   const isMobile = useIsMobile()
 
   const selectedClient = useMemo(
@@ -45,12 +46,14 @@ const AddSessionTop: React.FC<Props> = (props) => {
           placeholder={t('sessions:select-client')}
           value={values.client_id}
           onChange={(e) => setFieldValue('client_id', e)}
+          onBlur={() => setFieldTouched('client_id')}
           options={clientsData.map(({ first_name, last_name, id }) => {
             return {
               label: `${first_name} ${last_name}`,
               value: id.toString()
             }
           })}
+          name="client_id"
         />
       )}
 

@@ -1,6 +1,7 @@
 import { Input as AntdInput } from 'antd'
 import { ChangeEvent, FocusEventHandler, ReactNode } from 'react'
 
+import FormError from '../../forms/form-error/form-error.component'
 import Label from '../label/label.component'
 import Styles from './input.styles'
 
@@ -20,6 +21,8 @@ interface InputProps {
   readOnly?: boolean
   className?: string
   disabled?: boolean
+  name?: string
+  onBlur?: FocusEventHandler
 }
 
 export default function Input({
@@ -37,7 +40,9 @@ export default function Input({
   onFocus,
   readOnly,
   className,
-  disabled
+  disabled,
+  name,
+  onBlur
 }: InputProps) {
   return (
     <Styles
@@ -60,7 +65,9 @@ export default function Input({
         onFocus={onFocus}
         readOnly={readOnly}
         disabled={disabled}
+        onBlur={onBlur}
       />
+      {name && <FormError name={name} className="field-error" />}
     </Styles>
   )
 }

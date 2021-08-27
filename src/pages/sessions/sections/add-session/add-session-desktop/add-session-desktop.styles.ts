@@ -3,12 +3,12 @@ import styled from 'styled-components'
 export default styled.div`
   display: flex;
   width: 100%;
+  min-height: 100%;
 
   .add-session {
     &__form {
       width: 100%;
       display: flex;
-      height: 100%;
     }
 
     &__left {
