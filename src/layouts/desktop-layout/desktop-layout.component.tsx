@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import MobileBack from '../../components/mobile-back/mobile-back.component'
+import QuickAccess from '../../components/quick-access/quick-access.component'
 import PageTitle from '../../components/titles/page-title.styles'
 import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
@@ -51,6 +52,7 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
         <main>{children}</main>
       </div>
       <ChatPopups />
+      <QuickAccess />
     </Styles>
   )
 }

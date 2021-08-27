@@ -12,6 +12,7 @@ import { default as notifications } from './notifications.json'
 import { default as plans } from './plans.json'
 import { default as profile } from './profile.json'
 import { default as progress } from './progress.json'
+import { default as quickaccess } from './quickaccess.json'
 import { default as sessions } from './sessions.json'
 import { default as settings } from './settings.json'
 
@@ -31,5 +32,6 @@ export default {
   notifications,
   financials,
   buttons,
+  quickaccess,
   badges
 }
