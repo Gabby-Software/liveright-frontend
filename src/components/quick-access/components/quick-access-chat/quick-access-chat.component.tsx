@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 
-import { ReactComponent as ChatIcon } from '../../../assets/media/icons/chat.svg'
-import { Routes } from '../../../enums/routes.enum'
-import { useTranslation } from '../../../modules/i18n/i18n.hook'
-import { useQuickAccess } from '../quick-access.context'
+import { ReactComponent as ChatIcon } from '../../../../assets/media/icons/chat.svg'
+import { Routes } from '../../../../enums/routes.enum'
+import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { useQuickAccess } from '../../quick-access.context'
 import Styles from './quick-access-chat.styles'
 
 type Props = {}

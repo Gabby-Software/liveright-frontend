@@ -3,6 +3,8 @@ import React, { FC, useMemo } from 'react'
 import { CrossIcon } from '../../../../assets/media/icons'
 import QuickAccessHome from '../../pages/quick-access-home/quick-access-home.component'
 import QuickAccessLogHealth from '../../pages/quick-access-log-health/quick-access-log-health.component'
+import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick-access-log-health-sleep/quick-access-log-health-sleep.component'
+import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles, { Times } from './quick-access-popup.styles'
@@ -16,6 +18,10 @@ const QuickAccessPopup: FC = () => {
         return QuickAccessHome
       case quickAccessRoutes.LOG_HEALTH_DATA:
         return QuickAccessLogHealth
+      case quickAccessRoutes.LOG_HEALTH_DATA_SLEEP:
+        return QuickAccessLogHealthSleep
+      case quickAccessRoutes.LOG_HEALTH_DATA_STEPS:
+        return QuickAccessLogHealthSteps
       default:
         return React.Fragment
     }
