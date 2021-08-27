@@ -3,11 +3,16 @@
   "add": "Add",
   "chat": "Chat With Trainer",
   "menu": {
+    "log": "Log",
     "exercise": "Exercise",
     "workout": "Workout",
     "health-data": "Health Data",
     "measurement": "Measurement",
     "meal": "Meal",
-    "food": "Food"
+    "food": "Food",
+    "steps": "Daily Step",
+    "heart-rate": "Heart Rate",
+    "sleep": "Sleep Rate",
+    "glucose": "Glucose"
   }
 }
