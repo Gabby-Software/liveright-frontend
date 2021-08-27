@@ -2,6 +2,7 @@
   "log": "Log",
   "add": "Add",
   "chat": "Chat With Trainer",
+  "log-sleep": "Log Sleep Data",
   "menu": {
     "log": "Log",
     "exercise": "Exercise",

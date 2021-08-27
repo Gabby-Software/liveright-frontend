@@ -15,7 +15,7 @@ export const Thumb = styled.div<{ open: boolean }>`
   transition: ${(p) => p.theme.vars.defaults.transition};
   transform: ${({ open }) => (open ? 'scale(0)' : 'scale(1)')};
   box-shadow: ${({ open }) =>
-    open ? '0px 4px 20px #bdcedf' : '0 0 0 #bdcedf'};
+    open ? '0 0 0 #bdcedf' : '0px 4px 20px #bdcedf'};
   cursor: pointer;
   background-color: ${({ theme }) => theme.vars.colors.primary};
   color: white;

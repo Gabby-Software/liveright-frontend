@@ -12,6 +12,7 @@ import { Routes } from '../../../enums/routes.enum'
 import { APIGetType } from '../../../hoc/api-get'
 import api from '../../../managers/api.manager'
 import logger from '../../../managers/logger.manager'
+import { serverError } from '../../../pipes/server-error.pipe'
 import { Chat_EP } from '../enums/chat-ep.enum'
 // import socketManager from '../managers/socket.manager'
 import { ChatMessageType } from '../types/chat-message.type'
@@ -50,6 +51,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       .get(Chat_EP.USERS)
       .then((res) => res.data)
       .then((res) => logger.success('USERS', res))
+      .catch((err) => logger.error('Fail to load chat users', serverError(err)))
   }, [])
   const collapse = (roomId: string) => {
     setPopups([...new Set([roomId, ...popups])])
