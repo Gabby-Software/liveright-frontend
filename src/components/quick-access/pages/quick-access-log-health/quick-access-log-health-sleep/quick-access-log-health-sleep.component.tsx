@@ -1,11 +1,17 @@
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import * as Yup from 'yup'
 
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
+import { QUALITY } from '../../../../../pages/progress/progress.constants'
+import {
+  QualityType,
+  SleepData
+} from '../../../../../pages/progress/progress.types'
 import { getDuration } from '../../../../../pipes/duration.pipe'
+import { serverError } from '../../../../../pipes/server-error.pipe'
+import FormSelect from '../../../../forms/form-select/form-select.component'
 import FormTimepicker from '../../../../forms/form-timepicker/form-timepicker.component'
-import Steps from '../../../../steps/steps.component'
 import { toast } from '../../../../toast/toast.component'
 import QuickAccessBack from '../../../components/quick-access-back/quick-access-back.component'
 import { QuickAccessButton } from '../../../components/quick-access-button.styles'
@@ -20,28 +26,60 @@ type SleepFormType = {
   end_time: string
   nap_start_time: string
   nap_end_time: string
+  quality: string
 }
 const initialValues: SleepFormType = {
   start_time: '',
   end_time: '',
   nap_start_time: '',
-  nap_end_time: ''
+  nap_end_time: '',
+  quality: ''
 }
 enum steps {
   SLEEP,
   NAP
 }
+
 const QuickAccessLogHealthSleep: FC = () => {
   const { t } = useTranslation()
-  const { setOpen } = useQuickAccess()
+  const { setOpen, logHealthData, todayHealthData } = useQuickAccess()
   const [currentStep, setCurrentStep] = useState<steps>(steps.SLEEP)
+  const sleepOptions = useMemo(
+    () => [
+      { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
+      {
+        value: QUALITY.AVERAGE,
+        label: t(`progress:${QUALITY.AVERAGE}`)
+      },
+      { value: QUALITY.GOOD, label: t(`progress:${QUALITY.GOOD}`) }
+    ],
+    []
+  )
   const onSubmit = (
     values: SleepFormType,
     helper: FormikHelpers<SleepFormType>
   ) => {
-    helper.setSubmitting(false)
-    setOpen(false)
-    toast.show({ type: 'success', msg: 'Sleep data logged successfully' })
+    console.log('submitting', values)
+    const payload: { sleep: SleepData } = {
+      sleep: {
+        ...values,
+        quality: values.quality as QualityType,
+        sleep_duration: getDuration(values.start_time, values.end_time)
+      }
+    }
+    if (values.nap_start_time && values.nap_end_time) {
+      payload.sleep.nap_duration = getDuration(
+        values.nap_start_time,
+        values.nap_end_time
+      )
+    }
+    logHealthData(payload)
+      .then(() => {
+        helper.setSubmitting(false)
+        setOpen(false)
+        toast.show({ type: 'success', msg: 'Sleep data logged successfully' })
+      })
+      .catch((e) => toast.show({ type: 'error', msg: serverError(e) }))
   }
   return (
     <Styles>
@@ -53,11 +91,16 @@ const QuickAccessLogHealthSleep: FC = () => {
         {t('quickaccess:log-sleep')}
       </QuickAccessTitle>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          todayHealthData.sleep
+            ? (todayHealthData.sleep as SleepFormType)
+            : initialValues
+        }
         onSubmit={onSubmit}
         validationSchema={Yup.object({
           start_time: Yup.string().required(),
-          end_time: Yup.string().required()
+          end_time: Yup.string().required(),
+          quality: Yup.string().required()
         })}
         isInitialValid={false}
         initialTouched={{ start_time: true, end_time: true }}
@@ -65,12 +108,13 @@ const QuickAccessLogHealthSleep: FC = () => {
         {({
           values,
           validateForm,
-          setFieldError
+          setFieldError,
+          isSubmitting
         }: FormikProps<SleepFormType>) => (
           <Form>
             <QuickAccessCard>
-              <Steps currentStep={currentStep}>
-                <Steps.Step>
+              {currentStep === steps.SLEEP ? (
+                <>
                   <div className={'log-sleep__row'}>
                     <FormTimepicker
                       label={t('progress:start_time')}
@@ -88,8 +132,14 @@ const QuickAccessLogHealthSleep: FC = () => {
                       placeholder={''}
                     />
                   </div>
-                </Steps.Step>
-                <Steps.Step>
+                  <FormSelect
+                    name={'quality'}
+                    label={t('progress:qualityLabel')}
+                    options={sleepOptions}
+                  />
+                </>
+              ) : (
+                <>
                   <div className={'log-sleep__row'}>
                     <FormTimepicker
                       label={t('progress:nap_start_time')}
@@ -107,8 +157,8 @@ const QuickAccessLogHealthSleep: FC = () => {
                       placeholder={''}
                     />
                   </div>
-                </Steps.Step>
-              </Steps>
+                </>
+              )}
             </QuickAccessCard>
 
             {currentStep === steps.SLEEP ? (
@@ -135,6 +185,7 @@ const QuickAccessLogHealthSleep: FC = () => {
                 type={'primary'}
                 htmlType={'submit'}
                 key={steps.NAP}
+                loading={isSubmitting}
               >
                 {t('Done & Save')}
               </QuickAccessButton>

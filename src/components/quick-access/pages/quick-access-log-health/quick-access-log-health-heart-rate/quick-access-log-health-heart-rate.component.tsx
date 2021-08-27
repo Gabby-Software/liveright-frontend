@@ -3,7 +3,9 @@ import React, { FC } from 'react'
 import * as Yup from 'yup'
 
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
+import { HealthData } from '../../../../../pages/progress/progress.types'
 import { getHeartRateQuality } from '../../../../../pages/progress-log/log-health-data/log-health-data.helpers'
+import { serverError } from '../../../../../pipes/server-error.pipe'
 import { toast } from '../../../../toast/toast.component'
 import QuickAccessBack from '../../../components/quick-access-back/quick-access-back.component'
 import { QuickAccessButton } from '../../../components/quick-access-button.styles'
@@ -17,15 +19,28 @@ import Styles from './quick-access-log-health-heart-rate.styles'
 type Props = {}
 const QuickAccessLogHealthHeartRate: FC<Props> = ({}) => {
   const { t } = useTranslation()
-  const { setOpen } = useQuickAccess()
+  const { setOpen, logHealthData, todayHealthData } = useQuickAccess()
   const onSubmit = (
     values: QuickAccessLogDataType,
     helper: FormikHelpers<QuickAccessLogDataType>
   ) => {
     console.log('submitting', values)
-    helper.setSubmitting(false)
-    setOpen(false)
-    toast.show({ type: 'success', msg: 'Heart rate data logged successfully' })
+    const payload: Partial<HealthData> = {
+      heart_rate: {
+        avg_rate: +values.data,
+        quality: getHeartRateQuality(+values.data)
+      }
+    }
+    logHealthData(payload)
+      .then(() => {
+        helper.setSubmitting(false)
+        setOpen(false)
+        toast.show({
+          type: 'success',
+          msg: 'Heart rate data logged successfully'
+        })
+      })
+      .catch((e) => toast.show({ type: 'error', msg: serverError(e) }))
   }
   return (
     <Styles>
@@ -37,7 +52,9 @@ const QuickAccessLogHealthHeartRate: FC<Props> = ({}) => {
         {t('quickaccess:menu.heart-rate')}
       </QuickAccessTitle>
       <Formik
-        initialValues={{ data: '' }}
+        initialValues={{
+          data: String(todayHealthData?.heart_rate?.avg_rate || '')
+        }}
         onSubmit={onSubmit}
         validationSchema={Yup.object({
           data: Yup.number().required().min(25).max(200)
