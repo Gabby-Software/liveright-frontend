@@ -15,6 +15,7 @@ export default styled(QuickAccessCard)`
         width: 98px;
         display: flex;
         align-items: center;
+        font-size: 18px;
       }
     }
   }
