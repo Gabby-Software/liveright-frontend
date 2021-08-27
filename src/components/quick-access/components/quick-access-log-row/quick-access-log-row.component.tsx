@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
 import formatter from '../../../../managers/formatter.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -13,17 +13,24 @@ type Props = {
 }
 const QuickAccessLogRow: FC<Props> = ({ label, getQuality, min, max }) => {
   const { t } = useTranslation()
+  const [quality, setQuality] = useState<string>('-')
   return (
     <Styles>
       <QuickAccessRectInput
         label={label}
         name={'data'}
-        onUpdate={(val) => getQuality(+val)}
+        onUpdate={(_, val) => {
+          setQuality(val ? getQuality(+val) : '-')
+        }}
         format={formatter().number().min(min).max(max)}
       />
       <div className={'qa-log__quality'}>
-        <div className={'qa-log__quality__label'}>{t('quality')}</div>
-        <div className={'qa-log__quality__value'}>Good</div>
+        <div className={'qa-log__quality__label'}>
+          {t('progress:qualityLabel')}
+        </div>
+        <div className={'qa-log__quality__value'}>
+          {t(`progress:${quality}`)}
+        </div>
       </div>
     </Styles>
   )
