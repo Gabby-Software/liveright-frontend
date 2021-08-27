@@ -4,7 +4,6 @@ import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
-  
   .add-session {
     &__client-select {
       margin-bottom: 1.875rem;
