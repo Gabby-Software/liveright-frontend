@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd'
 import { useFormikContext } from 'formik'
 import React, { useMemo } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/heart-rate.svg'
@@ -11,6 +12,7 @@ import FormDatepicker from '../../../../components/forms/form-datepicker/form-da
 import FormRow from '../../../../components/forms/form-row/form-row.component'
 import FormSelect from '../../../../components/forms/form-select/form-select.component'
 import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
+import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -44,6 +46,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
   const { t } = useTranslation()
   const { values, isValid } = useFormikContext<HealthData>()
   const { type } = useAuth()
+  const history = useHistory()
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -63,7 +66,13 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
         <CardsWrapper>
           <SleepCardWrapper>
             <PickersWrapper size="middle">
-              <FormDatepicker name="date" label={t('progress:loggingDate')} />
+              <FormDatepicker
+                name="date"
+                label={t('progress:loggingDate')}
+                onUpdate={(_, value) =>
+                  history.replace(Routes.PROGRESS_LOG_HEALTH_DATA + `/${value}`)
+                }
+              />
               <FormTimepicker name="time" label={t('progress:loggingTime')} />
             </PickersWrapper>
           </SleepCardWrapper>

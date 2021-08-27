@@ -3,7 +3,12 @@ import React, { FC } from 'react'
 import * as Yup from 'yup'
 
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { getGlucoseQuality } from '../../../../../pages/progress-log/log-health-data/log-health-data.helpers'
+import { HealthData } from '../../../../../pages/progress/progress.types'
+import {
+  getGlucoseQuality,
+  getStepsQuality
+} from '../../../../../pages/progress-log/log-health-data/log-health-data.helpers'
+import { serverError } from '../../../../../pipes/server-error.pipe'
 import { toast } from '../../../../toast/toast.component'
 import QuickAccessBack from '../../../components/quick-access-back/quick-access-back.component'
 import { QuickAccessButton } from '../../../components/quick-access-button.styles'
@@ -17,15 +22,25 @@ import Styles from './quick-access-log-health-glucose.styles'
 type Props = {}
 const QuickAccessLogHealthGlucose: FC<Props> = ({}) => {
   const { t } = useTranslation()
-  const { setOpen } = useQuickAccess()
+  const { setOpen, logHealthData, todayHealthData } = useQuickAccess()
   const onSubmit = (
     values: QuickAccessLogDataType,
     helper: FormikHelpers<QuickAccessLogDataType>
   ) => {
     console.log('submitting', values)
-    helper.setSubmitting(false)
-    setOpen(false)
-    toast.show({ type: 'success', msg: 'Glucose data logged successfully' })
+    const payload: Partial<HealthData> = {
+      blood_glucose: {
+        glucose: +values.data,
+        quality: getStepsQuality(+values.data)
+      }
+    }
+    logHealthData(payload)
+      .then(() => {
+        helper.setSubmitting(false)
+        setOpen(false)
+        toast.show({ type: 'success', msg: 'Glucose logged successfully' })
+      })
+      .catch((e) => toast.show({ type: 'error', msg: serverError(e) }))
   }
   return (
     <Styles>
@@ -37,7 +52,9 @@ const QuickAccessLogHealthGlucose: FC<Props> = ({}) => {
         {t('quickaccess:menu.glucose')}
       </QuickAccessTitle>
       <Formik
-        initialValues={{ data: '' }}
+        initialValues={{
+          data: String(todayHealthData.blood_glucose?.glucose || '')
+        }}
         onSubmit={onSubmit}
         validationSchema={Yup.object({
           data: Yup.number().required().min(25).max(350)
