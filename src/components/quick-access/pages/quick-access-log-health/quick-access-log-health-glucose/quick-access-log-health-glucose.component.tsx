@@ -33,7 +33,9 @@ const QuickAccessLogHealthGlucose: FC<Props> = ({}) => {
         label={'health-data'}
         route={quickAccessRoutes.LOG_HEALTH_DATA}
       />
-      <QuickAccessTitle>{t('quickaccess:menu.glucose')}</QuickAccessTitle>
+      <QuickAccessTitle label={'Today'}>
+        {t('quickaccess:menu.glucose')}
+      </QuickAccessTitle>
       <Formik
         initialValues={{ data: '' }}
         onSubmit={onSubmit}
