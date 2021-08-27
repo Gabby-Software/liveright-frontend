@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled(Card)`
@@ -9,9 +10,11 @@ export default styled(Card)`
     &__container {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
     }
 
     &__info {
+      padding-right: 1rem;
     }
 
     &__date {
@@ -20,11 +23,16 @@ export default styled(Card)`
       color: ${getColorCarry('red_80')};
       font-weight: 500;
       font-size: 1rem;
-      padding: 0.5rem 1.25rem;
+      padding: 1rem 1.25rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-end;
+      min-width: max-content;
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 0.75rem;
+      }
     }
 
     &__title {
@@ -38,6 +46,10 @@ export default styled(Card)`
 
       & svg {
         margin-left: 1rem;
+
+        @media ${mediaQueries.MOBILE} {
+          margin-left: 0.5rem;
+        }
       }
     }
   }

@@ -42,15 +42,35 @@ code {
   max-height: 80%;
   overflow: auto;
 }
-.ant-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #9E9E9E;
+.ant-input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #9e9e9e;
 }
-.ant-input::-moz-placeholder { /* Firefox 19+ */
-  color: #9E9E9E;
+.ant-input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #9e9e9e;
 }
-.ant-input:-ms-input-placeholder { /* IE 10+ */
-  color: #9E9E9E;
+.ant-input:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #9e9e9e;
 }
-.ant-input:-moz-placeholder { /* Firefox 18- */
-  color: #9E9E9E;
+.ant-input:-moz-placeholder {
+  /* Firefox 18- */
+  color: #9e9e9e;
+}
+.ant-picker-input > input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #9e9e9e;
+}
+.ant-picker-input > input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #9e9e9e;
+}
+.ant-picker-input > input:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #9e9e9e;
+}
+.ant-picker-input > input:-moz-placeholder {
+  /* Firefox 18- */
+  color: #9e9e9e;
 }

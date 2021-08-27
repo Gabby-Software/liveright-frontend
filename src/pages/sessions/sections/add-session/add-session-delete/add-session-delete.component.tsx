@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
+import Button from '../../../../../components/buttons/button/button.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { ACTION_TRAINER_REMOVE_SESSION_REQUEST } from '../../../../../store/action-types'
-import Styles from './add-session-delete.styles'
 
 interface Props {
   session_id: number
@@ -27,10 +27,13 @@ const AddSessionDelete: React.FC<Props> = (props) => {
   }
 
   return (
-    <div>
-      {t('sessions:delete-info')}
-      <Styles onClick={handleDelete}>{t('sessions:delete')}</Styles>
-    </div>
+    <Button
+      variant="secondary"
+      onClick={handleDelete}
+      className="add-session__delete-btn"
+    >
+      {t('sessions:delete')}
+    </Button>
   )
 }
 

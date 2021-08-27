@@ -2,12 +2,14 @@ import { Field, FieldProps, useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { useMemo } from 'react'
 
-import { ReactComponent as CalendarIcon } from '../../../../../assets/media/icons/calendar.svg'
-import { ReactComponent as ClockIcon } from '../../../../../assets/media/icons/clock.svg'
-import FormSelect from '../../../../../components/forms/form-select/form-select.component'
-import PageSubtitle from '../../../../../components/titles/page-subtitle.styles'
-import UserBadge from '../../../../../components/user-badge/user-badge.component'
+import { ProfileIcon } from '../../../../../assets/media/icons'
+import CreditsButton from '../../../../../components/buttons/credits-button/credits-button.component'
+import Card from '../../../../../components/cards/card/card.component'
+import CurrentDateCard from '../../../../../components/cards/current-date-card/current-date-card.component'
+import UserBadgeCard from '../../../../../components/cards/user-bardge-card/user-badge-card.component'
+import Select from '../../../../../components/form/select/select.component'
 import { useClients } from '../../../../../hooks/clients.hook'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
 import { AddSessionFormType } from '../add-session-form/add-session-form.component'
@@ -25,7 +27,9 @@ const AddSessionTop: React.FC<Props> = (props) => {
     () => clients.data.data.filter((it) => it.is_active),
     [clients]
   )
-  const { values } = useFormikContext<AddSessionFormType>()
+  const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
+  const isMobile = useIsMobile()
+
   const selectedClient = useMemo(
     () => clientsData.find((it) => it.id === Number(values?.client_id)),
     [clientsData, values.client_id]
@@ -33,50 +37,74 @@ const AddSessionTop: React.FC<Props> = (props) => {
 
   return (
     <Styles>
-      <PageSubtitle>{t('sessions:schedule-session')}</PageSubtitle>
       {!session && (
-        <FormSelect
-          name="client_id"
-          label="Please select a client to schedule for..."
+        <Select
+          prefix={<ProfileIcon />}
+          className="add-session__client-select"
+          id="add-sessions-id"
+          placeholder={t('sessions:select-client')}
+          value={values.client_id}
+          onChange={(e) => setFieldValue('client_id', e)}
           options={clientsData.map(({ first_name, last_name, id }) => {
-            return { label: `${first_name} ${last_name}`, value: id.toString() }
+            return {
+              label: `${first_name} ${last_name}`,
+              value: id.toString()
+            }
           })}
         />
       )}
-      {selectedClient ? (
-        <div className={'session-top__head'}>
-          <UserBadge
-            avatar={selectedClient.avatar?.url}
-            lastName={selectedClient.last_name}
-            firstName={selectedClient.first_name}
-          />
-          <Field name={'sessions'}>
-            {({ field }: FieldProps) => (
-              <div className={'session-top__credits'}>
-                <span>{t('sessions:current-credits')}:</span>
-                <span>&nbsp;{field.value}</span>
-              </div>
-            )}
-          </Field>
+
+      {(selectedClient || session?.client?.id) && (
+        <div className="add-session__head">
+          <Card className="add-session__head-card">
+            <UserBadgeCard
+              img={
+                selectedClient?.avatar?.url ||
+                session?.client?.user?.avatar?.url
+              }
+              lastName={
+                selectedClient?.last_name ||
+                session?.client?.user?.first_name ||
+                ''
+              }
+              firstName={
+                selectedClient?.first_name ||
+                session?.client?.user?.last_name ||
+                ''
+              }
+              userRole="Client"
+            />
+          </Card>
+
+          {!isMobile && (
+            <Field name={'sessions'}>
+              {({ field }: FieldProps) => (
+                <CreditsButton
+                  className="add-session__credit-btn"
+                  count={field.value}
+                  readOnly
+                />
+              )}
+            </Field>
+          )}
         </div>
-      ) : null}
-      {session && session.starts_at ? (
-        <div className={'session-top__requested'}>
-          <div className={'session-top__requested__label'}>
-            {session ? t('sessions:current-time') : t('sessions:requested')}
-          </div>
-          <div className={'session-top__requested__dates'}>
-            <div className={'session-top__requested__date'}>
-              <CalendarIcon />
-              <span>{moment(session?.starts_at).format('YYYY-MM-DD')}</span>
-            </div>
-            <div className={'session-top__requested__date'}>
-              <ClockIcon />
-              <span>{moment.utc(session?.starts_at).format('HH:mm')}</span>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      )}
+
+      {session?.starts_at && <CurrentDateCard date={session.starts_at} />}
+      {session?.client_request && (
+        <CurrentDateCard
+          timeLabel={t('sessions:requested-time')}
+          dateLabel={t('sessions:requested-date')}
+          date={moment
+            .utc(
+              session?.client_request?.date +
+                ' ' +
+                session?.client_request?.time,
+              'YYYY-MM-DD HH:mm:ss'
+            )
+            .toISOString()}
+        />
+      )}
     </Styles>
   )
 }

@@ -5,4 +5,6 @@ export interface HeaderProps {
   actionComponent: ReactNode
   spacing?: number
   component?: ReactNode
+  headerLink?: ReactNode
+  topComponent?: ReactNode
 }
