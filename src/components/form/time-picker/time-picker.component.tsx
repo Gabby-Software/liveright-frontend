@@ -3,6 +3,8 @@ import moment, { Moment } from 'moment'
 
 import { ClockIcon } from '../../../assets/media/icons'
 import { getDisabledHours, getDisabledMinutes } from '../../../utils/date'
+import FormError from '../../forms/form-error/form-error.component'
+import Error from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './time-picker.styles'
 
@@ -15,6 +17,7 @@ interface TimePickerProps {
   disabled?: boolean
   disabledUntilNow?: boolean
   onChange?: (date: Moment | null, dateStr: string) => void
+  name?: string
 }
 
 const format = 'H:mm'
@@ -26,7 +29,8 @@ export default function TimePicker({
   value,
   disabled,
   onChange,
-  disabledUntilNow
+  disabledUntilNow,
+  name
 }: TimePickerProps) {
   return (
     <Styles className={className}>
@@ -42,6 +46,7 @@ export default function TimePicker({
           getDisabledMinutes(disabledUntilNow || false, hour)
         }
       />
+      {name && <FormError name={name} className="field-error" />}
     </Styles>
   )
 }

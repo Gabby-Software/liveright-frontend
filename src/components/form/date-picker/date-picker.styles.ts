@@ -7,6 +7,7 @@ export default styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 
   & .ant-picker {
     width: 100%;

@@ -1,9 +1,10 @@
 import { Select as AntdSelect } from 'antd'
-import { ReactNode, useState } from 'react'
+import { FocusEventHandler, ReactNode, useState } from 'react'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { OptionType } from '../../../types/option.type'
+import FormError from '../../forms/form-error/form-error.component'
 import SmallModal from '../../small-modal/small-modal.component'
 import Input from '../input/input.component'
 import Label from '../label/label.component'
@@ -22,6 +23,7 @@ interface SelectProps {
   disabled?: boolean
   className?: string
   prefix?: ReactNode
+  onBlur?: FocusEventHandler
 }
 
 export default function Select({
@@ -35,7 +37,9 @@ export default function Select({
   onChange,
   disabled,
   className,
-  prefix
+  prefix,
+  name,
+  onBlur
 }: SelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
@@ -56,6 +60,8 @@ export default function Select({
           onClick={() => setModal(true)}
           onFocus={(e) => e.target.blur()}
           className={className}
+          name={name}
+          onBlur={onBlur}
         />
         <SmallModal
           visible={modal}
@@ -85,7 +91,9 @@ export default function Select({
           onChange={onChange}
           defaultValue={defaultValue}
           disabled={disabled}
+          onBlur={onBlur}
         />
+        {name && <FormError name={name} className="field-error" />}
       </div>
     </Styles>
   )

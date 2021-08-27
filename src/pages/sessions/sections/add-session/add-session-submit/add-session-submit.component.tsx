@@ -27,10 +27,10 @@ const AddSessionSubmit: React.FC<Props> = (props) => {
         disabled={isSubmitting}
         onClick={submitForm}
       >
-        {session
-          ? t('sessions:save')
-          : isBusy
+        {isBusy
           ? t('sessions:submit-anyway')
+          : session
+          ? t('sessions:save')
           : t('sessions:submit')}
       </Button>
     </React.Fragment>

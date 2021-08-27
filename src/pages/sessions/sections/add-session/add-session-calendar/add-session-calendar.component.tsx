@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-key */
 import { useFormikContext } from 'formik'
 import moment, { Moment } from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
+import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import { EP_GET_SESSIONS } from '../../../../../enums/api.enum'
 import { useClients } from '../../../../../hooks/clients.hook'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
@@ -83,10 +83,13 @@ const AddSessionCalendar: React.FC = () => {
     )
   }
 
+  const isToday = moment(start_date).isSame(moment(), 'days')
+
   const renderDateSessions = (dateSessions: SessionType[]) => {
-    return dateSessions.map((it) => {
+    return dateSessions.map((it, index) => {
       return (
         <div
+          key={index}
           className={classes(
             'add-session__calendar__event',
             'add-session__calendar__event__overlap'
@@ -143,13 +146,21 @@ const AddSessionCalendar: React.FC = () => {
 
       {date && time ? (
         <>
-          {/*<div className="add-session__calendar-nav">*/}
-          {/*  <p className="add-session__calendar-nav-date">*/}
-          {/*    {start_date.format('YYYY-MM-DD')}*/}
-          {/*  </p>*/}
-          {/*</div>*/}
+          <div className="add-session__calendar-nav">
+            {isToday && (
+              <p className="add-session__calendar-today">
+                {t('sessions:today')}
+              </p>
+            )}
 
-          {/*<div className="add-session__calendar-nav-divider" />*/}
+            <p className="add-session__calendar-nav-date">
+              <CaretLeftIcon />
+              {start_date.format('YYYY-MM-DD')}
+              <CaretLeftIcon />
+            </p>
+          </div>
+
+          <div className="add-session__calendar-nav-divider" />
 
           <div className="add-session__calendar-current">
             <p className="add-session__calendar-current-weekday">

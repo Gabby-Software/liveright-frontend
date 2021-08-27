@@ -35,7 +35,8 @@ const initialValuesEmpty: AddSessionFormType = {
   time: '',
   notes: '',
   session_id: 0,
-  isBusy: false
+  isBusy: false,
+  client_id: undefined
 }
 
 type Props = {

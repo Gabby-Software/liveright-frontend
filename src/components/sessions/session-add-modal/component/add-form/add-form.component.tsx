@@ -87,9 +87,9 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
         />
       )}
 
-      <h3 className="add-session__title">
-        {t('sessions:session-request-new')}
-      </h3>
+      {/*<h3 className="add-session__title">*/}
+      {/*  {t('sessions:session-request-new')}*/}
+      {/*</h3>*/}
 
       <p className="add-session__subtitle">
         {t('sessions:session-request-title')}

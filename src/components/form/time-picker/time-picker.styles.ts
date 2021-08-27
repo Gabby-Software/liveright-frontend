@@ -6,6 +6,7 @@ import { getHeight } from '../utils.styles'
 export default styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 
   & .ant-picker {
     width: 100%;
