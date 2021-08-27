@@ -39,7 +39,7 @@ const FormClientSelect = ({ name, label, onUpdate }: Props) => {
         .then((res) => res.data.data)
         .then((res) => {
           if (m.current !== d) return
-          setClients(res.map(({ user }: { user: AccountObjType }) => user))
+          setClients(res)
         })
     }, 400) as unknown as number
   }
