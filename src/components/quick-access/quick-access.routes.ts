@@ -1,0 +1,13 @@
+export enum quickAccessRoutes {
+  LOG,
+  ADD,
+  ADD_EXERCISE,
+  ADD_MEAL,
+  ADD_FOOD,
+  ADD_SCHEDULE,
+  ADD_INVOICE,
+  LOG_EXERCISE,
+  LOG_WORKOUT,
+  LOG_HEALTH_DATA,
+  LOG_MEASUREMENT
+}

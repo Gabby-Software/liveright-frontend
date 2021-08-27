@@ -1,0 +1,60 @@
+import React, { FC, useMemo } from 'react'
+
+import {
+  ExerciseIconV2,
+  HealthDataIconV2,
+  MeasurementIconV2,
+  WorkoutIconV2
+} from '../../../../assets/media/icons'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
+import QuickAccessAction from '../../components/quick-access-action/quick-access-action.component'
+import { quickAccessRoutes } from '../../quick-access.routes'
+import { QuickAccessActionType } from '../../types/quick-access-action.type'
+import Styles from './quick-access-log.styles'
+
+type Props = {}
+const QuickAccessLog: FC<Props> = ({}) => {
+  const { type } = useAuth()
+  const options = useMemo(() => {
+    const trainerOptions: QuickAccessActionType[] = []
+    const clientOptions: QuickAccessActionType[] = [
+      {
+        icon: ExerciseIconV2,
+        route: quickAccessRoutes.LOG_EXERCISE,
+        label: 'exercise',
+        color: '#D70004'
+      },
+      {
+        icon: WorkoutIconV2,
+        route: quickAccessRoutes.LOG_WORKOUT,
+        label: 'workout',
+        color: '#1268E4'
+      },
+      {
+        icon: HealthDataIconV2,
+        route: quickAccessRoutes.LOG_HEALTH_DATA,
+        label: 'health-data',
+        color: '#F123B8'
+      },
+      {
+        icon: MeasurementIconV2,
+        route: quickAccessRoutes.LOG_MEASUREMENT,
+        label: 'measurement',
+        color: '#000000'
+      }
+    ]
+    return type === userTypes.CLIENT ? clientOptions : trainerOptions
+  }, [type])
+  return (
+    <Styles>
+      <div className={'qa-log__actions'}>
+        {options.map((option) => (
+          <QuickAccessAction key={option.route} {...option} />
+        ))}
+      </div>
+    </Styles>
+  )
+}
+
+export default QuickAccessLog

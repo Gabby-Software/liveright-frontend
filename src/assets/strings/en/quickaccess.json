@@ -1,0 +1,13 @@
+{
+  "log": "Log",
+  "add": "Add",
+  "chat": "Chat With Trainer",
+  "menu": {
+    "exercise": "Exercise",
+    "workout": "Workout",
+    "health-data": "Health Data",
+    "measurement": "Measurement",
+    "meal": "Meal",
+    "food": "Food"
+  }
+}

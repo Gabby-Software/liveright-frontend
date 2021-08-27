@@ -64,6 +64,7 @@ const vars = {
     header: 40,
     footer: 40,
     chatPopup: 50,
+    quickAccess: 55,
     modal: 60,
     toast: 1001
   },
