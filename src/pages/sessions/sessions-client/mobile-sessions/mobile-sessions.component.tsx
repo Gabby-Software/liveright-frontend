@@ -5,6 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/c
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import useCreditsWithTrainer from '../../../../hooks/api/credits/useCreditsWithTrainer'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -25,6 +26,7 @@ interface Props {
 const MobileSessions: React.FC<Props> = (props) => {
   const { sessions, getSessions } = props
   const { t } = useTranslation()
+  const { credits } = useCreditsWithTrainer()
 
   const renderItemOptions = (item: SessionType) => {
     return (
@@ -53,7 +55,7 @@ const MobileSessions: React.FC<Props> = (props) => {
         }
         headerComponent={
           <HeaderComponent>
-            <CreditsButton count={-3} className="sessions__credits-btn" />
+            <CreditsButton count={credits} className="sessions__credits-btn" />
           </HeaderComponent>
         }
       >

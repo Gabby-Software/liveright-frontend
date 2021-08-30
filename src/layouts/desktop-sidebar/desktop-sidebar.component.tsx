@@ -15,7 +15,6 @@ import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
-import logger from '../../managers/logger.manager'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
@@ -61,7 +60,6 @@ const DesktopSidebar = () => {
   const { pathname } = useLocation()
   const [isOpen] = useState(false)
   const trainer = useClientsTrainer()
-  logger.info('TYPE', type, userTypes.TRAINER, trainer)
   return (
     <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
       <div className={'sidebar__logo'}>

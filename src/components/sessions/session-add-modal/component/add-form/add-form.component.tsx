@@ -4,6 +4,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
+import useCreditsWithTrainer from '../../../../../hooks/api/credits/useCreditsWithTrainer'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../../../hooks/sessions.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
@@ -38,6 +39,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const { credits } = useCreditsWithTrainer()
 
   const handleSubmit = (
     values: FormValues,
@@ -81,15 +83,11 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
     <Styles className="add-session">
       {!isMobile && (
         <CreditsButton
-          count={4}
+          count={credits}
           color="secondary"
           className="add-session__credits-btn"
         />
       )}
-
-      {/*<h3 className="add-session__title">*/}
-      {/*  {t('sessions:session-request-new')}*/}
-      {/*</h3>*/}
 
       <p className="add-session__subtitle">
         {t('sessions:session-request-title')}
