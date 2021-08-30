@@ -15,10 +15,10 @@ class SocketManager {
   private socket: Socket | null = null
   private receivedHandlers: SocketCallbackType[] = []
   constructor() {
-    const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts.find(
+    const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts?.find(
       (acc: AccountType) => acc.is_current
     )?.uuid
-    this.init(uuid)
+    if (uuid) this.init(uuid)
   }
   init(accountToken: string) {
     const token = cookieManager.get('access_token')

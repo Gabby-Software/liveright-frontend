@@ -17,7 +17,6 @@ import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
 import { uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
-import { toFileType } from '../pipes/to-file-type.pipe'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
 import { ChatRoomType } from '../types/chat-room.type'
@@ -65,10 +64,10 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     }
   }, [room])
   const setMessages = useCallback(
-    (msgs: ChatMessageType[]) => {
-      updateRoom(room, msgs)
+    (msg: ChatMessageType) => {
+      updateRoom(room, msg)
     },
-    [room, messages]
+    [room]
   )
   const msgBase = () => ({
     meta: {
@@ -77,7 +76,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       read_at: moment().format()
     },
     content: {
-      text: '',
+      // text: '',
       files: [],
       embedLinks: []
     },
@@ -91,7 +90,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     __v: 0
   })
   const addMessage = (msg: ChatMessageType) => {
-    setMessages([...messages, msg])
+    setMessages(msg)
     setTextMessage('')
     socketManager.sendMessage(msg)
   }
@@ -101,32 +100,36 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     msg.content.text = textMessage
     addMessage(msg)
   }
-  const sendFile = (files: FileList) => {
+  const sendFile = async (files: FileList) => {
     const msg: ChatMessageType = msgBase()
     // if (textMessage) {
     //   msg.content.text = textMessage
     //   msg.types.push(chatMessageTypes.TEXT)
     // }
-    for (const file of [...files]) {
+    for await (const file of [...files]) {
       const ext = file.name.split('.').pop()?.toLowerCase()
       let type: ChatMessageTypeType = chatMessageTypes.FILE
       if (imageExtentions.includes(ext || '')) {
-        logger.info('Image file type')
         type = chatMessageTypes.IMAGE
         msg.types.push(type)
-        fileManager.resize(file, 920).then(([resizedurl, f]) => {
-          msg.content.files.push(toFileType(resizedurl, f))
-          addMessage(msg)
-        })
+        await fileManager
+          .resize(file, 920)
+          .then(([_, f]) => {
+            console.log(_)
+            return uploadChatFile(f)
+          })
+          .then((f) => {
+            msg.content.files.push(f)
+          })
       } else {
         msg.types.push(type)
-        fileManager.readAsUrl(file).then((url) => {
-          msg.content.files.push(toFileType(url, file))
-          addMessage(msg)
+        await uploadChatFile(file).then((res) => {
+          msg.content.files.push(res)
         })
       }
-      setMode(ChatRoomModes.DEFAULT)
     }
+    setMode(ChatRoomModes.DEFAULT)
+    addMessage(msg)
   }
   const sendAudio = (file: File) => {
     uploadChatFile(file).then((res) => {

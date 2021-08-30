@@ -29,7 +29,7 @@ export type ChatsContextType = {
   collapse: (roomID: string) => void
   close: (roomID: string) => void
   getRoom: (roomId: string) => void
-  updateRoom: (roomId: string, msgs: ChatMessageType[]) => void
+  updateRoom: (roomId: string, msg: ChatMessageType) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
@@ -90,10 +90,10 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       })
     })
   }
-  const updateRoom = (roomId: string, msgs: ChatMessageType[]) => {
+  const updateRoom = (roomId: string, msg: ChatMessageType) => {
     logger.info('updating room', roomId, rooms, roomsRef)
-    roomsRef.current[roomId].messages = msgs
-    roomsRef.current[roomId].room.lastMessage = msgs[msgs.length - 1]
+    roomsRef.current[roomId].messages.push(msg)
+    roomsRef.current[roomId].room.lastMessage = msg
     setRooms({
       ...roomsRef.current
     })
