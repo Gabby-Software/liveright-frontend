@@ -5,18 +5,22 @@ import React, {
   FC,
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
   useState
 } from 'react'
 
+import { useAuth } from '../../../hooks/auth.hook'
 import fileManager from '../../../managers/file.manager'
 import logger from '../../../managers/logger.manager'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
+import { uploadChatFile } from '../managers/chat.manager'
+import socketManager from '../managers/socket.manager'
 import { toFileType } from '../pipes/to-file-type.pipe'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
+import { ChatRoomType } from '../types/chat-room.type'
 import { useChats } from './chats.context'
 
 type ChatRoomContextType = {
@@ -34,6 +38,7 @@ type ChatRoomContextType = {
   sendAudio: (file: File) => void
   isPopup: boolean
   room: string
+  roomData: null | ChatRoomType
 }
 
 const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
@@ -51,14 +56,14 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [openedImage, setOpenedImage] = useState<string>('')
   const [textMessage, setTextMessage] = useState<string>('')
   const { rooms, getRoom, updateRoom } = useChats()
-  const messages = useMemo(() => {
-    if (!room) return []
-    if (rooms[room]) {
-      return rooms[room].data
+  const { uuid } = useAuth()
+  const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
+    room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
+  useEffect(() => {
+    if (room && rooms[room]) {
+      getRoom(room)
     }
-    getRoom(room)
-    return []
-  }, [rooms, room])
+  }, [room])
   const setMessages = useCallback(
     (msgs: ChatMessageType[]) => {
       updateRoom(room, msgs)
@@ -68,8 +73,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const msgBase = () => ({
     meta: {
       sent_at: moment().format(),
-      delivered_at: null,
-      read_at: null
+      delivered_at: moment().format(),
+      read_at: moment().format()
     },
     content: {
       text: '',
@@ -78,9 +83,9 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     },
     types: [],
     _id: Math.random().toString(36),
-    senderId: '123',
-    receiverId: '941cbd93-10c1-4a0d-b922-b39908a7227d',
-    chat_room_id: '6116a782093e0a5e500e8eb6',
+    senderId: uuid,
+    receiverId: '',
+    chat_room_id: room,
     createdAt: moment().format(),
     updatedAt: moment().format(),
     __v: 0
@@ -88,6 +93,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const addMessage = (msg: ChatMessageType) => {
     setMessages([...messages, msg])
     setTextMessage('')
+    socketManager.sendMessage(msg)
   }
   const sendTextMessage = () => {
     const msg: ChatMessageType = msgBase()
@@ -110,23 +116,26 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         msg.types.push(type)
         fileManager.resize(file, 920).then(([resizedurl, f]) => {
           msg.content.files.push(toFileType(resizedurl, f))
-          setMessages([...messages, msg])
+          addMessage(msg)
         })
       } else {
         msg.types.push(type)
         fileManager.readAsUrl(file).then((url) => {
           msg.content.files.push(toFileType(url, file))
-          setMessages([...messages, msg])
+          addMessage(msg)
         })
       }
       setMode(ChatRoomModes.DEFAULT)
     }
   }
   const sendAudio = (file: File) => {
-    const msg: ChatMessageType = msgBase()
-    msg.types = [chatMessageTypes.AUDIO]
-    msg.content.files = [toFileType(URL.createObjectURL(file), file)]
-    setMessages([...messages, msg])
+    uploadChatFile(file).then((res) => {
+      logger.success('file uploaded', res)
+      const msg: ChatMessageType = msgBase()
+      msg.types = [chatMessageTypes.AUDIO]
+      msg.content.files = [res]
+      addMessage(msg)
+    })
   }
   return (
     <ChatRoomContext.Provider
@@ -144,7 +153,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         sendFile,
         sendAudio,
         isPopup,
-        room
+        room,
+        roomData
       }}
     >
       {children}

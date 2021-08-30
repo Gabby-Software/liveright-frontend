@@ -5,10 +5,13 @@ export default styled.div`
   max-width: 100%;
   flex-shrink: 0;
   padding: 22px 24px;
-  // background-color: white;
+  display: flex;
+  flex-direction: column;
   .chat-rooms {
     &__container {
       margin-top: 20px;
+      height: 100%;
+      overflow: auto;
     }
   }
   @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {

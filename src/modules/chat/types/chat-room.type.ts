@@ -1,10 +1,11 @@
+import { ChatMessageType } from './chat-message.type'
+
 export type ChatRoomType = {
   id: number
-  first_name: string
-  last_name: string
-  avatar: string
-  last_message: string
-  unread_count: number
-  last_message_date: string
-  room_id: string
+  firstName: string
+  lastName: string
+  avatar: { url: string; thumb_url: string }
+  lastMessage: null | ChatMessageType
+  unReadMessagesCount: number
+  roomId: string
 }

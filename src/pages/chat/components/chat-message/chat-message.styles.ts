@@ -8,6 +8,7 @@ export const ProfileImageStyled = styled(ProfileImage)`
   .profile-image__img {
     width: 32px;
     height: 32px;
+    font-size: 12px;
   }
   &.popup {
     margin-top: 32px;
