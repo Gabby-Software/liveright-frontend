@@ -33,7 +33,7 @@ const ChatMessage = ({ msg }: Props) => {
   const renderText = () => {
     if (types[0] === chatMessageTypes.TEXT) {
       types.shift()
-      return <ChatMessageText>{msg.content.text}</ChatMessageText>
+      return <ChatMessageText>{msg.content.text || ''}</ChatMessageText>
     }
   }
   const renderImages = () => {
