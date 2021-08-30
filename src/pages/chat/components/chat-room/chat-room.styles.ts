@@ -7,6 +7,7 @@ export const AvatarStyled = styled(ProfileImage)`
   .profile-image__img {
     width: 42px;
     height: 42px;
+    font-size: 16px;
   }
 `
 export default styled(Link)`

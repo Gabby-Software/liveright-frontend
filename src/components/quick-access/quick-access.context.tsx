@@ -14,6 +14,7 @@ import {
   logHealthDataAsync
 } from '../../pages/progress/progress.api'
 import { HealthData } from '../../pages/progress/progress.types'
+import { AccountObjType } from '../../types/account.type'
 import { quickAccessRoutes } from './quick-access.routes'
 
 export type QuickAccessContextType = {
@@ -23,6 +24,8 @@ export type QuickAccessContextType = {
   setRoute: Dispatch<quickAccessRoutes>
   logHealthData: (data: Partial<HealthData>) => Promise<void>
   todayHealthData: Partial<HealthData>
+  client: AccountObjType | null
+  setClient: Dispatch<null | AccountObjType>
 }
 const QuickAccessContext = createContext<QuickAccessContextType | null>(null)
 export const useQuickAccess = () =>
@@ -31,6 +34,7 @@ export const useQuickAccess = () =>
 export const QuickAccessProvider: FC = ({ children }) => {
   const [open, setOpen] = useState(false)
   const [route, setRoute] = useState<quickAccessRoutes>(quickAccessRoutes.LOG)
+  const [client, setClient] = useState<null | AccountObjType>(null)
   const [todayHealthData, setTodayHealthData] = useState<Partial<HealthData>>(
     {}
   )
@@ -42,7 +46,6 @@ export const QuickAccessProvider: FC = ({ children }) => {
     getHealthDataAsync({ date: moment().format('YYYY-MM-DD') })
       .then((res) => res.data)
       .then((res) => {
-        logger.success('get today data', res)
         if (res.length) {
           setTodayHealthData(res[0])
         }
@@ -66,7 +69,9 @@ export const QuickAccessProvider: FC = ({ children }) => {
         route,
         setRoute,
         todayHealthData,
-        logHealthData
+        logHealthData,
+        client,
+        setClient
       }}
     >
       {children}

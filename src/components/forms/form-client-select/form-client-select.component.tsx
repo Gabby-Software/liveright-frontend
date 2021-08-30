@@ -22,8 +22,6 @@ const FormClientSelect = ({ name, label, onUpdate }: Props) => {
       )
     }))
   }, [clients])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [input, setInput] = useState('')
   const timer = useRef(0)
   const m = useRef(Math.random())
   useEffect(() => {

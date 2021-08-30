@@ -6,7 +6,6 @@ import { ReactComponent as ClockIcon } from '../../../../../assets/media/icons/c
 import { ReactComponent as MinimizeIcon } from '../../../../../assets/media/icons/minimize.svg'
 import { ReactComponent as RevenueIcon } from '../../../../../assets/media/icons/revenue.svg'
 import { ReactComponent as ArrowIcon } from '../../../../../assets/media/icons/right-arrow.svg'
-import profilePlaceholder from '../../../../../assets/media/profile-placeholder.png'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import userTypes from '../../../../../enums/user-types.enum'
@@ -20,35 +19,29 @@ import Styles, {
 } from './chat-header-desktop.styles'
 
 type Props = {}
-const user = {
-  first_name: 'Lucas',
-  last_name: 'Travolta',
-  uuid: 'abdrakadabra',
-  avatar: {
-    url: profilePlaceholder
-  },
-  sessions: 1,
-  invoices: 2,
-  last_login: moment().add(-1, 'day')
-}
+
 const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { collapse } = useChats()
-  const { room } = useChatRoom()
+  const { room, roomData } = useChatRoom()
   const { type } = useAuth()
   if (type === userTypes.CLIENT)
-    return <ClientHeader>Lucas Travolta</ClientHeader>
+    return (
+      <ClientHeader>
+        {roomData?.firstName} {roomData?.lastName}
+      </ClientHeader>
+    )
   return (
     <Styles>
       <StyledAvatar
-        placeholder={noImage(user.first_name, user.last_name)}
-        url={user.avatar?.url}
+        placeholder={noImage(roomData?.firstName, roomData?.lastName)}
+        url={roomData?.avatar?.url}
       />
       <div className={'chat-header__body'}>
         <div className={'chat-header__body__top'}>
           <div className={'chat-header__name'}>
-            {user.first_name} {user.last_name}
+            {roomData?.firstName} {roomData?.lastName}
           </div>
-          <BlueLink to={Routes.CLIENTS + `/${user.uuid}` + Routes.PROFILE}>
+          <BlueLink to={Routes.CLIENTS}>
             <span>Open Client Profile</span>
             <ArrowIcon className={'chat-header__arrow'} />
           </BlueLink>
@@ -56,15 +49,15 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
         <div className={'chat-header__body__bottom'}>
           <div className={'chat-header__data'}>
             <CalendarIcon />
-            <span>{user.sessions} Upcoming sessions</span>
+            <span>{0} Upcoming sessions</span>
           </div>
           <div className={'chat-header__data'}>
             <RevenueIcon />
-            <span>{user.invoices} Open invoices</span>
+            <span>{0} Open invoices</span>
           </div>
           <div className={'chat-header__data'}>
             <ClockIcon />
-            <span>Last logged {moment(user.last_login).fromNow()}</span>
+            <span>Last logged {moment().fromNow()}</span>
           </div>
           <MinimizeIcon
             className={'chat-header__minimize'}
