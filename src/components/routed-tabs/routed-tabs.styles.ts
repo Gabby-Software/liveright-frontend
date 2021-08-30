@@ -2,17 +2,21 @@ import styled from 'styled-components'
 
 import { media } from '../../assets/styles/_media'
 import { WhiteCard } from '../../pages/progress-log/log-health-data/log-health-data-mobile/log-health-data-mobile.styles'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export default styled(WhiteCard)`
-  margin-bottom: 70px;
   max-width: 100%;
   overflow: auto;
   display: flex;
+  padding: 0 1.75rem;
+  border-radius: 10px;
+
   ${media('tablet', 'max')`
         margin: 0 -20px 70px -20px;
         max-width: calc(100% + 40px);
         justify-content: center;
     `}
+
   .tabs {
     &__wrapper {
       display: flex;
@@ -21,28 +25,33 @@ export default styled(WhiteCard)`
     }
     &__item {
       display: block;
-      color: ${(p) => p.theme.vars.colors.primaryDark_v2};
+      color: ${getColorCarry('primaryDark_v2')};
       transition: ${(p) => p.theme.vars.defaults.transition};
       font-weight: 500;
-      font-size: 14px;
-      padding: 0 12px;
+      padding: 17px 0;
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+
       &:hover {
-        color: ${(p) => p.theme.vars.colors.link};
+        color: ${getColorCarry('blue_70')};
       }
       &__active {
-        color: ${(p) => p.theme.vars.colors.link};
+        color: ${getColorCarry('blue_70')};
       }
       &__wrapper {
+        &:not(:first-child) {
+          margin: 0 0 0 32px;
+        }
       }
     }
     &__indicator {
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: absolute;
-      background-color: ${(p) => p.theme.vars.colors.link};
+      background-color: ${getColorCarry('blue_70')};
       height: 2px;
-      width: calc(var(--w) - 30px);
-      left: calc(var(--l) + 15px);
-      bottom: -20px;
+      width: calc(var(--w));
+      left: calc(var(--l));
+      bottom: 0;
     }
   }
 `

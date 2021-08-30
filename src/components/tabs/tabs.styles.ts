@@ -2,6 +2,7 @@ import { Tabs } from 'antd'
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const Styles = styled(Tabs)`
   &.ant-tabs {
@@ -20,7 +21,7 @@ export const Styles = styled(Tabs)`
     line-height: 1.125rem;
 
     &:hover {
-      color: ${(props) => props.theme.vars.colors.blue_70};
+      color: ${getColorCarry('blue_70')};
     }
     svg {
       width: 24px;
@@ -31,13 +32,13 @@ export const Styles = styled(Tabs)`
   & .ant-tabs-tab-active .ant-tabs-tab-btn {
     text-shadow: none;
     font-weight: 700;
-    color: ${(props) => props.theme.vars.colors.blue_70};
+    color: ${getColorCarry('blue_70')};
   }
   & .ant-tabs-tab-btn {
     transition: none;
   }
   & .ant-tabs-ink-bar {
-    background-color: ${(props) => props.theme.vars.colors.blue_70};
+    background-color: ${getColorCarry('blue_70')};
   }
 
   @media ${mediaQueries.MOBILE} {

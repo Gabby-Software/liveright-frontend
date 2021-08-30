@@ -13,3 +13,7 @@ export const statisticRangeOptions: OptionType[] = [
   { label: 'Last 6 Month', value: statisticRange.HALF_YEAR },
   { label: 'Last Year', value: statisticRange.YEAR }
 ]
+
+export const chartRangeOptions: OptionType[] = [
+  { label: 'Day View', value: 'day' }
+]

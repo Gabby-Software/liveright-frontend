@@ -340,6 +340,7 @@ export const routes: RouteType[] = [
     title: 'Financials',
     url: Routes.FINANCIALS,
     Component: lazy(() => import('../pages/financials/financials.component')),
+    version: 2,
     header: {
       title: 'Financials',
       items: headers.default

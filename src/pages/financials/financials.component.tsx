@@ -25,7 +25,7 @@ type Props = {}
 const Financials = ({}: Props) => {
   return (
     <Styles>
-      <RoutedTabs tabs={financialTabs} />
+      <RoutedTabs tabs={financialTabs} className="financials__tabs" />
       <React.Suspense fallback={Skeleton}>
         <Route
           path={Routes.FINANCIALS_OVERVIEW}
