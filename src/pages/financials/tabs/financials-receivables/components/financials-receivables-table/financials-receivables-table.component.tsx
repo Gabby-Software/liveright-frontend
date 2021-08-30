@@ -1,16 +1,19 @@
 import { Popconfirm } from 'antd'
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 
-import { ReactComponent as InvoiceIcon } from '../../../../../../assets/media/icons/invoice.svg'
-import { ReactComponent as PDFIcon } from '../../../../../../assets/media/icons/pdf.svg'
-import { ReactComponent as ReceiptIcon } from '../../../../../../assets/media/icons/receipt.svg'
-import { ReactComponent as SendIcon } from '../../../../../../assets/media/icons/send.svg'
-import { ReactComponent as TimesIcon } from '../../../../../../assets/media/icons/times-fill.svg'
+import {
+  DeleteOutlinedIcon,
+  DownloadIcon,
+  FilePdfIcon,
+  InvoiceIcon,
+  SendIcon
+} from '../../../../../../assets/media/icons'
+import Button from '../../../../../../components/buttons/button/button.component'
+import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
+import DataPagination from '../../../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../../../components/data-table/data-table.component'
-import FormButton from '../../../../../../components/forms/form-button/form-button.component'
-import TablePagination from '../../../../../../components/table-pagination/table-pagination.component'
+import StatusBadge from '../../../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../../../enums/invoice-statuses'
 import { Routes } from '../../../../../../enums/routes.enum'
 import fileManager from '../../../../../../managers/file.manager'
@@ -92,6 +95,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
   return (
     <Styles ref={head}>
       <DataTable
+        className="invoice-table__table"
         labels={labels}
         data={data}
         keys={keys}
@@ -103,11 +107,12 @@ const FinancialsReceivablesTable = ({}: Props) => {
           name: (t) =>
             `${t.invoice_to?.user.first_name} ${t.invoice_to?.user.last_name}`,
           status: (item) => (
-            <div
-              className={`invoice-table__status__${item.status?.toLowerCase()}`}
+            <StatusBadge
+              status={item.status?.toLowerCase()}
+              className="invoice-table__status"
             >
               {t(`invoices:statuses.${item.status}`)}
-            </div>
+            </StatusBadge>
           ),
           options: ({ status, id, pdf }) => (
             <div className={'invoice-table__actions'}>
@@ -122,52 +127,75 @@ const FinancialsReceivablesTable = ({}: Props) => {
                       title={'Invoice will be marked as paid'}
                       onConfirm={() => markAsPaid(id)}
                     >
-                      <FormButton type={'primary'}>
+                      <Button variant="secondary" size="sm">
                         {t('invoices:mark-paid')}
-                      </FormButton>
+                      </Button>
                     </Popconfirm>
                   </span>
-                  <PDFIcon
-                    className={'invoice-table__action'}
+
+                  <IconButton
+                    size="sm"
                     onClick={() => fileManager.downloadUrl(pdf?.url)}
-                  />
-                  <SendIcon className={'invoice-table__action'} />
-                  <Link
-                    to={Routes.INVOICES + '/' + id}
-                    className={'invoice-table__action'}
+                    className="invoice-table__icon-btn"
                   >
-                    <ReceiptIcon />
-                  </Link>
+                    <FilePdfIcon />
+                  </IconButton>
+
+                  <IconButton size="sm" className="invoice-table__icon-btn">
+                    <SendIcon />
+                  </IconButton>
+
+                  <IconButton
+                    size="sm"
+                    to={Routes.INVOICES + '/' + id}
+                    className="invoice-table__icon-btn"
+                  >
+                    <InvoiceIcon />
+                  </IconButton>
+
                   <Popconfirm
                     title={t('invoices:confirm-delete')}
                     onConfirm={() => cancelInvoice(id)}
                   >
-                    <TimesIcon className={'invoice-table__action'} />
+                    <IconButton
+                      size="sm"
+                      className="invoice-table__icon-btn invoice-table__icon-btn_red"
+                    >
+                      <DeleteOutlinedIcon />
+                    </IconButton>
                   </Popconfirm>
                 </>
               ) : [invoiceStatuses.PAID].includes(status) ? (
                 <>
-                  <InvoiceIcon
-                    className={'invoice-table__action'}
+                  <IconButton
+                    size="sm"
+                    className="invoice-table__icon-btn"
                     onClick={() => fileManager.downloadUrl(pdf?.url)}
-                  />
-                  <Link
-                    to={Routes.INVOICES + '/' + id}
-                    className={'invoice-table__action'}
                   >
-                    <ReceiptIcon />
-                  </Link>
+                    <DownloadIcon />
+                  </IconButton>
+
+                  <IconButton
+                    className="invoice-table__icon-btn"
+                    size="sm"
+                    to={Routes.INVOICES + '/' + id}
+                  >
+                    <InvoiceIcon />
+                  </IconButton>
                 </>
               ) : null}
             </div>
           )
         }}
       />
-      <TablePagination
-        page={meta.current_page}
-        setPage={updatePage}
-        total={meta.total}
-      />
+
+      <div className="invoice-table__pagination">
+        <DataPagination
+          page={meta.current_page}
+          setPage={updatePage}
+          total={meta.total}
+        />
+      </div>
     </Styles>
   )
 }

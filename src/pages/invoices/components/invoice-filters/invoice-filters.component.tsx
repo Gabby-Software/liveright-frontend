@@ -41,6 +41,7 @@ const InvoiceFilters = () => {
       />
       {type === userTypes.CLIENT ? (
         <FormSelectIssuer
+          id="issuer"
           value={invoice_from}
           name={'invoice_from'}
           label={t('invoices:issuer')}

@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd'
-import { PropsWithChildren } from 'react'
+import { forwardRef, PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
 
 import Root from './icon-button.styles'
@@ -14,37 +14,36 @@ interface IconButtonProps {
   LinkProps?: any
 }
 
-export default function IconButton({
-  children,
-  size,
-  to,
-  tooltip,
-  className,
-  TooltipProps,
-  LinkProps
-}: PropsWithChildren<IconButtonProps>) {
-  let content
-  content = (
-    <Root $size={size} className={className}>
-      {children}
-    </Root>
-  )
+const IconButton = forwardRef<any, PropsWithChildren<IconButtonProps>>(
+  (props, ref) => {
+    const { children, size, to, tooltip, className, TooltipProps, LinkProps } =
+      props
 
-  if (to) {
+    let content
     content = (
-      <Link to={to} {...LinkProps}>
-        {content}
-      </Link>
+      <Root $size={size} className={className} ref={ref}>
+        {children}
+      </Root>
     )
-  }
 
-  if (tooltip) {
-    content = (
-      <Tooltip title={tooltip} {...TooltipProps}>
-        {content}
-      </Tooltip>
-    )
-  }
+    if (to) {
+      content = (
+        <Link to={to} {...LinkProps}>
+          {content}
+        </Link>
+      )
+    }
 
-  return content
-}
+    if (tooltip) {
+      content = (
+        <Tooltip title={tooltip} {...TooltipProps}>
+          {content}
+        </Tooltip>
+      )
+    }
+
+    return content
+  }
+)
+
+export default IconButton

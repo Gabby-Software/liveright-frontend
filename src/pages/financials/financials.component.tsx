@@ -1,10 +1,12 @@
 import { Skeleton } from 'antd'
 import React, { lazy } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 
+import Button from '../../components/buttons/button/button.component'
 import RoutedTabs from '../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../enums/routes.enum'
 import { onlyTrainer } from '../../guards/trainer.guard'
+import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { financialTabs } from './financials.data'
 import Styles from './financials.styles'
 
@@ -22,9 +24,20 @@ const FinancialsGoals = lazy(
 )
 
 type Props = {}
+
 const Financials = ({}: Props) => {
+  const { t } = useTranslation()
+  const location = useLocation()
   return (
     <Styles>
+      <div className="financials__title-container">
+        <h1 className="financials__title">{t('invoices:title')}</h1>
+
+        {location.pathname.includes(Routes.FINANCIALS_RECEIVABLES) && (
+          <Button to={Routes.CREATE_INVOICE}>{t('invoices:add')}</Button>
+        )}
+      </div>
+
       <RoutedTabs tabs={financialTabs} className="financials__tabs" />
       <React.Suspense fallback={Skeleton}>
         <Route

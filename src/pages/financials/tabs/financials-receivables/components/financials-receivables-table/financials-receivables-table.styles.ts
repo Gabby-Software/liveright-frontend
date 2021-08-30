@@ -1,8 +1,15 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
+
 export default styled.div`
-  margin-bottom: 100px;
+  width: auto;
+  margin: 0 -1.75rem -1.5rem -1.75rem;
+
   .invoice-table {
+    &__table {
+      border-radius: 0;
+    }
     &__status {
       &__paid {
         color: ${(p) => p.theme.vars.colors.success};
@@ -21,13 +28,9 @@ export default styled.div`
     &__actions {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
     }
     &__link {
-      button {
-        border-radius: 0;
-        padding: 4px 17px;
-        width: auto;
-      }
       display: block;
     }
     &__action {
@@ -42,6 +45,19 @@ export default styled.div`
       }
       &:hover {
         color: ${(p) => p.theme.vars.colors.secondary3};
+      }
+    }
+    &__pagination {
+      padding: 1rem 1.875rem 1.875rem 1.875rem;
+    }
+    &__status {
+      width: 130px;
+    }
+    &__icon-btn {
+      color: ${getColorCarry('dark_v2')};
+
+      &_red {
+        color: ${getColorCarry('primary_v2')};
       }
     }
   }

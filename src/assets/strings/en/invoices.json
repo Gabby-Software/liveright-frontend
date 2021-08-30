@@ -1,4 +1,5 @@
 {
+  "title": "Financial",
   "client-name": "Client Name",
   "trainer-name": "Issued By",
   "invoice-number": "Invoice #",
@@ -25,6 +26,9 @@
   "notes": "Notes",
   "status": "Status",
   "add": "Create Invoice",
+  "your-progress": "Your Progress",
+  "need-attention": "Need Your Attention",
+  "billing-history": "All your Invoice and billing history",
   "other": "Description",
   "base-price": "Base Price",
   "filters": "Invoice Filters",

@@ -5,10 +5,10 @@ import Styles from './financials-receivables-total.styles'
 
 const FinancialsReceivablesTotal = ({ label, note, value }: TotalsType) => {
   return (
-    <Styles>
-      <div className={'total__label'}>{label}</div>
-      <div className={'total__value'}>{value}</div>
-      <div className={'total__note'}>{note}</div>
+    <Styles className="card">
+      <div className="card__title">{label}</div>
+      <div className="card__count">{value}</div>
+      <div className="card__subtitle">{note}</div>
     </Styles>
   )
 }
