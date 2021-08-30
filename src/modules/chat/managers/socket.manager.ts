@@ -4,7 +4,6 @@ import { io, Socket } from 'socket.io-client'
 import cookieManager from '../../../managers/cookie.manager'
 import logger from '../../../managers/logger.manager'
 import { AccountType } from '../../../types/account.type'
-import { CHAT_DOMAIN } from '../enums/chat-ep.enum'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatNewMessageType } from '../types/chat-new-message.type'
 
@@ -23,7 +22,7 @@ class SocketManager {
   }
   init(accountToken: string) {
     const token = cookieManager.get('access_token')
-    this.socket = io(`ws://${CHAT_DOMAIN}/chat`, {
+    this.socket = io(`ws://${process.env.REACT_APP_CHAT_BASE_URL}/chat`, {
       auth: {
         token: `Bearer ${token}`,
         accountToken
