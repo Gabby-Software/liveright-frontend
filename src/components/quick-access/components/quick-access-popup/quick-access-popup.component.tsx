@@ -1,6 +1,8 @@
 import React, { FC, useMemo } from 'react'
 
 import { CrossIcon } from '../../../../assets/media/icons'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import QuickAccessHome from '../../pages/quick-access-home/quick-access-home.component'
 import QuickAccessLogHealth from '../../pages/quick-access-log-health/quick-access-log-health.component'
 import QuickAccessLogHealthGlucose from '../../pages/quick-access-log-health/quick-access-log-health-glucose/quick-access-log-health-glucose.component'
@@ -12,7 +14,8 @@ import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles, { Times } from './quick-access-popup.styles'
 
 const QuickAccessPopup: FC = () => {
-  const { open, setOpen, route } = useQuickAccess()
+  const { open, setOpen, route, client } = useQuickAccess()
+  const { type } = useAuth()
   const Content = useMemo(() => {
     switch (route) {
       case quickAccessRoutes.ADD:
@@ -37,7 +40,11 @@ const QuickAccessPopup: FC = () => {
       <Times onClick={() => setOpen(false)}>
         <CrossIcon />
       </Times>
-      <Content />
+      {type === userTypes.TRAINER && !client ? (
+        <QuickAccessHome />
+      ) : (
+        <Content />
+      )}
     </Styles>
   )
 }

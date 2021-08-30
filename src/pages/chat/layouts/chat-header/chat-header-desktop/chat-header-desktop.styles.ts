@@ -8,6 +8,8 @@ export const StyledAvatar = styled(ProfileImage)`
   .profile-image__img {
     width: 61px;
     height: 61px;
+    font-size: 24px;
+    letter-spacing: 1.5px;
   }
 `
 export const ClientHeader = styled.div`
