@@ -37,12 +37,18 @@ const ChatMessage = ({ msg }: Props) => {
     }
   }
   const renderImages = () => {
-    if (types[0] !== chatMessageTypes.IMAGE) return null
-    let imagesCount = 0
-    while (types.shift() === chatMessageTypes.IMAGE) {
-      imagesCount++
+    let i = 0
+    const gallery: ChatFileType[] = []
+    while (i < types.length) {
+      if (types[i] === chatMessageTypes.IMAGE) {
+        types.splice(i, 1)
+        gallery.push(...files.splice(i, 1))
+      } else {
+        i++
+      }
     }
-    return <ChatMessageGallery images={files.splice(0, imagesCount)} />
+    if (!gallery.length) return null
+    return <ChatMessageGallery images={gallery} />
   }
   const renderAudio = () => {
     if (types[0] === chatMessageTypes.AUDIO) {
@@ -56,13 +62,20 @@ const ChatMessage = ({ msg }: Props) => {
       )
     }
   }
-  const renderFile = () => {
+  const renderFile: () => React.ReactNode[] = () => {
     if (types[0] === chatMessageTypes.FILE) {
       types.shift()
-      return (
-        <ChatMessageAttachment file={files.shift() || emptyFile} me={isMe} />
-      )
+      const file = files.shift()
+      return [
+        <ChatMessageAttachment
+          file={file || emptyFile}
+          me={isMe}
+          key={file?.url}
+        />,
+        ...renderFile()
+      ]
     }
+    return [null]
   }
   return (
     <Styles>
