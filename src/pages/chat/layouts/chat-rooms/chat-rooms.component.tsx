@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 
 import { ReactComponent as SearchIcon } from '../../../../assets/media/icons/search.svg'
 import { FormInputUI } from '../../../../components/forms/form-input/form-input.component'
 import { useChats } from '../../../../modules/chat/contexts/chats.context'
+import { ChatRoomType } from '../../../../modules/chat/types/chat-room.type'
 import { classes } from '../../../../pipes/classes.pipe'
 import ChatRoom from '../../components/chat-room/chat-room.component'
 import Styles from './chat-rooms.styles'
@@ -11,6 +12,15 @@ type Props = {}
 const ChatRooms: FC<Props> = ({}) => {
   const [search, setSearch] = useState('')
   const { rooms } = useChats()
+  const filteredRooms: ChatRoomType[] = useMemo(() => {
+    return Object.values(rooms)
+      .filter(({ room }) =>
+        `${room.firstName} ${room.lastName}`
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      )
+      .map(({ room }) => room)
+  }, [search, rooms])
   return (
     <Styles>
       <div className={'chat-rooms__head'}>
@@ -24,11 +34,9 @@ const ChatRooms: FC<Props> = ({}) => {
         />
       </div>
       <div className={'chat-rooms__container'}>
-        {Object.values(rooms)
-          .map((room) => room.room)
-          .map((room) => (
-            <ChatRoom room={room} key={room.roomId} />
-          ))}
+        {filteredRooms.map((room) => (
+          <ChatRoom room={room} key={room.roomId} />
+        ))}
       </div>
     </Styles>
   )
