@@ -32,7 +32,7 @@ export default class InvitationManager {
 
   public static sendInvitationNewUser(invitationData: InvitationFormType) {
     return api
-      .post(EP_INVITE_NEW_USER, fillExist(invitationData), {
+      .post(EP_INVITE_NEW_USER, invitationData, {
         headers: {
           origin: identity(''),
           'custom-origin': identity('')

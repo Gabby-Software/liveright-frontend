@@ -25,15 +25,15 @@ import {
 import Styles from './add-client-modal-form.styles'
 
 type Props = { onSubmit?: () => void }
+
 const AddClientModalForm = ({ onSubmit }: Props) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { step, setStep, form, update, onClose } = useContext(ClientFormContext)
+  const { setStep, form, update, onClose } = useContext(ClientFormContext)
   const { t } = useTranslation()
+
   const handleSubmit = (
     values: ClientFormType,
     helper: FormikHelpers<ClientFormType>
   ) => {
-    logger.info('form values', values)
     InvitationManager.sendInvitationNewUser({
       ...values,
       type: 'training',
@@ -48,11 +48,12 @@ const AddClientModalForm = ({ onSubmit }: Props) => {
       })
       .catch(handleError(helper))
   }
+
   const genderOptions = [
     { label: t('profile:male'), value: genderTypes.MALE },
     { label: t('profile:female'), value: genderTypes.FEMALE }
   ]
-  logger.info('FORM', form)
+
   return (
     <Styles>
       <Formik
