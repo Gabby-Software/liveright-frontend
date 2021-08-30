@@ -1,5 +1,4 @@
 import { EP_CHECK_EMAIL_EXIST, EP_INVITE_NEW_USER } from '../enums/api.enum'
-import { fillExist } from '../pipes/fill-exist.pipe'
 import { identity } from '../pipes/identity.pipe'
 import { InvitationFormType } from '../types/invitation-form.type'
 import api from './api.manager'
