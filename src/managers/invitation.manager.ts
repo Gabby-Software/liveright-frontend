@@ -1,5 +1,4 @@
 import { EP_CHECK_EMAIL_EXIST, EP_INVITE_NEW_USER } from '../enums/api.enum'
-import { fillExist } from '../pipes/fill-exist.pipe'
 import { identity } from '../pipes/identity.pipe'
 import { InvitationFormType } from '../types/invitation-form.type'
 import api from './api.manager'
@@ -32,7 +31,7 @@ export default class InvitationManager {
 
   public static sendInvitationNewUser(invitationData: InvitationFormType) {
     return api
-      .post(EP_INVITE_NEW_USER, fillExist(invitationData), {
+      .post(EP_INVITE_NEW_USER, invitationData, {
         headers: {
           origin: identity(''),
           'custom-origin': identity('')

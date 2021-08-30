@@ -47,7 +47,7 @@ function* getClientsWorker({
         .get<PaginatedDataType<AccountObjType>>(EP_GET_CLIENTS + `?${params}`)
         .then((res) => res.data)
         .then((res) => ({
-          meta: res,
+          meta: res.meta,
           data: res.data.map((client) => ({
             ...client,
             ...client.accounts.find((acc) => acc.type === userTypes.CLIENT),
