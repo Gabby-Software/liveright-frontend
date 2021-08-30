@@ -13,7 +13,7 @@ type Props = {
   me?: boolean
 }
 const ChatMessageAttachment: FC<Props> = ({ file, me }) => {
-  const type = file.original_name.split('.').pop() as KnownFileTypesType
+  const type = file.url.split('.').pop() as KnownFileTypesType
   const Icon = chatIcons[type]
   return (
     <Styles

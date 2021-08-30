@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { ReactComponent as SeenIcon } from '../../../../assets/media/icons/chat-seen.svg'
 import { ReactComponent as SentIcon } from '../../../../assets/media/icons/chat-sent.svg'
-import profilePlaceholder from '../../../../assets/media/profile-placeholder.png'
-import logger from '../../../../managers/logger.manager'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
 import { chatMessageTypes } from '../../../../modules/chat/enums/chat-message-types.enum'
 import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
 import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
 import { classes } from '../../../../pipes/classes.pipe'
+import { noImage } from '../../../../pipes/no-image.pipe'
 import ChatMessageAttachment from '../chat-message-attachment/chat-message-attachment.component'
 import ChatMessageAudio from '../chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from '../chat-message-gallery/chat-message-gallery.component'
@@ -27,23 +27,28 @@ const emptyFile: ChatFileType = {
 const ChatMessage = ({ msg }: Props) => {
   const types = [...msg.types]
   const files = [...msg.content.files]
-  const isMe = msg.senderId === '123'
-  const { isPopup } = useChatRoom()
+  const { isPopup, roomData } = useChatRoom()
+  const { uuid } = useAuth()
+  const isMe = useMemo(() => msg.senderId === uuid, [uuid])
   const renderText = () => {
     if (types[0] === chatMessageTypes.TEXT) {
       types.shift()
-      return <ChatMessageText>{msg.content.text}</ChatMessageText>
+      return <ChatMessageText>{msg.content.text || ''}</ChatMessageText>
     }
   }
   const renderImages = () => {
-    logger.info('TYPES', types, msg.content)
-    if (types[0] !== chatMessageTypes.IMAGE) return null
-    let imagesCount = 0
-    while (types.shift() === chatMessageTypes.IMAGE) {
-      imagesCount++
+    let i = 0
+    const gallery: ChatFileType[] = []
+    while (i < types.length) {
+      if (types[i] === chatMessageTypes.IMAGE) {
+        types.splice(i, 1)
+        gallery.push(...files.splice(i, 1))
+      } else {
+        i++
+      }
     }
-    logger.info('Images', imagesCount, msg.content.files)
-    return <ChatMessageGallery images={files.splice(0, imagesCount)} />
+    if (!gallery.length) return null
+    return <ChatMessageGallery images={gallery} />
   }
   const renderAudio = () => {
     if (types[0] === chatMessageTypes.AUDIO) {
@@ -57,20 +62,27 @@ const ChatMessage = ({ msg }: Props) => {
       )
     }
   }
-  const renderFile = () => {
+  const renderFile: () => React.ReactNode[] = () => {
     if (types[0] === chatMessageTypes.FILE) {
       types.shift()
-      return (
-        <ChatMessageAttachment file={files.shift() || emptyFile} me={isMe} />
-      )
+      const file = files.shift()
+      return [
+        <ChatMessageAttachment
+          file={file || emptyFile}
+          me={isMe}
+          key={file?.url}
+        />,
+        ...renderFile()
+      ]
     }
+    return [null]
   }
   return (
     <Styles>
       {isMe ? null : (
         <ProfileImageStyled
-          url={profilePlaceholder}
-          placeholder={'YT'}
+          url={roomData?.avatar?.url}
+          placeholder={noImage(roomData?.firstName, roomData?.lastName)}
           className={classes(isPopup && 'popup')}
         />
       )}

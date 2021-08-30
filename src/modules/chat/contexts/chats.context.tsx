@@ -9,33 +9,35 @@ import React, {
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
-import { APIGetType } from '../../../hoc/api-get'
-import api from '../../../managers/api.manager'
+import { useAuth } from '../../../hooks/auth.hook'
 import logger from '../../../managers/logger.manager'
 import { serverError } from '../../../pipes/server-error.pipe'
-import { Chat_EP } from '../enums/chat-ep.enum'
-// import socketManager from '../managers/socket.manager'
+import { getChatUsers, getRoomMessages } from '../managers/chat.manager'
+import socketManager from '../managers/socket.manager'
 import { ChatMessageType } from '../types/chat-message.type'
-
+import { ChatRoomType } from '../types/chat-room.type'
+type ContextRoomType = {
+  [roomId: string]: {
+    room: ChatRoomType
+    messages: ChatMessageType[]
+  }
+}
 export type ChatsContextType = {
-  rooms: { [roomId: string]: APIGetType<ChatMessageType[]> }
+  rooms: ContextRoomType
   popups: string[]
   expand: (roomID: string) => void
   collapse: (roomID: string) => void
   close: (roomID: string) => void
   getRoom: (roomId: string) => void
-  updateRoom: (roomId: string, msgs: ChatMessageType[]) => void
+  updateRoom: (roomId: string, msg: ChatMessageType) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
 export const ChatsProvider: FC<unknown> = ({ children }) => {
-  const [rooms, setRooms] = useState<{
-    [roomId: string]: APIGetType<ChatMessageType[]>
-  }>({})
-  const roomsRef = useRef<{
-    [roomId: string]: APIGetType<ChatMessageType[]>
-  }>({})
+  const [rooms, setRooms] = useState<ContextRoomType>({})
+  const { uuid } = useAuth()
+  const roomsRef = useRef<ContextRoomType>({})
   const [popups, setPopups] = useState<string[]>([])
   const history = useHistory()
   const close = (roomId: string) => {
@@ -45,36 +47,53 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
   }
-  // socketManager.log()
+  socketManager.useMessageReceived()((msg: ChatMessageType) => {
+    logger.info('new message handled', msg)
+    roomsRef.current[msg.chat_room_id].messages.push(msg)
+    roomsRef.current[msg.chat_room_id].room.lastMessage = msg
+    setRooms({ ...roomsRef.current })
+  })
   useEffect(() => {
-    api
-      .get(Chat_EP.USERS)
-      .then((res) => res.data)
-      .then((res) => logger.success('USERS', res))
+    getChatUsers()
+      .then((res) => {
+        logger.success('USERS', res)
+        res.forEach((room) => {
+          socketManager.join(room.roomId)
+        })
+        roomsRef.current = res.reduce(
+          (rooms: ContextRoomType, room: ChatRoomType) => {
+            rooms[room.roomId] = {
+              room,
+              messages: []
+            }
+            return rooms
+          },
+          {}
+        )
+        setRooms(roomsRef.current)
+      })
       .catch((err) => logger.error('Fail to load chat users', serverError(err)))
-  }, [])
+  }, [uuid])
   const collapse = (roomId: string) => {
     setPopups([...new Set([roomId, ...popups])])
     history.push(Routes.HOME)
   }
   const getRoom = (roomId: string) => {
-    roomsRef.current[roomId] = {
-      loading: false,
-      error: '',
-      data: [
-        // ...mockMessages
-      ]
-    }
-    setRooms({
-      ...roomsRef.current
+    getRoomMessages(roomId).then((res) => {
+      logger.success('Messages', res)
+      roomsRef.current[roomId] = {
+        ...roomsRef.current[roomId],
+        messages: res
+      }
+      setRooms({
+        ...roomsRef.current
+      })
     })
   }
-  const updateRoom = (roomId: string, msgs: ChatMessageType[]) => {
-    roomsRef.current[roomId] = {
-      error: '',
-      loading: false,
-      data: msgs
-    }
+  const updateRoom = (roomId: string, msg: ChatMessageType) => {
+    logger.info('updating room', roomId, rooms, roomsRef)
+    roomsRef.current[roomId].messages.push(msg)
+    roomsRef.current[roomId].room.lastMessage = msg
     setRooms({
       ...roomsRef.current
     })

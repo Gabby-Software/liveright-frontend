@@ -6,7 +6,6 @@ import * as Yup from 'yup'
 import { genderTypes } from '../../../../enums/gender-types'
 import { handleError } from '../../../../managers/api.manager'
 import InvitationManager from '../../../../managers/invitation.manager'
-import logger from '../../../../managers/logger.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import ButtonSubmit from '../../../forms/button-submit/button-submit.component'
 import FormButton from '../../../forms/form-button/form-button.component'
@@ -25,15 +24,15 @@ import {
 import Styles from './add-client-modal-form.styles'
 
 type Props = { onSubmit?: () => void }
+
 const AddClientModalForm = ({ onSubmit }: Props) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { step, setStep, form, update, onClose } = useContext(ClientFormContext)
+  const { setStep, form, update, onClose } = useContext(ClientFormContext)
   const { t } = useTranslation()
+
   const handleSubmit = (
     values: ClientFormType,
     helper: FormikHelpers<ClientFormType>
   ) => {
-    logger.info('form values', values)
     InvitationManager.sendInvitationNewUser({
       ...values,
       type: 'training',
@@ -48,11 +47,12 @@ const AddClientModalForm = ({ onSubmit }: Props) => {
       })
       .catch(handleError(helper))
   }
+
   const genderOptions = [
     { label: t('profile:male'), value: genderTypes.MALE },
     { label: t('profile:female'), value: genderTypes.FEMALE }
   ]
-  logger.info('FORM', form)
+
   return (
     <Styles>
       <Formik
