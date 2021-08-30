@@ -16,6 +16,7 @@ export default function SessionSchedule() {
   const history = useHistory()
   const query = parse(search)
   const [session, setSession] = useState<SessionType>()
+  const [clientCredits, setClientCredits] = useState(0)
 
   useEffect(() => {
     if (query.session) {
@@ -34,13 +35,14 @@ export default function SessionSchedule() {
       }
       headerComponent={
         <HeaderComponent>
-          <CreditsButton count={4} />
+          <CreditsButton count={clientCredits} />
         </HeaderComponent>
       }
     >
       <AddSessionMobile
         session={session}
         onClose={() => history.push('/sessions')}
+        onCredits={setClientCredits}
       />
     </MobilePage>
   )

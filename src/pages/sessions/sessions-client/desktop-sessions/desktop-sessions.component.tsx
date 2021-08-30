@@ -18,6 +18,7 @@ import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import userTypes from '../../../../enums/user-types.enum'
+import useCreditsWithTrainer from '../../../../hooks/api/credits/useCreditsWithTrainer'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -45,6 +46,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const filterRef = useRef()
   const [date, setDate] = useState('')
   const [type, setType] = useState('All')
+  const { credits } = useCreditsWithTrainer()
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
@@ -98,7 +100,10 @@ const DesktopSessions: React.FC<Props> = (props) => {
             {t('sessions:title')}
 
             <div className="sessions__title-btn">
-              <CreditsButton count={6} className="sessions__title-credits" />
+              <CreditsButton
+                count={credits}
+                className="sessions__title-credits"
+              />
               <Button onClick={() => setAddOpen(true)}>
                 {t('sessions:session-request')}
               </Button>

@@ -18,7 +18,8 @@ export default function CreditsButton({
   ...props
 }: CreditsButtonProps) {
   const { t } = useTranslation()
-  const off = count <= 0
+  const off = count < 0
+  const zero = count === 0
   return (
     <Button
       className={classes('credits-btn', className)}
@@ -26,13 +27,14 @@ export default function CreditsButton({
       $off={off}
       $color={color}
       $readOnly={readOnly}
+      $zero={zero}
     >
       <div className="credits-btn__items">
         <CreditIcon />
         <span>{t('buttons:current-credits')}</span>
       </div>
 
-      <span className="credits-btn__count">{count || '-'}</span>
+      <span className="credits-btn__count">{count}</span>
     </Button>
   )
 }

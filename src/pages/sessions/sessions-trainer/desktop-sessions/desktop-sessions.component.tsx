@@ -21,6 +21,7 @@ import PageTitle from '../../../../components/titles/page-title.styles'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
+import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
 import { useClients } from '../../../../hooks/clients.hook'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -55,6 +56,8 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const [editOpen, setEditOpen] = useState<SessionType>()
   const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
   const [activeTab, setActiveTab] = useState('')
+
+  const { credits } = useClientCredits(additionalFilter?.['client_id'])
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
@@ -113,7 +116,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
             />
           </div>
           {additionalFilter?.['client_id'] && (
-            <CreditsButton color="secondary" count={-3} />
+            <CreditsButton color="secondary" count={credits} />
           )}
         </div>
 
