@@ -5,7 +5,7 @@ import React, {
   FC,
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
   useState
 } from 'react'
 
@@ -15,6 +15,7 @@ import logger from '../../../managers/logger.manager'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
+import { uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
 import { toFileType } from '../pipes/to-file-type.pipe'
 import { ChatMessageType } from '../types/chat-message.type'
@@ -56,16 +57,13 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [textMessage, setTextMessage] = useState<string>('')
   const { rooms, getRoom, updateRoom } = useChats()
   const { uuid } = useAuth()
-  const [messages, roomData] = useMemo<
-    [ChatMessageType[], ChatRoomType | null]
-  >(() => {
-    if (!room) return [[], null]
-    if (rooms[room]) {
+  const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
+    room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
+  useEffect(() => {
+    if (room && rooms[room]) {
       getRoom(room)
-      return [rooms[room].messages, rooms[room].room]
     }
-    return [[], null]
-  }, [room, rooms])
+  }, [room])
   const setMessages = useCallback(
     (msgs: ChatMessageType[]) => {
       updateRoom(room, msgs)
@@ -131,10 +129,13 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     }
   }
   const sendAudio = (file: File) => {
-    const msg: ChatMessageType = msgBase()
-    msg.types = [chatMessageTypes.AUDIO]
-    msg.content.files = [toFileType(URL.createObjectURL(file), file)]
-    addMessage(msg)
+    uploadChatFile(file).then((res) => {
+      logger.success('file uploaded', res)
+      const msg: ChatMessageType = msgBase()
+      msg.types = [chatMessageTypes.AUDIO]
+      msg.content.files = [res]
+      addMessage(msg)
+    })
   }
   return (
     <ChatRoomContext.Provider
