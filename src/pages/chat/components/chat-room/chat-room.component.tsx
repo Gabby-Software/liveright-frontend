@@ -38,7 +38,7 @@ const ChatRoom: FC<Props> = ({ room }) => {
       </div>
       <div className={'chat-room__right'}>
         <div className={'chat-room__date'}>
-          {chatTime(room.lastMessage?.meta.delivered_at)}
+          {chatTime(room.lastMessage?.meta.sent_at)}
         </div>
         {room.unReadMessagesCount ? (
           <div className={'chat-room__unreads'}>
