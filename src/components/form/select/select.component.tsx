@@ -10,7 +10,7 @@ import Input from '../input/input.component'
 import Label from '../label/label.component'
 import Styles from './select.styles'
 
-interface SelectProps {
+export interface SelectProps {
   id: string
   label?: string
   placeholder?: string

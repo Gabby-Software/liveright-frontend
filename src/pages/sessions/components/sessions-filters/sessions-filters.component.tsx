@@ -8,6 +8,7 @@ import {
 } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
 import { Routes } from '../../../../enums/routes.enum'
@@ -29,6 +30,20 @@ const SessionsFilters: React.FC<Props> = (props) => {
   const isMobile = useIsMobile()
   const [date, setDate] = useState('')
   const [type, setType] = useState('All')
+
+  const handleUpdate = (name: keyof SessionFilter, value: string) => {
+    onUpdate(((prevState: SessionFilter) => {
+      const copy = { ...prevState }
+      if (value) {
+        return {
+          ...copy,
+          [name]: value
+        }
+      }
+      delete copy[name]
+      return copy
+    }) as SessionFilter)
+  }
 
   const handleUpdateFilters = () => {
     formatFilters(type, date, onUpdate)
@@ -90,10 +105,10 @@ const SessionsFilters: React.FC<Props> = (props) => {
           />
         </div>
         <div className="sessions__filter-select">
-          <Select
+          <ClientSelect
             id="sessions-client"
             placeholder={t('sessions:filter-by-client')}
-            options={[]}
+            onChange={(e) => handleUpdate('client_id', e === 'all' ? null : e)}
           />
         </div>
       </div>
