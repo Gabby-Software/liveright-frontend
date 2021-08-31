@@ -1,7 +1,7 @@
 import React from 'react'
 
 import FormRow from '../../../../components/forms/form-row/form-row.component'
-import { useTrainer } from '../../../../hooks/trainer.hook'
+import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import ProfileField from '../../components/profile-field/profile-field.component'
 import ProfileTitle from '../../components/profile-title/profile-title.component'
@@ -10,8 +10,13 @@ import Styles from './profile-addresses.styles'
 type Props = {}
 const ProfileAddresses = ({}: Props) => {
   const { t } = useTranslation()
-  const { country, city, address, postal_code } = useTrainer()
-  if (!(country || city || address || postal_code)) return null
+  const { address } = useTrainerAccount()
+
+  if (
+    !(address.country || address.city || address.address || address.postal_code)
+  )
+    return null
+
   return (
     <Styles>
       <ProfileTitle title={'Address'} />
