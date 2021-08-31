@@ -14,13 +14,26 @@ export function dataToOptions(data: AccountObjType[]): OptionType[] {
     data.forEach((row) => {
       options.push({
         label: `${row.first_name} ${row.last_name}`,
-        value: String(
-          row.accounts.find((acc) => acc.type === userTypes.CLIENT)?.id || 0
-        )
+        value: `${row.id}`
       })
     })
 
     return options
+  } catch (e) {
+    console.error(e)
+    return []
+  }
+}
+
+export function formatClients(data: any[]): AccountObjType[] {
+  try {
+    return data.map((row) => {
+      return {
+        ...row,
+        ...(row.accounts?.find((acc: any) => acc.type === userTypes.CLIENT) ||
+          {})
+      }
+    })
   } catch (e) {
     console.error(e)
     return []

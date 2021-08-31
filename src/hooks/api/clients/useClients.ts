@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import { EP_GET_CLIENTS } from '../../../enums/api.enum'
 import { getClients } from '../../../services/api/clients'
 import { AccountObjType } from '../../../types/account.type'
+import { formatClients } from '../../../utils/api/clients'
 
 interface UseClients {
   isLoading: boolean
@@ -15,6 +16,6 @@ export default function useClients(): UseClients {
   const clients = data || []
   return {
     isLoading,
-    clients
+    clients: formatClients(clients)
   }
 }

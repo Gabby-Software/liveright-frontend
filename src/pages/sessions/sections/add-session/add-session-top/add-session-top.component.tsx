@@ -1,15 +1,15 @@
 import { useFormikContext } from 'formik'
 import moment from 'moment'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 
 import { ProfileIcon } from '../../../../../assets/media/icons'
 import CreditsButton from '../../../../../components/buttons/credits-button/credits-button.component'
 import Card from '../../../../../components/cards/card/card.component'
 import CurrentDateCard from '../../../../../components/cards/current-date-card/current-date-card.component'
 import UserBadgeCard from '../../../../../components/cards/user-bardge-card/user-badge-card.component'
-import Select from '../../../../../components/form/select/select.component'
+import ClientSelect from '../../../../../components/form/client-select/client-select.component'
+import useClients from '../../../../../hooks/api/clients/useClients'
 import useClientCredits from '../../../../../hooks/api/credits/useClientCredits'
-import { useClients } from '../../../../../hooks/clients.hook'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../../types/session.type'
@@ -24,18 +24,13 @@ interface Props {
 const AddSessionTop: React.FC<Props> = (props) => {
   const { session, onCredits } = props
   const { t } = useTranslation()
-  const clients = useClients()
-  const clientsData = useMemo(
-    () => clients.data.data.filter((it) => it.is_active),
-    [clients]
-  )
-  const { values, setFieldValue, setFieldTouched } =
-    useFormikContext<AddSessionFormType>()
+  const { clients } = useClients()
+
+  const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
   const isMobile = useIsMobile()
 
-  const selectedClient = useMemo(
-    () => clientsData.find((it) => it.id === Number(values?.client_id)),
-    [clientsData, values.client_id]
+  const selectedClient = clients.find(
+    (row) => row.id === Number(values.client_id)
   )
 
   const { credits, isLoading } = useClientCredits(selectedClient?.id)
@@ -47,20 +42,13 @@ const AddSessionTop: React.FC<Props> = (props) => {
   return (
     <Styles>
       {!session && (
-        <Select
+        <ClientSelect
           prefix={<ProfileIcon />}
           className="add-session__client-select"
           id="add-sessions-id"
           placeholder={t('sessions:select-client')}
           value={values.client_id}
           onChange={(e) => setFieldValue('client_id', e)}
-          onBlur={() => setFieldTouched('client_id')}
-          options={clientsData.map(({ first_name, last_name, id }) => {
-            return {
-              label: `${first_name} ${last_name}`,
-              value: id.toString()
-            }
-          })}
           name="client_id"
         />
       )}
