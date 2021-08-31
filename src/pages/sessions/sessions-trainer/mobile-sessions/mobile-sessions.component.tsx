@@ -13,11 +13,11 @@ import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
+import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
-import { useClients } from '../../../../hooks/clients.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -44,9 +44,20 @@ const MobileSessions: React.FC<Props> = (props) => {
   const { upcoming, awaiting_scheduling, past } = sessions
   const awaitingMeta = awaiting_scheduling.meta
   const { t } = useTranslation()
-  const clients = useClients()
-  const clientsData = clients.data.data.filter((it) => it.is_active)
   const [currentTab, setCurrentTab] = useState('')
+  const [filters, setFilters] = useState<SessionFilter>({})
+
+  const handleFilter = (name: keyof SessionFilter, value: string) => {
+    let newFilter = { ...filters }
+    if (value) {
+      newFilter = { ...newFilter, [name]: value }
+    } else {
+      delete newFilter[name]
+    }
+
+    setFilters(newFilter)
+    getSessions('awaiting_scheduling')(1, newFilter)
+  }
 
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
@@ -74,15 +85,11 @@ const MobileSessions: React.FC<Props> = (props) => {
     return (
       <div className="sessions__container">
         <div className="sessions__client-filter-container">
-          <Select
+          <ClientSelect
             id="sessions-client-filter"
             placeholder={t('sessions:filter-by-client')}
-            options={[{ label: 'All', value: 'All' }].concat(
-              clientsData.map((it) => ({
-                label: `${it.first_name} ${it.last_name}`,
-                value: it.id.toString()
-              }))
-            )}
+            value={filters.client_id}
+            onChange={(e) => handleFilter('client_id', e === 'all' ? null : e)}
           />
         </div>
 
