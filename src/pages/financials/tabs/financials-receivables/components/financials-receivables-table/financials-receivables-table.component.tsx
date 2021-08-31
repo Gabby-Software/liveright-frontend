@@ -100,7 +100,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
         data={data}
         keys={keys}
         render={{
-          id: (t) => `#${t.id}`,
+          id: (t) => `#${t.invoice_number}`,
           created_at: (t) => date(t.created_at),
           due_on: (t) => date(t.due_on),
           total: (t) => `${t.total} ${t.currency.code}`,

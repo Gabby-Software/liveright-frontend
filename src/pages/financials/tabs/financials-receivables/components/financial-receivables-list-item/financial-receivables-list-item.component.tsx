@@ -117,7 +117,7 @@ const FinancialReceivablesListItem = ({
           // to={Routes.INVOICES + '/' + id}
         >
           <div className={'invoice-li__head'}>
-            <div className={'invoice-li__id'}>#{id}</div>
+            <div className={'invoice-li__id'}>#{invoice_number}</div>
             <div className={'invoice-li__date'}>
               {moment(due_on).format('YYYY-MM-DD')}
             </div>
