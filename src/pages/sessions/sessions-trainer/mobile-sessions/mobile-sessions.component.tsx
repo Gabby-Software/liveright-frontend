@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import {
+  ChatIcon,
   ClientSolidIcon,
   DocumentOutlinedIcon,
   GroupSolidIcon,
@@ -157,6 +158,7 @@ const MobileSessions: React.FC<Props> = (props) => {
   return (
     <MobilePage
       title={t('sessions:title')}
+      headerTitleIcon={<ChatIcon />}
       actionComponent={
         <Button to="/sessions/schedule/new">{t('sessions:new-session')}</Button>
       }

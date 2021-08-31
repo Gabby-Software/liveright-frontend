@@ -1,6 +1,5 @@
 import { TimePicker as AntdTimePicker } from 'antd'
 import moment, { Moment } from 'moment'
-import { Simulate } from 'react-dom/test-utils'
 
 import { ClockIcon } from '../../../assets/media/icons'
 import { getDisabledHours, getDisabledMinutes } from '../../../utils/date'

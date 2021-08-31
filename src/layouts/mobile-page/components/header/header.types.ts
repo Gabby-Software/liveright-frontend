@@ -7,4 +7,5 @@ export interface HeaderProps {
   component?: ReactNode
   headerLink?: ReactNode
   topComponent?: ReactNode
+  titleIcon?: ReactNode
 }
