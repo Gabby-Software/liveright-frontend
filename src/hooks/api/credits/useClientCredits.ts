@@ -13,7 +13,7 @@ export default function useClientCredits(id?: number): UseClientCredits {
     id ? EP_CREDITS + `?client_id=${id}` : null,
     getCredits
   )
-  const isLoading = !data && !error
+  const isLoading = typeof data !== 'number' && !error
   const credits = data || 0
   return {
     isLoading,

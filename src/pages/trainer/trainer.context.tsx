@@ -21,6 +21,7 @@ export const TrainerContext = createContext<TrainerContextType>({
   editMode: false,
   setEditMode: () => {}
 })
+
 export const TrainerProvider = ({ children }: { children: ReactNode }) => {
   return (
     <APIGet url={EP_GET_TRAINER}>

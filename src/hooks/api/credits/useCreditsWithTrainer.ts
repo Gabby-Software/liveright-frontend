@@ -16,7 +16,7 @@ export default function useCreditsWithTrainer(): UseCreditsWithTrainer {
     id ? EP_CREDITS + `?trainer_id=${id}` : null,
     getCredits
   )
-  const isLoading = !data && !error
+  const isLoading = typeof data !== 'number' && !error
   const credits = data || 0
   return {
     isLoading,

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import {
   DocumentOutlinedIcon,
-  OptionSolidIcon,
   SearchIcon
 } from '../../../../assets/media/icons'
 import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
@@ -46,7 +45,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const filterRef = useRef()
   const [date, setDate] = useState('')
   const [type, setType] = useState('All')
-  const { credits } = useCreditsWithTrainer()
+  const { credits, isLoading } = useCreditsWithTrainer()
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
@@ -77,13 +76,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
         >
           <DocumentOutlinedIcon />
         </IconButton>
-        <IconButton
-          size="sm"
-          tooltip="Options"
-          className="sessions__row-options-btn"
-        >
-          <OptionSolidIcon />
-        </IconButton>
       </div>
     )
   }
@@ -101,6 +93,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
 
             <div className="sessions__title-btn">
               <CreditsButton
+                loading={isLoading}
                 count={credits}
                 className="sessions__title-credits"
               />

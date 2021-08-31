@@ -8,6 +8,8 @@ interface CreditsButtonProps extends ButtonProps {
   count: number
   color?: 'secondary'
   readOnly?: boolean
+  title?: string
+  loading?: boolean
 }
 
 export default function CreditsButton({
@@ -15,6 +17,8 @@ export default function CreditsButton({
   className,
   color,
   readOnly,
+  title,
+  loading,
   ...props
 }: CreditsButtonProps) {
   const { t } = useTranslation()
@@ -31,10 +35,10 @@ export default function CreditsButton({
     >
       <div className="credits-btn__items">
         <CreditIcon />
-        <span>{t('buttons:current-credits')}</span>
+        <span>{title || t('buttons:current-credits')}</span>
       </div>
 
-      <span className="credits-btn__count">{count}</span>
+      <span className="credits-btn__count">{loading ? '-' : count}</span>
     </Button>
   )
 }

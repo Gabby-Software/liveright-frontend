@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import { EP_GET_SESSIONS } from '../../../../../enums/api.enum'
-import { useClients } from '../../../../../hooks/clients.hook'
+import useClients from '../../../../../hooks/api/clients/useClients'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import api from '../../../../../managers/api.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
@@ -20,7 +20,7 @@ import Styles, { CalendarWrapper } from './add-session-calendar.styles'
 const AddSessionCalendar: React.FC = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const clients = useClients()
+  const { clients } = useClients()
   const { values, setFieldValue } = useFormikContext<AddSessionFormType>()
 
   const { date, time, duration, client_id, session_id, client_request } = values
@@ -35,10 +35,8 @@ const AddSessionCalendar: React.FC = () => {
   )
 
   const [sessions, setSessions] = useState<SessionType[]>([])
-  const client = useMemo(
-    () => clients.data.data.find((it) => it.id === Number(client_id)),
-    [clients]
-  )
+
+  const client = clients.find((row) => row.id === Number(client_id))
 
   const renderCurrentEvent = () => {
     return (
