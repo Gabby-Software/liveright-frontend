@@ -26,7 +26,7 @@ interface Props {
 const MobileSessions: React.FC<Props> = (props) => {
   const { sessions, getSessions } = props
   const { t } = useTranslation()
-  const { credits } = useCreditsWithTrainer()
+  const { credits, isLoading } = useCreditsWithTrainer()
 
   const renderItemOptions = (item: SessionType) => {
     return (
@@ -55,7 +55,11 @@ const MobileSessions: React.FC<Props> = (props) => {
         }
         headerComponent={
           <HeaderComponent>
-            <CreditsButton count={credits} className="sessions__credits-btn" />
+            <CreditsButton
+              count={credits}
+              loading={isLoading}
+              className="sessions__credits-btn"
+            />
           </HeaderComponent>
         }
       >

@@ -14,6 +14,14 @@ export type AccountType = {
   addresses: AddressType[]
 }
 
+export type ProfileType = {
+  about: string
+  additional_info: string
+  phone_number: string
+  qualifications: string
+  terms_and_conditions: any
+}
+
 interface ExtrasType {
   status?: string
 }

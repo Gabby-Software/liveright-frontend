@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 
 import { DEFAULT_TITLE } from '../../config/header.config'
 import userTypes from '../../enums/user-types.enum'
+import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import { useAuth } from '../../hooks/auth.hook'
-import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
 import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
@@ -15,7 +15,7 @@ import Styles, { HeaderV2 } from './header.styles'
 const Header = () => {
   const { pathname } = useLocation()
   const { type: userType } = useAuth()
-  const trainer = useClientsTrainer()
+  const { user: trainer } = useTrainerAccount()
   const { items } = useHeader()
   const version = useDesignVersion()
 

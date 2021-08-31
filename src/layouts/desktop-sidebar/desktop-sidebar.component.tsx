@@ -13,8 +13,8 @@ import { ReactComponent as UsersIcon } from '../../assets/media/icons/users.svg'
 import NotificationIcon from '../../components/notification-icon/notification-icon.component'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
+import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import { useAuth } from '../../hooks/auth.hook'
-import { useClientsTrainer } from '../../hooks/clients-trainer.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
@@ -27,6 +27,7 @@ type MenuItemType = {
   url: string
   type?: string
 }
+
 const menuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeIcon },
   {
@@ -54,12 +55,13 @@ const menuItems: MenuItemType[] = [
   { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
   { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon }
 ]
+
 const DesktopSidebar = () => {
   const { t } = useTranslation()
   const { type } = useAuth()
   const { pathname } = useLocation()
   const [isOpen] = useState(false)
-  const trainer = useClientsTrainer()
+  const { user } = useTrainerAccount()
   return (
     <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
       <div className={'sidebar__logo'}>
@@ -84,15 +86,15 @@ const DesktopSidebar = () => {
             ) : null
           )}
         </ul>
-        {type === 'client' && trainer ? (
+        {type === 'client' && user ? (
           <>
             <div className={'sidebar__hr'} />
             <Link to={Routes.TRAINER} className={'sidebar__trainer'}>
-              {trainer.avatar?.thumb_url ? (
-                <img alt={'trainer'} src={trainer.avatar?.thumb_url} />
+              {user.avatar?.thumb_url ? (
+                <img alt={'trainer'} src={user.avatar?.thumb_url} />
               ) : (
                 <div className={'sidebar__trainer__placeholder'}>
-                  {noImage(trainer.first_name, trainer.last_name)}
+                  {noImage(user.first_name, user.last_name)}
                 </div>
               )}
               <span>{t('menu.trainer')}</span>

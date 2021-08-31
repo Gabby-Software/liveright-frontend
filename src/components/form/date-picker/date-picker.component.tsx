@@ -3,6 +3,7 @@ import moment, { Moment } from 'moment'
 
 import { CalendarBoldIcon } from '../../../assets/media/icons'
 import FormError from '../../forms/form-error/form-error.component'
+import Error from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './date-picker.styles'
 
@@ -28,7 +29,8 @@ export default function DatePicker({
   onChange,
   disabledDate,
   disabledPast,
-  name
+  name,
+  error
 }: DatePickerProps) {
   return (
     <Styles className={className}>
@@ -42,6 +44,7 @@ export default function DatePicker({
         disabledDate={disabledPast ? onDisablePast : disabledDate}
       />
       {name && <FormError name={name} className="field-error" />}
+      {error && <Error name={error} />}
     </Styles>
   )
 }

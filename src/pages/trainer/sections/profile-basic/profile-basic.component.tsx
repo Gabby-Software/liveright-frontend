@@ -31,9 +31,9 @@ const ProfileBasic = ({ title }: { title: string }) => {
           </FormButton>
         )}
       </ProfileTitle>
-      {profileBasic.map((p) => (
-        // eslint-disable-next-line react/jsx-key
-        <ProfileField {...p} />
+
+      {profileBasic.map((p, index) => (
+        <ProfileField key={index} {...p} />
       ))}
     </Styles>
   )
