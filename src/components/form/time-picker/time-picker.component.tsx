@@ -1,9 +1,11 @@
 import { TimePicker as AntdTimePicker } from 'antd'
 import moment, { Moment } from 'moment'
+import { Simulate } from 'react-dom/test-utils'
 
 import { ClockIcon } from '../../../assets/media/icons'
 import { getDisabledHours, getDisabledMinutes } from '../../../utils/date'
 import FormError from '../../forms/form-error/form-error.component'
+import Error from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './time-picker.styles'
 
@@ -17,6 +19,7 @@ interface TimePickerProps {
   disabledUntilNow?: boolean
   onChange?: (date: Moment | null, dateStr: string) => void
   name?: string
+  error?: string
 }
 
 const format = 'H:mm'
@@ -29,7 +32,8 @@ export default function TimePicker({
   disabled,
   onChange,
   disabledUntilNow,
-  name
+  name,
+  error
 }: TimePickerProps) {
   return (
     <Styles className={className}>
@@ -46,6 +50,7 @@ export default function TimePicker({
         }
       />
       {name && <FormError name={name} className="field-error" />}
+      {error && <Error name={error} />}
     </Styles>
   )
 }

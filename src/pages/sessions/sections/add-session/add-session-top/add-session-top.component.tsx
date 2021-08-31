@@ -38,7 +38,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
     [clientsData, values.client_id]
   )
 
-  const { credits } = useClientCredits(selectedClient?.id)
+  const { credits, isLoading } = useClientCredits(selectedClient?.id)
 
   useEffect(() => {
     onCredits?.(credits)
@@ -91,6 +91,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
             <CreditsButton
               className="add-session__credit-btn"
               count={credits}
+              loading={isLoading}
               readOnly
             />
           )}

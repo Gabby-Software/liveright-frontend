@@ -57,7 +57,9 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
   const [activeTab, setActiveTab] = useState('')
 
-  const { credits } = useClientCredits(additionalFilter?.['client_id'])
+  const { credits, isLoading } = useClientCredits(
+    additionalFilter?.['client_id']
+  )
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
@@ -108,7 +110,11 @@ const DesktopSessions: React.FC<Props> = (props) => {
             />
           </div>
           {additionalFilter?.['client_id'] && (
-            <CreditsButton color="secondary" count={credits} />
+            <CreditsButton
+              color="secondary"
+              count={credits}
+              loading={isLoading}
+            />
           )}
         </div>
 

@@ -64,7 +64,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
     onSuccess?.()
   }
 
-  const { values, setFieldValue, submitForm } = useFormik({
+  const { values, setFieldValue, submitForm, errors, touched } = useFormik({
     initialValues,
     validationSchema: Yup.object({
       date: Yup.date().min(moment().startOf('day')).required(),
@@ -86,6 +86,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           count={credits}
           color="secondary"
           className="add-session__credits-btn"
+          title={t('sessions:current-pt-credits')}
         />
       )}
 
@@ -101,6 +102,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           value={date}
           onChange={(e, dateStr) => setFieldValue('date', dateStr)}
           disabledPast
+          error={touched.date && errors.date ? errors.date : ''}
         />
         <TimePicker
           id="request-session-time"
@@ -111,6 +113,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           value={time}
           onChange={(e, dateStr) => setFieldValue('time', dateStr)}
           disabledUntilNow={moment(date).isSame(moment(), 'days')}
+          error={touched.time && errors.time ? errors.time : ''}
         />
 
         <Button onClick={submitForm} className="add-session__submit-btn">
