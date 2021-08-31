@@ -32,9 +32,6 @@ export default styled.div`
     &__range-select {
       width: 200px;
     }
-    &__divider {
-      margin: 2.875rem 0 2.25rem 0;
-    }
     &__table-card {
       overflow: hidden;
     }

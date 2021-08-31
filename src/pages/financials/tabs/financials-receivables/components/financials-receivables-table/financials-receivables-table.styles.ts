@@ -10,21 +10,6 @@ export default styled.div`
     &__table {
       border-radius: 0;
     }
-    &__status {
-      &__paid {
-        color: ${(p) => p.theme.vars.colors.success};
-      }
-      &__overdue {
-        color: ${(p) => p.theme.vars.colors.error};
-      }
-      &__outstanding,
-      &__due {
-        color: ${(p) => p.theme.vars.colors.warning};
-      }
-      &__cancelled {
-        color: ${(p) => p.theme.vars.colors.secondary};
-      }
-    }
     &__actions {
       display: flex;
       align-items: center;

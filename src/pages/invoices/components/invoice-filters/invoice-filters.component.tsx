@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { ReactComponent as SearchIcon } from '../../../../assets/media/icons/search.svg'
-import { FormInputLabeledUI } from '../../../../components/forms/form-input-labeled/form-input-labeled.component'
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
+import { SearchIcon } from '../../../../assets/media/icons'
+import Input from '../../../../components/form/input/input.component'
+import Select from '../../../../components/form/select/select.component'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -18,39 +18,41 @@ const InvoiceFilters = () => {
   const [status, setStatus] = useState('')
   const [invoice_from, setInvoice_from] = useState('')
   const { update } = useInvoices()
+
   const fetchInvoices = () => {
     update(1, { search, status, invoice_from })
   }
+
   useEffect(fetchInvoices, [search, status, invoice_from])
+
   return (
-    <Styles className={'invoice-filters'}>
-      <FormInputLabeledUI
-        icon={<SearchIcon />}
-        iconPrepend
+    <Styles className="invoice-filters">
+      <Input
+        id="invoice-search"
+        prefix={<SearchIcon />}
         value={search}
-        name={'search'}
-        label={t('search')}
-        onUpdate={setSearch}
+        placeholder={t('search')}
+        onChange={(e) => setSearch(e.target.value)}
+        className="invoice-filters__search"
       />
-      <FormSelectUI
+      <Select
+        id="invoice-status"
         value={status}
-        name={'status'}
-        label={t('invoices:status')}
+        placeholder={t('invoices:status')}
         options={[{ label: 'All statuses', value: '' }, ...statuses]}
-        onUpdate={setStatus}
+        onChange={setStatus}
+        className="invoice-filters__status"
       />
-      {type === userTypes.CLIENT ? (
+      {type === userTypes.CLIENT && (
         <FormSelectIssuer
           id="issuer"
           value={invoice_from}
           name={'invoice_from'}
           label={t('invoices:issuer')}
           onUpdate={setInvoice_from}
+          className="invoice-filters__issuer"
         />
-      ) : (
-        <div />
       )}
-      <div />
     </Styles>
   )
 }

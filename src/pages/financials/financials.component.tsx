@@ -36,6 +36,11 @@ const Financials = ({}: Props) => {
         {location.pathname.includes(Routes.FINANCIALS_RECEIVABLES) && (
           <Button to={Routes.CREATE_INVOICE}>{t('invoices:add')}</Button>
         )}
+        {location.pathname.includes(Routes.PAYMENT_METHODS) && (
+          <Button variant="secondary" to={Routes.CREATE_INVOICE}>
+            {t('invoices:manage-payment-methods')}
+          </Button>
+        )}
       </div>
 
       <RoutedTabs tabs={financialTabs} className="financials__tabs" />
