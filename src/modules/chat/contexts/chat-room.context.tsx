@@ -72,6 +72,11 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       setTyping(isTyping)
     }
   })
+  socketManager.useSeen()(({ roomId }) => {
+    if (roomId === room) {
+      socketManager.seen(room)
+    }
+  })
   const setMessages = useCallback(
     (msg: ChatMessageType) => {
       updateRoom(room, msg)

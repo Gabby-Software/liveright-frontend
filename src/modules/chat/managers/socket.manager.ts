@@ -133,14 +133,18 @@ class SocketManager {
     logger.info('message delivered send')
     this.socket?.emit('message:deliveredAt:send', {
       roomId,
-      delivered_at: moment().format()
+      meta: {
+        delivered_at: moment().format()
+      }
     })
   }
   seen(roomId: string) {
     logger.info('message seen send')
     this.socket?.emit('message:readAt:send', {
       roomId,
-      read_at: moment().format()
+      meta: {
+        read_at: moment().format()
+      }
     })
   }
   disconnect() {
