@@ -1,13 +1,15 @@
 import React, { useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 
-import { ReactComponent as InvoiceIcon } from '../../../../assets/media/icons/invoice.svg'
-import { ReactComponent as PDFIcon } from '../../../../assets/media/icons/pdf.svg'
-import { ReactComponent as ReceiptIcon } from '../../../../assets/media/icons/receipt.svg'
+import {
+  DownloadIcon,
+  FilePdfIcon,
+  InvoiceIcon
+} from '../../../../assets/media/icons'
+import Button from '../../../../components/buttons/button/button.component'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
-import TablePagination from '../../../../components/table-pagination/table-pagination.component'
+import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -32,8 +34,7 @@ const InvoicesTable = () => {
     loading,
     update
   } = useInvoices()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch()
+
   const updatePage = (p: number) => {
     update(p, filters).then(() => {
       if (!head.current) return
@@ -43,6 +44,7 @@ const InvoicesTable = () => {
       })
     })
   }
+
   const labels = [
     'invoices:invoice-number',
     'invoices:invoice-date',
@@ -59,8 +61,10 @@ const InvoicesTable = () => {
     'status',
     'options'
   ]
+
   const invoiceUser = (t: InvoiceType) =>
     type === userTypes.CLIENT ? t.invoice_from?.user : t.invoice_to?.user
+
   return (
     <Styles ref={head}>
       <DataTable
@@ -69,6 +73,7 @@ const InvoicesTable = () => {
         data={data}
         error={error || (!loading && !data.length) ? t('invoices:no-data') : ''}
         loading={loading}
+        className="invoice-table__table"
         render={{
           invoice_number: (t) => `#${t.id}`,
           due_on: (t) => date(t.due_on),
@@ -76,14 +81,15 @@ const InvoicesTable = () => {
           name: (t) =>
             `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
           status: (t) => (
-            <div
-              className={`invoice-table__status__${t.status?.toLowerCase()}`}
+            <StatusBadge
+              status={t.status?.toLowerCase()}
+              className="invoice-table__status"
             >
               {capitalize(t.status)}
-            </div>
+            </StatusBadge>
           ),
           options: ({ status, id, pdf }) => (
-            <div className={'invoice-table__actions'}>
+            <div className="invoice-table__actions">
               {[
                 invoiceStatuses.OVERDUE,
                 invoiceStatuses.DUE_SOON,
@@ -91,37 +97,49 @@ const InvoicesTable = () => {
               ].includes(status) ? (
                 <a
                   href={payments(Routes.INVOICES) + '/' + id}
-                  className={'invoice-table__link'}
+                  className="invoice-table__link"
                 >
-                  <FormButton type={'primary'}>
+                  <Button variant="secondary" size="sm">
                     {t('invoices:settle-now')}
-                  </FormButton>
+                  </Button>
                 </a>
               ) : [invoiceStatuses.PAID].includes(status) ? (
-                <InvoiceIcon
-                  className={'invoice-table__action'}
+                <IconButton
+                  size="sm"
+                  className="invoice-table__action"
                   onClick={() => fileManager.downloadUrl(pdf.url)}
-                />
+                >
+                  <DownloadIcon />
+                </IconButton>
               ) : null}
-              <PDFIcon
-                className={'invoice-table__action'}
+
+              <IconButton
+                size="sm"
+                className="invoice-table__action"
                 onClick={() => fileManager.downloadUrl(pdf.url)}
-              />
-              <Link
-                to={Routes.INVOICES + '/' + id}
-                className={'invoice-table__action'}
               >
-                <ReceiptIcon />
-              </Link>
+                <FilePdfIcon />
+              </IconButton>
+
+              <IconButton
+                size="sm"
+                to={Routes.INVOICES + '/' + id}
+                className="invoice-table__action"
+              >
+                <InvoiceIcon />
+              </IconButton>
             </div>
           )
         }}
       />
-      <TablePagination
-        page={meta.current_page}
-        setPage={updatePage}
-        total={meta.total}
-      />
+
+      <div className="invoice-table__pagination">
+        <DataPagination
+          page={meta.current_page}
+          setPage={updatePage}
+          total={meta.total}
+        />
+      </div>
     </Styles>
   )
 }

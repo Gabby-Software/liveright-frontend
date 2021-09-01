@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ReactComponent as SearchIcon } from '../../../../../../assets/media/icons/search.svg'
-import { FormInputLabeledUI } from '../../../../../../components/forms/form-input-labeled/form-input-labeled.component'
-import { FormSelectUI } from '../../../../../../components/forms/form-select/form-select.component'
+import { SearchIcon } from '../../../../../../assets/media/icons'
+import Input from '../../../../../../components/form/input/input.component'
+import Select from '../../../../../../components/form/select/select.component'
 import { useAuth } from '../../../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
 import { ACTION_GET_INVOICES_REQUEST } from '../../../../../../store/action-types'
@@ -43,30 +43,30 @@ const FinanialsReceivablesFilters = ({}: Props) => {
   }
   useEffect(fetchInvoices, [search, status, invoice_to])
   return (
-    <Styles className={'invoice-filters'}>
-      <FormInputLabeledUI
-        icon={<SearchIcon />}
-        iconPrepend
+    <Styles className="invoice-filters">
+      <Input
+        id="billing-search"
+        prefix={<SearchIcon />}
         value={search}
-        name={'search'}
-        label={t('search')}
-        onUpdate={setSearch}
+        placeholder={t('search')}
+        onChange={(e) => setSearch(e.target.value)}
+        className="invoice-filters__search"
       />
-      <FormSelectUI
+      <Select
+        id="billing-type"
         value={status}
-        name={'status'}
-        label={t('invoices:status')}
+        placeholder={t('invoices:status')}
         options={[{ label: 'All statuses', value: '' }, ...statuses]}
-        onUpdate={setStatus}
+        onChange={setStatus}
+        className="invoice-filters__status"
       />
       <FormSelectIssuer
+        id="bulling-issuer"
         value={invoice_to}
-        name={'invoice_to'}
-        label={t('invoices:issued-to')}
+        placeholder={t('invoices:issued-to')}
         onUpdate={setInvoice_to}
+        className="invoice-filters__issuer"
       />
-
-      <div />
     </Styles>
   )
 }

@@ -1,18 +1,22 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
-import FormRow from '../../../../components/forms/form-row/form-row.component'
+export default styled.div`
+  display: flex;
+  margin-bottom: 1.625rem;
 
-export default styled(FormRow)`
-  margin: 40px 0 46px 0;
-  .ant-btn {
-    margin-top: 24px;
-    ${media('tablet', 'min')`
-        margin-top: auto;
-    `}
-  }
-  .text_input__wrapper,
-  .select_input__wrapper {
-    margin-bottom: 12px;
+  .invoice-filters {
+    &__search {
+      width: 320px;
+      margin-right: 1.25rem;
+    }
+
+    &__status {
+      width: 200px;
+      margin-right: 1.25rem;
+    }
+
+    &__issuer {
+      width: 200px;
+    }
   }
 `

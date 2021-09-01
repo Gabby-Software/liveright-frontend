@@ -7,4 +7,5 @@ export interface ButtonProps {
   LinkProps?: any
   type?: string
   disabled?: boolean
+  htmlType?: string
 }

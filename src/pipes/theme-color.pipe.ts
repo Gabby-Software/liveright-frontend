@@ -1,4 +1,6 @@
-export function getColorCarry(color: string): any {
+import { Colors } from '../assets/styles/_variables'
+
+export function getColorCarry(color: keyof Colors): any {
   return function (props: any): string {
     return props.theme.vars.colors[color]
   }

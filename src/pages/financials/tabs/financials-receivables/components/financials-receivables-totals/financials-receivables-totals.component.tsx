@@ -7,12 +7,12 @@ import Styles from './financials-receivables-totals.styles'
 type Props = {
   data: TotalsType[]
 }
+
 const FinancialsReceivablesTotals = ({ data }: Props) => {
   return (
     <Styles>
-      {data.map((total) => (
-        // eslint-disable-next-line react/jsx-key
-        <FinancialsReceivablesTotal {...total} />
+      {data.map((total, index) => (
+        <FinancialsReceivablesTotal key={index} {...total} />
       ))}
     </Styles>
   )
