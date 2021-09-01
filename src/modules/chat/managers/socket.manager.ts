@@ -3,17 +3,23 @@ import { io, Socket } from 'socket.io-client'
 
 import cookieManager from '../../../managers/cookie.manager'
 import logger from '../../../managers/logger.manager'
+import { throttle } from '../../../pipes/throttle.pipe'
 import { AccountType } from '../../../types/account.type'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatNewMessageType } from '../types/chat-new-message.type'
+import {
+  NewMessageCallbackType,
+  TypingCallbackPayloadType,
+  TypingCallbackType
+} from '../types/socket-payloads.type'
 
-type SocketCallbackType = {
-  id: number
-  callback: (message: ChatMessageType) => void
-}
 class SocketManager {
   private socket: Socket | null = null
-  private receivedHandlers: SocketCallbackType[] = []
+  private receivedHandlers: NewMessageCallbackType[] = []
+  private typingHandlers: TypingCallbackType[] = []
+  private stopTyping = throttle((roomId: string) => {
+    this.socket?.emit('event:typing:send', { isTyping: false, roomId })
+  }, 1000)
   constructor() {
     const uuid = JSON.parse(cookieManager.get('auth') || '{}').accounts?.find(
       (acc: AccountType) => acc.is_current
@@ -38,9 +44,9 @@ class SocketManager {
       logger.error('socket error!', err)
     })
     this.socket.on('message:receive', this.handleMessageReceived.bind(this))
+    this.socket.on('event:typing:receive', this.handleTypingChange.bind(this))
   }
   private handleMessageReceived(msg: ChatNewMessageType) {
-    logger.success('New message received!', msg)
     for (const { callback } of this.receivedHandlers) {
       callback({
         chat_room_id: msg.roomId,
@@ -53,6 +59,9 @@ class SocketManager {
         ...msg.message
       })
     }
+  }
+  private handleTypingChange(data: TypingCallbackPayloadType) {
+    this.typingHandlers.forEach(({ callback }) => callback(data))
   }
   join(roomId: string) {
     if (!this.socket) return
@@ -73,6 +82,18 @@ class SocketManager {
     }
     this.socket.emit('message:send', socketMessage)
   }
+  useTypingChange() {
+    const id = Math.random()
+    return (callback: (data: TypingCallbackPayloadType) => void) => {
+      useEffect(() => {
+        this.typingHandlers.push({ id, callback })
+        return () => {
+          const idx = this.typingHandlers.findIndex(({ id: rid }) => rid === id)
+          this.typingHandlers.splice(idx, 1)
+        }
+      }, [])
+    }
+  }
   useMessageReceived() {
     const id = Math.random()
     return (callback: (message: ChatMessageType) => void) => {
@@ -86,6 +107,13 @@ class SocketManager {
         }
       }, [])
     }
+  }
+  type(roomId: string) {
+    this.socket?.emit('event:typing:send', { isTyping: true, roomId })
+    this.stopTyping.next(roomId)
+  }
+  disconnect() {
+    this.socket?.disconnect()
   }
   public log() {
     console.log('IM socket manager')
