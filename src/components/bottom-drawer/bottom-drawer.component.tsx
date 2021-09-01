@@ -26,14 +26,16 @@ const BottomDrawer = ({ children, title, isOpen, onClose, back }: Props) => {
       height={'auto'}
     >
       <div className={'drawer__wrapper'}>
-        {title ? (
-          <div className={'drawer__header'} ref={ref}>
-            {back ? (
-              <ArrowIcon className={'drawer__back'} onClick={onClose} />
-            ) : null}
-            <h3 className={'drawer__title'}>{title}</h3>
-          </div>
-        ) : null}
+        <div className={'drawer__header'} ref={ref}>
+          {title ? (
+            <>
+              {back ? (
+                <ArrowIcon className={'drawer__back'} onClick={onClose} />
+              ) : null}
+              <h3 className={'drawer__title'}>{title}</h3>
+            </>
+          ) : null}
+        </div>
         {children}
       </div>
     </Drawer>

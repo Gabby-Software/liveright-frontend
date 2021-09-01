@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { media } from '../../../../assets/styles/_media'
+
 export default styled.div<{ open: boolean }>`
   border-radius: 10px;
   background-color: white;
@@ -15,6 +17,11 @@ export default styled.div<{ open: boolean }>`
       : '0px 0px 0px rgba(213, 222, 232, 0.55)'};
   transform: ${({ open }) => (open ? 'scale(1)' : 'scale(0)')};
   padding: 30px 22px;
+  ${media('tablet', 'max')`
+        position: static;
+        width: 100%;
+        box-shadow: none;
+  `}
 `
 export const Times = styled.span`
   position: absolute;

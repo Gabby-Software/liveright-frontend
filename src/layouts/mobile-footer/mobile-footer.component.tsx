@@ -12,6 +12,10 @@ import { ReactComponent as HubIcon } from '../../assets/media/icons/hub.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/media/icons/profile.svg'
 import MobileLogDrawer from '../../components/mobile-log-drawer/mobile-log-drawer.component'
 import MobileMoreDrawer from '../../components/mobile-more-drawer/mobile-more-drawer.component'
+import {
+  QuickAccessProvider,
+  useQuickAccess
+} from '../../components/quick-access/quick-access.context'
 import { footerTypes } from '../../enums/footer-types'
 import { Routes } from '../../enums/routes.enum'
 import { usePage } from '../../hooks/page.hook'
@@ -26,9 +30,9 @@ type MenuItemType = {
   url?: string
   onClick?: () => void
 }
-const MobileFooter = () => {
+const MobileFooterContent = () => {
   const { t } = useTranslation()
-  const [logDrawerOpen, setLogDrawerOpen] = useState(false)
+  const { open: logDrawerOpen, setOpen: setLogDrawerOpen } = useQuickAccess()
   const [moreDrawerOpen, setMoreDrawerOpen] = useState(false)
   const location = useLocation()
   const { id } = useParams<any>()
@@ -138,5 +142,9 @@ const MobileFooter = () => {
     </Styles>
   )
 }
-
+const MobileFooter = () => (
+  <QuickAccessProvider>
+    <MobileFooterContent />
+  </QuickAccessProvider>
+)
 export default MobileFooter
