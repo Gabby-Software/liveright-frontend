@@ -72,8 +72,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       setTyping(isTyping)
     }
   })
-  socketManager.useSeen()(({ roomId }) => {
-    if (roomId === room) {
+  socketManager.useMessageReceived()(({ chat_room_id }) => {
+    if (chat_room_id === room) {
       socketManager.seen(room)
     }
   })
