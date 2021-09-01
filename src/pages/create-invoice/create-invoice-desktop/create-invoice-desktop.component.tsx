@@ -87,7 +87,6 @@ const CreateInvoiceDesktop = ({}: Props) => {
     })
   }
 
-  console.log(client)
   return (
     <Styles>
       <div className="add-invoice__title-container">
