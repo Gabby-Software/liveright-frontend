@@ -8,12 +8,17 @@ import React, {
   useState
 } from 'react'
 
+import userTypes from '../../enums/user-types.enum'
+import { useAuth } from '../../hooks/auth.hook'
 import logger from '../../managers/logger.manager'
 import {
   getHealthDataAsync,
   logHealthDataAsync
 } from '../../pages/progress/progress.api'
-import { HealthData } from '../../pages/progress/progress.types'
+import {
+  GetHealthDataPayload,
+  HealthData
+} from '../../pages/progress/progress.types'
 import { AccountObjType } from '../../types/account.type'
 import { quickAccessRoutes } from './quick-access.routes'
 
@@ -35,6 +40,7 @@ export const QuickAccessProvider: FC = ({ children }) => {
   const [open, setOpen] = useState(false)
   const [route, setRoute] = useState<quickAccessRoutes>(quickAccessRoutes.LOG)
   const [client, setClient] = useState<null | AccountObjType>(null)
+  const { type } = useAuth()
   const [todayHealthData, setTodayHealthData] = useState<Partial<HealthData>>(
     {}
   )
@@ -43,16 +49,26 @@ export const QuickAccessProvider: FC = ({ children }) => {
     if (!open) setRoute(quickAccessRoutes.LOG)
   }
   useEffect(() => {
-    getHealthDataAsync({ date: moment().format('YYYY-MM-DD') })
+    const payload: Partial<GetHealthDataPayload> = {
+      date: moment().format('YYYY-MM-DD')
+    }
+    if (type === userTypes.TRAINER) {
+      payload.account_id = client?.accounts?.find(
+        (acc) => acc.type === 'client'
+      )?.id
+    }
+    getHealthDataAsync(payload)
       .then((res) => res.data)
       .then((res) => {
         if (res.length) {
           setTodayHealthData(res[0])
         }
       })
-  }, [])
+  }, [type, client])
   const logHealthData = (data: Partial<HealthData>) => {
     return logHealthDataAsync({
+      id: todayHealthData?.id,
+      account_id: client?.accounts?.find((acc) => acc.type === 'client')?.id,
       ...data,
       date: moment().format('YYYY-MM-DD'),
       time: moment().format('HH:mm:ss')

@@ -25,7 +25,7 @@ const QuickAccessLogHealthHeartRate: FC<Props> = ({}) => {
     helper: FormikHelpers<QuickAccessLogDataType>
   ) => {
     console.log('submitting', values)
-    const payload: Partial<HealthData> = {
+    const payload: HealthData = {
       heart_rate: {
         avg_rate: +values.data,
         quality: getHeartRateQuality(+values.data)
