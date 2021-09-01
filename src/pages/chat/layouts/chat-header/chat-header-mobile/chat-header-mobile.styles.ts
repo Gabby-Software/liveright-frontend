@@ -7,6 +7,7 @@ export const StyledAvatar = styled(ProfileImage)`
   .profile-image__img {
     width: 38px;
     height: 38px;
+    font-size: 18px;
     border: 1.5px solid white;
   }
   img.profile-image__img {
