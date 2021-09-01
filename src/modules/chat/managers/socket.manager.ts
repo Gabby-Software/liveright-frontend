@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { useEffect } from 'react'
 import { io, Socket } from 'socket.io-client'
 
@@ -9,6 +10,8 @@ import { ChatMessageType } from '../types/chat-message.type'
 import { ChatNewMessageType } from '../types/chat-new-message.type'
 import {
   NewMessageCallbackType,
+  RoomCallbackType,
+  SocketCallbackType,
   TypingCallbackPayloadType,
   TypingCallbackType
 } from '../types/socket-payloads.type'
@@ -17,6 +20,8 @@ class SocketManager {
   private socket: Socket | null = null
   private receivedHandlers: NewMessageCallbackType[] = []
   private typingHandlers: TypingCallbackType[] = []
+  private deliveredHandlers: RoomCallbackType[] = []
+  private seenHandlers: RoomCallbackType[] = []
   private stopTyping = throttle((roomId: string) => {
     this.socket?.emit('event:typing:send', { isTyping: false, roomId })
   }, 1000)
@@ -46,6 +51,11 @@ class SocketManager {
     })
     this.socket.on('message:receive', this.handleMessageReceived.bind(this))
     this.socket.on('event:typing:receive', this.handleTypingChange.bind(this))
+    this.socket.on(
+      'message:deliveredAt:receive',
+      this.handleRoomDelivered.bind(this)
+    )
+    this.socket.on('message:readAt:receive', this.handleRoomSeen.bind(this))
   }
   private handleMessageReceived(msg: ChatNewMessageType) {
     for (const { callback } of this.receivedHandlers) {
@@ -64,9 +74,17 @@ class SocketManager {
   private handleTypingChange(data: TypingCallbackPayloadType) {
     this.typingHandlers.forEach(({ callback }) => callback(data))
   }
+  private handleRoomDelivered(data: TypingCallbackPayloadType) {
+    logger.info('message delivered main handler')
+    this.deliveredHandlers.forEach(({ callback }) => callback(data))
+  }
+  private handleRoomSeen(data: TypingCallbackPayloadType) {
+    this.seenHandlers.forEach(({ callback }) => callback(data))
+  }
   join(roomId: string) {
     if (!this.socket) return
     this.socket.emit('room:join', { roomId })
+    this.delivered(roomId)
   }
   sendMessage(msg: ChatMessageType) {
     if (!this.socket) return
@@ -83,35 +101,47 @@ class SocketManager {
     }
     this.socket.emit('message:send', socketMessage)
   }
-  useTypingChange() {
+  private generateCallbackHook<G>(callbackArray: SocketCallbackType<G>[]) {
     const id = Math.random()
-    return (callback: (data: TypingCallbackPayloadType) => void) => {
+    return (callback: (data: G) => void) => {
       useEffect(() => {
-        this.typingHandlers.push({ id, callback })
+        callbackArray.push({ id, callback })
         return () => {
-          const idx = this.typingHandlers.findIndex(({ id: rid }) => rid === id)
-          this.typingHandlers.splice(idx, 1)
+          const idx = callbackArray.findIndex(({ id: rid }) => rid === id)
+          callbackArray.splice(idx, 1)
         }
       }, [])
     }
   }
+  useTypingChange() {
+    return this.generateCallbackHook(this.typingHandlers)
+  }
   useMessageReceived() {
-    const id = Math.random()
-    return (callback: (message: ChatMessageType) => void) => {
-      useEffect(() => {
-        this.receivedHandlers.push({ id, callback })
-        return () => {
-          const idx = this.receivedHandlers.findIndex(
-            ({ id: rid }) => rid === id
-          )
-          this.receivedHandlers.splice(idx, 1)
-        }
-      }, [])
-    }
+    return this.generateCallbackHook(this.receivedHandlers)
+  }
+  useDelivered() {
+    return this.generateCallbackHook(this.deliveredHandlers)
+  }
+  useSeen() {
+    return this.generateCallbackHook(this.seenHandlers)
   }
   type(roomId: string) {
     this.socket?.emit('event:typing:send', { isTyping: true, roomId })
     this.stopTyping.next(roomId)
+  }
+  delivered(roomId: string) {
+    logger.info('message delivered send')
+    this.socket?.emit('message:deliveredAt:send', {
+      roomId,
+      delivered_at: moment().format()
+    })
+  }
+  seen(roomId: string) {
+    logger.info('message seen send')
+    this.socket?.emit('message:readAt:send', {
+      roomId,
+      read_at: moment().format()
+    })
   }
   disconnect() {
     this.socket?.disconnect()

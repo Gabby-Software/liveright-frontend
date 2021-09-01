@@ -63,6 +63,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   useEffect(() => {
     setTyping(false)
     if (room && rooms[room]) {
+      socketManager.seen(room)
       getRoom(room)
     }
   }, [room])
@@ -80,8 +81,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const msgBase = () => ({
     meta: {
       sent_at: moment().format(),
-      delivered_at: moment().format(),
-      read_at: moment().format()
+      delivered_at: null,
+      read_at: null
     },
     content: {
       // text: '',
