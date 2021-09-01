@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { SWRConfig } from 'swr'
 
 import App from './App'
 import theme from './assets/styles'
@@ -15,19 +16,25 @@ import { I18nProvider } from './modules/i18n/i18n.context'
 import reportWebVitals from './reportWebVitals'
 import store from './store/config.store'
 
+const swrConfig = {
+  revalidateOnFocus: false
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <I18nProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <ChatsProvider>
-              <App />
-            </ChatsProvider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </I18nProvider>
-    </Provider>
+    <SWRConfig value={swrConfig}>
+      <Provider store={store}>
+        <I18nProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <ChatsProvider>
+                <App />
+              </ChatsProvider>
+            </BrowserRouter>
+          </ThemeProvider>
+        </I18nProvider>
+      </Provider>
+    </SWRConfig>
   </React.StrictMode>,
   document.getElementById('root')
 )

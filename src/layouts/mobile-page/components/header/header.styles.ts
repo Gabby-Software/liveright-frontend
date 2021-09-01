@@ -21,6 +21,13 @@ export default styled.div<any>`
     &__info-item {
       display: flex;
       align-items: center;
+      color: #fff;
+
+      &_top {
+        & svg {
+          margin-right: 0.5rem;
+        }
+      }
     }
 
     &__badge {

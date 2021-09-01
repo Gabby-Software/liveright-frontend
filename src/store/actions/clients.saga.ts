@@ -44,21 +44,17 @@ function* getClientsWorker({
     const params = new URLSearchParams(fillExist(q) as any).toString()
     const clients = (yield call(() =>
       api
-        .get<PaginatedDataType<{ user: AccountObjType; status: string }>>(
-          EP_GET_CLIENTS + `?${params}`
-        )
+        .get<PaginatedDataType<AccountObjType>>(EP_GET_CLIENTS + `?${params}`)
         .then((res) => res.data)
         .then((res) => ({
-          meta: res,
+          meta: res.meta,
           data: res.data.map((client) => ({
-            ...client.user,
-            ...client.user.accounts.find(
-              (acc) => acc.type === userTypes.CLIENT
-            ),
-            ...client.user.accounts.find((acc) => acc.type === userTypes.CLIENT)
+            ...client,
+            ...client.accounts.find((acc) => acc.type === userTypes.CLIENT),
+            ...client.accounts.find((acc) => acc.type === userTypes.CLIENT)
               ?.profile,
-            user_uuid: client.user.uuid,
-            status: client.status
+            user_uuid: client.uuid,
+            status: client.extras?.status
           }))
         }))
     )) as PaginatedDataType<AccountObjType & AccountType & ProfileDataType>

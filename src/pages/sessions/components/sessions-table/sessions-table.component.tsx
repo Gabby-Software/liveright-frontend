@@ -14,7 +14,6 @@ import SessionsFilters from '../sessions-filters/sessions-filters.component'
 interface Props {
   sessions: PaginatedDataType<SessionType>
   getSessions: (page: number, filter?: SessionFilter) => void
-  additionalFilters?: SessionFilter
   renderOptions?: (session: SessionType) => ReactElement
   withFilter?: boolean
   FilterProps?: any
@@ -25,7 +24,6 @@ const SessionsTable: React.FC<Props> = (props) => {
   const {
     sessions,
     getSessions,
-    additionalFilters,
     renderOptions,
     withFilter,
     FilterProps,
@@ -58,12 +56,12 @@ const SessionsTable: React.FC<Props> = (props) => {
   }, [renderOptions])
 
   const handlePageSet = (page: number) => {
-    getSessions(page, { ...filter, ...additionalFilters })
+    getSessions(page, filter)
   }
 
   useEffect(() => {
     handlePageSet(1)
-  }, [filter, additionalFilters])
+  }, [filter])
 
   return (
     <Card className="sessions__table-card">

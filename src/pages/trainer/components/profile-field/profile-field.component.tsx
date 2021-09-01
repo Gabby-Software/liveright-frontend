@@ -1,8 +1,7 @@
 import React from 'react'
 
 import FormRow from '../../../../components/forms/form-row/form-row.component'
-import { useTrainer } from '../../../../hooks/trainer.hook'
-import logger from '../../../../managers/logger.manager'
+import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { date } from '../../../../pipes/date.pipe'
 import { OnBoardItemType } from '../../trainer.data'
@@ -10,29 +9,38 @@ import Styles from './profile-field.styles'
 
 const ProfileField = ({ name, label, data, type }: OnBoardItemType) => {
   const { t } = useTranslation()
-  const trainer = useTrainer()
-  logger.info('PROFILE', trainer)
-  if (type === 'row')
+  const { user, profile, address } = useTrainerAccount()
+
+  if (type === 'row') {
     return (
       <FormRow className={'row'}>
-        {data?.map((d) => (
-          // eslint-disable-next-line react/jsx-key
-          <ProfileField {...d} />
+        {data?.map((d, index) => (
+          <ProfileField key={index} {...d} />
         ))}
       </FormRow>
     )
-  // if(!(trainer as any)[name as string]) return null;
+  }
+
   return (
     <Styles>
       <div className={'field__name'}>{t(label || '')}</div>
       <div className={'field__value'}>
-        {type === 'radio'
-          ? t(`profile:${(trainer as any)[name as string]}`)
-          : type === 'country-select'
-          ? trainer.country?.name_english
+        {[
+          'phone_number',
+          'about',
+          'qualifications',
+          'additional_info'
+        ].includes(name as string)
+          ? (profile as any)[name as string]
+          : ['address', 'postal_code', 'country'].includes(name as string)
+          ? type === 'country-select'
+            ? (address as any).country?.name_english
+            : (address as any)[name as string]
+          : type === 'radio'
+          ? t(`profile:${(user as any)[name as string]}`)
           : type === 'date'
-          ? date((trainer as any)[name as string])
-          : (trainer as any)[name as string]}
+          ? date((user as any)[name as string])
+          : (user as any)[name as string]}
       </div>
     </Styles>
   )

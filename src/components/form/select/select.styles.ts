@@ -7,6 +7,7 @@ export default styled.div<any>`
   width: 100%;
   flex-direction: column;
   display: flex;
+  position: relative;
 
   & .select__container {
     display: flex;

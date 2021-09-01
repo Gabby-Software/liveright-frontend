@@ -8,6 +8,7 @@ export default styled.div<any>`
   flex-direction: column;
   width: 100%;
   pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
+  position: relative;
 
   & .input__input {
     height: ${getHeight};

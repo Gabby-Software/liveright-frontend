@@ -22,7 +22,6 @@ const SessionsCards: React.FC<Props> = (props) => {
     sessions,
     getSessions,
     renderOptions,
-    // onRemoveSession,
     withFilter,
     title,
     filterCalendar,

@@ -5,7 +5,7 @@ import { ReactComponent as RevenueIcon } from '../../../../assets/media/icons/re
 import BlueLink from '../../../../components/blue-link/blue-link.component'
 import Card from '../../../../components/card/card.style'
 import { Routes } from '../../../../enums/routes.enum'
-import { useClientsTrainer } from '../../../../hooks/clients-trainer.hook'
+import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import { noImage } from '../../../../pipes/no-image.pipe'
 import Styles, { DataItem, StyledAvatar } from './chat-trainer.styles'
 
@@ -16,7 +16,7 @@ const mockSessions = [
 ]
 const mockInvoices = ['#456 for 456 AED']
 const ChatTrainer: FC<{}> = () => {
-  const trainer = useClientsTrainer()
+  const { user: trainer } = useTrainerAccount()
   return (
     <Styles>
       <Card className={'chat-trainer__info'}>

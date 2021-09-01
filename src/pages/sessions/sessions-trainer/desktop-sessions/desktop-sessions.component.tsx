@@ -15,13 +15,15 @@ import CreditsButton from '../../../../components/buttons/credits-button/credits
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
+import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
-import { useClients } from '../../../../hooks/clients.hook'
+import useClients from '../../../../hooks/api/clients/useClients'
+import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -48,23 +50,25 @@ const DesktopSessions: React.FC<Props> = (props) => {
   const { sessions, getSessions, onRemoveSession } = props
   const { upcoming, awaiting_scheduling, past } = sessions
   const { t } = useTranslation()
-  const clients = useClients()
-  const clientsData = clients.data.data.filter((it) => it.is_active)
+  const { clients } = useClients()
+
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
   const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
   const [activeTab, setActiveTab] = useState('')
+
+  const { credits, isLoading } = useClientCredits(
+    additionalFilter?.['client_id']
+  )
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
   })
 
   const handleClientFilterChange = (value: string) => {
-    if (value === 'All') {
-      setAdditionalFilter(undefined)
-    } else {
-      setAdditionalFilter({ client_id: +value })
-    }
+    const filter: SessionFilter = value === 'all' ? {} : { client_id: +value }
+    getSessions('awaiting_scheduling')(1, filter)
+    setAdditionalFilter(filter)
   }
 
   const renderUpcomingItemOptions = (item: SessionType) => {
@@ -99,20 +103,18 @@ const DesktopSessions: React.FC<Props> = (props) => {
       <Card>
         <div className="sessions__filter-form-wrapper">
           <div className="sessions__awaiting-filter">
-            <Select
+            <ClientSelect
               id="sessions-client-filter"
               placeholder={t('sessions:filter-by-client')}
               onChange={handleClientFilterChange}
-              options={[{ label: 'All', value: 'All' }].concat(
-                clientsData.map((it) => ({
-                  label: `${it.first_name} ${it.last_name}`,
-                  value: it.id.toString()
-                }))
-              )}
             />
           </div>
           {additionalFilter?.['client_id'] && (
-            <CreditsButton color="secondary" count={-3} />
+            <CreditsButton
+              color="secondary"
+              count={credits}
+              loading={isLoading}
+            />
           )}
         </div>
 
@@ -150,7 +152,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
         sessions={upcoming}
         getSessions={getSessions('upcoming')}
         renderOptions={renderUpcomingItemOptions}
-        additionalFilters={additionalFilter}
         withFilter
         FilterProps={{ calendar: true }}
       />
@@ -161,7 +162,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
     return (
       <SessionsTable
         getSessions={getSessions('past')}
-        additionalFilters={additionalFilter}
         sessions={past}
         withFilter
         FilterProps={{ calendar: false }}
@@ -177,7 +177,7 @@ const DesktopSessions: React.FC<Props> = (props) => {
           <div className="sessions__main">
             <PageTitle className="sessions__title">
               {t('sessions:title')}
-              <Button onClick={() => clientsData.length && setAddOpen(true)}>
+              <Button onClick={() => clients.length && setAddOpen(true)}>
                 {t('sessions:schedule-new')}
               </Button>
             </PageTitle>

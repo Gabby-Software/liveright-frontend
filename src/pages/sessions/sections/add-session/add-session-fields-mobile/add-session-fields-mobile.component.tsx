@@ -44,6 +44,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             value={values.date}
             onChange={(e, date) => setFieldValue('date', date)}
             className="add-session__form-date"
+            name="date"
           />
 
           <div className="add-session__calendar-wrapper">
@@ -72,6 +73,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             onChange={(e, date) => setFieldValue('time', date)}
             label={t('sessions:schedule-time')}
             className="add-session__form-item"
+            name="time"
           />
           <TimePicker
             id="add-session-duration"
@@ -80,6 +82,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             value={values.duration}
             onChange={(e, date) => setFieldValue('duration', date)}
             className="add-session__form-item"
+            name="duration"
           />
 
           <Select
@@ -97,7 +100,7 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
             <p className="add-session__want-change">
               {t('sessions:want-to-change')}
 
-              <Tooltip title="Lorem Ipsum is simple." placement="right">
+              <Tooltip title={t('sessions:change-type-hint')} placement="right">
                 <InfoIcon />
               </Tooltip>
             </p>
