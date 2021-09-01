@@ -2,7 +2,6 @@ import React, { FC, useRef } from 'react'
 
 import { ReactComponent as TimesIcon } from '../../../../assets/media/icons/cross.svg'
 import { ReactComponent as ArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
-import logger from '../../../../managers/logger.manager'
 import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
 import { classes } from '../../../../pipes/classes.pipe'
 import Styles from './chat-image-view.styles'
@@ -45,13 +44,6 @@ const ChatImageView: FC<{}> = () => {
     >
       <div className={'chat-image-view__cont'}>
         <img
-          onLoad={() =>
-            logger.info(
-              'size',
-              imgRef.current?.naturalWidth,
-              imgRef.current?.naturalHeight
-            )
-          }
           src={openedImage}
           className={'chat-image-view__img'}
           alt={'view'}
