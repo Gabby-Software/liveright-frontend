@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { ReactComponent as CrossIcon } from '../../../../../assets/media/icons/cross-24.svg'
 import { ReactComponent as BackIcon } from '../../../../../assets/media/icons/left-arrow.svg'
 import { ReactComponent as ExpandIcon } from '../../../../../assets/media/icons/maximize.svg'
-import profilePlaceholder from '../../../../../assets/media/profile-placeholder.jpg'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import userTypes from '../../../../../enums/user-types.enum'
@@ -12,12 +11,13 @@ import { useAuth } from '../../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { classes } from '../../../../../pipes/classes.pipe'
+import { noImage } from '../../../../../pipes/no-image.pipe'
 import Styles, { HeaderHolder, StyledAvatar } from './chat-header-mobile.styles'
 
 type Props = {}
 const ChatHeaderMobile: FC<Props> = ({}) => {
   const { type } = useAuth()
-  const { isPopup, room } = useChatRoom()
+  const { isPopup, room, roomData } = useChatRoom()
   const { expand, close } = useChats()
   return (
     <>
@@ -32,8 +32,13 @@ const ChatHeaderMobile: FC<Props> = ({}) => {
             <BackIcon />
           </Link>
         )}
-        <StyledAvatar placeholder={'YT'} url={profilePlaceholder} />
-        <div className={'chat-header__name'}>John Travolta</div>
+        <StyledAvatar
+          placeholder={noImage(roomData?.firstName, roomData?.lastName)}
+          url={roomData?.avatar.url}
+        />
+        <div className={'chat-header__name'}>
+          {roomData?.firstName} {roomData?.lastName}
+        </div>
         {isPopup ? (
           <div className={'chat-header__link'}>
             <ExpandIcon onClick={() => expand(room)} />

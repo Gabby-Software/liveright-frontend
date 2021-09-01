@@ -116,7 +116,10 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   }
   const updateRoom = (roomId: string, msg: ChatMessageType) => {
     logger.info('updating room', roomId, rooms, roomsRef)
-    roomsRef.current[roomId].messages.push(msg)
+    roomsRef.current[roomId].messages = [
+      ...roomsRef.current[roomId].messages,
+      msg
+    ]
     roomsRef.current[roomId].room.lastMessage = msg
     setRooms({
       ...roomsRef.current
