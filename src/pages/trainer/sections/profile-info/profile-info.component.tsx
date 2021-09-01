@@ -16,8 +16,7 @@ const ProfileInfo = ({ title }: { title: string }) => {
   const { editMode } = useContext(TrainerContext)
   const fields = type === userTypes.CLIENT ? lrTrainerFields : lrClientFields
   const { t } = useTranslation()
-  // const trainer = useTrainer();
-  // if(!fields.some(f => (trainer as any)[f.name as string])) return null;
+
   return (
     <Styles>
       <ProfileTitle title={title} />

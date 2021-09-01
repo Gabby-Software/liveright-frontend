@@ -13,6 +13,19 @@ export type AccountType = {
   profile: null | ProfileDataType
   addresses: AddressType[]
 }
+
+export type ProfileType = {
+  about: string
+  additional_info: string
+  phone_number: string
+  qualifications: string
+  terms_and_conditions: any
+}
+
+interface ExtrasType {
+  status?: string
+}
+
 export type AccountObjType = {
   accounts: AccountType[]
   avatar: FileType | null
@@ -27,4 +40,5 @@ export type AccountObjType = {
   last_name: string
   uuid: string
   id?: number
+  extras?: ExtrasType
 }

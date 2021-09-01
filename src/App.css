@@ -7,3 +7,10 @@ h5,
 h6 {
   margin: 0;
 }
+
+.field-error {
+  position: absolute;
+  color: #EF1733;
+  bottom: -1rem;
+  left: 0;
+}

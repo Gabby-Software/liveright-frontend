@@ -17,7 +17,7 @@ export default styled.div`
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: center;
+      padding-left: 2rem;
       border-right: 1px solid ${getColorCarry('neutral_50')};
 
       &:last-child {
@@ -46,7 +46,7 @@ export default styled.div`
     }
 
     &__item-container {
-      margin-left: 1.875rem;
+      margin-left: 1.5rem;
 
       @media ${mediaQueries.MOBILE} {
         margin-left: 0.75rem;

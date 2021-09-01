@@ -4,6 +4,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
+import useCreditsWithTrainer from '../../../../../hooks/api/credits/useCreditsWithTrainer'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../../../hooks/sessions.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
@@ -38,6 +39,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const { credits } = useCreditsWithTrainer()
 
   const handleSubmit = (
     values: FormValues,
@@ -62,7 +64,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
     onSuccess?.()
   }
 
-  const { values, setFieldValue, submitForm } = useFormik({
+  const { values, setFieldValue, submitForm, errors, touched } = useFormik({
     initialValues,
     validationSchema: Yup.object({
       date: Yup.date().min(moment().startOf('day')).required(),
@@ -81,15 +83,12 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
     <Styles className="add-session">
       {!isMobile && (
         <CreditsButton
-          count={4}
+          count={credits}
           color="secondary"
           className="add-session__credits-btn"
+          title={t('sessions:current-pt-credits')}
         />
       )}
-
-      <h3 className="add-session__title">
-        {t('sessions:session-request-new')}
-      </h3>
 
       <p className="add-session__subtitle">
         {t('sessions:session-request-title')}
@@ -103,6 +102,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           value={date}
           onChange={(e, dateStr) => setFieldValue('date', dateStr)}
           disabledPast
+          error={touched.date && errors.date ? errors.date : ''}
         />
         <TimePicker
           id="request-session-time"
@@ -113,6 +113,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           value={time}
           onChange={(e, dateStr) => setFieldValue('time', dateStr)}
           disabledUntilNow={moment(date).isSame(moment(), 'days')}
+          error={touched.time && errors.time ? errors.time : ''}
         />
 
         <Button onClick={submitForm} className="add-session__submit-btn">

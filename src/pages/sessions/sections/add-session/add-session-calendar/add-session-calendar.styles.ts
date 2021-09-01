@@ -22,6 +22,18 @@ export default styled.div`
       align-items: center;
     }
 
+    &__calendar-today {
+      font-size: 1rem;
+      display: block;
+      padding: 0.2rem 0.75rem;
+      border: 1px solid ${getColorCarry('link')};
+      color: ${getColorCarry('link')};
+      border-radius: 10px;
+      position: absolute;
+      font-weight: 500;
+      left: 0;
+    }
+
     &__calendar-current-day {
       width: 40px;
       height: 40px;
@@ -43,12 +55,26 @@ export default styled.div`
     &__calendar-nav {
       display: flex;
       justify-content: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      align-items: center;
     }
 
     &__calendar-nav-date {
       font-size: 1.125rem;
       color: #000;
+      display: flex;
+      align-items: center;
+
+      & svg {
+        width: 20px;
+        height: 20px;
+        margin: 1rem;
+
+        &:last-child {
+          transform: rotate(180deg);
+        }
+      }
     }
 
     &__calendar-nav-divider {

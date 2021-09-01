@@ -37,7 +37,9 @@ export default styled(Button)<any>`
       font-size: 1.125rem;
       font-weight: 700;
       color: ${(props) =>
-        props.$off
+        props.$zero
+          ? '#000'
+          : props.$off
           ? getColor(props, 'primary_v2')
           : getColor(props, 'green_90')};
     }

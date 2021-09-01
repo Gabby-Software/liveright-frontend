@@ -1,5 +1,6 @@
 // https://documenter.getpostman.com/view/8741108/Tzeak6s7#intro
 export const ALLRIGHT_BASE = process.env.REACT_APP_BASE_ALLRIGHT_URL
+export const LIVERIGHT_BASE = process.env.REACT_APP_BASE_API_URL
 export const EP_LOGOUT = '/logout'
 export const EP_UPDATE_USER = ALLRIGHT_BASE + '/user'
 export const EP_UPDATE_PROFILE = ALLRIGHT_BASE + '/user/profile'
@@ -10,8 +11,10 @@ export const EP_ADD_ACCOUNT = ALLRIGHT_BASE + '/user/account'
 export const EP_GET_COUNTRIES = ALLRIGHT_BASE + '/countries'
 export const EP_CHECK_EMAIL_EXIST = ALLRIGHT_BASE + '/invitations/check'
 export const EP_INVITE_NEW_USER = ALLRIGHT_BASE + '/invitations'
-export const EP_GET_TRAINER = ALLRIGHT_BASE + '/training/trainer'
-export const EP_GET_CLIENTS = ALLRIGHT_BASE + '/training/clients'
+// export const EP_GET_TRAINER = ALLRIGHT_BASE + '/training/trainer'
+export const EP_GET_TRAINER = LIVERIGHT_BASE + '/training/trainer-users'
+export const EP_GET_CLIENTS = LIVERIGHT_BASE + '/training/client-users'
+// export const EP_GET_CLIENTS = ALLRIGHT_BASE + '/training/clients'
 export const EP_GET_SESSIONS = '/sessions'
 export const EP_HEALTH_DATA_LOGS = '/health-data-logs'
 export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE + '/pusher/beams-auth'
@@ -37,3 +40,5 @@ export const EP_READ_ALL_NOTIFICATIONS =
 export const EP_READ_NOTIFICATION = (id: string) =>
   ALLRIGHT_BASE + `/notifications/${id}/mark-as-read`
 export const EP_SETTINGS = ALLRIGHT_BASE + `/user/settings`
+export const EP_CREDITS = LIVERIGHT_BASE + '/credits'
+export const EP_ACCOUNT_BY_ID = ALLRIGHT_BASE + '/user/accounts'

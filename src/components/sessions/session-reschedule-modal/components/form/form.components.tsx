@@ -2,6 +2,7 @@ import { FormikHelpers, useFormik } from 'formik'
 import moment from 'moment'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import * as Yup from 'yup'
 
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../../../hooks/sessions.hook'
@@ -51,14 +52,19 @@ export default function Form({ session, onSuccess }: FormProps) {
     onSuccess?.()
   }
 
-  const { values, submitForm, setFieldValue, setValues } = useFormik({
-    initialValues: {
-      date: '',
-      time: '',
-      duration: ''
-    },
-    onSubmit: handleSubmit
-  })
+  const { values, submitForm, setFieldValue, setValues, errors, touched } =
+    useFormik({
+      initialValues: {
+        date: '',
+        time: '',
+        duration: ''
+      },
+      validationSchema: Yup.object({
+        date: Yup.date().min(moment().startOf('day')).required(),
+        time: Yup.string().required()
+      }),
+      onSubmit: handleSubmit
+    })
 
   useEffect(() => {
     setValues({
@@ -99,6 +105,7 @@ export default function Form({ session, onSuccess }: FormProps) {
             value={date}
             onChange={(e, date) => setFieldValue('date', date)}
             disabledDate={(date) => date.isBefore(moment().startOf('day'))}
+            error={touched.date && errors.date ? errors.date : ''}
           />
           <TimePicker
             id="reschedule-time"
@@ -107,6 +114,7 @@ export default function Form({ session, onSuccess }: FormProps) {
             value={time}
             onChange={(e, date) => setFieldValue('time', date)}
             disabledUntilNow={moment(date).isSame(moment(), 'days')}
+            error={touched.time && errors.time ? errors.time : ''}
           />
 
           <Button className="reschedule-form__submit-btn" onClick={submitForm}>

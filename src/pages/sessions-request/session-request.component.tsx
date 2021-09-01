@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import CreditsButton from '../../components/buttons/credits-button/credits-button.component'
 import AddForm from '../../components/sessions/session-add-modal/component/add-form/add-form.component'
 import userTypes from '../../enums/user-types.enum'
+import useCreditsWithTrainer from '../../hooks/api/credits/useCreditsWithTrainer'
 import { useTrainerSelector } from '../../hooks/trainer.hook'
 import HeaderLink from '../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
@@ -13,6 +14,7 @@ export default function SessionRequest() {
   const { t } = useTranslation()
   const trainer = useTrainerSelector()
   const history = useHistory()
+  const { credits } = useCreditsWithTrainer()
   return (
     <MobilePage
       title={t('sessions:session-request-submit')}
@@ -21,7 +23,7 @@ export default function SessionRequest() {
       }
       headerComponent={
         <HeaderComponent>
-          <CreditsButton count={4} />
+          <CreditsButton count={credits} />
         </HeaderComponent>
       }
     >

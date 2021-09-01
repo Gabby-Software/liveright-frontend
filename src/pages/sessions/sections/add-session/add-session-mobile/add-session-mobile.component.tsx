@@ -9,13 +9,14 @@ import Styles from './add-session-mobile.styles'
 type Props = {
   onClose: () => void
   session?: SessionType
+  onCredits?: (credits: number) => void
 }
 
-const AddSessionMobile = ({ onClose, session }: Props) => {
+const AddSessionMobile = ({ onClose, session, onCredits }: Props) => {
   return (
     <Styles>
       <AddSessionForm onClose={onClose} session={session}>
-        <AddSessionTop session={session} />
+        <AddSessionTop session={session} onCredits={onCredits} />
         <AddSessionFieldsMobile onClose={onClose} session={session} />
       </AddSessionForm>
     </Styles>
