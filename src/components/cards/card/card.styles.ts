@@ -13,4 +13,10 @@ export default styled.div`
   @media (${mediaQueries.MOBILE}) {
     padding: 1.5rem 1.25rem;
   }
+
+  .f-overview__graph {
+    &__left {
+      padding-right: 1.5rem;
+    }
+  }
 `

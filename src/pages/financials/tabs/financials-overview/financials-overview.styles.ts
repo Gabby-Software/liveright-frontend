@@ -43,5 +43,9 @@ export default styled.div`
         max-height: 350px;
       }
     }
+
+    &__chart-container {
+      padding-top: 2rem;
+    }
   }
 `
