@@ -15,6 +15,7 @@ export default styled.div`
       color: white;
       @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {
         ${(p) => p.theme.mixin.circleImage('86px')}
+        display: flex;
         margin: auto;
       }
     }
