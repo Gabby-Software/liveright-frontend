@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import api from '../../managers/api.manager'
 import { noImage } from '../../pipes/no-image.pipe'
 import Styles, { ProfileImageStyled, Text } from './user-badge.styles'
 
@@ -21,28 +20,11 @@ export default function UserBadge({
   className,
   avatarOnly
 }: UserBadgeProps) {
-  const [url, setUrl] = useState('')
-
-  useEffect(() => {
-    if (avatar) {
-      const checkUrl = async () => {
-        try {
-          await api.get(avatar)
-          setUrl(avatar)
-        } catch (e) {
-          console.log(e)
-        }
-      }
-
-      checkUrl()
-    }
-  }, [])
-
   return (
     <Styles className={className}>
       <ProfileImageStyled
         $size={size}
-        url={url}
+        url={avatar}
         placeholder={noImage(firstName, lastName)}
         className="user-badge__preview"
       />

@@ -14,7 +14,7 @@ export const FooterInvisible = styled.div<any>`
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  transition: 0.5s ease-out;
+  transition: 0.25s ease-out;
   transform: translateX(${(props) => (props.$open ? '0px' : '-100vw')});
   z-index: -1;
 

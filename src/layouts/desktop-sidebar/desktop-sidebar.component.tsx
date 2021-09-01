@@ -84,6 +84,7 @@ const DesktopSidebar = () => {
 
         {type === userTypes.CLIENT && trainer.id && (
           <UserBadgeCard
+            img={trainer.avatar?.url}
             firstName={trainer.first_name}
             lastName={trainer.last_name}
             userRole={t('your-trainer')}
@@ -113,22 +114,6 @@ const DesktopSidebar = () => {
                 )
             )}
           </ul>
-
-          {/*{type === 'client' && user && (*/}
-          {/*  <>*/}
-          {/*    <div className={'sidebar__hr'} />*/}
-          {/*    <Link to={Routes.TRAINER} className={'sidebar__trainer'}>*/}
-          {/*      {user.avatar?.thumb_url ? (*/}
-          {/*        <img alt={'trainer'} src={user.avatar?.thumb_url} />*/}
-          {/*      ) : (*/}
-          {/*        <div className={'sidebar__trainer__placeholder'}>*/}
-          {/*          {noImage(user.first_name, user.last_name)}*/}
-          {/*        </div>*/}
-          {/*      )}*/}
-          {/*      <span>{t('menu.trainer')}</span>*/}
-          {/*    </Link>*/}
-          {/*  </>*/}
-          {/*)}*/}
         </nav>
       </div>
 

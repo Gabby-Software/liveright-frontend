@@ -17,7 +17,7 @@ import {
 import { FooterInvisible, FooterVisible } from './desktop-footer.styles'
 
 export default function DesktopFooter() {
-  const { first_name, last_name, type, accounts } = useAuth()
+  const { first_name, last_name, avatar, type, accounts } = useAuth()
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -46,6 +46,7 @@ export default function DesktopFooter() {
     <>
       <FooterVisible>
         <UserBadgeCard
+          img={avatar?.url}
           firstName={first_name}
           lastName={last_name}
           userRole={t('logged-as', { type: t(type) })}
