@@ -33,7 +33,7 @@ export const getAverageHealthDataAsync = async () => {
 }
 
 export const logHealthDataAsync = async (
-  payload: HealthData & { edit?: boolean }
+  payload: HealthData & { edit?: boolean; account_id?: number }
 ) => {
   const { id, ...body } = payload
 

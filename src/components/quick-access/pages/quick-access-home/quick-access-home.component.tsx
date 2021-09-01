@@ -9,12 +9,11 @@ import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import QuickAccessAdd from '../quick-access-add/quick-access-add.component'
 import QuickAccessLog from '../quick-access-log/quick-access-log.component'
-import QuickAccessSelectClient from '../quick-access-select-client/quick-access-select-client.component'
 import Styles, { StyledTabs } from './quick-access-home.styles'
 
 type Props = {}
 const QuickAccessHome: FC<Props> = ({}) => {
-  const { route, setRoute, client } = useQuickAccess()
+  const { route, setRoute } = useQuickAccess()
   const { t } = useTranslation()
   const { type } = useAuth()
   return (
@@ -24,18 +23,10 @@ const QuickAccessHome: FC<Props> = ({}) => {
         onChange={(r) => setRoute(+r)}
       >
         <Tabs.TabPane tab={t('quickaccess:log')} key={quickAccessRoutes.LOG}>
-          {type === userTypes.TRAINER && !client ? (
-            <QuickAccessSelectClient />
-          ) : (
-            <QuickAccessLog />
-          )}
+          <QuickAccessLog />
         </Tabs.TabPane>
         <Tabs.TabPane tab={t('quickaccess:add')} key={quickAccessRoutes.ADD}>
-          {type === userTypes.TRAINER && !client ? (
-            <QuickAccessSelectClient />
-          ) : (
-            <QuickAccessAdd />
-          )}
+          <QuickAccessAdd />
         </Tabs.TabPane>
       </StyledTabs>
       {type === userTypes.CLIENT ? <QuickAccessChat /> : null}

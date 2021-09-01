@@ -1,5 +1,5 @@
 export const CHAT_DOMAIN =
-  'http://' + process.env.REACT_APP_CHAT_BASE_URL + '/api'
+  'https://' + process.env.REACT_APP_CHAT_BASE_URL + '/api'
 export const Chat_EP = Object.freeze({
   USERS: `${CHAT_DOMAIN}/users`,
   MESSAGES: (roomId: string) => `${CHAT_DOMAIN}/messages/${roomId}`,
