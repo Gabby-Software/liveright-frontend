@@ -37,7 +37,6 @@ class SocketManager {
     this.socket = io(`https://${process.env.REACT_APP_CHAT_BASE_URL}`, {
       path: '/chat',
       transports: ['websocket'],
-      secure: true,
       auth: {
         token: `Bearer ${token}`,
         accountToken
