@@ -1,31 +1,31 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 
-import FormButton from '../../components/forms/form-button/form-button.component'
-import ProfileImage from '../../components/profile-image/profile-image.component'
+import { CaretLeftIcon, CaretRightIcon } from '../../assets/media/icons'
+import Button from '../../components/buttons/button/button.component'
+import IconButton from '../../components/buttons/icon-button/icon-button.component'
+import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
 import { toast } from '../../components/toast/toast.component'
 import { Routes } from '../../enums/routes.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
-import { classes } from '../../pipes/classes.pipe'
 import { identity } from '../../pipes/identity.pipe'
-import { noImage } from '../../pipes/no-image.pipe'
 import {
   ACTION_LOGOUT_REQUEST,
   ACTION_SWITCH_ACCOUNT_REQUEST
 } from '../../store/action-types'
-import Styles from './desktop-footer.styles'
+import { FooterInvisible, FooterVisible } from './desktop-footer.styles'
 
-type Props = {}
-const DesktopFooter = ({}: Props) => {
+export default function DesktopFooter() {
   const { first_name, last_name, avatar, type, accounts } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
   const { t } = useTranslation()
+
   const logout = () => {
     dispatch({ type: ACTION_LOGOUT_REQUEST })
   }
+
   const switchAccount = () => {
     const uuid = accounts.find((acc) => !acc.is_current)?.uuid
     dispatch({
@@ -41,62 +41,89 @@ const DesktopFooter = ({}: Props) => {
       }
     })
   }
+
   return (
-    <Styles className={classes('footer', isOpen && 'footer__open')}>
-      <div className={'footer__wrapper'}>
-        <div className={'footer__basic'}>
-          <ProfileImage
-            url={avatar?.url}
-            placeholder={noImage(first_name, last_name)}
-            onClick={() => setIsOpen(!isOpen)}
-          />
-          <div className={'footer__info'}>
-            <div className={'footer__name'}>
-              {first_name} {last_name}
-            </div>
-            <div className={'footer__account-type'}>
-              {t('logged-as', { type: t(type) })}
-            </div>
-          </div>
-        </div>
-        <div className={'footer__actions'}>
-          <div className={'footer__actions__title'}>{t('what-to-do')}</div>
-          <div className={'footer__actions__cont'}>
-            {accounts.length > 1 ? (
-              <FormButton
-                type={'ghost'}
-                className={'footer__action'}
-                onClick={switchAccount}
-              >
-                {t('switch-to', {
-                  type: t(accounts.find((acc) => !acc.is_current)?.type || '')
-                })}
-              </FormButton>
-            ) : null}
-            <a href={identity(Routes.PROFILE)} className={'footer__action'}>
-              <FormButton type={'ghost'}>Edit my information</FormButton>
-            </a>
-            <Link to={'#'} className={'footer__action'}>
-              <FormButton type={'ghost'}>Manage payment info</FormButton>
-            </Link>
-            <Link to={identity(Routes.SETTINGS)} className={'footer__action'}>
-              <FormButton type={'ghost'}>LiveRight Settings</FormButton>
-            </Link>
-            <Link to={'#'} className={'footer__action'}>
-              <FormButton type={'ghost'}>Get Help</FormButton>
-            </Link>
-            <FormButton
-              type={'primary'}
-              className={'footer__action'}
-              onClick={logout}
+    <>
+      <FooterVisible>
+        <UserBadgeCard
+          img={avatar?.url}
+          firstName={first_name}
+          lastName={last_name}
+          userRole={t('logged-as', { type: t(type) })}
+          className="footer__user-card"
+          component={<CaretRightIcon />}
+          onClick={() => setOpen(!open)}
+        />
+      </FooterVisible>
+
+      <FooterInvisible $open={open}>
+        <div className="footer__actions-container">
+          {accounts.length > 1 && (
+            <Button
+              size="sm"
+              variant="secondary"
+              className="footer__action"
+              onClick={switchAccount}
             >
-              Log Out
-            </FormButton>
-          </div>
+              {t('switch-to', {
+                type: t(accounts.find((acc) => !acc.is_current)?.type || '')
+              })}
+            </Button>
+          )}
+
+          <a href={identity(Routes.PROFILE)}>
+            <Button size="sm" variant="secondary" className="footer__action">
+              Edit my information
+            </Button>
+          </a>
+
+          <Button
+            size="sm"
+            to="#"
+            variant="secondary"
+            className="footer__action"
+          >
+            Manage payment info
+          </Button>
+
+          <Button
+            variant="secondary"
+            to="#"
+            size="sm"
+            className="footer__action"
+          >
+            LiveRight Settings
+          </Button>
+
+          <Button
+            className="footer__action"
+            to="#"
+            size="sm"
+            variant="secondary"
+          >
+            Get Help
+          </Button>
+
+          <div className="footer__action-divider" />
+
+          <Button
+            size="sm"
+            variant="secondary"
+            className="footer__action footer__action_primary"
+            onClick={logout}
+          >
+            Log Out
+          </Button>
         </div>
-      </div>
-    </Styles>
+
+        <IconButton
+          size="sm"
+          className="footer__action-close"
+          onClick={() => setOpen(false)}
+        >
+          <CaretLeftIcon />
+        </IconButton>
+      </FooterInvisible>
+    </>
   )
 }
-
-export default DesktopFooter

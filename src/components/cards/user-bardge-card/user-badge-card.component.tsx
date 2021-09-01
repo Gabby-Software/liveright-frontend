@@ -11,20 +11,22 @@ interface UserBadgeCardProps {
   userRole: string
   component?: ReactNode
   className?: string
+  onClick?: () => void
 }
 
 export default function UserBadgeCard({
   img,
-  firstName,
-  lastName,
+  firstName = '',
+  lastName = '',
   userRole,
   component,
-  className
+  className,
+  onClick
 }: UserBadgeCardProps) {
   return (
-    <Styles className={classes('user-badge-card', className)}>
+    <Styles className={classes('user-badge-card', className)} onClick={onClick}>
       <div className="user-badge-card__img">
-        {!img && <img src={img} alt="avatar" />}
+        {img && <img src={img} alt="" />}
         <span className="user-badge-card__placeholder">
           {noImage(firstName, lastName)}
         </span>
