@@ -1,23 +1,28 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { ReactComponent as CalendarIcon } from '../../assets/media/icons/calendar.svg'
-import { ReactComponent as ChatIcon } from '../../assets/media/icons/chat.svg'
-import { ReactComponent as HomeIcon } from '../../assets/media/icons/home.svg'
-import { ReactComponent as InvoiceIcon } from '../../assets/media/icons/invoice.svg'
-import { ReactComponent as LogoSmall } from '../../assets/media/icons/logo-small.svg'
-import { ReactComponent as PlanIcon } from '../../assets/media/icons/plan.svg'
-import { ReactComponent as ProgressIcon } from '../../assets/media/icons/progress.svg'
-import { ReactComponent as SessionIcon } from '../../assets/media/icons/session.svg'
-import { ReactComponent as UsersIcon } from '../../assets/media/icons/users.svg'
-import NotificationIcon from '../../components/notification-icon/notification-icon.component'
+import {
+  BrandLogoIcon,
+  CalendarIcon,
+  ChatIcon,
+  ClientSolidIcon,
+  HomeIcon,
+  InvoiceIcon,
+  LibraryIcon,
+  NotificationsIcon,
+  PlanIcon,
+  ProgressIcon,
+  RevenueIcon,
+  UsersIcon
+} from '../../assets/media/icons'
+import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import { useAuth } from '../../hooks/auth.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
+import { capitalize } from '../../pipes/capitalize.pipe'
 import { classes } from '../../pipes/classes.pipe'
-import { noImage } from '../../pipes/no-image.pipe'
 import DesktopFooter from '../desktop-footer/desktop-footer.component'
 import Styles from './desktop-sidebar.styles'
 
@@ -30,30 +35,37 @@ type MenuItemType = {
 
 const menuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeIcon },
+  { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
+  { name: 'progress', url: Routes.PROGRESS_HEALTH_DATA, Icon: ProgressIcon },
+  { name: 'sessions', url: Routes.SESSIONS, Icon: UsersIcon },
   {
     name: 'clients',
     url: Routes.CLIENTS,
-    Icon: UsersIcon,
+    Icon: ClientSolidIcon,
     type: userTypes.TRAINER
   },
-  { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
-  { name: 'progress', url: Routes.PROGRESS_HEALTH_DATA, Icon: ProgressIcon },
-  { name: 'library', url: Routes.CHAT, Icon: ChatIcon },
+  {
+    name: 'trainer',
+    url: Routes.TRAINER,
+    Icon: ClientSolidIcon,
+    type: userTypes.CLIENT
+  },
   {
     name: 'invoices',
     url: Routes.INVOICES,
     Icon: InvoiceIcon,
     type: userTypes.CLIENT
   },
+  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon },
+  { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
+  { name: 'library', url: Routes.HOME, Icon: LibraryIcon },
   {
-    name: 'invoices',
+    name: 'financials',
     url: Routes.FINANCIALS_OVERVIEW,
-    Icon: InvoiceIcon,
+    Icon: RevenueIcon,
     type: userTypes.TRAINER
   },
-  { name: 'sessions', url: Routes.SESSIONS, Icon: SessionIcon },
-  { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
-  { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon }
+  { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationsIcon }
 ]
 
 const DesktopSidebar = () => {
@@ -61,48 +73,65 @@ const DesktopSidebar = () => {
   const { type } = useAuth()
   const { pathname } = useLocation()
   const [isOpen] = useState(false)
-  const { user } = useTrainerAccount()
+  const { user: trainer } = useTrainerAccount()
+
   return (
     <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
-      <div className={'sidebar__logo'}>
-        <LogoSmall />
+      <div>
+        <div className="sidebar__logo">
+          <BrandLogoIcon />
+        </div>
+
+        {type === userTypes.CLIENT && trainer.id && (
+          <UserBadgeCard
+            firstName={trainer.first_name}
+            lastName={trainer.last_name}
+            userRole={t('your-trainer')}
+            className="sidebar__trainer"
+          />
+        )}
+
+        <div className="sidebar__divider sidebar__divider_spacing" />
+
+        <div className="sidebar__nav-spacer" />
+        <nav className="sidebar__nav">
+          <ul className="sidebar__menu">
+            {menuItems.map(
+              ({ url, name, Icon, type: permission }) =>
+                (!permission || type === permission) && (
+                  <Link
+                    to={url}
+                    key={url}
+                    className={classes(
+                      'sidebar__item',
+                      pathname === url && 'sidebar__item_active'
+                    )}
+                  >
+                    <Icon />
+                    <span>{capitalize(name)}</span>
+                  </Link>
+                )
+            )}
+          </ul>
+
+          {/*{type === 'client' && user && (*/}
+          {/*  <>*/}
+          {/*    <div className={'sidebar__hr'} />*/}
+          {/*    <Link to={Routes.TRAINER} className={'sidebar__trainer'}>*/}
+          {/*      {user.avatar?.thumb_url ? (*/}
+          {/*        <img alt={'trainer'} src={user.avatar?.thumb_url} />*/}
+          {/*      ) : (*/}
+          {/*        <div className={'sidebar__trainer__placeholder'}>*/}
+          {/*          {noImage(user.first_name, user.last_name)}*/}
+          {/*        </div>*/}
+          {/*      )}*/}
+          {/*      <span>{t('menu.trainer')}</span>*/}
+          {/*    </Link>*/}
+          {/*  </>*/}
+          {/*)}*/}
+        </nav>
       </div>
-      <div className={'sidebar__nav-spacer'} />
-      <nav className={'sidebar__nav'}>
-        <ul className={'sidebar__menu'}>
-          {menuItems.map(({ url, Icon, type: permission }) =>
-            !permission || type === permission ? (
-              <li
-                key={url}
-                className={classes(
-                  'sidebar__item',
-                  pathname === url && 'sidebar__item__active'
-                )}
-              >
-                <Link to={url}>
-                  <Icon />
-                </Link>
-              </li>
-            ) : null
-          )}
-        </ul>
-        {type === 'client' && user ? (
-          <>
-            <div className={'sidebar__hr'} />
-            <Link to={Routes.TRAINER} className={'sidebar__trainer'}>
-              {user.avatar?.thumb_url ? (
-                <img alt={'trainer'} src={user.avatar?.thumb_url} />
-              ) : (
-                <div className={'sidebar__trainer__placeholder'}>
-                  {noImage(user.first_name, user.last_name)}
-                </div>
-              )}
-              <span>{t('menu.trainer')}</span>
-            </Link>
-          </>
-        ) : null}
-      </nav>
-      <div className={'sidebar__nav-spacer'} />
+
       <DesktopFooter />
     </Styles>
   )
