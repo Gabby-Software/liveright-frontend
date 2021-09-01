@@ -1,6 +1,5 @@
 import React from 'react'
 
-import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import Styles from './create-invoice-section.styles'
 
 type Props = {
@@ -10,10 +9,9 @@ type Props = {
 const CreateInvoiceSection = ({ title, children }: Props) => {
   return (
     <Styles>
-      <PageSubtitle className={'create-invoice__section-title'}>
-        {title}
-      </PageSubtitle>
-      {children}
+      <h5 className="create-invoice__section-title">{title}</h5>
+
+      <div className="create-invoice__content">{children}</div>
     </Styles>
   )
 }

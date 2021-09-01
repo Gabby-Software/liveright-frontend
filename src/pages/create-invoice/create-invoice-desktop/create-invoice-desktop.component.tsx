@@ -13,17 +13,16 @@ import { useLocation } from 'react-router'
 import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 
-import FormButton from '../../../components/forms/form-button/form-button.component'
-import FormClientSelect from '../../../components/forms/form-client-select/form-client-select.component'
-import FormDatepicker from '../../../components/forms/form-datepicker/form-datepicker.component'
-import FormRow from '../../../components/forms/form-row/form-row.component'
-import FormSelect from '../../../components/forms/form-select/form-select.component'
-import FormTextarea from '../../../components/forms/form-textarea/form-textarea.component'
-import Link from '../../../components/link/link.component'
+import { AddIcon } from '../../../assets/media/icons'
+import Button from '../../../components/buttons/button/button.component'
+import Card from '../../../components/cards/card/card.component'
+import ClientSelect from '../../../components/form/client-select/client-select.component'
+import DatePicker from '../../../components/form/date-picker/date-picker.component'
+import Select from '../../../components/form/select/select.component'
+import Textarea from '../../../components/form/textarea/textarea.component'
 import { paymentMethodsOptions } from '../../../enums/payment-method.enum'
 import { Routes } from '../../../enums/routes.enum'
-import { useClients } from '../../../hooks/clients.hook'
-import { useTitleContent } from '../../../layouts/desktop-layout/desktop-layout.component'
+import useClients from '../../../hooks/api/clients/useClients'
 import { handleError } from '../../../managers/api.manager'
 import logger from '../../../managers/logger.manager'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
@@ -39,47 +38,27 @@ import {
   defaultInvoiceItem,
   InvoiceFormType
 } from '../create-invoice.data'
-import { SubmitLabel } from '../create-invoice.styles'
 import Styles from './create-invoice-desktop.styles'
 
 type Props = {}
 const CreateInvoiceDesktop = ({}: Props) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const [isValid, setIsValid] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const clients = useClients()
+  const { clients } = useClients()
   const [client, setClient] = useState<AccountObjType | null>(null)
   const { meta } = useSelector((state: RootState) => state.invoices)
   const location = useLocation()
   const history = useHistory()
+
   const initialFormValues = useMemo(() => {
     const params = new URLSearchParams(location.search)
     const cid = params.get('cid')
     createInvoiceInitialValues.invoice.invoice_to = cid || ''
     createInvoiceInitialValues.invoice.type = params.get('type') || 'PT session'
-    setClient(clients.data.data.find((it) => it.id === +(cid || 0)) || null)
+    setClient(clients.find((it) => it.id === +(cid || 0)) || null)
     return createInvoiceInitialValues
   }, [])
-  const TitleContent = () => (
-    <SubmitLabel>
-      <FormButton type={'primary'} loading={isLoading} disabled={!isValid}>
-        <label htmlFor={'btn-submit-invoice'}>
-          {t('invoices:create.generate-and-send')}
-        </label>
-      </FormButton>
-      <FormButton
-        type={'default'}
-        loading={isLoading || isLoading}
-        disabled={!isValid || isLoading}
-      >
-        <label htmlFor={'btn-submit-invoice-back'}>
-          {t('invoices:create.generate-and-back')}
-        </label>
-      </FormButton>
-    </SubmitLabel>
-  )
-  useTitleContent(<TitleContent />)
+
   const handleSubmit = (
     values: InvoiceFormType,
     helper: FormikHelpers<InvoiceFormType>
@@ -107,8 +86,17 @@ const CreateInvoiceDesktop = ({}: Props) => {
       }
     })
   }
+
+  console.log(client)
   return (
     <Styles>
+      <div className="add-invoice__title-container">
+        <h2 className="add-invoice__title">{t('invoices:create-new')}</h2>
+        <h4 className="add-invoice__subtitle">
+          {t('invoices:invoice-no', { number: '102' })}
+        </h4>
+      </div>
+
       <Formik
         initialValues={initialFormValues}
         onSubmit={handleSubmit}
@@ -129,131 +117,163 @@ const CreateInvoiceDesktop = ({}: Props) => {
         })}
       >
         {(formik: FormikProps<InvoiceFormType>) => {
-          const { values, setFieldValue, isSubmitting, isValid } = formik
-          setIsValid(Boolean(isValid && values.items.length))
-          setIsLoading(isSubmitting)
+          const { values, setFieldValue } = formik
           let credits = 0
-          logger.info('FORM', formik)
           return (
             <Form>
-              <div className={'add-invoice__cont'}>
-                <CreateInvoiceSection
-                  title={'Select who should receive the invoice'}
-                >
-                  <FormRow>
-                    {client ? (
-                      <CreateInvoiceClientCard
-                        client={client}
-                        onRemove={() => {
-                          setClient(null)
-                          setFieldValue('invoice.invoice_to', '')
-                        }}
-                      />
-                    ) : (
-                      <FormClientSelect
-                        name={'invoice.invoice_to'}
-                        label={'Search Existing Clients'}
-                        onUpdate={setClient}
-                      />
-                    )}
-                    <div className={'add-invoice__add-client'}>
-                      {client ? null : (
-                        <Link to={Routes.CLIENTS + '/?add=1'}>
-                          {'or add new one'}
-                        </Link>
-                      )}
-                    </div>
-                    <div />
-                    <div />
-                  </FormRow>
-                </CreateInvoiceSection>
-                <CreateInvoiceSection title={'Set the Invoice Details'}>
-                  <FormRow>
-                    <FormDatepicker
-                      label={'Issuance Date'}
-                      name={'invoice.issuance_date'}
-                      disabled
-                      disabledDate={(date) =>
-                        date.isBefore(moment().startOf('day'))
-                      }
-                    />
-                    <FormDatepicker
-                      label={'Due Date'}
-                      name={'invoice.due_on'}
-                      disabledDate={(date) =>
-                        date.isBefore(moment().startOf('day'))
-                      }
-                    />
-                    {/*<FormSelect label={'Currency'} name={'invoice.currency_code'}*/}
-                    {/*            options={[{label: 'AED', value: "AED"}]}/>*/}
-                    <FormSelect
-                      label={'Payment Method'}
-                      name={'invoice.payment_method'}
-                      options={paymentMethodsOptions}
-                    />
-                  </FormRow>
-                </CreateInvoiceSection>
-                <CreateInvoiceSection title={'Add Items'}>
-                  <FieldArray name={'items'}>
-                    {(helpers: ArrayHelpers) => (
-                      <>
-                        {values.items.map((item, i) => (
-                          <CreateInvoiceItem
-                            i={i}
-                            form={formik}
-                            helper={helpers}
-                            item={item}
-                            key={i}
-                            credits={
-                              item.type === 'PT session'
-                                ? (credits += +item.quantity)
-                                : credits
-                            }
+              <Card className="add-invoice__card">
+                <div className="add-invoice__cont">
+                  <CreateInvoiceSection title={t('invoices:select-client')}>
+                    <div>
+                      <div>
+                        {client ? (
+                          <CreateInvoiceClientCard
+                            client={client}
+                            onRemove={() => {
+                              setClient(null)
+                              setFieldValue('invoice.invoice_to', '')
+                            }}
                           />
-                        ))}
-                        <FormButton
-                          type={'default'}
-                          className={'add-invoice__add-item'}
-                          onClick={() =>
-                            helpers.push({ ...defaultInvoiceItem })
-                          }
-                        >
-                          Add another
-                        </FormButton>
-                      </>
-                    )}
-                  </FieldArray>
-                  <CreateInvoiceSummary items={values.items} />
-                </CreateInvoiceSection>
-                <CreateInvoiceSection title={'Add Notes'}>
-                  <FormTextarea name={'invoice.description'} label={'Notes'} />
-                </CreateInvoiceSection>
-              </div>
-              <div className={'add-invoice__submit__cont'}>
-                <FormButton
-                  type={'primary'}
+                        ) : (
+                          <ClientSelect
+                            name="invoice.invoice_to"
+                            placeholder={t('invoices:type-client')}
+                            onChange={(e) => {
+                              setClient(
+                                clients.find((c) => c.id === Number(e)) || null
+                              )
+                              formik.setFieldValue('invoice.invoice_to', e)
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      <Button
+                        to={Routes.CLIENTS + '/?add=1'}
+                        variant="text"
+                        className="add-invoice__add-client"
+                      >
+                        <AddIcon />
+                        {t('invoices:invite-new-client')}
+                      </Button>
+                      <div />
+                      <div />
+                    </div>
+                  </CreateInvoiceSection>
+                  <CreateInvoiceSection title={t('invoices:invoice-details')}>
+                    <div className="add-invoice__form-row">
+                      <DatePicker
+                        id="invoice-date"
+                        label={t('invoices:issuance-date')}
+                        name={'invoice.issuance_date'}
+                        disabledDate={(date) =>
+                          date.isBefore(moment().startOf('day'))
+                        }
+                        onChange={(e, date) =>
+                          formik.setFieldValue('invoice.issuance_date', date)
+                        }
+                        value={formik.values.invoice.issuance_date}
+                      />
+                      <DatePicker
+                        id="invoice-due-date"
+                        label={t('invoices:due-date')}
+                        name={'invoice.due_on'}
+                        onChange={(e, date) =>
+                          formik.setFieldValue('invoice.due_on', date)
+                        }
+                        value={formik.values.invoice.due_on}
+                        disabledDate={(date) =>
+                          date.isBefore(moment().startOf('day'))
+                        }
+                      />
+                      <Select
+                        id="invoice-pm"
+                        label={t('invoices:preferred-pm')}
+                        name={'invoice.payment_method'}
+                        options={paymentMethodsOptions}
+                        onChange={(e) =>
+                          formik.setFieldValue('invoice.payment_method', e)
+                        }
+                        value={formik.values.invoice.payment_method}
+                      />
+                    </div>
+                  </CreateInvoiceSection>
+
+                  <CreateInvoiceSection title={t('invoices:add-items')}>
+                    <FieldArray name={'items'}>
+                      {(helpers: ArrayHelpers) => (
+                        <>
+                          {values.items.map((item, i) => (
+                            <CreateInvoiceItem
+                              i={i}
+                              form={formik}
+                              helper={helpers}
+                              item={item}
+                              key={i}
+                              credits={
+                                item.type === 'PT session'
+                                  ? (credits += +item.quantity)
+                                  : credits
+                              }
+                            />
+                          ))}
+
+                          <Button
+                            variant="text"
+                            className="add-invoice__add-client"
+                            onClick={() =>
+                              helpers.push({ ...defaultInvoiceItem })
+                            }
+                          >
+                            <AddIcon />
+                            {t('invoices:add-another-item')}
+                          </Button>
+                        </>
+                      )}
+                    </FieldArray>
+
+                    <CreateInvoiceSummary items={values.items} />
+                  </CreateInvoiceSection>
+
+                  <CreateInvoiceSection title={t('invoices:add-notes')}>
+                    <Textarea
+                      // name={'invoice.description'}
+                      id="invoice-notes"
+                      placeholder={t('invoices:notes')}
+                      value={formik.values.invoice.description}
+                      onChange={(e) =>
+                        formik.setFieldValue(
+                          'invoice.description',
+                          e.target.value
+                        )
+                      }
+                    />
+                  </CreateInvoiceSection>
+                </div>
+              </Card>
+
+              <div className="add-invoice__submit">
+                <Button
+                  variant="secondary"
                   disabled={!formik.isValid || !values.items.length}
-                  className={'add-invoice__submit'}
-                  htmlType={'submit'}
+                  className="add-invoice__submit-btn"
+                  htmlType="submit"
                   onClick={() =>
                     formik.setFieldValue('invoice.send_to_client', true)
                   }
-                  id={'btn-submit-invoice'}
                 >
                   {t('invoices:create.generate-and-send')}
-                </FormButton>
-                <FormButton
-                  type={'default'}
+                </Button>
+
+                <Button
                   disabled={!formik.isValid || !values.items.length}
-                  className={'add-invoice__submit'}
                   htmlType={'submit'}
                   onClick={() =>
                     formik.setFieldValue('invoice.send_to_client', false)
                   }
-                  id={'btn-submit-invoice-back'}
                 >
                   {t('invoices:create.generate-and-back')}
-                </FormButton>
+                </Button>
               </div>
             </Form>
           )

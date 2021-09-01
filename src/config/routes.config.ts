@@ -96,13 +96,14 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/create-invoice/create-invoice.component')
     ),
+    version: 2,
     back: {
       url: Routes.FINANCIALS_RECEIVABLES,
       alias: 'invoices'
     },
     header: {
-      title: 'Generate new Invoice',
-      items: headers.default
+      title: null,
+      items: []
     }
   },
   {

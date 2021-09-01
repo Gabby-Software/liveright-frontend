@@ -1,4 +1,74 @@
-const vars = {
+export interface Colors {
+  primary: string
+  primaryLight: string
+  primaryDarken: string
+  primaryDark: string
+  secondary: string
+  secondary2: string
+  secondary3: string
+  dark: string
+  dark2: string
+  light: string
+  light2: string
+  card: string
+  labelLight: string
+  inputBorder: string
+  background: string
+  error: string
+  success: string
+  successDark: string
+  info: string
+  warning: string
+  warningDark: string
+  primary_v2: string
+  background_v2: string
+  primaryDark_v2: string
+  primaryDark2_v2: string
+  dark_v2: string
+  secondary1_v2: string
+  secondary2_v2: string
+  secondary3_v2: string
+  secondary4_v2: string
+  secondary5_v2: string
+  secondary6_v2: string
+  secondary7_v2: string
+  secondary8_v2: string
+  inputBorder_v2: string
+  link: string
+  link_lighten: string
+  link_darken: string
+  link_bg: string
+  chat_blue: string
+  chat_dark: string
+  orange: string
+  orange_90: string
+  blue_20: string
+  blue_50: string
+  blue_70: string
+  blue_80: string
+  neutral_10: string
+  neutral_50: string
+  red: string
+  red_10: string
+  red_40: string
+  red_60: string
+  red_70: string
+  red_80: string
+  red_100: string
+  green_10: string
+  green_90: string
+  green_80: string
+  orange_100: string
+  orange_60: string
+  orange_20: string
+}
+
+interface Vars {
+  colors: Colors
+  [key: string]: Record<string, any>
+}
+
+const vars: Vars = {
   colors: {
     primary: '#ED1731',
     primaryLight: '#ed4452',
@@ -92,4 +162,7 @@ const vars = {
     secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
   }
 }
+
+export const colors = vars.colors
+
 export default vars

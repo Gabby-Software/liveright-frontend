@@ -1,42 +1,22 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
-import Card from '../../../../components/card/card.style'
+import Card from '../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled(Card)`
   position: relative;
   width: auto;
-  ${(p) => p.theme.extend.flexCenter}
+  border: 1px solid ${getColorCarry('inputBorder_v2')};
+  padding: 1rem 1.25rem;
+
   .ci-cc {
-    &__times {
-      position: absolute;
-      top: 0;
-      right: -24px;
-      font-size: 24px;
-      color: ${(p) => p.theme.vars.colors.error};
-      cursor: pointer;
-      ${media('tablet', 'max')`
-                top: 6px;
-                right: 6px;
-        `}
+    &__user-card {
+      width: fit-content;
     }
-    &__img {
-      ${(p) => p.theme.mixin.circleImage('40px')}
-      ${(p) => p.theme.extend.flexCenter}
-        background-color: ${(p) => p.theme.vars.colors.primary};
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      margin-right: 16px;
-    }
-    &__name {
-      font-size: 16px;
-      font-weight: 500px;
-      color: ${(p) => p.theme.vars.colors.primaryDark};
-    }
-    &__email {
-      font-size: 12px;
-      color: ${(p) => p.theme.vars.colors.secondary};
+
+    &__btn {
+      color: ${getColorCarry('primary_v2')};
+      margin-left: 0.5rem;
     }
   }
 `

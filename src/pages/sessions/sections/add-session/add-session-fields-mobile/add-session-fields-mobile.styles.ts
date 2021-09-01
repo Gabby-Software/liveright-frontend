@@ -7,7 +7,7 @@ export default styled.div`
     &__title {
       font-size: 1.125rem;
       font-weight: 700;
-      color: ${getColorCarry('#2E2F31')};
+      color: ${getColorCarry('primaryDark_v2')};
       margin-bottom: 1.25rem;
     }
 
