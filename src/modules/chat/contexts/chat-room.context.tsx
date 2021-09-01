@@ -38,6 +38,7 @@ type ChatRoomContextType = {
   isPopup: boolean
   room: string
   roomData: null | ChatRoomType
+  typing: boolean
 }
 
 const ChatRoomContext = createContext<ChatRoomContextType | null>(null)
@@ -54,15 +55,22 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [playing, setPlaying] = useState<string | null>(null)
   const [openedImage, setOpenedImage] = useState<string>('')
   const [textMessage, setTextMessage] = useState<string>('')
+  const [typing, setTyping] = useState<boolean>(false)
   const { rooms, getRoom, updateRoom } = useChats()
   const { uuid } = useAuth()
   const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
     room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
   useEffect(() => {
+    setTyping(false)
     if (room && rooms[room]) {
       getRoom(room)
     }
   }, [room])
+  socketManager.useTypingChange()(({ isTyping, roomId }) => {
+    if (roomId === room) {
+      setTyping(isTyping)
+    }
+  })
   const setMessages = useCallback(
     (msg: ChatMessageType) => {
       updateRoom(room, msg)
@@ -102,10 +110,6 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   }
   const sendFile = async (files: FileList) => {
     const msg: ChatMessageType = msgBase()
-    // if (textMessage) {
-    //   msg.content.text = textMessage
-    //   msg.types.push(chatMessageTypes.TEXT)
-    // }
     for await (const file of [...files]) {
       const ext = file.name.split('.').pop()?.toLowerCase()
       let type: ChatMessageTypeType = chatMessageTypes.FILE
@@ -157,7 +161,8 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
         sendAudio,
         isPopup,
         room,
-        roomData
+        roomData,
+        typing
       }}
     >
       {children}

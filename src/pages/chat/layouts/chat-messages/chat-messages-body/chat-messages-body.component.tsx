@@ -8,7 +8,7 @@ import ChatMessage from '../../../components/chat-message/chat-message.component
 import Styles from './chat-messages-body.styles'
 
 const ChatMessagesBody: FC<{}> = () => {
-  const { messages, isPopup } = useChatRoom()
+  const { messages, isPopup, typing, roomData } = useChatRoom()
   const ref = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
   useEffect(() => {
@@ -25,6 +25,11 @@ const ChatMessagesBody: FC<{}> = () => {
       {messages.map((msg) => (
         <ChatMessage key={msg._id} msg={msg} />
       ))}
+      <div className={'chat-typing'}>
+        {typing
+          ? `${roomData?.firstName} ${roomData?.lastName} is typing...`
+          : null}
+      </div>
     </Styles>
   )
 }
