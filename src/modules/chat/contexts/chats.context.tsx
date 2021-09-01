@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, {
   createContext,
   FC,
@@ -47,11 +48,34 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
   }
+  socketManager.useDelivered()(({ roomId }) => {
+    logger.success('message seen handle', roomId)
+    roomsRef.current[roomId].messages.forEach((message) => {
+      if (!message.meta.delivered_at) {
+        message.meta.delivered_at = moment().format()
+      }
+    })
+    setRooms({ ...roomsRef.current })
+  })
+  socketManager.useSeen()(({ roomId }) => {
+    logger.success('message seen handle', roomId)
+    roomsRef.current[roomId].messages.forEach((message) => {
+      if (!message.meta.read_at) {
+        message.meta.read_at = moment().format()
+      }
+    })
+    roomsRef.current[roomId].room.unReadMessagesCount = 0
+    setRooms({ ...roomsRef.current })
+  })
   socketManager.useMessageReceived()((msg: ChatMessageType) => {
     logger.info('new message handled', msg)
-    roomsRef.current[msg.chat_room_id].messages.push(msg)
+    roomsRef.current[msg.chat_room_id].messages = [
+      ...roomsRef.current[msg.chat_room_id].messages,
+      msg
+    ]
     roomsRef.current[msg.chat_room_id].room.lastMessage = msg
     setRooms({ ...roomsRef.current })
+    socketManager.delivered(msg.chat_room_id)
   })
   useEffect(() => {
     getChatUsers()
