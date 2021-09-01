@@ -36,8 +36,11 @@ const QuickAccessContext = createContext<QuickAccessContextType | null>(null)
 export const useQuickAccess = () =>
   useContext(QuickAccessContext) as QuickAccessContextType
 
-export const QuickAccessProvider: FC = ({ children }) => {
-  const [open, setOpen] = useState(false)
+export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
+  children,
+  initialOpen
+}) => {
+  const [open, setOpen] = useState(!!initialOpen)
   const [route, setRoute] = useState<quickAccessRoutes>(quickAccessRoutes.LOG)
   const [client, setClient] = useState<null | AccountObjType>(null)
   const { type } = useAuth()

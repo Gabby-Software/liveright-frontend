@@ -6,8 +6,14 @@ export default styled(Drawer)`
   .ant-drawer-content-wrapper {
     bottom: var(--top);
   }
+  .ant-drawer-content {
+    border-radius: 20px 20px 0 0;
+  }
   .ant-drawer-body {
     padding: 0;
+  }
+  .ant-drawer-mask {
+    background-color: rgba(0, 0, 0, 0.7);
   }
   .drawer {
     &__wrapper {
@@ -17,16 +23,15 @@ export default styled(Drawer)`
     }
     &__header {
       position: relative;
-      padding: 53px 24px 16px 24px;
-      border-bottom: 1px solid ${(p) => p.theme.vars.colors.light2};
+      padding: 34px 24px 14px 24px;
       &:before {
         ${(p) => p.theme.extend.pseudo}
         left:0;
         right: 0;
-        height: 5px;
-        width: 96px;
-        background-color: ${(p) => p.theme.vars.colors.light2};
-        top: 6px;
+        height: 4px;
+        width: 68px;
+        background-color: #ededed;
+        top: 14px;
         margin: auto;
       }
     }
@@ -42,7 +47,7 @@ export default styled(Drawer)`
       position: absolute;
       left: 24px;
       bottom: 19px;
-      opacity: 0.5;
+      opacity: 0.7;
       height: 1rem;
       cursor: pointer;
     }
