@@ -48,7 +48,7 @@ const InvoiceFilters = () => {
           id="issuer"
           value={invoice_from}
           name={'invoice_from'}
-          label={t('invoices:issuer')}
+          placeholder={t('invoices:issuer')}
           onUpdate={setInvoice_from}
           className="invoice-filters__issuer"
         />
