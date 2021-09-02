@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   BrandLogoIcon,
   CalendarIcon,
-  ChatIcon,
   ClientSolidIcon,
   HomeIcon,
   InvoiceIcon,
@@ -16,6 +15,7 @@ import {
   UsersIcon
 } from '../../assets/media/icons'
 import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
+import ChatIcon from '../../components/chat-icon/chat-icon.component'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
