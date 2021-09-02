@@ -114,6 +114,7 @@ export const routes: RouteType[] = [
       title: 'Invoice',
       items: headers.default
     },
+    version: 2,
     back: {
       url: Routes.INVOICES,
       alias: 'invoices'

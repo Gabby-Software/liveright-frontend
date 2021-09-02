@@ -1,3 +1,5 @@
 import styled from 'styled-components'
 
-export default styled.div``
+import Card from '../../../components/cards/card/card.component'
+
+export default styled(Card)``

@@ -12,6 +12,7 @@ interface IconButtonProps {
   onClick?: any
   TooltipProps?: any
   LinkProps?: any
+  disabled?: boolean
 }
 
 const IconButton = forwardRef<any, PropsWithChildren<IconButtonProps>>(
@@ -24,12 +25,19 @@ const IconButton = forwardRef<any, PropsWithChildren<IconButtonProps>>(
       className,
       TooltipProps,
       LinkProps,
-      onClick
+      onClick,
+      disabled
     } = props
 
     let content
     content = (
-      <Root $size={size} className={className} ref={ref} onClick={onClick}>
+      <Root
+        $size={size}
+        className={className}
+        ref={ref}
+        onClick={onClick}
+        disabled={disabled}
+      >
         {children}
       </Root>
     )
