@@ -7,6 +7,7 @@ export const HeaderV2 = styled.header`
   background-color: ${(p) => p.theme.vars.colors.primaryDark_v2};
   outline: ${(p) => p.theme.vars.colors.primaryDark_v2};
   .profile-image {
+    position: relative;
     &__img {
       ${(p) => p.theme.extend.flexCenter};
       width: 38px;
@@ -82,6 +83,7 @@ export default styled.header`
   display: block;
   height: ${height};
   .profile-image {
+    position: relative;
     &__img {
       ${(p) => p.theme.extend.flexCenter};
       width: 32px;
@@ -111,6 +113,7 @@ export default styled.header`
     }
     &__profile {
       display: block;
+      position: relative;
       &__img {
         ${(p) => p.theme.extend.flexCenter};
         width: 32px;

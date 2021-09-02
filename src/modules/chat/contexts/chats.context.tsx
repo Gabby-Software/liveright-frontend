@@ -32,6 +32,7 @@ export type ChatsContextType = {
   close: (roomID: string) => void
   getRoom: (roomId: string) => void
   updateRoom: (roomId: string, msg: ChatMessageType) => void
+  seeRoom: (roomId: string) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
@@ -61,6 +62,10 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     })
     setRooms({ ...roomsRef.current })
   })
+  const seeRoom = (roomId: string) => {
+    roomsRef.current[roomId].room.unReadMessagesCount = 0
+    setRooms({ ...roomsRef.current })
+  }
   socketManager.useSeen()(({ roomId }) => {
     logger.success('message seen handle', roomId)
     roomsRef.current[roomId].messages.forEach((message) => {
@@ -68,7 +73,6 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         message.meta.read_at = moment().format()
       }
     })
-    roomsRef.current[roomId].room.unReadMessagesCount = 0
     setRooms({ ...roomsRef.current })
   })
   socketManager.useMessageReceived()((msg: ChatMessageType) => {
@@ -140,7 +144,8 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         close,
         collapse,
         getRoom,
-        updateRoom
+        updateRoom,
+        seeRoom
       }}
     >
       {children}
