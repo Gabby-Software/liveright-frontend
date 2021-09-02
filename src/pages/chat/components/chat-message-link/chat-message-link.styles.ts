@@ -8,4 +8,8 @@ export default styled.a`
   padding: 16px 21px;
   border-radius: 0 0 8px 8px;
   margin-top: 4px;
+  transition: ${(p) => p.theme.vars.defaults.transition};
+  &:hover {
+    color: ${(p) => p.theme.vars.colors.link};
+  }
 `
