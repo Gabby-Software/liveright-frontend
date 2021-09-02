@@ -8,6 +8,11 @@ export type KnownFileTypesType =
   | 'xlsx'
   | 'csv'
   | 'zip'
+  | 'mp4'
+  | 'mov'
+  | 'wmv'
+  | 'webm'
+  | 'avi'
 
 export type FileTypesOptionsType = {
   [Property in KnownFileTypesType]: ComponentType<SVGProps<SVGSVGElement>>
