@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 import { classes } from '../../../pipes/classes.pipe'
 import { noImage } from '../../../pipes/no-image.pipe'
@@ -23,10 +23,18 @@ export default function UserBadgeCard({
   className,
   onClick
 }: UserBadgeCardProps) {
+  const [imgSrc, setSrc] = useState('')
+
+  useEffect(() => {
+    if (img) {
+      setSrc(img)
+    }
+  }, [img])
+
   return (
     <Styles className={classes('user-badge-card', className)} onClick={onClick}>
       <div className="user-badge-card__img">
-        {img && <img src={img} alt="" />}
+        {imgSrc && <img src={imgSrc} alt="" onError={() => setSrc('')} />}
         <span className="user-badge-card__placeholder">
           {noImage(firstName, lastName)}
         </span>

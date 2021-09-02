@@ -27,9 +27,10 @@ const DesktopLayout = ({ children }: { children: React.ReactNode }) => {
   const version = useDesignVersion()
   const [titleContent, setTitleContent] = useState<React.ReactNode>(null)
   const [className, setClassName] = useState('')
+
   configRef.setClassName = setClassName
   desktopTitleRef.setTitleContent = setTitleContent
-  console.log('VERSION', version)
+
   return (
     <Styles>
       <DesktopSidebar />

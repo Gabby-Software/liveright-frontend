@@ -7,13 +7,14 @@ export default styled.aside`
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  overflow-y: auto;
   position: sticky;
   z-index: 40;
   top: 0;
   flex-shrink: 0;
   border-right: 1px solid ${(p) => p.theme.vars.colors.secondary2};
   width: 210px;
-  padding: 1.125rem;
+  padding: 1.125rem 1.125rem calc(1.125rem + 88px) 1.125rem;
 }
 
   @media only print {

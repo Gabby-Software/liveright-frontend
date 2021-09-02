@@ -119,18 +119,30 @@ const FinancialsReceivablesTable = ({}: Props) => {
               {[
                 invoiceStatuses.OVERDUE,
                 invoiceStatuses.DUE_SOON,
-                invoiceStatuses.OUTSTANDING
+                invoiceStatuses.OUTSTANDING,
+                invoiceStatuses.DRAFT
               ].includes(status) ? (
                 <>
                   <span className={'invoice-table__link'}>
-                    <Popconfirm
-                      title={'Invoice will be marked as paid'}
-                      onConfirm={() => markAsPaid(id)}
-                    >
-                      <Button variant="secondary" size="sm">
-                        {t('invoices:mark-paid')}
+                    {status === invoiceStatuses.DRAFT ? (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="invoice-table__send-btn"
+                        to={Routes.INVOICES + '/' + id}
+                      >
+                        {t('invoices:send-invoice')}
                       </Button>
-                    </Popconfirm>
+                    ) : (
+                      <Popconfirm
+                        title={'Invoice will be marked as paid'}
+                        onConfirm={() => markAsPaid(id)}
+                      >
+                        <Button variant="secondary" size="sm">
+                          {t('invoices:mark-paid')}
+                        </Button>
+                      </Popconfirm>
+                    )}
                   </span>
 
                   <IconButton
@@ -141,9 +153,11 @@ const FinancialsReceivablesTable = ({}: Props) => {
                     <FilePdfIcon />
                   </IconButton>
 
-                  <IconButton size="sm" className="invoice-table__icon-btn">
-                    <SendIcon />
-                  </IconButton>
+                  {status !== invoiceStatuses.DRAFT && (
+                    <IconButton size="sm" className="invoice-table__icon-btn">
+                      <SendIcon />
+                    </IconButton>
+                  )}
 
                   <IconButton
                     size="sm"

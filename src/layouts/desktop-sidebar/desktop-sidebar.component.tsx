@@ -45,12 +45,6 @@ const menuItems: MenuItemType[] = [
     type: userTypes.TRAINER
   },
   {
-    name: 'trainer',
-    url: Routes.TRAINER,
-    Icon: ClientSolidIcon,
-    type: userTypes.CLIENT
-  },
-  {
     name: 'invoices',
     url: Routes.INVOICES,
     Icon: InvoiceIcon,
@@ -58,7 +52,7 @@ const menuItems: MenuItemType[] = [
   },
   { name: 'chat', url: Routes.CHAT, Icon: ChatIcon },
   { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
-  { name: 'library', url: Routes.HOME, Icon: LibraryIcon },
+  { name: 'library', url: Routes.HOME + 'hub', Icon: LibraryIcon },
   {
     name: 'financials',
     url: Routes.FINANCIALS_OVERVIEW,
@@ -76,49 +70,52 @@ const DesktopSidebar = () => {
   const { user: trainer } = useTrainerAccount()
 
   return (
-    <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
-      <div>
-        <div className="sidebar__logo">
-          <BrandLogoIcon />
+    <>
+      <Styles className={classes('sidebar', isOpen && 'sidebar__open')}>
+        <div>
+          <div className="sidebar__logo">
+            <BrandLogoIcon />
+          </div>
+
+          {type === userTypes.CLIENT && trainer.id && (
+            <Link to={Routes.TRAINER}>
+              <UserBadgeCard
+                img={trainer.avatar?.url}
+                firstName={trainer.first_name}
+                lastName={trainer.last_name}
+                userRole={t('your-trainer')}
+                className="sidebar__trainer"
+              />
+            </Link>
+          )}
+
+          <div className="sidebar__divider sidebar__divider_spacing" />
+
+          <div className="sidebar__nav-spacer" />
+          <nav className="sidebar__nav">
+            <ul className="sidebar__menu">
+              {menuItems.map(
+                ({ url, name, Icon, type: permission }) =>
+                  (!permission || type === permission) && (
+                    <Link
+                      to={url}
+                      key={url}
+                      className={classes(
+                        'sidebar__item',
+                        pathname === url && 'sidebar__item_active'
+                      )}
+                    >
+                      <Icon />
+                      <span>{capitalize(name)}</span>
+                    </Link>
+                  )
+              )}
+            </ul>
+          </nav>
         </div>
-
-        {type === userTypes.CLIENT && trainer.id && (
-          <UserBadgeCard
-            img={trainer.avatar?.url}
-            firstName={trainer.first_name}
-            lastName={trainer.last_name}
-            userRole={t('your-trainer')}
-            className="sidebar__trainer"
-          />
-        )}
-
-        <div className="sidebar__divider sidebar__divider_spacing" />
-
-        <div className="sidebar__nav-spacer" />
-        <nav className="sidebar__nav">
-          <ul className="sidebar__menu">
-            {menuItems.map(
-              ({ url, name, Icon, type: permission }) =>
-                (!permission || type === permission) && (
-                  <Link
-                    to={url}
-                    key={url}
-                    className={classes(
-                      'sidebar__item',
-                      pathname === url && 'sidebar__item_active'
-                    )}
-                  >
-                    <Icon />
-                    <span>{capitalize(name)}</span>
-                  </Link>
-                )
-            )}
-          </ul>
-        </nav>
-      </div>
-
+      </Styles>
       <DesktopFooter />
-    </Styles>
+    </>
   )
 }
 

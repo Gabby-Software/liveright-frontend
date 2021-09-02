@@ -31,6 +31,8 @@ function getBgColor(props: any): string {
     case 'paid':
     case 'issued':
       return getColor(props, 'green_10')
+    case 'draft':
+      return getColor(props, 'secondary3_v2')
     default:
       return ''
   }
@@ -49,6 +51,8 @@ function getTextColor(props: any): string {
     case 'paid':
     case 'issued':
       return getColor(props, 'green_90')
+    case 'draft':
+      return getColor(props, 'secondary4_v2')
     default:
       return ''
   }

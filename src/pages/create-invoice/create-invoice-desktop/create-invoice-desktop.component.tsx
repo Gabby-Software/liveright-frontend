@@ -253,18 +253,8 @@ const CreateInvoiceDesktop = ({}: Props) => {
 
               <div className="add-invoice__submit">
                 <Button
-                  variant="secondary"
-                  disabled={!formik.isValid || !values.items.length}
                   className="add-invoice__submit-btn"
-                  htmlType="submit"
-                  onClick={() =>
-                    formik.setFieldValue('invoice.send_to_client', true)
-                  }
-                >
-                  {t('invoices:create.generate-and-send')}
-                </Button>
-
-                <Button
+                  variant="secondary"
                   disabled={!formik.isValid || !values.items.length}
                   htmlType={'submit'}
                   onClick={() =>
@@ -272,6 +262,15 @@ const CreateInvoiceDesktop = ({}: Props) => {
                   }
                 >
                   {t('invoices:create.generate-and-back')}
+                </Button>
+                <Button
+                  disabled={!formik.isValid || !values.items.length}
+                  htmlType="submit"
+                  onClick={() =>
+                    formik.setFieldValue('invoice.send_to_client', true)
+                  }
+                >
+                  {t('invoices:create.generate-and-send')}
                 </Button>
               </div>
             </Form>

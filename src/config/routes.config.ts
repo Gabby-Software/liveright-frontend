@@ -114,6 +114,7 @@ export const routes: RouteType[] = [
       title: 'Invoice',
       items: headers.default
     },
+    version: 2,
     back: {
       url: Routes.INVOICES,
       alias: 'invoices'
@@ -176,6 +177,11 @@ export const routes: RouteType[] = [
     header: {
       title: ''
     },
+    back: {
+      url: Routes.CLIENTS,
+      alias: 'clients'
+    },
+    version: 2,
     footer: footerTypes.TRAINER
   },
   {
