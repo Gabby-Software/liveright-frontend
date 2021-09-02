@@ -3,15 +3,10 @@ import styled from 'styled-components'
 const wShrink = '10px'
 const wGrow = '16px'
 export default styled.div`
-.profile-image {
-    &__img {
-        g
-    }
-}
   &:after {
     position: absolute;
-    top: 0;
-    right: 10px;
+    top: -5px;
+    right: -5px;
     ${(p) => p.theme.extend.flexCenter}
     width: ${wShrink};
     height: ${wShrink};
