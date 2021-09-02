@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default styled.div`
   display: flex;
-  max-width: 500px;
+  width: 500px;
   flex-wrap: wrap;
   .cm-image {
     &__image {

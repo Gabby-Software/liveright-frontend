@@ -7,6 +7,9 @@ export default styled.div`
   padding: 22px 24px;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  border-radius: 10px 0 0 0;
+  box-shadow: 0px 0px 20px rgba(230, 236, 242, 0.54);
   .chat-rooms {
     &__container {
       margin-top: 20px;
