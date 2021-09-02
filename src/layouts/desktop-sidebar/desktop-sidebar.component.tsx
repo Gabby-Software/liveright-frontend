@@ -9,13 +9,13 @@ import {
   HomeIcon,
   InvoiceIcon,
   LibraryIcon,
-  NotificationsIcon,
   PlanIcon,
   ProgressIcon,
   RevenueIcon,
   UsersIcon
 } from '../../assets/media/icons'
 import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
+import NotificationIcon from '../../components/notification-icon/notification-icon.component'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
@@ -59,7 +59,7 @@ const menuItems: MenuItemType[] = [
     Icon: RevenueIcon,
     type: userTypes.TRAINER
   },
-  { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationsIcon }
+  { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon }
 ]
 
 const DesktopSidebar = () => {

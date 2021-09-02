@@ -15,6 +15,13 @@ export default styled.aside`
   border-right: 1px solid ${(p) => p.theme.vars.colors.secondary2};
   width: 210px;
   padding: 1.125rem 1.125rem calc(1.125rem + 88px) 1.125rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
   @media only print {

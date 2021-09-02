@@ -28,6 +28,26 @@ import { RootState } from '../../../../../../store/reducers'
 import Styles from './financials-receivables-table.styles'
 
 type Props = {}
+
+const labels: string[] = [
+  'invoices:invoice-number',
+  'invoices:invoice-date',
+  'invoices:client-name',
+  'invoices:total',
+  'invoices:invoice-due',
+  'invoices:status',
+  'invoices:options'
+]
+const keys = [
+  'id',
+  'created_at',
+  'name',
+  'total',
+  'due_on',
+  'status',
+  'options'
+]
+
 const FinancialsReceivablesTable = ({}: Props) => {
   const {
     current: { data, meta },
@@ -36,24 +56,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
   const dispatch = useDispatch()
   const head = useRef<HTMLDivElement>(null)
   const { t } = useTranslation()
-  const labels: string[] = [
-    'invoices:invoice-number',
-    'invoices:invoice-date',
-    'invoices:client-name',
-    'invoices:total',
-    'invoices:invoice-due',
-    'invoices:status',
-    'invoices:options'
-  ]
-  const keys = [
-    'id',
-    'created_at',
-    'name',
-    'total',
-    'due_on',
-    'status',
-    'options'
-  ]
+
   const cancelInvoice = (id: number) => {
     dispatch({
       type: ACTION_CANCEL_INVOICE_REQUEST,
@@ -65,6 +68,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
       }
     })
   }
+
   const updatePage = (p: number) => {
     dispatch({
       type: ACTION_GET_INVOICES_REQUEST,
@@ -82,6 +86,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
       }
     })
   }
+
   const markAsPaid = (id: number) => {
     dispatch({
       type: ACTION_MARK_INVOICE_AS_PAID,
@@ -92,6 +97,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
       }
     })
   }
+
   return (
     <Styles ref={head}>
       <DataTable

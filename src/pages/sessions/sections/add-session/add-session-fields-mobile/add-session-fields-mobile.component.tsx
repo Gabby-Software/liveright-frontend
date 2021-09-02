@@ -77,7 +77,6 @@ const AddSessionFieldsMobile: React.FC<Props> = (props) => {
           />
           <TimePicker
             id="add-session-duration"
-            disabled={!!session}
             label={t('sessions:duration')}
             value={values.duration}
             onChange={(e, date) => setFieldValue('duration', date)}

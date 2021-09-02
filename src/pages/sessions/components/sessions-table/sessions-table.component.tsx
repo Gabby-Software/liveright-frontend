@@ -43,7 +43,7 @@ const SessionsTable: React.FC<Props> = (props) => {
       'sessions:type',
       'sessions:date',
       'sessions:time',
-      'sessions:with'
+      'sessions:trainee'
     ]
     const keys = ['type', 'starts_at', 'time', 'with']
 

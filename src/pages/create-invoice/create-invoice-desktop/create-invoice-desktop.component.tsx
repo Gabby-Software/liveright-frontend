@@ -137,6 +137,7 @@ const CreateInvoiceDesktop = ({}: Props) => {
                           <ClientSelect
                             name="invoice.invoice_to"
                             placeholder={t('invoices:type-client')}
+                            includeAll={false}
                             onChange={(e) => {
                               setClient(
                                 clients.find((c) => c.id === Number(e)) || null
