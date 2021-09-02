@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { ReactComponent as SearchIcon } from '../../../../assets/media/icons/search.svg'
 import { FormInputUI } from '../../../../components/forms/form-input/form-input.component'
@@ -12,15 +12,30 @@ type Props = {}
 const ChatRooms: FC<Props> = ({}) => {
   const [search, setSearch] = useState('')
   const { rooms } = useChats()
-  const filteredRooms: ChatRoomType[] = useMemo(() => {
-    return Object.values(rooms)
-      .filter(({ room }) =>
-        `${room.firstName} ${room.lastName}`
-          .toLowerCase()
-          .includes(search.toLowerCase())
-      )
-      .map(({ room }) => room)
-  }, [search, rooms])
+  const [filteredRooms, setFilteredRooms] = useState<ChatRoomType[]>([])
+  useEffect(() => {
+    setFilteredRooms(
+      Object.values(rooms)
+        .filter(({ room }) =>
+          `${room.firstName} ${room.lastName}`
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        )
+        .map(({ room }) => room)
+    )
+  }, [rooms, search])
+  // useEffect(() => {
+  //   setFilteredRooms([])
+  // }, [])
+  // const filteredRooms: ChatRoomType[] = useMemo(() => {
+  //   return Object.values(rooms)
+  //     .filter(({ room }) =>
+  //       `${room.firstName} ${room.lastName}`
+  //         .toLowerCase()
+  //         .includes(search.toLowerCase())
+  //     )
+  //     .map(({ room }) => room)
+  // }, [search, rooms])
   return (
     <Styles>
       <div className={'chat-rooms__head'}>
