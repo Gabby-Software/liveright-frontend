@@ -17,6 +17,7 @@ import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
 import { uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
+import { insertedLinks } from '../pipes/links'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
 import { ChatRoomType } from '../types/chat-room.type'
@@ -108,10 +109,14 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     setTextMessage('')
     socketManager.sendMessage(msg)
   }
-  const sendTextMessage = () => {
+  const sendTextMessage = async () => {
     const msg: ChatMessageType = msgBase()
     msg.types = [chatMessageTypes.TEXT]
     msg.content.text = textMessage
+    const links = insertedLinks(textMessage)
+    if (links?.length) {
+      msg.content.embedLinks = links.map((link) => ({ title: link, url: link }))
+    }
     addMessage(msg)
   }
   const sendFile = async (files: FileList) => {
