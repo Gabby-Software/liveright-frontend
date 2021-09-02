@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export default styled.div`
+  padding-bottom: 2rem;
+
   .profile {
     &__card {
       margin-bottom: 1.875rem;
