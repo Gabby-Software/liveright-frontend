@@ -45,5 +45,10 @@ export default styled.div`
         color: ${getColorCarry('primary_v2')};
       }
     }
+
+    &__send-btn {
+      border-color: ${getColorCarry('primary_v2')};
+      color: ${getColorCarry('primary_v2')};
+    }
   }
 `

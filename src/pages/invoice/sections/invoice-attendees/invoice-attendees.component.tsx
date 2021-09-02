@@ -8,10 +8,13 @@ import { ReactComponent as DownloadIcon } from '../../../../assets/media/icons/d
 import { ReactComponent as MessagesIcon } from '../../../../assets/media/icons/messages.svg'
 import { ReactComponent as PrintIcon } from '../../../../assets/media/icons/print.svg'
 import { ReactComponent as TimesIcon } from '../../../../assets/media/icons/times-fill.svg'
+import Button from '../../../../components/buttons/button/button.component'
 import FormButton from '../../../../components/forms/form-button/form-button.component'
+import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAPIData } from '../../../../hoc/api-get'
+import useInvoice from '../../../../hooks/api/invoices/useInvoice'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { addressLine } from '../../../../pipes/address-line.pipe'
@@ -26,22 +29,12 @@ import Styles from './invoice-attendees.styles'
 
 const InvoiceAttendees = () => {
   const { t } = useTranslation()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, refetch, setData, loading } = useAPIData<InvoiceFullType>()
+  const { data, refetch, setData } = useAPIData<InvoiceFullType>()
   const { type } = useAuth()
   const history = useHistory()
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //     if (!loading && data && !data.pdf?.url) {
-  //         logger.info('^^PDF', data, data?.pdf, loading);
-  //         dispatch({
-  //             type: ACTION_DOWNLOAD_INVOICE_PDF, payload: {
-  //                 id: data.id,
-  //                 // onSuccess: setData
-  //             }
-  //         })
-  //     }
-  // }, [data?.pdf]);
+  const { onSend, isSendLoading } = useInvoice()
+
   const markAsPaid = (id: number) => {
     dispatch({
       type: ACTION_MARK_INVOICE_AS_PAID,
@@ -53,6 +46,7 @@ const InvoiceAttendees = () => {
       }
     })
   }
+
   const remove = () => {
     dispatch({
       type: ACTION_CANCEL_INVOICE_REQUEST,
@@ -68,6 +62,12 @@ const InvoiceAttendees = () => {
       }
     })
   }
+
+  const handleSend = async () => {
+    await onSend(data.id)
+    refetch()
+  }
+
   return (
     <Styles>
       <div className={'invoice-att'}>
@@ -98,6 +98,14 @@ const InvoiceAttendees = () => {
               {t('invoices:pay')}
             </FormButton>
           </>
+        ) : data.status === invoiceStatuses.DRAFT ? (
+          <Button
+            className="invoice-att__send-btn"
+            onClick={handleSend}
+            disabled={isSendLoading}
+          >
+            {t('invoices:send-invoice')}
+          </Button>
         ) : (
           <>
             <Popconfirm
@@ -111,14 +119,14 @@ const InvoiceAttendees = () => {
           </>
         )}
         <div className={'invoice-att__icons'}>
-          {type === userTypes.TRAINER && data.status !== 'paid' ? (
+          {type === userTypes.TRAINER && data.status !== 'paid' && (
             <Popconfirm
               title={'Are you sure you want to delete this invoice?'}
               onConfirm={remove}
             >
               <TimesIcon className={'invoice-att__action'} />
             </Popconfirm>
-          ) : null}
+          )}
           <PrintIcon className={'invoice-att__action'} onClick={window.print} />
           <a
             href={data.pdf?.url}

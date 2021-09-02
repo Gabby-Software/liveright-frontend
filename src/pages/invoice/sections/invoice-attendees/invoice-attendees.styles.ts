@@ -10,6 +10,9 @@ export default styled.div`
     @media only print {
       font-size: 80%;
     }
+    &__send-btn {
+      width: 100%;
+    }
     color: ${(p) => p.theme.vars.colors.primaryDark};
     &__title {
       color: ${(p) => p.theme.vars.colors.primary};

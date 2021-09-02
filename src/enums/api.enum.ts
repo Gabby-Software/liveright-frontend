@@ -22,6 +22,7 @@ export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE + '/pusher/auth'
 
 export const EP_GET_INVOICES = ALLRIGHT_BASE + '/invoices'
 export const EP_ADD_INVOICE = ALLRIGHT_BASE + '/invoices'
+export const EP_EDIT_INVOICE = ALLRIGHT_BASE + '/invoices'
 export const EP_GET_INVOICE_ISSUERS =
   ALLRIGHT_BASE + '/invoices/associated-accounts'
 export const EP_MARK_INVOICE_AS_PAID = (id: number) =>
