@@ -88,12 +88,12 @@ const ClientsDesktop = ({}: Props) => {
             error={error || data.length ? '' : t('clients:no-data')}
             keys={keys}
             render={{
-              name: ({ first_name, last_name, user_uuid, status }) =>
+              name: ({ first_name, last_name, id, status }) =>
                 status === 'awaiting' ? (
                   <div>{`${first_name} ${last_name}`}</div>
                 ) : (
                   <Link
-                    to={`${Routes.CLIENTS}/${user_uuid}`}
+                    to={`${Routes.CLIENTS}/${id}`}
                   >{`${first_name} ${last_name}`}</Link>
                 ),
               actions: () => (
