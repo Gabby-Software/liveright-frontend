@@ -10,6 +10,7 @@ import React, {
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
+import { useAccountBasedState } from '../../../hooks/account-based-state'
 import { useAuth } from '../../../hooks/auth.hook'
 import logger from '../../../managers/logger.manager'
 import { serverError } from '../../../pipes/server-error.pipe'
@@ -36,7 +37,10 @@ const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
 export const ChatsProvider: FC<unknown> = ({ children }) => {
-  const [rooms, setRooms] = useState<ContextRoomType>({})
+  const [rooms, setRooms] = useAccountBasedState<ContextRoomType>(
+    {},
+    'chat-rooms'
+  )
   const { uuid } = useAuth()
   const roomsRef = useRef<ContextRoomType>({})
   const [popups, setPopups] = useState<string[]>([])
@@ -68,7 +72,6 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     setRooms({ ...roomsRef.current })
   })
   socketManager.useMessageReceived()((msg: ChatMessageType) => {
-    logger.info('new message handled', msg)
     roomsRef.current[msg.chat_room_id].messages = [
       ...roomsRef.current[msg.chat_room_id].messages,
       msg
