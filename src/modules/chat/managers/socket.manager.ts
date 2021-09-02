@@ -33,6 +33,7 @@ class SocketManager {
   }
   init(accountToken: string) {
     const token = cookieManager.get('access_token')
+    this.socket?.disconnect()
     this.socket = io(`https://${process.env.REACT_APP_CHAT_BASE_URL}/chat`, {
       secure: true,
       auth: {

@@ -2,9 +2,9 @@ import styled from 'styled-components'
 
 import { FormInputLabeledUI } from '../forms/form-input-labeled/form-input-labeled.component'
 
-export default styled.div`
+export default styled.div<{ elevate: boolean }>`
   position: fixed;
-  bottom: 47px;
+  bottom: ${({ elevate }) => (elevate ? '100px' : '47px')};
   right: 44px;
   z-index: ${(p) => p.theme.vars.zIndex.quickAccess};
 `
