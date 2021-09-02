@@ -16,7 +16,7 @@ export const FooterInvisible = styled.div<any>`
   padding: 0 2rem;
   transition: 0.25s ease-out;
   transform: translateX(${(props) => (props.$open ? '0px' : '-100vw')});
-  z-index: -1;
+  z-index: 79;
 
   .footer {
     &__action {
@@ -51,12 +51,13 @@ export const FooterInvisible = styled.div<any>`
 `
 
 export const FooterVisible = styled.div`
-  width: auto;
-  margin: -1.125rem calc(-1.125rem - 1px) -1.125rem -1.125rem;
+  width: 210px;
+  position: fixed;
+  bottom: 0;
   background-color: #fff;
   border-top: 1px solid ${getColorCarry('secondary2')};
   border-right: 1px solid ${getColorCarry('secondary2')};
-  z-index: 1;
+  z-index: 80;
 
   .footer {
     &__user-card {
