@@ -74,6 +74,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       msg
     ]
     roomsRef.current[msg.chat_room_id].room.lastMessage = msg
+    roomsRef.current[msg.chat_room_id].room.unReadMessagesCount += 1
     setRooms({ ...roomsRef.current })
     socketManager.delivered(msg.chat_room_id)
   })
@@ -104,9 +105,12 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   }
   const getRoom = (roomId: string) => {
     getRoomMessages(roomId).then((res) => {
-      logger.success('Messages', res)
       roomsRef.current[roomId] = {
         ...roomsRef.current[roomId],
+        room: {
+          ...roomsRef.current[roomId].room,
+          unReadMessagesCount: 0
+        },
         messages: res
       }
       setRooms({
@@ -115,7 +119,6 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     })
   }
   const updateRoom = (roomId: string, msg: ChatMessageType) => {
-    logger.info('updating room', roomId, rooms, roomsRef)
     roomsRef.current[roomId].messages = [
       ...roomsRef.current[roomId].messages,
       msg

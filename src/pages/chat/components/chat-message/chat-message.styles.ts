@@ -15,10 +15,25 @@ export const ProfileImageStyled = styled(ProfileImage)`
   }
 `
 export default styled.div`
-  display: flex;
-  padding: 2px;
-  position: relative;
   .message {
+    &__wrapper {
+      display: flex;
+      padding: 2px;
+      position: relative;
+    }
+    &__links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 50px;
+      ${media('tablet', 'max')`
+        margin-top: 20px;
+      `}
+      &__me {
+        align-items: flex-end;
+        margin-left: 0;
+      }
+    }
     &__cont {
       display: flex;
       position: relative;

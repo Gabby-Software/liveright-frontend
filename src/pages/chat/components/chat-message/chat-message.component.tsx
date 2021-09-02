@@ -13,6 +13,7 @@ import { noImage } from '../../../../pipes/no-image.pipe'
 import ChatMessageAttachment from '../chat-message-attachment/chat-message-attachment.component'
 import ChatMessageAudio from '../chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from '../chat-message-gallery/chat-message-gallery.component'
+import ChatMessageLink from '../chat-message-link/chat-message-link.component'
 import ChatMessageText from '../chat-message-text/chat-message-text.component'
 import Styles, { ProfileImageStyled } from './chat-message.styles'
 type Props = {
@@ -79,36 +80,51 @@ const ChatMessage = ({ msg }: Props) => {
   }
   return (
     <Styles>
-      {isMe ? null : (
-        <ProfileImageStyled
-          url={roomData?.avatar?.url}
-          placeholder={noImage(roomData?.firstName, roomData?.lastName)}
-          className={classes(isPopup && 'popup')}
-        />
-      )}
-      <div
-        className={classes('message__cont', isMe && 'me', isPopup && 'popup')}
-      >
+      <div className={'message__wrapper'}>
+        {isMe ? null : (
+          <ProfileImageStyled
+            url={roomData?.avatar?.url}
+            placeholder={noImage(roomData?.firstName, roomData?.lastName)}
+            className={classes(isPopup && 'popup')}
+          />
+        )}
         <div
-          className={classes('message__body', isMe && 'me', isPopup && 'popup')}
+          className={classes('message__cont', isMe && 'me', isPopup && 'popup')}
         >
-          {renderText()}
-          {renderImages()}
-          {renderAudio()}
-          {renderFile()}
+          <div
+            className={classes(
+              'message__body',
+              isMe && 'me',
+              isPopup && 'popup'
+            )}
+          >
+            {renderText()}
+            {renderImages()}
+            {renderAudio()}
+            {renderFile()}
+          </div>
+          <div
+            className={classes(
+              'message__time',
+              isMe && 'me',
+              isPopup && 'popup'
+            )}
+          >
+            <span>{chatTime(msg.meta.sent_at)}</span>
+            {isMe ? (
+              msg.meta.read_at ? (
+                <SeenIcon />
+              ) : msg.meta.delivered_at ? (
+                <SentIcon />
+              ) : null
+            ) : null}
+          </div>
         </div>
-        <div
-          className={classes('message__time', isMe && 'me', isPopup && 'popup')}
-        >
-          <span>{chatTime(msg.meta.sent_at)}</span>
-          {isMe ? (
-            msg.meta.read_at ? (
-              <SeenIcon />
-            ) : msg.meta.delivered_at ? (
-              <SentIcon />
-            ) : null
-          ) : null}
-        </div>
+      </div>
+      <div className={classes('message__links', isMe && 'message__links__me')}>
+        {msg.content.embedLinks.map((link, i) => (
+          <ChatMessageLink key={i} {...link} />
+        ))}
       </div>
     </Styles>
   )
