@@ -46,29 +46,27 @@ const ClientsMobile = () => {
         ) : !data?.length ? (
           <p>{t('clients:no-data')}</p>
         ) : (
-          data.map(
-            ({ first_name, last_name, id, user_uuid, sessions, status }) => {
-              const Wrapper =
-                status === 'awaiting'
-                  ? ({ children }: any) => <a>{children}</a>
-                  : Link
-              return (
-                // eslint-disable-next-line react/jsx-key
-                <PopOnScroll offset={100}>
-                  <Wrapper to={`${Routes.CLIENTS}/${user_uuid}`}>
-                    <Card className={classes('clients__card')} key={id}>
-                      <div className={classes('clients__name')}>
-                        {first_name} {last_name}
-                      </div>
-                      <div className={'clients__label'}>
-                        {t('clients:sessions-remind', { n: sessions || 0 })}
-                      </div>
-                    </Card>
-                  </Wrapper>
-                </PopOnScroll>
-              )
-            }
-          )
+          data.map(({ first_name, last_name, id, sessions, status }) => {
+            const Wrapper =
+              status === 'awaiting'
+                ? ({ children }: any) => <a>{children}</a>
+                : Link
+            return (
+              // eslint-disable-next-line react/jsx-key
+              <PopOnScroll offset={100}>
+                <Wrapper to={`${Routes.CLIENTS}/${id}`}>
+                  <Card className={classes('clients__card')} key={id}>
+                    <div className={classes('clients__name')}>
+                      {first_name} {last_name}
+                    </div>
+                    <div className={'clients__label'}>
+                      {t('clients:sessions-remind', { n: sessions || 0 })}
+                    </div>
+                  </Card>
+                </Wrapper>
+              </PopOnScroll>
+            )
+          })
         )}
         <DataPagination
           page={meta.current_page}

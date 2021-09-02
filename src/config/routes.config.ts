@@ -177,6 +177,11 @@ export const routes: RouteType[] = [
     header: {
       title: ''
     },
+    back: {
+      url: Routes.CLIENTS,
+      alias: 'clients'
+    },
+    version: 2,
     footer: footerTypes.TRAINER
   },
   {

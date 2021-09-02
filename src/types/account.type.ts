@@ -20,6 +20,8 @@ export type ProfileType = {
   phone_number: string
   qualifications: string
   terms_and_conditions: any
+  injuries: string
+  dietary_restrictions: string
 }
 
 interface ExtrasType {
