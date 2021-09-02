@@ -4,5 +4,6 @@ export const invoiceStatuses = {
   ISSUED: 'issued',
   DUE_SOON: 'due_soon',
   OVERDUE: 'overdue',
-  CANCELLED: 'cancelled'
+  CANCELLED: 'cancelled',
+  DRAFT: 'draft'
 }

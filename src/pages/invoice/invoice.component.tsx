@@ -9,7 +9,6 @@ import userTypes from '../../enums/user-types.enum'
 import APIGet, { useAPIData } from '../../hoc/api-get'
 import { useAuth } from '../../hooks/auth.hook'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
-import { useTitle } from '../../hooks/title.hook'
 import { usePusher } from '../../modules/notifications/hooks/pusher.hook'
 import { FileType } from '../../types/file.type'
 import { InvoiceFullType } from '../../types/invoice.type'
@@ -42,11 +41,12 @@ const Invoice = () => {
   const isMobile = useIsMobile()
   const { id } = useParams<{ id: string }>()
   const { type } = useAuth()
+
   useMobileBack(
     type === userTypes.CLIENT ? Routes.INVOICES : Routes.FINANCIALS_RECEIVABLES,
     'invoices'
   )
-  useTitle(`Invoice #${id}`)
+
   return (
     <APIGet url={EP_GET_INVOICES + `/${id}`}>
       {({ loading, error }) => {

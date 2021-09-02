@@ -80,14 +80,16 @@ const InvoicesTable = () => {
           total: (t) => `${t.total} ${t.currency.code}`,
           name: (t) =>
             `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
-          status: (t) => (
-            <StatusBadge
-              status={t.status?.toLowerCase()}
-              className="invoice-table__status"
-            >
-              {capitalize(t.status)}
-            </StatusBadge>
-          ),
+          status: (t) => {
+            return (
+              <StatusBadge
+                status={t.status?.toLowerCase()}
+                className="invoice-table__status"
+              >
+                {capitalize(t.status)}
+              </StatusBadge>
+            )
+          },
           options: ({ status, id, pdf }) => (
             <div className="invoice-table__actions">
               {[
