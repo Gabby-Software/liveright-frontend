@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+import ChatIcon from '../../components/chat-icon/chat-icon.component'
 import { DEFAULT_TITLE } from '../../config/header.config'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
@@ -8,7 +9,6 @@ import { useAuth } from '../../hooks/auth.hook'
 import { useDesignVersion } from '../../hooks/design-version.hook'
 import { useHeader } from '../../hooks/header.hook'
 import { classes } from '../../pipes/classes.pipe'
-import { noImage } from '../../pipes/no-image.pipe'
 import { HeaderItemType, HeaderItemTypes } from '../../types/route.type'
 import Styles, { HeaderV2 } from './header.styles'
 
@@ -32,7 +32,8 @@ const Header = () => {
               className={classes(
                 'header__icon',
                 'header__icon__first',
-                pathname === href && 'header__icon__active'
+                pathname === href && 'header__icon__active',
+                'header__profile'
               )}
             >
               <Icon />
@@ -42,17 +43,7 @@ const Header = () => {
         if (!trainer) return null
         return (
           <Link to={href || ''} className={'header__profile'}>
-            {trainer.avatar?.url ? (
-              <img
-                alt={'trainer'}
-                src={trainer.avatar.url}
-                className={'header__profile__img'}
-              />
-            ) : (
-              <div className={'header__profile__img'}>
-                {noImage(trainer.first_name, trainer.last_name)}
-              </div>
-            )}
+            <ChatIcon />
           </Link>
         )
       case HeaderItemTypes.ICON:
