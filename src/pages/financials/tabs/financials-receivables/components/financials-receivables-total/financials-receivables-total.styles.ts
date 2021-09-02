@@ -1,33 +1,30 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../../../assets/styles/_media'
-import Card from '../../../../../../components/card/card.style'
+import Card from '../../../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export default styled(Card)`
-  text-align: center;
-  margin: 0 16px 0 0;
-  width: 200px;
-  padding: 24px 12px;
-  .total {
-    &__label {
-      ${(p) => p.theme.extend.h2}
-      color: ${(p) => p.theme.vars.colors.primary};
+  align-items: center;
+  background-color: ${getColorCarry('primaryDark_v2')};
+
+  .card {
+    &__title {
+      color: #fff;
+      opacity: 0.8;
+      font-size: 1rem;
+      font-weight: 500;
     }
-    &__value {
-      color: ${(p) => p.theme.vars.colors.primaryDark};
-      ${(p) => p.theme.extend.big}
-      padding: 10px 0;
+
+    &__count {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
     }
-    &__note {
-      color: ${(p) => p.theme.vars.colors.secondary};
-      ${(p) => p.theme.extend.p1}
+
+    &__subtitle {
+      color: ${getColorCarry('neutral_50')};
+      font-size: 0.75rem;
+      font-weight: 400;
     }
   }
-  ${media('tablet', 'max')`
-        width: calc(50% - 6px);
-        margin: 0 12px 12px 0;
-        &:nth-child(even) {
-            margin: 0 0 12px 0;
-        }
-    `}
 `

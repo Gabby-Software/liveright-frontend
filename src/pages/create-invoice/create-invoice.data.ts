@@ -25,6 +25,7 @@ export type InvoiceFormType = {
     payment_method: string
     send_to_client: boolean
     issuance_date?: string
+    description?: string
   }
   items: InvoiceItemType[]
 }
@@ -50,7 +51,8 @@ export const createInvoiceInitialValues: InvoiceFormType = {
     issuance_date: moment().format('YYYY-MM-DD'),
     is_taxable: true,
     payment_method: paymentMethods.CREDIT_CARD,
-    send_to_client: false
+    send_to_client: false,
+    description: ''
   },
   items: [{ ...defaultInvoiceItem }]
 }

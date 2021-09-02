@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
+import Select from '../../../../components/form/select/select.component'
 import { EP_GET_INVOICE_ISSUERS } from '../../../../enums/api.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -8,12 +8,22 @@ import api from '../../../../managers/api.manager'
 import { OptionType } from '../../../../types/option.type'
 
 type Props = {
-  name: string
-  label: string
+  name?: string
+  label?: string
+  placeholder?: string
   value: string
   onUpdate: (val: string) => void
+  id: string
+  className?: string
 }
-const FormSelectIssuer = ({ name, label, value, onUpdate }: Props) => {
+const FormSelectIssuer = ({
+  label,
+  value,
+  onUpdate,
+  id,
+  placeholder,
+  className
+}: Props) => {
   const [options, setOptions] = useState<OptionType[]>([])
   const { type } = useAuth()
   useEffect(() => {
@@ -36,12 +46,14 @@ const FormSelectIssuer = ({ name, label, value, onUpdate }: Props) => {
       })
   }, [])
   return (
-    <FormSelectUI
-      name={name}
+    <Select
+      id={id}
       value={value}
       label={label}
       options={options}
-      onUpdate={onUpdate}
+      onChange={onUpdate}
+      placeholder={placeholder}
+      className={className}
     />
   )
 }

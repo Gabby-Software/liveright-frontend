@@ -1,24 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import logger from '../../managers/logger.manager'
 import { classes } from '../../pipes/classes.pipe'
 import { MenuItemType } from '../../types/menu-item.type'
 import Styles from './routed-tabs.styles'
 
 type Props = {
   tabs: MenuItemType[]
+  className?: string
 }
-const RoutedTabs = ({ tabs }: Props) => {
+
+const RoutedTabs = ({ tabs, className }: Props) => {
   const { pathname } = useLocation()
   const activeRef = useRef<HTMLDivElement>(null)
   const [[left, width], setIndicator] = useState([0, 0])
+
   useEffect(() => {
-    logger.info(
-      activeRef.current,
-      activeRef.current?.offsetWidth,
-      activeRef.current?.offsetLeft
-    )
     if (!activeRef.current) setIndicator([0, 0])
     else
       setIndicator([
@@ -26,12 +23,9 @@ const RoutedTabs = ({ tabs }: Props) => {
         activeRef.current.offsetWidth
       ])
   }, [activeRef, pathname])
-  logger.info('TAB DATA', left, width, {
-    '--w': `${width}px`,
-    '--l': `${left}px}`
-  })
+
   return (
-    <Styles className={'tabs'}>
+    <Styles className={classes('tabs', className)}>
       <div className={'tabs__wrapper'}>
         {tabs.map(({ name, url }) => (
           <div

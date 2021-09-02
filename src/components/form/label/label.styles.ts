@@ -8,4 +8,14 @@ export default styled.label`
   line-height: 1.25rem;
   color: ${getColorCarry('secondary2_v2')};
   margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    margin-right: 0.5rem;
+  }
+
+  & .ant-checkbox-wrapper {
+    margin-right: 0.5rem;
+  }
 `

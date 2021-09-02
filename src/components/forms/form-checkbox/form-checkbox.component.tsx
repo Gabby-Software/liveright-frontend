@@ -5,7 +5,7 @@ import Styles from './form-checkbox.styles'
 
 type Props = {
   name: string
-  label: string
+  label?: string
 }
 const FormCheckbox = ({ name, label }: Props) => {
   return (
@@ -18,7 +18,7 @@ const FormCheckbox = ({ name, label }: Props) => {
             {...field}
             checked={field.value}
           />
-          <span className={'form-cbx__label'}>{label}</span>
+          {label && <span className={'form-cbx__label'}>{label}</span>}
         </Styles>
       )}
     </Field>

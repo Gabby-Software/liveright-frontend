@@ -25,6 +25,20 @@ export default styled(Button)<any>`
   background-color: ${getBgColor};
   color: ${getTextColor};
 
+  &:disabled {
+    border: 1px solid ${getBorderColor};
+    background-color: ${getBgColor};
+    color: ${getTextColor};
+    opacity: 0.75;
+
+    &:hover,
+    &:focus {
+      background-color: ${getBgColor};
+      color: ${getTextColor};
+      border-color: ${getBorderColor};
+    }
+  }
+
   &:hover,
   &:focus {
     background-color: ${getBgColor};

@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../../pipes/theme-color.pipe'
+
 export const SubmitLabel = styled.div`
    margin-left: auto;
    text-align: right;
@@ -18,58 +20,54 @@ export const SubmitLabel = styled.div`
    }
 `
 export default styled.div`
-  [class$='wrapper'] {
-    margin-bottom: 24px;
-  }
-  div,
-  label {
-    margin-top: 0;
-  }
   .add-invoice {
+    &__title-container {
+      margin-bottom: 1.5rem;
+    }
+
+    &__title {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
+    }
+
+    &__subtitle {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark2_v2')};
+    }
+
+    &__card {
+      padding: 2.625rem 3.25rem;
+    }
+
+    &__add-client {
+      margin-left: -0.75rem;
+
+      & svg {
+        transform: translateY(-2px);
+        margin-right: 0.5rem;
+      }
+    }
+
+    &__form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
     &__cont {
       counter-reset: create-section;
     }
-    &__action {
-      color: ${(p) => p.theme.vars.colors.primary};
-      font-weight: 500;
-      margin: 0 0 24px 0;
-    }
-    &__add-item {
-      max-width: 200px;
-    }
-    &__add-client {
-      display: flex;
-      align-items: center;
-    }
-    &__preview {
-      margin-bottom: 40px;
-    }
-    &__label {
-      font-weight: 600;
-      font-size: 14px;
-      padding: 12px 0 0px 0;
-      display: block;
-    }
-    &__value {
-      font-weight: 500;
-      font-size: 14px;
-      text-align: right;
-      display: block;
-      padding: 12px 0 0 0;
-    }
-    &__total {
-      font-weight: 700;
-      font-size: 14px;
-      padding: 12px 0 0 0;
-      display: block;
-    }
+
     &__submit {
-      max-width: 300px;
-      display: block;
-      margin-top: 24px;
-      &__cont {
-        margin-bottom: 100px;
-      }
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.5rem 0 4.25rem 0;
+    }
+
+    &__submit-btn {
+      margin-right: 1.5rem;
     }
   }
 `

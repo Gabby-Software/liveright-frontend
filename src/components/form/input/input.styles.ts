@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../pipes/theme-color.pipe'
+import { getColor, getColorCarry } from '../../../pipes/theme-color.pipe'
 import { getHeight } from '../utils.styles'
 
 export default styled.div<any>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
   position: relative;
 
   & .input__input {
@@ -32,7 +31,8 @@ export default styled.div<any>`
     &:hover,
     &:focus,
     &:focus-within {
-      border-color: ${getColorCarry('link')};
+      border-color: ${(props) =>
+        props.$disabled ? '' : getColor(props, 'link')};
     }
   }
 `

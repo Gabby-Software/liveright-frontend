@@ -1,83 +1,67 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
+import Card from '../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export default styled(Link)`
-  margin: 32px 16px 57px 0;
-  padding: 23px 20px;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  color: ${(p) => p.theme.vars.colors.primaryDark};
-  flex-shrink: 0;
+export const LinkStyles = styled(Link)`
   display: block;
-  width: 187px;
-  text-align: center;
-  transition: ${(p) => p.theme.vars.defaults.transition};
-  &:hover {
-    background-color: #f6f6f6;
-    box-shadow: 4px 4px 14px #e1e1e1;
-  }
+  width: auto;
+  margin-right: 0.875rem;
+
   &:last-child {
     margin-right: 0;
   }
-  ${media('tablet', 'min')`
-    display: flex;
-    width: 357px;
-    text-align: left;
-`}
+`
+
+export const Styles = styled(Card)`
+  flex-direction: column;
+  min-width: 330px;
 
   .invoice-card {
-    &__left {
-      ${media('tablet', 'min')`
-            width: 55%;
-            `}
+    &__row {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      margin-bottom: 1.875rem;
+      align-items: center;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-    &__right {
-      ${media('tablet', 'min')`
-            width:45%;
-            margin-left: 24px;
-        `}
-    }
+
     &__number {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 1.125rem;
+      color: ${getColorCarry('primaryDark2_v2')};
+      font-weight: 700;
+      line-height: 1.25;
+      white-space: nowrap;
     }
+
     &__issuer {
-      font-size: 14px;
-      font-weight: 500;
-      color: #676767;
+      color: ${getColorCarry('secondary4_v2')};
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.25;
+      white-space: nowrap;
     }
+
     &__price {
-    }
-    &__status {
-      cursor: default;
-      margin-bottom: 12px;
-      ${media('tablet', 'min')`
-            margin-bottom: 28px;
-        `}
-      &__overdue {
-        background-color: ${(p) => p.theme.vars.colors.error};
-        border-color: ${(p) => p.theme.vars.colors.error};
-        &:hover {
-          background-color: ${(p) => p.theme.vars.colors.error};
-          border-color: ${(p) => p.theme.vars.colors.error};
-        }
-      }
-      &__due_soon {
-        background-color: ${(p) => p.theme.vars.colors.warning};
-        border-color: ${(p) => p.theme.vars.colors.warning};
-        &:hover {
-          background-color: ${(p) => p.theme.vars.colors.warning};
-          border-color: ${(p) => p.theme.vars.colors.warning};
-        }
+      font-size: 2rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
+      white-space: nowrap;
+
+      & span {
+        font-size: 1.125rem;
+        font-weight: 400;
       }
     }
-    &__action {
-      border-radius: 0;
-      padding-right: 10px;
-      padding-left: 10px;
-      ${(p) => p.theme.extend.flexCenter};
+
+    &__btn {
+      min-width: 130px;
+      margin-left: 1rem;
     }
   }
 `
