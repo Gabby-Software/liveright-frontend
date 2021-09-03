@@ -148,6 +148,12 @@ class SocketManager {
       }
     })
   }
+  pingLogin(roomId: string) {
+    this.socket?.emit('event:lastSeen:send', {
+      roomId,
+      lastSeenAt: moment().format()
+    })
+  }
   disconnect() {
     this.socket?.disconnect()
   }

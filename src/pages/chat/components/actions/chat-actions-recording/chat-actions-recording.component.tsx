@@ -35,9 +35,13 @@ const ChatActionsRecording: FC<Props> = ({}) => {
           new File([blob as Blob], `audio_${new Date().getTime()}.webm`)
         )
       )
+      .catch((e) => alert(e.message))
   }
   const stopRecording = () => {
-    recorder.current.stopRecord()?.then(() => setMode(ChatRoomModes.DEFAULT))
+    recorder.current
+      .stopRecord()
+      ?.then(() => setMode(ChatRoomModes.DEFAULT))
+      .catch((e) => alert(e.message))
   }
   return (
     <Styles onSubmit={handleSubmit}>
