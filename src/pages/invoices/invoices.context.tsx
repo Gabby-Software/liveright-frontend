@@ -44,6 +44,7 @@ const InvoicesContext = createContext<InvoicesContextType>({
   update: () => Promise.resolve()
 })
 export const useInvoices = () => useContext(InvoicesContext)
+
 export const InvoicesProvider = ({
   children,
   include = 'invoiceFrom'
@@ -54,6 +55,7 @@ export const InvoicesProvider = ({
   const invoiceData = useSelector((state: RootState) => state.invoices)
   const dispatch = useDispatch()
   const timer = useRef(0)
+
   const update = (page: number, filters: InvoicesFilters) => {
     return new Promise((res) => {
       clearTimeout(timer.current)
@@ -70,6 +72,7 @@ export const InvoicesProvider = ({
       }, 400) as unknown as number
     })
   }
+
   useEffect(() => {
     update(invoiceData.page || 1, invoiceData.filters)
     dispatch({
@@ -79,12 +82,14 @@ export const InvoicesProvider = ({
       }
     })
   }, [])
+
   return (
     <InvoicesContext.Provider value={{ ...invoiceData, update }}>
       {children}
     </InvoicesContext.Provider>
   )
 }
+
 export const PayablesProvider = ({
   children
 }: {

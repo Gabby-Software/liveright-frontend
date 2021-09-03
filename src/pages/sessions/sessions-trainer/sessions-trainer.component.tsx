@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function */
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -20,7 +19,6 @@ interface Props {
 }
 
 const Sessions: React.FC<Props> = (props) => {
-  // eslint-disable-next-line react/prop-types
   const { getSessions, sessions } = props
   const dispatch = useDispatch()
   const isMobile = useIsMobile()
