@@ -5,6 +5,7 @@ import { FormInputUI } from '../../../../components/forms/form-input/form-input.
 import { useChats } from '../../../../modules/chat/contexts/chats.context'
 import { ChatRoomType } from '../../../../modules/chat/types/chat-room.type'
 import { classes } from '../../../../pipes/classes.pipe'
+import ChatNoClients from '../../components/chat-no-clients/chat-no-clients.component'
 import ChatRoom from '../../components/chat-room/chat-room.component'
 import Styles from './chat-rooms.styles'
 
@@ -49,9 +50,13 @@ const ChatRooms: FC<Props> = ({}) => {
         />
       </div>
       <div className={'chat-rooms__container'}>
-        {filteredRooms.map((room) => (
-          <ChatRoom room={room} key={room.roomId} />
-        ))}
+        {filteredRooms?.length ? (
+          filteredRooms.map((room) => (
+            <ChatRoom room={room} key={room.roomId} />
+          ))
+        ) : (
+          <ChatNoClients />
+        )}
       </div>
     </Styles>
   )
