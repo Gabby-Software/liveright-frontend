@@ -2,22 +2,27 @@ import React from 'react'
 
 import Carousel from '../../../../components/carousel/carousel.component'
 import Hr from '../../../../components/hr/hr.styles'
+import useInvoices from '../../../../hooks/api/invoices/useInvoices'
 import { InvoiceType } from '../../../../types/invoice.type'
-import { useInvoices } from '../../invoices.context'
 import InvoiceCard from '../invoice-card/invoice-card.component'
 import Styles from './invoices-atention.styles'
 
 type Props = {}
 
 const InvoicesAtention = ({}: Props) => {
-  const { data } = useInvoices().needAttention
+  const { invoices } = useInvoices({
+    initialFilters: {
+      status: 'due_soon,overdue'
+    },
+    initialInclude: 'invoiceTo'
+  })
 
-  if (!data?.length) return null
+  if (!invoices.length) return null
 
   return (
     <Styles>
       <Carousel>
-        {data.map((inv: InvoiceType) => (
+        {invoices.map((inv: InvoiceType) => (
           <InvoiceCard key={inv.id} {...inv} />
         ))}
       </Carousel>

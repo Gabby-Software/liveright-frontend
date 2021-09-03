@@ -1,32 +1,29 @@
 import styled from 'styled-components'
 
-import { media } from '../../assets/styles/_media'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-const wShrink = '10px'
-const wGrow = '16px'
+const wShrink = '12px'
+const wGrow = '18px'
+
 export default styled.div`
-  ${(p) => p.theme.extend.flexCenter}
+  display: flex;
+  align-items: center;
+
   &:after {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    ${(p) => p.theme.extend.flexCenter}
     width: ${wShrink};
     height: ${wShrink};
-    color: white;
-    font-size: 8px;
-    border-radius: 50%;
-    border: 1px solid white;
-    box-shadow: 0 0 3px white;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: ${(p) => p.theme.vars.defaults.transition};
-    background-color: ${(p) => p.theme.vars.colors.primary};
-    ${media('tablet', 'min')`
-        top:0;
-        bottom:0;
-        right:0;
-        margin:auto;
-    `}
+    background-color: ${getColorCarry('primary_v2')};
+    right: 1rem;
   }
   &.notification {
     &__active {

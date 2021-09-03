@@ -4,7 +4,7 @@ import Styles from './financials-overview-label.styles'
 
 type Props = {
   label: string
-  value: number
+  value: string
   currency: string
   green?: boolean
 }

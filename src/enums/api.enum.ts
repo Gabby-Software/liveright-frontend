@@ -43,3 +43,6 @@ export const EP_READ_NOTIFICATION = (id: string) =>
 export const EP_SETTINGS = ALLRIGHT_BASE + `/user/settings`
 export const EP_CREDITS = LIVERIGHT_BASE + '/credits'
 export const EP_ACCOUNT_BY_ID = ALLRIGHT_BASE + '/user/accounts'
+
+export const EP_STATISTIC_AR = ALLRIGHT_BASE + '/analytics/stats'
+export const EP_STATISTIC_LR = LIVERIGHT_BASE + '/analytics/stats'

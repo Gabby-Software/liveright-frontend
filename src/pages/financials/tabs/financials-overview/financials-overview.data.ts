@@ -22,30 +22,6 @@ export const statsData: { [key: string]: DataType } = {
       () => Math.round(Math.random() * 50) + 250
     )
   },
-  [statisticRange.QUARTER]: {
-    from: moment().add(-3, 'month'),
-    to: moment(),
-    actual: forOf(
-      moment().diff(moment().add(-3, 'month'), 'weeks'),
-      () => Math.round(Math.random() * 200) + 200
-    ),
-    goal: forOf(
-      moment().diff(moment().add(-3, 'month'), 'weeks'),
-      () => Math.round(Math.random() * 50) + 250
-    )
-  },
-  [statisticRange.HALF_YEAR]: {
-    from: moment().add(-6, 'month'),
-    to: moment(),
-    actual: forOf(
-      moment().diff(moment().add(-6, 'month'), 'weeks'),
-      () => Math.round(Math.random() * 200) + 200
-    ),
-    goal: forOf(
-      moment().diff(moment().add(-6, 'month'), 'weeks'),
-      () => Math.round(Math.random() * 50) + 250
-    )
-  },
   [statisticRange.YEAR]: {
     from: moment().add(-1, 'year'),
     to: moment(),

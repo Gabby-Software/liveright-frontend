@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export default styled.div`
+  padding-bottom: 5rem;
+
   .invoices {
     &__subtitle {
       font-size: 1.375rem;

@@ -1,27 +1,6 @@
 import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
-import ProfileImage from '../profile-image/profile-image.component'
-
-export const ProfileImageStyled = styled(ProfileImage)<any>`
-  display: inline-block;
-  margin-right: 0.75rem;
-
-  .profile-image__img {
-    width: ${getSize};
-    height: ${getSize};
-    font-size: ${getFontSize};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${getColorCarry('primary_v2')};
-    color: white;
-
-    & span {
-      line-height: 1.5;
-    }
-  }
-`
 
 function getSize(props: any): string {
   switch (props.$size) {
@@ -47,8 +26,40 @@ export const Text = styled.span`
   color: ${(props) => props.theme.vars.colors.primaryDark_v2};
 `
 
-export default styled.div`
+export const Styles = styled.div<any>`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  .user-badge {
+    &__preview {
+      margin-right: 0.75rem;
+      position: relative;
+      width: ${getSize};
+      height: ${getSize};
+      background-color: ${getColorCarry('primary_v2')};
+      border-radius: 9999px;
+      font-size: ${getFontSize};
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+      font-weight: 700;
+
+      & img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 11;
+      }
+
+      & span {
+        line-height: 1.5;
+        font-size: inherit;
+      }
+    }
+  }
 `

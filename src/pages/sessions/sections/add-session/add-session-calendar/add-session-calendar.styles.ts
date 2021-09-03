@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -73,6 +74,10 @@ export default styled.div`
 
         &:last-child {
           transform: rotate(180deg);
+        }
+
+        @media ${mediaQueries.MOBILE} {
+          margin: 1rem 0.25rem;
         }
       }
     }

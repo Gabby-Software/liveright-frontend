@@ -128,6 +128,7 @@ export const routes: RouteType[] = [
         default: m.ClientInvoices
       }))
     ),
+    version: 2,
     header: {
       title: 'Invoices',
       items: headers.default

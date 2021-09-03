@@ -11,14 +11,16 @@ type Props = {
   name?: string
   label?: string
   placeholder?: string
-  value: string
-  onUpdate: (val: string) => void
+  value?: string
+  defaultValue?: string
+  onUpdate?: (val: string) => void
   id: string
   className?: string
 }
 const FormSelectIssuer = ({
   label,
   value,
+  defaultValue,
   onUpdate,
   id,
   placeholder,
@@ -49,6 +51,7 @@ const FormSelectIssuer = ({
     <Select
       id={id}
       value={value}
+      defaultValue={defaultValue}
       label={label}
       options={options}
       onChange={onUpdate}

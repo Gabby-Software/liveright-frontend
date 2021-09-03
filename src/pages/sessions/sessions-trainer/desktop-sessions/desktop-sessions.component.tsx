@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 
 import {
   ClientSolidIcon,
@@ -20,10 +20,14 @@ import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
+import {
+  statisticRange,
+  statisticRangeOptions
+} from '../../../../enums/financials.enum'
 import { Routes } from '../../../../enums/routes.enum'
-import { sessionDateRangeOptions } from '../../../../enums/session-filters.enum'
 import useClients from '../../../../hooks/api/clients/useClients'
 import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
+import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionsState } from '../../../../store/reducers/sessions.reducer'
@@ -46,11 +50,12 @@ interface Props {
   onRemoveSession: (id: number) => void
 }
 
-const DesktopSessions: React.FC<Props> = (props) => {
+const DesktopSessions: FC<Props> = (props) => {
   const { sessions, getSessions, onRemoveSession } = props
   const { upcoming, awaiting_scheduling, past } = sessions
   const { t } = useTranslation()
   const { clients } = useClients()
+  const { statistic, count, onRange } = useStatistic()
 
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
@@ -205,46 +210,48 @@ const DesktopSessions: React.FC<Props> = (props) => {
               <div className="sessions__date-range">
                 <Select
                   id="sessions-progress-range"
-                  options={sessionDateRangeOptions}
-                  defaultValue={sessionDateRangeOptions[0].value}
+                  options={statisticRangeOptions}
+                  defaultValue={statisticRange.WEEK}
+                  onChange={onRange}
                 />
               </div>
 
               <div className="sessions__progress">
                 <ProgressCard
                   title={t('revenue')}
-                  current={300}
-                  target={400}
+                  current={count.total || 0}
+                  target={0}
                   icon={<RevenueSolidIcon />}
                   money
+                  earn={statistic.total || 0}
                 />
                 <ProgressCard
                   title={t('sessions:ptSessions')}
-                  current={5}
-                  target={10}
+                  current={count.pt || 0}
+                  target={0}
                   icon={<GroupSolidIcon />}
-                  earn={500}
+                  earn={statistic.pt_sessions || 0}
                 />
                 <ProgressCard
                   title={t('sessions:coaching')}
-                  current={5}
-                  target={10}
+                  current={count.coaching || 0}
+                  target={0}
                   icon={<ClientSolidIcon />}
-                  earn={500}
+                  earn={statistic.coaching_sessions || 0}
                 />
                 <ProgressCard
                   title={t('sessions:consultation')}
-                  current={5}
-                  target={10}
+                  current={count.consultation || 0}
+                  target={0}
                   icon={<PhoneSolidIcon />}
-                  earn={500}
+                  earn={statistic.consultations_sessions || 0}
                 />
                 <ProgressCard
                   title={t('sessions:other')}
-                  current={12}
-                  target={10}
+                  current={0}
+                  target={0}
                   icon={<OptionSolidIcon />}
-                  earn={500}
+                  earn={statistic.other || 0}
                 />
               </div>
 

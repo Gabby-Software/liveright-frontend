@@ -17,6 +17,7 @@ export default styled.div`
 
     &__actions {
       display: flex;
+      justify-content: flex-end;
     }
 
     &__action {

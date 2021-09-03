@@ -49,6 +49,12 @@ export default styled.div`
     &__send-btn {
       border-color: ${getColorCarry('primary_v2')};
       color: ${getColorCarry('primary_v2')};
+
+      &:hover,
+      &:focus {
+        border-color: ${getColorCarry('primary_v2')};
+        color: ${getColorCarry('primary_v2')};
+      }
     }
   }
 `
