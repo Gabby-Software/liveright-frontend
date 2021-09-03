@@ -31,6 +31,7 @@ type MenuItemType = {
   Icon: React.ComponentType
   url: string
   type?: string
+  requireTrainer?: boolean
 }
 
 const menuItems: MenuItemType[] = [
@@ -50,9 +51,9 @@ const menuItems: MenuItemType[] = [
     Icon: InvoiceIcon,
     type: userTypes.CLIENT
   },
-  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon },
+  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon, requireTrainer: true },
   { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
-  { name: 'library', url: Routes.HOME + 'hub', Icon: LibraryIcon },
+  { name: 'library', url: Routes.HUB, Icon: LibraryIcon },
   {
     name: 'financials',
     url: Routes.FINANCIALS_OVERVIEW,
@@ -95,8 +96,11 @@ const DesktopSidebar = () => {
           <nav className="sidebar__nav">
             <ul className="sidebar__menu">
               {menuItems.map(
-                ({ url, name, Icon, type: permission }) =>
-                  (!permission || type === permission) && (
+                ({ url, name, Icon, type: permission, requireTrainer }) =>
+                  (!permission || type === permission) &&
+                  (!requireTrainer ||
+                    type !== userTypes.CLIENT ||
+                    trainer.first_name) && (
                     <Link
                       to={url}
                       key={url}

@@ -42,7 +42,15 @@ const Header = () => {
         }
         if (!trainer) return null
         return (
-          <Link to={href || ''} className={'header__profile'}>
+          <Link
+            to={href || ''}
+            className={classes(
+              'header__icon',
+              'header__icon__first',
+              pathname === href && 'header__icon__active',
+              'header__profile'
+            )}
+          >
             <ChatIcon />
           </Link>
         )
