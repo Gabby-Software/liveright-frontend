@@ -18,12 +18,15 @@ export default styled.div`
   }
   .emoji-picker-react {
     position: absolute;
-    bottom: calc(100% + 10px);
+    bottom: calc(100% + 40px);
     left: 50%;
     transform: translateX(-50%) scaleY(0);
     transition: ${(p) => p.theme.vars.defaults.transition};
     opacity: 0;
     transform-origin: bottom center;
+    .content-wrapper {
+      padding-bottom: 20px;
+    }
   }
   &.emoji-picker__open {
     .emoji-picker-react {
