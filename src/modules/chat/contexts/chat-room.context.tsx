@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, {
   createContext,
   Dispatch,
@@ -18,6 +17,7 @@ import { imageExtentions } from '../enums/image-extentions.enum'
 import { uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
 import { insertedLinks } from '../pipes/links'
+import { emptyMessage } from '../pipes/msg-base'
 import { ChatMessageType } from '../types/chat-message.type'
 import { ChatMessageTypeType } from '../types/chat-message-type.type'
 import { ChatRoomType } from '../types/chat-room.type'
@@ -85,26 +85,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     },
     [room]
   )
-  const msgBase = () => ({
-    meta: {
-      sent_at: moment().format(),
-      delivered_at: null,
-      read_at: null
-    },
-    content: {
-      // text: '',
-      files: [],
-      embedLinks: []
-    },
-    types: [],
-    _id: Math.random().toString(36),
-    senderId: uuid,
-    receiverId: '',
-    chat_room_id: room,
-    createdAt: moment().format(),
-    updatedAt: moment().format(),
-    __v: 0
-  })
+  const msgBase = () => emptyMessage(room, uuid)
   const addMessage = (msg: ChatMessageType) => {
     setMessages(msg)
     setTextMessage('')

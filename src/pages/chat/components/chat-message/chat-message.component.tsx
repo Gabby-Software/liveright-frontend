@@ -10,12 +10,13 @@ import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
 import { classes } from '../../../../pipes/classes.pipe'
 import { noImage } from '../../../../pipes/no-image.pipe'
-import ChatMessageAttachment from '../chat-message-attachment/chat-message-attachment.component'
-import ChatMessageAudio from '../chat-message-audio/chat-message-audio.component'
-import ChatMessageGallery from '../chat-message-gallery/chat-message-gallery.component'
-import ChatMessageLink from '../chat-message-link/chat-message-link.component'
-import ChatMessageText from '../chat-message-text/chat-message-text.component'
 import Styles, { ProfileImageStyled } from './chat-message.styles'
+import ChatMessageAttachment from './chat-message-attachment/chat-message-attachment.component'
+import ChatMessageAudio from './chat-message-audio/chat-message-audio.component'
+import ChatMessageGallery from './chat-message-gallery/chat-message-gallery.component'
+import ChatMessageInvoice from './chat-message-invoice/chat-message-invoice.component'
+import ChatMessageLink from './chat-message-link/chat-message-link.component'
+import ChatMessageText from './chat-message-text/chat-message-text.component'
 type Props = {
   msg: ChatMessageType
 }
@@ -31,6 +32,12 @@ const ChatMessage = ({ msg }: Props) => {
   const { isPopup, roomData } = useChatRoom()
   const { uuid } = useAuth()
   const isMe = useMemo(() => msg.senderId === uuid, [uuid])
+  const renderInvoice = () => {
+    if (types[0] === chatMessageTypes.INVOICE) {
+      types.shift()
+      return <ChatMessageInvoice {...msg.invoice_meta_data!} me={isMe} />
+    }
+  }
   const renderText = () => {
     if (types[0] === chatMessageTypes.TEXT) {
       types.shift()
@@ -125,6 +132,7 @@ const ChatMessage = ({ msg }: Props) => {
         {msg.content.embedLinks.map((link, i) => (
           <ChatMessageLink key={i} {...link} />
         ))}
+        {renderInvoice()}
       </div>
     </Styles>
   )

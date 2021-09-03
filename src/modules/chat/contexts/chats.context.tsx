@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, {
   createContext,
   FC,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -14,9 +15,12 @@ import { useAccountBasedState } from '../../../hooks/account-based-state'
 import { useAuth } from '../../../hooks/auth.hook'
 import logger from '../../../managers/logger.manager'
 import { serverError } from '../../../pipes/server-error.pipe'
+import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { getChatUsers, getRoomMessages } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
+import { emptyMessage } from '../pipes/msg-base'
 import { ChatMessageType } from '../types/chat-message.type'
+import { ChatMessageInvoiceMetaType } from '../types/chat-message-invoice-meta.type'
 import { ChatRoomType } from '../types/chat-room.type'
 type ContextRoomType = {
   [roomId: string]: {
@@ -33,6 +37,7 @@ export type ChatsContextType = {
   getRoom: (roomId: string) => void
   updateRoom: (roomId: string, msg: ChatMessageType) => void
   seeRoom: (roomId: string) => void
+  sendInvoice: (uuid: string, meta: ChatMessageInvoiceMetaType) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
@@ -135,6 +140,28 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       ...roomsRef.current
     })
   }
+  const sendInvoice = useCallback(
+    (clientUuid: string, meta: ChatMessageInvoiceMetaType) => {
+      const room = Object.values(roomsRef.current).find(
+        (room) => room.room.user_uuid === clientUuid
+      )
+      console.log(
+        'sending invoice',
+        room,
+        clientUuid,
+        Object.values(roomsRef.current).map((r) => r.room)
+      )
+      if (!room) return
+      const msg = emptyMessage(room.room.roomId, uuid)
+      msg.invoice_meta_data = meta
+      msg.types = [chatMessageTypes.TEXT, chatMessageTypes.INVOICE]
+      msg.content.text = 'Reminder for your payment!'
+      socketManager.sendMessage(msg)
+      room.messages = [...room.messages, msg]
+      setRooms({ ...roomsRef.current })
+    },
+    []
+  )
   return (
     <ChatsContext.Provider
       value={{
@@ -145,7 +172,8 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         collapse,
         getRoom,
         updateRoom,
-        seeRoom
+        seeRoom,
+        sendInvoice
       }}
     >
       {children}

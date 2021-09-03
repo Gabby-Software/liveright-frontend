@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
-import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
-import { classes } from '../../../../pipes/classes.pipe'
+import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
+import { ChatFileType } from '../../../../../modules/chat/types/chat-file.type'
+import { classes } from '../../../../../pipes/classes.pipe'
 import Styles from './chat-message-gallery.styles'
 type Props = {
   images: ChatFileType[]
