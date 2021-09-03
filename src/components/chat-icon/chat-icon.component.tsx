@@ -22,7 +22,7 @@ const ChatIcon: FC = () => {
       0
     )
   }, [rooms])
-  if (type === userTypes.CLIENT && !trainer) return null
+  if (type === userTypes.CLIENT && !trainer.email) return null
   return (
     <Styles
       className={classes(unreads && 'notification__active')}
