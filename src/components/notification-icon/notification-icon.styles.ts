@@ -1,24 +1,30 @@
 import styled from 'styled-components'
 
-const wShrink = '10px'
-const wGrow = '16px'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
+
+const wShrink = '12px'
+const wGrow = '18px'
+
 export default styled.div`
   height: 22px;
-  position: relative;
+  display: flex;
+  align-items: center;
 
   &:after {
     position: absolute;
-    top: -5px;
-    left: -5px;
+    right: 1rem;
     ${(p) => p.theme.extend.flexCenter}
     width: ${wShrink};
     height: ${wShrink};
     color: #fff;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 700;
     border-radius: 9999px;
-    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: ${(p) => p.theme.vars.defaults.transition};
-    background-color: ${(p) => p.theme.vars.colors.primary};
+    background-color: ${getColorCarry('primary_v2')};
   }
   &.notification {
     &__active {

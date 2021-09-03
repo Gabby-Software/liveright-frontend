@@ -2,7 +2,7 @@ import React, { ComponentType, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { ReactComponent as InvoiceIcon } from '../../assets/media/icons/invoice.svg'
+import { InvoiceIcon } from '../../assets/media/icons'
 import { ReactComponent as PowerIcon } from '../../assets/media/icons/power.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/media/icons/profile.svg'
 import { ReactComponent as SessionIcon } from '../../assets/media/icons/session.svg'
