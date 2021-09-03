@@ -10,6 +10,7 @@ import React, {
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
+import { useAccountBasedState } from '../../../hooks/account-based-state'
 import { useAuth } from '../../../hooks/auth.hook'
 import logger from '../../../managers/logger.manager'
 import { serverError } from '../../../pipes/server-error.pipe'
@@ -31,12 +32,16 @@ export type ChatsContextType = {
   close: (roomID: string) => void
   getRoom: (roomId: string) => void
   updateRoom: (roomId: string, msg: ChatMessageType) => void
+  seeRoom: (roomId: string) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
 export const ChatsProvider: FC<unknown> = ({ children }) => {
-  const [rooms, setRooms] = useState<ContextRoomType>({})
+  const [rooms, setRooms] = useAccountBasedState<ContextRoomType>(
+    {},
+    'chat-rooms'
+  )
   const { uuid } = useAuth()
   const roomsRef = useRef<ContextRoomType>({})
   const [popups, setPopups] = useState<string[]>([])
@@ -57,6 +62,10 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     })
     setRooms({ ...roomsRef.current })
   })
+  const seeRoom = (roomId: string) => {
+    roomsRef.current[roomId].room.unReadMessagesCount = 0
+    setRooms({ ...roomsRef.current })
+  }
   socketManager.useSeen()(({ roomId }) => {
     logger.success('message seen handle', roomId)
     roomsRef.current[roomId].messages.forEach((message) => {
@@ -64,11 +73,9 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         message.meta.read_at = moment().format()
       }
     })
-    roomsRef.current[roomId].room.unReadMessagesCount = 0
     setRooms({ ...roomsRef.current })
   })
   socketManager.useMessageReceived()((msg: ChatMessageType) => {
-    logger.info('new message handled', msg)
     roomsRef.current[msg.chat_room_id].messages = [
       ...roomsRef.current[msg.chat_room_id].messages,
       msg
@@ -137,7 +144,8 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         close,
         collapse,
         getRoom,
-        updateRoom
+        updateRoom,
+        seeRoom
       }}
     >
       {children}

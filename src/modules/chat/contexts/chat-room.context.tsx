@@ -57,7 +57,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [openedImage, setOpenedImage] = useState<string>('')
   const [textMessage, setTextMessage] = useState<string>('')
   const [typing, setTyping] = useState<boolean>(false)
-  const { rooms, getRoom, updateRoom } = useChats()
+  const { rooms, getRoom, updateRoom, seeRoom } = useChats()
   const { uuid } = useAuth()
   const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
     room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
@@ -76,6 +76,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   socketManager.useMessageReceived()(({ chat_room_id }) => {
     if (chat_room_id === room) {
       socketManager.seen(room)
+      seeRoom(room)
     }
   })
   const setMessages = useCallback(

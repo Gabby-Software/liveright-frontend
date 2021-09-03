@@ -39,10 +39,13 @@ export default class RecorderManager {
   }
   public stopRecord(): null | Promise<Blob> {
     if (this.mediaRecorder?.state !== 'recording') return null
-    this.mediaRecorder?.stop()
-    this.stream
-      ?.getTracks() // get all tracks from the MediaStream
-      .forEach((track) => track.stop())
+    try {
+      this.mediaRecorder?.stop()
+      this.stream?.getTracks()?.forEach((track) => track.stop())
+    } catch (e) {
+      alert('unable to close stream: ' + e.message)
+    }
+
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(new Blob(this.recordedChunks))

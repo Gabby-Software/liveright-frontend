@@ -6,6 +6,19 @@ export const HeaderV2 = styled.header`
   height: ${height};
   background-color: ${(p) => p.theme.vars.colors.primaryDark_v2};
   outline: ${(p) => p.theme.vars.colors.primaryDark_v2};
+  .profile-image {
+    position: relative;
+    &__img {
+      ${(p) => p.theme.extend.flexCenter};
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: ${(p) => p.theme.vars.colors.primary};
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
   .header {
     &__nav {
       position: fixed;
@@ -69,7 +82,19 @@ export const HeaderV2 = styled.header`
 export default styled.header`
   display: block;
   height: ${height};
-
+  .profile-image {
+    position: relative;
+    &__img {
+      ${(p) => p.theme.extend.flexCenter};
+      width: 32px;
+      height: 32px;
+      border-radius: 40%;
+      background-color: ${(p) => p.theme.vars.colors.primary};
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
   .header {
     &__nav {
       position: fixed;
@@ -88,6 +113,7 @@ export default styled.header`
     }
     &__profile {
       display: block;
+      position: relative;
       &__img {
         ${(p) => p.theme.extend.flexCenter};
         width: 32px;

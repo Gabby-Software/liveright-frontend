@@ -81,7 +81,7 @@ export default styled.aside`
       color: ${getColorCarry('primaryDark_v2')};
       padding: 0 0.75rem;
       transition: none;
-
+      position: relative;
       & svg {
         width: 22px;
         height: 22px;

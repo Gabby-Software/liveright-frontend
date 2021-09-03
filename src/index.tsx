@@ -16,6 +16,9 @@ import { I18nProvider } from './modules/i18n/i18n.context'
 import reportWebVitals from './reportWebVitals'
 import store from './store/config.store'
 
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault()
+})
 const swrConfig = {
   revalidateOnFocus: false
 }
