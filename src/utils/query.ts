@@ -9,6 +9,10 @@ export function parseQuery(query: string) {
   return qs.parse(query)
 }
 
+export function stringifyQuery(query: string) {
+  return qs.stringify(query)
+}
+
 export function parseURL(url: string): ParsedUrl {
   return qst.parseUrl(url)
 }

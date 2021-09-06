@@ -16,6 +16,10 @@ export default styled.div<any>`
     color: ${getColorCarry('primaryDark_v2')};
     padding: 0 1rem;
 
+    &.ant-input-disabled {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
     & .ant-input-prefix,
     & .ant-input-suffix {
       color: ${getColorCarry('dark_v2')};

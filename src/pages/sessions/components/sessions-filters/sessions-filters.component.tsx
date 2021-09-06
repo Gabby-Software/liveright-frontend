@@ -63,6 +63,7 @@ const SessionsFilters: React.FC<Props> = (props) => {
         <div className="sessions__filter-row">
           <div className="sessions__filter-search">
             <Input
+              formik
               id="sessions-search"
               placeholder={t('sessions:filter-input-mobile')}
               prefix={<SearchIcon />}
@@ -90,6 +91,7 @@ const SessionsFilters: React.FC<Props> = (props) => {
       <div className="sessions__filter-col sessions__filter-col_form">
         <div className="sessions__filter-search">
           <Input
+            formik
             id="sessions-search"
             placeholder={t('sessions:filter-input')}
             prefix={<SearchIcon />}

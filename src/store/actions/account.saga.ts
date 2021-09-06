@@ -7,7 +7,6 @@ import { ProfileDataType } from '../../types/profile-data.type'
 import { ACTION_UPDATE_ACCOUNT_SUCCESS, ActionType } from '../action-types'
 
 export function* sagaProfileWatcher() {
-  logger.info('PROFILE SAGA INIT')
   // yield takeLatest(ACTION_UPDATE_ACCOUNT_REQUEST, updateProfileAction);
   // yield takeLatest(ACTION_GET_ACCOUNT_REQUEST, getProfileAction);
 }

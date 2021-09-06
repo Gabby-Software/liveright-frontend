@@ -24,19 +24,16 @@ api.interceptors.request.use(
     if (uuid) config.headers['Account-Token'] = uuid
     if (token) config.headers['Authorization'] = `Bearer ${token}`
     config.headers['Timezone'] = moment.tz.guess()
-    logger?.info('HTTP_REQUEST', config.url, config.data, config.headers)
     return config
   },
   (err) => Promise.reject(err)
 )
 api.interceptors.response.use(
   (res) => {
-    logger?.info('HTTP_RESPONSE', res.config.url, res)
     return res
   },
   (err) => {
     if (!err.response) {
-      logger?.error('HTTP_ERROR', 'network error!')
       // toast.show({type: 'error',msg:i18n.t('errors:network-error')});
       return Promise.reject(err)
     }

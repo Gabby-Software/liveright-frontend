@@ -73,7 +73,7 @@ export class NotificationsManager {
   }
 
   private subscribeToPushNotifications(userID: string) {
-    logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
+    // logger.info('BEAM NOTIFICATION REGISTERRING PUSH NOTIFICATION')
     Pusher.logToConsole = true
     navigator.serviceWorker.ready.then(
       (registration: ServiceWorkerRegistration) => {

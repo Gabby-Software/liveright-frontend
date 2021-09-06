@@ -33,7 +33,6 @@ import {
 } from '../action-types'
 
 export function* sagaAuthWatcher() {
-  logger.info('AUTH SAGA INIT')
   // yield takeLatest(ACTION_REGISTER_REQUEST, registerWorker);
   // yield takeLatest(ACTION_LOGIN_REQUEST, loginWorker);
   // yield takeLatest(ACTION_VERIFY_EMAIL_REQUEST, verifyEmailWorker);

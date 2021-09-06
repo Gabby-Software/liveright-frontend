@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import { getHeight } from '../utils.styles'
 
-export default styled.div`
+export default styled.div<any>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
+  pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
 
   & .ant-picker {
     width: 100%;
