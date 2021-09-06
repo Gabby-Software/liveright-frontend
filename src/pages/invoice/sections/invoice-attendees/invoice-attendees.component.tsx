@@ -1,14 +1,26 @@
 import { Popconfirm } from 'antd'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-import { ChatIcon, OptionsHorizontalIcon } from '../../../../assets/media/icons'
+import {
+  ChatIcon,
+  DeleteOutlinedIcon,
+  OptionsHorizontalIcon,
+  PrinterIcon
+} from '../../../../assets/media/icons'
 import { ReactComponent as DownloadIcon } from '../../../../assets/media/icons/download.svg'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import DataTable from '../../../../components/data-table/data-table.component'
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownMenuItem
+} from '../../../../components/dropdown'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
+import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAPIData } from '../../../../hoc/api-get'
 import { useRemindInvoice } from '../../../../hooks/api/invoices/remind-invoice.hook'
@@ -18,7 +30,10 @@ import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { addressLine } from '../../../../pipes/address-line.pipe'
 import { asMoney } from '../../../../pipes/as-money.pipe'
 import { date } from '../../../../pipes/date.pipe'
-import { ACTION_MARK_INVOICE_AS_PAID } from '../../../../store/action-types'
+import {
+  ACTION_CANCEL_INVOICE_REQUEST,
+  ACTION_MARK_INVOICE_AS_PAID
+} from '../../../../store/action-types'
 import { InvoiceFullType, InvoiceType } from '../../../../types/invoice.type'
 import Styles from './invoice-attendees.styles'
 
@@ -37,9 +52,10 @@ const InvoiceAttendees = () => {
   const { data, refetch, setData } = useAPIData<InvoiceFullType>()
   const { type } = useAuth()
   const dispatch = useDispatch()
+  const history = useHistory()
   const { onSend, isSendLoading } = useInvoice()
   const [remindDisabled, remindClient] = useRemindInvoice()
-  console.log('DATA', data)
+
   const markAsPaid = (id: number) => {
     dispatch({
       type: ACTION_MARK_INVOICE_AS_PAID,
@@ -52,21 +68,21 @@ const InvoiceAttendees = () => {
     })
   }
 
-  // const remove = () => {
-  //   dispatch({
-  //     type: ACTION_CANCEL_INVOICE_REQUEST,
-  //     payload: {
-  //       id: data.id,
-  //       onSuccess: () => {
-  //         history.replace(
-  //           type === userTypes.CLIENT
-  //             ? Routes.INVOICES
-  //             : Routes.FINANCIALS_RECEIVABLES
-  //         )
-  //       }
-  //     }
-  //   })
-  // }
+  const remove = () => {
+    dispatch({
+      type: ACTION_CANCEL_INVOICE_REQUEST,
+      payload: {
+        id: data.id,
+        onSuccess: () => {
+          history.push(
+            type === userTypes.CLIENT
+              ? Routes.INVOICES
+              : Routes.FINANCIALS_RECEIVABLES
+          )
+        }
+      }
+    })
+  }
 
   const handleSend = async () => {
     await onSend(data.id)
@@ -143,6 +159,9 @@ const InvoiceAttendees = () => {
           )}
 
           <div className="invoice__header-links">
+            <IconButton size="sm" onClick={window.print}>
+              <PrinterIcon />
+            </IconButton>
             <a
               href={data.pdf?.url}
               target="_blank"
@@ -168,9 +187,24 @@ const InvoiceAttendees = () => {
             >
               <ChatIcon />
             </IconButton>
-            <IconButton size="sm">
-              <OptionsHorizontalIcon />
-            </IconButton>
+
+            {data.status !== invoiceStatuses.PAID && (
+              <Dropdown
+                overlay={
+                  <DropdownMenu>
+                    <DropdownMenuItem $error onClick={remove}>
+                      <DeleteOutlinedIcon />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenu>
+                }
+                trigger={['click']}
+              >
+                <IconButton size="sm">
+                  <OptionsHorizontalIcon />
+                </IconButton>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>

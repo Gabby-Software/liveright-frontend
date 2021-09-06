@@ -18,6 +18,10 @@ export const FooterInvisible = styled.div<any>`
   transform: translateX(${(props) => (props.$open ? '0px' : '-100vw')});
   z-index: 79;
 
+  @media only print {
+    display: none;
+  }
+
   .footer {
     &__action {
       margin-right: 1rem;
@@ -58,6 +62,10 @@ export const FooterVisible = styled.div`
   border-top: 1px solid ${getColorCarry('secondary2')};
   border-right: 1px solid ${getColorCarry('secondary2')};
   z-index: 80;
+
+  @media only print {
+    display: none;
+  }
 
   .footer {
     &__user-card {
