@@ -52,6 +52,7 @@ const DateHighLights: React.FC<Props> = (props) => {
         icon={<SleepIcon />}
         data={sleepData}
         quality={dateHighlights?.sleep?.quality}
+        title={'Sleep Rate'}
       />
       <HealthCard
         date={date}
@@ -62,6 +63,7 @@ const DateHighLights: React.FC<Props> = (props) => {
             : ''
         }
         quality={dateHighlights?.heart_rate?.quality}
+        title={'Heart Rate'}
       />
       <HealthCard
         date={date}
@@ -72,6 +74,7 @@ const DateHighLights: React.FC<Props> = (props) => {
             : ''
         }
         quality={dateHighlights?.steps?.quality}
+        title={'Your Steps'}
       />
       <HealthCard
         date={date}
@@ -82,6 +85,7 @@ const DateHighLights: React.FC<Props> = (props) => {
             : ''
         }
         quality={dateHighlights?.blood_glucose?.quality}
+        title={'Blood Glucose'}
       />
     </CardsWrapper>
   )

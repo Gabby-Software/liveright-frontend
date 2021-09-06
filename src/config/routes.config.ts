@@ -190,7 +190,7 @@ export const routes: RouteType[] = [
     version: 2,
     Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
-      title: 'Your Progress and Metrics'
+      title: 'Progress & Metrics'
     }
   },
   {
