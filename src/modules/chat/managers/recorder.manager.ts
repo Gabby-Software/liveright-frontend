@@ -1,3 +1,21 @@
+// import AudioRecorder from 'audio-recorder-polyfill'
+import logger from '../../../managers/logger.manager'
+
+declare global {
+  interface Window {
+    MediaRecorder: any
+  }
+}
+const nativeRecorder = !!window.MediaRecorder
+if (!window.MediaRecorder) {
+  import('audio-recorder-polyfill').then(
+    (module) => (window.MediaRecorder = module.default)
+  )
+}
+logger.info(
+  `this browser ${nativeRecorder ? '' : 'NOT'} supports media recorder`
+)
+// window.MediaRecorder = AudioRecorder
 declare const MediaRecorder: any
 export default class RecorderManager {
   mediaRecorder: typeof MediaRecorder = null
@@ -14,8 +32,9 @@ export default class RecorderManager {
       return 'video/webm; codecs=vp8'
     }
   }
+  static audioType = nativeRecorder ? 'webm' : 'mp4'
   static audioMime() {
-    return 'audio/webm'
+    return `audio/${RecorderManager.audioType}`
   }
   public startRecord(video: boolean, audio: boolean, mimeType: string) {
     return navigator.mediaDevices
@@ -25,17 +44,19 @@ export default class RecorderManager {
         this.stream = stream
         this.mediaRecorder = new MediaRecorder(stream, options)
         this.recordedChunks = []
-        if (!this.mediaRecorder) return
-        this.mediaRecorder.ondataavailable = (e: {
-          data: ArrayBuffer & { size: number }
-        }) => {
-          if (e.data.size > 0) {
-            this.recordedChunks.push(e.data)
+        this.mediaRecorder.addEventListener(
+          'dataavailable',
+          (e: { data: ArrayBuffer & { size: number } }) => {
+            console.log('chunk data', e.data)
+            if (e.data.size > 0) {
+              this.recordedChunks.push(e.data)
+            }
           }
-        }
+        )
         this.mediaRecorder.start(100)
         return stream
       })
+      .catch((err) => alert('cannot start recording: ' + err.message))
   }
   public stopRecord(): null | Promise<Blob> {
     if (this.mediaRecorder?.state !== 'recording') return null

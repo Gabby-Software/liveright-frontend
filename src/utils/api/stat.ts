@@ -22,6 +22,14 @@ export const STATISTIC_INITIAL_PARAMS = (from: string, to: string) => ({
         consultations_sessions: true,
         other: true
       }
+    },
+    count: {
+      invoice: {
+        total: true,
+        outstanding: true,
+        overdue: true,
+        paid: true
+      }
     }
   }
 })

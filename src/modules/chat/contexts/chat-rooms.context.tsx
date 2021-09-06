@@ -9,7 +9,7 @@ const ChatRoomsContext = createContext<ChatRoomsContextType | null>(null)
 export const useChatRooms = () =>
   useContext(ChatRoomsContext) as ChatRoomsContextType
 
-export const ChatRoomsProvider: FC<unknown> = ({ children }) => {
+export const ChatRoomsProvider: FC = ({ children }) => {
   const [roomId, setRoomId] = useState('')
   return (
     <ChatRoomsContext.Provider value={{ roomId, setRoomId }}>

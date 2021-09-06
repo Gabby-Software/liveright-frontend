@@ -32,7 +32,10 @@ const ChatActionsRecording: FC<Props> = ({}) => {
       .stopRecord()
       ?.then((blob) =>
         sendAudio(
-          new File([blob as Blob], `audio_${new Date().getTime()}.webm`)
+          new File(
+            [blob as Blob],
+            `audio_${new Date().getTime()}.${RecorderManager.audioType}`
+          )
         )
       )
       .catch((e) => alert(e.message))

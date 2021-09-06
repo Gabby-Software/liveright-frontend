@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, {
   createContext,
   FC,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -10,14 +11,24 @@ import React, {
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
-import { useAccountBasedState } from '../../../hooks/account-based-state'
 import { useAuth } from '../../../hooks/auth.hook'
+import { useConnection } from '../../../hooks/connection.hook'
 import logger from '../../../managers/logger.manager'
 import { serverError } from '../../../pipes/server-error.pipe'
-import { getChatUsers, getRoomMessages } from '../managers/chat.manager'
+import { chatMessageState } from '../enums/chat-message-state.enum'
+import { chatMessageTypes } from '../enums/chat-message-types.enum'
+import {
+  getChatUsers,
+  getRoomMessages,
+  uploadChatFile
+} from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
+import { emptyMessage } from '../pipes/msg-base'
 import { ChatMessageType } from '../types/chat-message.type'
+import { ChatMessageInvoiceMetaType } from '../types/chat-message-invoice-meta.type'
+import { ChatQueueItemType } from '../types/chat-queue-item.type'
 import { ChatRoomType } from '../types/chat-room.type'
+
 type ContextRoomType = {
   [roomId: string]: {
     room: ChatRoomType
@@ -33,19 +44,46 @@ export type ChatsContextType = {
   getRoom: (roomId: string) => void
   updateRoom: (roomId: string, msg: ChatMessageType) => void
   seeRoom: (roomId: string) => void
+  sendInvoice: (uuid: string, meta: ChatMessageInvoiceMetaType) => void
+  removeMessage: (room: string, id: string) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
 export const ChatsProvider: FC<unknown> = ({ children }) => {
-  const [rooms, setRooms] = useAccountBasedState<ContextRoomType>(
-    {},
-    'chat-rooms'
-  )
+  const [rooms, setRooms] = useState<ContextRoomType>({})
   const { uuid } = useAuth()
   const roomsRef = useRef<ContextRoomType>({})
   const [popups, setPopups] = useState<string[]>([])
   const history = useHistory()
+  const queue = useRef<ChatQueueItemType[]>([])
+  const isOnline = useConnection()
+  useEffect(() => {
+    if (!isOnline) return
+    const retry = async () => {
+      for await (const item of queue.current) {
+        const room = roomsRef.current[item.message.chat_room_id]
+        if (!room) return
+        for await (const [i, file] of [...item.files].entries()) {
+          await uploadChatFile(file).then(
+            (res) => (item.message.content.files[i] = res)
+          )
+        }
+        socketManager.sendMessage(item.message)
+        queue.current = queue.current.filter((t) => t !== item)
+        item.message.state = chatMessageState.SENT
+        room.messages = [
+          ...room.messages.filter((t) => t._id !== item.message._id),
+          item.message
+        ]
+        setRooms({ ...roomsRef.current })
+      }
+    }
+    retry()
+  }, [isOnline])
+  // const addToQueue = (queueItem: ChatQueueItemType) => {
+  //   queue.current.push(queueItem)
+  // }
   const close = (roomId: string) => {
     setPopups(popups.filter((p) => p !== roomId))
   }
@@ -135,6 +173,40 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       ...roomsRef.current
     })
   }
+  const sendInvoice = useCallback(
+    (clientUuid: string, meta: ChatMessageInvoiceMetaType) => {
+      const room = Object.values(roomsRef.current).find(
+        (room) => room.room.account_uuid === clientUuid
+      )
+      console.log(
+        'sending invoice',
+        room,
+        clientUuid,
+        Object.values(roomsRef.current).map((r) => r.room)
+      )
+      if (!room) return
+      const msg = emptyMessage(room.room.roomId, uuid)
+      msg.invoice_meta_data = meta
+      msg.types = [chatMessageTypes.TEXT, chatMessageTypes.INVOICE]
+      msg.content.text = 'Reminder for your payment!'
+      msg.content.invoice_meta_data = meta
+      console.log('Invoice message payload', msg)
+      socketManager.sendMessage(msg)
+      room.messages = [...room.messages, msg]
+      setRooms({ ...roomsRef.current })
+    },
+    []
+  )
+  const removeMessage = useCallback(
+    (room: string, id: string) => {
+      console.log('removing', id, roomsRef.current[room].messages)
+      roomsRef.current[room].messages = roomsRef.current[room].messages.filter(
+        ({ _id }) => _id !== id
+      )
+      setRooms({ ...roomsRef.current })
+    },
+    [rooms]
+  )
   return (
     <ChatsContext.Provider
       value={{
@@ -145,7 +217,9 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         collapse,
         getRoom,
         updateRoom,
-        seeRoom
+        seeRoom,
+        sendInvoice,
+        removeMessage
       }}
     >
       {children}

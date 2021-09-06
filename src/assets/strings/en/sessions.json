@@ -85,5 +85,6 @@
   "ptSessions": "PT Sessions",
   "schedule-now": "Schedule Now",
   "past-title": "Past Sessions",
-  "coaching": "Coaching"
+  "coaching": "Coaching",
+  "no-credits": "It looks like the client doesn’t have enough credits for this."
 }
