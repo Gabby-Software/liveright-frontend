@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { noImage } from '../../pipes/no-image.pipe'
-import Styles, { ProfileImageStyled, Text } from './user-badge.styles'
+import { Styles, Text } from './user-badge.styles'
 
 interface UserBadgeProps {
   avatar?: string
@@ -20,14 +20,20 @@ export default function UserBadge({
   className,
   avatarOnly
 }: UserBadgeProps) {
+  const [src, setSrc] = useState('')
+
+  useEffect(() => {
+    if (avatar) {
+      setSrc(avatar)
+    }
+  }, [avatar])
+
   return (
-    <Styles className={className}>
-      <ProfileImageStyled
-        $size={size}
-        url={avatar}
-        placeholder={noImage(firstName, lastName)}
-        className="user-badge__preview"
-      />
+    <Styles className={className} $size={size}>
+      <div className="user-badge__preview">
+        {src && <img src={src} onError={() => setSrc('')} alt="" />}
+        <span>{noImage(firstName, lastName)}</span>
+      </div>
       {!avatarOnly && (
         <Text className="user-badge__text">
           {firstName} {lastName}

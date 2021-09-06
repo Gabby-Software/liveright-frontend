@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { asMoney } from '../../../../pipes/as-money.pipe'
 import { ProgressCardStyles } from './progress-card.styles'
 
 interface ProgressCardProps {
@@ -64,7 +65,7 @@ export default function ProgressCard({
       <div className="progress-card__bar">
         {earn && (
           <p className="progress-card__bar-hint">
-            {t('sessions:you-earn')} {earn} <span>AED</span>
+            {t('sessions:you-earn')} {asMoney(earn)} <span>AED</span>
           </p>
         )}
       </div>

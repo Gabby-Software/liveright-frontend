@@ -28,6 +28,7 @@ const InvoiceFilters = () => {
   return (
     <Styles className="invoice-filters">
       <Input
+        formik
         id="invoice-search"
         prefix={<SearchIcon />}
         value={search}
@@ -48,7 +49,7 @@ const InvoiceFilters = () => {
           id="issuer"
           value={invoice_from}
           name={'invoice_from'}
-          label={t('invoices:issuer')}
+          placeholder={t('invoices:issuer')}
           onUpdate={setInvoice_from}
           className="invoice-filters__issuer"
         />

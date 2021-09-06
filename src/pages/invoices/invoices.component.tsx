@@ -16,6 +16,8 @@ const Invoices = () => {
   const { t } = useTranslation()
   return (
     <Styles>
+      <h3 className="invoices__subtitle">{t('invoices:need-attention')}</h3>
+
       <InvoicesAtention />
 
       <h2 className="invoices__subtitle">{t('invoices:billing-history')}</h2>

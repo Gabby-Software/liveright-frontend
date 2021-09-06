@@ -1,5 +1,7 @@
 import moment from 'moment'
 
+export const DATE_FORMAT = 'YYYY-MM-DD'
+
 export function getDisabledHours(disableUntilNow: boolean) {
   return disableUntilNow
     ? [...Array(moment().hours())].map((_, index) => index)

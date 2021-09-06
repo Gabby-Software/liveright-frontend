@@ -1,6 +1,5 @@
 import { Popconfirm } from 'antd'
 import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 import {
   DeleteOutlinedIcon,
@@ -16,82 +15,48 @@ import DataTable from '../../../../../../components/data-table/data-table.compon
 import StatusBadge from '../../../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../../../enums/invoice-statuses'
 import { Routes } from '../../../../../../enums/routes.enum'
+import { UseInvoice } from '../../../../../../hooks/api/invoices/useInvoice'
+import { UsePagination } from '../../../../../../hooks/ui/usePagination'
 import fileManager from '../../../../../../managers/file.manager'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
 import { date } from '../../../../../../pipes/date.pipe'
-import {
-  ACTION_CANCEL_INVOICE_REQUEST,
-  ACTION_GET_INVOICES_REQUEST,
-  ACTION_MARK_INVOICE_AS_PAID
-} from '../../../../../../store/action-types'
-import { RootState } from '../../../../../../store/reducers'
+import { InvoiceType } from '../../../../../../types/invoice.type'
+import { PaginationMetaType } from '../../../../../../types/pagination-meta.type'
 import Styles from './financials-receivables-table.styles'
 
-type Props = {}
-const FinancialsReceivablesTable = ({}: Props) => {
-  const {
-    current: { data, meta },
-    filters
-  } = useSelector((state: RootState) => state.invoices)
-  const dispatch = useDispatch()
+const labels: string[] = [
+  'invoices:invoice-number',
+  'invoices:invoice-date',
+  'invoices:client-name',
+  'invoices:total',
+  'invoices:invoice-due',
+  'invoices:status',
+  'invoices:options'
+]
+const keys = [
+  'id',
+  'created_at',
+  'name',
+  'total',
+  'due_on',
+  'status',
+  'options'
+]
+
+interface FinancialsReceivablesTableProps {
+  data: InvoiceType[]
+  meta: PaginationMetaType
+  actions: UseInvoice & UsePagination
+}
+
+const FinancialsReceivablesTable = ({
+  data,
+  meta,
+  actions
+}: FinancialsReceivablesTableProps) => {
   const head = useRef<HTMLDivElement>(null)
   const { t } = useTranslation()
-  const labels: string[] = [
-    'invoices:invoice-number',
-    'invoices:invoice-date',
-    'invoices:client-name',
-    'invoices:total',
-    'invoices:invoice-due',
-    'invoices:status',
-    'invoices:options'
-  ]
-  const keys = [
-    'id',
-    'created_at',
-    'name',
-    'total',
-    'due_on',
-    'status',
-    'options'
-  ]
-  const cancelInvoice = (id: number) => {
-    dispatch({
-      type: ACTION_CANCEL_INVOICE_REQUEST,
-      payload: {
-        id,
-        page: meta.current_page,
-        filters,
-        include: 'invoiceTo'
-      }
-    })
-  }
-  const updatePage = (p: number) => {
-    dispatch({
-      type: ACTION_GET_INVOICES_REQUEST,
-      payload: {
-        page: p,
-        include: 'invoiceTo',
-        filters,
-        onSuccess: () => {
-          if (!head.current) return
-          window.scrollTo({
-            top: window.scrollY + head.current.getBoundingClientRect().top,
-            behavior: 'smooth'
-          })
-        }
-      }
-    })
-  }
-  const markAsPaid = (id: number) => {
-    dispatch({
-      type: ACTION_MARK_INVOICE_AS_PAID,
-      payload: {
-        id,
-        page: meta?.current_page || 1,
-        include: 'invoiceTo'
-      }
-    })
-  }
+
   return (
     <Styles ref={head}>
       <DataTable
@@ -129,16 +94,21 @@ const FinancialsReceivablesTable = ({}: Props) => {
                         variant="secondary"
                         size="sm"
                         className="invoice-table__send-btn"
-                        to={Routes.INVOICES + '/' + id}
+                        onClick={() => actions.onSend(id)}
+                        disabled={actions.isSendLoading}
                       >
                         {t('invoices:send-invoice')}
                       </Button>
                     ) : (
                       <Popconfirm
                         title={'Invoice will be marked as paid'}
-                        onConfirm={() => markAsPaid(id)}
+                        onConfirm={() => actions.onMarkPaid(id)}
                       >
-                        <Button variant="secondary" size="sm">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          disabled={actions.isMarkLoading}
+                        >
                           {t('invoices:mark-paid')}
                         </Button>
                       </Popconfirm>
@@ -169,11 +139,12 @@ const FinancialsReceivablesTable = ({}: Props) => {
 
                   <Popconfirm
                     title={t('invoices:confirm-delete')}
-                    onConfirm={() => cancelInvoice(id)}
+                    onConfirm={() => actions.onCancel(id)}
                   >
                     <IconButton
                       size="sm"
                       className="invoice-table__icon-btn invoice-table__icon-btn_red"
+                      disabled={actions.isCancelLoading}
                     >
                       <DeleteOutlinedIcon />
                     </IconButton>
@@ -206,7 +177,7 @@ const FinancialsReceivablesTable = ({}: Props) => {
       <div className="invoice-table__pagination">
         <DataPagination
           page={meta.current_page}
-          setPage={updatePage}
+          setPage={actions.onPage}
           total={meta.total}
         />
       </div>

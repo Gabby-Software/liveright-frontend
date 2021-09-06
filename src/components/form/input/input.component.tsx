@@ -1,5 +1,10 @@
 import { Input as AntdInput } from 'antd'
-import React, { ChangeEvent, FocusEventHandler, ReactNode } from 'react'
+import React, {
+  ChangeEvent,
+  FocusEventHandler,
+  forwardRef,
+  ReactNode
+} from 'react'
 
 import { Formatter } from '../../../managers/formatter.manager'
 import FormError from '../../forms/form-error/form-error.component'
@@ -26,69 +31,79 @@ interface InputProps {
   onBlur?: FocusEventHandler
   format?: Formatter
   labelComponent?: ReactNode
+  formik?: boolean
 }
 
-export default function Input({
-  id,
-  label,
-  type = 'text',
-  placeholder,
-  size,
-  suffix,
-  prefix,
-  defaultValue,
-  value,
-  onChange,
-  onClick,
-  onFocus,
-  readOnly,
-  className,
-  disabled,
-  name,
-  onBlur,
-  format,
-  labelComponent
-}: InputProps) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (format) {
-      onChange?.({
-        ...e,
-        target: { ...e.target, value: format.format(e.target.value) }
-      })
-      return
+const Input = forwardRef<any, InputProps>(
+  (
+    {
+      id,
+      label,
+      type = 'text',
+      placeholder,
+      size,
+      suffix,
+      prefix,
+      defaultValue,
+      value,
+      onChange,
+      onClick,
+      onFocus,
+      readOnly,
+      className,
+      disabled,
+      name,
+      onBlur,
+      format,
+      labelComponent,
+      formik
+    },
+    ref
+  ) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (format) {
+        onChange?.({
+          ...e,
+          target: { ...e.target, value: format.format(e.target.value) }
+        })
+        return
+      }
+      onChange?.(e)
     }
-    onChange?.(e)
-  }
-  return (
-    <Styles
-      $size={size}
-      onClick={onClick}
-      className={className}
-      $disabled={disabled}
-    >
-      {label && (
-        <Label htmlFor={id}>
-          {labelComponent}
+    return (
+      <Styles
+        $size={size}
+        onClick={onClick}
+        className={className}
+        $disabled={disabled}
+      >
+        {label && (
+          <Label htmlFor={id}>
+            {labelComponent}
 
-          {label}
-        </Label>
-      )}
-      <AntdInput
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        className="input__input"
-        suffix={suffix}
-        prefix={prefix}
-        defaultValue={defaultValue}
-        value={value}
-        onChange={handleChange}
-        onFocus={onFocus}
-        readOnly={readOnly}
-        disabled={disabled}
-        onBlur={onBlur}
-      />
-      {name && <FormError name={name} className="field-error" />}
-    </Styles>
-  )
-}
+            {label}
+          </Label>
+        )}
+        <AntdInput
+          ref={ref}
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          className="input__input"
+          suffix={suffix}
+          prefix={prefix}
+          defaultValue={defaultValue}
+          value={value}
+          onChange={handleChange}
+          onFocus={onFocus}
+          readOnly={readOnly}
+          disabled={disabled}
+          onBlur={onBlur}
+        />
+        {name && formik && <FormError name={name} className="field-error" />}
+      </Styles>
+    )
+  }
+)
+
+export default Input

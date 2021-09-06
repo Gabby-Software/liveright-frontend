@@ -1,15 +1,20 @@
 import userTypes from '../../enums/user-types.enum'
-import { AccountObjType } from '../../types/account.type'
+import { AccountObjType, ProfileType } from '../../types/account.type'
 import { OptionType } from '../../types/option.type'
 
-export function dataToOptions(data: AccountObjType[]): OptionType[] {
+export function dataToOptions(
+  data: AccountObjType[],
+  includeAll: boolean
+): OptionType[] {
   try {
-    const options: OptionType[] = [
-      {
-        label: 'All',
-        value: 'all'
-      }
-    ]
+    const options: OptionType[] = includeAll
+      ? [
+          {
+            label: 'All',
+            value: 'all'
+          }
+        ]
+      : []
 
     data.forEach((row) => {
       options.push({
@@ -37,5 +42,12 @@ export function formatClients(data: any[]): AccountObjType[] {
   } catch (e) {
     console.error(e)
     return []
+  }
+}
+
+export function dataToFormValues(profile: ProfileType): Record<string, any> {
+  return {
+    dietary_restrictions: profile.dietary_restrictions || '',
+    injuries: profile.injuries || ''
   }
 }

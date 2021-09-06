@@ -18,6 +18,7 @@ interface DatePickerProps {
   disabledPast?: boolean
   error?: string
   name?: string
+  disabled?: boolean
 }
 
 export default function DatePicker({
@@ -30,10 +31,11 @@ export default function DatePicker({
   disabledDate,
   disabledPast,
   name,
-  error
+  error,
+  disabled
 }: DatePickerProps) {
   return (
-    <Styles className={className}>
+    <Styles className={className} $disabled={disabled}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <AntdDatePicker
         id={id}
@@ -42,6 +44,7 @@ export default function DatePicker({
         value={value ? moment(value) : null}
         onChange={onChange}
         disabledDate={disabledPast ? onDisablePast : disabledDate}
+        disabled={disabled}
       />
       {name && <FormError name={name} className="field-error" />}
       {error && <Error name={error} />}
