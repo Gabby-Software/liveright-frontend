@@ -1,3 +1,15 @@
+import AudioRecorder from 'audio-recorder-polyfill'
+declare global {
+  interface Window {
+    MediaRecorder: any
+  }
+}
+// if (!window.MediaRecorder) {
+//   import('audio-recorder-polyfill').then(
+//     (module) => (window.MediaRecorder = module.default)
+//   )
+// }
+window.MediaRecorder = AudioRecorder
 declare const MediaRecorder: any
 export default class RecorderManager {
   mediaRecorder: typeof MediaRecorder = null
@@ -25,14 +37,15 @@ export default class RecorderManager {
         this.stream = stream
         this.mediaRecorder = new MediaRecorder(stream, options)
         this.recordedChunks = []
-        if (!this.mediaRecorder) return
-        this.mediaRecorder.ondataavailable = (e: {
-          data: ArrayBuffer & { size: number }
-        }) => {
-          if (e.data.size > 0) {
-            this.recordedChunks.push(e.data)
+        this.mediaRecorder.addEventListener(
+          'dataavailable',
+          (e: { data: ArrayBuffer & { size: number } }) => {
+            console.log('chunk data', e.data)
+            if (e.data.size > 0) {
+              this.recordedChunks.push(e.data)
+            }
           }
-        }
+        )
         this.mediaRecorder.start(100)
         return stream
       })
