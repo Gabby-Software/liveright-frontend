@@ -28,6 +28,12 @@ interface UseStatistic {
     pt: number
     total: number
   }
+  progressCount: {
+    total: number
+    outstanding: number
+    overdue: number
+    paid: number
+  }
   chart: Record<string, number>
   onRange: (range: string) => void
   range: string
@@ -48,10 +54,12 @@ export default function useStatistic(): UseStatistic {
   const statistic = statisticCache.data?.revenue?.invoice || {}
   const chart = chartCache.data?.chart?.revenue?.data || {}
   const count = countCache.data?.count?.session || {}
+  const progressCount = statisticCache.data?.count?.invoice || {}
 
   return {
     statistic,
     chart,
+    progressCount,
     onRange: setRange,
     range,
     count

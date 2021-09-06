@@ -1,13 +1,23 @@
 import React from 'react'
 
-import { TotalsType } from '../../financials-receivables.data'
+import { renderNum } from '../../../../../../utils/numbers'
 import Styles from './financials-receivables-total.styles'
 
-const FinancialsReceivablesTotal = ({ label, note, value }: TotalsType) => {
+interface FinancialsReceivablesTotalProps {
+  label: string
+  note: string
+  value?: number
+}
+
+const FinancialsReceivablesTotal = ({
+  label,
+  note,
+  value
+}: FinancialsReceivablesTotalProps) => {
   return (
     <Styles className="card">
       <div className="card__title">{label}</div>
-      <div className="card__count">{value}</div>
+      <div className="card__count">{renderNum(value)}</div>
       <div className="card__subtitle">{note}</div>
     </Styles>
   )
