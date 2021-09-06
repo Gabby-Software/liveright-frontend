@@ -32,11 +32,13 @@ export const SwitchViewButton = styled(Button)`
   margin: 0 0 0 auto;
   padding: 0;
   ${(p) => p.theme.extend.flexCenter}
-  border-bottom: 1px solid ${(p) => p.theme.vars.colors.link};
+  span {
+    border-bottom: 1px solid ${(p) => p.theme.vars.colors.link};
+  }
   svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
   }
 `
 
