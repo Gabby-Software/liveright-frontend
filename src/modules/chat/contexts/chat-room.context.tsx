@@ -8,6 +8,7 @@ import React, {
   useState
 } from 'react'
 
+import { toast } from '../../../components/toast/toast.component'
 import { useAuth } from '../../../hooks/auth.hook'
 import fileManager from '../../../managers/file.manager'
 import logger from '../../../managers/logger.manager'
@@ -104,6 +105,12 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   }
   const sendFile = async (files: FileList) => {
     logger.info('send file triggered', files)
+    if ([...files].some((file) => file.size > 1024 ** 2 * 100)) {
+      return toast.show({
+        type: 'error',
+        msg: 'file size cannot be greater then 100 MB'
+      })
+    }
     const msg: ChatMessageType = msgBase()
     const id = msg._id
     msg.state = chatMessageState.PENDING
