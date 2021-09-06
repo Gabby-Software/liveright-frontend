@@ -1,4 +1,3 @@
-import { Space } from 'antd'
 import { Form, Formik } from 'formik'
 import React from 'react'
 
@@ -97,18 +96,16 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
           >
             {filter === OVER_TIME.SPECIFIC ? (
               <Form>
-                <Space>
-                  <FormDatepicker
-                    onUpdate={onSpecificDateChange}
-                    name="from_date"
-                    label={t('from')}
-                  />
-                  <FormDatepicker
-                    onUpdate={onSpecificDateChange}
-                    name="to_date"
-                    label={t('to')}
-                  />
-                </Space>
+                <FormDatepicker
+                  onUpdate={onSpecificDateChange}
+                  name="from_date"
+                  label={t('from')}
+                />
+                <FormDatepicker
+                  onUpdate={onSpecificDateChange}
+                  name="to_date"
+                  label={t('to')}
+                />
               </Form>
             ) : null}
           </Formik>

@@ -15,11 +15,17 @@ export const Wrapper = styled.div`
 
 export const FilterWrapper = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: row;
   align-items: flex-end;
   margin: 0 0 0 30px;
-  max-width: 250px;
+  form {
+    display: flex;
+    align-items: center;
+  }
+  .text_input__wrapper {
+    min-width: 150px;
+    margin-left: 24px;
+  }
 `
 
 export const SwitchViewButton = styled(Button)`
