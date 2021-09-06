@@ -32,7 +32,7 @@ export default class RecorderManager {
       return 'video/webm; codecs=vp8'
     }
   }
-  static audioType = nativeRecorder ? 'webm' : 'wav'
+  static audioType = nativeRecorder ? 'webm' : 'mp4'
   static audioMime() {
     return `audio/${RecorderManager.audioType}`
   }
