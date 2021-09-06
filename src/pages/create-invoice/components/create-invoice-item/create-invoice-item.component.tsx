@@ -45,6 +45,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
         />
 
         <Input
+          formik
           id={`add-item-desc-${i}`}
           name={`items.${i}.name`}
           label={t('invoices:create.description')}
@@ -70,6 +71,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
 
       <div className="ci-item__row">
         <Input
+          formik
           id={`add-item-tax-${i}`}
           format={formatter().number().min(0).max(100)}
           name={`items.${i}.tax_rate`}
@@ -91,6 +93,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
 
         <div className="ci-item__sub-row">
           <Input
+            formik
             id={`add-item-quantity-${i}`}
             format={formatter().number().min(1)}
             name={`items.${i}.quantity`}
@@ -101,6 +104,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
             }
           />
           <Input
+            formik
             id={`add-item-price-${i}`}
             format={formatter().number().min(0)}
             name={`items.${i}.unit_price`}
@@ -112,6 +116,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
           />
 
           <Input
+            formik
             id={`add-item-discount-${i}`}
             format={formatter().number().min(0).max(100)}
             name={`items.${i}.discount_percent`}
@@ -123,6 +128,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
           />
 
           <Input
+            formik
             id={`add-item-total-${i}`}
             name={`items.${i}.total`}
             label={t('invoices:items-total')}

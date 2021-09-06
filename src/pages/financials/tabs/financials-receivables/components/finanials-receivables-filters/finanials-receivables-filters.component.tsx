@@ -22,6 +22,7 @@ export default function Filters({
   return (
     <Styles className="invoice-filters">
       <Input
+        formik
         id="billing-search"
         prefix={<SearchIcon />}
         defaultValue=""

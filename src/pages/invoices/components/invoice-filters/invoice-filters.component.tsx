@@ -28,6 +28,7 @@ const InvoiceFilters = () => {
   return (
     <Styles className="invoice-filters">
       <Input
+        formik
         id="invoice-search"
         prefix={<SearchIcon />}
         value={search}

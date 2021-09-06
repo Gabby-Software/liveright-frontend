@@ -8,7 +8,12 @@ const RANGE_FREQ: Record<string, any> = {
   year: 'monthly'
 }
 
-export const STATISTIC_INITIAL_PARAMS = (from: string, to: string) => ({
+export const STATISTIC_INITIAL_PARAMS = (
+  from: string,
+  to: string,
+  accountId?: number
+) => ({
+  ...(accountId && { account_id: accountId }),
   options: {
     from_date: from || '1980-01-01',
     to_date: to || '2022-12-31'

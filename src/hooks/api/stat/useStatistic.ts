@@ -39,11 +39,21 @@ interface UseStatistic {
   range: string
 }
 
-export default function useStatistic(): UseStatistic {
+interface UseStatisticConfig {
+  account_id?: number
+}
+
+export default function useStatistic(
+  config: UseStatisticConfig = {}
+): UseStatistic {
   const [range, setRange] = useState('week')
   const rangeObj = getDateRanges(range)
 
-  const params = STATISTIC_INITIAL_PARAMS(rangeObj.from, rangeObj.to)
+  const params = STATISTIC_INITIAL_PARAMS(
+    rangeObj.from,
+    rangeObj.to,
+    config.account_id
+  )
   const countParams = COUNT_INITIAL_PARAMS(rangeObj.from, rangeObj.to)
   const chartParams = CHART_INITIAL_PARAMS(rangeObj.from, rangeObj.to, range)
 
