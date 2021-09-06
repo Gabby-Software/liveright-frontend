@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react'
 
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
-import logger from '../../../../../managers/logger.manager'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { classes } from '../../../../../pipes/classes.pipe'
 import ChatMessage from '../../../components/chat-message/chat-message.component'
@@ -19,7 +18,6 @@ const ChatMessagesBody: FC<{}> = () => {
       // behavior: 'smooth'
     })
   }, [messages])
-  logger.info('messages', messages)
   return (
     <Styles ref={ref} className={classes(isPopup && 'popup')}>
       {messages.map((msg) => (

@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 
-import { chatIcons } from '../../../../modules/chat/enums/chat-icons.enum'
-import { filesize } from '../../../../modules/chat/pipes/filesize.pipe'
-import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
-import { KnownFileTypesType } from '../../../../modules/chat/types/known-file-types.type'
-import { classes } from '../../../../pipes/classes.pipe'
-import { excerpt } from '../../../../pipes/excerpt.pipe'
+import { chatIcons } from '../../../../../modules/chat/enums/chat-icons.enum'
+import { filesize } from '../../../../../modules/chat/pipes/filesize.pipe'
+import { ChatFileType } from '../../../../../modules/chat/types/chat-file.type'
+import { KnownFileTypesType } from '../../../../../modules/chat/types/known-file-types.type'
+import { classes } from '../../../../../pipes/classes.pipe'
+import { excerpt } from '../../../../../pipes/excerpt.pipe'
 import Styles from './chat-message-attachment.styles'
 
 type Props = {

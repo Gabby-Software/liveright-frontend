@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 
-import { excerpt } from '../../../../pipes/excerpt.pipe'
+import { excerpt } from '../../../../../pipes/excerpt.pipe'
 import Styles from './chat-message-text.styles'
 
 type Props = {

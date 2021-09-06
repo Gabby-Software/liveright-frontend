@@ -9,9 +9,9 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import DataTable from '../../../../components/data-table/data-table.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
-import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAPIData } from '../../../../hoc/api-get'
+import { useRemindInvoice } from '../../../../hooks/api/invoices/remind-invoice.hook'
 import useInvoice from '../../../../hooks/api/invoices/useInvoice'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -38,7 +38,8 @@ const InvoiceAttendees = () => {
   const { type } = useAuth()
   const dispatch = useDispatch()
   const { onSend, isSendLoading } = useInvoice()
-
+  const [remindDisabled, remindClient] = useRemindInvoice()
+  console.log('DATA', data)
   const markAsPaid = (id: number) => {
     dispatch({
       type: ACTION_MARK_INVOICE_AS_PAID,
@@ -153,7 +154,18 @@ const InvoiceAttendees = () => {
               </IconButton>
             </a>
 
-            <IconButton size="sm" to={Routes.CHAT}>
+            <IconButton
+              size="sm"
+              disabled={remindDisabled}
+              onClick={() => {
+                remindClient(data.invoice_to.uuid, {
+                  invoice_id: '' + data.id,
+                  total: data.total,
+                  currency: data.currency.code,
+                  status: data.status
+                })
+              }}
+            >
               <ChatIcon />
             </IconButton>
             <IconButton size="sm">

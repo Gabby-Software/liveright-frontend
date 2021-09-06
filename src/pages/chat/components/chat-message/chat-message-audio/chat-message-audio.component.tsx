@@ -9,12 +9,12 @@ import React, {
   useState
 } from 'react'
 
-import { ReactComponent as MicIcon } from '../../../../assets/media/icons/microphon.svg'
-import { ReactComponent as PauseIcon } from '../../../../assets/media/icons/pause.svg'
-import { ReactComponent as PlayIcon } from '../../../../assets/media/icons/play.svg'
-import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
-import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
-import { classes } from '../../../../pipes/classes.pipe'
+import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphon.svg'
+import { ReactComponent as PauseIcon } from '../../../../../assets/media/icons/pause.svg'
+import { ReactComponent as PlayIcon } from '../../../../../assets/media/icons/play.svg'
+import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
+import { ChatFileType } from '../../../../../modules/chat/types/chat-file.type'
+import { classes } from '../../../../../pipes/classes.pipe'
 import Styles from './chat-message-audio.styles'
 
 type Props = {
