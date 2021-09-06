@@ -29,6 +29,7 @@ export default styled.div`
 
     &__submit-btn {
       width: 100%;
+      margin-top: 1rem;
     }
 
     &__form-item {
