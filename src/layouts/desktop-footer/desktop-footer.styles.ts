@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const FooterInvisible = styled.div<any>`
-  width: calc(100vw - 210px);
+  width: calc(100vw - 220px);
   position: fixed;
-  left: 210px;
+  left: 220px;
   bottom: 0;
   height: 89px;
   background-color: #fff;
@@ -17,6 +17,10 @@ export const FooterInvisible = styled.div<any>`
   transition: 0.25s ease-out;
   transform: translateX(${(props) => (props.$open ? '0px' : '-100vw')});
   z-index: 79;
+
+  @media only print {
+    display: none;
+  }
 
   .footer {
     &__action {
@@ -51,13 +55,17 @@ export const FooterInvisible = styled.div<any>`
 `
 
 export const FooterVisible = styled.div`
-  width: 210px;
+  width: 220px;
   position: fixed;
   bottom: 0;
   background-color: #fff;
   border-top: 1px solid ${getColorCarry('secondary2')};
   border-right: 1px solid ${getColorCarry('secondary2')};
   z-index: 80;
+
+  @media only print {
+    display: none;
+  }
 
   .footer {
     &__user-card {
