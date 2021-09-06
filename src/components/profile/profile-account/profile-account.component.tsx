@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { capitalize } from '../../../pipes/capitalize.pipe'
 import { classes } from '../../../pipes/classes.pipe'
 import { noImage } from '../../../pipes/no-image.pipe'
+import { ACCOUNT_TYPES_LABEL } from '../../../utils/accounts'
 import Styles from './profile-account.styles'
 
 type Prop = {
@@ -52,7 +54,9 @@ const ProfileAccount = ({
         <div className={'account__name'}>
           {first_name} {last_name}
         </div>
-        <div className={'account__type'}>{type}</div>
+        <div className={'account__type'}>
+          {capitalize(ACCOUNT_TYPES_LABEL[type] || type)}
+        </div>
       </div>
     </Styles>
   )
