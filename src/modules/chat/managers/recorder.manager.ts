@@ -6,12 +6,12 @@ declare global {
     MediaRecorder: any
   }
 }
-const nativeRecorder = false //!!window.MediaRecorder
-// if (!window.MediaRecorder) {
-import('audio-recorder-polyfill').then(
-  (module) => (window.MediaRecorder = module.default)
-)
-// }
+const nativeRecorder = !!window.MediaRecorder
+if (!window.MediaRecorder) {
+  import('audio-recorder-polyfill').then(
+    (module) => (window.MediaRecorder = module.default)
+  )
+}
 logger.info(
   `this browser ${nativeRecorder ? '' : 'NOT'} supports media recorder`
 )
