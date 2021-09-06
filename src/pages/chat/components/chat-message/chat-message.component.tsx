@@ -86,7 +86,7 @@ const ChatMessage = ({ msg }: Props) => {
     return [null]
   }
   return (
-    <Styles>
+    <Styles state={msg.state}>
       <div className={'message__wrapper'}>
         {isMe ? null : (
           <ProfileImageStyled

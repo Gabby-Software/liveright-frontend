@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import { media } from '../../../../assets/styles/_media'
 import ProfileImage from '../../../../components/profile-image/profile-image.component'
+import { chatMessageState } from '../../../../modules/chat/enums/chat-message-state.enum'
 
 export const ProfileImageStyled = styled(ProfileImage)`
   margin: 10px 13px 0 0;
@@ -14,7 +15,18 @@ export const ProfileImageStyled = styled(ProfileImage)`
     margin-top: 32px;
   }
 `
-export default styled.div`
+export default styled.div<{ state?: chatMessageState }>`
+  ${({ state }) =>
+    [chatMessageState.FAIL, chatMessageState.PENDING].includes(
+      state || chatMessageState.SENT
+    )
+      ? `
+cursor: not-allowed;
+pointer-events: none;
+touch-action: none;
+opacity: .3;
+`
+      : ''}
   .message {
     &__wrapper {
       display: flex;

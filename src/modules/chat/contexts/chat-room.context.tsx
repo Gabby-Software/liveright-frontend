@@ -11,6 +11,7 @@ import React, {
 import { useAuth } from '../../../hooks/auth.hook'
 import fileManager from '../../../managers/file.manager'
 import logger from '../../../managers/logger.manager'
+import { chatMessageState } from '../enums/chat-message-state.enum'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
@@ -18,8 +19,8 @@ import { uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
 import { insertedLinks } from '../pipes/links'
 import { emptyMessage } from '../pipes/msg-base'
+import { toFileType } from '../pipes/to-file-type.pipe'
 import { ChatMessageType } from '../types/chat-message.type'
-import { ChatMessageTypeType } from '../types/chat-message-type.type'
 import { ChatRoomType } from '../types/chat-room.type'
 import { useChats } from './chats.context'
 
@@ -57,7 +58,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [openedImage, setOpenedImage] = useState<string>('')
   const [textMessage, setTextMessage] = useState<string>('')
   const [typing, setTyping] = useState<boolean>(false)
-  const { rooms, getRoom, updateRoom, seeRoom } = useChats()
+  const { rooms, getRoom, updateRoom, seeRoom, removeMessage } = useChats()
   const { uuid } = useAuth()
   const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
     room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
@@ -102,13 +103,22 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     addMessage(msg)
   }
   const sendFile = async (files: FileList) => {
+    logger.info('send file triggered', files)
     const msg: ChatMessageType = msgBase()
-    for await (const file of [...files]) {
+    const id = msg._id
+    msg.state = chatMessageState.PENDING
+    msg.content.files = [...files].map((f, i) => {
+      const ext = f.name.split('.').pop()?.toLowerCase()
+      const isImage = imageExtentions.includes(ext || '')
+      msg.types[i] = isImage ? chatMessageTypes.IMAGE : chatMessageTypes.FILE
+      return toFileType(isImage ? URL.createObjectURL(f) : `file.${ext}`, f)
+    })
+    logger.info('set pending message', msg)
+    setMessages(msg)
+    for await (const [i, file] of [...files].entries()) {
       const ext = file.name.split('.').pop()?.toLowerCase()
-      let type: ChatMessageTypeType = chatMessageTypes.FILE
       if (imageExtentions.includes(ext || '')) {
-        type = chatMessageTypes.IMAGE
-        msg.types.push(type)
+        logger.info('uploading image', file)
         await fileManager
           .resize(file, 920)
           .then(([_, f]) => {
@@ -116,16 +126,19 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
             return uploadChatFile(f)
           })
           .then((f) => {
-            msg.content.files.push(f)
+            msg.content.files[i] = f
           })
       } else {
-        msg.types.push(type)
+        logger.info('uploading file', file)
         await uploadChatFile(file).then((res) => {
-          msg.content.files.push(res)
+          msg.content.files[i] = res
         })
       }
     }
+    logger.info('finish upload', msg)
     setMode(ChatRoomModes.DEFAULT)
+    msg.state = chatMessageState.SENT
+    removeMessage(room, id)
     addMessage(msg)
   }
   const sendAudio = (file: File) => {

@@ -38,6 +38,7 @@ export type ChatsContextType = {
   updateRoom: (roomId: string, msg: ChatMessageType) => void
   seeRoom: (roomId: string) => void
   sendInvoice: (uuid: string, meta: ChatMessageInvoiceMetaType) => void
+  removeMessage: (room: string, id: string) => void
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
@@ -162,6 +163,16 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     },
     []
   )
+  const removeMessage = useCallback(
+    (room: string, id: string) => {
+      console.log('removing', id, roomsRef.current[room].messages)
+      roomsRef.current[room].messages = roomsRef.current[room].messages.filter(
+        ({ _id }) => _id !== id
+      )
+      setRooms({ ...roomsRef.current })
+    },
+    [rooms]
+  )
   return (
     <ChatsContext.Provider
       value={{
@@ -173,7 +184,8 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         getRoom,
         updateRoom,
         seeRoom,
-        sendInvoice
+        sendInvoice,
+        removeMessage
       }}
     >
       {children}
