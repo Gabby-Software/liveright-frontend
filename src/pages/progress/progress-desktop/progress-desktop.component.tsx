@@ -37,14 +37,14 @@ const ProgressDesktop: React.FC<Props> = (props) => {
       <Tabs
         tabs={[
           {
-            label: t('progress:sections.health_data'),
-            renderContent: renderHealthData,
-            key: PROGRESS_SECTIONS.HEALTH_DATA
-          },
-          {
             label: t('progress:sections.measurements'),
             renderContent: renderMeasurements,
             key: PROGRESS_SECTIONS.MEASUREMENTS
+          },
+          {
+            label: t('progress:sections.health_data'),
+            renderContent: renderHealthData,
+            key: PROGRESS_SECTIONS.HEALTH_DATA
           }
         ]}
       />

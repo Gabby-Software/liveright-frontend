@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { useIsMobile } from '../../hooks/is-mobile.hook'
+import logger from '../../managers/logger.manager'
 import { PROGRESS_LOG_URL } from './progress.constants'
 import { ProgressSectionsType } from './progress.types'
 import ProgressDesktop from './progress-desktop/progress-desktop.component'
@@ -12,6 +13,7 @@ const Progress = () => {
   const history = useHistory()
 
   const handleLogClick = (value: ProgressSectionsType) => {
+    logger.info('log click value', value)
     history.push(PROGRESS_LOG_URL[value])
   }
 

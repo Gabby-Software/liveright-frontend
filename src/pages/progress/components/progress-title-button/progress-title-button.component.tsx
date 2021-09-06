@@ -1,7 +1,8 @@
-import { Dropdown, Menu } from 'antd'
-import { map } from 'lodash'
 import React, { useMemo } from 'react'
 
+import BtnDropdown, {
+  BtnDropDownOptionType
+} from '../../../../components/btn-dropdown/btn-dropdown.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { PROGRESS_SECTIONS } from '../../progress.constants'
 import { ProgressSectionsType } from '../../progress.types'
@@ -15,24 +16,17 @@ const TitleButton: React.FC<Props> = (props) => {
   const { onMenuClick } = props
   const { t } = useTranslation()
 
-  const handleMenuClick = ({ key }: any) => {
-    onMenuClick(key as ProgressSectionsType)
-  }
-
-  const menu = useMemo(() => {
-    return (
-      <Menu onClick={handleMenuClick}>
-        {map(PROGRESS_SECTIONS, (it) => (
-          <Menu.Item key={it}>{t(`progress:sections.${it}`)}</Menu.Item>
-        ))}
-      </Menu>
-    )
+  const menu: BtnDropDownOptionType[] = useMemo(() => {
+    return Object.values(PROGRESS_SECTIONS).map((section) => ({
+      label: t(`progress:sections.${section}`),
+      onClick: () => onMenuClick(section)
+    }))
   }, [])
 
   return (
-    <Dropdown overlay={menu}>
-      <StyledButton type="primary">{t('progress:sections.log')}</StyledButton>
-    </Dropdown>
+    <StyledButton>
+      <BtnDropdown menu={menu} />
+    </StyledButton>
   )
 }
 

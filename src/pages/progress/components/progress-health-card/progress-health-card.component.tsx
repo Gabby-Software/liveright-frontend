@@ -1,3 +1,4 @@
+import { Popover } from 'antd'
 import { Moment } from 'moment'
 import React, { ReactElement } from 'react'
 
@@ -16,32 +17,37 @@ interface Props {
   quality?: string
   data?: string
   date?: Moment
+  title: string
 }
 
 const HealthCard: React.FC<Props> = (props) => {
-  const { icon, quality, data, date } = props
+  const { icon, quality, data, date, title } = props
   const { t } = useTranslation()
 
   return (
-    <StyledCard noLogs={!data}>
-      {icon}
-      {data ? (
-        <div>
-          <Quality>{t(`progress:${quality || ''}`)}</Quality>
-          <Data>{data}</Data>
-        </div>
-      ) : (
-        <div>
-          <Data>{t('progress:noLogs')}</Data>
-          <LogLink
-            to={PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`}
-          >
-            <span>{t('progress:logNow')}</span>
-            <ArrowIcon />
-          </LogLink>
-        </div>
-      )}
-    </StyledCard>
+    <Popover content={title}>
+      <StyledCard noLogs={!data}>
+        {icon}
+        {data ? (
+          <div>
+            <Quality>{t(`progress:${quality || ''}`)}</Quality>
+            <Data>{data}</Data>
+          </div>
+        ) : (
+          <div>
+            <Data>{t('progress:noLogs')}</Data>
+            <LogLink
+              to={
+                PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`
+              }
+            >
+              <span>{t('progress:logNow')}</span>
+              <ArrowIcon />
+            </LogLink>
+          </div>
+        )}
+      </StyledCard>
+    </Popover>
   )
 }
 

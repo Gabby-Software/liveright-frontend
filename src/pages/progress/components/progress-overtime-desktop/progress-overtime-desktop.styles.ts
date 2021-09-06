@@ -15,22 +15,30 @@ export const Wrapper = styled.div`
 
 export const FilterWrapper = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: row;
   align-items: flex-end;
   margin: 0 0 0 30px;
-  max-width: 250px;
+  form {
+    display: flex;
+    align-items: center;
+  }
+  .text_input__wrapper {
+    min-width: 150px;
+    margin-left: 24px;
+  }
 `
 
 export const SwitchViewButton = styled(Button)`
   margin: 0 0 0 auto;
   padding: 0;
   ${(p) => p.theme.extend.flexCenter}
-  border-bottom: 1px solid ${(p) => p.theme.vars.colors.link};
+  span {
+    border-bottom: 1px solid ${(p) => p.theme.vars.colors.link};
+  }
   svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
   }
 `
 

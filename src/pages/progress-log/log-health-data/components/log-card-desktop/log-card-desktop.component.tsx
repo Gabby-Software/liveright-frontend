@@ -25,7 +25,7 @@ interface Props {
 }
 
 const LogCardDesktop: React.FC<Props> = (props) => {
-  const { Icon, name, inputName, inputLabel, getQuality, max } = props
+  const { Icon, name, inputName, inputLabel, getQuality } = props
   const { t } = useTranslation()
   const { getFieldMeta } = useFormikContext<HealthData>()
   const { value } = getFieldMeta<string>(inputName)
@@ -46,9 +46,7 @@ const LogCardDesktop: React.FC<Props> = (props) => {
         <FormInputLabeled
           name={inputName}
           label={inputLabel}
-          format={formatter()
-            .number()
-            .max(max || Infinity)}
+          format={formatter().number()}
         />
         <LogQuality quality={quality}>
           <Border />

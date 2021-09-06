@@ -77,6 +77,7 @@ export const LogLink = styled(Link)`
   align-items: center;
   margin-top: 5px;
   font-size: 14px;
+  font-weight: 500;
   svg {
     height: 8px;
     width: auto;
