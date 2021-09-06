@@ -57,7 +57,6 @@ const Notifications = ({}: Props) => {
   let seen = false
   let lastDate = moment()
 
-  console.log('notifications', data)
   return (
     <Styles>
       <FormButton
