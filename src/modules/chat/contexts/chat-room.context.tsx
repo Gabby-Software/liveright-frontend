@@ -10,6 +10,7 @@ import React, {
 
 import { toast } from '../../../components/toast/toast.component'
 import { useAuth } from '../../../hooks/auth.hook'
+import { useConnection } from '../../../hooks/connection.hook'
 import fileManager from '../../../managers/file.manager'
 import logger from '../../../managers/logger.manager'
 import { chatMessageState } from '../enums/chat-message-state.enum'
@@ -61,15 +62,16 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const [typing, setTyping] = useState<boolean>(false)
   const { rooms, getRoom, updateRoom, seeRoom, removeMessage } = useChats()
   const { uuid } = useAuth()
+  const isOnline = useConnection()
   const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
     room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
   useEffect(() => {
     setTyping(false)
-    if (room && rooms[room]) {
+    if (room && rooms[room] && isOnline) {
       socketManager.seen(room)
       getRoom(room)
     }
-  }, [room])
+  }, [room, isOnline])
   socketManager.useTypingChange()(({ isTyping, roomId }) => {
     if (roomId === room) {
       setTyping(isTyping)
