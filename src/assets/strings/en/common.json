@@ -26,7 +26,7 @@
   "search": "Search",
   "trainer": "Trainer",
   "client": "Individual",
-  "logged-as": "Login as {{type}}",
+  "logged-as": "Login in as {{type}}",
   "what-to-do": "What do you want to do?",
   "switch-to": "Switch to {{type}}",
   "not-found-desc": "You seem to be lost, or maybe this page never existed?",
