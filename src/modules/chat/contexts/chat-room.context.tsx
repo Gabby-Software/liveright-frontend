@@ -151,11 +151,16 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     addMessage(msg)
   }
   const sendAudio = (file: File) => {
+    const msg: ChatMessageType = msgBase()
+    msg.types = [chatMessageTypes.AUDIO]
+    msg.content.files = [toFileType('', file)]
+    msg.state = chatMessageState.PENDING
+    setMessages(msg)
     uploadChatFile(file).then((res) => {
       logger.success('file uploaded', res)
-      const msg: ChatMessageType = msgBase()
-      msg.types = [chatMessageTypes.AUDIO]
+      msg.state = chatMessageState.SENT
       msg.content.files = [res]
+      removeMessage(room, msg._id)
       addMessage(msg)
     })
   }
