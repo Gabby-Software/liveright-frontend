@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 
+import { toast } from '../../../components/toast/toast.component'
 import { EP_ACCOUNT_BY_ID } from '../../../enums/api.enum'
 import { getAccountById } from '../../../services/api/accounts'
 import { updateClient } from '../../../services/api/clients'
@@ -32,6 +33,7 @@ export default function useClientAccount(id: number): UseClientAccount {
       setUpdateLoading(false)
     } catch (e) {
       setUpdateLoading(false)
+      toast.show({ type: 'error', msg: e.response?.data?.message || 'Error' })
       console.error(e)
     }
   }
