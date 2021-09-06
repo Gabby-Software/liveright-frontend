@@ -9,6 +9,7 @@ declare global {
 //     (module) => (window.MediaRecorder = module.default)
 //   )
 // }
+const nativeRecorder = false
 window.MediaRecorder = AudioRecorder
 declare const MediaRecorder: any
 export default class RecorderManager {
@@ -26,8 +27,9 @@ export default class RecorderManager {
       return 'video/webm; codecs=vp8'
     }
   }
+  static audioType = nativeRecorder ? 'webm' : 'wav'
   static audioMime() {
-    return 'audio/webm'
+    return `audio/${RecorderManager.audioType}`
   }
   public startRecord(video: boolean, audio: boolean, mimeType: string) {
     return navigator.mediaDevices
@@ -49,6 +51,7 @@ export default class RecorderManager {
         this.mediaRecorder.start(100)
         return stream
       })
+      .catch((err) => alert('cannot start recording: ' + err.message))
   }
   public stopRecord(): null | Promise<Blob> {
     if (this.mediaRecorder?.state !== 'recording') return null
