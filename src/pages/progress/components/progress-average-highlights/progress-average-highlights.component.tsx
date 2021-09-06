@@ -41,6 +41,7 @@ const AverageHighLights: React.FC<Props> = (props) => {
           icon={<SleepIcon />}
           data={timeWithoutSeconds(highlights?.avg_sleep) + ' Hours'}
           quality="good"
+          title={'Sleep Rate'}
         />
       ) : null}
       {highlights?.avg_heart_rate ? (
@@ -48,6 +49,7 @@ const AverageHighLights: React.FC<Props> = (props) => {
           icon={<CardiogramIcon />}
           data={highlights?.avg_heart_rate?.toFixed(0).toString() + ' BPM'}
           quality={getHeartRateQuality(highlights?.avg_heart_rate)}
+          title={'Heart Rate'}
         />
       ) : null}
       {highlights?.avg_steps ? (
@@ -55,6 +57,7 @@ const AverageHighLights: React.FC<Props> = (props) => {
           icon={<StepsIcon />}
           data={highlights?.avg_steps?.toFixed(0).toString() + ' Steps'}
           quality={getStepsQuality(highlights?.avg_steps)}
+          title={'Your Steps'}
         />
       ) : null}
       {highlights?.avg_glucose ? (
@@ -62,6 +65,7 @@ const AverageHighLights: React.FC<Props> = (props) => {
           icon={<BloodIcon />}
           data={highlights?.avg_glucose?.toFixed(0).toString() + ' mg/dl'}
           quality={getGlucoseQuality(highlights?.avg_glucose)}
+          title={'Blood Glucose'}
         />
       ) : null}
     </CardsWrapper>
