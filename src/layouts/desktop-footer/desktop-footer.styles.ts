@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const FooterInvisible = styled.div<any>`
-  width: calc(100vw - 210px);
+  width: calc(100vw - 220px);
   position: fixed;
-  left: 210px;
+  left: 220px;
   bottom: 0;
   height: 89px;
   background-color: #fff;
@@ -51,7 +51,7 @@ export const FooterInvisible = styled.div<any>`
 `
 
 export const FooterVisible = styled.div`
-  width: 210px;
+  width: 220px;
   position: fixed;
   bottom: 0;
   background-color: #fff;

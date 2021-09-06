@@ -26,27 +26,31 @@ import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { noImage } from '../../../pipes/no-image.pipe'
 import { dataToFormValues } from '../../../utils/api/clients'
 
-export default function EditForm() {
+interface EditFormProps {
+  onClose: () => any
+}
+
+export default function EditForm({ onClose }: EditFormProps) {
   const { t } = useTranslation()
 
   const params = useParams<any>()
-  const { user, profile, address, onUpdate, isUpdateLoading } =
+  const { user, account, profile, address, onUpdate, isUpdateLoading } =
     useClientAccount(params.id)
   const { src, onError } = useImage(user.avatar?.url)
 
   const { setValue, control, handleSubmit } = useForm()
 
   useEffect(() => {
-    if (user.id) {
+    if (account.id) {
       const formValues = dataToFormValues(profile)
       Object.keys(formValues).forEach((key) => {
         setValue(key, formValues[key])
       })
     }
-  }, [user.id])
+  }, [account.id])
 
   const handleSave = (values: any) => {
-    onUpdate(user.uuid, values)
+    onUpdate(account.uuid, values, onClose)
   }
 
   return (
