@@ -1,6 +1,6 @@
-import { Colors } from '../assets/styles/_variables'
+import { VarsType } from '../assets/styles/_variables'
 
-export function getColorCarry(color: keyof Colors): any {
+export function getColorCarry(color: keyof VarsType['colors']): any {
   return function (props: any): string {
     return props.theme.vars.colors[color]
   }
