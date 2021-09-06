@@ -2,7 +2,7 @@ import { Popconfirm } from 'antd'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as DownloadIcon } from '../../../../assets/media/icons/download.svg'
 import { ReactComponent as MessagesIcon } from '../../../../assets/media/icons/messages.svg'
@@ -15,6 +15,7 @@ import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAPIData } from '../../../../hoc/api-get'
+import { useRemindInvoice } from '../../../../hooks/api/invoices/remind-invoice.hook'
 import { useAuth } from '../../../../hooks/auth.hook'
 import fileManager from '../../../../managers/file.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -35,6 +36,7 @@ const InvoiceMobileHead = ({}: Props) => {
   const [actionsOpen, setActionsOpen] = useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
+  const [remindLoading, remind] = useRemindInvoice()
   const cancel = () => {
     dispatch({
       type: ACTION_CANCEL_INVOICE_REQUEST,
@@ -133,9 +135,20 @@ const InvoiceMobileHead = ({}: Props) => {
         <div className={'invoice-m-head__icons'}>
           {/*<PrintIcon className={'invoice-m-head__action'} onClick={window.print}/>*/}
           <DownloadIcon className={'invoice-m-head__action'} />
-          <Link to={Routes.CHAT}>
-            <MessagesIcon className={'invoice-m-head__action'} />
-          </Link>
+          <MessagesIcon
+            onClick={() =>
+              remind(data.invoice_to.uuid, {
+                invoice_id: '' + data.id,
+                total: data.total,
+                currency: data.currency.code,
+                status: data.status
+              })
+            }
+            className={classes(
+              'invoice-m-head__action',
+              remindLoading && 'invoice-m-head__action__disabled'
+            )}
+          />
           {type === userTypes.CLIENT ? null : (
             <MoreIcon
               className={'invoice-m-head__action'}
