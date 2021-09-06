@@ -21,6 +21,10 @@ import {
 } from '../../components/profile-components'
 import { Routes } from '../../enums/routes.enum'
 import useClientAccount from '../../hooks/api/accounts/useClientAccount'
+import useSessions, {
+  UseSessionsConfig
+} from '../../hooks/api/sessions/useSessions'
+import useStatistic from '../../hooks/api/stat/useStatistic'
 import useImage from '../../hooks/ui/useImage'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
@@ -29,6 +33,16 @@ import { noImage } from '../../pipes/no-image.pipe'
 import Styles from './client-profile.styles'
 import EditForm from './components/edit-form.component'
 
+function getSessionsConfig(id: number, free?: boolean): UseSessionsConfig {
+  return {
+    filter: {
+      client_id: id,
+      status: 'upcoming',
+      ...(free && { type: 'Complimentary' })
+    }
+  } as UseSessionsConfig
+}
+
 export default function ClientProfile() {
   const { t } = useTranslation()
   const params = useParams<any>()
@@ -36,6 +50,9 @@ export default function ClientProfile() {
   const { isLoading, error, user, profile, address } = useClientAccount(
     params.id
   )
+  const statistic = useStatistic({ account_id: params.id })
+  const upcomingSessions = useSessions(getSessionsConfig(params.id))
+  const freeSessions = useSessions(getSessionsConfig(params.id, true))
 
   const { src, onError } = useImage(user.avatar?.url)
 
@@ -172,7 +189,9 @@ export default function ClientProfile() {
               <InvoiceWhiteIcon />
               Invoices
             </p>
-            <p className="profile__card-dark-sub">0 Open Invoices</p>
+            <p className="profile__card-dark-sub">
+              {statistic.progressCount.total} Open Invoices
+            </p>
 
             <Button
               variant="text"
@@ -190,8 +209,12 @@ export default function ClientProfile() {
               <UsersIcon />
               Sessions
             </p>
-            <p className="profile__card-dark-sub">0 Free Sessions</p>
-            <p className="profile__card-dark-sub">0 Upcoming Session</p>
+            <p className="profile__card-dark-sub">
+              {freeSessions.meta.total || 0} Free Sessions
+            </p>
+            <p className="profile__card-dark-sub">
+              {upcomingSessions.meta.total || 0} Upcoming Session
+            </p>
           </Card>
         </div>
       </div>

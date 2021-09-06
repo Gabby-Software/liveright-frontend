@@ -66,7 +66,10 @@ export default function EditForm() {
         </Preview>
 
         <ActionContainer>
-          <ActionButton onClick={() => handleSubmit(handleSave)()}>
+          <ActionButton
+            onClick={() => handleSubmit(handleSave)()}
+            disabled={isUpdateLoading}
+          >
             {t('profile:save-changes')}
           </ActionButton>
         </ActionContainer>
