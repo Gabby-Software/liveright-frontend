@@ -1,16 +1,21 @@
-import AudioRecorder from 'audio-recorder-polyfill'
+// import AudioRecorder from 'audio-recorder-polyfill'
+import logger from '../../../managers/logger.manager'
+
 declare global {
   interface Window {
     MediaRecorder: any
   }
 }
-// if (!window.MediaRecorder) {
-//   import('audio-recorder-polyfill').then(
-//     (module) => (window.MediaRecorder = module.default)
-//   )
-// }
-const nativeRecorder = false
-window.MediaRecorder = AudioRecorder
+const nativeRecorder = !!window.MediaRecorder
+if (!window.MediaRecorder) {
+  import('audio-recorder-polyfill').then(
+    (module) => (window.MediaRecorder = module.default)
+  )
+}
+logger.info(
+  `this browser ${nativeRecorder ? '' : 'NOT'} supports media recorder`
+)
+// window.MediaRecorder = AudioRecorder
 declare const MediaRecorder: any
 export default class RecorderManager {
   mediaRecorder: typeof MediaRecorder = null
