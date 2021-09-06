@@ -222,7 +222,7 @@ export const routes: RouteType[] = [
     ),
     version: 2,
     back: {
-      url: Routes.PROGRESS_LOG_HEALTH_DATA,
+      url: Routes.PROGRESS_HEALTH_DATA,
       alias: 'health-data'
     },
     header: {
