@@ -6,7 +6,9 @@ import {
   QualityType
 } from './progress.types'
 
-export const PROGRESS_SECTIONS: { [key: string]: ProgressSectionsType } = {
+export const PROGRESS_SECTIONS: {
+  [Option in Uppercase<ProgressSectionsType>]: ProgressSectionsType
+} = {
   HEALTH_DATA: 'health_data',
   MEASUREMENTS: 'measurements',
   PHOTOS: 'photos'
