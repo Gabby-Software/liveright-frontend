@@ -6,12 +6,12 @@ declare global {
     MediaRecorder: any
   }
 }
-const nativeRecorder = !!window.MediaRecorder
-if (!window.MediaRecorder) {
-  import('audio-recorder-polyfill').then(
-    (module) => (window.MediaRecorder = module.default)
-  )
-}
+const nativeRecorder = false //!!window.MediaRecorder
+// if (!window.MediaRecorder) {
+import('audio-recorder-polyfill').then(
+  (module) => (window.MediaRecorder = module.default)
+)
+// }
 logger.info(
   `this browser ${nativeRecorder ? '' : 'NOT'} supports media recorder`
 )
@@ -32,7 +32,7 @@ export default class RecorderManager {
       return 'video/webm; codecs=vp8'
     }
   }
-  static audioType = nativeRecorder ? 'webm' : 'wav'
+  static audioType = nativeRecorder ? 'webm' : 'mp4'
   static audioMime() {
     return `audio/${RecorderManager.audioType}`
   }

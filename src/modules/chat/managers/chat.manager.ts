@@ -7,9 +7,15 @@ import { ChatRoomType } from '../types/chat-room.type'
 export function getChatUsers(): Promise<ChatRoomType[]> {
   return api.get<ChatRoomType[]>(Chat_EP.USERS).then((res) => res.data)
 }
-export function getRoomMessages(roomId: string): Promise<ChatMessageType[]> {
+const PAGE_SIZE = 20
+export function getRoomMessages(
+  roomId: string,
+  page = 0
+): Promise<ChatMessageType[]> {
   return api
-    .get<ChatMessageType[]>(Chat_EP.MESSAGES(roomId))
+    .get<ChatMessageType[]>(
+      Chat_EP.MESSAGES(roomId) + `?limit=${PAGE_SIZE}&skip=${page * PAGE_SIZE}`
+    )
     .then((res) => res.data)
 }
 export function uploadChatFile(file: File): Promise<ChatFileType> {
