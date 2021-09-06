@@ -1,9 +1,9 @@
-import { Space } from 'antd'
 import { Form, Formik } from 'formik'
 import React from 'react'
 
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
+import { ReactComponent as GraphIcon } from '../../../../assets/media/icons/graph.svg'
 import { ReactComponent as TableIcon } from '../../../../assets/media/icons/menu.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
@@ -79,8 +79,10 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
       <div className={'progress-overtime__header'}>
         <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
         <SwitchViewButton onClick={handleSwitchViewClick} type="link">
-          {graphView ? <TableIcon /> : <CardiogramIcon />}
-          {graphView ? t('progress:seeTable') : t('progress:seeGraph')}
+          {graphView ? <TableIcon /> : <GraphIcon />}
+          <span>
+            {graphView ? t('progress:seeTable') : t('progress:seeGraph')}
+          </span>
         </SwitchViewButton>
         <FilterWrapper>
           <FormSelectUI
@@ -97,18 +99,16 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
           >
             {filter === OVER_TIME.SPECIFIC ? (
               <Form>
-                <Space>
-                  <FormDatepicker
-                    onUpdate={onSpecificDateChange}
-                    name="from_date"
-                    label={t('from')}
-                  />
-                  <FormDatepicker
-                    onUpdate={onSpecificDateChange}
-                    name="to_date"
-                    label={t('to')}
-                  />
-                </Space>
+                <FormDatepicker
+                  onUpdate={onSpecificDateChange}
+                  name="from_date"
+                  label={t('from')}
+                />
+                <FormDatepicker
+                  onUpdate={onSpecificDateChange}
+                  name="to_date"
+                  label={t('to')}
+                />
               </Form>
             ) : null}
           </Formik>
