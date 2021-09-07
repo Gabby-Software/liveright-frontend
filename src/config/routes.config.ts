@@ -129,9 +129,10 @@ export const routes: RouteType[] = [
       }))
     ),
     version: 2,
+    mobileLayout: false,
     header: {
       title: 'Invoices',
-      items: headers.default
+      items: []
     }
   },
   {

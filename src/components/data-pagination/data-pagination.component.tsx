@@ -7,7 +7,7 @@ type Props = {
   page: number
   setPage: (page: number) => void
   total: number
-  justify?: 'start' | 'center'
+  justify?: 'start' | 'center' | 'end'
 }
 
 const DataPagination = ({ page, setPage, total, justify }: Props) => {

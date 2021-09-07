@@ -23,7 +23,7 @@ const InvoicesAtention = ({}: Props) => {
     <Styles>
       <Carousel>
         {invoices.map((inv: InvoiceType) => (
-          <InvoiceCard key={inv.id} {...inv} />
+          <InvoiceCard mobileColumn key={inv.id} {...inv} />
         ))}
       </Carousel>
 

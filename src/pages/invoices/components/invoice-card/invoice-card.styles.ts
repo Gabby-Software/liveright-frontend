@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const LinkStyles = styled(Link)`
+export const LinkStyles = styled<any>(Link)`
   display: block;
   width: auto;
   margin-right: 0.875rem;
@@ -12,11 +13,25 @@ export const LinkStyles = styled(Link)`
   &:last-child {
     margin-right: 0;
   }
+
+  ${(props) =>
+    !props.$mobCol &&
+    css`
+      @media ${mediaQueries.MOBILE} {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+    `}
 `
 
-export const Styles = styled(Card)`
+export const Styles = styled<any>(Card)`
   flex-direction: column;
   min-width: 330px;
+
+  @media ${mediaQueries.MOBILE} {
+    width: 100%;
+    min-width: auto;
+  }
 
   .invoice-card {
     &__row {
@@ -28,6 +43,10 @@ export const Styles = styled(Card)`
 
       &:last-child {
         margin-bottom: 0;
+      }
+
+      @media ${mediaQueries.MOBILE} {
+        flex-wrap: wrap;
       }
     }
 
@@ -64,4 +83,65 @@ export const Styles = styled(Card)`
       margin-left: 1rem;
     }
   }
+
+  ${(props) =>
+    !props.$mobCol &&
+    css`
+      .invoice-card {
+        @media ${mediaQueries.MOBILE} {
+          &__price {
+            font-size: 1.25rem;
+            font-weight: 700;
+
+            & span {
+              font-size: 0.75rem;
+            }
+          }
+        }
+
+        &__btn {
+          @media ${mediaQueries.MOBILE} {
+            min-width: auto;
+            width: 115px;
+          }
+        }
+      }
+    `}
+
+  ${(props) =>
+    props.$mobCol &&
+    css`
+      @media ${mediaQueries.MOBILE} {
+        min-width: auto;
+        width: 175px;
+        max-width: 175px;
+      }
+
+      .invoice-card {
+        &__row {
+          @media ${mediaQueries.MOBILE} {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.25rem;
+          }
+        }
+
+        &__issuer {
+          @media ${mediaQueries.MOBILE} {
+            text-align: center;
+          }
+        }
+
+        &__btn {
+          @media ${mediaQueries.MOBILE} {
+            margin-bottom: 1rem;
+            margin-left: 0;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    `}
 `
