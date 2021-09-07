@@ -8,7 +8,7 @@ export default styled.div`
     &__client-select {
       margin-bottom: 1.875rem;
 
-      & .ant-select-selector {
+      & .select__control {
         padding: 1rem 1rem 1rem 4rem;
         height: auto;
       }
