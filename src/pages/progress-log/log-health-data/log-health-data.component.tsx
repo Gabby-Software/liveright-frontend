@@ -30,7 +30,7 @@ const LogHealthData = () => {
   })
 
   const handleReturn = () => {
-    history.push(Routes.PROGRESS)
+    history.push(Routes.PROGRESS_HEALTH_DATA)
   }
 
   const handleSubmit = async (values: HealthData) => {
