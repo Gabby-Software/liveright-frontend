@@ -1,10 +1,13 @@
 import get from 'lodash/get'
+import moment from 'moment'
 import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as EditIcon } from '../../../../assets/media/icons/edit.svg'
+import BlueLink from '../../../../components/blue-link/blue-link.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { PROGRESS_LOG_URL, PROGRESS_TABLE_KEYS } from '../../progress.constants'
@@ -87,7 +90,18 @@ const HealthTable: React.FC<Props> = (props) => {
           page={current_page}
           setPage={handlePageSet}
           total={total}
-        />
+        >
+          <BlueLink
+            to={
+              Routes.PROGRESS_LOG_HEALTH_DATA +
+              `/${moment().format('YYYY-MM-DD')}`
+            }
+            className={'pagination__link'}
+          >
+            Some day missing? Add it{' '}
+            <span className={'pagination__plus'}>+</span>
+          </BlueLink>
+        </DataPagination>
       </Pagination>
     </Wrapper>
   )
