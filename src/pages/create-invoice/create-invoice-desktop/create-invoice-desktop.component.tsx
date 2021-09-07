@@ -156,8 +156,6 @@ const CreateInvoiceDesktop = ({}: Props) => {
                         <AddIcon />
                         {t('invoices:invite-new-client')}
                       </Button>
-                      <div />
-                      <div />
                     </div>
                   </CreateInvoiceSection>
                   <CreateInvoiceSection title={t('invoices:invoice-details')}>

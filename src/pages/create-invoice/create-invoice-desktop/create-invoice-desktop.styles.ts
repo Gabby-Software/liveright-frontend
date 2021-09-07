@@ -43,6 +43,7 @@ export default styled.div`
 
     &__add-client {
       margin-left: -0.75rem;
+      width: fit-content;
 
       & svg {
         transform: translateY(-2px);
