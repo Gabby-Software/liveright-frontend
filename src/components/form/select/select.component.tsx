@@ -116,20 +116,6 @@ export default function Select({
           onMenuScrollToBottom={onBottom}
           onChange={handleChange}
         />
-        {/*<AntdSelect*/}
-        {/*  id={id}*/}
-        {/*  placeholder={placeholder}*/}
-        {/*  className="select__input"*/}
-        {/*  suffixIcon={<CaretDownIcon />}*/}
-        {/*  options={options}*/}
-        {/*  value={value}*/}
-        {/*  onChange={onChange}*/}
-        {/*  defaultValue={defaultValue}*/}
-        {/*  disabled={disabled}*/}
-        {/*  onBlur={onBlur}*/}
-        {/*  onSearch={onSearch}*/}
-        {/*  showSearch={!!onSearch}*/}
-        {/*/>*/}
         {name && <FormError name={name} className="field-error" />}
       </div>
     </Styles>

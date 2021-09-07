@@ -11,6 +11,16 @@ export const Styles = styled.div<any>`
   display: flex;
   position: relative;
 
+  & .select__prefix {
+    position: absolute;
+    z-index: 11;
+  }
+
+  & .select__container {
+    display: flex;
+    align-items: center;
+  }
+
   .select {
     &-container {
       width: 100%;
