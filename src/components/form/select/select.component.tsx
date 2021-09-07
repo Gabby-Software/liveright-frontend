@@ -27,6 +27,8 @@ export interface SelectProps {
   onSearch?: any
   onBottom?: any
   Components?: any
+  menuOpen?: boolean
+  loading?: boolean
 }
 
 export default function Select({
@@ -45,7 +47,9 @@ export default function Select({
   onBlur,
   onSearch,
   onBottom,
-  Components
+  Components,
+  menuOpen,
+  loading
 }: SelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
@@ -115,6 +119,9 @@ export default function Select({
           onInputChange={onSearch}
           onMenuScrollToBottom={onBottom}
           onChange={handleChange}
+          menuIsOpen={menuOpen}
+          loadingMessage={() => 'Loading'}
+          isLoading={loading}
         />
         {name && <FormError name={name} className="field-error" />}
       </div>

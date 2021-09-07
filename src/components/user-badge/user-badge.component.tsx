@@ -10,6 +10,7 @@ interface UserBadgeProps {
   size?: 'sm'
   className?: string
   avatarOnly?: boolean
+  square?: boolean
 }
 
 export default function UserBadge({
@@ -18,7 +19,8 @@ export default function UserBadge({
   lastName = '',
   size,
   className,
-  avatarOnly
+  avatarOnly,
+  square
 }: UserBadgeProps) {
   const [src, setSrc] = useState('')
 
@@ -29,7 +31,7 @@ export default function UserBadge({
   }, [avatar])
 
   return (
-    <Styles className={className} $size={size}>
+    <Styles className={className} $size={size} $square={square}>
       <div className="user-badge__preview">
         {src && <img src={src} onError={() => setSrc('')} alt="" />}
         <span>{noImage(firstName, lastName)}</span>

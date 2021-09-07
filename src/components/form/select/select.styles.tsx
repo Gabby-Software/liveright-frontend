@@ -14,6 +14,7 @@ export const Styles = styled.div<any>`
   & .select__prefix {
     position: absolute;
     z-index: 11;
+    height: 24px;
   }
 
   & .select__container {
@@ -64,6 +65,22 @@ export const Styles = styled.div<any>`
       z-index: 22;
       overflow-x: hidden;
       border-radius: 0.625rem;
+      padding: 1rem 0;
+      box-shadow: 0px 4px 29px rgba(213, 222, 232, 0.55);
+    }
+
+    &__option {
+      padding: 0.625rem 1rem;
+
+      &--is-selected {
+        background-color: #fff;
+        color: ${getColorCarry('primaryDark_v2')};
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      &--is-focused {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
     }
 
     &__placeholder {

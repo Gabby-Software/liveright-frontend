@@ -38,7 +38,7 @@ export const Styles = styled.div<any>`
       width: ${getSize};
       height: ${getSize};
       background-color: ${getColorCarry('primary_v2')};
-      border-radius: 9999px;
+      border-radius: ${(props) => (props.$square ? '10px' : '9999px')};
       font-size: ${getFontSize};
       display: flex;
       justify-content: center;

@@ -11,7 +11,7 @@ interface UseClients {
 }
 
 export default function useClients(): UseClients &
-  Partial<UseSwrInfinite<AccountObjType>> &
+  Pick<UseSwrInfinite<AccountObjType>, 'loadMore' | 'hasMore'> &
   Pick<UseSearch, 'onSearch'> {
   const { search, onSearch } = useSearch()
   const params = {
