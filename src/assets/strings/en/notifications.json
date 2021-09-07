@@ -1,4 +1,6 @@
 {
+  "title": "Your Notifications",
+  "manage-sessions": "Manage Settings",
   "all-done": "All Done From Here",
   "go-to": "Go to {{type}}",
   "types": {

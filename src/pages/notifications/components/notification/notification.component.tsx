@@ -2,50 +2,59 @@ import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { ShowIcon } from '../../../../assets/media/icons'
 import { ReactComponent as GoToIcon } from '../../../../assets/media/icons/ext-link.svg'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
+import Button from '../../../../components/buttons/button/button.component'
 import PopOnScroll from '../../../../components/pop-on-scroll/pop-on-scroll.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { notificationIcon } from '../../../../modules/notifications/enums/notification-icon.enum'
 import { notificationUrl } from '../../../../modules/notifications/enums/notification-url.enum'
 import { NotificationType } from '../../../../types/notifications.type'
-import { notificationSeen } from './notification.icon'
 import Styles from './notification.styles'
 
 const Notification = ({
   created_at,
-  read_at,
+  // read_at,
   data,
   type
 }: NotificationType) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { Icon, color } = notificationIcon(type)
-  const EyeIcon = notificationSeen(!!read_at)
+  // const EyeIcon = notificationSeen(!!read_at)
   const { url, slug } = notificationUrl(type, data)
+
   return (
     <PopOnScroll offset={70}>
       <Styles>
-        <Icon className={`notification__icon notification__icon__${color}`} />
+        <div className={`notification__icon notification__icon__${color}`}>
+          <Icon />
+        </div>
+
         <div className={'notification__data'}>
           <div className={'notification__content'}>{data.message}</div>
           <div className={'notification__datetime'}>
-            {moment(created_at).format('DD.MM.YYYY • hh:mm')}
+            {moment(created_at).format('DD.MM.YYYY | hh:mm')}
           </div>
         </div>
+
         {!url ? null : isMobile ? (
           <Link to={url} className={'notification__link'}>
             <GoToIcon className={'notification__link__icon'} />
           </Link>
         ) : (
           <>
-            <Link to={url} className={'notification__action'}>
-              <FormButton type={'ghost'}>
-                {t('notifications:go-to', { type: slug })}
-              </FormButton>
-            </Link>
-            <EyeIcon className={'notification__eye'} />
+            <Button
+              variant="secondary"
+              size="sm"
+              to={url}
+              className="notification__action"
+            >
+              {t('notifications:go-to', { type: slug })}
+            </Button>
+
+            <ShowIcon />
           </>
         )}
       </Styles>

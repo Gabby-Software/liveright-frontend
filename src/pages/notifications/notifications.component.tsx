@@ -2,11 +2,10 @@ import moment from 'moment'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
+import Button from '../../components/buttons/button/button.component'
 import DataPagination from '../../components/data-pagination/data-pagination.component'
-import FormButton from '../../components/forms/form-button/form-button.component'
 import { Routes } from '../../enums/routes.enum'
 import { useAuth } from '../../hooks/auth.hook'
-import { useTitleContent } from '../../layouts/desktop-layout/desktop-layout.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { useNotifications } from '../../modules/notifications/hooks/notifications.hook'
 import notificationManager, {
@@ -17,8 +16,9 @@ import {
   ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS
 } from '../../store/action-types'
 import { NotificationType } from '../../types/notifications.type'
+import { DATE_RENDER_FORMAT } from '../../utils/date'
 import Notification from './components/notification/notification.component'
-import Styles, { SettingsLink } from './notifications.styles'
+import Styles from './notifications.styles'
 
 type Props = {}
 const Notifications = ({}: Props) => {
@@ -28,16 +28,13 @@ const Notifications = ({}: Props) => {
   } = useNotifications()
   const dispatch = useDispatch()
   const { uuid } = useAuth()
-  useTitleContent(
-    <SettingsLink to={Routes.NOTIFICATIONS_SETTINGS}>
-      <FormButton type={'ghost'}>Manage Settings</FormButton>
-    </SettingsLink>
-  )
+
   useEffect(() => {
     fetchNotifications(meta.current_page)
     const id = notificationManager.subscribe(fetchNotifications)
     return () => notificationManager.unsubscribe(id)
   }, [uuid])
+
   const fetchNotifications = (page = meta.current_page) => {
     dispatch({
       type: ACTION_GET_NOTIFICATIONS_REQUEST,
@@ -54,20 +51,23 @@ const Notifications = ({}: Props) => {
       }
     })
   }
+
   let seen = false
   let lastDate = moment()
 
   return (
     <Styles>
-      <FormButton
-        type={'ghost'}
-        className={'mobile'}
-        style={{ marginBottom: '40px' }}
-      >
-        Manage Settings
-      </FormButton>
+      <div className="notifications__title-container">
+        <h2 className="notifications__title">{t('notifications:title')}</h2>
+
+        <Button to={Routes.NOTIFICATIONS_SETTINGS}>
+          {t('notifications:manage-sessions')}
+        </Button>
+      </div>
+
       {data.map((n: NotificationType, i) => {
         const els: React.ReactNode[] = []
+
         if (n.read_at && !seen && meta.current_page <= 1) {
           els.push(
             <div className={'notification__hr'}>
@@ -76,7 +76,7 @@ const Notifications = ({}: Props) => {
           )
           els.push(
             <div className={'notification__date-label desktop'}>
-              {moment(n.created_at).format('DD/MM/YYYY')}
+              {moment(n.created_at).format(DATE_RENDER_FORMAT)}
             </div>
           )
         } else if (
@@ -85,16 +85,20 @@ const Notifications = ({}: Props) => {
         ) {
           els.push(
             <div className={'notification__date-label desktop'}>
-              {moment(n.created_at).format('DD/MM/YYYY')}
+              {moment(n.created_at).format(DATE_RENDER_FORMAT)}
             </div>
           )
         }
+
         els.push(<Notification {...n} />)
+
         seen = !!n.read_at
         lastDate = moment(n.created_at)
         return els
       })}
+
       <DataPagination
+        justify="center"
         page={meta.current_page}
         setPage={fetchNotifications}
         total={meta.total}

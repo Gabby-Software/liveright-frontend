@@ -325,9 +325,10 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/notifications/notifications.component')
     ),
+    version: 2,
     header: {
-      title: 'Notifications',
-      items: headers.default
+      title: null,
+      items: []
     }
   },
   {

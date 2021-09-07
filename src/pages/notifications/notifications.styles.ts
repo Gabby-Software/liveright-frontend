@@ -1,19 +1,37 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { media } from '../../assets/styles/_media'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const SettingsLink = styled(Link)`
   margin-left: auto;
 `
 export default styled.div`
   margin-bottom: 100px;
+
+  .notifications {
+    &__title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
+
+      &-container {
+        padding-top: 2.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+
   .notification {
     &__hr {
       position: relative;
       z-index: 1;
       margin: 49px 0;
-      ${(p) => p.theme.extend.flexCenter}
+      display: flex;
+      justify-content: center;
+
       &:before {
         ${(p) => p.theme.extend.pseudo}
         z-index: -1;
@@ -23,28 +41,23 @@ export default styled.div`
         right: 0;
         margin: auto;
         height: 1px;
-        background-color: #afafaf;
+        background-color: ${getColorCarry('neutral_50')};
       }
+
       span {
-        background-color: white;
-        padding: 0 35px;
-        font-size: 16px;
-        font-weight: 500;
-        color: ${(p) => p.theme.vars.colors.labelLight}
-          ${media('tablet', 'min')`
-                    padding: 0 65px;
-                `};
+        background-color: ${getColorCarry('background_v2')};
+        padding: 0 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: ${getColorCarry('secondary2_v2')};
       }
     }
+
     &__date-label {
-      margin: 24px 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-      ${media('tablet', 'min')`
-                margin: 45px 0;
-                font-size: 22px;
-            `}
+      margin: 1.5rem 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
     }
   }
 `

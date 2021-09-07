@@ -9,6 +9,7 @@ type Props = {
   total: number
   justify?: 'start' | 'center'
 }
+
 const DataPagination = ({ page, setPage, total, justify }: Props) => {
   return (
     <Styles $justify={justify}>
