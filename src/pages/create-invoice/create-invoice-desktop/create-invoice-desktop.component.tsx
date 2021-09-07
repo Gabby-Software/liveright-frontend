@@ -148,14 +148,14 @@ const CreateInvoiceDesktop = ({}: Props) => {
                         )}
                       </div>
 
-                        <Button
-                          to={Routes.CLIENTS + '/?add=1'}
-                          variant="text"
-                          className="add-invoice__add-client"
-                        >
-                          <AddIcon />
-                          {t('invoices:invite-new-client')}
-                        </Button>
+                      <Button
+                        to={Routes.CLIENTS + '/?add=1'}
+                        variant="text"
+                        className="add-invoice__add-client"
+                      >
+                        <AddIcon />
+                        {t('invoices:invite-new-client')}
+                      </Button>
                     </div>
                   </CreateInvoiceSection>
                   <CreateInvoiceSection title={t('invoices:invoice-details')}>
