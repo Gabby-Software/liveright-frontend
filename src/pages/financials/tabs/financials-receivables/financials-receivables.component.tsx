@@ -20,7 +20,8 @@ type Props = {}
 const FinancialsReceivables = ({}: Props) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const { progressCount, onRange } = useStatistic()
+  const { progressCount, statistic, onRange } = useStatistic()
+  console.log(statistic)
 
   const { invoices, meta, ...actions } = useInvoices()
 
@@ -49,7 +50,7 @@ const FinancialsReceivables = ({}: Props) => {
         </div>
       </div>
 
-      <FinancialsReceivablesTotals countData={progressCount} />
+      <FinancialsReceivablesTotals countData={progressCount} data={statistic} />
 
       <div className="f-receivables__subtitle-container">
         <h2 className="f-receivables__subtitle">
