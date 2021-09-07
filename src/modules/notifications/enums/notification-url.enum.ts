@@ -7,13 +7,15 @@ const EMPTY_RESPONSE = {
 }
 export const notificationUrl: (
   message: string,
-  data: { [key: string]: string | number }
+  data: Record<string, any>
 ) => { slug: string; url: string } = (message, data) => {
   switch (message) {
     case notificationsTypes.INVITATION_ACCEPT:
       return {
         slug: `client's profile`,
-        url: Routes.CLIENTS + `/${data.account_to_user_uuid}` + Routes.PROFILE
+        url: data.account_to?.id
+          ? Routes.CLIENTS + `/${data.account_to?.id}` + Routes.PROFILE
+          : ''
       }
     case notificationsTypes.INVITATION_REJECT:
       return {
