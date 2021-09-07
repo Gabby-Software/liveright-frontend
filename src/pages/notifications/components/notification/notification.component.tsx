@@ -1,10 +1,9 @@
 import moment from 'moment'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-import { ShowIcon } from '../../../../assets/media/icons'
-import { ReactComponent as GoToIcon } from '../../../../assets/media/icons/ext-link.svg'
+import { LinkIcon, ShowIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import PopOnScroll from '../../../../components/pop-on-scroll/pop-on-scroll.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -40,9 +39,9 @@ const Notification = ({
         </div>
 
         {!url ? null : isMobile ? (
-          <Link to={url} className={'notification__link'}>
-            <GoToIcon className={'notification__link__icon'} />
-          </Link>
+          <IconButton size="sm" className="notification__link" to={url}>
+            <LinkIcon />
+          </IconButton>
         ) : (
           <>
             <Button

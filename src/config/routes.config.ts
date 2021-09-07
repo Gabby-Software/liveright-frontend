@@ -326,6 +326,7 @@ export const routes: RouteType[] = [
       () => import('../pages/notifications/notifications.component')
     ),
     version: 2,
+    mobileLayout: false,
     header: {
       title: null,
       items: []

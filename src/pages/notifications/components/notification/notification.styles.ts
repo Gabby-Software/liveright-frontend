@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled(Card)`
@@ -8,6 +9,10 @@ export default styled(Card)`
   align-items: center;
   margin-bottom: 1rem;
   padding: 1rem;
+
+  @media ${mediaQueries.MOBILE} {
+    align-items: flex-start;
+  }
 
   .notification {
     &__icon {
@@ -36,11 +41,14 @@ export default styled(Card)`
     }
 
     &__data {
-      width: 100%;
-      font-weight: 500;
+      flex: 1;
       margin: 0 12px;
       display: flex;
       justify-content: space-between;
+
+      @media ${mediaQueries.MOBILE} {
+        flex-direction: column;
+      }
     }
     &__content {
       font-size: 1rem;
@@ -51,11 +59,15 @@ export default styled(Card)`
       font-size: 1rem;
       font-weight: 400;
       color: ${getColorCarry('secondary2_v2')};
+
+      @media ${mediaQueries.MOBILE} {
+        margin: 0.25rem 0;
+      }
     }
 
     &__link {
-      &__icon {
-      }
+      align-self: center;
+      color: ${getColorCarry('link')};
     }
 
     &__action {

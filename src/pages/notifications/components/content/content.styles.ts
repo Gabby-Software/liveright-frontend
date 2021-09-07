@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../pipes/theme-color.pipe'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const SettingsLink = styled(Link)`
-  margin-left: auto;
-`
 export default styled.div`
-  margin-bottom: 100px;
+  padding-bottom: 5rem;
+
+  @media ${mediaQueries.MOBILE} {
+    padding-top: 2.5rem;
+  }
 
   .notifications {
     &__title {
@@ -31,6 +32,10 @@ export default styled.div`
       margin: 49px 0;
       display: flex;
       justify-content: center;
+
+      @media ${mediaQueries.MOBILE} {
+        margin-top: 0;
+      }
 
       &:before {
         ${(p) => p.theme.extend.pseudo}
