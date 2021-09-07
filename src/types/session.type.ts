@@ -24,6 +24,8 @@ export type SessionType = {
   trainer?: PersonType
   client_request?: ClientRequest
   notes?: string | null
+  is_awaiting_scheduling?: boolean
+  is_awaiting_rescheduling?: boolean
 }
 
 export type Session = 'Paid PT' | 'Complimentary' | 'Consulting' | 'Coaching'

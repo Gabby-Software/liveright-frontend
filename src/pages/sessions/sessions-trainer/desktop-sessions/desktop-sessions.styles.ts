@@ -63,18 +63,6 @@ export default styled.div`
       gap: 0.875rem;
     }
 
-    &__schedule_button {
-      margin-top: 2.375rem;
-      padding: 0 0.25rem;
-      width: max-content;
-      color: ${(props) => props.theme.vars.colors.link};
-      cursor: pointer;
-
-      & svg {
-        margin-left: 0.75rem;
-      }
-    }
-
     &__date-range {
       margin-bottom: 1.875rem;
     }

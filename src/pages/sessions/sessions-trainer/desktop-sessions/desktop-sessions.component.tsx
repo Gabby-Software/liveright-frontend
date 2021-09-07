@@ -9,7 +9,6 @@ import {
   PhoneSolidIcon,
   RevenueSolidIcon
 } from '../../../../assets/media/icons'
-import { ReactComponent as RightArrowIcon } from '../../../../assets/media/icons/caret-right.svg'
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
@@ -19,7 +18,6 @@ import ClientSelect from '../../../../components/form/client-select/client-selec
 import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
-import UserBadge from '../../../../components/user-badge/user-badge.component'
 import {
   statisticRange,
   statisticRangeOptions
@@ -37,9 +35,9 @@ import {
   SessionType
 } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
+import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
-import { ScheduleCard } from '../sessions-trainer.styles'
 import Styles from './desktop-sessions.styles'
 
 interface Props {
@@ -126,22 +124,18 @@ const DesktopSessions: FC<Props> = (props) => {
         <div className="sessions__cards-grid">
           {awaiting_scheduling.data.map((it) => {
             return (
-              <ScheduleCard key={it.id}>
-                <UserBadge
-                  avatar={it.client?.user.avatar?.url}
-                  firstName={it.client?.user.first_name}
-                  lastName={it.client?.user.last_name}
-                />
-                <Button
-                  size="sm"
-                  variant="text"
-                  className="sessions__schedule_button"
-                  onClick={() => setEditOpen(it)}
-                >
-                  <span>{t('sessions:schedule-now')}</span>
-                  <RightArrowIcon />
-                </Button>
-              </ScheduleCard>
+              <ScheduleCard
+                key={it.id}
+                firstName={it.client?.user?.first_name || ''}
+                lastName={it.client?.user?.last_name || ''}
+                userAvatar={it.client?.user?.avatar?.url || ''}
+                onEdit={() => setEditOpen(it)}
+                schedule={it.is_awaiting_scheduling}
+                reschedule={it.is_awaiting_rescheduling}
+                scheduleDate={it.client_request?.date}
+                scheduleTime={it.client_request?.time}
+                currentDate={it.starts_at}
+              />
             )
           })}
         </div>
