@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ReactComponent as LeftArrow } from '../../assets/media/icons/left-arrow.svg'
 import { ReactComponent as RightArrow } from '../../assets/media/icons/right-arrow.svg'
 import { useEvent } from '../../hooks/event.hook'
-import logger from '../../managers/logger.manager'
 import Styles from './carousel.styles'
 
 type Props = {
@@ -13,6 +12,7 @@ const Carousel = ({ children }: Props) => {
   const carouselRef = useRef<HTMLDivElement>(null)
   const [scrollX, setScrollX] = useState(0)
   const [scrollWidth, setScrollWidth] = useState(0)
+
   useEvent('resize', () => {
     setScrollWidth(
       (carouselRef?.current?.scrollWidth || 0) -
@@ -20,12 +20,14 @@ const Carousel = ({ children }: Props) => {
     )
     setScrollX(carouselRef?.current?.scrollLeft || 0)
   })
+
   useEffect(() => {
     setScrollWidth(
       (carouselRef?.current?.scrollWidth || 0) -
         (carouselRef?.current?.offsetWidth || 0)
     )
   }, [carouselRef])
+
   const move = (n: number) => {
     if (!carouselRef.current) return
     const scrollTo =
@@ -33,17 +35,14 @@ const Carousel = ({ children }: Props) => {
     carouselRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' })
     setScrollX(scrollTo)
   }
+
   const prev = () => {
     move(-1)
   }
   const next = () => {
     move(1)
   }
-  logger.info(
-    'CAROUSEL DATA',
-    carouselRef?.current?.scrollWidth,
-    carouselRef?.current?.scrollLeft
-  )
+
   return (
     <Styles className={'carousel'}>
       <div className={'carousel__wrapper'} ref={carouselRef}>

@@ -109,5 +109,6 @@
   "generate-back": "Generate Invoice and Go Back",
   "generate-send": "Generate Invoice and Send",
   "footer-note": "Note",
-  "footer-text": "It was a pleasure working with you and your team. We hope you will keep us in mind for future. Thank You!"
+  "footer-text": "It was a pleasure working with you and your team. We hope you will keep us in mind for future. Thank You!",
+  "filter-title": "Filter your invoice and billing history"
 }
