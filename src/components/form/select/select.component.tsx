@@ -1,5 +1,5 @@
-import { Select as AntdSelect } from 'antd'
 import { FocusEventHandler, ReactNode, useState } from 'react'
+import ReactSelect from 'react-select'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
@@ -8,7 +8,7 @@ import FormError from '../../forms/form-error/form-error.component'
 import SmallModal from '../../small-modal/small-modal.component'
 import Input from '../input/input.component'
 import Label from '../label/label.component'
-import Styles from './select.styles'
+import { DropdownIndicator, Styles } from './select.styles'
 
 export interface SelectProps {
   id: string
@@ -24,6 +24,9 @@ export interface SelectProps {
   className?: string
   prefix?: ReactNode
   onBlur?: FocusEventHandler
+  onSearch?: any
+  onBottom?: any
+  Components?: any
 }
 
 export default function Select({
@@ -39,10 +42,24 @@ export default function Select({
   className,
   prefix,
   name,
-  onBlur
+  onBlur,
+  onSearch,
+  onBottom,
+  Components
 }: SelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
+
+  const innerValue: any =
+    typeof value === 'string' ? options.find((o) => o.value === value) : value
+  const innerDefaultValue: any =
+    typeof defaultValue === 'string'
+      ? options.find((o) => o.value === defaultValue)
+      : defaultValue
+
+  const handleChange = (e: OptionType) => {
+    onChange?.(e.value)
+  }
 
   if (isMobile) {
     return (
@@ -56,7 +73,7 @@ export default function Select({
           prefix={prefix}
           disabled={disabled}
           suffix={<CaretDownIcon />}
-          value={options.find((o) => o.value === value || defaultValue)?.label}
+          value={innerDefaultValue?.label || innerValue?.label}
           onClick={() => setModal(true)}
           onFocus={(e) => e.target.blur()}
           className={className}
@@ -81,18 +98,38 @@ export default function Select({
       {label && <Label htmlFor={id}>{label}</Label>}
       <div className="select__container">
         {!!prefix && <span className="select__prefix">{prefix}</span>}
-        <AntdSelect
+        <ReactSelect
           id={id}
           placeholder={placeholder}
-          className="select__input"
-          suffixIcon={<CaretDownIcon />}
           options={options}
-          value={value}
-          onChange={onChange}
-          defaultValue={defaultValue}
-          disabled={disabled}
-          onBlur={onBlur}
+          value={innerValue}
+          defaultValue={innerDefaultValue}
+          className="select-container"
+          classNamePrefix="select"
+          components={{
+            IndicatorSeparator: () => null,
+            DropdownIndicator,
+            ...Components
+          }}
+          isSearchable={!!onSearch}
+          onInputChange={onSearch}
+          onMenuScrollToBottom={onBottom}
+          onChange={handleChange}
         />
+        {/*<AntdSelect*/}
+        {/*  id={id}*/}
+        {/*  placeholder={placeholder}*/}
+        {/*  className="select__input"*/}
+        {/*  suffixIcon={<CaretDownIcon />}*/}
+        {/*  options={options}*/}
+        {/*  value={value}*/}
+        {/*  onChange={onChange}*/}
+        {/*  defaultValue={defaultValue}*/}
+        {/*  disabled={disabled}*/}
+        {/*  onBlur={onBlur}*/}
+        {/*  onSearch={onSearch}*/}
+        {/*  showSearch={!!onSearch}*/}
+        {/*/>*/}
         {name && <FormError name={name} className="field-error" />}
       </div>
     </Styles>
