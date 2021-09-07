@@ -1,7 +1,6 @@
 import { PropsWithChildren } from 'react'
-import { Link } from 'react-router-dom'
 
-import Root from './button.styles'
+import { Link, Styles } from './button.styles'
 import { ButtonProps } from './button.types'
 
 export default function Button({
@@ -17,7 +16,7 @@ export default function Button({
   ...props
 }: PropsWithChildren<ButtonProps>) {
   let content = (
-    <Root
+    <Styles
       $size={size}
       $var={variant}
       className={className}
@@ -27,7 +26,7 @@ export default function Button({
       {...props}
     >
       {children}
-    </Root>
+    </Styles>
   )
 
   if (to) {
