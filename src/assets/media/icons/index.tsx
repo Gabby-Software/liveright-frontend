@@ -51,3 +51,4 @@ export { ReactComponent as OptionsHorizontalIcon } from './option-horizontal.svg
 export { ReactComponent as InvoiceWhiteIcon } from './invoice.svg'
 export { ReactComponent as PrinterIcon } from './printer.svg'
 export { ReactComponent as DownArrowIcon } from './down-arrow.svg'
+export { ReactComponent as LeftArrowIcon } from './arrow-left-rect.svg'

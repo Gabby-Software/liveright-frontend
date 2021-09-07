@@ -1,5 +1,7 @@
+import moment, { Moment } from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
+import { LeftArrowIcon } from '../../../../assets/media/icons'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -17,13 +19,25 @@ import AverageHighLights from '../progress-average-highlights/progress-average-h
 import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
 import OverTimeMobile from '../progress-overtime-mobile/progress-overtime-mobile.component'
-import { Wrapper } from './progress-health-data.styles'
+import { HighlightArrow, Wrapper } from './progress-health-data.styles'
 
 interface Props {}
 
 const HealthData: React.FC<Props> = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const [highlightDay, setHighlightDay] = useState<Moment>(moment())
+  const highlightLabel = useMemo(() => {
+    return moment().isSame(highlightDay, 'day')
+      ? t('progress:todayHighlights')
+      : highlightDay.format('YYYY-MM-DD')
+  }, [highlightDay])
+  const prevDisabled = useMemo(() => {
+    return moment().diff(highlightDay, 'day') > 2
+  }, [highlightDay])
+  const nextDisabled = useMemo(() => {
+    return moment().diff(highlightDay, 'day') <= 0
+  }, [highlightDay])
   const [rangeHighlights, setRangeHighlights] = useState<
     PaginatedDataType<HealthDataType>
   >({ data: [], meta: { current_page: 1, total: 1, per_page: 10 } })
@@ -83,8 +97,24 @@ const HealthData: React.FC<Props> = () => {
 
   return (
     <Wrapper>
-      <PageSubtitle>{t('progress:todayHighlights')}</PageSubtitle>
-      <DateHighLights />
+      <PageSubtitle className={'today-highlights'}>
+        <HighlightArrow
+          disabled={prevDisabled}
+          onClick={() => {
+            setHighlightDay(moment(highlightDay.add(-1, 'day')))
+          }}
+        >
+          <LeftArrowIcon />
+        </HighlightArrow>
+        {highlightLabel}
+        <HighlightArrow
+          disabled={nextDisabled}
+          onClick={() => setHighlightDay(moment(highlightDay.add(1, 'day')))}
+        >
+          <LeftArrowIcon />
+        </HighlightArrow>
+      </PageSubtitle>
+      <DateHighLights date={highlightDay} />
 
       {isMobile ? (
         <OverTimeMobile

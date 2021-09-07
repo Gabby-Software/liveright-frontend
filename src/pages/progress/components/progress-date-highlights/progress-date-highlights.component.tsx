@@ -25,6 +25,7 @@ const DateHighLights: React.FC<Props> = (props) => {
   const sleepData = useMemo(() => {
     if (dateHighlights?.sleep) {
       const { start_time, end_time } = dateHighlights.sleep
+      if (!start_time || !end_time) return ''
       const start = timeWithoutSeconds(start_time)
       const end = timeWithoutSeconds(end_time)
       return `${isMobile ? '' : t('from')} ${start} ${t('to')} ${end}`
@@ -43,7 +44,7 @@ const DateHighLights: React.FC<Props> = (props) => {
     }
 
     getHealthData()
-  }, [])
+  }, [date])
 
   return (
     <CardsWrapper>
