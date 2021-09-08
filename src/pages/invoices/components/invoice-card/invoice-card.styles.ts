@@ -19,7 +19,6 @@ export const LinkStyles = styled<any>(Link)`
     css`
       @media ${mediaQueries.MOBILE} {
         margin-right: 0;
-        margin-bottom: 1rem;
       }
     `}
 `
@@ -82,11 +81,21 @@ export const Styles = styled<any>(Card)`
       min-width: 130px;
       margin-left: 1rem;
     }
+
+    &__btn-text {
+      min-width: auto;
+      padding: 0;
+    }
   }
 
   ${(props) =>
     !props.$mobCol &&
     css`
+      @media ${mediaQueries.MOBILE} {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+
       .invoice-card {
         @media ${mediaQueries.MOBILE} {
           &__price {

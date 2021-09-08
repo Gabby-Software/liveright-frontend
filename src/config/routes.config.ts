@@ -352,9 +352,10 @@ export const routes: RouteType[] = [
     url: Routes.FINANCIALS,
     Component: lazy(() => import('../pages/financials/financials.component')),
     version: 2,
+    mobileLayout: false,
     header: {
       title: null,
-      items: headers.default
+      items: []
     }
   },
   {

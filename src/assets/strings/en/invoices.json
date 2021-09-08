@@ -7,6 +7,7 @@
   "invoice-due": "Due Date",
   "description": "Description",
   "mark-paid": "Mark as Paid",
+  "open-invoice": "Open Invoice",
   "send-invoice": "Send Invoice",
   "pay": "Pay Invoice",
   "cancel-invoice": "Cancel Invoice",
@@ -85,6 +86,7 @@
     "add": "Add Item"
   },
   "create-new": "Generate New Invoice",
+  "new-invoice": "New Invoice",
   "invoice-no": "Invoice #{{number}}",
   "select-client": "Select your existing Client",
   "type-client": "Type your client name",

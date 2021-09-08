@@ -9,7 +9,11 @@ import { useInvoices } from '../../invoices.context'
 import InvoiceCard from '../invoice-card/invoice-card.component'
 import Styles from './invoices-list.styles'
 
-const InvoicesList = () => {
+interface InvoiceListProps {
+  trainerFinancials?: boolean
+}
+
+const InvoicesList = ({ trainerFinancials }: InvoiceListProps) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
 
@@ -44,8 +48,7 @@ const InvoicesList = () => {
       ) : (
         <>
           {data.map((inv: InvoiceType) => (
-            <InvoiceCard key={inv.id} {...inv} />
-            // <InvoicesListItem {...inv} key={inv.id} />
+            <InvoiceCard key={inv.id} {...inv} showMark={trainerFinancials} />
           ))}
           <DataPagination
             page={meta.current_page}

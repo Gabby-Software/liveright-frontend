@@ -12,7 +12,12 @@ import InvoicesTable from './components/invoices-table/invoices-table.component'
 import { InvoicesProvider } from './invoices.context'
 import Styles from './invoices.styles'
 
-const Invoices = () => {
+interface InvoicesProps {
+  asPage?: boolean
+  trainerFinancials?: boolean
+}
+
+const Invoices = ({ asPage = true, trainerFinancials }: InvoicesProps) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
 
@@ -27,7 +32,7 @@ const Invoices = () => {
       {isMobile ? (
         <>
           <InvoiceFilters />
-          <InvoicesList />
+          <InvoicesList trainerFinancials={trainerFinancials} />
         </>
       ) : (
         <Card>
@@ -38,7 +43,7 @@ const Invoices = () => {
     </Styles>
   )
 
-  return isMobile ? (
+  return isMobile && asPage ? (
     <MobilePage title={t('invoices')}>{content}</MobilePage>
   ) : (
     content

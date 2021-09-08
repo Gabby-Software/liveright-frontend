@@ -7,6 +7,7 @@ export default styled.div`
   padding-bottom: 5rem;
 
   @media ${mediaQueries.MOBILE} {
+    padding-bottom: 0;
     padding-top: 2.5rem;
   }
 

@@ -66,12 +66,14 @@ const InvoiceFilters = () => {
           className="invoice-filters__search"
         />
         {isMobile ? (
-          <IconButton
-            className="invoice-filters__search-btn"
-            onClick={() => setFiltersDrawer(true)}
-          >
-            <FilterIcon />
-          </IconButton>
+          <>
+            <IconButton
+              className="invoice-filters__search-btn"
+              onClick={() => setFiltersDrawer(true)}
+            >
+              <FilterIcon />
+            </IconButton>
+          </>
         ) : (
           <>
             {statusSelect}

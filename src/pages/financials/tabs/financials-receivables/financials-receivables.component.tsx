@@ -21,7 +21,6 @@ const FinancialsReceivables = ({}: Props) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { progressCount, statistic, onRange } = useStatistic()
-  console.log(statistic)
 
   const { invoices, meta, ...actions } = useInvoices()
 
@@ -58,18 +57,27 @@ const FinancialsReceivables = ({}: Props) => {
         </h2>
       </div>
 
-      <Card className="f-receivables__table-card">
-        <FinanialsReceivablesFilters onFilter={actions.onFilter} />
-        {isMobile ? (
-          <FinancialReceivablesList />
-        ) : (
-          <FinancialsReceivablesTable
+      {isMobile ? (
+        <>
+          <FinanialsReceivablesFilters onFilter={actions.onFilter} />
+          <FinancialReceivablesList
             data={invoices}
             meta={meta}
             actions={actions}
           />
-        )}
-      </Card>
+        </>
+      ) : (
+        <>
+          <Card className="f-receivables__table-card">
+            <FinanialsReceivablesFilters onFilter={actions.onFilter} />
+            <FinancialsReceivablesTable
+              data={invoices}
+              meta={meta}
+              actions={actions}
+            />
+          </Card>
+        </>
+      )}
     </Styles>
   )
 }
