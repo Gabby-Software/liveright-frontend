@@ -9,6 +9,7 @@
   "qualityLabel": "Quality",
   "start_time": "Start Time",
   "end_time": "End Time",
+  "total_sleep": "Total Sleep",
   "nap_start_time": "Nap Starts",
   "nap_end_time": "Nap Ends",
   "avg_rate": "Average Heart Rate",
