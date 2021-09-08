@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 import { FilterIcon, SearchIcon } from '../../../../assets/media/icons'
+import {
+  ActiveFilterCard,
+  ActiveFilters
+} from '../../../../components/active-filters'
 import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.component'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
@@ -19,14 +23,18 @@ const InvoiceFilters = () => {
   const { t } = useTranslation()
   const { type } = useAuth()
   const [search, setSearch] = useState('')
-  const [status, setStatus] = useState('')
-  const [invoice_from, setInvoice_from] = useState('')
+  const [status, setStatus] = useState<any>()
+  const [invoice_from, setInvoice_from] = useState<any>()
   const { update } = useInvoices()
   const isMobile = useIsMobile()
   const [filtersDrawer, setFiltersDrawer] = useState(false)
 
   const fetchInvoices = () => {
-    update(1, { search, status, invoice_from })
+    update(1, {
+      search,
+      status: status?.value,
+      invoice_from: invoice_from?.value
+    })
   }
 
   useEffect(fetchInvoices, [search, status, invoice_from])
@@ -37,7 +45,7 @@ const InvoiceFilters = () => {
       value={status}
       placeholder={t('invoices:status')}
       options={[{ label: 'All statuses', value: '' }, ...statuses]}
-      onChange={setStatus}
+      onChange={(e, option) => setStatus(option)}
       className="invoice-filters__status"
     />
   )
@@ -48,7 +56,7 @@ const InvoiceFilters = () => {
       value={invoice_from}
       name={'invoice_from'}
       placeholder={t('invoices:issuer')}
-      onUpdate={setInvoice_from}
+      onUpdate={(e, option) => setInvoice_from(option)}
       className="invoice-filters__issuer"
     />
   )
@@ -81,6 +89,29 @@ const InvoiceFilters = () => {
           </>
         )}
       </Styles>
+
+      {isMobile && (status || invoice_from) && (
+        <ActiveFilters>
+          {status && (
+            <ActiveFilterCard
+              label="Status"
+              value={status.label}
+              onDelete={() => {
+                setStatus(undefined)
+              }}
+            />
+          )}
+          {invoice_from && (
+            <ActiveFilterCard
+              label="Issuer"
+              value={invoice_from.label}
+              onDelete={() => {
+                setInvoice_from(undefined)
+              }}
+            />
+          )}
+        </ActiveFilters>
+      )}
 
       {isMobile && (
         <BottomDrawer

@@ -5,8 +5,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   display: flex;
-  margin-bottom: 1.625rem;
-
+  
   .invoice-filters {
     &__search {
       width: 320px;

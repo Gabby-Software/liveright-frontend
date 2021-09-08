@@ -19,7 +19,7 @@ export interface SelectProps {
   name?: string
   value?: any
   defaultValue?: any
-  onChange?: (value: any) => void
+  onChange?: (value: any, option: OptionType) => void
   disabled?: boolean
   className?: string
   prefix?: ReactNode
@@ -62,7 +62,7 @@ export default function Select({
       : defaultValue
 
   const handleChange = (e: OptionType) => {
-    onChange?.(e.value)
+    onChange?.(e.value, e)
   }
 
   if (isMobile) {
@@ -88,9 +88,9 @@ export default function Select({
           visible={modal}
           onCancel={() => setModal(false)}
           title={label || 'Select'}
-          menu={options.map(({ label, value }) => ({
-            name: label,
-            onClick: () => onChange?.(value)
+          menu={options.map((option) => ({
+            name: option.label,
+            onClick: () => onChange?.(option.value, option)
           }))}
         />
       </>

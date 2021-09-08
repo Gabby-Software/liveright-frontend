@@ -2,6 +2,10 @@ import debounce from 'lodash.debounce'
 import React, { useState } from 'react'
 
 import { FilterIcon, SearchIcon } from '../../../../../../assets/media/icons'
+import {
+  ActiveFilterCard,
+  ActiveFilters
+} from '../../../../../../components/active-filters'
 import BottomDrawer from '../../../../../../components/bottom-drawer/bottom-drawer.component'
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
@@ -21,6 +25,8 @@ export default function Filters({
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [filtersDrawer, setFiltersDrawer] = useState(false)
+  const [selectedStatus, setSelectedStatus] = useState<any>()
+  const [selectedIssuer, setSelectedIssuer] = useState<any>()
 
   const handleSearch = debounce((e) => {
     onFilter?.('search', e.target.value)
@@ -29,10 +35,14 @@ export default function Filters({
   const statusSelect = (
     <Select
       id="billing-type"
-      defaultValue=""
+      value={selectedStatus}
       placeholder={t('invoices:status')}
       options={[{ label: 'All statuses', value: '' }, ...statuses]}
-      onChange={(e) => onFilter?.('status', e)}
+      onChange={(e, option) => {
+        console.log(e, option)
+        onFilter?.('status', e)
+        setSelectedStatus(option)
+      }}
       className="invoice-filters__status"
     />
   )
@@ -40,9 +50,12 @@ export default function Filters({
   const clientSelect = (
     <FormSelectIssuer
       id="bulling-issuer"
-      defaultValue=""
+      value={selectedIssuer ? selectedIssuer : undefined}
       placeholder={t('invoices:issued-to')}
-      onUpdate={(e) => onFilter?.('invoice_to', e)}
+      onUpdate={(e, option) => {
+        onFilter?.('invoice_to', e)
+        setSelectedIssuer(option)
+      }}
       className="invoice-filters__issuer"
     />
   )
@@ -73,6 +86,31 @@ export default function Filters({
           </>
         )}
       </Styles>
+
+      {isMobile && (selectedIssuer || selectedStatus) && (
+        <ActiveFilters>
+          {selectedStatus && (
+            <ActiveFilterCard
+              label="Status"
+              value={selectedStatus.label}
+              onDelete={() => {
+                onFilter?.('status', '')
+                setSelectedStatus(undefined)
+              }}
+            />
+          )}
+          {selectedIssuer && (
+            <ActiveFilterCard
+              label="Issuer"
+              value={selectedIssuer.label}
+              onDelete={() => {
+                onFilter?.('invoice_to', '')
+                setSelectedIssuer(undefined)
+              }}
+            />
+          )}
+        </ActiveFilters>
+      )}
 
       {isMobile && (
         <BottomDrawer

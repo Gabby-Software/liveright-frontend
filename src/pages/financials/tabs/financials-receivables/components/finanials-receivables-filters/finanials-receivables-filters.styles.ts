@@ -4,7 +4,7 @@ import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 
 export const Styles = styled.div`
   display: flex;
-  margin-bottom: 1.625rem;
+  //margin-bottom: 1.625rem;
 
   .invoice-filters {
     &__search {

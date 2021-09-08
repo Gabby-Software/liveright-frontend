@@ -4,7 +4,7 @@ import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
   width: auto;
-  margin: 0 -1.75rem -1.5rem -1.75rem;
+  margin: 1.25rem -1.75rem -1.5rem -1.75rem;
 
   .invoice-table {
     &__table {
