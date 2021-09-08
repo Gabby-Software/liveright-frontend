@@ -23,22 +23,6 @@ export const CardsWrapper = styled.div`
   position: relative;
 `
 
-export const SubmitButtonWrapper = styled.div`
-  max-width: 250px;
-  margin: 0 0 auto 40px;
-  ${media('tablet', 'max')`
-        max-width: none;
-        margin: 40px 0 0 0;
-  `}
-`
-
-export const SubmitButton = styled(ButtonSubmit)`
-  z-index: 100;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 10px;
-`
-
 export const InputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
