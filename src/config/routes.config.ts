@@ -129,9 +129,10 @@ export const routes: RouteType[] = [
       }))
     ),
     version: 2,
+    mobileLayout: false,
     header: {
       title: 'Invoices',
-      items: headers.default
+      items: []
     }
   },
   {
@@ -325,9 +326,11 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/notifications/notifications.component')
     ),
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Notifications',
-      items: headers.default
+      title: null,
+      items: []
     }
   },
   {
@@ -349,9 +352,10 @@ export const routes: RouteType[] = [
     url: Routes.FINANCIALS,
     Component: lazy(() => import('../pages/financials/financials.component')),
     version: 2,
+    mobileLayout: false,
     header: {
       title: null,
-      items: headers.default
+      items: []
     }
   },
   {

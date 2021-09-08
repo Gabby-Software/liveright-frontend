@@ -4,13 +4,15 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
   margin: 0;
+  font-variant: none;
 }
 
 .field-error {
   position: absolute;
-  color: #EF1733;
+  color: #ef1733;
   bottom: -1rem;
   left: 0;
 }

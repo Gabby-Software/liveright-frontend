@@ -56,5 +56,6 @@
     "chat": "Chat",
     "health-data": "Health Data"
   },
-  "your-trainer": "Your trainer"
+  "your-trainer": "Your trainer",
+  "active-filters": "Active Filter"
 }

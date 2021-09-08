@@ -7,9 +7,9 @@ import { InvoiceType } from '../../../../types/invoice.type'
 import InvoiceCard from '../invoice-card/invoice-card.component'
 import Styles from './invoices-atention.styles'
 
-type Props = {}
+interface InvoicesAtentionProps {}
 
-const InvoicesAtention = ({}: Props) => {
+const InvoicesAtention = ({}: InvoicesAtentionProps) => {
   const { invoices } = useInvoices({
     initialFilters: {
       status: 'due_soon,overdue'
@@ -23,7 +23,7 @@ const InvoicesAtention = ({}: Props) => {
     <Styles>
       <Carousel>
         {invoices.map((inv: InvoiceType) => (
-          <InvoiceCard key={inv.id} {...inv} />
+          <InvoiceCard mobileColumn key={inv.id} {...inv} />
         ))}
       </Carousel>
 
