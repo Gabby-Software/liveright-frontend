@@ -1,9 +1,6 @@
 import { Space } from 'antd'
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
-import ButtonSubmit from '../../../../components/forms/button-submit/button-submit.component'
-
 export const Wrapper = styled.div`
   display: flex;
   flex: 1;
