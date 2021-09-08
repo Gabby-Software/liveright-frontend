@@ -1,9 +1,6 @@
 import { Space } from 'antd'
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
-import ButtonSubmit from '../../../../components/forms/button-submit/button-submit.component'
-
 export const Wrapper = styled.div`
   display: flex;
   flex: 1;
@@ -21,22 +18,6 @@ export const CardsWrapper = styled.div`
   width: 100%;
   max-width: 860px;
   position: relative;
-`
-
-export const SubmitButtonWrapper = styled.div`
-  max-width: 250px;
-  margin: 0 0 auto 40px;
-  ${media('tablet', 'max')`
-        max-width: none;
-        margin: 40px 0 0 0;
-  `}
-`
-
-export const SubmitButton = styled(ButtonSubmit)`
-  z-index: 100;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 10px;
 `
 
 export const InputsWrapper = styled.div`

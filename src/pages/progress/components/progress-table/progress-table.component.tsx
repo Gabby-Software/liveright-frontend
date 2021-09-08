@@ -1,10 +1,13 @@
 import get from 'lodash/get'
+import moment from 'moment'
 import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as EditIcon } from '../../../../assets/media/icons/edit.svg'
+import BlueLink from '../../../../components/blue-link/blue-link.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { PROGRESS_LOG_URL, PROGRESS_TABLE_KEYS } from '../../progress.constants'
@@ -33,23 +36,28 @@ const HealthTable: React.FC<Props> = (props) => {
     const labels = [
       'progress:date',
       'progress:reported_by',
-      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `progress:${it}`),
-      'progress:qualityLabel'
+      'progress:qualityLabel',
+      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `progress:${it}`)
     ]
     const keys = [
       'date',
       reportedByKey,
-      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `${activeTab}.${it}`),
-      qualityKey
+      qualityKey,
+      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `${activeTab}.${it}`)
     ]
 
     return { labels, keys }
   }, [])
-
+  const hourFormat = (sleep: string, nap: string) => {
+    const ms = moment(sleep || '00:00:00', 'HH:mm:ss')
+    const mn = moment(nap || '00:00:00', 'HH:mm:ss')
+    ms.add(mn.minutes(), 'minutes')
+    ms.add(mn.hours(), 'hours')
+    return `${ms.hours()}h ${ms.minutes() ? ms.minutes() + 'm' : ''}`
+  }
   const handlePageSet = (p: number) => {
     onPageChange && onPageChange(p)
   }
-
   return (
     <Wrapper>
       <DataTable
@@ -79,7 +87,12 @@ const HealthTable: React.FC<Props> = (props) => {
             const quality = get(item, qualityKey)
 
             return quality ? t(`progress:${get(item, qualityKey)}`) : ''
-          }
+          },
+          'sleep.total_sleep': (item: HealthData) =>
+            hourFormat(
+              item?.sleep?.sleep_duration || '00:00:00',
+              item?.sleep?.nap_duration || '00:00:00'
+            )
         }}
       />
       <Pagination>
@@ -87,7 +100,18 @@ const HealthTable: React.FC<Props> = (props) => {
           page={current_page}
           setPage={handlePageSet}
           total={total}
-        />
+        >
+          <BlueLink
+            to={
+              Routes.PROGRESS_LOG_HEALTH_DATA +
+              `/${moment().format('YYYY-MM-DD')}`
+            }
+            className={'pagination__link'}
+          >
+            Some day missing? Add it{' '}
+            <span className={'pagination__plus'}>+</span>
+          </BlueLink>
+        </DataPagination>
       </Pagination>
     </Wrapper>
   )

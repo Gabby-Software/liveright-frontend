@@ -6,11 +6,24 @@ export const Wrapper = styled.div`
 `
 export const Pagination = styled.div`
   background-color: white;
-  padding-bottom: 20px;
+  padding: 0 24px 20px 24px;
   border-radius: 0 0 10px 10px;
   margin-bottom: 30px;
+  .data-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .ant-pagination {
     background-color: white;
+  }
+  .pagination {
+    &__link {
+    }
+    &__plus {
+      font-size: 24px;
+      padding-left: 10px;
+    }
   }
 `
 

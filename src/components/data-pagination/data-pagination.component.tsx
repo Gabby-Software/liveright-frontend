@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 import { CaretRightIcon } from '../../assets/media/icons'
 import { Pagination, Styles } from './data-pagination.styles'
@@ -9,10 +9,16 @@ type Props = {
   total: number
   justify?: 'start' | 'center' | 'end'
 }
-
-const DataPagination = ({ page, setPage, total, justify }: Props) => {
+const DataPagination: FC<Props> = ({
+  page,
+  setPage,
+  total,
+  justify,
+  children
+}) => {
   return (
-    <Styles $justify={justify}>
+    <Styles $justify={justify} className={'data-pagination'}>
+      {children}
       <Pagination
         current={page}
         defaultCurrent={1}

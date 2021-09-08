@@ -30,7 +30,7 @@ const HealthData: React.FC<Props> = () => {
   const highlightLabel = useMemo(() => {
     return moment().isSame(highlightDay, 'day')
       ? t('progress:todayHighlights')
-      : highlightDay.format('YYYY-MM-DD')
+      : highlightDay.format('YYYY-MM-DD') + ' Highlights'
   }, [highlightDay])
   const prevDisabled = useMemo(() => {
     return moment().diff(highlightDay, 'day') > 2

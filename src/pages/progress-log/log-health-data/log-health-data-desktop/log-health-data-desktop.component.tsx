@@ -28,6 +28,7 @@ import {
   Wrapper as SleepCardWrapper
 } from '../components/log-card-desktop/log-card-desktop.styles'
 import LogClient from '../components/log-client/log-client.component'
+import SubmitButtonDesktop from '../components/submit-button-desktop/submit-button-desktop.component'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
@@ -37,14 +38,12 @@ import {
   CardsWrapper,
   InputsWrapper,
   PickersWrapper,
-  SubmitButton,
-  SubmitButtonWrapper,
   Wrapper
 } from './log-health-data-desktop.styles'
 
 const LogHealthDataDesktop: React.FC<{}> = () => {
   const { t } = useTranslation()
-  const { values, isValid } = useFormikContext<HealthData>()
+  const { values } = useFormikContext<HealthData>()
   const { type } = useAuth()
   const history = useHistory()
   const sleepOptions = useMemo(
@@ -170,11 +169,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
             </div>
           </SleepCardWrapper>
         </CardsWrapper>
-        <SubmitButtonWrapper>
-          <SubmitButton disabled={!isValid}>
-            {t('progress:saveLogs')}
-          </SubmitButton>
-        </SubmitButtonWrapper>
+        <SubmitButtonDesktop />
       </FormRow>
     </Wrapper>
   )

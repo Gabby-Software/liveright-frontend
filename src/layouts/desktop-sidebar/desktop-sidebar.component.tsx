@@ -37,7 +37,7 @@ type MenuItemType = {
 const menuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeIcon },
   { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
-  { name: 'progress', url: Routes.PROGRESS_HEALTH_DATA, Icon: ProgressIcon },
+  { name: 'progress', url: Routes.PROGRESS_MEASUREMENTS, Icon: ProgressIcon },
   { name: 'sessions', url: Routes.SESSIONS, Icon: UsersIcon },
   {
     name: 'clients',
@@ -51,7 +51,7 @@ const menuItems: MenuItemType[] = [
     Icon: InvoiceIcon,
     type: userTypes.CLIENT
   },
-  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon, requireTrainer: true },
+  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon, type: userTypes.TRAINER },
   { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
   { name: 'library', url: Routes.HUB, Icon: LibraryIcon },
   {
@@ -79,7 +79,7 @@ const DesktopSidebar = () => {
           </div>
 
           {type === userTypes.CLIENT && trainer.id && (
-            <Link to={Routes.TRAINER}>
+            <Link to={Routes.CHAT}>
               <UserBadgeCard
                 img={trainer.avatar?.url}
                 firstName={trainer.first_name}
