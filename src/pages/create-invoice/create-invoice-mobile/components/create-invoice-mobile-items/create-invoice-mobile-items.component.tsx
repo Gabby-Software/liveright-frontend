@@ -198,7 +198,10 @@ const CreateInvoiceMobileItems = () => {
 
       <Formik initialValues={{}} onSubmit={handleSubmit}>
         <Form>
-          <CreateInvoiceMobileActions back={createInvoiceSteps.DETAILS} />
+          <CreateInvoiceMobileActions
+            back={createInvoiceSteps.DETAILS}
+            backText="Back to Detail Invoice"
+          />
         </Form>
       </Formik>
     </Styles>

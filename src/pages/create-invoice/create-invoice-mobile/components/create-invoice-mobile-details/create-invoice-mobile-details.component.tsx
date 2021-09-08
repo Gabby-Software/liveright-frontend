@@ -87,7 +87,10 @@ const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
               </CreateInvoiceSection>
             </Card>
 
-            <CreateInvoiceMobileActions back={createInvoiceSteps.CLIENT} />
+            <CreateInvoiceMobileActions
+              back={createInvoiceSteps.CLIENT}
+              backText="Back to select existing Client"
+            />
           </Form>
         )}
       </Formik>

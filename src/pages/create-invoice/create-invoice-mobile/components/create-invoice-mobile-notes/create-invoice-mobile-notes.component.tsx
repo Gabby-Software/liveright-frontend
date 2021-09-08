@@ -3,10 +3,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import Card from '../../../../../components/cards/card/card.component'
 import Textarea from '../../../../../components/form/textarea/textarea.component'
-import FormButton from '../../../../../components/forms/form-button/form-button.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import { handleError } from '../../../../../managers/api.manager'
 import logger from '../../../../../managers/logger.manager'
@@ -14,7 +14,10 @@ import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { ACTION_CREATE_INVOICE_REQUEST } from '../../../../../store/action-types'
 import CreateInvoiceSection from '../../../components/create-invoice-section/create-invoice-section.component'
 import { useInvoiceForm } from '../../../create-invoice.context'
-import { InvoiceFormType } from '../../../create-invoice.data'
+import {
+  createInvoiceSteps,
+  InvoiceFormType
+} from '../../../create-invoice.data'
 import CreateInvoiceMobileClientView from '../create-invoice-mobile-client-view/create-invoice-mobile-client-view.component'
 import CreateInvoiceMobileDetailsView from '../create-invoice-mobile-details-view/create-invoice-mobile-details-view.component'
 import CreateInvoiceMobileItemsView from '../create-invoice-mobile-items-view/create-invoice-mobile-items-view.component'
@@ -22,7 +25,7 @@ import Styles from './create-invoice-mobile-notes.styles'
 
 type Props = {}
 const CreateInvoiceMobileNotes = ({}: Props) => {
-  const { values, setValues } = useInvoiceForm()
+  const { values, setValues, setStep } = useInvoiceForm()
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -31,7 +34,6 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
     values: InvoiceFormType,
     helper: FormikHelpers<InvoiceFormType>
   ) => {
-    logger.info('SUBMITTING', values)
     setValues(values)
     dispatch({
       type: ACTION_CREATE_INVOICE_REQUEST,
@@ -96,6 +98,15 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
               }}
             >
               {t('invoices:create.generate-and-back')}
+            </Button>
+
+            <Button
+              variant="text"
+              onClick={() => setStep(createInvoiceSteps.ITEMS)}
+              className="ci-actions__back"
+            >
+              <CaretLeftIcon />
+              Back to Add Items
             </Button>
           </Form>
         )}

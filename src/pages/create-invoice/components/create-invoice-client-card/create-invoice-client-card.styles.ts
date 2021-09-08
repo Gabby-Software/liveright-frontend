@@ -12,6 +12,20 @@ export default styled(Card)`
   .ci-cc {
     &__user-card {
       width: fit-content;
+      max-width: 100%;
+
+      & .user-badge-card__img {
+        min-width: 40px;
+      }
+
+      & .user-badge-card__content {
+        max-width: calc(100% - 88px);
+
+        & p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
 
     &__btn {
