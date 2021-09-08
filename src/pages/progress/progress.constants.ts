@@ -44,7 +44,13 @@ export const PROGRESS_LOG: { [key: string]: ProgressLogType } = {
 }
 
 export const PROGRESS_TABLE_KEYS: { [key: string]: string[] } = {
-  sleep: ['start_time', 'end_time', 'nap_start_time', 'nap_end_time'],
+  sleep: [
+    'start_time',
+    'end_time',
+    'nap_start_time',
+    'nap_end_time',
+    'total_sleep'
+  ],
   heart_rate: ['avg_rate'],
   steps: ['daily_steps'],
   blood_glucose: ['glucose']

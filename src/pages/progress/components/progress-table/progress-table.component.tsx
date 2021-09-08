@@ -36,23 +36,28 @@ const HealthTable: React.FC<Props> = (props) => {
     const labels = [
       'progress:date',
       'progress:reported_by',
-      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `progress:${it}`),
-      'progress:qualityLabel'
+      'progress:qualityLabel',
+      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `progress:${it}`)
     ]
     const keys = [
       'date',
       reportedByKey,
-      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `${activeTab}.${it}`),
-      qualityKey
+      qualityKey,
+      ...PROGRESS_TABLE_KEYS[activeTab].map((it) => `${activeTab}.${it}`)
     ]
 
     return { labels, keys }
   }, [])
-
+  const hourFormat = (sleep: string, nap: string) => {
+    const ms = moment(sleep || '00:00:00', 'HH:mm:ss')
+    const mn = moment(nap || '00:00:00', 'HH:mm:ss')
+    ms.add(mn.minutes(), 'minutes')
+    ms.add(mn.hours(), 'hours')
+    return `${ms.hours()}h ${ms.minutes() ? ms.minutes() + 'm' : ''}`
+  }
   const handlePageSet = (p: number) => {
     onPageChange && onPageChange(p)
   }
-
   return (
     <Wrapper>
       <DataTable
@@ -82,7 +87,12 @@ const HealthTable: React.FC<Props> = (props) => {
             const quality = get(item, qualityKey)
 
             return quality ? t(`progress:${get(item, qualityKey)}`) : ''
-          }
+          },
+          'sleep.total_sleep': (item: HealthData) =>
+            hourFormat(
+              item?.sleep?.sleep_duration || '00:00:00',
+              item?.sleep?.nap_duration || '00:00:00'
+            )
         }}
       />
       <Pagination>
