@@ -1,5 +1,8 @@
 {
   "title": "Financial",
+  "invoices-title": "Invoices",
+  "invoice-view-title": "Detail Invoice",
+  "return-invoices": "Return to Invoices",
   "client-name": "Client Name",
   "trainer-name": "Issued By",
   "invoice-number": "Invoice #",
@@ -112,5 +115,6 @@
   "generate-send": "Generate Invoice and Send",
   "footer-note": "Note",
   "footer-text": "It was a pleasure working with you and your team. We hope you will keep us in mind for future. Thank You!",
-  "filter-title": "Filter your invoice and billing history"
+  "filter-title": "Filter your invoice and billing history",
+  "due-on": "Due On"
 }
