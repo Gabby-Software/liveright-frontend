@@ -21,7 +21,8 @@ export function dataToOptions(
         value: `${row.id}`,
         firstName: row.first_name,
         lastName: row.last_name,
-        avatar: row.avatar?.url
+        avatar: row.avatar?.url,
+        clientObj: row
       })
     })
 

@@ -97,6 +97,7 @@ export const routes: RouteType[] = [
       () => import('../pages/create-invoice/create-invoice.component')
     ),
     version: 2,
+    mobileLayout: false,
     back: {
       url: Routes.FINANCIALS_RECEIVABLES,
       alias: 'invoices'

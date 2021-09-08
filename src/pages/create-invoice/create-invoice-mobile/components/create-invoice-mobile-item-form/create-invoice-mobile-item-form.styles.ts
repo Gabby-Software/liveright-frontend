@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export default styled.div`
-  margin-bottom: 60px;
   position: relative;
+
   .ci-item {
     &__total {
       font-weight: 600;
@@ -21,8 +21,13 @@ export default styled.div`
       padding: 20px 0 20px 20px;
       cursor: pointer;
     }
-    &__row {
-      display: flex;
+
+    &__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+
       div {
         margin-right: 12px;
         &:last-child {
@@ -30,5 +35,9 @@ export default styled.div`
         }
       }
     }
+  }
+
+  .add-invoice__form-item {
+    margin-bottom: 1.25rem;
   }
 `

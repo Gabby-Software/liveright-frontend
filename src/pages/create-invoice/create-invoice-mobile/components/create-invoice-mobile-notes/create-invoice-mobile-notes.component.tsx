@@ -3,8 +3,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import Button from '../../../../../components/buttons/button/button.component'
+import Card from '../../../../../components/cards/card/card.component'
+import Textarea from '../../../../../components/form/textarea/textarea.component'
 import FormButton from '../../../../../components/forms/form-button/form-button.component'
-import FormTextarea from '../../../../../components/forms/form-textarea/form-textarea.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import { handleError } from '../../../../../managers/api.manager'
 import logger from '../../../../../managers/logger.manager'
@@ -24,6 +26,7 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
+
   const handleSubmit = (
     values: InvoiceFormType,
     helper: FormikHelpers<InvoiceFormType>
@@ -48,41 +51,52 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
       }
     })
   }
+
   return (
     <Styles>
       <CreateInvoiceMobileClientView />
       <CreateInvoiceMobileDetailsView />
       <CreateInvoiceMobileItemsView />
+
       <Formik initialValues={values} onSubmit={handleSubmit} enableReinitialize>
         {(formik: FormikProps<InvoiceFormType>) => (
           <Form>
-            <CreateInvoiceSection title={'Add Notes'}>
-              <FormTextarea name={'invoice.description'} label={'Notes'} />
-            </CreateInvoiceSection>
-            <FormButton
-              type={'primary'}
+            <Card>
+              <CreateInvoiceSection title={'Add Notes'}>
+                <Textarea
+                  id="add-invoice-description"
+                  placeholder={'Notes'}
+                  value={formik.values.invoice.description}
+                  onChange={(e) =>
+                    formik.setFieldValue('invoice.description', e.target.value)
+                  }
+                />
+              </CreateInvoiceSection>
+            </Card>
+
+            <Button
               disabled={!formik.isValid || !values.items.length}
               className={'add-invoice__submit'}
               htmlType={'submit'}
-              onClick={() =>
+              onClick={() => {
                 formik.setFieldValue('invoice.send_to_client', true)
-              }
-              id={'btn-submit-invoice'}
+                formik.submitForm()
+              }}
             >
               {t('invoices:create.generate-and-send')}
-            </FormButton>
-            <FormButton
-              type={'default'}
+            </Button>
+            <Button
+              variant="secondary"
               disabled={!formik.isValid || !values.items.length}
               className={'add-invoice__submit'}
               htmlType={'submit'}
-              onClick={() =>
+              onClick={() => {
                 formik.setFieldValue('invoice.send_to_client', false)
-              }
-              id={'btn-submit-invoice-back'}
+                formik.submitForm()
+              }}
             >
               {t('invoices:create.generate-and-back')}
-            </FormButton>
+            </Button>
           </Form>
         )}
       </Formik>

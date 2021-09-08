@@ -89,6 +89,7 @@
     "add": "Add Item"
   },
   "create-new": "Generate New Invoice",
+  "return-financials": "Return to Financial",
   "new-invoice": "New Invoice",
   "invoice-no": "Invoice #{{number}}",
   "select-client": "Select your existing Client",
