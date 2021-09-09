@@ -91,8 +91,7 @@ class SocketManager {
   }
   sendMessage(msg: ChatMessageType) {
     if (!this.socket) return
-    console.log('SENDING MESSAGE', msg)
-    const socketMessage = {
+    const socketMessage: any = {
       message: {
         types: msg.types,
         content: msg.content,
@@ -102,6 +101,12 @@ class SocketManager {
       },
       senderId: msg.senderId,
       roomId: msg.chat_room_id
+    }
+    if (msg.session_meta_data) {
+      socketMessage.message.session_meta_data = msg.session_meta_data
+    }
+    if (msg.invoice_meta_data) {
+      socketMessage.message.invoice_meta_data = msg.invoice_meta_data
     }
     this.socket.emit('message:send', socketMessage)
   }
