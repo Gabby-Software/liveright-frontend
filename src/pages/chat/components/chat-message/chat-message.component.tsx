@@ -11,6 +11,7 @@ import { ChatMessageType } from '../../../../modules/chat/types/chat-message.typ
 import { classes } from '../../../../pipes/classes.pipe'
 import { noImage } from '../../../../pipes/no-image.pipe'
 import Styles, { ProfileImageStyled } from './chat-message.styles'
+import ChatMessageActions from './chat-message-actions/chat-message-actions.component'
 import ChatMessageAttachment from './chat-message-attachment/chat-message-attachment.component'
 import ChatMessageAudio from './chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from './chat-message-gallery/chat-message-gallery.component'
@@ -112,19 +113,28 @@ const ChatMessage = ({ msg }: Props) => {
           </div>
           <div
             className={classes(
-              'message__time',
+              'message__meta',
               isMe && 'me',
               isPopup && 'popup'
             )}
           >
-            <span>{chatTime(msg.meta.sent_at)}</span>
-            {isMe ? (
-              msg.meta.read_at ? (
-                <SeenIcon />
-              ) : msg.meta.delivered_at ? (
-                <SentIcon />
-              ) : null
-            ) : null}
+            <ChatMessageActions isMe={isMe} msgId={msg._id} />
+            <div
+              className={classes(
+                'message__time',
+                isMe && 'me',
+                isPopup && 'popup'
+              )}
+            >
+              {isMe ? (
+                msg.meta.read_at ? (
+                  <SeenIcon />
+                ) : msg.meta.delivered_at ? (
+                  <SentIcon />
+                ) : null
+              ) : null}
+              <span>{chatTime(msg.meta.sent_at)}</span>
+            </div>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import React, {
 import { useHistory } from 'react-router-dom'
 
 import { Routes } from '../../../enums/routes.enum'
+import { useAccountBasedState } from '../../../hooks/account-based-state'
 import { useAuth } from '../../../hooks/auth.hook'
 import { useConnection } from '../../../hooks/connection.hook'
 import logger from '../../../managers/logger.manager'
@@ -51,7 +52,7 @@ const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
 export const ChatsProvider: FC<unknown> = ({ children }) => {
-  const [rooms, setRooms] = useState<ContextRoomType>({})
+  const [rooms, setRooms] = useAccountBasedState<ContextRoomType>({}, 'rooms')
   const { uuid } = useAuth()
   const roomsRef = useRef<ContextRoomType>({})
   const [popups, setPopups] = useState<string[]>([])
@@ -124,6 +125,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     socketManager.delivered(msg.chat_room_id)
   })
   useEffect(() => {
+    socketManager.init(uuid)
     getChatUsers()
       .then((res) => {
         logger.success('USERS', res)

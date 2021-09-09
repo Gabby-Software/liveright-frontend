@@ -74,24 +74,27 @@ opacity: .3;
         border-radius: 8px 0 8px 8px;
       }
     }
+    &__meta {
+      display: flex;
+      flex-direction: column;
+      order: 2;
+      margin-left: 13px;
+      &.me {
+        margin-right: 13px;
+        margin-left: 0;
+        order: 0;
+      }
+    }
+
     &__time {
       color: ${(p) => p.theme.vars.colors.dark_v2};
       font-size: 12px;
       display: flex;
       margin-top: auto;
-      margin-left: 13px;
-      order: 2;
       white-space: nowrap;
       svg {
         display: block;
         margin: 0 4px 0 0;
-      }
-      &.me {
-        margin-right: 13px;
-        order: 0;
-        svg {
-          margin: 0 0 0 4px;
-        }
       }
 
       ${media('tablet', 'max')`
