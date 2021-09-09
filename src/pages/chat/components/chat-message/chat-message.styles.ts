@@ -84,6 +84,18 @@ opacity: .3;
         margin-left: 0;
         order: 0;
       }
+      ${media('tablet', 'max')`
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin: 4px 0 0 0;
+            flex-direction: row;
+            &.me {
+                left: auto;
+                right: 0;
+                margin: 4px 0 0 0;
+            }
+        `};
     }
 
     &__time {
@@ -96,18 +108,6 @@ opacity: .3;
         display: block;
         margin: 0 4px 0 0;
       }
-
-      ${media('tablet', 'max')`
-            position: absolute;
-            top: 100%;
-            left: 0;
-            margin: 4px 0 0 0;
-            &.me {
-                left: auto;
-                right: 0;
-                margin: 4px 0 0 0;
-            }
-        `};
       &.popup {
         position: absolute;
         top: 100%;

@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { media } from '../../../../../assets/styles/_media'
+
 export default styled.div`
   cursor: pointer;
   position: relative;
@@ -54,4 +56,9 @@ export default styled.div`
       }
     }
   }
+  ${media('tablet', 'max')`
+    margin: 3px 4px 0 4px;
+    order:1;
+    &.me {order:0}
+`}
 `
