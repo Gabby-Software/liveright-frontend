@@ -23,6 +23,14 @@ const ChatRooms: FC<Props> = ({}) => {
             .includes(search.toLowerCase())
         )
         .map(({ room }) => room)
+        .sort((a, b) => {
+          if (a.unReadMessagesCount && !b.unReadMessagesCount) return -1
+          if (!a.unReadMessagesCount && b.unReadMessagesCount) return 1
+          return (
+            new Date(b.lastMessage?.meta.sent_at || '1970-01-01').getTime() -
+            new Date(a.lastMessage?.meta.sent_at || '1970-01-01').getTime()
+          )
+        })
     )
   }, [rooms, search])
   // useEffect(() => {
