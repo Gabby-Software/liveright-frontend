@@ -3,4 +3,5 @@ export type ChatMessageInvoiceMetaType = {
   total: number
   currency: string
   status: string
+  name: string
 }

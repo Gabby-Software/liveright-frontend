@@ -141,7 +141,8 @@ const InvoiceMobileHead = ({}: Props) => {
                 invoice_id: '' + data.id,
                 total: data.total,
                 currency: data.currency.code,
-                status: data.status
+                status: data.status,
+                name: `${data.invoice_to.user.first_name} ${data.invoice_to.user.last_name}`
               })
             }
             className={classes(

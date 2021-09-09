@@ -12,15 +12,15 @@ const ChatMessageInvoice: FC<Props> = ({
   invoice_id,
   currency,
   status,
+  name,
   me
 }) => {
   return (
     <Styles className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
         <div className={'cm-invoice__id'}>Invoice #{invoice_id}</div>
-        <div className={'cm-invoice__name'}>From Van Diesel</div>
+        <div className={'cm-invoice__name'}>{name}</div>
         <div className={'cm-invoice__total'}>
-          {/*{total} {currency}*/}
           <span className={'cm-invoice__amount'}>{total} </span>
           <span className={'cm-invoice__currency'}>{currency}</span>
         </div>
