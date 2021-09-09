@@ -20,10 +20,10 @@ export default function Header({
     <Styles className="mobile-page-header" $spacing={spacing}>
       <div className="mobile-page-header__info">
         <div className="mobile-page-header__info-item mobile-page-header__info-item_top">
-          {type === userTypes.CLIENT ? (
-            <TrainerBadge />
-          ) : topComponent ? (
+          {topComponent ? (
             topComponent
+          ) : type === userTypes.CLIENT ? (
+            <TrainerBadge />
           ) : (
             <>
               {titleIcon || (

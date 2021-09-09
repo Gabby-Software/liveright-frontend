@@ -1,5 +1,8 @@
 {
   "title": "Financial",
+  "invoices-title": "Invoices",
+  "invoice-view-title": "Detail Invoice",
+  "return-invoices": "Return to Invoices",
   "client-name": "Client Name",
   "trainer-name": "Issued By",
   "invoice-number": "Invoice #",
@@ -38,9 +41,9 @@
   "to": "To {{name}}",
   "remind-client": "Remind Client",
   "issuer": "Issuer",
-  "issued-by": "Issued by",
-  "issued-on": "Issued on",
-  "issued-to": "Issued to",
+  "issued-by": "Issued By",
+  "issued-on": "Issued On",
+  "issued-to": "Issued To",
   "settle-now": "Settle Now",
   "no-data": "No invoices found",
   "default-payment-method": "Default Payment Method",
@@ -86,6 +89,7 @@
     "add": "Add Item"
   },
   "create-new": "Generate New Invoice",
+  "return-financials": "Return to Financial",
   "new-invoice": "New Invoice",
   "invoice-no": "Invoice #{{number}}",
   "select-client": "Select your existing Client",
@@ -112,5 +116,6 @@
   "generate-send": "Generate Invoice and Send",
   "footer-note": "Note",
   "footer-text": "It was a pleasure working with you and your team. We hope you will keep us in mind for future. Thank You!",
-  "filter-title": "Filter your invoice and billing history"
+  "filter-title": "Filter your invoice and billing history",
+  "due-on": "Due On"
 }

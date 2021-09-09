@@ -44,7 +44,7 @@ const Invoices = ({ asPage = true, trainerFinancials }: InvoicesProps) => {
   )
 
   return isMobile && asPage ? (
-    <MobilePage title={t('invoices')}>{content}</MobilePage>
+    <MobilePage title={t('invoices:invoices-title')}>{content}</MobilePage>
   ) : (
     content
   )

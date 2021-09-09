@@ -97,6 +97,7 @@ export const routes: RouteType[] = [
       () => import('../pages/create-invoice/create-invoice.component')
     ),
     version: 2,
+    mobileLayout: false,
     back: {
       url: Routes.FINANCIALS_RECEIVABLES,
       alias: 'invoices'
@@ -111,14 +112,11 @@ export const routes: RouteType[] = [
     url: Routes.INVOICES + '/:id',
     Component: lazy(() => import('../pages/invoice/invoice.component')),
     header: {
-      title: 'Invoice',
-      items: headers.default
+      title: null,
+      items: []
     },
     version: 2,
-    back: {
-      url: Routes.INVOICES,
-      alias: 'invoices'
-    }
+    mobileLayout: false
   },
   {
     title: 'Invoices',
@@ -342,9 +340,15 @@ export const routes: RouteType[] = [
           '../pages/notifications-settings/notifications-settings.component'
         )
     ),
+    back: {
+      url: Routes.NOTIFICATIONS,
+      alias: 'notifications'
+    },
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Settings',
-      items: headers.default
+      title: null,
+      items: []
     }
   },
   {

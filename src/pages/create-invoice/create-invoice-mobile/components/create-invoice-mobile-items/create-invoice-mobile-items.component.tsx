@@ -2,13 +2,16 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import React, { FC, useState } from 'react'
 import * as Yup from 'yup'
 
-import FormButton from '../../../../../components/forms/form-button/form-button.component'
+import { AddIcon } from '../../../../../assets/media/icons'
+import Button from '../../../../../components/buttons/button/button.component'
+import Card from '../../../../../components/cards/card/card.component'
 import Hr from '../../../../../components/hr/hr.styles'
 import { toast } from '../../../../../components/toast/toast.component'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { asMoney } from '../../../../../pipes/as-money.pipe'
 import { asPrice } from '../../../../../pipes/price.pipe'
 import { OptionType } from '../../../../../types/option.type'
+import CreateInvoiceSection from '../../../components/create-invoice-section/create-invoice-section.component'
 import { useInvoiceForm } from '../../../create-invoice.context'
 import {
   createInvoiceSteps,
@@ -28,12 +31,14 @@ const SummaryItem: FC<OptionType> = ({ label, value }) => (
     <span className={'ci-items__summary__value'}>{value}</span>
   </div>
 )
+
 const CreateInvoiceMobileItems = () => {
   const { values, setValues, setStep } = useInvoiceForm()
   const { t } = useTranslation()
   const [items, setItems] = useState<InvoiceItemType[]>(values.items || [])
   const [active, setActive] = useState(-1)
   const [open, setOpen] = useState(false)
+
   const handleFormSubmit = (
     formValues: InvoiceItemType,
     helper: FormikHelpers<InvoiceItemType>
@@ -49,6 +54,7 @@ const CreateInvoiceMobileItems = () => {
     helper.setSubmitting(false)
     helper.resetForm()
   }
+
   const handleSubmit = (_: {}, helper: FormikHelpers<{}>) => {
     if (!items.length)
       return toast.show({
@@ -59,104 +65,142 @@ const CreateInvoiceMobileItems = () => {
     setStep(createInvoiceSteps.NOTES)
     helper.setSubmitting(false)
   }
+
   return (
     <Styles>
       <CreateInvoiceMobileClientView />
       <CreateInvoiceMobileDetailsView />
-      {items.map((item, idx) => (
-        // eslint-disable-next-line react/jsx-key
-        <CreateInvoiceMobileItem
-          item={item}
-          active={idx === active}
-          onClick={() => {
-            setActive(idx)
-            setOpen(true)
-          }}
-        />
-      ))}
-      {open || !items.length ? (
-        <Formik
-          onSubmit={handleFormSubmit}
-          initialValues={active === -1 ? defaultInvoiceItem : items[active]}
-          enableReinitialize
-          validationSchema={Yup.object({
-            quantity: Yup.number().required().min(1),
-            unit_price: Yup.number().required().min(1),
-            discount: Yup.number().min(0).max(100),
-            tax_rate: Yup.number().min(0).max(100)
-          })}
-        >
-          {({ values }: FormikProps<InvoiceItemType>) => (
-            <Form>
-              <CreateInvoiceMobileItemForm {...values} />
-              <FormButton htmlType={'submit'} type={'default'}>
-                {active === -1 ? 'Add to invoice' : 'Update item'}
-              </FormButton>
-            </Form>
+
+      <Card>
+        <CreateInvoiceSection title="Add Items">
+          {items.map((item, idx) => (
+            <CreateInvoiceMobileItem
+              key={idx}
+              item={item}
+              active={idx === active}
+              onClick={() => {
+                setActive(idx)
+                setOpen(true)
+              }}
+            />
+          ))}
+
+          {open || !items.length ? (
+            <Formik
+              onSubmit={handleFormSubmit}
+              initialValues={active === -1 ? defaultInvoiceItem : items[active]}
+              enableReinitialize
+              validationSchema={Yup.object({
+                quantity: Yup.number().required().min(1),
+                unit_price: Yup.number().required().min(1),
+                discount: Yup.number().min(0).max(100),
+                tax_rate: Yup.number().min(0).max(100)
+              })}
+            >
+              {({ values, setFieldValue }: FormikProps<InvoiceItemType>) => (
+                <Form>
+                  <CreateInvoiceMobileItemForm
+                    {...values}
+                    onChange={setFieldValue}
+                  />
+
+                  <Button
+                    variant="text"
+                    htmlType="submit"
+                    className="add-invoice__add-btn"
+                  >
+                    <AddIcon />
+                    {active === -1 ? 'Add to invoice' : 'Update item'}
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          ) : (
+            <Button
+              variant="text"
+              htmlType="submit"
+              className="add-invoice__add-btn"
+              onClick={() => setOpen(true)}
+            >
+              <AddIcon />
+              {'Add Another'}
+            </Button>
           )}
-        </Formik>
-      ) : (
-        <FormButton type={'default'} onClick={() => setOpen(true)}>
-          {'Add Another'}
-        </FormButton>
-      )}
-      <div className={'ci-items__summary'}>
-        <SummaryItem
-          label={t('invoices:subtotal')}
-          value={asMoney(
-            asPrice(items.reduce((a, b) => a + +b.unit_price * b.quantity, 0))
-          )}
-        />
-        <SummaryItem
-          label={t('invoices:discount')}
-          value={asMoney(
-            asPrice(
-              items.reduce(
-                (a, b) =>
-                  a + (+b.unit_price * b.quantity * b.discount_percent) / 100,
-                0
-              )
-            )
-          )}
-        />
-        <SummaryItem
-          label={t('invoices:vat')}
-          value={asMoney(
-            asPrice(
-              items.reduce(
-                (a, b) =>
-                  a +
-                  (+b.unit_price *
-                    b.quantity *
-                    (1 - b.discount_percent / 100) *
-                    b.tax_rate) /
-                    100,
-                0
-              )
-            )
-          )}
-        />
-        <Hr />
-        <SummaryItem
-          label={t('invoices:total')}
-          value={asMoney(
-            asPrice(
-              items.reduce(
-                (a, b) =>
-                  a +
-                  +b.unit_price *
-                    b.quantity *
-                    (1 - b.discount_percent / 100) *
-                    (1 + b.tax_rate / 100),
-                0
-              )
-            )
-          )}
-        />
-      </div>
+
+          <div className={'ci-items__summary'}>
+            <p className="ci-items__summary-title">Cost Detail</p>
+
+            <SummaryItem
+              label={t('invoices:subtotal')}
+              value={
+                asMoney(
+                  asPrice(
+                    items.reduce((a, b) => a + +b.unit_price * b.quantity, 0)
+                  )
+                ) + ' AED'
+              }
+            />
+            <SummaryItem
+              label={t('invoices:discount')}
+              value={
+                asMoney(
+                  asPrice(
+                    items.reduce(
+                      (a, b) =>
+                        a +
+                        (+b.unit_price * b.quantity * b.discount_percent) / 100,
+                      0
+                    )
+                  )
+                ) + ' AED'
+              }
+            />
+            <SummaryItem
+              label={t('invoices:vat')}
+              value={asMoney(
+                asPrice(
+                  items.reduce(
+                    (a, b) =>
+                      a +
+                      (+b.unit_price *
+                        b.quantity *
+                        (1 - b.discount_percent / 100) *
+                        b.tax_rate) /
+                        100,
+                    0
+                  )
+                ) + ' AED'
+              )}
+            />
+
+            <Hr className="ci-items__divider" />
+
+            <SummaryItem
+              label={t('invoices:total')}
+              value={asMoney(
+                asPrice(
+                  items.reduce(
+                    (a, b) =>
+                      a +
+                      +b.unit_price *
+                        b.quantity *
+                        (1 - b.discount_percent / 100) *
+                        (1 + b.tax_rate / 100),
+                    0
+                  )
+                ) + ' AED'
+              )}
+            />
+          </div>
+        </CreateInvoiceSection>
+      </Card>
+
       <Formik initialValues={{}} onSubmit={handleSubmit}>
         <Form>
-          <CreateInvoiceMobileActions back={createInvoiceSteps.DETAILS} />
+          <CreateInvoiceMobileActions
+            back={createInvoiceSteps.DETAILS}
+            backText="Back to Detail Invoice"
+          />
         </Form>
       </Formik>
     </Styles>

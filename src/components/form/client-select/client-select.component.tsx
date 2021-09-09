@@ -10,6 +10,7 @@ let HAS_MORE = false
 
 interface ClientSelectProps extends Partial<SelectProps> {
   includeAll?: boolean
+  onChange: (e: any, option: any) => void
 }
 
 export default function ClientSelect({

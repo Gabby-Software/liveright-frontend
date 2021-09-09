@@ -52,7 +52,7 @@ export const Styles = styled(Button)<any>`
     border-color: ${getBorderColor};
   }
 
-  @media (${mediaQueries.MOBILE}) {
+  @media ${mediaQueries.MOBILE} {
     padding: ${getMobilePadding};
   }
 `

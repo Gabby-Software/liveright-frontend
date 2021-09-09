@@ -10,7 +10,7 @@ export const Styles = styled(Card)`
   border: 1px solid ${getColorCarry('background_v2')};
   justify-content: space-between;
 
-  @media (${mediaQueries.MOBILE}) {
+  @media ${mediaQueries.MOBILE} {
     padding: 1.5rem 1.25rem;
   }
 

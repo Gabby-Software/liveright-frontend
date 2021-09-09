@@ -86,6 +86,18 @@ export const Styles = styled<any>(Card)`
       min-width: auto;
       padding: 0;
     }
+
+    &__due-title {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: ${getColorCarry('secondary2_v2')};
+    }
+
+    &__due-value {
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${getColorCarry('primary_v2')};
+    }
   }
 
   ${(props) =>

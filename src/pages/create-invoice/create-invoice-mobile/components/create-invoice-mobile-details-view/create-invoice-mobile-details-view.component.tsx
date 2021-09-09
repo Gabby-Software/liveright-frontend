@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { CaretRightIcon } from '../../../../../assets/media/icons'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { date } from '../../../../../pipes/date.pipe'
 import { useInvoiceForm } from '../../../create-invoice.context'
 import { createInvoiceSteps } from '../../../create-invoice.data'
 import Styles from './create-invoice-mobile-details-view.styles'
@@ -11,24 +11,31 @@ const CreateInvoiceMobileDetailsView = () => {
   const { t } = useTranslation()
   return (
     <Styles onClick={() => setStep(createInvoiceSteps.DETAILS)}>
-      <div className={'ci-preview__details'}>
-        <span>issued</span>
-        <span className={'ci-preview__details__value'}>
-          {date(values.invoice.issuance_date)}
-        </span>
+      <div>
+        <div className="ci-preview__row">
+          <div className={'ci-preview__details'}>
+            <span>Issued</span>
+            <span className={'ci-preview__details__value'}>
+              {values.invoice.issuance_date}
+            </span>
+          </div>
+          <div className={'ci-preview__details'}>
+            <span>Due</span>
+            <span className={'ci-preview__details__value'}>
+              {values.invoice.due_on}
+            </span>
+          </div>
+        </div>
+
+        <div className={'ci-preview__details'}>
+          <span>Payment</span>
+          <span className={'ci-preview__details__value'}>
+            {t(`invoices:${values.invoice.payment_method}`)}
+          </span>
+        </div>
       </div>
-      <div className={'ci-preview__details'}>
-        <span>due</span>
-        <span className={'ci-preview__details__value'}>
-          {date(values.invoice.due_on)}
-        </span>
-      </div>
-      <div className={'ci-preview__details'}>
-        <span>pay by</span>
-        <span className={'ci-preview__details__value'}>
-          {t(`invoices:${values.invoice.payment_method}`)}
-        </span>
-      </div>
+
+      <CaretRightIcon />
     </Styles>
   )
 }

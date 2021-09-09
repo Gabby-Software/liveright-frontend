@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
-export default styled.div`
+import Card from '../../../../../components/cards/card/card.component'
+
+export default styled(Card)`
   counter-increment: create-section;
-  padding: 24px 0;
-  border-top: 1px solid ${(p) => p.theme.vars.colors.light};
-  border-bottom: 1px solid ${(p) => p.theme.vars.colors.light};
-  margin-bottom: 24px;
-  font-weight: 500;
   cursor: pointer;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
   .ci-preview__client {
     &__label {
       color: ${(p) => p.theme.vars.colors.secondary3};
