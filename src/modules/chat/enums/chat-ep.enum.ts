@@ -7,5 +7,6 @@ export const Chat_EP = Object.freeze({
   CREATE_ROOM: `${CHAT_DOMAIN}/chatrooms`,
   CLOSE_ROOM: `${CHAT_DOMAIN}/chatrooms/action`,
   DELETE: (roomID: string, msgID: string) =>
-    `${CHAT_DOMAIN}/messages/${roomID}/${msgID}`
+    `${CHAT_DOMAIN}/messages/${roomID}/${msgID}`,
+  GET_LINK_META: `${CHAT_DOMAIN}/messages/embed`
 })

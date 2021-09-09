@@ -1,5 +1,6 @@
 import api from '../../../managers/api.manager'
 import logger from '../../../managers/logger.manager'
+import { serverError } from '../../../pipes/server-error.pipe'
 import { Chat_EP } from '../enums/chat-ep.enum'
 import { ChatFileType } from '../types/chat-file.type'
 import { ChatMessageType } from '../types/chat-message.type'
@@ -28,5 +29,17 @@ export function deleteMessage(room: string, id: string) {
   return api
     .delete(Chat_EP.DELETE(room, id))
     .then((res) => logger.success('DELETE SUCCESS', res.data))
-    .catch((err) => logger.error('DELETE ERROR', err.message))
+    .catch((err) => logger.error('DELETE ERROR', serverError(err)))
+}
+export function getLinkMeta(url: string): Promise<string> {
+  return api
+    .get(Chat_EP.GET_LINK_META + `?url=${url}`)
+    .then((res) => {
+      logger.success(`meta for ${url}`, res.data)
+      return url
+    })
+    .catch((err) => {
+      logger.error('get link meta error', err.message)
+      return url
+    })
 }
