@@ -15,6 +15,8 @@ import {
 } from '../../../../components/dropdown'
 import SmallModal from '../../../../components/small-modal/small-modal.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { InvoiceType } from '../../../../types/invoice.type'
@@ -31,6 +33,7 @@ export default function IconActions({
   ...data
 }: IconActionsProps & InvoiceType) {
   const isMobile = useIsMobile()
+  const { type } = useAuth()
   const { t } = useTranslation()
   const [dialog, setDialog] = useState(false)
   return (
@@ -66,7 +69,7 @@ export default function IconActions({
           <ChatIcon />
         </IconButton>
 
-        {data.status !== invoiceStatuses.PAID && (
+        {type === userTypes.TRAINER && data.status !== invoiceStatuses.PAID && (
           <>
             {isMobile ? (
               <IconButton size="sm" onClick={() => setDialog(true)}>

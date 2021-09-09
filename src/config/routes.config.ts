@@ -112,15 +112,11 @@ export const routes: RouteType[] = [
     url: Routes.INVOICES + '/:id',
     Component: lazy(() => import('../pages/invoice/invoice.component')),
     header: {
-      title: 'Invoice',
-      items: headers.default
+      title: null,
+      items: []
     },
     version: 2,
-    mobileLayout: false,
-    back: {
-      url: Routes.INVOICES,
-      alias: 'invoices'
-    }
+    mobileLayout: false
   },
   {
     title: 'Invoices',

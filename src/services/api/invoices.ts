@@ -24,6 +24,11 @@ export async function getInvoices(url: string) {
   return response.data
 }
 
+export async function getInvoice(url: string) {
+  const response = await api.get(url)
+  return response.data.data
+}
+
 export async function cancelInvoice(id: number) {
   const response = await api.delete(EP_GET_INVOICES + `/${id}`)
   return response.data
