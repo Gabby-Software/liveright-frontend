@@ -191,7 +191,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       msg.invoice_meta_data = meta
       msg.types = [chatMessageTypes.TEXT, chatMessageTypes.INVOICE]
       msg.content.text = 'Reminder for your payment!'
-      msg.content.invoice_meta_data = meta
+      // msg.content.invoice_meta_data = meta
       console.log('Invoice message payload', msg)
       socketManager.sendMessage(msg)
       room.messages = [...room.messages, msg]
