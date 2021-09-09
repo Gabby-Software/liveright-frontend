@@ -3,21 +3,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import {
-  ChatIcon,
-  DeleteOutlinedIcon,
-  OptionsHorizontalIcon,
-  PrinterIcon
-} from '../../../../assets/media/icons'
-import { ReactComponent as DownloadIcon } from '../../../../assets/media/icons/download.svg'
 import Button from '../../../../components/buttons/button/button.component'
-import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import DataTable from '../../../../components/data-table/data-table.component'
-import {
-  Dropdown,
-  DropdownMenu,
-  DropdownMenuItem
-} from '../../../../components/dropdown'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { Routes } from '../../../../enums/routes.enum'
@@ -35,6 +22,7 @@ import {
   ACTION_MARK_INVOICE_AS_PAID
 } from '../../../../store/action-types'
 import { InvoiceFullType, InvoiceType } from '../../../../types/invoice.type'
+import IconActions from '../../components/icon-actions/icon-actions.component'
 import Styles from './invoice-attendees.styles'
 
 const labels = [
@@ -54,7 +42,7 @@ const InvoiceAttendees = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { onSend, isSendLoading } = useInvoice()
-  const [remindDisabled, remindClient] = useRemindInvoice()
+  const [, remindClient] = useRemindInvoice()
 
   const markAsPaid = (id: number) => {
     dispatch({
@@ -158,54 +146,7 @@ const InvoiceAttendees = () => {
             </Popconfirm>
           )}
 
-          <div className="invoice__header-links">
-            <IconButton size="sm" onClick={window.print}>
-              <PrinterIcon />
-            </IconButton>
-            <a
-              href={data.pdf?.url}
-              target="_blank"
-              download={`invoice-${data.invoice_number}.pdf`}
-              rel="noreferrer"
-            >
-              <IconButton size="sm" disabled={!data.pdf}>
-                <DownloadIcon />
-              </IconButton>
-            </a>
-
-            <IconButton
-              size="sm"
-              disabled={remindDisabled}
-              onClick={() => {
-                remindClient(data.invoice_to.uuid, {
-                  invoice_id: '' + data.id,
-                  total: data.total,
-                  currency: data.currency.code,
-                  status: data.status
-                })
-              }}
-            >
-              <ChatIcon />
-            </IconButton>
-
-            {data.status !== invoiceStatuses.PAID && (
-              <Dropdown
-                overlay={
-                  <DropdownMenu>
-                    <DropdownMenuItem $error onClick={remove}>
-                      <DeleteOutlinedIcon />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenu>
-                }
-                trigger={['click']}
-              >
-                <IconButton size="sm">
-                  <OptionsHorizontalIcon />
-                </IconButton>
-              </Dropdown>
-            )}
-          </div>
+          <IconActions {...data} onRemind={remindClient} onRemove={remove} />
         </div>
       </div>
 

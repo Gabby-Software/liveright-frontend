@@ -74,7 +74,6 @@ export default function IconActions({
               </IconButton>
             ) : (
               <Dropdown
-                visible
                 overlay={
                   <DropdownMenu>
                     <DropdownMenuItem $error onClick={onRemove}>
