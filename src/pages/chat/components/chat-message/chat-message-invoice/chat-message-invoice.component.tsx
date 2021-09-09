@@ -17,18 +17,18 @@ const ChatMessageInvoice: FC<Props> = ({
   return (
     <Styles className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
-        <div className={'cm-invoice__id'}>Invoice #{invoice_id || '21'}</div>
+        <div className={'cm-invoice__id'}>Invoice #{invoice_id}</div>
         <div className={'cm-invoice__name'}>From Van Diesel</div>
         <div className={'cm-invoice__total'}>
           {/*{total} {currency}*/}
-          <span className={'cm-invoice__amount'}>{total || '720'} </span>
-          <span className={'cm-invoice__currency'}>{currency || 'AED'}</span>
+          <span className={'cm-invoice__amount'}>{total} </span>
+          <span className={'cm-invoice__currency'}>{currency}</span>
         </div>
       </div>
       <div className={'cm-invoice__right'}>
-        <div className={'cm-invoice__status'}>{status || 'Due Soon'}</div>
+        <div className={'cm-invoice__status'}>{status}</div>
         {me ? null : (
-          <a href={payments(`/21`)} className={'cm-invoice__cta'}>
+          <a href={payments(`/${invoice_id}`)} className={'cm-invoice__cta'}>
             Settle Now
           </a>
         )}
