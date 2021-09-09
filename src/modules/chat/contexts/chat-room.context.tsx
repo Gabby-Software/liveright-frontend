@@ -91,7 +91,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   )
   const msgBase = () => emptyMessage(room, uuid)
   const addMessage = (msg: ChatMessageType) => {
-    setMessages(msg)
+    // setMessages(msg)
     setTextMessage('')
     socketManager.sendMessage(msg)
   }
