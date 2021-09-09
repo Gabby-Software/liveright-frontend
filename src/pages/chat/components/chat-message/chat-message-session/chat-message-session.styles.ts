@@ -4,25 +4,16 @@ import { media } from '../../../../../assets/styles/_media'
 
 export default styled.div<{ me: boolean }>`
   border: 1px solid #dfe6f1;
-  background-color: white;
   display: flex;
   align-items: center;
   padding: 14px 21px;
-  &:first-child {
-    margin-top: 4px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-  &:last-child {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
+  background-color: #ffebeb;
   .cm-session {
     &__left {
     }
     &__title {
       &:before {
-        content: 'Suggested Time';
+        content: 'Previous';
         color: #757575;
         font-weight: bold;
       }
@@ -45,9 +36,31 @@ export default styled.div<{ me: boolean }>`
       padding-left: 40px;
     }
     &__cta {
+      opacity: 0;
+      pointer-events: none;
+      touch-action: none;
     }
   }
-  + .cm-session {
-    background-color: #ffebeb;
+  &:first-child {
+    margin-top: 4px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  &:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: white;
+    .cm-session {
+      &__cta {
+        opacity: 1;
+        pointer-events: auto;
+        touch-action: auto;
+      }
+      &__title {
+        &:before {
+          content: 'Suggested Time';
+        }
+      }
+    }
   }
 `
