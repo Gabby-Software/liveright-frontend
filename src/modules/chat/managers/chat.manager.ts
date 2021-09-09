@@ -33,10 +33,9 @@ export function deleteMessage(room: string, id: string) {
 }
 export function getLinkMeta(url: string): Promise<string> {
   return api
-    .get(Chat_EP.GET_LINK_META, { url })
+    .post(Chat_EP.GET_LINK_META, { url })
     .then((res) => {
-      logger.success(`meta for ${url}`, res.data)
-      return url
+      return res.data['og:title'] || res.data.title || url
     })
     .catch((err) => {
       logger.error('get link meta error', err.message)
