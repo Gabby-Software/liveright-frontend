@@ -17,7 +17,7 @@ import { chatMessageState } from '../enums/chat-message-state.enum'
 import { chatMessageTypes } from '../enums/chat-message-types.enum'
 import { ChatRoomModes } from '../enums/chat-room-modes.enum'
 import { imageExtentions } from '../enums/image-extentions.enum'
-import { uploadChatFile } from '../managers/chat.manager'
+import { getLinkMeta, uploadChatFile } from '../managers/chat.manager'
 import socketManager from '../managers/socket.manager'
 import { insertedLinks } from '../pipes/links'
 import { emptyMessage } from '../pipes/msg-base'
@@ -91,7 +91,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   )
   const msgBase = () => emptyMessage(room, uuid)
   const addMessage = (msg: ChatMessageType) => {
-    setMessages(msg)
+    // setMessages(msg)
     setTextMessage('')
     socketManager.sendMessage(msg)
   }
@@ -101,7 +101,12 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     msg.content.text = textMessage
     const links = insertedLinks(textMessage)
     if (links?.length) {
-      msg.content.embedLinks = links.map((link) => ({ title: link, url: link }))
+      const embedLinks = []
+      for await (const url of links) {
+        const title = await getLinkMeta(url)
+        embedLinks.push({ title, url })
+      }
+      msg.content.embedLinks = embedLinks
     }
     addMessage(msg)
   }

@@ -11,11 +11,13 @@ import { ChatMessageType } from '../../../../modules/chat/types/chat-message.typ
 import { classes } from '../../../../pipes/classes.pipe'
 import { noImage } from '../../../../pipes/no-image.pipe'
 import Styles, { ProfileImageStyled } from './chat-message.styles'
+import ChatMessageActions from './chat-message-actions/chat-message-actions.component'
 import ChatMessageAttachment from './chat-message-attachment/chat-message-attachment.component'
 import ChatMessageAudio from './chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from './chat-message-gallery/chat-message-gallery.component'
 import ChatMessageInvoice from './chat-message-invoice/chat-message-invoice.component'
 import ChatMessageLink from './chat-message-link/chat-message-link.component'
+import ChatMessageSession from './chat-message-session/chat-message-session.component'
 import ChatMessageText from './chat-message-text/chat-message-text.component'
 type Props = {
   msg: ChatMessageType
@@ -36,6 +38,34 @@ const ChatMessage = ({ msg }: Props) => {
     if (types[0] === chatMessageTypes.INVOICE) {
       types.shift()
       return <ChatMessageInvoice {...msg.invoice_meta_data!} me={isMe} />
+    }
+  }
+  const renderSession = () => {
+    if (types[0] === chatMessageTypes.REQUEST_SESSION) {
+      types.shift()
+      return (
+        <ChatMessageSession
+          me={isMe}
+          date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+        />
+      )
+    }
+  }
+  const renderSessionReschedule = () => {
+    if (types[0] === chatMessageTypes.SESSION_RESCHDULE) {
+      types.shift()
+      return (
+        <>
+          <ChatMessageSession
+            me={isMe}
+            date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+          />
+          <ChatMessageSession
+            me={isMe}
+            date={msg.session_meta_data?.requested_time || '1970-01-01 00:00'}
+          />
+        </>
+      )
     }
   }
   const renderText = () => {
@@ -112,19 +142,28 @@ const ChatMessage = ({ msg }: Props) => {
           </div>
           <div
             className={classes(
-              'message__time',
+              'message__meta',
               isMe && 'me',
               isPopup && 'popup'
             )}
           >
-            <span>{chatTime(msg.meta.sent_at)}</span>
-            {isMe ? (
-              msg.meta.read_at ? (
-                <SeenIcon />
-              ) : msg.meta.delivered_at ? (
-                <SentIcon />
-              ) : null
-            ) : null}
+            <ChatMessageActions isMe={isMe} msgId={msg._id} />
+            <div
+              className={classes(
+                'message__time',
+                isMe && 'me',
+                isPopup && 'popup'
+              )}
+            >
+              {isMe ? (
+                msg.meta.read_at ? (
+                  <SeenIcon />
+                ) : msg.meta.delivered_at ? (
+                  <SentIcon />
+                ) : null
+              ) : null}
+              <span>{chatTime(msg.meta.sent_at)}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -133,6 +172,8 @@ const ChatMessage = ({ msg }: Props) => {
           <ChatMessageLink key={i} {...link} />
         ))}
         {renderInvoice()}
+        {renderSession()}
+        {renderSessionReschedule()}
       </div>
     </Styles>
   )

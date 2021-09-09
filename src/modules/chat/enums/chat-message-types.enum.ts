@@ -9,6 +9,6 @@ export const chatMessageTypes: {
   AUDIO: 'audio',
   FILE: 'file',
   REQUEST_SESSION: 'request_session',
-  SESSION_RESCHEDULE: 'session_reschedule',
+  SESSION_RESCHDULE: 'session_reschdule',
   INVOICE: 'invoice'
 }

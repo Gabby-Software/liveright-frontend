@@ -42,7 +42,7 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
             {roomData?.firstName} {roomData?.lastName}
           </div>
           <BlueLink
-            to={Routes.CLIENTS + `/${roomData?.user_uuid}` + Routes.PROFILE}
+            to={Routes.CLIENTS + `/${roomData?.user_id}` + Routes.PROFILE}
           >
             <span>Open Client Profile</span>
             <ArrowIcon className={'chat-header__arrow'} />

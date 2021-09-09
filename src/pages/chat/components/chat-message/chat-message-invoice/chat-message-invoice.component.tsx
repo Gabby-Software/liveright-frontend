@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 
 import { ChatMessageInvoiceMetaType } from '../../../../../modules/chat/types/chat-message-invoice-meta.type'
+import { payments } from '../../../../../pipes/payments.pipe'
 import Styles from './chat-message-invoice.styles'
 
 type Props = ChatMessageInvoiceMetaType & {
@@ -10,20 +11,27 @@ const ChatMessageInvoice: FC<Props> = ({
   total,
   invoice_id,
   currency,
-  status
+  status,
+  name,
+  me
 }) => {
   return (
     <Styles className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
-        <div>Invoice #{invoice_id}</div>
-        <div>From van diesel</div>
-        <div>
-          {total} {currency}
+        <div className={'cm-invoice__id'}>Invoice #{invoice_id}</div>
+        <div className={'cm-invoice__name'}>{name}</div>
+        <div className={'cm-invoice__total'}>
+          <span className={'cm-invoice__amount'}>{total} </span>
+          <span className={'cm-invoice__currency'}>{currency}</span>
         </div>
       </div>
       <div className={'cm-invoice__right'}>
-        <div>{status}</div>
-        <div>Settle Now</div>
+        <div className={'cm-invoice__status'}>{status}</div>
+        {me ? null : (
+          <a href={payments(`/${invoice_id}`)} className={'cm-invoice__cta'}>
+            Settle Now
+          </a>
+        )}
       </div>
     </Styles>
   )

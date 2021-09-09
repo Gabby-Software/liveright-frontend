@@ -1,7 +1,7 @@
 import './App.css'
 
 import { Skeleton } from 'antd'
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -12,7 +12,6 @@ import { useAuthorization } from './hooks/authorization.hook'
 import { useSeo } from './hooks/seo.hook'
 import Layout from './layouts/layout/layout.component'
 import { AuthFormProvider } from './modules/auth/auth.context'
-import socketManager from './modules/chat/managers/socket.manager'
 import { useNotificationsChannel } from './modules/notifications/hooks/notifications.hook'
 import PageNotFound from './pages/page-not-found/page-not-found.component'
 
@@ -37,9 +36,6 @@ function App() {
   useSeo()
   useAuthorization()
   useNotificationsChannel()
-  useEffect(() => {
-    return socketManager.disconnect
-  }, [])
   return (
     <Styles>
       <Switch>

@@ -2,6 +2,7 @@ import moment from 'moment'
 import { useEffect } from 'react'
 import { io, Socket } from 'socket.io-client'
 
+import { toast } from '../../../components/toast/toast.component'
 import cookieManager from '../../../managers/cookie.manager'
 import logger from '../../../managers/logger.manager'
 import { throttle } from '../../../pipes/throttle.pipe'
@@ -47,8 +48,9 @@ class SocketManager {
     this.socket.on('disconnect', () => {
       console.log('socket dissconected!', this.socket?.connected)
     })
-    this.socket.on('error', (err: string) => {
+    this.socket.on('error', (err: { message: { message: string }[] }) => {
       logger.error('socket error!', err)
+      toast.show({ type: 'error', msg: err.message[0].message })
     })
     this.socket.on('message:receive', this.handleMessageReceived.bind(this))
     this.socket.on('event:typing:receive', this.handleTypingChange.bind(this))
@@ -89,7 +91,7 @@ class SocketManager {
   }
   sendMessage(msg: ChatMessageType) {
     if (!this.socket) return
-    const socketMessage = {
+    const socketMessage: any = {
       message: {
         types: msg.types,
         content: msg.content,
@@ -99,6 +101,12 @@ class SocketManager {
       },
       senderId: msg.senderId,
       roomId: msg.chat_room_id
+    }
+    if (msg.session_meta_data) {
+      socketMessage.message.session_meta_data = msg.session_meta_data
+    }
+    if (msg.invoice_meta_data) {
+      socketMessage.message.invoice_meta_data = msg.invoice_meta_data
     }
     this.socket.emit('message:send', socketMessage)
   }

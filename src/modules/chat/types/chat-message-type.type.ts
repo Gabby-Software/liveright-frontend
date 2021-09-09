@@ -5,5 +5,5 @@ export type ChatMessageTypeType =
   | 'audio'
   | 'file'
   | 'request_session'
-  | 'session_reschedule'
+  | 'session_reschdule'
   | 'invoice'
