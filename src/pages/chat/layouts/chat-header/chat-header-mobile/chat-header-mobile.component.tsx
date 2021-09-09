@@ -50,7 +50,7 @@ const ChatHeaderMobile: FC<Props> = ({}) => {
             to={
               type === userTypes.CLIENT
                 ? Routes.TRAINER
-                : Routes.CLIENTS + `/${roomData?.user_uuid}` + Routes.PROFILE
+                : Routes.CLIENTS + `/${roomData?.user_id}` + Routes.PROFILE
             }
           >
             See Profile

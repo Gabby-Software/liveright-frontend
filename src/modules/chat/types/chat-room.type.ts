@@ -8,6 +8,7 @@ export type ChatRoomType = {
   lastMessage: null | ChatMessageType
   unReadMessagesCount: number
   roomId: string
+  user_id: number
   user_uuid: string
   account_uuid: string
 }
