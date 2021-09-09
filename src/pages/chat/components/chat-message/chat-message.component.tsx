@@ -43,7 +43,12 @@ const ChatMessage = ({ msg }: Props) => {
   const renderSession = () => {
     if (types[0] === chatMessageTypes.REQUEST_SESSION) {
       types.shift()
-      return <ChatMessageSession me={isMe} />
+      return (
+        <ChatMessageSession
+          me={isMe}
+          date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+        />
+      )
     }
   }
   const renderSessionReschedule = () => {
@@ -51,8 +56,14 @@ const ChatMessage = ({ msg }: Props) => {
       types.shift()
       return (
         <>
-          <ChatMessageSession me={isMe} />
-          <ChatMessageSession me={isMe} />
+          <ChatMessageSession
+            me={isMe}
+            date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+          />
+          <ChatMessageSession
+            me={isMe}
+            date={msg.session_meta_data?.requested_time || '1970-01-01 00:00'}
+          />
         </>
       )
     }

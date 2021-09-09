@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -6,15 +7,18 @@ import FormButton from '../../../../../components/forms/form-button/form-button.
 import { Routes } from '../../../../../enums/routes.enum'
 import Styles from './chat-message-session.styles'
 
-type Props = { me: boolean }
-const ChatMessageSession: FC<Props> = ({ me }) => {
+type Props = { me: boolean; date: string }
+const ChatMessageSession: FC<Props> = ({ me, date }) => {
   return (
     <Styles className={'cm-session'} me={me}>
       <div className={'cm-session__left'}>
         <div className={'cm-session__title'} />
         <div className={'cm-session__date'}>
           <CalendarIcon />
-          <span>22-05-2020 at 15:00</span>
+          <span>
+            {moment(date).format('DD-MM-YYYY')} as{' '}
+            {moment(date).format('HH:mm')}
+          </span>
         </div>
       </div>
       <div className={'cm-session__right'}>
