@@ -159,7 +159,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       roomsRef.current[roomId] = {
         ...roomsRef.current[roomId],
         room: {
-          ...roomsRef.current[roomId].room,
+          ...roomsRef.current[roomId]?.room,
           unReadMessagesCount: 0
         },
         messages: res
