@@ -1,49 +1,46 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
+import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export default styled.div`
-  background-color: ${(p) => p.theme.vars.colors.card};
-  padding: 28px 20px;
-  margin-bottom: 16px;
-  ${media('tablet', 'min')`
-    width: calc(50% - 8px);
-    &:nth-child(even){
-        margin-left: 16px;
-    }
-`}
-  .notset-item {
+export default styled(Card)`
+  .settings-item {
     &__title {
-      color: ${(p) => p.theme.vars.colors.primaryDark};
-      font-size: 16px;
-      font-weight: 600px;
-      padding-bottom: 25px;
-      ${media('tablet', 'min')`
-            font-size: 20px;
-            position: relative;
-            margin-bottom: 34px;
-            &:before {
-                content: '';
-                position: absolute;
-                display: block;
-                bottom: 0;
-                left:0;
-                width: 124px;
-                border-bottom: 1px solid #c4c4c4;
-            }
-        `}
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 2rem;
+      color: ${getColorCarry('primaryDark_v2')};
     }
+
+    &__divider {
+      width: 100%;
+      height: 1px;
+      background-color: ${getColorCarry('inputBorder_v2')};
+      margin: 1.5rem 0;
+    }
+
     &__actions {
-      display: flex;
-      justify-content: space-between;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10rem;
+
+      @media ${mediaQueries.MOBILE} {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
     }
+
     &__action {
-      ${media('tablet', 'min')`
-        width: 50%;
+      @media ${mediaQueries.MOBILE} {
+        margin-bottom: 1.5rem;
+
         &:last-child {
-                margin-left: 100px;  
+          margin-bottom: 0;
         }
-        `}
+      }
     }
   }
 `

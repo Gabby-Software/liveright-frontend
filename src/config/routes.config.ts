@@ -344,9 +344,15 @@ export const routes: RouteType[] = [
           '../pages/notifications-settings/notifications-settings.component'
         )
     ),
+    back: {
+      url: Routes.NOTIFICATIONS,
+      alias: 'notifications'
+    },
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Settings',
-      items: headers.default
+      title: null,
+      items: []
     }
   },
   {

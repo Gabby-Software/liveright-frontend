@@ -3,7 +3,9 @@
   "title": "Settings",
   "notifications": {
     "title": "Notifications",
-    "desc": "Manage all your notification settings from one place",
+    "settings-title": "Notification Settings",
+    "back-to-notifications": "Back to Notifications",
+    "desc": "Manage all your notifications setting from one place",
     "payment": "Payment Related Notifications",
     "training": "Training Plan Related Notifications",
     "chat": "Chat Related Notifications",
