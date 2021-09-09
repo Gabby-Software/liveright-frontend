@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
 import { useClients } from '../../../../../hooks/clients.hook'
+import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import {
   ACTION_EDIT_SESSIONS_REQUEST,
   ACTION_TRAINER_CREATE_SESSION_REQUEST
@@ -49,6 +50,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
   const { children, onClose, session } = props
   const dispatch = useDispatch()
   const clients = useClients()
+  const { sendSession } = useChats()
   const initialValues = useMemo<AddSessionFormType>(() => {
     if (session) {
       const { client_request } = session
@@ -107,6 +109,14 @@ const AddSessionForm: React.FC<Props> = (props) => {
           client_info: {
             first_name: client?.first_name,
             last_name: client?.last_name
+          },
+          onSuccess: (id: number) => {
+            alert(id)
+            sendSession(Number(client_id), {
+              session_id: String(id),
+              requested_time:
+                rest.date + ' ' + moment(time, 'h:mm').format('HH:mm:ss')
+            })
           }
         }
       })

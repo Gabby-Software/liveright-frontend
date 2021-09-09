@@ -70,14 +70,14 @@ function* createTrainerSessionsWorker({
     notes: string
     client_id: number
     client_info: { first_name: string; last_name: string }
-  } & CallbackType<void>
+  } & CallbackType<number>
 >) {
   yield put({ type: ACTION_TRAINER_CREATE_SESSION_LOAD })
   const { onSuccess, onError, client_info, ...data } = payload
   try {
     const session = (yield call(() =>
       api.post(EP_GET_SESSIONS, data).then((res) => res.data)
-    )) as PaginatedDataType<InvoiceType>
+    )) as { data: { id: number } }
     logger.success('SESSIONS', session)
     yield put({
       type: ACTION_TRAINER_CREATE_SESSION_SUCCESS,
@@ -91,7 +91,7 @@ function* createTrainerSessionsWorker({
         }
       }
     })
-    onSuccess && onSuccess()
+    onSuccess && onSuccess(session.data.id)
   } catch (e) {
     yield put({
       type: ACTION_TRAINER_CREATE_SESSION_ERROR,

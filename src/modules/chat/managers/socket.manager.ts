@@ -89,6 +89,7 @@ class SocketManager {
   }
   sendMessage(msg: ChatMessageType) {
     if (!this.socket) return
+    console.log('SENDING MESSAGE', msg)
     const socketMessage = {
       message: {
         types: msg.types,

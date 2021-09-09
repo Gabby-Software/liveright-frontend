@@ -17,6 +17,7 @@ import ChatMessageAudio from './chat-message-audio/chat-message-audio.component'
 import ChatMessageGallery from './chat-message-gallery/chat-message-gallery.component'
 import ChatMessageInvoice from './chat-message-invoice/chat-message-invoice.component'
 import ChatMessageLink from './chat-message-link/chat-message-link.component'
+import ChatMessageSession from './chat-message-session/chat-message-session.component'
 import ChatMessageText from './chat-message-text/chat-message-text.component'
 type Props = {
   msg: ChatMessageType
@@ -37,6 +38,23 @@ const ChatMessage = ({ msg }: Props) => {
     if (types[0] === chatMessageTypes.INVOICE) {
       types.shift()
       return <ChatMessageInvoice {...msg.invoice_meta_data!} me={isMe} />
+    }
+  }
+  const renderSession = () => {
+    if (types[0] === chatMessageTypes.REQUEST_SESSION) {
+      types.shift()
+      return <ChatMessageSession me={isMe} />
+    }
+  }
+  const renderSessionReschedule = () => {
+    if (types[0] === chatMessageTypes.SESSION_RESCHEDULE) {
+      types.shift()
+      return (
+        <>
+          <ChatMessageSession me={isMe} />,
+          <ChatMessageSession me={isMe} />
+        </>
+      )
     }
   }
   const renderText = () => {
@@ -143,6 +161,8 @@ const ChatMessage = ({ msg }: Props) => {
           <ChatMessageLink key={i} {...link} />
         ))}
         {renderInvoice()}
+        {renderSession()}
+        {renderSessionReschedule()}
       </div>
     </Styles>
   )
