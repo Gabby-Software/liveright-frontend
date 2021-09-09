@@ -111,10 +111,9 @@ const AddSessionForm: React.FC<Props> = (props) => {
             last_name: client?.last_name
           },
           onSuccess: (id: number) => {
-            alert(id)
             sendSession(Number(client_id), {
               session_id: String(id),
-              requested_time:
+              current_time:
                 rest.date + ' ' + moment(time, 'h:mm').format('HH:mm:ss')
             })
           }

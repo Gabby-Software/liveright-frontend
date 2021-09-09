@@ -47,11 +47,11 @@ const ChatMessage = ({ msg }: Props) => {
     }
   }
   const renderSessionReschedule = () => {
-    if (types[0] === chatMessageTypes.SESSION_RESCHEDULE) {
+    if (types[0] === chatMessageTypes.SESSION_RESCHDULE) {
       types.shift()
       return (
         <>
-          <ChatMessageSession me={isMe} />,
+          <ChatMessageSession me={isMe} />
           <ChatMessageSession me={isMe} />
         </>
       )

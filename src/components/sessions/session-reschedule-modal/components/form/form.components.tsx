@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../../../hooks/sessions.hook'
+import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { ACTION_CLIENT_RESCHEDULE_SESSION_REQUEST } from '../../../../../store/action-types'
 import { SessionType } from '../../../../../types/session.type'
@@ -31,6 +32,7 @@ export default function Form({ session, onSuccess }: FormProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const isMobile = useIsMobile()
+  const { sendSessionReschedule } = useChats()
 
   const handleSubmit = (
     values: RescheduleFormType,
@@ -44,7 +46,15 @@ export default function Form({ session, onSuccess }: FormProps) {
         id: session.id,
         date,
         duration: moment(duration, 'HH:mm').format('HH:mm:ss'),
-        time: moment(time, 'HH:mm').format('HH:mm:ss')
+        time: moment(time, 'HH:mm').format('HH:mm:ss'),
+        onSuccess: () => {
+          sendSessionReschedule({
+            session_id: String(session.id),
+            requested_time:
+              date + ' ' + moment(time, 'h:mm').format('HH:mm:ss'),
+            current_time: session.starts_at
+          })
+        }
       }
     })
 

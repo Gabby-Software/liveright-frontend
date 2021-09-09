@@ -16,7 +16,7 @@ export const lastMessage = (msg?: ChatMessageType | null) => {
       return 'Sent a video'
     case chatMessageTypes.REQUEST_SESSION:
       return 'Requested a session'
-    case chatMessageTypes.SESSION_RESCHEDULE:
+    case chatMessageTypes.SESSION_RESCHDULE:
       return 'Requested session reschedule'
     case chatMessageTypes.INVOICE:
       return 'Sent an invoice'
