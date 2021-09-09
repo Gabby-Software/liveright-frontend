@@ -124,6 +124,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     socketManager.delivered(msg.chat_room_id)
   })
   useEffect(() => {
+    socketManager.init(uuid)
     getChatUsers()
       .then((res) => {
         logger.success('USERS', res)
