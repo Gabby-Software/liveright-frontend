@@ -7,5 +7,8 @@ export const notificationsTypes = {
   SESSION_REQUESTED: 'client_requested_session',
   SESSION_CREATED: 'trainer_scheduled_session',
   SESSION_UPDATED: 'trainer_updated_session',
-  SESSION_DELETED: 'trainer_deleted_session'
+  SESSION_DELETED: 'trainer_deleted_session',
+  SESSION_REMIND: 'p_t_session_reminder',
+  CREDITS_DEPOSITED: 'credits_deposited',
+  NEW_CHAT_MESSAGE: 'new_message_notification'
 }
