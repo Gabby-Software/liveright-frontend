@@ -15,6 +15,9 @@ import { createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { StaleWhileRevalidate } from 'workbox-strategies'
 
+import { ChatPushMessageType } from './modules/chat/types/chat-push-message.type'
+import { getChatNotification } from './modules/chat/workers/chat.worker'
+import { notificationsTypes } from './modules/notifications/enums/notification-types.enum'
 import { notificationUrl } from './modules/notifications/enums/notification-url.enum'
 
 declare const self: ServiceWorkerGlobalScope
@@ -130,9 +133,21 @@ PusherPushNotifications.onNotificationReceived = ({
   handleNotification
 }: any) => {
   payload.notification.title = 'A new notification!'
-  const data: { message: string; notification_type: string; data: {} } =
+  const data: { message: string; notification_type: string; data: any } =
     JSON.parse(payload.notification.body)
-  console.log('PUSH NOTIFICATION DATA', data)
+  console.log(
+    'PUSH NOTIFICATION DATA',
+    data,
+    data.notification_type,
+    notificationsTypes.NEW_CHAT_MESSAGE
+  )
+  if (data.notification_type === notificationsTypes.NEW_CHAT_MESSAGE) {
+    return pushEvent.waitUntil(
+      handleNotification(
+        getChatNotification(data as unknown as ChatPushMessageType)
+      )
+    )
+  }
   pushEvent.waitUntil(
     handleNotification({
       notification: {

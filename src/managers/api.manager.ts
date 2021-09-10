@@ -4,9 +4,9 @@ import moment from 'moment-timezone'
 
 import { toast } from '../components/toast/toast.component'
 import { EP_LOGOUT } from '../enums/api.enum'
-import { Routes } from '../enums/routes.enum'
+// import { Routes } from '../enums/routes.enum'
 import notificationManager from '../modules/notifications/notifications.manager'
-import { identity } from '../pipes/identity.pipe'
+// import { identity } from '../pipes/identity.pipe'
 import { serverError } from '../pipes/server-error.pipe'
 import { AccountType } from '../types/account.type'
 import cookieManager from './cookie.manager'
@@ -47,7 +47,7 @@ api.interceptors.response.use(
       api.post(EP_LOGOUT)
       localStorage.clear()
       cookieManager.removeAll()
-      setTimeout(() => (document.location.href = identity(Routes.LOGIN)))
+      // setTimeout(() => (document.location.href = identity(Routes.LOGIN)))
     }
     return Promise.reject(err)
   }

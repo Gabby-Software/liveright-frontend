@@ -12,7 +12,7 @@ import Styles from './notifications-settings.styles'
 const NotificationsSettings = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { notification } = useUserSettings()
+  const { notification, onUpdate } = useUserSettings()
 
   const content = (
     <Styles>
@@ -29,7 +29,12 @@ const NotificationsSettings = () => {
 
       <div className="settings__cards">
         {Object.entries(notification).map(([key, value], i) => (
-          <NotificationSettingItem key={i} title={key} {...value} />
+          <NotificationSettingItem
+            key={i}
+            title={key}
+            {...value}
+            onUpdate={(t) => onUpdate({ ...notification, [key]: t })}
+          />
         ))}
       </div>
 

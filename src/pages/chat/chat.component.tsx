@@ -17,7 +17,8 @@ const Chat = () => {
   const isMobile = useIsMobile()
   const { rooms } = useChats()
   const { room } = useParams<{ room?: string }>()
-  if (room && !rooms[room]) return <Redirect to={Routes.CHAT} />
+  if (type !== userTypes.CLIENT && room && !rooms[room])
+    return <Redirect to={Routes.CHAT} />
   if (type === userTypes.CLIENT && !room) {
     const trainerRoom = Object.keys(rooms)[0]
     if (rooms[trainerRoom])
