@@ -53,7 +53,7 @@ export const notificationUrl: (
       }
     case notificationsTypes.NEW_CHAT_MESSAGE:
       return {
-        url: Routes.CHAT,
+        url: Routes.CHAT + `/${data.room_id}`,
         slug: 'chat'
       }
     default:
