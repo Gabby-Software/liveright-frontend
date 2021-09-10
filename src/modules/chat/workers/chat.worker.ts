@@ -26,19 +26,6 @@ export function getChatNotification(data: ChatPushMessageType) {
     case chatMessageTypes.SESSION_RESCHDULE:
       message = 'asked to reschedule a session'
   }
-  console.log('MESSAGE PAYLOAD', {
-    notification: {
-      title: data.message,
-      body: message,
-      icon: '/maskable_icon_x96.png'
-    },
-    data: {
-      url:
-        (process.env.REACT_APP_BASE_URL || '') +
-        Routes.CHAT +
-        `/${data.room_id}`
-    }
-  })
   return {
     notification: {
       title: data.message,
