@@ -49,7 +49,7 @@ const ChatTrainer: FC<{}> = () => {
           <span>Upcoming Sessions</span>
         </div>
         {sessions && !sessions.length ? (
-          <DataItem key={i}>{`No upcoming sessions yet`}</DataItem>
+          <DataItem>{`No upcoming sessions yet`}</DataItem>
         ) : (
           sessions
             ?.slice(0, 3)
@@ -66,7 +66,7 @@ const ChatTrainer: FC<{}> = () => {
           <span>Invoices</span>
         </div>
         {invoices && !invoices.length ? (
-          <DataItem key={i}>{`No open invoices yet`}</DataItem>
+          <DataItem>{`No open invoices yet`}</DataItem>
         ) : (
           invoices
             ?.slice(0, 3)
