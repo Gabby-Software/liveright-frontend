@@ -6,10 +6,6 @@ import {
   FilterIcon,
   SearchIcon
 } from '../../../../assets/media/icons'
-import {
-  ActiveFilterCard,
-  ActiveFilters
-} from '../../../../components/active-filters'
 import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.component'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
