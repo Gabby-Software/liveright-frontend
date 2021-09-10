@@ -1,6 +1,7 @@
 import { CalendarIcon, NotificationsIcon } from '../../../../assets/media/icons'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
+import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import TrainerBadge from '../trainer-badge/trainer-badge.component'
@@ -40,10 +41,18 @@ export default function Header({
           )}
         </div>
         <div className="mobile-page-header__info-item">
-          <IconButton size="sm" className="mobile-page-header__action-icon">
+          <IconButton
+            size="sm"
+            className="mobile-page-header__action-icon"
+            to={Routes.CALENDAR}
+          >
             <CalendarIcon />
           </IconButton>
-          <IconButton size="sm" className="mobile-page-header__action-icon">
+          <IconButton
+            size="sm"
+            className="mobile-page-header__action-icon"
+            to={Routes.NOTIFICATIONS}
+          >
             <NotificationsIcon />
           </IconButton>
         </div>
