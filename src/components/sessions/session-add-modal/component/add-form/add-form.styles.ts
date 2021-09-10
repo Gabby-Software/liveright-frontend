@@ -23,7 +23,6 @@ export default styled(Card)`
       margin-bottom: 1.875rem;
       font-size: 1rem;
       font-weight: 400;
-      word-spacing: -4px;
       color: ${getColorCarry('primaryDark_v2')};
 
       @media ${mediaQueries.MOBILE} {

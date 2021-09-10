@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -18,6 +19,18 @@ export default styled.div`
 
     &__tabs {
       margin: 2.75rem 0 1.5rem 0;
+
+      @media ${mediaQueries.MOBILE} {
+        margin: 0 -1.25rem 0 -1.25rem;
+        border-radius: 0;
+        padding: 0 1rem;
+
+        & .tabs__item__wrapper {
+          &:not(:first-child) {
+            margin-left: 1.5rem;
+          }
+        }
+      }
     }
   }
 `

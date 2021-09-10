@@ -26,7 +26,7 @@
   "search": "Search",
   "trainer": "Trainer",
   "client": "Individual",
-  "logged-as": "Login in as {{type}}",
+  "logged-as": "Logged in as {{type}}",
   "what-to-do": "What do you want to do?",
   "switch-to": "Switch to {{type}}",
   "not-found-desc": "You seem to be lost, or maybe this page never existed?",
@@ -56,5 +56,6 @@
     "chat": "Chat",
     "health-data": "Health Data"
   },
-  "your-trainer": "Your trainer"
+  "your-trainer": "Your trainer",
+  "active-filters": "Active Filter"
 }

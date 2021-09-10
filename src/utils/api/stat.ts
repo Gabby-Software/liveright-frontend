@@ -25,7 +25,9 @@ export const STATISTIC_INITIAL_PARAMS = (
         coaching_sessions: true,
         pt_sessions: true,
         consultations_sessions: true,
-        other: true
+        other: true,
+        overdue: true,
+        paid: true
       }
     },
     count: {

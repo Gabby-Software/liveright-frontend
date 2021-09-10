@@ -4,13 +4,15 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
   margin: 0;
+  font-variant: none;
 }
 
 .field-error {
   position: absolute;
-  color: #EF1733;
+  color: #ef1733;
   bottom: -1rem;
   left: 0;
 }
@@ -29,4 +31,27 @@ h6 {
 
 .flex-row {
   flex-direction: row;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.weight-500 {
+  font-weight: 500;
 }

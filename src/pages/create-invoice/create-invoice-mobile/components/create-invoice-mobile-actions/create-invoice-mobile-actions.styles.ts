@@ -2,13 +2,12 @@ import styled from 'styled-components'
 
 export default styled.div`
   display: flex;
-  margin-top: 40px;
-  .ant-btn {
-    max-width: 100px;
-  }
+  flex-direction: column;
+  margin-top: 1.5rem;
+
   .ci-actions {
     &__next {
-      margin-left: auto;
+      width: 100%;
     }
   }
 `

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 import {
   getColor,
   getColorCarry
@@ -10,6 +11,11 @@ export default styled(Card)<any>`
   background-color: ${getColorCarry('secondary3_v2')};
   padding: 1.125rem 1rem;
   margin-bottom: 1.5rem;
+
+  @media ${mediaQueries.MOBILE} {
+    margin-bottom: 0;
+    background-color: #fff;
+  }
 
   &:last-child {
     margin-bottom: 0;

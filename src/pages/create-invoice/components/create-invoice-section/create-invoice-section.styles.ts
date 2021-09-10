@@ -1,9 +1,14 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled.div`
   margin-bottom: 1.5rem;
+
+  @media ${mediaQueries.MOBILE} {
+    margin-bottom: 0;
+  }
 
   .create-invoice {
     &__section-title {
@@ -20,6 +25,10 @@ export default styled.div`
 
     &__content {
       padding: 0 1.125rem;
+
+      @media ${mediaQueries.MOBILE} {
+        padding: 0;
+      }
     }
   }
 `

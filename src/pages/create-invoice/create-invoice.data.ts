@@ -10,6 +10,8 @@ export type InvoiceItemType = {
   quantity: number
   unit_price: string
   tax_rate: number
+  tax_value: number
+  total: number
   discount_percent: number
   extras: {
     session_expires_on: string
@@ -36,7 +38,9 @@ export const defaultInvoiceItem: InvoiceItemType = {
   is_taxable: true,
   quantity: 1,
   unit_price: '',
+  total: 0,
   tax_rate: 0,
+  tax_value: 0,
   discount_percent: 0,
   extras: {
     session_expires_on: ''

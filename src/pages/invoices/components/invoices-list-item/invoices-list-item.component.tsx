@@ -33,12 +33,15 @@ const InvoicesListItem = ({
 }: InvoiceType) => {
   const { t } = useTranslation()
   const { type } = useAuth()
+
   const user = useMemo(() => {
     return type === userTypes.CLIENT ? invoice_from?.user : invoice_to?.user
   }, [type, invoice_to, invoice_from])
+
   const downloadPDF = () => {
     fileManager.downloadUrl(pdf?.url || '', `Invoice #${invoice_number}`)
   }
+
   const Actions = useMemo(
     () => () => {
       const actions: {

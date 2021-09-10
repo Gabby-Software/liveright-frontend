@@ -1,4 +1,5 @@
 import { Button } from 'antd'
+import { Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
@@ -10,7 +11,12 @@ import {
   getPadding
 } from '../utils.styles'
 
-export default styled(Button)<any>`
+export const Link = styled(RouterLink)`
+  display: block;
+  width: max-content;
+`
+
+export const Styles = styled(Button)<any>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +52,7 @@ export default styled(Button)<any>`
     border-color: ${getBorderColor};
   }
 
-  @media (${mediaQueries.MOBILE}) {
+  @media ${mediaQueries.MOBILE} {
     padding: ${getMobilePadding};
   }
 `

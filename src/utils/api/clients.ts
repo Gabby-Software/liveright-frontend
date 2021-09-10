@@ -1,13 +1,12 @@
 import userTypes from '../../enums/user-types.enum'
 import { AccountObjType, ProfileType } from '../../types/account.type'
-import { OptionType } from '../../types/option.type'
 
 export function dataToOptions(
   data: AccountObjType[],
   includeAll: boolean
-): OptionType[] {
+): any[] {
   try {
-    const options: OptionType[] = includeAll
+    const options: any[] = includeAll
       ? [
           {
             label: 'All',
@@ -19,7 +18,11 @@ export function dataToOptions(
     data.forEach((row) => {
       options.push({
         label: `${row.first_name} ${row.last_name}`,
-        value: `${row.id}`
+        value: `${row.id}`,
+        firstName: row.first_name,
+        lastName: row.last_name,
+        avatar: row.avatar?.url,
+        clientObj: row
       })
     })
 

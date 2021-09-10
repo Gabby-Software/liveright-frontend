@@ -36,14 +36,14 @@ export default function LineChart({
           padding={{ left: 30, right: 30 }}
           dy={15}
           height={40}
-          tick={{ fill: colors.primaryDark_v2 }}
+          tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
           dataKey={xDataKey}
         />
         <YAxis
           axisLine={false}
           tickLine={false}
           dx={-15}
-          tick={{ fill: colors.primaryDark_v2 }}
+          tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
         />
         {dataKeys.map((key) => (
           <Line

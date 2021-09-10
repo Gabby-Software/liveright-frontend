@@ -61,7 +61,7 @@ export default function ClientProfile() {
   }
 
   if (edit) {
-    return <EditForm />
+    return <EditForm onClose={() => setEdit(false)} />
   }
 
   return (

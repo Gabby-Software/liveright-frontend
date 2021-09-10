@@ -59,8 +59,11 @@ const vars = {
     red_80: '#D70004',
     red_100: '#870002',
     green_10: '#F2FFF2',
+    green_20: '#D7FED6',
     green_90: '#00B334',
     green_80: '#00D721',
+    yellow_20: '#FEFAD0',
+    yellow_80: '#EDD92E',
     orange_100: '#FF6B2C',
     orange_60: '#ED9C30',
     orange_20: '#FEEED6'

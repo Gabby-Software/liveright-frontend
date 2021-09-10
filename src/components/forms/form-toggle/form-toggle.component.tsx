@@ -27,6 +27,7 @@ export const FormToggleUI = ({ label, value, onUpdate }: UIProps) => {
     </Styles>
   )
 }
+
 const FormToggle = ({}: Props) => {
   return null
 }

@@ -1,5 +1,11 @@
 import styled from 'styled-components'
 
 export default styled.div`
-  //counter-set: create-section 1;
+  .add-invoice__form-item {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 `

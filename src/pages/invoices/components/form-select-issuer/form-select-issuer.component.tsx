@@ -11,9 +11,9 @@ type Props = {
   name?: string
   label?: string
   placeholder?: string
-  value?: string
+  value?: string | OptionType
   defaultValue?: string
-  onUpdate?: (val: string) => void
+  onUpdate?: (val: string, option: OptionType) => void
   id: string
   className?: string
 }

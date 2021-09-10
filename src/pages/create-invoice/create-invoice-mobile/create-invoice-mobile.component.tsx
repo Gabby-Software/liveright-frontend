@@ -1,5 +1,9 @@
 import React from 'react'
 
+import { Routes } from '../../../enums/routes.enum'
+import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
+import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import {
   CreateInvoiceProvider,
   useInvoiceForm
@@ -13,13 +17,25 @@ import Styles from './create-invoice-mobile.styles'
 
 const CreateInvoiceMobileContent = () => {
   const { step } = useInvoiceForm()
+  const { t } = useTranslation()
   const steps: { [key: number]: React.ReactNode } = {
     [createInvoiceSteps.CLIENT]: <CreateInvoiceMobileClient />,
     [createInvoiceSteps.DETAILS]: <CreateInvoiceMobileDetails />,
     [createInvoiceSteps.ITEMS]: <CreateInvoiceMobileItems />,
     [createInvoiceSteps.NOTES]: <CreateInvoiceMobileNotes />
   }
-  return <Styles>{steps[step]}</Styles>
+  return (
+    <MobilePage
+      title={t('invoices:create-new')}
+      headerTopComponent={
+        <HeaderLink to={Routes.FINANCIALS_OVERVIEW}>
+          {t('invoices:return-financials')}
+        </HeaderLink>
+      }
+    >
+      <Styles>{steps[step]}</Styles>
+    </MobilePage>
+  )
 }
 const CreateInvoiceMobile = () => (
   <CreateInvoiceProvider>

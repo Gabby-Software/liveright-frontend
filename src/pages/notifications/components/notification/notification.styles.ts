@@ -1,60 +1,78 @@
 import styled from 'styled-components'
 
-import { media } from '../../../../assets/styles/_media'
-import Card from '../../../../components/card/card.style'
+import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled(Card)`
-  ${(p) => p.theme.extend.flexCenter}
-  margin-bottom: 16px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  @media ${mediaQueries.MOBILE} {
+    align-items: flex-start;
+  }
+
   .notification {
     &__icon {
-      ${(p) => p.theme.mixin.circleImage('36px')}
-      color: white;
-      background-color: #4f6cde;
-      padding: 6px;
-      flex-shrink: 0;
+      min-width: 40px;
+      min-height: 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: ${getColorCarry('secondary2_v2')};
       &__info {
-        background-color: #4f6cde;
+        background-color: ${getColorCarry('secondary2_v2')};
       }
       &__invoice {
-        background-color: #44c7ff;
+        background-color: ${getColorCarry('green_20')};
+        color: ${getColorCarry('green_80')};
       }
       &__session {
-        background-color: #ffde34;
+        background-color: ${getColorCarry('yellow_20')};
+        color: ${getColorCarry('yellow_80')};
       }
     }
+
     &__data {
-      width: 100%;
-      color: ${(p) => p.theme.vars.colors.primaryDark};
-      font-weight: 500;
+      flex: 1;
       margin: 0 12px;
-      ${media('tablet', 'min')`
-            display: flex;
-            justify-content: space-between;
-            margin: 0 16px;
-        `}
+      display: flex;
+      justify-content: space-between;
+
+      @media ${mediaQueries.MOBILE} {
+        flex-direction: column;
+      }
     }
     &__content {
-      font-size: 16px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${getColorCarry('primaryDark_v2')};
     }
     &__datetime {
-      font-weight: 14px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${getColorCarry('secondary2_v2')};
+
+      @media ${mediaQueries.MOBILE} {
+        margin: 0.25rem 0;
+      }
     }
+
     &__link {
-      &__icon {
-      }
+      align-self: center;
+      color: ${getColorCarry('link')};
     }
+
     &__action {
-      margin: 0 48px;
-      button {
-        min-width: 160px;
-        padding: 9px 30px;
-      }
-    }
-    &__eye {
-      width: 21px;
-      height: auto;
-      margin-right: 10px;
+      margin: 0 1.875rem;
+      min-width: 162px;
     }
   }
 `
