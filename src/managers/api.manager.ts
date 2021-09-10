@@ -11,6 +11,7 @@ import { serverError } from '../pipes/server-error.pipe'
 import { AccountType } from '../types/account.type'
 import cookieManager from './cookie.manager'
 import logger from './logger.manager'
+import qa from './qa.manager'
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_API_URL
@@ -43,6 +44,7 @@ api.interceptors.response.use(
       err.response
     )
     if (err.response.status === 401) {
+      qa.report()
       notificationManager.unsubscribeFromNotifications()
       api.post(EP_LOGOUT)
       localStorage.clear()
