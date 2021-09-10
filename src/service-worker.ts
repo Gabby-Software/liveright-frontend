@@ -135,7 +135,12 @@ PusherPushNotifications.onNotificationReceived = ({
   payload.notification.title = 'A new notification!'
   const data: { message: string; notification_type: string; data: any } =
     JSON.parse(payload.notification.body)
-  console.log('PUSH NOTIFICATION DATA', data)
+  console.log(
+    'PUSH NOTIFICATION DATA',
+    data,
+    data.notification_type,
+    notificationsTypes.NEW_CHAT_MESSAGE
+  )
   if (data.notification_type === notificationsTypes.NEW_CHAT_MESSAGE) {
     return pushEvent.waitUntil(
       handleNotification(
