@@ -35,6 +35,7 @@ export const Styles = styled.div<any>`
       border-radius: 0.625rem;
       border: 1px solid ${getColorCarry('inputBorder_v2')};
       font-size: 0.875rem;
+      font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
       box-shadow: none;
       transition: all 0.3s;
@@ -44,6 +45,11 @@ export const Styles = styled.div<any>`
         box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
       }
 
+      &--is-disabled {
+        background-color: #f5f5f5;
+        border-color: #d9d9d9;
+      }
+
       &:hover {
         border-color: ${getColorCarry('link')};
       }
@@ -51,6 +57,10 @@ export const Styles = styled.div<any>`
 
     &__value-container {
       padding: 0 1rem;
+
+      &--is-disabled {
+        color: rgba(0, 0, 0, 0.25);
+      }
     }
 
     &__indicators {
@@ -71,6 +81,8 @@ export const Styles = styled.div<any>`
 
     &__option {
       padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 400;
 
       &--is-selected {
         background-color: #fff;

@@ -122,6 +122,7 @@ export default function Select({
           menuIsOpen={menuOpen}
           loadingMessage={() => 'Loading'}
           isLoading={loading}
+          isDisabled={disabled}
         />
         {name && <FormError name={name} className="field-error" />}
       </div>

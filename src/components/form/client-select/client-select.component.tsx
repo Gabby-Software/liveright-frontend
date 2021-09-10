@@ -1,9 +1,7 @@
-import { components } from 'react-select'
-
 import useClients from '../../../hooks/api/clients/useClients'
 import { dataToOptions } from '../../../utils/api/clients'
-import UserBadge from '../../user-badge/user-badge.component'
 import Select, { SelectProps } from '../select/select.component'
+import { Option } from '../select/select.options'
 
 let IS_LOADING = false
 let HAS_MORE = false
@@ -38,21 +36,5 @@ export default function ClientSelect({
       loading={isLoading}
       {...props}
     />
-  )
-}
-
-function Option(props: any) {
-  if (props.data.value === 'all') {
-    return <components.Option {...props} />
-  }
-  return (
-    <components.Option {...props}>
-      <UserBadge
-        avatar={props.data.avatar}
-        firstName={props.data.firstName}
-        lastName={props.data.lastName}
-        square
-      />
-    </components.Option>
   )
 }

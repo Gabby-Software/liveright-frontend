@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export default styled.div<any>`
+export const Styles = styled.div<any>`
   margin-bottom: 1.75rem;
   display: flex;
   flex-wrap: nowrap;
@@ -42,5 +42,27 @@ export default styled.div<any>`
     &:focus {
       color: ${getColorCarry('link')};
     }
+  }
+`
+
+export const DrawerContent = styled.div`
+  padding: 1.5rem;
+
+  .drawer {
+    &__form-item {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .sessions__filter-select {
+    margin-bottom: 1rem;
+
+    &:nth-child(2) {
+      margin-bottom: 1.875rem;
+    }
+  }
+
+  .drawer__submit-btn {
+    width: 100%;
   }
 `

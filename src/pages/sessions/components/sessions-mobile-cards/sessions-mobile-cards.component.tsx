@@ -4,7 +4,7 @@ import DataPagination from '../../../../components/data-pagination/data-paginati
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { SessionFilter, SessionType } from '../../../../types/session.type'
 import SessionCard from '../session-mobile-card/session-mobile-card.component'
-import SessionsFilter from '../sessions-filters/sessions-filters.component'
+import SessionsFilters from '../sessions-filters/sessions-filters.component'
 
 interface Props {
   sessions: PaginatedDataType<SessionType>
@@ -48,7 +48,11 @@ const SessionsCards: React.FC<Props> = (props) => {
         </div>
       )}
       {withFilter && (
-        <SessionsFilter onUpdate={setFilter} calendar={filterCalendar} />
+        <SessionsFilters
+          filters={filter}
+          onUpdate={setFilter}
+          calendar={filterCalendar}
+        />
       )}
       {data.map((it) => {
         return (

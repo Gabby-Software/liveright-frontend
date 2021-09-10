@@ -33,3 +33,8 @@ export async function cancelInvoice(id: number) {
   const response = await api.delete(EP_GET_INVOICES + `/${id}`)
   return response.data
 }
+
+export async function getIssuers(url: string) {
+  const response = await api.get(url)
+  return response.data.data
+}

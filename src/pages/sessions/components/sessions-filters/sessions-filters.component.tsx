@@ -6,6 +6,7 @@ import {
   FilterIcon,
   SearchIcon
 } from '../../../../assets/media/icons'
+import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.component'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
@@ -17,19 +18,20 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionFilter } from '../../../../types/session.type'
 import { formatFilters } from '../../sessions.utils'
-import Styles from './sessions-filters.styles'
+import { DrawerContent, Styles } from './sessions-filters.styles'
 
 interface Props {
   onUpdate: (filter: SessionFilter) => void
   calendar?: boolean
+  filters: SessionFilter
 }
 
 const SessionsFilters: React.FC<Props> = (props) => {
-  const { onUpdate, calendar } = props
+  const { onUpdate, calendar, filters } = props
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const [filtersDrawer, setFiltersDrawer] = useState(false)
   const [date, setDate] = useState('')
-  const [type, setType] = useState('All')
 
   const handleUpdate = (name: keyof SessionFilter, value: string) => {
     onUpdate(((prevState: SessionFilter) => {
@@ -46,43 +48,82 @@ const SessionsFilters: React.FC<Props> = (props) => {
   }
 
   const handleUpdateFilters = () => {
-    formatFilters(type, date, onUpdate)
+    formatFilters('', date, onUpdate)
   }
 
   useEffect(() => {
     handleUpdateFilters()
-  }, [type, date])
+  }, [date])
 
   const handleInputChange = debounce((e) => {
     setDate(e.target.value)
   }, 400)
 
+  const typeSelect = (
+    <Select
+      id="sessions-type"
+      value={filters.type}
+      placeholder={t('sessions:type')}
+      options={sessionTypeOptions}
+      onChange={(e) => handleUpdate('type', e === 'All' ? null : e)}
+    />
+  )
+
+  const clientSelect = (
+    <ClientSelect
+      id="sessions-client"
+      placeholder={t('sessions:filter-by-client')}
+      onChange={(e) => handleUpdate('client_id', e === 'all' ? null : e)}
+      value={filters.client_id}
+    />
+  )
+
   if (isMobile) {
     return (
-      <Styles>
-        <div className="sessions__filter-row">
-          <div className="sessions__filter-search">
-            <Input
-              formik
-              id="sessions-search"
-              placeholder={t('sessions:filter-input-mobile')}
-              prefix={<SearchIcon />}
-              onChange={handleInputChange}
-            />
-          </div>
+      <>
+        <Styles>
+          <div className="sessions__filter-row">
+            <div className="sessions__filter-search">
+              <Input
+                formik
+                id="sessions-search"
+                placeholder={t('sessions:filter-input-mobile')}
+                prefix={<SearchIcon />}
+                onChange={handleInputChange}
+              />
+            </div>
 
-          <div className="sessions__filter-buttons">
-            <IconButton size="sm">
-              <FilterIcon />
-            </IconButton>
-            {calendar && (
-              <IconButton size="sm" className="sessions__filter-btn-calendar">
-                <CalendarIcon />
+            <div className="sessions__filter-buttons">
+              <IconButton size="sm" onClick={() => setFiltersDrawer(true)}>
+                <FilterIcon />
               </IconButton>
-            )}
+              {calendar && (
+                <IconButton size="sm" className="sessions__filter-btn-calendar">
+                  <CalendarIcon />
+                </IconButton>
+              )}
+            </div>
           </div>
-        </div>
-      </Styles>
+        </Styles>
+
+        <BottomDrawer
+          title="Apply Filters"
+          isOpen={filtersDrawer}
+          onClose={() => setFiltersDrawer(false)}
+        >
+          <DrawerContent>
+            <div className="sessions__filter-select">{typeSelect}</div>
+            <div className="sessions__filter-select">{clientSelect}</div>
+
+            <Button
+              className="drawer__submit-btn"
+              onClick={() => setFiltersDrawer(false)}
+            >
+              {t('apply-filters')}
+            </Button>
+          </DrawerContent>
+        </BottomDrawer>
+      </>
     )
   }
 
@@ -98,21 +139,8 @@ const SessionsFilters: React.FC<Props> = (props) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="sessions__filter-select">
-          <Select
-            id="sessions-type"
-            placeholder={t('sessions:type')}
-            options={sessionTypeOptions}
-            onChange={(e) => setType(e)}
-          />
-        </div>
-        <div className="sessions__filter-select">
-          <ClientSelect
-            id="sessions-client"
-            placeholder={t('sessions:filter-by-client')}
-            onChange={(e) => handleUpdate('client_id', e === 'all' ? null : e)}
-          />
-        </div>
+        <div className="sessions__filter-select">{typeSelect}</div>
+        <div className="sessions__filter-select">{clientSelect}</div>
       </div>
 
       {calendar && (
