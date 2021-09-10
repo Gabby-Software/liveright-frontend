@@ -58,7 +58,6 @@ const AddSessionFieldsDesktop: React.FC<Props> = (props) => {
             label={t('sessions:duration')}
             onChange={(e, date) => setFieldValue('duration', date)}
             name="duration"
-            disabled
           />
           <div className="add-session__type-wrapper">
             <Select
