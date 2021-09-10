@@ -51,6 +51,11 @@ export const notificationUrl: (
         url: Routes.SESSIONS,
         slug: 'sessions'
       }
+    case notificationsTypes.NEW_CHAT_MESSAGE:
+      return {
+        url: Routes.CHAT,
+        slug: 'chat'
+      }
     default:
       return EMPTY_RESPONSE
   }
