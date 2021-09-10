@@ -10,12 +10,12 @@ import BottomDrawer from '../../../../../../components/bottom-drawer/bottom-draw
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../../../components/form/input/input.component'
+import IssuerSelect from '../../../../../../components/form/issuer-select/issuer-select.component'
 import Select from '../../../../../../components/form/select/select.component'
 import { InvoicesFilters } from '../../../../../../hooks/api/invoices/useInvoices'
 import { useIsMobile } from '../../../../../../hooks/is-mobile.hook'
 import { UseFilters } from '../../../../../../hooks/ui/useFilters'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
-import FormSelectIssuer from '../../../../../invoices/components/form-select-issuer/form-select-issuer.component'
 import { statuses } from '../../../../../invoices/invoices.data'
 import { DrawerContent, Styles } from './finanials-receivables-filters.styles'
 
@@ -39,7 +39,6 @@ export default function Filters({
       placeholder={t('invoices:status')}
       options={[{ label: 'All statuses', value: '' }, ...statuses]}
       onChange={(e, option) => {
-        console.log(e, option)
         onFilter?.('status', e)
         setSelectedStatus(option)
       }}
@@ -48,11 +47,11 @@ export default function Filters({
   )
 
   const clientSelect = (
-    <FormSelectIssuer
+    <IssuerSelect
       id="bulling-issuer"
-      value={selectedIssuer ? selectedIssuer : undefined}
       placeholder={t('invoices:issued-to')}
-      onUpdate={(e, option) => {
+      value={selectedIssuer ? selectedIssuer : undefined}
+      onChange={(e, option) => {
         onFilter?.('invoice_to', e)
         setSelectedIssuer(option)
       }}
