@@ -2,14 +2,20 @@ import React from 'react'
 
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { NotificationSettingsCategoryValuesType } from '../../../../modules/notifications/types/notification-settings.type'
 import { NotificationsSettingsType } from '../../notifications-settings.type'
 import Styles from './notification-setting-item.styles'
+
+interface NotificationSettingItemProps {
+  onUpdate: (e: NotificationSettingsCategoryValuesType) => void
+}
 
 const NotificationSettingItem = ({
   title,
   email,
-  browser
-}: NotificationsSettingsType) => {
+  browser,
+  onUpdate
+}: NotificationsSettingsType & NotificationSettingItemProps) => {
   const { t } = useTranslation()
   return (
     <Styles>
@@ -24,14 +30,14 @@ const NotificationSettingItem = ({
           <FormToggleUI
             label={t('settings:notifications.email')}
             value={email}
-            onUpdate={() => {}}
+            onUpdate={(val) => onUpdate({ email: val, browser })}
           />
         </div>
         <div className="settings-item__action">
           <FormToggleUI
             label={t('settings:notifications.browser')}
             value={browser}
-            onUpdate={() => {}}
+            onUpdate={(val) => onUpdate({ email, browser: val })}
           />
         </div>
       </div>
