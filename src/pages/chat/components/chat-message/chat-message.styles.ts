@@ -67,6 +67,7 @@ opacity: .3;
       font-size: 14px;
       border-radius: 0 8px 8px 8px;
       position: relative;
+      word-break: break-all;
       order: 1;
       &.me {
         background-color: ${(p) => p.theme.vars.colors.chat_dark};
