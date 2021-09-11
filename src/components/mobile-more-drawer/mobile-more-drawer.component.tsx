@@ -46,7 +46,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
     },
     {
       name: 'menu.progress',
-      url: Routes.PROGRESS_MEASUREMENTS,
+      url: Routes.PROGRESS_CLIENTS,
       Icon: ProgressIcon,
       permission: userTypes.TRAINER
     },

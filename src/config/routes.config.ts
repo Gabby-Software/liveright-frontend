@@ -185,12 +185,23 @@ export const routes: RouteType[] = [
     footer: footerTypes.TRAINER
   },
   {
+    title: 'Progress Clients',
+    url: Routes.PROGRESS_CLIENTS,
+    version: 2,
+    Component: lazy(
+      () => import('../pages/progress-clients/progress-clients.component')
+    ),
+    header: {
+      title: null
+    }
+  },
+  {
     title: 'Progress',
     url: Routes.PROGRESS,
     version: 2,
     Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
-      title: 'Progress & Metrics'
+      title: null
     }
   },
   {

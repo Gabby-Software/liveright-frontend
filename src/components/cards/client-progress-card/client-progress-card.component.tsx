@@ -1,0 +1,56 @@
+import { CaretRightIcon } from '../../../assets/media/icons'
+import { useTranslation } from '../../../modules/i18n/i18n.hook'
+import Button from '../../buttons/button/button.component'
+import UserBadge from '../../user-badge/user-badge.component'
+import { Styles } from './client-progress-card.styles'
+
+interface ClientProgressCardProps {
+  firstName: string
+  lastName: string
+  avatar?: string
+  to: string
+}
+
+export default function ClientProgressCard({
+  firstName,
+  lastName,
+  avatar,
+  to
+}: ClientProgressCardProps) {
+  const { t } = useTranslation()
+  return (
+    <Styles>
+      <div className="client-progress-card__header">
+        <UserBadge
+          size="lg"
+          text="semi-bold"
+          firstName={firstName}
+          lastName={lastName}
+          avatar={avatar}
+          avatarOnly
+        />
+
+        <div className="client-progress-card__header-content">
+          <div className="client-progress-card__header-name-container">
+            <h4 className="client-progress-card__header-name">
+              {firstName || ''} {lastName || ''}
+            </h4>
+
+            <Button
+              variant="text"
+              className="client-progress-card__header-link"
+              to={to}
+            >
+              {t('view-details')}
+              <CaretRightIcon />
+            </Button>
+          </div>
+
+          <p className="client-progress-card__header-subtitle">
+            Last Activity: <span>22-05-2021</span>
+          </p>
+        </div>
+      </div>
+    </Styles>
+  )
+}

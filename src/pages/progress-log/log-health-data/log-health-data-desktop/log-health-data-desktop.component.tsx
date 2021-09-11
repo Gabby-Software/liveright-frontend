@@ -60,7 +60,7 @@ const LogHealthDataDesktop: React.FC<{}> = () => {
 
   return (
     <Wrapper>
-      {type === userTypes.CLIENT ? null : <LogClient />}
+      {type === userTypes.CLIENT ? null : <LogClient onSwitch={() => {}} />}
       <FormRow>
         <CardsWrapper>
           <SleepCardWrapper>

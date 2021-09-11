@@ -1,5 +1,5 @@
 import { FocusEventHandler, ReactNode, useState } from 'react'
-import ReactSelect from 'react-select'
+import ReactSelect, { MenuPosition } from 'react-select'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
@@ -29,6 +29,7 @@ export interface SelectProps {
   Components?: any
   menuOpen?: boolean
   loading?: boolean
+  menuPosition?: MenuPosition
 }
 
 export default function Select({
@@ -49,7 +50,8 @@ export default function Select({
   onBottom,
   Components,
   menuOpen,
-  loading
+  loading,
+  menuPosition
 }: SelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
@@ -123,6 +125,7 @@ export default function Select({
           loadingMessage={() => 'Loading'}
           isLoading={loading}
           isDisabled={disabled}
+          menuPosition={menuPosition}
         />
         {name && <FormError name={name} className="field-error" />}
       </div>
