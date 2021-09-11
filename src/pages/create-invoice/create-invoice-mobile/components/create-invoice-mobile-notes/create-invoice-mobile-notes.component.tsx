@@ -81,7 +81,6 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
               htmlType={'submit'}
               onClick={() => {
                 formik.setFieldValue('invoice.send_to_client', true)
-                formik.submitForm()
               }}
             >
               {t('invoices:create.generate-and-send')}
@@ -93,7 +92,6 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
               htmlType={'submit'}
               onClick={() => {
                 formik.setFieldValue('invoice.send_to_client', false)
-                formik.submitForm()
               }}
             >
               {t('invoices:create.generate-and-back')}

@@ -39,5 +39,18 @@ export default styled(Card)`
       color: ${getColorCarry('primary_v2')};
       font-weight: 700;
     }
+
+    &__action {
+      display: flex;
+      align-items: center;
+
+      & svg {
+        margin-left: 2rem;
+      }
+    }
+
+    &__cost {
+      text-align: right;
+    }
   }
 `

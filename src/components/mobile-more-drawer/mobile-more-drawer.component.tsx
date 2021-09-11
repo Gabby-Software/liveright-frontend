@@ -2,7 +2,7 @@ import React, { ComponentType, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { InvoiceIcon } from '../../assets/media/icons'
+import { InvoiceIcon, ProgressIcon } from '../../assets/media/icons'
 import { ReactComponent as PowerIcon } from '../../assets/media/icons/power.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/media/icons/profile.svg'
 import { ReactComponent as SessionIcon } from '../../assets/media/icons/session.svg'
@@ -42,6 +42,12 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       Icon: UsersIcon,
       url: Routes.CLIENTS,
       name: 'menu.clients',
+      permission: userTypes.TRAINER
+    },
+    {
+      name: 'menu.progress',
+      url: Routes.PROGRESS_MEASUREMENTS,
+      Icon: ProgressIcon,
       permission: userTypes.TRAINER
     },
     // {Icon: ChatIcon, url: Routes.CHAT, name: 'menu.chat', permission: userTypes.TRAINER},
