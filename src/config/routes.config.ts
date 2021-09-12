@@ -191,6 +191,7 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/progress-clients/progress-clients.component')
     ),
+    mobileLayout: false,
     header: {
       title: null
     }
@@ -199,6 +200,7 @@ export const routes: RouteType[] = [
     title: 'Progress',
     url: Routes.PROGRESS,
     version: 2,
+    mobileLayout: false,
     Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
       title: null

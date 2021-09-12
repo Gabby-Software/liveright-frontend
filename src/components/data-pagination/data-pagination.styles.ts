@@ -21,6 +21,8 @@ function getJustify(props: any): string {
 }
 
 export const Pagination = styled(AntdPagination)`
+  display: flex;
+
   .ant-pagination {
     &-item,
     &-prev,

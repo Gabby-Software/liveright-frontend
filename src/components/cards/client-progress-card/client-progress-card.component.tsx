@@ -28,6 +28,7 @@ export default function ClientProgressCard({
           lastName={lastName}
           avatar={avatar}
           avatarOnly
+          className="client-progress-card__avatar"
         />
 
         <div className="client-progress-card__header-content">
