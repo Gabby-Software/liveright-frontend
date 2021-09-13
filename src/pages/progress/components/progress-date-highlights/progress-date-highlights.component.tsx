@@ -1,8 +1,8 @@
 import moment, { Moment } from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
+import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
-import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -57,7 +57,7 @@ const DateHighLights: React.FC<Props> = (props) => {
       />
       <HealthCard
         date={date}
-        icon={<CardiogramIcon />}
+        icon={<HeartRateV2Icon />}
         data={
           dateHighlights?.heart_rate?.avg_rate
             ? dateHighlights?.heart_rate?.avg_rate + ' BPM'

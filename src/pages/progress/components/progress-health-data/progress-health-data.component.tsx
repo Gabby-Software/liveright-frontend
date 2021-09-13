@@ -1,7 +1,8 @@
 import moment, { Moment } from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { LeftArrowIcon } from '../../../../assets/media/icons'
+import { CaretLeftIcon } from '../../../../assets/media/icons'
+import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -19,7 +20,7 @@ import AverageHighLights from '../progress-average-highlights/progress-average-h
 import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
 import OverTimeDesktop from '../progress-overtime-desktop/progress-overtime-desktop.component'
 import OverTimeMobile from '../progress-overtime-mobile/progress-overtime-mobile.component'
-import { HighlightArrow, Wrapper } from './progress-health-data.styles'
+import { Wrapper } from './progress-health-data.styles'
 
 interface Props {}
 
@@ -97,23 +98,32 @@ const HealthData: React.FC<Props> = () => {
 
   return (
     <Wrapper>
-      <PageSubtitle className={'today-highlights'}>
-        <HighlightArrow
-          disabled={prevDisabled}
-          onClick={() => {
-            setHighlightDay(moment(highlightDay.add(-1, 'day')))
-          }}
-        >
-          <LeftArrowIcon />
-        </HighlightArrow>
-        {highlightLabel}
-        <HighlightArrow
-          disabled={nextDisabled}
-          onClick={() => setHighlightDay(moment(highlightDay.add(1, 'day')))}
-        >
-          <LeftArrowIcon />
-        </HighlightArrow>
-      </PageSubtitle>
+      <div className="progress__subtitle-container">
+        <h3 className="progress__subtitle">{highlightLabel}</h3>
+
+        <div className="progress__highlight-container">
+          <IconButton
+            size="sm"
+            disabled={prevDisabled}
+            className="progress__highlight-btn"
+            onClick={() => {
+              setHighlightDay(moment(highlightDay.add(-1, 'day')))
+            }}
+          >
+            <CaretLeftIcon />
+          </IconButton>
+
+          <IconButton
+            size="sm"
+            disabled={nextDisabled}
+            className="progress__highlight-btn"
+            onClick={() => setHighlightDay(moment(highlightDay.add(1, 'day')))}
+          >
+            <CaretLeftIcon />
+          </IconButton>
+        </div>
+      </div>
+
       <DateHighLights date={highlightDay} />
 
       {isMobile ? (
@@ -146,7 +156,10 @@ const HealthData: React.FC<Props> = () => {
         />
       )}
 
-      <PageSubtitle>{t('progress:average')}</PageSubtitle>
+      <div className="progress__subtitle-container">
+        <h3 className="progress__subtitle">{t('progress:average')}</h3>
+      </div>
+
       <AverageHighLights />
     </Wrapper>
   )

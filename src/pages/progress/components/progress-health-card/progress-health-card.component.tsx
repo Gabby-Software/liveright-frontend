@@ -1,16 +1,14 @@
 import { Popover } from 'antd'
 import { Moment } from 'moment'
 import React, { ReactElement } from 'react'
+import { useParams } from 'react-router'
 
 import { ReactComponent as ArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
+import Button from '../../../../components/buttons/button/button.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { getRoute } from '../../../../utils/routes'
 import { PROGRESS_LOG_URL } from '../../progress.constants'
-import {
-  Data,
-  LogLink,
-  Quality,
-  StyledCard
-} from './progress-health-card.styles'
+import { Data, Quality, StyledCard } from './progress-health-card.styles'
 
 interface Props {
   icon: ReactElement
@@ -23,29 +21,38 @@ interface Props {
 const HealthCard: React.FC<Props> = (props) => {
   const { icon, quality, data, date, title } = props
   const { t } = useTranslation()
+  const params = useParams<any>()
 
   return (
     <Popover content={title}>
       <StyledCard noLogs={!data}>
         {icon}
-        {data ? (
-          <div>
-            <Quality>{t(`progress:${quality || ''}`)}</Quality>
-            <Data>{data}</Data>
-          </div>
-        ) : (
-          <div>
-            <Data>{t('progress:noLogs')}</Data>
-            <LogLink
-              to={
-                PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`
-              }
-            >
-              <span>{t('progress:logNow')}</span>
-              <ArrowIcon />
-            </LogLink>
-          </div>
-        )}
+        <div className="health-card__content">
+          {data ? (
+            <div>
+              <Quality>{t(`progress:${quality || ''}`)}</Quality>
+              <Data>{data}</Data>
+            </div>
+          ) : (
+            <div>
+              <Data>{t('progress:noLogs')}</Data>
+
+              <Button
+                to={getRoute(
+                  PROGRESS_LOG_URL.health_data +
+                    `/${date?.format('YYYY-MM-DD')}`,
+                  { id: params.id }
+                )}
+                variant="text"
+                size="sm"
+                className="health-card__btn"
+              >
+                <span>{t('progress:logNow')}</span>
+                <ArrowIcon />
+              </Button>
+            </div>
+          )}
+        </div>
       </StyledCard>
     </Popover>
   )

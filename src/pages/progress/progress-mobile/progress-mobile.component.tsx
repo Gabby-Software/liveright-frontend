@@ -2,8 +2,8 @@ import map from 'lodash/map'
 import React, { useState } from 'react'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
-import FormButton from '../../../components/forms/form-button/form-button.component'
 import SmallModal from '../../../components/small-modal/small-modal.component'
+import Tabs from '../../../components/tabs/tabs.component'
 import { Routes } from '../../../enums/routes.enum'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
@@ -12,7 +12,7 @@ import ClientInfoMobile from '../components/client-info-mobile/client-info-mobil
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
 import { ProgressSectionsType } from '../progress.types'
-import { HeaderAction, StyledTabs, Wrapper } from './progress-mobile.styles'
+import { HeaderAction, Wrapper } from './progress-mobile.styles'
 
 interface Props {
   onLogClick: (value: ProgressSectionsType) => void
@@ -40,7 +40,7 @@ const ProgressMobile: React.FC<Props> = (props) => {
         </HeaderLink>
       }
       actionComponent={
-        <HeaderAction>
+        <HeaderAction onClick={() => setLogModal(true)}>
           Log Data
           <CaretDownIcon />
         </HeaderAction>
@@ -50,10 +50,7 @@ const ProgressMobile: React.FC<Props> = (props) => {
       <Wrapper>
         <ClientInfoMobile />
 
-        <FormButton onClick={() => setLogModal(true)} type="primary">
-          {t('progress:sections.log')}
-        </FormButton>
-        <StyledTabs
+        <Tabs
           tabs={[
             {
               label: t('progress:sections.health_data'),
@@ -67,6 +64,7 @@ const ProgressMobile: React.FC<Props> = (props) => {
             }
           ]}
         />
+
         <SmallModal
           onCancel={() => setLogModal(false)}
           visible={logModal}

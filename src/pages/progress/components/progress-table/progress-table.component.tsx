@@ -1,22 +1,24 @@
 import get from 'lodash/get'
 import moment from 'moment'
 import React, { useMemo } from 'react'
+import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
-import { ReactComponent as EditIcon } from '../../../../assets/media/icons/edit.svg'
-import BlueLink from '../../../../components/blue-link/blue-link.component'
+import { AddIcon } from '../../../../assets/media/icons'
+import Button from '../../../../components/buttons/button/button.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
-import { PROGRESS_LOG_URL, PROGRESS_TABLE_KEYS } from '../../progress.constants'
+import { getRoute } from '../../../../utils/routes'
+import { PROGRESS_TABLE_KEYS } from '../../progress.constants'
 import {
   HealthData,
   HealthData as HealthDataType,
   ProgressLogType
 } from '../../progress.types'
-import { DateButton, Pagination, Wrapper } from './progress-table.styles'
+import { Pagination, Wrapper } from './progress-table.styles'
 
 interface Props {
   activeTab: ProgressLogType
@@ -28,8 +30,8 @@ const HealthTable: React.FC<Props> = (props) => {
   const { data, activeTab, onPageChange } = props
   const { data: logs, meta } = data
   const { current_page, total } = meta
+  const params = useParams<any>()
   const { t } = useTranslation()
-  const history = useHistory()
   const qualityKey = `${activeTab}.quality`
   const reportedByKey = `${activeTab}.reported_by`
   const { labels, keys } = useMemo(() => {
@@ -66,17 +68,7 @@ const HealthTable: React.FC<Props> = (props) => {
         data={logs}
         render={{
           date: (item: HealthData) => {
-            return (
-              <DateButton
-                onClick={() =>
-                  history.push(PROGRESS_LOG_URL.health_data + `/${item.date}`)
-                }
-                type="link"
-                icon={<EditIcon />}
-              >
-                {item.date}
-              </DateButton>
-            )
+            return <span>{item.date}</span>
           },
           [reportedByKey]: (item: HealthData) => {
             const reportedBy = get(item, reportedByKey)
@@ -95,22 +87,28 @@ const HealthTable: React.FC<Props> = (props) => {
             )
         }}
       />
+
       <Pagination>
         <DataPagination
           page={current_page}
           setPage={handlePageSet}
           total={total}
+          justify="between"
         >
-          <BlueLink
-            to={
+          <Button
+            to={getRoute(
               Routes.PROGRESS_LOG_HEALTH_DATA +
-              `/${moment().format('YYYY-MM-DD')}`
-            }
-            className={'pagination__link'}
+                `/${moment().format('YYYY-MM-DD')}`,
+              {
+                id: params.id
+              }
+            )}
+            variant="text"
+            className="pagination__link"
           >
-            Some day missing? Add it{' '}
-            <span className={'pagination__plus'}>+</span>
-          </BlueLink>
+            Some day missing? Add it
+            <AddIcon />
+          </Button>
         </DataPagination>
       </Pagination>
     </Wrapper>

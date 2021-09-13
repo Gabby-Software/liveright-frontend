@@ -1,28 +1,67 @@
 import { Button } from 'antd'
 import styled from 'styled-components'
 
-export const Wrapper = styled.div``
+export const Wrapper = styled.div`
+  .progress {
+    &__chart-btn {
+      font-size: 0.875rem;
+      font-weight: 400;
+      height: fit-content;
+      padding: 0;
 
-export const FilterWrapper = styled.div`
-  .select_input__wrapper {
-    width: 100%;
+      & svg {
+        margin-right: 0.5rem;
+      }
+
+      & span {
+        text-decoration: underline;
+      }
+    }
+
+    &__form {
+      padding-top: 1.25rem;
+    }
+
+    &__form-item {
+      margin-bottom: 1.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 `
+
+export const FilterWrapper = styled.div``
 
 export const TableWrapper = styled.div`
   margin: 16px 0;
 
   .ant-tabs {
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
+    & .tabs-label-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      letter-spacing: 0;
+      word-spacing: -3px;
+      font-size: 0.875rem;
+      text-align: center;
+      justify-content: space-between;
+      height: 100%;
 
-  .tabs-label-wrapper {
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
+      svg {
+        width: 22px;
+        height: 22px;
+        margin: 0;
+      }
+    }
+
+    & .ant-tabs-nav-wrap {
+      overflow: initial;
+      white-space: initial;
+      transform: none;
+      justify-content: center;
+    }
   }
 `
 

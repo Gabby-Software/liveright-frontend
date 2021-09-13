@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
-import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/heart-rate.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import { timeWithoutSeconds } from '../../../../pipes/time.pipe'
@@ -19,9 +19,7 @@ interface Props {
   range?: OverTimeType
 }
 
-const AverageHighLights: React.FC<Props> = (props) => {
-  const { range } = props
-  console.log(range)
+const AverageHighLights: React.FC<Props> = () => {
   const [highlights, setHighlights] = useState<AverageHealthData>()
 
   const getHealthData = async () => {
@@ -46,7 +44,7 @@ const AverageHighLights: React.FC<Props> = (props) => {
       ) : null}
       {highlights?.avg_heart_rate ? (
         <HealthCard
-          icon={<CardiogramIcon />}
+          icon={<HeartRateV2Icon />}
           data={highlights?.avg_heart_rate?.toFixed(0).toString() + ' BPM'}
           quality={getHeartRateQuality(highlights?.avg_heart_rate)}
           title={'Heart Rate'}

@@ -63,6 +63,12 @@ export const Styles = styled(Tabs)`
       justify-content: space-between;
     }
 
+    & .ant-tabs-nav {
+      &::before {
+        display: none;
+      }
+    }
+
     &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations,
     .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations {
       display: none;

@@ -3,22 +3,26 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   overflow: auto;
+  margin-bottom: 1.5rem;
 `
 export const Pagination = styled.div`
-  background-color: white;
-  padding: 0 24px 20px 24px;
-  border-radius: 0 0 10px 10px;
-  margin-bottom: 30px;
+  width: 100%;
+  background-color: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0 1rem 1.5rem 1rem;
+
   .data-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
+
   .ant-pagination {
-    background-color: white;
   }
+
   .pagination {
     &__link {
+      & svg {
+        margin-left: 0.5rem;
+      }
     }
     &__plus {
       font-size: 24px;

@@ -1,16 +1,17 @@
-import { Form, Formik } from 'formik'
-import React from 'react'
+import { FC } from 'react'
 
+import {
+  GraphIcon,
+  HeartRateV2Icon,
+  MenuIcon
+} from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
-import { ReactComponent as CardiogramIcon } from '../../../../assets/media/icons/cardiogram.svg'
-import { ReactComponent as GraphIcon } from '../../../../assets/media/icons/graph.svg'
-import { ReactComponent as TableIcon } from '../../../../assets/media/icons/menu.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
-import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
+import Button from '../../../../components/buttons/button/button.component'
+import DatePicker from '../../../../components/form/date-picker/date-picker.component'
+import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
-import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
 import { PaginatedDataType } from '../../../../types/paginated-data.type'
@@ -22,11 +23,7 @@ import {
 } from '../../progress.types'
 import HealthChart from '../progress-chart/progress-chart.component'
 import HealthTable from '../progress-table/progress-table.component'
-import {
-  FilterWrapper,
-  SwitchViewButton,
-  Wrapper
-} from './progress-overtime-desktop.styles'
+import { FilterWrapper, Wrapper } from './progress-overtime-desktop.styles'
 
 interface Props {
   filter: OverTimeType
@@ -42,7 +39,7 @@ interface Props {
   onPageChange: (page?: number) => void
 }
 
-const OverTimeDesktop: React.FC<Props> = (props) => {
+const OverTimeDesktop: FC<Props> = (props) => {
   const {
     filter,
     setFilter,
@@ -52,7 +49,7 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
     activeTab,
     setActiveTab,
     data,
-    specificDates,
+    // specificDates,
     onSpecificDateChange,
     onPageChange
   } = props
@@ -76,44 +73,52 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <div className={'progress-overtime__header'}>
-        <PageSubtitle>{t('progress:overTime')}</PageSubtitle>
-        <SwitchViewButton onClick={handleSwitchViewClick} type="link">
-          {graphView ? <TableIcon /> : <GraphIcon />}
-          <span>
-            {graphView ? t('progress:seeTable') : t('progress:seeGraph')}
-          </span>
-        </SwitchViewButton>
-        <FilterWrapper>
-          <FormSelectUI
-            name="overTime"
-            value={filter}
-            label=""
-            options={filterOptions}
-            onUpdate={(value) => setFilter(value as OverTimeType)}
-          />
-          <Formik
-            enableReinitialize
-            initialValues={specificDates}
-            onSubmit={() => {}}
+      <div className="progress-overtime__header">
+        <h3 className="progress-overtime__title">{t('progress:overTime')}</h3>
+
+        <div className="progress-overtime__header-filters">
+          <Button
+            variant="text"
+            onClick={handleSwitchViewClick}
+            className="progress-overtime__toggle-btn"
           >
-            {filter === OVER_TIME.SPECIFIC ? (
-              <Form>
-                <FormDatepicker
-                  onUpdate={onSpecificDateChange}
-                  name="from_date"
-                  label={t('from')}
+            {graphView ? <MenuIcon /> : <GraphIcon />}
+            <span>
+              {graphView ? t('progress:seeTable') : t('progress:seeGraph')}
+            </span>
+          </Button>
+
+          <FilterWrapper>
+            {filter === OVER_TIME.SPECIFIC && (
+              <>
+                <DatePicker
+                  id="progress-from"
+                  onChange={(e, date) =>
+                    onSpecificDateChange('from_date', date)
+                  }
+                  placeholder={t('from')}
+                  className="progress-overtime__form-item progress-overtime__form-item_date"
                 />
-                <FormDatepicker
-                  onUpdate={onSpecificDateChange}
-                  name="to_date"
-                  label={t('to')}
+                <DatePicker
+                  id="progress-to"
+                  onChange={(e, date) => onSpecificDateChange('to_date', date)}
+                  placeholder={t('to')}
+                  className="progress-overtime__form-item progress-overtime__form-item_date"
                 />
-              </Form>
-            ) : null}
-          </Formik>
-        </FilterWrapper>
+              </>
+            )}
+
+            <Select
+              id="progress-range"
+              value={filter}
+              options={filterOptions}
+              onChange={(value) => setFilter(value as OverTimeType)}
+              className="progress-overtime__form-item progress-overtime__form-item_select"
+            />
+          </FilterWrapper>
+        </div>
       </div>
+
       <Tabs
         activeKey={activeTab}
         onChange={(key) => setActiveTab(key as ProgressLogType)}
@@ -125,7 +130,7 @@ const OverTimeDesktop: React.FC<Props> = (props) => {
             renderContent: renderDataContent
           },
           {
-            icon: <CardiogramIcon />,
+            icon: <HeartRateV2Icon />,
             label: t('progress:heart_rate_short'),
             key: PROGRESS_LOG.HEART_RATE,
             renderContent: renderDataContent
