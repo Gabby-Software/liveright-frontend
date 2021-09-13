@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
+import Button from '../../../components/buttons/button/button.component'
 import Tabs from '../../../components/tabs/tabs.component'
 
 export const Wrapper = styled.div`
-  margin-bottom: 64px;
+  margin-bottom: 4rem;
 `
 
 export const StyledTabs = styled(Tabs)`
@@ -22,5 +23,11 @@ export const StyledTabs = styled(Tabs)`
   .ant-tabs-tab-btn {
     width: 100%;
     text-align: center;
+  }
+`
+
+export const HeaderAction = styled(Button)`
+  & svg {
+    margin-left: 1rem;
   }
 `

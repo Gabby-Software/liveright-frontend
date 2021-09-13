@@ -9,6 +9,8 @@ import { ReactComponent as ArrowIcon } from '../../../../../assets/media/icons/r
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import userTypes from '../../../../../enums/user-types.enum'
+import useSessions from '../../../../../hooks/api/sessions/useSessions'
+import useStatistic from '../../../../../hooks/api/stat/useStatistic'
 import { useAuth } from '../../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
@@ -24,12 +26,21 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { collapse } = useChats()
   const { room, roomData } = useChatRoom()
   const { type } = useAuth()
+  const statistic = useStatistic({ account_id: roomData?.user_id })
+  const upcomingSessions = useSessions({
+    filter: {
+      client_id: roomData?.user_id,
+      status: 'upcoming'
+    }
+  })
+
   if (type === userTypes.CLIENT)
     return (
       <ClientHeader>
         {roomData?.firstName} {roomData?.lastName}
       </ClientHeader>
     )
+
   return (
     <Styles>
       <StyledAvatar
@@ -51,11 +62,11 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
         <div className={'chat-header__body__bottom'}>
           <div className={'chat-header__data'}>
             <CalendarIcon />
-            <span>{0} Upcoming sessions</span>
+            <span>{upcomingSessions.meta.total || 0} Upcoming sessions</span>
           </div>
           <div className={'chat-header__data'}>
             <RevenueIcon />
-            <span>{0} Open invoices</span>
+            <span>{statistic.progressCount.total || 0} Open invoices</span>
           </div>
           <div className={'chat-header__data'}>
             <ClockIcon />

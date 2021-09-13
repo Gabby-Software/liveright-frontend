@@ -6,6 +6,10 @@ function getSize(props: any): string {
   switch (props.$size) {
     case 'sm':
       return '24px'
+    case 'lg':
+      return '50px'
+    case 'xl':
+      return '60px'
     default:
       return '36px'
   }
@@ -15,15 +19,39 @@ function getFontSize(props: any): string {
   switch (props.$size) {
     case 'sm':
       return '0.625rem'
+    case 'lg':
+      return '1rem'
+    case 'xl':
+      return '1.25rem'
     default:
       return '0.75rem'
   }
 }
 
-export const Text = styled.span`
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: ${(props) => props.theme.vars.colors.primaryDark_v2};
+function getTextSize(props: any): string {
+  switch (props.$size) {
+    case 'lg':
+      return '1rem'
+    case 'xl':
+      return '1.25rem'
+    default:
+      return '0.875rem'
+  }
+}
+
+function geTextWeight(props: any): string {
+  switch (props.$weight) {
+    case 'semi-bold':
+      return '500'
+    default:
+      return '400'
+  }
+}
+
+export const Text = styled.span<any>`
+  font-size: ${getTextSize};
+  font-weight: ${geTextWeight};
+  color: ${getColorCarry('primaryDark_v2')};
 `
 
 export const Styles = styled.div<any>`

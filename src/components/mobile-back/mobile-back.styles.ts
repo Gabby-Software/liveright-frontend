@@ -1,32 +1,28 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { media } from '../../assets/styles/_media'
+import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled(Link)`
-  ${(p) => p.theme.extend.flexCenter}
-  font-weight: 600;
-  font-size: 18px;
-  color: ${(p) => p.theme.vars.colors.primaryDark};
-  margin: 0 0 28px 0;
-  &:hover {
-    color: ${(p) => p.theme.vars.colors.primaryDark};
-  }
-  .mobile-back {
-    &__icon {
-      width: 9px;
-      height: auto;
-      margin-right: 10px;
-      display: block;
-    }
-    &__alias {
-      margin-right: auto;
-    }
-  }
-  ${media('tablet', 'min')`
-            margin-top: 40px;
-        `}
+export const Styles = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem 0 1.875rem 0;
+
   @media only print {
     display: none;
+  }
+
+  .mobile-back {
+    &__link {
+      display: flex;
+      align-items: center;
+      color: ${getColorCarry('link')};
+      font-size: 0.875rem;
+      font-weight: 500;
+
+      & svg {
+        margin-right: 0.5rem;
+      }
+    }
   }
 `

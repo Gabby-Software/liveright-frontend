@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as BackIcon } from '../../assets/media/icons/back-arrow.svg'
+import { CaretLeftIcon } from '../../assets/media/icons'
 import { usePage } from '../../hooks/page.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
-import Styles from './mobile-back.styles'
+import { Styles } from './mobile-back.styles'
 
 const backData: {
   setTo: (to: string) => void
@@ -12,7 +13,8 @@ const backData: {
   setTo: () => {},
   setAlias: () => {}
 }
-export const useMobileBack = (to: string, alias: string) => {
+
+export function useMobileBack(to: string, alias: string) {
   useEffect(() => {
     backData.setTo(to)
     backData.setAlias(alias)
@@ -22,22 +24,41 @@ export const useMobileBack = (to: string, alias: string) => {
     }
   }, [])
 }
-const MobileBack = () => {
-  const [to, setTo] = useState('')
-  const [alias, setAlias] = useState('')
+
+interface MobileBackProps {
+  to?: string
+  alias?: string
+  component?: ReactNode
+}
+
+export default function MobileBack(props: MobileBackProps) {
+  const [to, setTo] = useState(props.to || '')
+  const [alias, setAlias] = useState(props.alias || '')
+
   backData.setTo = setTo
   backData.setAlias = setAlias
+
   const page = usePage()
   const { t } = useTranslation()
-  if (!page?.back?.url && !to) return null
+
+  if (!page?.back?.url && !to) {
+    return null
+  }
+
   return (
-    <Styles to={to || page?.back?.url || ''} className={'mobile-back'}>
-      <BackIcon className={'mobile-back__icon'} />
-      <span className={'mobile-back__alias'}>
-        {t(`back-to`, { to: t(`menu.${alias || page?.back?.alias || ''}`) })}
-      </span>
+    <Styles>
+      <div>
+        <Link to={to || page?.back?.url || ''} className="mobile-back__link">
+          <CaretLeftIcon />
+          <span>
+            {t(`back-to`, {
+              to: t(`menu.${alias || page?.back?.alias || ''}`)
+            })}
+          </span>
+        </Link>
+      </div>
+
+      {!!props.component && <div>{props.component}</div>}
     </Styles>
   )
 }
-
-export default MobileBack

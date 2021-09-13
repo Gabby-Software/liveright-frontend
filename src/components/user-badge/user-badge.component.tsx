@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { noImage } from '../../pipes/no-image.pipe'
+import Image from '../image/image.component'
 import { Styles, Text } from './user-badge.styles'
 
 interface UserBadgeProps {
   avatar?: string
   firstName?: string
   lastName?: string
-  size?: 'sm'
+  size?: 'sm' | 'lg' | 'xl'
   className?: string
   avatarOnly?: boolean
   square?: boolean
+  text?: 'semi-bold'
 }
 
 export default function UserBadge({
@@ -20,24 +22,17 @@ export default function UserBadge({
   size,
   className,
   avatarOnly,
-  square
+  square,
+  text
 }: UserBadgeProps) {
-  const [src, setSrc] = useState('')
-
-  useEffect(() => {
-    if (avatar) {
-      setSrc(avatar)
-    }
-  }, [avatar])
-
   return (
     <Styles className={className} $size={size} $square={square}>
       <div className="user-badge__preview">
-        {src && <img src={src} onError={() => setSrc('')} alt="" />}
+        <Image src={avatar} />
         <span>{noImage(firstName, lastName)}</span>
       </div>
       {!avatarOnly && (
-        <Text className="user-badge__text">
+        <Text className="user-badge__text" $size={size} $weight={text}>
           {firstName} {lastName}
         </Text>
       )}

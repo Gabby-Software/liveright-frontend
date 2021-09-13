@@ -6,10 +6,11 @@ export interface UseSearch {
   onSearch: (e: any) => void
 }
 
-export default function useSearch(): UseSearch {
+export default function useSearch(cb?: any): UseSearch {
   const [search, setSearch] = useState('')
 
   const onSearch = debounce((e) => {
+    cb?.()
     setSearch(e)
   }, 400)
 

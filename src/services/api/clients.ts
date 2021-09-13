@@ -7,6 +7,11 @@ export async function getClients(url: string) {
   return response.data.data
 }
 
+export async function getClientsPaginate(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
 export async function updateClient(id: string, values: any) {
   const response = await api.put(
     EP_UPDATE_PROFILE,
