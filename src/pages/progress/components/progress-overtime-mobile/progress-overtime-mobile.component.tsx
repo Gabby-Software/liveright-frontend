@@ -9,8 +9,6 @@ import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/step
 import Button from '../../../../components/buttons/button/button.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../components/form/select/select.component'
-import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
-import { FormSelectUI } from '../../../../components/forms/form-select/form-select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
@@ -25,7 +23,6 @@ import HealthChart from '../progress-chart/progress-chart.component'
 import HealthMobileCards from '../progress-mobile-cards/progress-mobile-cards.component'
 import {
   FilterWrapper,
-  SwitchViewButton,
   TableWrapper,
   Wrapper
 } from './progress-overtime-mobile.styles'

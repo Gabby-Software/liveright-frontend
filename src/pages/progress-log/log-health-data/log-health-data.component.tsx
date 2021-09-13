@@ -34,7 +34,6 @@ const LogHealthData = () => {
   }
 
   const handleSubmit = async (values: HealthData) => {
-    console.log({ values })
     const { time, sleep, heart_rate, steps, blood_glucose } = values
     const payload: HealthData = {
       date: values.date,

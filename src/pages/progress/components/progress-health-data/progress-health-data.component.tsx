@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { CaretLeftIcon } from '../../../../assets/media/icons'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
-import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'

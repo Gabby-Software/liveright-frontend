@@ -2,7 +2,6 @@ import get from 'lodash/get'
 import moment from 'moment'
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router'
-import { useHistory } from 'react-router-dom'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'

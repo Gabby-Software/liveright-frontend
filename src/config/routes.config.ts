@@ -208,25 +208,7 @@ export const routes: RouteType[] = [
   },
   {
     title: 'Progress',
-    url: Routes.PROGRESS_LOG_HEALTH_DATA,
-    Component: lazy(
-      () =>
-        import(
-          '../pages/progress-log/log-health-data/log-health-data.component'
-        )
-    ),
-    back: {
-      url: Routes.PROGRESS_HEALTH_DATA,
-      alias: 'health-data'
-    },
-    version: 2,
-    header: {
-      title: 'Log Health Data'
-    }
-  },
-  {
-    title: 'Progress',
-    url: Routes.PROGRESS_LOG_HEALTH_DATA + '/:date',
+    url: Routes.PROGRESS_LOG_HEALTH_DATA + '/:date?',
     Component: lazy(
       () =>
         import(
@@ -239,7 +221,7 @@ export const routes: RouteType[] = [
       alias: 'health-data'
     },
     header: {
-      title: 'Log Health Data'
+      title: null
     }
   },
   {

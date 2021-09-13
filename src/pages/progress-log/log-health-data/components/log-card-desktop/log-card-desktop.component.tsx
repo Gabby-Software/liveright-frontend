@@ -3,17 +3,11 @@ import { useFormikContext } from 'formik'
 import React, { ReactElement } from 'react'
 
 import { ReactComponent as InfoIcon } from '../../../../../assets/media/icons/info-fill.svg'
-import FormInputLabeled from '../../../../../components/forms/form-input-labeled/form-input-labeled.component'
+import Input from '../../../../../components/form/input/input.component'
 import formatter from '../../../../../managers/formatter.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { HealthData, QualityType } from '../../../../progress/progress.types'
-import {
-  Border,
-  LogName,
-  LogQuality,
-  Space,
-  Wrapper
-} from './log-card-desktop.styles'
+import { LogName, LogQuality, Wrapper } from './log-card-desktop.styles'
 
 interface Props {
   name: string
@@ -27,29 +21,36 @@ interface Props {
 const LogCardDesktop: React.FC<Props> = (props) => {
   const { Icon, name, inputName, inputLabel, getQuality } = props
   const { t } = useTranslation()
-  const { getFieldMeta } = useFormikContext<HealthData>()
+  const { getFieldMeta, values, setFieldValue } = useFormikContext<HealthData>()
   const { value } = getFieldMeta<string>(inputName)
   const quality = Number(value) ? getQuality(+value) : ''
 
   return (
     <Wrapper>
-      <div>
+      <div className="log-card__name">
         <LogName>
           {Icon}
           <span>{name}</span>
           <Tooltip title="TBD">
             <InfoIcon />
           </Tooltip>
-          <Space />
-          <Border />
         </LogName>
-        <FormInputLabeled
+      </div>
+
+      <div className="log-card__control">
+        <Input
+          formik
+          id={`log-progress-${inputName}`}
           name={inputName}
+          value={(values as any)[inputName]}
           label={inputLabel}
           format={formatter().number()}
+          onChange={(e) => setFieldValue(inputName, e.target.value)}
         />
+      </div>
+
+      <div className="log-card__quality">
         <LogQuality quality={quality}>
-          <Border />
           <div>
             <span className={'log-quality-label'}>
               {t('progress:qualityLabel')}
