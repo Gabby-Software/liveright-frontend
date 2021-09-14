@@ -1,6 +1,9 @@
 import React, { FC } from 'react'
 
+import Button from '../../../../../components/buttons/button/button.component'
+import StatusBadge from '../../../../../components/status-badge/status-badge.component'
 import { ChatMessageInvoiceMetaType } from '../../../../../modules/chat/types/chat-message-invoice-meta.type'
+import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { payments } from '../../../../../pipes/payments.pipe'
 import Styles from './chat-message-invoice.styles'
 
@@ -15,6 +18,7 @@ const ChatMessageInvoice: FC<Props> = ({
   name,
   me
 }) => {
+  const { t } = useTranslation()
   return (
     <Styles className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
@@ -26,10 +30,15 @@ const ChatMessageInvoice: FC<Props> = ({
         </div>
       </div>
       <div className={'cm-invoice__right'}>
-        <div className={'cm-invoice__status'}>{status}</div>
-        {me ? null : (
-          <a href={payments(`/${invoice_id}`)} className={'cm-invoice__cta'}>
-            Settle Now
+        <StatusBadge status={status} className="cm-invoice__badge">
+          {t(`invoices:statuses.${status}`)}
+        </StatusBadge>
+
+        {!me ? null : (
+          <a href={payments(`/${invoice_id}`)} target="_blank" rel="noreferrer">
+            <Button size="sm" className={'cm-invoice__cta'}>
+              Settle Now
+            </Button>
           </a>
         )}
       </div>

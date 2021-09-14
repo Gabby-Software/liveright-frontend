@@ -10,6 +10,8 @@ interface MobilePageProps {
   headerComponent?: ReactNode
   headerTopComponent?: ReactNode
   headerTitleIcon?: ReactNode
+  headerNavChat?: boolean
+  color?: 'primary' | 'secondary'
 }
 
 export default function MobilePage({
@@ -19,10 +21,12 @@ export default function MobilePage({
   headerSpacing,
   headerComponent,
   headerTopComponent,
-  headerTitleIcon
+  headerTitleIcon,
+  headerNavChat,
+  color = 'primary'
 }: PropsWithChildren<MobilePageProps>) {
   return (
-    <Styles className="mobile-page">
+    <Styles className="mobile-page" $color={color}>
       <Header
         title={title}
         actionComponent={actionComponent}
@@ -30,6 +34,7 @@ export default function MobilePage({
         component={headerComponent}
         topComponent={headerTopComponent}
         titleIcon={headerTitleIcon}
+        navChat={headerNavChat}
       />
 
       <div className="mobile-page__content">{children}</div>

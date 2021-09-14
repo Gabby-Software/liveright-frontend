@@ -72,7 +72,9 @@ export default function ProgressClients() {
   )
 
   return isMobile ? (
-    <MobilePage title={t('progress:title')}>{content}</MobilePage>
+    <MobilePage title={t('progress:title')} headerNavChat>
+      {content}
+    </MobilePage>
   ) : (
     content
   )

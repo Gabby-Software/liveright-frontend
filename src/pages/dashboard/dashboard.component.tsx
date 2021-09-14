@@ -1,11 +1,11 @@
-import React from 'react'
-
-import { useMobileBack } from '../../components/mobile-back/mobile-back.component'
+import { useIsMobile } from '../../hooks/is-mobile.hook'
+import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import Styles from './dashboard.styles'
 
 const Dashboard = () => {
-  useMobileBack('', '')
-  return (
+  const isMobile = useIsMobile()
+
+  const content = (
     <Styles>
       test changes 4141 Lorem ipsum dolor sit amet, consectetur adipisicing
       elit. Consequatur cumque ipsa iusto labore officiis quasi sunt. Ab
@@ -115,6 +115,14 @@ const Dashboard = () => {
       labore modi nisi perferendis quidem ratione, repellendus unde velit
       veritatis!
     </Styles>
+  )
+
+  return isMobile ? (
+    <MobilePage title="Dashboard" headerNavChat>
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }
 

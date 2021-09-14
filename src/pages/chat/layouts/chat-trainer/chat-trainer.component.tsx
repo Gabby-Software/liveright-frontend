@@ -16,7 +16,7 @@ import { InvoiceType } from '../../../../types/invoice.type'
 import { SessionType } from '../../../../types/session.type'
 import Styles, { DataItem, StyledAvatar } from './chat-trainer.styles'
 
-const ChatTrainer: FC<{}> = () => {
+const ChatTrainer: FC = () => {
   const { user: trainer } = useTrainerAccount()
   const { data: sessions } = useSWR<SessionType[]>(
     EP_GET_SESSIONS + '?filter[status]=upcoming',

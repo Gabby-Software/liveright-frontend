@@ -33,6 +33,10 @@ export default styled.div`
       font-size: 18px;
     }
 
+    &__badge {
+      width: 130px;
+    }
+
     &__right {
       flex: 1;
       display: flex;
@@ -40,18 +44,9 @@ export default styled.div`
       justify-content: space-between;
       align-items: flex-end;
     }
-    &__status {
-      border: 1px dashed ${(p) => p.theme.vars.colors.orange_100};
-      border-radius: 10px;
-      padding: 8px 16px;
-      color: ${(p) => p.theme.vars.colors.orange_100};
-      background-color: ${(p) => p.theme.vars.colors.orange_20};
-    }
+
     &__cta {
-      background-color: ${(p) => p.theme.vars.colors.primary};
-      color: white;
-      border-radius: 10px;
-      padding: 8px 16px;
+      width: 130px;
     }
   }
 `
