@@ -16,7 +16,6 @@ import StatusBadge from '../../../components/status-badge/status-badge.component
 import { invoiceStatuses } from '../../../enums/invoice-statuses'
 import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
-import { useRemindInvoice } from '../../../hooks/api/invoices/remind-invoice.hook'
 import useInvoice from '../../../hooks/api/invoices/useInvoice'
 import { useAuth } from '../../../hooks/auth.hook'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -66,14 +65,13 @@ export default function InvoiceMobile({}: Props) {
     onSend,
     onCancel,
     onMarkPaid,
+    onRemind,
     isSendLoading,
     invoice,
     isInvoiceLoading
   } = useInvoice({
     id: params.id
   })
-
-  const [, remindClient] = useRemindInvoice()
 
   const currency = invoice.currency?.code
   return (
@@ -186,7 +184,7 @@ export default function InvoiceMobile({}: Props) {
                         history.push(Routes.FINANCIALS_RECEIVABLES)
                       )
                     }
-                    onRemind={remindClient}
+                    onRemind={() => onRemind(invoice.invoice_to.uuid, invoice)}
                   />
                 </HeadActions>
               </HeadRow>

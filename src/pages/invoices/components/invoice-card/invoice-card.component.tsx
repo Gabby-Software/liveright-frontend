@@ -24,6 +24,8 @@ interface InvoiceCardProps {
   showDue?: boolean
   asLink?: boolean
   showPay?: boolean
+  onRemind?: () => void
+  onSend?: (id: number) => void
 }
 
 const InvoiceCard = ({
@@ -42,6 +44,8 @@ const InvoiceCard = ({
   due_on,
   showDue,
   showPay,
+  onRemind,
+  onSend,
   asLink = true
 }: InvoiceCardProps & InvoiceType) => {
   const { t } = useTranslation()
@@ -86,12 +90,29 @@ const InvoiceCard = ({
             </a>
           )
         ) : null
+      ) : showMark && status === invoiceStatuses.DRAFT ? (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="invoice-card__btn"
+          onClick={(e: any) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onSend?.(id)
+          }}
+        >
+          {t('invoices:send-invoice')}
+        </Button>
       ) : showMark && status !== invoiceStatuses.PAID ? (
         <Button
           variant="secondary"
           size="sm"
           className="invoice-card__btn"
-          onClick={() => onMark(id)}
+          onClick={(e: any) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onMark?.(id)
+          }}
         >
           {t('invoices:mark-paid')}
         </Button>
@@ -113,6 +134,7 @@ const InvoiceCard = ({
           onClick={(e: any) => {
             e.preventDefault()
             e.stopPropagation()
+            onRemind?.()
           }}
         >
           {t('invoices:remind-client')}

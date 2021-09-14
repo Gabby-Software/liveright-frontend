@@ -58,15 +58,7 @@ export default function IconActions({
         <IconButton
           size="sm"
           disabled={data.status === invoiceStatuses.DRAFT}
-          onClick={() => {
-            onRemind(data.invoice_to.uuid, {
-              invoice_id: '' + data.id,
-              total: data.total,
-              currency: data.currency.code,
-              status: data.status,
-              name: `${data.invoice_to.user.first_name} ${data.invoice_to.user.last_name}`
-            })
-          }}
+          onClick={onRemind}
         >
           <ChatIcon />
         </IconButton>
