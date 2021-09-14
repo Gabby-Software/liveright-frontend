@@ -12,6 +12,8 @@ export default styled.div`
   background-color: #fff;
   border-radius: 10px 0 0 0;
   box-shadow: 0 0 20px rgba(230, 236, 242, 0.54);
+  position: relative;
+  z-index: 111;
 
   .chat-rooms {
     &__head {
