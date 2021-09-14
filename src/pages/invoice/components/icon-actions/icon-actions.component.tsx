@@ -57,7 +57,9 @@ export default function IconActions({
 
         <IconButton
           size="sm"
-          disabled={data.status === invoiceStatuses.DRAFT}
+          disabled={[invoiceStatuses.DRAFT, invoiceStatuses.PAID].includes(
+            data.status
+          )}
           onClick={onRemind}
         >
           <ChatIcon />

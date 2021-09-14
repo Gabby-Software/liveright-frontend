@@ -131,8 +131,7 @@ export default function InvoiceMobile({}: Props) {
                   </Title>
 
                   <Title className="mb-4">
-                    {invoice.total}
-                    {invoice.currency?.code}
+                    {invoice.total} {invoice.currency?.code}
                   </Title>
 
                   <RowCell className="mb-4">

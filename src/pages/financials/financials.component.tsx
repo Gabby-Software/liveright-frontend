@@ -2,7 +2,6 @@ import { Skeleton } from 'antd'
 import React, { lazy } from 'react'
 import { Route, useLocation } from 'react-router-dom'
 
-import { ChatIcon } from '../../assets/media/icons'
 import Button from '../../components/buttons/button/button.component'
 import RoutedTabs from '../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../enums/routes.enum'
@@ -73,7 +72,7 @@ const Financials = ({}: Props) => {
   return isMobile ? (
     <MobilePage
       title={t('menu.financials')}
-      headerTitleIcon={<ChatIcon />}
+      headerNavChat
       actionComponent={
         <Button to={Routes.CREATE_INVOICE}>{t('invoices:new-invoice')}</Button>
       }

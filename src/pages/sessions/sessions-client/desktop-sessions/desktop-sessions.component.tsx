@@ -133,7 +133,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
 
               <div className="sessions__filters-search">
                 <Input
-                  formik
                   id="sessions-search"
                   placeholder={t('sessions:filter-input')}
                   prefix={<SearchIcon />}

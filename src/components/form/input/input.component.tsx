@@ -31,7 +31,6 @@ interface InputProps {
   onBlur?: FocusEventHandler
   format?: Formatter
   labelComponent?: ReactNode
-  formik?: boolean
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -55,8 +54,7 @@ const Input = forwardRef<any, InputProps>(
       name,
       onBlur,
       format,
-      labelComponent,
-      formik
+      labelComponent
     },
     ref
   ) => {
@@ -100,7 +98,7 @@ const Input = forwardRef<any, InputProps>(
           disabled={disabled}
           onBlur={onBlur}
         />
-        {name && formik && <FormError name={name} className="field-error" />}
+        {name && <FormError name={name} className="field-error" />}
       </Styles>
     )
   }

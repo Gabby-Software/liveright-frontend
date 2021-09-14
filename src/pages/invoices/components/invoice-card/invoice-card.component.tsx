@@ -31,6 +31,7 @@ interface InvoiceCardProps {
 const InvoiceCard = ({
   invoice_from,
   invoice_to,
+  invoice_number,
   status,
   total,
   currency,
@@ -151,7 +152,7 @@ const InvoiceCard = ({
       <div className="invoice-card__row">
         <div>
           <h3 className={'invoice-card__number'}>
-            {t('invoices:number', { number: id })}
+            {t('invoices:number', { number: invoice_number })}
           </h3>
 
           {showDate ? (
