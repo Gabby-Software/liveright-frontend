@@ -1,5 +1,5 @@
 import { Skeleton } from 'antd'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
 
 import {
@@ -11,8 +11,6 @@ import Button from '../../components/buttons/button/button.component'
 import {
   ActionButton,
   ActionContainer,
-  Card,
-  CardTitle,
   Preview,
   PreviewContent,
   PreviewImage,
@@ -25,12 +23,16 @@ import useSessions, {
   UseSessionsConfig
 } from '../../hooks/api/sessions/useSessions'
 import useStatistic from '../../hooks/api/stat/useStatistic'
+// import { useIsMobile } from '../../hooks/is-mobile.hook'
 import useImage from '../../hooks/ui/useImage'
+import HeaderLink from '../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { date } from '../../pipes/date.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
 import Styles from './client-profile.styles'
+import ClientProfileCard from './components/client-profile-card.component'
 import EditForm from './components/edit-form.component'
 
 function getSessionsConfig(id: number, free?: boolean): UseSessionsConfig {
@@ -65,159 +67,208 @@ export default function ClientProfile() {
   }
 
   return (
-    <Styles className="profile">
-      <div className="profile__main">
-        <Card
-          $row
-          $between
-          $itemsCenter
-          className="profile__card profile__card_row justify-between align-center"
-        >
-          <Preview>
-            <PreviewImage>
-              {src && <img src={src} alt="" onError={onError} />}
-              <span>{noImage(user.first_name, user.last_name)}</span>
-            </PreviewImage>
-            <PreviewContent>
-              <PreviewName>
-                {user.first_name || ''} {user.last_name || ''}
-              </PreviewName>
-              <PreviewSub>Client</PreviewSub>
-            </PreviewContent>
-          </Preview>
+    <MobilePage
+      title={t('sessions:title')}
+      headerTopComponent={
+        <HeaderLink to="/clients">{t('profile:return-to-clients')}</HeaderLink>
+      }
+      actionComponent={
+        <ActionContainer>
+          <ActionButton onClick={() => setEdit(true)}>
+            {t('profile:edit-details')}
+          </ActionButton>
+        </ActionContainer>
+      }
+    >
+      <Styles className="profile">
+        <div className="profile__main">
+          <ClientProfileCard>
+            <Preview>
+              <PreviewImage>
+                {src && <img src={src} alt="" onError={onError} />}
+                <span>{noImage(user.first_name, user.last_name)}</span>
+              </PreviewImage>
+              <PreviewContent>
+                <PreviewName>
+                  {user.first_name || ''} {user.last_name || ''}
+                </PreviewName>
+                <PreviewSub>Client</PreviewSub>
+              </PreviewContent>
+            </Preview>
+          </ClientProfileCard>
 
-          <ActionContainer>
-            <ActionButton onClick={() => setEdit(true)}>
-              {t('profile:edit-details')}
-            </ActionButton>
-          </ActionContainer>
-        </Card>
+          <ClientProfileCard title="Basic Info">
+            <div className="profile__grid">
+              <div className="profile__grid-item profile__grid-item-double profile__grid-user-names-desktop">
+                <p className="profile__grid-item-name">
+                  {t('profile:first-name')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {user.first_name || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item profile__grid-item-double profile__grid-user-names-desktop">
+                <p className="profile__grid-item-name">
+                  {t('profile:last-name')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {user.last_name || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-user-names-mobile">
+                <div className="profile__grid-item profile__grid-item-double ">
+                  <p className="profile__grid-item-name">
+                    {t('profile:first-name')}
+                  </p>
+                  <p className="profile__grid-item-value">
+                    {user.first_name || '-'}
+                  </p>
+                </div>
+                <div className="profile__grid-item profile__grid-item-double">
+                  <p className="profile__grid-item-name">
+                    {t('profile:last-name')}
+                  </p>
+                  <p className="profile__grid-item-value">
+                    {user.last_name || '-'}
+                  </p>
+                </div>
+              </div>
+              <div className="profile__grid-item profile__dob-desktop">
+                <p className="profile__grid-item-name">
+                  {t('profile:birth-date')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {date(user.birthday) || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">{t('profile:email')}</p>
+                <p className="profile__grid-item-value">{user.email || '-'}</p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">{t('profile:phone')}</p>
+                <p className="profile__grid-item-value">
+                  {profile.phone_number || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item profile__dob-mobile">
+                <p className="profile__grid-item-name">
+                  {t('profile:birth-date')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {date(user.birthday) || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">{t('profile:gender')}</p>
+                <p className="profile__grid-item-value">
+                  {capitalize(user.gender) || '-'}
+                </p>
+              </div>
+            </div>
+          </ClientProfileCard>
 
-        <Card>
-          <CardTitle>Basic Info</CardTitle>
+          <ClientProfileCard title="Address">
+            <div className="profile__grid">
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">
+                  {t('profile:address')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {address.address || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">
+                  {t('profile:postal-code')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {address.postal_code || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">{t('profile:city')}</p>
+                <p className="profile__grid-item-value">
+                  {address.city || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">
+                  {t('profile:country')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {address.country?.name_english || '-'}
+                </p>
+              </div>
+            </div>
+          </ClientProfileCard>
 
-          <div className="profile__grid">
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">First Name</p>
-              <p className="profile__grid-item-value">
-                {user.first_name || '-'}
-              </p>
+          <ClientProfileCard title="Account Info">
+            <div className="profile__grid">
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">
+                  {t('profile:dietary-restrictions')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {profile.dietary_restrictions || '-'}
+                </p>
+              </div>
+              <div className="profile__grid-item">
+                <p className="profile__grid-item-name">
+                  {t('profile:injuries')}
+                </p>
+                <p className="profile__grid-item-value">
+                  {profile.injuries || '-'}
+                </p>
+              </div>
             </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Last Name</p>
-              <p className="profile__grid-item-value">
-                {user.last_name || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Date of Birth</p>
-              <p className="profile__grid-item-value">
-                {date(user.birthday) || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item" />
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Email</p>
-              <p className="profile__grid-item-value">{user.email || '-'}</p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Phone Number</p>
-              <p className="profile__grid-item-value">
-                {profile.phone_number || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Gender</p>
-              <p className="profile__grid-item-value">
-                {capitalize(user.gender) || '-'}
-              </p>
-            </div>
-          </div>
-        </Card>
+          </ClientProfileCard>
 
-        <Card>
-          <CardTitle>Address</CardTitle>
-
-          <div className="profile__grid">
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Address</p>
-              <p className="profile__grid-item-value">
-                {address.address || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Postal Code</p>
-              <p className="profile__grid-item-value">
-                {address.postal_code || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">City</p>
-              <p className="profile__grid-item-value">{address.city || '-'}</p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Country</p>
-              <p className="profile__grid-item-value">
-                {address.country?.name_english || '-'}
-              </p>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <CardTitle>Account Info</CardTitle>
-
-          <div className="profile__grid">
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Dietary Restrictions</p>
-              <p className="profile__grid-item-value">
-                {profile.dietary_restrictions || '-'}
-              </p>
-            </div>
-            <div className="profile__grid-item">
-              <p className="profile__grid-item-name">Injuries</p>
-              <p className="profile__grid-item-value">
-                {profile.injuries || '-'}
-              </p>
-            </div>
-          </div>
-        </Card>
-
-        <div className="flex">
-          <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <InvoiceWhiteIcon />
-              Invoices
-            </p>
-            <p className="profile__card-dark-sub">
-              {statistic.progressCount.total} Open Invoices
-            </p>
-
-            <Button
-              variant="text"
-              size="sm"
-              className="profile__card-dark-btn"
-              to={Routes.INVOICES}
+          <div className="dark-cards">
+            <ClientProfileCard
+              className="profile__card-dark"
+              title={
+                <p className="profile__card-dark-title">
+                  <InvoiceWhiteIcon />
+                  {t('profile:invoices')}
+                </p>
+              }
             >
-              Invoice History
-              <CaretRightIcon />
-            </Button>
-          </Card>
+              <p className="profile__card-dark-sub">
+                {statistic.progressCount.total} {t('profile:open-invoices')}
+              </p>
 
-          <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <UsersIcon />
-              Sessions
-            </p>
-            <p className="profile__card-dark-sub">
-              {freeSessions.meta.total || 0} Free Sessions
-            </p>
-            <p className="profile__card-dark-sub">
-              {upcomingSessions.meta.total || 0} Upcoming Session
-            </p>
-          </Card>
+              <Button
+                variant="text"
+                size="sm"
+                className="profile__card-dark-btn"
+                to={Routes.INVOICES}
+              >
+                {t('profile:invoice-history')}
+                <CaretRightIcon />
+              </Button>
+            </ClientProfileCard>
+
+            <ClientProfileCard
+              className="profile__card-dark"
+              title={
+                <p className="profile__card-dark-title">
+                  <UsersIcon />
+                  {t('profile:sessions')}
+                </p>
+              }
+            >
+              <p className="profile__card-dark-sub">
+                {freeSessions.meta.total || 0} {t('profile:free-sessions')}
+              </p>
+              <p className="profile__card-dark-sub">
+                {upcomingSessions.meta.total || 0}{' '}
+                {t('profile:upcoming-sessions')}
+              </p>
+            </ClientProfileCard>
+          </div>
         </div>
-      </div>
-    </Styles>
+      </Styles>
+    </MobilePage>
   )
 }

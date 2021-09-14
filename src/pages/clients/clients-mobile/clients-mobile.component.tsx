@@ -1,5 +1,4 @@
 import { Skeleton } from 'antd'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -52,8 +51,7 @@ const ClientsMobile = () => {
                 ? ({ children }: any) => <a>{children}</a>
                 : Link
             return (
-              // eslint-disable-next-line react/jsx-key
-              <PopOnScroll offset={100}>
+              <PopOnScroll key={id} offset={100}>
                 <Wrapper to={`${Routes.CLIENTS}/${id}`}>
                   <Card className={classes('clients__card')} key={id}>
                     <div className={classes('clients__name')}>

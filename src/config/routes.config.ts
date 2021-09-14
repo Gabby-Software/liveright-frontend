@@ -174,15 +174,21 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/client-profile/client-profile.component')
     ),
-    header: {
-      title: ''
-    },
-    back: {
-      url: Routes.CLIENTS,
-      alias: 'clients'
-    },
+    // header: {
+    //   title: ''
+    // },
+    // back: {
+    //   url: Routes.CLIENTS,
+    //   alias: 'clients'
+    // },
+    // version: 2,
+    // footer: footerTypes.TRAINER
     version: 2,
-    footer: footerTypes.TRAINER
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: headers.default
+    }
   },
   {
     title: 'Progress Clients',
