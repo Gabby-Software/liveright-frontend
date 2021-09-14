@@ -24,7 +24,10 @@ export default function useSwrInfinite<T>(
 ): UseSwrInfinite<T> {
   const { error, data, size, setSize, mutate } = useSWRInfinite(
     (page: number) => (url ? getKey(url, page, params) : null),
-    fetcher
+    fetcher,
+    {
+      revalidateIfStale: false
+    }
   )
 
   const loadMore = () => {
