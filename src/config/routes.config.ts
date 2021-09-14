@@ -64,6 +64,8 @@ export const routes: RouteType[] = [
     url: Routes.HOME,
     Component: lazy(() => import('../pages/dashboard/dashboard.component')),
     props: { exact: true },
+    version: 2,
+    mobileLayout: false,
     header: {}
   },
   {
@@ -380,9 +382,10 @@ export const routes: RouteType[] = [
     url: Routes.CHAT,
     Component: lazy(() => import('../pages/chat/chat.component')),
     version: 2,
+    mobileLayout: false,
     header: {
       title: 'Chat',
-      items: headers.default
+      items: []
     }
   },
   {
