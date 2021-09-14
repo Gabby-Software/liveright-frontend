@@ -45,7 +45,7 @@ export const Styles = styled<any>(Card)`
       }
 
       @media ${mediaQueries.MOBILE} {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
       }
     }
 
@@ -54,15 +54,15 @@ export const Styles = styled<any>(Card)`
       color: ${getColorCarry('primaryDark2_v2')};
       font-weight: 700;
       line-height: 1.25;
-      white-space: nowrap;
+      //white-space: nowrap;
     }
 
     &__issuer {
       color: ${getColorCarry('secondary4_v2')};
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       font-weight: 400;
       line-height: 1.25;
-      white-space: nowrap;
+      //white-space: nowrap;
     }
 
     &__price {

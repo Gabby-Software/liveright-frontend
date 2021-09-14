@@ -171,7 +171,7 @@ const InvoiceCard = ({
     </Styles>
   )
 
-  if (showLink || !asLink) {
+  if (!asLink) {
     return content
   }
 
