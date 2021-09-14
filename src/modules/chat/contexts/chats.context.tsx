@@ -47,7 +47,7 @@ export type ChatsContextType = {
   updateRoom: (roomId: string, msg: ChatMessageType) => void
   seeRoom: (roomId: string) => void
   sendInvoice: (uuid: string, meta: ChatMessageInvoiceMetaType) => void
-  sendSession: (id: number, meta: ChatMessageSessionMetaType) => void
+  sendSession: (meta: ChatMessageSessionMetaType) => void
   sendSessionReschedule: (meta: ChatMessageSessionMetaType) => void
   removeMessage: (room: string, id: string) => void
 }
@@ -62,6 +62,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   const history = useHistory()
   const queue = useRef<ChatQueueItemType[]>([])
   const isOnline = useConnection()
+
   useEffect(() => {
     if (!isOnline) return
     const retry = async () => {
@@ -88,9 +89,11 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   // const addToQueue = (queueItem: ChatQueueItemType) => {
   //   queue.current.push(queueItem)
   // }
+
   const close = (roomId: string) => {
     setPopups(popups.filter((p) => p !== roomId))
   }
+
   const expand = (roomId: string) => {
     close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
@@ -104,6 +107,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     })
     setRooms({ ...roomsRef.current })
   })
+
   const seeRoom = (roomId: string) => {
     roomsRef.current[roomId].room.unReadMessagesCount = 0
     setRooms({ ...roomsRef.current })
@@ -128,6 +132,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     setRooms({ ...roomsRef.current })
     socketManager.delivered(msg.chat_room_id)
   })
+
   useEffect(() => {
     socketManager.init(uuid)
     getChatUsers()
@@ -150,6 +155,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       })
       .catch((err) => logger.error('Fail to load chat users', serverError(err)))
   }, [uuid])
+
   const collapse = (roomId: string) => {
     setPopups([...new Set([roomId, ...popups])])
     history.push(Routes.HOME)
@@ -169,6 +175,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       })
     })
   }
+
   const updateRoom = (roomId: string, msg: ChatMessageType) => {
     roomsRef.current[roomId].messages = [
       ...roomsRef.current[roomId].messages,
@@ -179,50 +186,38 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
       ...roomsRef.current
     })
   }
-  const sendSession = useCallback(
-    (clientId: number, meta: ChatMessageSessionMetaType) => {
-      const room = Object.values(roomsRef.current).find(
-        (room) => room.room.user_id === clientId
-      )
-      console.log(
-        'sending session',
-        room,
-        clientId,
-        Object.values(roomsRef.current).map((r) => r.room)
-      )
-      if (!room) return
-      const msg = emptyMessage(room.room.roomId, uuid)
-      msg.session_meta_data = meta
-      msg.types = [chatMessageTypes.TEXT, chatMessageTypes.REQUEST_SESSION]
-      msg.content.text = 'I would like to schedule a PT Session'
-      console.log('Session message payload', msg)
-      socketManager.sendMessage(msg)
-    },
-    []
-  )
+
+  const sendSession = useCallback((meta: ChatMessageSessionMetaType) => {
+    const room = Object.values(roomsRef.current)[0]
+    if (!room) return
+
+    const msg = emptyMessage(room.room.roomId, uuid)
+    msg.session_meta_data = meta
+    msg.types = [chatMessageTypes.TEXT, chatMessageTypes.REQUEST_SESSION]
+    msg.content.text = 'I would like to schedule a PT Session'
+    console.log('Session message payload', msg)
+    socketManager.sendMessage(msg)
+  }, [])
+
   const sendSessionReschedule = useCallback(
     (meta: ChatMessageSessionMetaType) => {
       const room = Object.values(roomsRef.current)[0]
       if (!room) return
+
       const msg = emptyMessage(room.room.roomId, uuid)
       msg.session_meta_data = meta
       msg.types = [chatMessageTypes.TEXT, chatMessageTypes.SESSION_RESCHDULE]
-      msg.content.text = 'I would like to schedule a PT Session'
+      msg.content.text = 'I would like to reschedule a PT Session'
       console.log('Session message payload', msg)
       socketManager.sendMessage(msg)
     },
     []
   )
+
   const sendInvoice = useCallback(
     (clientUuid: string, meta: ChatMessageInvoiceMetaType) => {
       const room = Object.values(roomsRef.current).find(
         (room) => room.room.account_uuid === clientUuid
-      )
-      console.log(
-        'sending invoice',
-        room,
-        clientUuid,
-        Object.values(roomsRef.current).map((r) => r.room)
       )
       if (!room) return
       const msg = emptyMessage(room.room.roomId, uuid)
@@ -235,6 +230,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     },
     []
   )
+
   const removeMessage = useCallback(
     (room: string, id: string) => {
       console.log('removing', id, roomsRef.current[room].messages)
@@ -245,6 +241,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     },
     [rooms]
   )
+
   return (
     <ChatsContext.Provider
       value={{

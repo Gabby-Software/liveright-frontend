@@ -140,7 +140,11 @@ const DesktopSessions: FC<Props> = (props) => {
           })}
         </div>
 
-        <DataPagination page={1} setPage={() => {}} total={1} />
+        <DataPagination
+          page={awaiting_scheduling.meta.current_page}
+          setPage={() => {}}
+          total={awaiting_scheduling.meta.total}
+        />
       </Card>
     )
   }

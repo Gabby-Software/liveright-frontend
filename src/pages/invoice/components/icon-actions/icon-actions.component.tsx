@@ -57,6 +57,7 @@ export default function IconActions({
 
         <IconButton
           size="sm"
+          disabled={data.status === invoiceStatuses.DRAFT}
           onClick={() => {
             onRemind(data.invoice_to.uuid, {
               invoice_id: '' + data.id,

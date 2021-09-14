@@ -84,9 +84,9 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       <BottomDrawer isOpen={isOpen} onClose={onClose} title={t('menu.more')}>
         <Styles>
           <ul className={'more__menu'}>
-            {menuItems.map(({ onClick, Icon, url, name, permission }) =>
+            {menuItems.map(({ onClick, Icon, url, name, permission }, index) =>
               permission && permission !== type ? null : (
-                <li className={'more__item'} key={url}>
+                <li className={'more__item'} key={index}>
                   {url?.startsWith('http') ? (
                     <a href={url} onClick={onClose}>
                       <Icon />

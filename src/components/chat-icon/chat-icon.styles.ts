@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 const wShrink = '12px'
@@ -32,6 +33,15 @@ export default styled.div`
         height: ${wGrow};
         content: attr(data-count);
       }
+    }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    position: relative;
+
+    &::after {
+      top: -5px;
+      right: 0;
     }
   }
 `

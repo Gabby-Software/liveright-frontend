@@ -9,15 +9,19 @@ import ChatMessagesBody from '../chat-messages-body/chat-messages-body.component
 import Styles from './chat-messages-full.styles'
 
 type Props = {}
+
 const ChatMessagesFull: FC<Props> = ({}) => {
   const { mode, setMode, room } = useChatRoom()
+
   useEffect(() => {
     setMode(ChatRoomModes.DEFAULT)
   }, [room])
+
   return (
     <Styles>
       <ChatHeader />
       <ChatMessagesBody />
+
       {mode === ChatRoomModes.RECORDING ? (
         <ChatActionsRecording />
       ) : (
