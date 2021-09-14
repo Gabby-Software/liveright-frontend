@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { useLocation } from 'react-router'
 
 import {
   ClientSolidIcon,
@@ -34,6 +35,7 @@ import {
   SessionStatus,
   SessionType
 } from '../../../../types/session.type'
+import { parseQuery } from '../../../../utils/query'
 import ProgressCard from '../../components/progress-card/progress-card.component'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
@@ -54,11 +56,15 @@ const DesktopSessions: FC<Props> = (props) => {
   const { t } = useTranslation()
   const { clients } = useClients()
   const { statistic, count, onRange } = useStatistic()
+  const location = useLocation()
+  const query = parseQuery(location.search)
 
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
   const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
-  const [activeTab, setActiveTab] = useState('')
+  const [activeTab, setActiveTab] = useState(
+    query.upcoming ? 'upcoming' : 'awaiting'
+  )
 
   const { credits, isLoading } = useClientCredits(
     additionalFilter?.['client_id']
@@ -172,7 +178,7 @@ const DesktopSessions: FC<Props> = (props) => {
     )
   }
 
-  const isPast = activeTab === 'Past'
+  const isPast = activeTab === 'past'
   return (
     <>
       <Styles>
@@ -186,17 +192,24 @@ const DesktopSessions: FC<Props> = (props) => {
             </PageTitle>
 
             <Tabs
+              activeKey={activeTab}
               onChange={(e) => setActiveTab(e)}
               tabs={[
                 {
+                  key: 'awaiting',
                   label: t('sessions:awaiting'),
                   renderContent: renderAwaitingContent
                 },
                 {
+                  key: 'upcoming',
                   label: t('sessions:upcoming'),
                   renderContent: renderUpcomingContent
                 },
-                { label: t('sessions:past'), renderContent: renderPastContent }
+                {
+                  key: 'past',
+                  label: t('sessions:past'),
+                  renderContent: renderPastContent
+                }
               ]}
             />
           </div>

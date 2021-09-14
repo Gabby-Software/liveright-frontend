@@ -8,8 +8,13 @@ export default styled.div`
   .profile {
     &__card-dark {
       background-color: ${getColorCarry('primaryDark_v2')};
+      width: 100%;
       max-width: 300px;
       margin-right: 1.25rem;
+
+      &-wrapper {
+        display: block;
+      }
 
       &-title {
         font-size: 1rem;
