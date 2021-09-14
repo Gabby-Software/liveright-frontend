@@ -112,6 +112,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     roomsRef.current[roomId].room.unReadMessagesCount = 0
     setRooms({ ...roomsRef.current })
   }
+
   socketManager.useSeen()(({ roomId }) => {
     logger.success('message seen handle', roomId)
     roomsRef.current[roomId].messages.forEach((message) => {
@@ -121,6 +122,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     })
     setRooms({ ...roomsRef.current })
   })
+
   socketManager.useMessageReceived()((msg: ChatMessageType) => {
     console.log('NEW MESSAGE', msg)
     roomsRef.current[msg.chat_room_id].messages = [
@@ -137,7 +139,6 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     socketManager.init(uuid)
     getChatUsers()
       .then((res) => {
-        logger.success('USERS', res)
         res.forEach((room) => {
           socketManager.join(room.roomId)
         })
