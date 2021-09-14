@@ -1,9 +1,13 @@
 {
+  "title": "Clients",
   "active": "Active",
   "inactive": "Inactive",
+  "actions": "Actions",
   "client-name": "Client Name",
   "sessions": "Sessions",
   "status": "Status",
+  "search":"Search For Client Name",
+  "all-status":"All Status",
   "sessions-remind": "{{n}} Sessions remain",
   "add": "Add new client",
   "client-exist": "is on LiveRight, send him a message alongside your invite",

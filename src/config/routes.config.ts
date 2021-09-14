@@ -137,8 +137,11 @@ export const routes: RouteType[] = [
     title: 'Clients',
     url: Routes.CLIENTS,
     Component: lazy(() => import('../pages/clients/clients.component')),
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Clients'
+      title: null,
+      items: headers.default
     }
   },
   {

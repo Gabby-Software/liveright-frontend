@@ -21,37 +21,55 @@ type FilterType = {
 const initialValues = {
   search: ''
 }
-const ClientsFilter = () => {
+
+type ClientFilterProps = {
+  onSetQuery: (param: string) => any
+  onSetType: (param: string) => any
+  onSetStatus: (param: string) => any
+  query: string
+  status: string
+  type: string
+}
+
+const ClientsFilter = ({
+  onSetQuery,
+  onSetType,
+  onSetStatus,
+  query,
+  status,
+  type
+}: ClientFilterProps) => {
   const { t } = useTranslation()
-  const timer = useRef(0)
-  const [modalOpen, setModalOpen] = useState(false)
-  const { filters, data } = useClients()
-  const dispatch = useDispatch()
-  const [query, setQuery] = useState('')
-  const [type, setType] = useState('')
-  const [status, setStatus] = useState('')
-  const fetchClients = () => {
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => {
-      dispatch({
-        type: ACTION_GET_CLIENTS_REQUEST,
-        payload: {
-          query,
-          type,
-          status,
-          page: 0
-        }
-      })
-    }, 400) as unknown as number
-  }
-  useEffect(fetchClients, [query, type, status])
-  useEffect(() => {
-    const params = new URLSearchParams(document.location.search)
-    const add = params.get('add')
-    if (add) {
-      setModalOpen(true)
-    }
-  }, [])
+  // const timer = useRef(0)
+  // const [modalOpen, setModalOpen] = useState(false)
+  // const { filters, data } = useClients()
+  // const dispatch = useDispatch()
+  // const [query, setQuery] = useState('')
+  // const [type, setType] = useState('')
+  // const [status, setStatus] = useState('')
+
+  // const fetchClients = () => {
+  //   clearTimeout(timer.current)
+  //   timer.current = setTimeout(() => {
+  //     dispatch({
+  //       type: ACTION_GET_CLIENTS_REQUEST,
+  //       payload: {
+  //         query,
+  //         type,
+  //         status,
+  //         page: 0
+  //       }
+  //     })
+  //   }, 400) as unknown as number
+  // }
+  // useEffect(fetchClients, [query, type, status])
+  // useEffect(() => {
+  //   const params = new URLSearchParams(document.location.search)
+  //   const add = params.get('add')
+  //   if (add) {
+  //     setModalOpen(true)
+  //   }
+  // }, [])
 
   const handleSubmit = (
     values: FilterType,
@@ -79,22 +97,25 @@ const ClientsFilter = () => {
           iconPrepend
           value={query}
           name={'search'}
-          label={t('search')}
-          onUpdate={setQuery}
+          label={''}
+          onUpdate={onSetQuery}
+          placeholder={t('clients:search')}
         />
         <FormSelectUI
           name={'status'}
           value={status}
-          label={t('clients:status')}
+          label={''}
           options={statusOptions}
-          onUpdate={setStatus}
+          onUpdate={onSetStatus}
+          placeholder={t('clients:all-status')}
         />
         <div />
         <div />
         {/*<FormSelectUI name={'type'} value={type} label={t('clients:type')}*/}
         {/*              options={typeOptions} onUpdate={setType}/>*/}
 
-        <div className={'clients__cta'}>
+        {/* ///////////////////////////// */}
+        {/* <div className={'clients__cta'}>
           <FormButton
             type={'primary'}
             className={'clients__add'}
@@ -102,12 +123,13 @@ const ClientsFilter = () => {
           >
             {t('clients:add')}
           </FormButton>
-        </div>
-        <AddClientModal
+        </div> */}
+        {/* ////////////////////////////////////// */}
+        {/* <AddClientModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onSubmit={fetchClients}
-        />
+        /> */}
       </FormRow>
     </Styles>
   )
