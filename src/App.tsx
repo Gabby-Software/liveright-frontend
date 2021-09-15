@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import Toast from './components/toast/toast.component'
 import UpdatePopup from './components/update-popup/update-popup.component'
 import { authRoutes, routes } from './config/routes.config'
+import { usePingChatOnline } from './hooks/api/chat/useChatOnline'
 import { useAuthorization } from './hooks/authorization.hook'
 import { useSeo } from './hooks/seo.hook'
 import Layout from './layouts/layout/layout.component'
@@ -36,6 +37,7 @@ function App() {
   useSeo()
   useAuthorization()
   useNotificationsChannel()
+  usePingChatOnline()
   return (
     <Styles>
       <Switch>

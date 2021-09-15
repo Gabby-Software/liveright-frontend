@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 
 import { classes } from '../../../pipes/classes.pipe'
-import { noImage } from '../../../pipes/no-image.pipe'
+import UserBadge from '../../user-badge/user-badge.component'
 import Styles from './user-badge-card.styles'
 
 interface UserBadgeCardProps {
@@ -12,6 +12,7 @@ interface UserBadgeCardProps {
   component?: ReactNode
   className?: string
   onClick?: () => void
+  online?: boolean
 }
 
 export default function UserBadgeCard({
@@ -21,24 +22,20 @@ export default function UserBadgeCard({
   userRole,
   component,
   className,
-  onClick
+  onClick,
+  online
 }: UserBadgeCardProps) {
-  const [imgSrc, setSrc] = useState('')
-
-  useEffect(() => {
-    if (img) {
-      setSrc(img)
-    }
-  }, [img])
-
   return (
     <Styles className={classes('user-badge-card', className)} onClick={onClick}>
-      <div className="user-badge-card__img">
-        {imgSrc && <img src={imgSrc} alt="" onError={() => setSrc('')} />}
-        <span className="user-badge-card__placeholder">
-          {noImage(firstName, lastName)}
-        </span>
-      </div>
+      <UserBadge
+        avatarOnly
+        square
+        avatar={img}
+        firstName={firstName}
+        lastName={lastName}
+        online={online}
+      />
+
       <div className="user-badge-card__content">
         <p className="user-badge-card__title">{firstName + ' ' + lastName}</p>
         <p className="user-badge-card__subtitle">{userRole}</p>

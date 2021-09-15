@@ -173,15 +173,22 @@ class SocketManager {
     })
   }
 
-  pingLogin(roomId: string) {
+  pingLogin() {
     this.socket?.emit('event:lastSeen:send', {
-      roomId,
       lastSeenAt: moment().format()
     })
   }
 
   disconnect() {
     this.socket?.disconnect()
+  }
+
+  on(event: string, callback: any) {
+    this.socket?.on(event, callback)
+  }
+
+  off(event: string, callback: any) {
+    this.socket?.off(event, callback)
   }
 
   public log() {
