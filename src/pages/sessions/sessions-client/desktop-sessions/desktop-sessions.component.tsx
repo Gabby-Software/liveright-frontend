@@ -153,6 +153,7 @@ export default function DesktopSessions({
           open={rescheduleOpen}
           session={rescheduleSession}
           onClose={() => setRescheduleOpen(false)}
+          mutate={upcomingSessions.mutate}
         />
         {trainer ? (
           <SessionAddModal
@@ -161,6 +162,7 @@ export default function DesktopSessions({
             }
             isOpen={addOpen}
             onClose={() => setAddOpen(false)}
+            mutate={upcomingSessions.mutate}
           />
         ) : null}
       </div>
