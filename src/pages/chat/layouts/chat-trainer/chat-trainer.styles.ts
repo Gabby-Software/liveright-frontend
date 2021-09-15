@@ -1,15 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/card/card.style'
-import ProfileImage from '../../../../components/profile-image/profile-image.component'
 
-export const StyledAvatar = styled(ProfileImage)`
-  .profile-image__img {
-    width: 53px;
-    height: 53px;
-    font-size: 18px;
-  }
-`
 export const DataItem = styled(Card)`
   margin-bottom: 5px;
   color: ${(p) => p.theme.vars.colors.dark_v2};

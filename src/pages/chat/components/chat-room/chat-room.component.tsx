@@ -1,18 +1,19 @@
 import React, { FC } from 'react'
 import { useParams } from 'react-router'
 
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
 import { lastMessage } from '../../../../modules/chat/pipes/last-message.pipe'
 import { ChatRoomType } from '../../../../modules/chat/types/chat-room.type'
 import { classes } from '../../../../pipes/classes.pipe'
-import { noImage } from '../../../../pipes/no-image.pipe'
-import Styles, { AvatarStyled } from './chat-room.styles'
+import Styles from './chat-room.styles'
 
 type Props = {
   room: ChatRoomType
+  online?: boolean
 }
-const ChatRoom: FC<Props> = ({ room }) => {
+const ChatRoom: FC<Props> = ({ room, online }) => {
   const { room: roomId } = useParams<{ room?: string }>()
   return (
     <Styles
@@ -23,9 +24,13 @@ const ChatRoom: FC<Props> = ({ room }) => {
       to={Routes.CHAT + `/${room.roomId}`}
     >
       <div className={'chat-room__left'}>
-        <AvatarStyled
-          url={room.avatar?.url}
-          placeholder={noImage(room.firstName, room.lastName)}
+        <UserBadge
+          size="md"
+          firstName={room.firstName}
+          lastName={room.lastName}
+          avatar={room.avatar?.url}
+          avatarOnly
+          online={online}
         />
       </div>
       <div className={'chat-room__center'}>

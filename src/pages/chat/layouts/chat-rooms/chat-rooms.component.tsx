@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 
 import { SearchIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
+import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
 import { useChats } from '../../../../modules/chat/contexts/chats.context'
 import { ChatRoomType } from '../../../../modules/chat/types/chat-room.type'
 import ChatNoClients from '../../components/chat-no-clients/chat-no-clients.component'
@@ -9,10 +10,12 @@ import ChatRoom from '../../components/chat-room/chat-room.component'
 import Styles from './chat-rooms.styles'
 
 type Props = {}
+
 const ChatRooms: FC<Props> = ({}) => {
   const [search, setSearch] = useState('')
   const { rooms } = useChats()
   const [filteredRooms, setFilteredRooms] = useState<ChatRoomType[]>([])
+  const { isOnline } = useChatOnline()
 
   useEffect(() => {
     setFilteredRooms(
@@ -34,19 +37,6 @@ const ChatRooms: FC<Props> = ({}) => {
     )
   }, [rooms, search])
 
-  // useEffect(() => {
-  //   setFilteredRooms([])
-  // }, [])
-  // const filteredRooms: ChatRoomType[] = useMemo(() => {
-  //   return Object.values(rooms)
-  //     .filter(({ room }) =>
-  //       `${room.firstName} ${room.lastName}`
-  //         .toLowerCase()
-  //         .includes(search.toLowerCase())
-  //     )
-  //     .map(({ room }) => room)
-  // }, [search, rooms])
-
   return (
     <Styles>
       <div className="chat-rooms__head">
@@ -62,7 +52,11 @@ const ChatRooms: FC<Props> = ({}) => {
       <div className={'chat-rooms__container'}>
         {filteredRooms?.length ? (
           filteredRooms.map((room) => (
-            <ChatRoom room={room} key={room.roomId} />
+            <ChatRoom
+              room={room}
+              key={room.roomId}
+              online={isOnline(room.account_uuid)}
+            />
           ))
         ) : (
           <ChatNoClients />
