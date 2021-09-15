@@ -6,6 +6,8 @@ function getSize(props: any): string {
   switch (props.$size) {
     case 'sm':
       return '24px'
+    case 'md':
+      return '42px'
     case 'lg':
       return '50px'
     case 'xl':
@@ -20,6 +22,7 @@ function getFontSize(props: any): string {
     case 'sm':
       return '0.625rem'
     case 'lg':
+    case 'md':
       return '1rem'
     case 'xl':
       return '1.25rem'
@@ -31,6 +34,7 @@ function getFontSize(props: any): string {
 function getTextSize(props: any): string {
   switch (props.$size) {
     case 'lg':
+    case 'md':
       return '1rem'
     case 'xl':
       return '1.25rem'
@@ -45,6 +49,20 @@ function geTextWeight(props: any): string {
       return '500'
     default:
       return '400'
+  }
+}
+
+function getOnlinePosition(props: any): string {
+  if (props.$square) {
+    return '-2px'
+  }
+  switch (props.$size) {
+    case 'lg':
+      return '2px'
+    case 'xl':
+      return '4px'
+    default:
+      return '1px'
   }
 }
 
@@ -73,9 +91,22 @@ export const Styles = styled.div<any>`
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       color: #fff;
       font-weight: 700;
+
+      &::after {
+        content: '';
+        display: ${(props) => (props.$online ? 'block' : 'none')};
+        width: 10px;
+        height: 10px;
+        border-radius: 9999px;
+        position: absolute;
+        top: ${getOnlinePosition};
+        right: ${getOnlinePosition};
+        background-color: ${getColorCarry('green_90')};
+        z-index: 12;
+        border: 1px solid ${getColorCarry('inputBorder_v2')};
+      }
 
       & img {
         width: 100%;
@@ -84,6 +115,7 @@ export const Styles = styled.div<any>`
         top: 0;
         left: 0;
         z-index: 11;
+        border-radius: ${(props) => (props.$square ? '10px' : '9999px')};
       }
 
       & span {

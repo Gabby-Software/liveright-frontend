@@ -1,15 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ProfileImage from '../../../../components/profile-image/profile-image.component'
-
-export const AvatarStyled = styled(ProfileImage)`
-  .profile-image__img {
-    width: 42px;
-    height: 42px;
-    font-size: 16px;
-  }
-`
 export default styled(Link)`
   display: block;
   margin-bottom: 0.5rem;

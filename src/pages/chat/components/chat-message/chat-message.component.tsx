@@ -49,7 +49,7 @@ const ChatMessage = ({ msg }: Props) => {
       return (
         <ChatMessageSession
           me={isMe}
-          date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+          date={msg.session_meta_data?.requested_time || '1970-01-01 00:00'}
         />
       )
     }
@@ -57,6 +57,7 @@ const ChatMessage = ({ msg }: Props) => {
   const renderSessionReschedule = () => {
     if (types[0] === chatMessageTypes.SESSION_RESCHDULE) {
       types.shift()
+      console.log(msg.session_meta_data)
       return (
         <>
           <ChatMessageSession
