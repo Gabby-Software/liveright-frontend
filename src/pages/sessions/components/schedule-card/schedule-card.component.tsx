@@ -45,13 +45,13 @@ export default function ScheduleCard({
     ? moment(scheduleDate, DATE_FORMAT).format(MONTH_RENDER_FORMAT)
     : '-'
   const newTime = scheduleTime
-    ? moment(scheduleTime, TIME_FORMAT).format(TIME_RENDER_FORMAT)
+    ? moment.utc(scheduleTime, TIME_FORMAT).format(TIME_RENDER_FORMAT)
     : '-'
   const curDate = currentDate
     ? moment(currentDate).format(MONTH_RENDER_FORMAT)
     : '-'
   const curTime = currentDate
-    ? moment(currentDate).format(TIME_RENDER_FORMAT)
+    ? moment.utc(currentDate).format(TIME_RENDER_FORMAT)
     : '-'
 
   return (

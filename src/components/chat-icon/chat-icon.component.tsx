@@ -16,13 +16,16 @@ const ChatIcon: FC = () => {
   const { type } = useAuth()
   const isMobile = useIsMobile()
   const { user: trainer } = useTrainerAccount()
+
   const unreads = useMemo(() => {
     return Object.values(rooms).reduce(
       (a, b) => a + b.room.unReadMessagesCount,
       0
     )
   }, [rooms])
+
   if (type === userTypes.CLIENT && !trainer.email) return null
+
   return (
     <Styles
       className={classes(unreads && 'notification__active')}
