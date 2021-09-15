@@ -52,7 +52,6 @@ const ChatRooms: FC<Props> = ({}) => {
       <div className="chat-rooms__head">
         <Input
           id="chat-search"
-          name={'search'}
           prefix={<SearchIcon />}
           defaultValue=""
           placeholder={'Search chat room'}

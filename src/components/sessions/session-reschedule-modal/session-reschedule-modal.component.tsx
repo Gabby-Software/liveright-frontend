@@ -9,16 +9,18 @@ type Props = {
   onClose: () => void
   session: SessionType
   open: boolean
+  mutate?: any
 }
 
-function SessionRescheduleModalContent({ session, onClose }: Props) {
-  return <Form session={session} onSuccess={onClose} />
+function SessionRescheduleModalContent({ session, onClose, mutate }: Props) {
+  return <Form session={session} onSuccess={onClose} mutate={mutate} />
 }
 
 interface SessionRescheduleModalProps {
   session?: SessionType
   open: boolean
   onClose: any
+  mutate?: any
 }
 
 const SessionRescheduleModal = (props: SessionRescheduleModalProps) => {

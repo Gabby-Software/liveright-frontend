@@ -9,6 +9,7 @@ type Props = {
   total: number
   justify?: 'start' | 'center' | 'end'
 }
+
 const DataPagination: FC<Props> = ({
   page,
   setPage,
@@ -19,9 +20,11 @@ const DataPagination: FC<Props> = ({
   return (
     <Styles $justify={justify} className={'data-pagination'}>
       {children}
+
       <Pagination
         current={page}
         defaultCurrent={1}
+        showLessItems
         total={total}
         onChange={setPage}
         showSizeChanger={false}

@@ -1,30 +1,30 @@
 import React from 'react'
 
-import { DocumentOutlinedIcon } from '../../../../assets/media/icons'
-import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
+import {
+  CalendarIcon,
+  DocumentOutlinedIcon
+} from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import useCreditsWithTrainer from '../../../../hooks/api/credits/useCreditsWithTrainer'
+import { UseSession } from '../../../../hooks/api/sessions/useSession'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { SessionsState } from '../../../../store/reducers/sessions.reducer'
-import { AccountObjType } from '../../../../types/account.type'
 import { SessionType } from '../../../../types/session.type'
-import { SessionFilter, SessionStatus } from '../../../../types/session.type'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
 import { HeaderComponent, Styles } from './mobile-sessions.styles'
 
-interface Props {
-  sessions: SessionsState
-  trainer: AccountObjType
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filters?: SessionFilter) => void
+interface MobileSessionsProps {
+  upcomingSessions: UseSessions & UseSession
+  pastSessions: UseSessions & UseSession
 }
 
-const MobileSessions: React.FC<Props> = (props) => {
-  const { sessions, getSessions } = props
+export default function MobileSessions({
+  upcomingSessions,
+  pastSessions
+}: MobileSessionsProps) {
   const { t } = useTranslation()
   const { credits, isLoading } = useCreditsWithTrainer()
 
@@ -68,8 +68,13 @@ const MobileSessions: React.FC<Props> = (props) => {
             <SessionsCards
               renderOptions={renderItemOptions}
               title={t('sessions:upcoming-title')}
-              getSessions={getSessions('upcoming')}
-              sessions={sessions.upcoming}
+              sessions={upcomingSessions.sessions}
+              meta={upcomingSessions.meta}
+              onPage={upcomingSessions.onPage}
+              onFilters={upcomingSessions.onFilters}
+              onSearch={upcomingSessions.onSearch}
+              filters={upcomingSessions.filters}
+              isLoading={upcomingSessions.isLoading}
               titleComponent={
                 <div className="sessions__cards-title-btn-container">
                   <IconButton
@@ -84,16 +89,20 @@ const MobileSessions: React.FC<Props> = (props) => {
           </div>
 
           <div className="sessions__divider" />
+
           <SessionsCards
             withFilter
             title={t('sessions:past-title')}
-            getSessions={getSessions('past')}
-            sessions={sessions.upcoming}
+            sessions={pastSessions.sessions}
+            meta={pastSessions.meta}
+            onPage={pastSessions.onPage}
+            filters={pastSessions.filters}
+            onFilters={pastSessions.onFilters}
+            onSearch={pastSessions.onSearch}
+            isLoading={pastSessions.isLoading}
           />
         </Styles>
       </MobilePage>
     </>
   )
 }
-
-export default MobileSessions

@@ -1,53 +1,30 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function */
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-
+import useSessions from '../../../hooks/api/sessions/useSessions'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
-import { useTrainerSelector } from '../../../hooks/trainer.hook'
-import { ACTION_GET_TRAINER_REQUEST } from '../../../store/action-types'
-import { SessionsState } from '../../../store/reducers/sessions.reducer'
-import { SessionFilter, SessionStatus } from '../../../types/session.type'
 import DesktopSessions from './desktop-sessions/desktop-sessions.component'
 import MobileSessions from './mobile-sessions/mobile-sessions.component'
 
-interface Props {
-  sessions: SessionsState
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filter?: SessionFilter) => void
-}
-
-const Sessions: React.FC<Props> = (props) => {
-  const { getSessions, sessions } = props
-  const dispatch = useDispatch()
+export default function Sessions() {
   const isMobile = useIsMobile()
-  const trainer = useTrainerSelector()
 
-  useEffect(() => {
-    if (!trainer) {
-      dispatch({
-        type: ACTION_GET_TRAINER_REQUEST
-      })
-    }
-  }, [])
+  const upcomingSessions = useSessions({
+    include: 'trainer.user',
+    filter: { status: 'upcoming' }
+  })
 
-  if (isMobile) {
-    return (
-      <MobileSessions
-        trainer={trainer}
-        getSessions={getSessions}
-        sessions={sessions}
-      />
-    )
-  }
+  const pastSessions = useSessions({
+    include: 'trainer.user',
+    filter: { status: 'past' }
+  })
 
-  return (
+  return isMobile ? (
+    <MobileSessions
+      pastSessions={pastSessions}
+      upcomingSessions={upcomingSessions}
+    />
+  ) : (
     <DesktopSessions
-      trainer={trainer}
-      getSessions={getSessions}
-      sessions={sessions}
+      pastSessions={pastSessions}
+      upcomingSessions={upcomingSessions}
     />
   )
 }
-
-export default Sessions

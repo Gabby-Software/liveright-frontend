@@ -91,6 +91,7 @@ export default styled.div`
     }
 
     &__cards-container {
+      margin-top: 1.25rem;
     }
   }
 `

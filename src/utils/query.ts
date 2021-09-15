@@ -6,7 +6,7 @@ export function stringifyURL(url: string, params: Record<string, any>): string {
 }
 
 export function parseQuery(query: string) {
-  return qs.parse(query)
+  return qst.parse(query)
 }
 
 export function stringifyQuery(query: string) {

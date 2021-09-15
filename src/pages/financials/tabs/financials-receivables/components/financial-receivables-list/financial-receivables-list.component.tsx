@@ -33,6 +33,7 @@ const FinancialReceivablesList = ({
               showMark
               showLink
               onMark={actions.onMarkPaid}
+              onSend={actions.onSend}
             />
           ))}
           <DataPagination

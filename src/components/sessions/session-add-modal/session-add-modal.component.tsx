@@ -8,10 +8,11 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   trainer_id: number
+  mutate?: any
 }
 
 const SessionAddModal: React.FC<Props> = (props) => {
-  const { isOpen, onClose, trainer_id } = props
+  const { isOpen, onClose, trainer_id, mutate } = props
   const { t } = useTranslation()
 
   return (
@@ -20,7 +21,7 @@ const SessionAddModal: React.FC<Props> = (props) => {
       open={isOpen}
       onClose={onClose}
     >
-      <AddForm trainerId={trainer_id} onSuccess={onClose} />
+      <AddForm trainerId={trainer_id} onSuccess={onClose} mutate={mutate} />
     </Dialog>
   )
 }

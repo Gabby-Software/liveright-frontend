@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import useSWRInfinite from 'swr/infinite'
 
 import { stringifyURL } from '../../utils/query'
@@ -30,9 +31,9 @@ export default function useSwrInfinite<T>(
     }
   )
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     setSize((size) => size + 1)
-  }
+  }, [])
 
   const resetPage = () => {
     setSize(1)

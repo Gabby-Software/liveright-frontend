@@ -10,7 +10,7 @@ import Styles from './invoices-atention.styles'
 interface InvoicesAtentionProps {}
 
 const InvoicesAtention = ({}: InvoicesAtentionProps) => {
-  const { invoices } = useInvoices({
+  const { invoices, onRemind } = useInvoices({
     initialFilters: {
       status: 'due_soon,overdue'
     },
@@ -23,7 +23,12 @@ const InvoicesAtention = ({}: InvoicesAtentionProps) => {
     <Styles>
       <Carousel>
         {invoices.map((inv: InvoiceType) => (
-          <InvoiceCard mobileColumn key={inv.id} {...inv} />
+          <InvoiceCard
+            mobileColumn
+            key={inv.id}
+            onRemind={() => onRemind(inv.invoice_to.uuid, inv)}
+            {...inv}
+          />
         ))}
       </Carousel>
 

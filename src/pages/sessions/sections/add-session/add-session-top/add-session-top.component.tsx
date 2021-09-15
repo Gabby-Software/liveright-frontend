@@ -43,6 +43,7 @@ const AddSessionTop: React.FC<Props> = (props) => {
     <Styles>
       {!session && (
         <ClientSelect
+          includeAll={false}
           prefix={<ProfileIcon />}
           className="add-session__client-select"
           id="add-sessions-id"

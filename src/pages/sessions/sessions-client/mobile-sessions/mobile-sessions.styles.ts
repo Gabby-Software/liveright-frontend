@@ -24,6 +24,10 @@ export const Styles = styled.div`
       flex: 1;
     }
 
+    &__cards-container {
+      margin-top: 1.25rem;
+    }
+
     &__cards-title-btn-container {
       display: flex;
       justify-content: center;

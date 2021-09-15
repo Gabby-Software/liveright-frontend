@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 const wShrink = '12px'
@@ -26,6 +27,7 @@ export default styled.div`
     transition: ${(p) => p.theme.vars.defaults.transition};
     background-color: ${getColorCarry('primary_v2')};
   }
+
   &.notification {
     &__active {
       &:after {
@@ -33,6 +35,15 @@ export default styled.div`
         height: ${wGrow};
         content: attr(data-count);
       }
+    }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    position: relative;
+
+    &::after {
+      top: -5px;
+      right: -10px;
     }
   }
 `

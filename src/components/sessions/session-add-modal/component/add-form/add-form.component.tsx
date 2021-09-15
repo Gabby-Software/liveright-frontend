@@ -34,9 +34,14 @@ const initialValues: FormValues = {
 interface AddFormProps {
   onSuccess?: () => void
   trainerId: number
+  mutate?: any
 }
 
-export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
+export default function AddForm({
+  onSuccess,
+  trainerId,
+  mutate
+}: AddFormProps) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
@@ -60,6 +65,7 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
         },
         trainer_id: trainerId,
         onSuccess: (session: SessionType) => {
+          mutate?.()
           sendSession({
             session_id: String(session.id),
             requested_time: date + ' ' + moment(time, 'h:mm').format('HH:mm:ss')

@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-export default styled.div`
-  background-color: white;
+export default styled(Link)`
+  background-color: #fff;
   width: 330px;
   max-width: calc(100vw - 40px);
   padding: 28px 24px;

@@ -1,6 +1,8 @@
 import { Modal } from 'antd'
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../pipes/theme-color.pipe'
+
 export default styled(Modal)`
   ${(p) => p.theme.extend.absCover}
   ${(p) => p.theme.extend.flexCenter}
@@ -24,8 +26,8 @@ export default styled(Modal)`
       font-size: 14px;
       font-weight: 500;
       padding: 16px;
-      border-bottom: 1px solid ${(p) => p.theme.vars.colors.light};
-      color: ${(p) => p.theme.vars.colors.primaryDark};
+      border-bottom: 1px solid ${getColorCarry('light')};
+      color: ${getColorCarry('primaryDark_v2')};
     }
     &__body {
       list-style: none;
@@ -38,16 +40,18 @@ export default styled(Modal)`
       font-weight: 600;
       font-size: 18px;
       padding: 20px;
-      border-bottom: 1px solid ${(p) => p.theme.vars.colors.light};
+      border-bottom: 1px solid ${getColorCarry('light')};
       cursor: pointer;
+
       &:hover {
-        background-color: light;
+        background-color: ${getColorCarry('light')};
       }
+
       &__default {
-        color: ${(p) => p.theme.vars.colors.primaryDark};
+        color: ${getColorCarry('primaryDark_v2')};
       }
       &__primary {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${getColorCarry('primary_v2')};
       }
     }
   }
