@@ -35,12 +35,14 @@ const ChatMessage = ({ msg }: Props) => {
   const { isPopup, roomData } = useChatRoom()
   const { uuid } = useAuth()
   const isMe = useMemo(() => msg.senderId === uuid, [uuid])
+
   const renderInvoice = () => {
     if (types[0] === chatMessageTypes.INVOICE) {
       types.shift()
       return <ChatMessageInvoice {...msg.invoice_meta_data!} me={isMe} />
     }
   }
+
   const renderSession = () => {
     if (types[0] === chatMessageTypes.REQUEST_SESSION) {
       types.shift()

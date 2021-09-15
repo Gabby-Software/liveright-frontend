@@ -69,6 +69,9 @@ const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
                     label={'Due Date'}
                     name={'invoice.due_on'}
                     className="add-invoice__form-item"
+                    disabledDate={(date) =>
+                      date.isBefore(moment().startOf('day'))
+                    }
                     value={values.invoice.due_on}
                     onChange={(e, date) =>
                       setFieldValue('invoice.due_on', date)
@@ -89,7 +92,7 @@ const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
 
             <CreateInvoiceMobileActions
               back={createInvoiceSteps.CLIENT}
-              backText="Back to select existing Client"
+              backText="Back to Select Client"
             />
           </Form>
         )}

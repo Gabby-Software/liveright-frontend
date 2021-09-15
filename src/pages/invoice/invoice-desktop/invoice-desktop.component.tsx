@@ -10,7 +10,6 @@ import StatusBadge from '../../../components/status-badge/status-badge.component
 import { invoiceStatuses } from '../../../enums/invoice-statuses'
 import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
-import { useRemindInvoice } from '../../../hooks/api/invoices/remind-invoice.hook'
 import useInvoice from '../../../hooks/api/invoices/useInvoice'
 import { useAuth } from '../../../hooks/auth.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
@@ -36,12 +35,12 @@ export default function InvoiceDesktop() {
   const { t } = useTranslation()
   const { type } = useAuth()
   const history = useHistory()
-  const [, remindClient] = useRemindInvoice()
 
   const {
     onSend,
     onCancel,
     onMarkPaid,
+    onRemind,
     isSendLoading,
     invoice,
     isInvoiceLoading
@@ -133,7 +132,7 @@ export default function InvoiceDesktop() {
 
           <IconActions
             {...invoice}
-            onRemind={remindClient}
+            onRemind={() => onRemind(invoice.invoice_to.uuid, invoice)}
             onRemove={() =>
               onCancel(invoice.id, () =>
                 history.push(Routes.FINANCIALS_RECEIVABLES)

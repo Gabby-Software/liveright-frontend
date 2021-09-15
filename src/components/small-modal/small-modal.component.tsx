@@ -1,6 +1,7 @@
 import { ModalProps } from 'antd'
 import React from 'react'
 
+import useScrollBottomListener from '../../hooks/ui/useScrollBottomListener'
 import { classes } from '../../pipes/classes.pipe'
 import StyledModal from './small-modal.styles'
 
@@ -11,21 +12,20 @@ export type MenuItem = {
   type?: 'primary' | 'default'
   Wrap?: React.ComponentType<any>
 }
+
 type Props = ModalProps & {
   title: string
   menu: (MenuItem | null)[]
+  onBottom?: any
 }
-const SmallModal = ({ menu, visible, title, onCancel }: Props) => {
+
+function Content({ menu, onCancel, title, onBottom }: Props) {
+  const { scrollRef } = useScrollBottomListener({ callback: onBottom })
   return (
-    <StyledModal
-      visible={visible}
-      closable={false}
-      footer={null}
-      className={'small-modal'}
-      onCancel={onCancel}
-    >
+    <>
       <div className={'small-modal__title'}>{title}</div>
-      <ul className={'small-modal__body'}>
+
+      <ul className={'small-modal__body'} ref={scrollRef}>
         {menu
           .filter((t) => !!t)
           .map((item, i) => {
@@ -52,6 +52,21 @@ const SmallModal = ({ menu, visible, title, onCancel }: Props) => {
             )
           })}
       </ul>
+    </>
+  )
+}
+
+const SmallModal = (props: Props) => {
+  const { visible, onCancel } = props
+  return (
+    <StyledModal
+      visible={visible}
+      closable={false}
+      footer={null}
+      className={'small-modal'}
+      onCancel={onCancel}
+    >
+      <Content {...props} />
     </StyledModal>
   )
 }

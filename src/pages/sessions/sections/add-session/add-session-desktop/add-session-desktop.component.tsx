@@ -14,9 +14,10 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   session?: SessionType
+  mutate?: any
 }
 
-const AddSessionDesktop = ({ isOpen, onClose, session }: Props) => {
+const AddSessionDesktop = ({ isOpen, onClose, session, mutate }: Props) => {
   const { t } = useTranslation()
   return (
     <Drawer
@@ -26,7 +27,7 @@ const AddSessionDesktop = ({ isOpen, onClose, session }: Props) => {
       onClose={onClose}
     >
       <Styles className="add-session">
-        <AddSessionForm onClose={onClose} session={session}>
+        <AddSessionForm onClose={onClose} session={session} mutate={mutate}>
           <div className="add-session__left">
             <AddSessionTop session={session} />
 

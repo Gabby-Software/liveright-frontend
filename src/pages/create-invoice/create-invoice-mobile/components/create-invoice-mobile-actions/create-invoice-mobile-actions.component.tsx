@@ -16,6 +16,7 @@ const CreateInvoiceMobileActions: FC<Props> = ({ back, backText }) => {
   const { t } = useTranslation()
   const { submitForm } = useFormikContext()
   const { setStep } = useInvoiceForm()
+
   return (
     <Styles>
       <Button

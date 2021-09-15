@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 
 import Button from '../../../../../components/buttons/button/button.component'
 import StatusBadge from '../../../../../components/status-badge/status-badge.component'
+import { Routes } from '../../../../../enums/routes.enum'
 import { ChatMessageInvoiceMetaType } from '../../../../../modules/chat/types/chat-message-invoice-meta.type'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { payments } from '../../../../../pipes/payments.pipe'
@@ -20,7 +21,7 @@ const ChatMessageInvoice: FC<Props> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <Styles className={'cm-invoice'}>
+    <Styles to={Routes.INVOICES + `/${invoice_id}`} className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
         <div className={'cm-invoice__id'}>Invoice #{invoice_id}</div>
         <div className={'cm-invoice__name'}>{name}</div>

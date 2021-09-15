@@ -65,6 +65,8 @@ export const Styles = styled.div<any>`
       position: relative;
       width: ${getSize};
       height: ${getSize};
+      min-width: ${getSize};
+      min-height: ${getSize};
       background-color: ${getColorCarry('primary_v2')};
       border-radius: ${(props) => (props.$square ? '10px' : '9999px')};
       font-size: ${getFontSize};

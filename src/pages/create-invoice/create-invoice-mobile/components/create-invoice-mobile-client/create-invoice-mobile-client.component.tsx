@@ -60,12 +60,13 @@ const CreateInvoiceMobileClient = () => {
                     />
                   ) : (
                     <ClientSelect
-                      name={'invoice.invoice_to'}
+                      name="invoice.invoice_to"
                       onChange={(e, option) => {
                         setClient(option.clientObj)
                         setFieldValue('invoice.invoice_to', e)
                       }}
                       placeholder={t('invoices:type-client')}
+                      includeAll={false}
                     />
                   )}
 

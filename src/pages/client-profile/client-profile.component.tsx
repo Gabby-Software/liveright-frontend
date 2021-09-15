@@ -1,6 +1,7 @@
 import { Skeleton } from 'antd'
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import {
   CaretRightIcon,
@@ -197,7 +198,7 @@ export default function ClientProfile() {
               variant="text"
               size="sm"
               className="profile__card-dark-btn"
-              to={Routes.INVOICES}
+              to={Routes.FINANCIALS_RECEIVABLES}
             >
               Invoice History
               <CaretRightIcon />
@@ -212,9 +213,12 @@ export default function ClientProfile() {
             <p className="profile__card-dark-sub">
               {freeSessions.meta.total || 0} Free Sessions
             </p>
-            <p className="profile__card-dark-sub">
-              {upcomingSessions.meta.total || 0} Upcoming Session
-            </p>
+
+            <Link to={Routes.SESSIONS + '?upcoming=1'}>
+              <p className="profile__card-dark-sub">
+                {upcomingSessions.meta.total || 0} Upcoming Session
+              </p>
+            </Link>
           </Card>
         </div>
       </div>

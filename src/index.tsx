@@ -20,7 +20,7 @@ document.addEventListener('gesturestart', function (e) {
   e.preventDefault()
 })
 const swrConfig = {
-  revalidateOnFocus: false
+  revalidateOnFocus: (process.env as any) === 'production'
 }
 
 ReactDOM.render(

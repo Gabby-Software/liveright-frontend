@@ -1,5 +1,4 @@
-import debounce from 'lodash.debounce'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   DocumentOutlinedIcon,
@@ -17,44 +16,38 @@ import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import userTypes from '../../../../enums/user-types.enum'
+import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import useCreditsWithTrainer from '../../../../hooks/api/credits/useCreditsWithTrainer'
+import { UseSession } from '../../../../hooks/api/sessions/useSession'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { SessionsState } from '../../../../store/reducers/sessions.reducer'
-import { AccountObjType } from '../../../../types/account.type'
 import { SessionType } from '../../../../types/session.type'
-import { SessionFilter, SessionStatus } from '../../../../types/session.type'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
-import { formatFilters } from '../../sessions.utils'
 import Styles from './desktop-sessions.styles'
 
-interface Props {
-  sessions: SessionsState
-  trainer: AccountObjType
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filters?: SessionFilter) => void
+interface DesktopSessionsProps {
+  upcomingSessions: UseSessions & UseSession
+  pastSessions: UseSessions & UseSession
 }
 
-const DesktopSessions: React.FC<Props> = (props) => {
-  const { getSessions, sessions, trainer } = props
+export default function DesktopSessions({
+  upcomingSessions,
+  pastSessions
+}: DesktopSessionsProps) {
   const { t } = useTranslation()
+
   const [rescheduleOpen, setRescheduleOpen] = useState(false)
   const [rescheduleSession, setRescheduleSession] = useState<SessionType>()
-  const [addOpen, setAddOpen] = useState<boolean>(false)
-  const filterRef = useRef()
-  const [date, setDate] = useState('')
-  const [type, setType] = useState('All')
+  const [addOpen, setAddOpen] = useState(false)
+
   const { credits, isLoading } = useCreditsWithTrainer()
+
+  const { user: trainer } = useTrainerAccount()
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
   })
-
-  useEffect(() => {
-    const onUpdate = filterRef.current || (() => {})
-    formatFilters(type, date, onUpdate)
-  }, [date, type])
 
   const renderItemOptions = (item: SessionType) => {
     return (
@@ -79,10 +72,6 @@ const DesktopSessions: React.FC<Props> = (props) => {
       </div>
     )
   }
-
-  const handleInputChange = debounce((e) => {
-    setDate(e.target.value)
-  }, 400)
 
   return (
     <Styles>
@@ -113,9 +102,14 @@ const DesktopSessions: React.FC<Props> = (props) => {
           </PageSubtitle>
 
           <SessionsTable
-            sessions={sessions.upcoming}
-            getSessions={getSessions('upcoming')}
+            sessions={upcomingSessions.sessions}
+            meta={upcomingSessions.meta}
             renderOptions={renderItemOptions}
+            onPage={upcomingSessions.onPage}
+            onFilters={upcomingSessions.onFilters}
+            onSearch={upcomingSessions.onSearch}
+            filters={upcomingSessions.filters}
+            loading={upcomingSessions.isLoading}
           />
 
           <PageSubtitle className="sessions__subtitle sessions__subtitle_past">
@@ -127,26 +121,31 @@ const DesktopSessions: React.FC<Props> = (props) => {
                   id="sessions-type"
                   placeholder={t('sessions:type')}
                   options={sessionTypeOptions}
-                  onChange={(e) => setType(e)}
+                  onChange={(e) =>
+                    pastSessions.onFilters('type', e === 'All' ? null : e)
+                  }
                 />
               </div>
 
               <div className="sessions__filters-search">
                 <Input
-                  formik
                   id="sessions-search"
                   placeholder={t('sessions:filter-input')}
                   prefix={<SearchIcon />}
-                  onChange={handleInputChange}
+                  onChange={(e) => pastSessions.onSearch(e.target.value)}
                 />
               </div>
             </div>
           </PageSubtitle>
 
           <SessionsTable
-            sessions={sessions.past}
-            getSessions={getSessions('past')}
-            onFilterRef={(ref) => (filterRef.current = ref)}
+            sessions={pastSessions.sessions}
+            meta={pastSessions.meta}
+            onFilters={pastSessions.onFilters}
+            onSearch={pastSessions.onSearch}
+            onPage={pastSessions.onPage}
+            filters={pastSessions.filters}
+            loading={pastSessions.isLoading}
           />
         </div>
 
@@ -154,19 +153,19 @@ const DesktopSessions: React.FC<Props> = (props) => {
           open={rescheduleOpen}
           session={rescheduleSession}
           onClose={() => setRescheduleOpen(false)}
+          mutate={upcomingSessions.mutate}
         />
         {trainer ? (
           <SessionAddModal
             trainer_id={
-              trainer.accounts.find((it) => it.type === userTypes.TRAINER)!.id
+              trainer.accounts?.find((it) => it.type === userTypes.TRAINER)!.id
             }
             isOpen={addOpen}
             onClose={() => setAddOpen(false)}
+            mutate={upcomingSessions.mutate}
           />
         ) : null}
       </div>
     </Styles>
   )
 }
-
-export default DesktopSessions

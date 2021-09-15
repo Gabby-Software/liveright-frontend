@@ -1,5 +1,4 @@
 import Button from '../../../components/buttons/button/button.component'
-import ChatIcon from '../../../components/chat-icon/chat-icon.component'
 import { Routes } from '../../../enums/routes.enum'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
@@ -10,7 +9,7 @@ export default function NotificationsMobile() {
   return (
     <MobilePage
       title={t('notifications:title-mobile')}
-      headerTitleIcon={<ChatIcon />}
+      headerNavChat
       actionComponent={
         <Button to={Routes.NOTIFICATIONS_SETTINGS}>
           {t('notifications:manage-sessions')}

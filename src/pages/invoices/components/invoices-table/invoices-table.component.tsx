@@ -75,7 +75,7 @@ const InvoicesTable = () => {
         loading={loading}
         className="invoice-table__table"
         render={{
-          invoice_number: (t) => `#${t.id}`,
+          invoice_number: (t) => `#${t.invoice_number}`,
           due_on: (t) => date(t.due_on),
           total: (t) => `${t.total} ${t.currency.code}`,
           name: (t) =>

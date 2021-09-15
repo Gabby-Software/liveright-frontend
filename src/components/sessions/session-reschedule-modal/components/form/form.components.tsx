@@ -26,9 +26,10 @@ type RescheduleFormType = {
 interface FormProps {
   session: SessionType
   onSuccess?: () => void
+  mutate?: any
 }
 
-export default function Form({ session, onSuccess }: FormProps) {
+export default function Form({ session, onSuccess, mutate }: FormProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const isMobile = useIsMobile()
@@ -48,6 +49,7 @@ export default function Form({ session, onSuccess }: FormProps) {
         duration: moment(duration, 'HH:mm').format('HH:mm:ss'),
         time: moment(time, 'HH:mm').format('HH:mm:ss'),
         onSuccess: () => {
+          mutate?.()
           sendSessionReschedule({
             session_id: String(session.id),
             requested_time:
