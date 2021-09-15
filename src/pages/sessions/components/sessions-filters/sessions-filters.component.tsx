@@ -5,6 +5,10 @@ import {
   FilterIcon,
   SearchIcon
 } from '../../../../assets/media/icons'
+import {
+  ActiveFilterCard,
+  ActiveFilters
+} from '../../../../components/active-filters'
 import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.component'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
@@ -13,7 +17,9 @@ import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { DrawerContent, Styles } from './sessions-filters.styles'
@@ -27,9 +33,14 @@ const SessionsFilters: React.FC<
 > = (props) => {
   const { calendar, filters, onFilters, onSearch } = props
 
+  const { type } = useAuth()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [filtersDrawer, setFiltersDrawer] = useState(false)
+
+  // Only for Active Filters view. Actual api filters are handled in `filters`.
+  const [activeType, setActiveType] = useState<any>(null)
+  const [activeClient, setActiveClient] = useState<any>(null)
 
   const typeSelect = (
     <Select
@@ -37,7 +48,10 @@ const SessionsFilters: React.FC<
       value={filters.type || null}
       placeholder={t('sessions:type')}
       options={sessionTypeOptions}
-      onChange={(e) => onFilters('type', e === 'All' ? null : e)}
+      onChange={(e, option) => {
+        onFilters('type', e === 'All' ? null : e)
+        setActiveType(e === 'All' ? null : option)
+      }}
     />
   )
 
@@ -45,7 +59,10 @@ const SessionsFilters: React.FC<
     <ClientSelect
       id="sessions-client"
       placeholder={t('sessions:filter-by-client')}
-      onChange={(e) => onFilters('client_id', e === 'all' ? null : e)}
+      onChange={(e, option) => {
+        onFilters('client_id', e === 'all' ? null : e)
+        setActiveClient(e === 'all' ? null : option)
+      }}
       value={filters.client_id || null}
     />
   )
@@ -81,6 +98,31 @@ const SessionsFilters: React.FC<
           </div>
         </Styles>
 
+        {(activeClient || activeType) && (
+          <ActiveFilters>
+            {activeClient && (
+              <ActiveFilterCard
+                label="Client"
+                value={activeClient.label}
+                onDelete={() => {
+                  setActiveClient(null)
+                  onFilters('client_id', null)
+                }}
+              />
+            )}
+            {activeType && (
+              <ActiveFilterCard
+                label="Type"
+                value={activeType.label}
+                onDelete={() => {
+                  setActiveType(null)
+                  onFilters('type', null)
+                }}
+              />
+            )}
+          </ActiveFilters>
+        )}
+
         <BottomDrawer
           title="Apply Filters"
           isOpen={filtersDrawer}
@@ -88,7 +130,9 @@ const SessionsFilters: React.FC<
         >
           <DrawerContent>
             <div className="sessions__filter-select">{typeSelect}</div>
-            <div className="sessions__filter-select">{clientSelect}</div>
+            {type === userTypes.TRAINER && (
+              <div className="sessions__filter-select">{clientSelect}</div>
+            )}
 
             <Button
               className="drawer__submit-btn"

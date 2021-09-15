@@ -89,6 +89,7 @@ export default function MobileSessions({
           </div>
 
           <div className="sessions__divider" />
+
           <SessionsCards
             withFilter
             title={t('sessions:past-title')}

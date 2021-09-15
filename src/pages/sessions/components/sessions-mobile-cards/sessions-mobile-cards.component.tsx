@@ -61,15 +61,21 @@ export default function SessionsCards({
         />
       )}
 
-      {isLoading ? (
-        <LoadingPlaceholder />
-      ) : !sessions.length ? (
-        <EmptyPlaceholder />
-      ) : (
-        sessions.map((it) => (
-          <SessionCard session={it} key={it.id} renderOptions={renderOptions} />
-        ))
-      )}
+      <div className="sessions__cards-container">
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : !sessions.length ? (
+          <EmptyPlaceholder />
+        ) : (
+          sessions.map((it) => (
+            <SessionCard
+              session={it}
+              key={it.id}
+              renderOptions={renderOptions}
+            />
+          ))
+        )}
+      </div>
 
       <DataPagination
         justify="center"
