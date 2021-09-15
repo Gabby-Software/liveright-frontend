@@ -1,16 +1,20 @@
 import { Styles, Text } from './styles'
 
-export function LoadingPlaceholder() {
+interface PlaceholderProps {
+  spacing?: boolean
+}
+
+export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
   return (
-    <Styles>
+    <Styles $spacing={spacing}>
       <Text>Loading...</Text>
     </Styles>
   )
 }
 
-export function EmptyPlaceholder() {
+export function EmptyPlaceholder({ spacing }: PlaceholderProps) {
   return (
-    <Styles>
+    <Styles $spacing={spacing}>
       <Text>No data</Text>
     </Styles>
   )

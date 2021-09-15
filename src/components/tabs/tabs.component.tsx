@@ -26,6 +26,7 @@ const Tabs: React.FC<Props> = (props) => {
       tabPosition={tabPosition}
       activeKey={activeKey}
       onChange={onChange}
+      destroyInactiveTabPane
     >
       {tabs.map(({ label, icon, key, renderContent }) => {
         const tab = icon ? (

@@ -1,42 +1,49 @@
 import moment from 'moment'
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import userTypes from '../../../../enums/user-types.enum'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import { useAuth } from '../../../../hooks/auth.hook'
-import { PaginatedDataType } from '../../../../types/paginated-data.type'
-import { SessionFilter, SessionType } from '../../../../types/session.type'
+import { PaginationMetaType } from '../../../../types/pagination-meta.type'
+import { SessionType } from '../../../../types/session.type'
 import SessionsFilters from '../sessions-filters/sessions-filters.component'
 
 interface Props {
-  sessions: PaginatedDataType<SessionType>
-  getSessions: (page: number, filter?: SessionFilter) => void
+  sessions: SessionType[]
+  meta: PaginationMetaType
   renderOptions?: (session: SessionType) => ReactElement
   withFilter?: boolean
   FilterProps?: any
-  onFilterRef?: (ref: any) => void
+  loading?: boolean
+  onPage: (page: number) => void
 }
 
-const SessionsTable: React.FC<Props> = (props) => {
+export default function SessionsTable(
+  props: Props & Pick<UseSessions, 'filters' | 'onFilters' | 'onSearch'>
+) {
   const {
     sessions,
-    getSessions,
+    meta,
     renderOptions,
     withFilter,
     FilterProps,
-    onFilterRef
+    loading,
+    onPage,
+    filters,
+    onFilters,
+    onSearch
   } = props
-  const { data, meta } = sessions
+
   const { current_page, total } = meta
   const isTrainerType = useAuth().type === userTypes.TRAINER
-  const [filter, setFilter] = useState<SessionFilter>({})
-
-  useEffect(() => {
-    onFilterRef && onFilterRef(setFilter)
-  }, [])
 
   const { labels, keys } = useMemo(() => {
     const labels = [
@@ -55,20 +62,13 @@ const SessionsTable: React.FC<Props> = (props) => {
     return { labels, keys }
   }, [renderOptions])
 
-  const handlePageSet = (page: number) => {
-    getSessions(page, filter)
-  }
-
-  useEffect(() => {
-    handlePageSet(1)
-  }, [filter])
-
   return (
     <Card className="sessions__table-card">
       {withFilter && (
         <SessionsFilters
-          filters={filter}
-          onUpdate={setFilter}
+          filters={filters}
+          onFilters={onFilters}
+          onSearch={onSearch}
           {...FilterProps}
         />
       )}
@@ -76,7 +76,7 @@ const SessionsTable: React.FC<Props> = (props) => {
       <DataTable
         labels={labels}
         keys={keys}
-        data={data}
+        data={sessions}
         className="sessions__table"
         render={{
           with: (it: SessionType) => {
@@ -100,13 +100,14 @@ const SessionsTable: React.FC<Props> = (props) => {
             renderOptions ? renderOptions(item) : React.Fragment
         }}
       />
-      <DataPagination
-        page={current_page}
-        setPage={handlePageSet}
-        total={total}
-      />
+
+      {loading ? (
+        <LoadingPlaceholder spacing />
+      ) : !sessions.length ? (
+        <EmptyPlaceholder spacing />
+      ) : null}
+
+      <DataPagination page={current_page} setPage={onPage} total={total} />
     </Card>
   )
 }
-
-export default SessionsTable
