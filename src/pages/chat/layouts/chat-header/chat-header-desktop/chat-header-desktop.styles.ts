@@ -1,17 +1,5 @@
 import styled from 'styled-components'
 
-import ProfileImage from '../../../../../components/profile-image/profile-image.component'
-
-export const StyledAvatar = styled(ProfileImage)`
-  margin-right: 18px;
-  flex-shrink: 0;
-  .profile-image__img {
-    width: 61px;
-    height: 61px;
-    font-size: 24px;
-    letter-spacing: 1.5px;
-  }
-`
 export const ClientHeader = styled.div`
   padding: 25px 29px;
   font-size: 14px;

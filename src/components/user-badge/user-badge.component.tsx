@@ -8,11 +8,12 @@ interface UserBadgeProps {
   avatar?: string
   firstName?: string
   lastName?: string
-  size?: 'sm' | 'lg' | 'xl'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   className?: string
   avatarOnly?: boolean
   square?: boolean
   text?: 'semi-bold'
+  online?: boolean
 }
 
 export default function UserBadge({
@@ -23,10 +24,16 @@ export default function UserBadge({
   className,
   avatarOnly,
   square,
-  text
+  text,
+  online
 }: UserBadgeProps) {
   return (
-    <Styles className={className} $size={size} $square={square}>
+    <Styles
+      className={className}
+      $size={size}
+      $square={square}
+      $online={online}
+    >
       <div className="user-badge__preview">
         <Image src={avatar} />
         <span>{noImage(firstName, lastName)}</span>

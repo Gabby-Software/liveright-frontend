@@ -81,7 +81,6 @@ export const FooterVisible = styled.div`
       }
 
       & .user-badge-card__content {
-        padding-left: 0.625rem;
       }
 
       & svg {

@@ -19,6 +19,7 @@ import store from './store/config.store'
 document.addEventListener('gesturestart', function (e) {
   e.preventDefault()
 })
+
 const swrConfig = {
   revalidateOnFocus: process.env.NODE_ENV === 'production'
 }
