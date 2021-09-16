@@ -42,7 +42,10 @@ const ChatHeaderMobile: FC<Props> = ({}) => {
           firstName={roomData?.firstName || ''}
           lastName={roomData?.lastName || ''}
           avatar={roomData?.avatar.url}
-          online={isOnline(roomData?.account_uuid || '')}
+          online={isOnline(
+            roomData?.account_uuid || '',
+            roomData?.meta?.lastSeenAt
+          )}
         />
 
         <div className={'chat-header__name'}>

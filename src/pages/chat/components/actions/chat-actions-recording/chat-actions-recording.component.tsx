@@ -15,16 +15,20 @@ const ChatActionsRecording: FC<Props> = ({}) => {
   const [timeOver, setTimeOver] = useState(0)
   const recorder = useRef<RecorderManager>(new RecorderManager())
   const startTime = useRef(new Date().getTime())
+
   useEffect(() => {
     recorder.current.startRecord(false, true, RecorderManager.audioMime())
+
     const interval = setInterval(() => {
       setTimeOver(Math.round((new Date().getTime() - startTime.current) / 1000))
     }, 1000)
+
     return () => {
       clearInterval(interval)
       recorder.current?.stopRecord()
     }
   }, [])
+
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()
     setMode(ChatRoomModes.DEFAULT)
@@ -40,12 +44,14 @@ const ChatActionsRecording: FC<Props> = ({}) => {
       )
       .catch((e) => alert(e.message))
   }
+
   const stopRecording = () => {
     recorder.current
       .stopRecord()
       ?.then(() => setMode(ChatRoomModes.DEFAULT))
       .catch((e) => alert(e.message))
   }
+
   return (
     <Styles onSubmit={handleSubmit}>
       <div className={'chat-rec__indicator'}>

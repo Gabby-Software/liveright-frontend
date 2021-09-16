@@ -1,4 +1,3 @@
-// import AudioRecorder from 'audio-recorder-polyfill'
 import logger from '../../../managers/logger.manager'
 
 declare global {
@@ -7,16 +6,20 @@ declare global {
   }
 }
 const nativeRecorder = !!window.MediaRecorder
+
 if (!window.MediaRecorder) {
   import('audio-recorder-polyfill').then(
     (module) => (window.MediaRecorder = module.default)
   )
 }
+
 logger.info(
   `this browser ${nativeRecorder ? '' : 'NOT'} supports media recorder`
 )
+
 // window.MediaRecorder = AudioRecorder
 declare const MediaRecorder: any
+
 export default class RecorderManager {
   mediaRecorder: typeof MediaRecorder = null
   stream: MediaStream | null = null
@@ -32,10 +35,16 @@ export default class RecorderManager {
       return 'video/webm; codecs=vp8'
     }
   }
-  static audioType = nativeRecorder ? 'webm' : 'mp4'
+
+  static audioType =
+    nativeRecorder && MediaRecorder.isTypeSupported('audio/webm')
+      ? 'webm'
+      : 'mp4'
+
   static audioMime() {
     return `audio/${RecorderManager.audioType}`
   }
+
   public startRecord(video: boolean, audio: boolean, mimeType: string) {
     return navigator.mediaDevices
       .getUserMedia({ audio, video })
@@ -58,6 +67,7 @@ export default class RecorderManager {
       })
       .catch((err) => alert('cannot start recording: ' + err.message))
   }
+
   public stopRecord(): null | Promise<Blob> {
     if (this.mediaRecorder?.state !== 'recording') return null
     try {
@@ -73,7 +83,9 @@ export default class RecorderManager {
       })
     })
   }
+
   upload() {}
+
   download(filename: string, blob = new Blob(this.recordedChunks)) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
