@@ -57,7 +57,6 @@ const ChatMessage = ({ msg }: Props) => {
   const renderSessionReschedule = () => {
     if (types[0] === chatMessageTypes.SESSION_RESCHDULE) {
       types.shift()
-      console.log(msg.session_meta_data)
       return (
         <>
           <ChatMessageSession

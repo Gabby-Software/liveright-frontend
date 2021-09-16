@@ -24,6 +24,7 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { room, roomData } = useChatRoom()
   const { type } = useAuth()
   const statistic = useStatistic({ account_id: roomData?.user_id })
+
   const upcomingSessions = useSessions({
     filter: {
       client_id: roomData?.user_id,
@@ -49,7 +50,10 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
         avatar={roomData?.avatar?.url}
         avatarOnly
         size="xl"
-        online={isOnline(roomData?.account_uuid || '')}
+        online={isOnline(
+          roomData?.account_uuid || '',
+          roomData?.meta?.lastSeenAt
+        )}
       />
 
       <div className={'chat-header__body'}>
@@ -75,7 +79,7 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
           </div>
           <div className={'chat-header__data'}>
             <ClockIcon />
-            {lastSeen(roomData?.account_uuid || '')}
+            {lastSeen(roomData?.account_uuid || '', roomData?.meta?.lastSeenAt)}
           </div>
           <MinimizeIcon
             className={'chat-header__minimize'}

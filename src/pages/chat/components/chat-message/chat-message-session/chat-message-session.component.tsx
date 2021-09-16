@@ -17,7 +17,7 @@ const ChatMessageSession: FC<Props> = ({ me, date }) => {
           <CalendarIcon />
           <span>
             {moment(date).format('DD-MM-YYYY')} as{' '}
-            {moment(date).format('HH:mm')}
+            {moment.utc(date).format('HH:mm')}
           </span>
         </div>
       </div>

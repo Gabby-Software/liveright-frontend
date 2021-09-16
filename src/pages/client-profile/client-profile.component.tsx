@@ -1,7 +1,6 @@
 import { Skeleton } from 'antd'
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
-import { Link } from 'react-router-dom'
 
 import {
   CaretRightIcon,
@@ -186,13 +185,15 @@ export default function ClientProfile() {
 
         <div className="flex">
           <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <InvoiceWhiteIcon />
-              Invoices
-            </p>
-            <p className="profile__card-dark-sub">
-              {statistic.progressCount.total} Open Invoices
-            </p>
+            <div>
+              <p className="profile__card-dark-title">
+                <InvoiceWhiteIcon />
+                Invoices
+              </p>
+              <p className="profile__card-dark-sub">
+                {statistic.progressCount.total} Open Invoices
+              </p>
+            </div>
 
             <Button
               variant="text"
@@ -206,19 +207,29 @@ export default function ClientProfile() {
           </Card>
 
           <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <UsersIcon />
-              Sessions
-            </p>
-            <p className="profile__card-dark-sub">
-              {freeSessions.meta.total || 0} Free Sessions
-            </p>
+            <div>
+              <p className="profile__card-dark-title">
+                <UsersIcon />
+                Sessions
+              </p>
+              <p className="profile__card-dark-sub">
+                {freeSessions.meta.total || 0} Free Sessions
+              </p>
 
-            <Link to={Routes.SESSIONS + '?upcoming=1'}>
               <p className="profile__card-dark-sub">
                 {upcomingSessions.meta.total || 0} Upcoming Session
               </p>
-            </Link>
+            </div>
+
+            <Button
+              variant="text"
+              size="sm"
+              className="profile__card-dark-btn"
+              to={Routes.SESSIONS + '?upcoming=1'}
+            >
+              Sessions list
+              <CaretRightIcon />
+            </Button>
           </Card>
         </div>
       </div>
