@@ -24,6 +24,7 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { room, roomData } = useChatRoom()
   const { type } = useAuth()
   const statistic = useStatistic({ account_id: roomData?.user_id })
+
   const upcomingSessions = useSessions({
     filter: {
       client_id: roomData?.user_id,

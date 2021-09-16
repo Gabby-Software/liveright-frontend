@@ -11,4 +11,7 @@ export type ChatRoomType = {
   user_id: number
   user_uuid: string
   account_uuid: string
+  meta?: {
+    lastSeenAt: string
+  }
 }
