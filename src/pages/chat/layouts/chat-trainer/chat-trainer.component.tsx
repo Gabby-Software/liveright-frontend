@@ -1,5 +1,6 @@
 import moment from 'moment'
 import React, { FC } from 'react'
+import { useParams } from 'react-router'
 import useSWR from 'swr'
 
 import { ReactComponent as CalendarIcon } from '../../../../assets/media/icons/calendar.svg'
@@ -12,6 +13,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
 import api from '../../../../managers/api.manager'
+import { useChats } from '../../../../modules/chat/contexts/chats.context'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { SessionType } from '../../../../types/session.type'
 import Styles, { DataItem } from './chat-trainer.styles'
@@ -19,6 +21,10 @@ import Styles, { DataItem } from './chat-trainer.styles'
 const ChatTrainer: FC = () => {
   const { user: trainer, account } = useTrainerAccount()
   const { isOnline } = useChatOnline()
+  const { rooms } = useChats()
+  const params = useParams<any>()
+
+  const room = rooms[params.room]
 
   const { data: sessions } = useSWR<SessionType[]>(
     EP_GET_SESSIONS + '?filter[status]=upcoming',
@@ -38,7 +44,7 @@ const ChatTrainer: FC = () => {
           avatar={trainer?.avatar?.url || ''}
           avatarOnly
           size="lg"
-          online={isOnline(account?.uuid)}
+          online={isOnline(account?.uuid, room?.room?.meta?.lastSeenAt)}
         />
 
         <div className={'chat-trainer__info__data'}>

@@ -31,13 +31,13 @@ export default function useChatOnline(): UseChatOnlineProps {
   }, [onlineListener])
 
   const isOnline = (uuid: string, lastSeenAt?: string) => {
-    const userLastSeen = lastSeenAt || usersSeen[uuid]
+    const userLastSeen = usersSeen[uuid] || lastSeenAt
     const minuteAgo = moment().subtract(2, 'minute')
     return userLastSeen ? moment(userLastSeen).isAfter(minuteAgo) : false
   }
 
   const lastSeen = (uuid: string, lastSeenAt?: string) => {
-    const userLastSeen = lastSeenAt || usersSeen[uuid]
+    const userLastSeen = usersSeen[uuid] || lastSeenAt
     return userLastSeen
       ? isOnline(uuid, userLastSeen)
         ? 'Online'

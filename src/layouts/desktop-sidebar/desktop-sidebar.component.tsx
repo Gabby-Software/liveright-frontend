@@ -21,6 +21,7 @@ import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import useChatOnline from '../../hooks/api/chat/useChatOnline'
 import { useAuth } from '../../hooks/auth.hook'
+import { useChats } from '../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { classes } from '../../pipes/classes.pipe'
@@ -115,6 +116,9 @@ function TrainerBadge() {
   const { t } = useTranslation()
   const { user: trainer, account } = useTrainerAccount()
   const { isOnline } = useChatOnline()
+  const { rooms } = useChats()
+
+  const trainerRoom = rooms?.[Object.keys(rooms)[0]]
 
   if (!trainer.id) {
     return null
@@ -128,7 +132,7 @@ function TrainerBadge() {
         lastName={trainer.last_name}
         userRole={t('your-trainer')}
         className="sidebar__trainer"
-        online={isOnline(account?.uuid)}
+        online={isOnline(account?.uuid, trainerRoom?.room?.meta?.lastSeenAt)}
       />
     </Link>
   )
