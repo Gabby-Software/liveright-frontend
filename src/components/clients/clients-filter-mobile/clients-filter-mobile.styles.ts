@@ -21,6 +21,9 @@ export default styled.div`
   .clients__filter-button {
     margin-top: 0 !important;
   }
+  .client__drawer-button {
+    width: 100%;
+  }
   .text_input__wrapper {
     margin-bottom: 24px;
   }

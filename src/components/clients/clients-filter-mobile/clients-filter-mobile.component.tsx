@@ -113,6 +113,7 @@ const ClientsFilterMobile = () => {
             />
             <Button
               onClick={() => handleSubmit({ status: option.value, query })}
+              className="client__drawer-button"
             >
               {t('submit')}
             </Button>

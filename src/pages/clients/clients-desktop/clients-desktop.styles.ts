@@ -12,13 +12,8 @@ export default styled.div`
     color: ${getColorCarry('neutral_50')};
   }
 
-  .clients {
-    &__activities {
-      max-width: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      transition: ${(p) => p.theme.vars.defaults.transition};
-    }
+  .clients__activities {
+    display: flex;
   }
 
   .data-table__tr {
@@ -29,6 +24,17 @@ export default styled.div`
     }
   }
 `
+
+/* 
+ .clients {
+    &__activities {
+      max-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: ${(p) => p.theme.vars.defaults.transition};
+    }
+  }
+ */
 
 // export default styled.div`
 //   display: flex;

@@ -2,24 +2,23 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { ReactComponent as ExerciseIcon } from '../../../assets/media/icons/exercise.svg'
-import { ReactComponent as FoodIcon } from '../../../assets/media/icons/food.svg'
-import { ReactComponent as MeasureIcon } from '../../../assets/media/icons/measure.svg'
-import { ReactComponent as WorkoutIcon } from '../../../assets/media/icons/workout.svg'
-import ActionIcon from '../../../components/action-icon/action-icon.component'
+import /* { ReactComponent as ExerciseIcon } */ ExerciseIcon from '../../../assets/media/icons/exercise_1.png'
+import /* { ReactComponent as FoodIcon } */ FoodIcon from '../../../assets/media/icons/food_1.png'
+import /* { ReactComponent as MeasureIcon } */ MeasureIcon from '../../../assets/media/icons/measure_1.png'
+import /* { ReactComponent as WorkoutIcon } */ WorkoutIcon from '../../../assets/media/icons/workout_1.png'
+import ActionIconWrapper from '../../../components/action-wrapper/action-wrapper.component'
 import Button from '../../../components/buttons/button/button.component'
 import AddClientModal from '../../../components/clients/add-client-modal/add-client-modal.component'
 import ClientsFilter from '../../../components/clients/clients-filter/clients-filter.component'
 import DataPagination from '../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../components/data-table/data-table.component'
-// import Link from '../../../components/link/link.component'
 import PageTitle from '../../../components/titles/page-title.styles'
 import { Routes } from '../../../enums/routes.enum'
 import { useClients } from '../../../hooks/clients.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { capitalize } from '../../../pipes/capitalize.pipe'
 import { ACTION_GET_CLIENTS_REQUEST } from '../../../store/action-types'
-import { TableActionType } from '../../../types/table-action.type'
+// import { TableActionType } from '../../../types/table-action.type'
 import SessionStyles from '../../sessions/sessions-trainer/desktop-sessions/desktop-sessions.styles'
 import ClientContainer from './clients-desktop.styles'
 
@@ -65,12 +64,36 @@ const ClientsDesktop = ({}: Props) => {
     'status',
     'actions'
   ]
-  const actions: TableActionType[] = [
-    { icon: WorkoutIcon, onClick: () => {}, title: 'Workshops' },
-    { icon: ExerciseIcon, onClick: () => {}, title: 'Exercises' },
-    { icon: FoodIcon, onClick: () => {}, title: 'Meals' },
-    { icon: MeasureIcon, onClick: () => {}, title: 'Measures' }
+  const actions = [
+    {
+      icon: (
+        <img src={WorkoutIcon} alt={t('clients:workout')} />
+      ) as React.ReactNode,
+      onClick: () => {},
+      title: 'Workshops'
+    },
+    {
+      icon: <img src={ExerciseIcon} alt={t('clients:exercise')} />,
+      onClick: () => {},
+      title: 'Exercises'
+    },
+    {
+      icon: <img src={FoodIcon} alt={t('clients:meals')} />,
+      onClick: () => {},
+      title: 'Meals'
+    },
+    {
+      icon: <img src={MeasureIcon} alt={t('clients:measures')} />,
+      onClick: () => {},
+      title: 'Measures'
+    }
   ]
+  // const actions: TableActionType[] = [
+  //   { icon: WorkoutIcon, onClick: () => {}, title: 'Workshops' },
+  //   { icon: ExerciseIcon, onClick: () => {}, title: 'Exercises' },
+  //   { icon: FoodIcon, onClick: () => {}, title: 'Meals' },
+  //   { icon: MeasureIcon, onClick: () => {}, title: 'Measures' }
+  // ]
   const setPage = (page: number) => {
     dispatch({
       type: ACTION_GET_CLIENTS_REQUEST,
@@ -153,11 +176,14 @@ const ClientsDesktop = ({}: Props) => {
                   actions: () => (
                     <div className={'clients__activities'}>
                       {actions.map((item) => (
-                        <ActionIcon
+                        <ActionIconWrapper
                           key={item.title}
-                          {...item}
-                          className={'clients__action'}
-                        />
+                          title={item.title || ''}
+                          // {...item}
+                          // className={'clients__action'}
+                        >
+                          {item.icon}
+                        </ActionIconWrapper>
                       ))}
                     </div>
                   ),
