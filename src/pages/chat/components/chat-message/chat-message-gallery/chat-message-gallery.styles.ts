@@ -2,9 +2,10 @@ import styled from 'styled-components'
 
 export default styled.div`
   display: flex;
-  width: 500px;
-  max-width: calc(100vw - 40px);
+  width: 100%;
+  max-width: calc(50vw - 40px);
   flex-wrap: wrap;
+
   .cm-image {
     &__image {
       width: 25%;
