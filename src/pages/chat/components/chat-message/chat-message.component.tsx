@@ -29,6 +29,7 @@ const emptyFile: ChatFileType = {
   mimetype: '',
   size: 0
 }
+
 const ChatMessage = ({ msg }: Props) => {
   const types = [...msg.types]
   const files = [...msg.content.files]

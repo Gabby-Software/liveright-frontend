@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
+
 export default styled(Link)`
   background-color: #fff;
-  width: 330px;
-  max-width: calc(100vw - 40px);
-  padding: 28px 24px;
+  width: 100%;
+  max-width: 330px;
+  padding: 1.5rem 1.375rem;
   border-radius: 0 0 8px 8px;
   display: flex;
-  margin-top: 4px;
+  margin-top: 0.25rem;
+
   .cm-invoice {
     &__left {
       flex: 1;
@@ -49,5 +52,25 @@ export default styled(Link)`
     &__cta {
       width: 130px;
     }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    flex-direction: column;
+
+    .cm-invoice {
+      &__left {
+        margin-bottom: 1rem;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__right {
+        align-items: center;
+      }
+
+      &__badge {
+        margin-bottom: 1rem;
+      }
   }
 `
