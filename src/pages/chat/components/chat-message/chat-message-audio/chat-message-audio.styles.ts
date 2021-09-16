@@ -7,6 +7,7 @@ export default styled.div`
   padding: 6px 12px;
   width: 292px;
   max-width: 100%;
+
   ${media('tablet', 'max')`
     width: 240px;
   `}
@@ -20,11 +21,13 @@ export default styled.div`
       display: block;
       color: ${(p) => p.theme.vars.colors.secondary7_v2};
     }
+
     &__divider {
       align-self: stretch;
       border-right: 1px solid ${(p) => p.theme.vars.colors.secondary8_v2};
       margin: 0 10px;
     }
+
     &__action {
       width: 30px;
       height: 30px;
@@ -39,6 +42,7 @@ export default styled.div`
       background-color: white;
       position: relative;
       margin: 1px 15px 0 15px;
+
       &:before {
         ${(p) => p.theme.extend.pseudo}
         top:0;

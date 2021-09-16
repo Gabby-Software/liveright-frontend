@@ -29,6 +29,7 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
   const progressFlag = useRef(0) // remove unused calls
   const audioRef = useRef<HTMLAudioElement>(null)
   const Icon = useMemo(() => (paused ? PlayIcon : PauseIcon), [paused])
+
   useEffect(() => {
     if (!audioRef.current) return
     if (playing === id) {
@@ -40,6 +41,7 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
       setPaused(true)
     }
   }, [playing])
+
   const switchAudioState = useCallback(() => {
     if (playing && !paused) {
       audioRef.current?.pause()
@@ -50,6 +52,7 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
       audioRef.current?.play()
     }
   }, [playing, paused])
+
   const updateProgress = useCallback(() => {
     if (!audioRef.current) return
     if (progressFlag.current === 2) return
@@ -61,6 +64,7 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
     setProgress(
       (audioRef.current.currentTime / audioRef.current.duration) * 100
     )
+
     setTimeout(() => {
       progressFlag.current--
       if (progressFlag.current) {
@@ -69,12 +73,14 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
       }
     })
   }, [])
+
   const handleEnd = useCallback(() => {
     if (!audioRef.current) return
     setPlaying(null)
     setPaused(true)
     audioRef.current.currentTime = 0
   }, [])
+
   const handleChangeTime: MouseEventHandler = useCallback(
     (e) => {
       if (!audioRef.current) return
@@ -86,6 +92,8 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
     },
     [paused]
   )
+
+  // console.log(file)
   return (
     <Styles
       className={classes(
@@ -95,23 +103,25 @@ const ChatMessageAudio: FC<Props> = ({ file, id, me }) => {
         isPopup && 'cm-audio__popup'
       )}
     >
-      <MicIcon className={'cm-audio__microphone'} />
-      <div className={'cm-audio__divider'} />
-      <Icon className={'cm-audio__action'} onClick={switchAudioState} />
+      <MicIcon className="cm-audio__microphone" />
+      <div className="cm-audio__divider" />
+      <Icon className="cm-audio__action" onClick={switchAudioState} />
+
       <div
-        className={'cm-audio__progress'}
+        className="cm-audio__progress"
         style={{ '--progress': `${progress}%` } as CSSProperties}
         onClick={handleChangeTime}
       />
+
       <audio
         src={file.url}
-        className={'cm-audio__audio'}
+        className="cm-audio__audio"
         ref={audioRef}
         onTimeUpdate={updateProgress}
         onEnded={handleEnd}
       >
-        <source src={file.url} />
-        <track src={file.url} kind={'captions'} />
+        <source src={file.url} type="audio/wav" />
+        <track src={file.url} kind="captions" />
       </audio>
     </Styles>
   )
