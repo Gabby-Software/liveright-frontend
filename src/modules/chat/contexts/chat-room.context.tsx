@@ -63,8 +63,10 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
   const { rooms, getRoom, updateRoom, seeRoom, removeMessage } = useChats()
   const { uuid } = useAuth()
   const isOnline = useConnection()
+
   const [messages, roomData]: [ChatMessageType[], ChatRoomType | null] =
     room && rooms[room] ? [rooms[room].messages, rooms[room].room] : [[], null]
+
   useEffect(() => {
     setTyping(false)
     if (room && rooms[room] && isOnline) {
@@ -72,29 +74,35 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       getRoom(room)
     }
   }, [room, isOnline])
+
   socketManager.useTypingChange()(({ isTyping, roomId }) => {
     if (roomId === room) {
       setTyping(isTyping)
     }
   })
+
   socketManager.useMessageReceived()(({ chat_room_id }) => {
     if (chat_room_id === room) {
       socketManager.seen(room)
       seeRoom(room)
     }
   })
+
   const setMessages = useCallback(
     (msg: ChatMessageType) => {
       updateRoom(room, msg)
     },
     [room]
   )
+
   const msgBase = () => emptyMessage(room, uuid)
+
   const addMessage = (msg: ChatMessageType) => {
     // setMessages(msg)
     setTextMessage('')
     socketManager.sendMessage(msg)
   }
+
   const sendTextMessage = async () => {
     const msg: ChatMessageType = msgBase()
     msg.types = [chatMessageTypes.TEXT]
@@ -110,6 +118,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     }
     addMessage(msg)
   }
+
   const sendFile = async (files: FileList) => {
     logger.info('send file triggered', files)
     if ([...files].some((file) => file.size > 1024 ** 2 * 100)) {
@@ -155,12 +164,14 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
     removeMessage(room, id)
     addMessage(msg)
   }
+
   const sendAudio = (file: File) => {
     const msg: ChatMessageType = msgBase()
     msg.types = [chatMessageTypes.AUDIO]
     msg.content.files = [toFileType('', file)]
     msg.state = chatMessageState.PENDING
     setMessages(msg)
+
     uploadChatFile(file).then((res) => {
       logger.success('file uploaded', res)
       msg.state = chatMessageState.SENT
@@ -169,6 +180,7 @@ export const ChatRoomProvider: FC<{ isPopup: boolean; room: string }> = ({
       addMessage(msg)
     })
   }
+
   return (
     <ChatRoomContext.Provider
       value={{

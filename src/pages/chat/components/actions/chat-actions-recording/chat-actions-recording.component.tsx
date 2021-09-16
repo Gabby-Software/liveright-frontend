@@ -1,4 +1,4 @@
-import React, { FC, FormEventHandler, useEffect, useRef, useState } from 'react'
+import React, { FormEventHandler, useEffect, useRef, useState } from 'react'
 
 import { ReactComponent as TimesIcon } from '../../../../../assets/media/icons/cross.svg'
 import { ReactComponent as MicIcon } from '../../../../../assets/media/icons/microphone-filled.svg'
@@ -9,15 +9,15 @@ import { secondsString } from '../../../../../modules/chat/pipes/seconds-string.
 import ChatActionsSend from '../chat-actions-send/chat-actions-send.component'
 import Styles from './chat-actions-recording.styles'
 
-type Props = {}
-const ChatActionsRecording: FC<Props> = ({}) => {
+const recorder = new RecorderManager()
+
+export default function ChatActionsRecording() {
   const { setMode, sendAudio } = useChatRoom()
   const [timeOver, setTimeOver] = useState(0)
-  const recorder = useRef<RecorderManager>(new RecorderManager())
   const startTime = useRef(new Date().getTime())
 
   useEffect(() => {
-    recorder.current.startRecord(false, true, RecorderManager.audioMime())
+    recorder.startRecord()
 
     const interval = setInterval(() => {
       setTimeOver(Math.round((new Date().getTime() - startTime.current) / 1000))
@@ -25,31 +25,21 @@ const ChatActionsRecording: FC<Props> = ({}) => {
 
     return () => {
       clearInterval(interval)
-      recorder.current?.stopRecord()
+      recorder.destroy()
     }
   }, [])
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault()
-    setMode(ChatRoomModes.DEFAULT)
-    recorder.current
-      .stopRecord()
-      ?.then((blob) =>
-        sendAudio(
-          new File(
-            [blob as Blob],
-            `audio_${new Date().getTime()}.${RecorderManager.audioType}`
-          )
-        )
-      )
-      .catch((e) => alert(e.message))
+
+    recorder.stopRecord((file) => {
+      sendAudio(file)
+      setMode(ChatRoomModes.DEFAULT)
+    })
   }
 
   const stopRecording = () => {
-    recorder.current
-      .stopRecord()
-      ?.then(() => setMode(ChatRoomModes.DEFAULT))
-      .catch((e) => alert(e.message))
+    recorder.stopRecord(() => setMode(ChatRoomModes.DEFAULT))
   }
 
   return (
@@ -57,14 +47,14 @@ const ChatActionsRecording: FC<Props> = ({}) => {
       <div className={'chat-rec__indicator'}>
         <MicIcon className={'chat-rec__mic'} />
         <div className={'chat-rec__time'}>{secondsString(timeOver)}</div>
+
         <div className={'chat-rec__cancel'} onClick={stopRecording}>
           <TimesIcon />
           <span>Cancel Record</span>
         </div>
       </div>
+
       <ChatActionsSend />
     </Styles>
   )
 }
-
-export default ChatActionsRecording
