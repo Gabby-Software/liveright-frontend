@@ -2,8 +2,17 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled.div`
-  background-color: ${getColorCarry('background_v2')};
+function getBgColor(props: any) {
+  switch (props.$color) {
+    case 'secondary':
+      return '#fff'
+    default:
+      return getColorCarry('background_v2')
+  }
+}
+
+export default styled.div<any>`
+  background-color: ${getBgColor};
   min-height: 100vh;
 
   .mobile-page {

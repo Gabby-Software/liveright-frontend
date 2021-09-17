@@ -94,6 +94,7 @@ export default function Select({
             name: option.label,
             onClick: () => onChange?.(option.value, option)
           }))}
+          onBottom={onBottom}
         />
       </>
     )

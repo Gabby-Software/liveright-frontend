@@ -185,19 +185,21 @@ export default function ClientProfile() {
 
         <div className="flex">
           <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <InvoiceWhiteIcon />
-              Invoices
-            </p>
-            <p className="profile__card-dark-sub">
-              {statistic.progressCount.total} Open Invoices
-            </p>
+            <div>
+              <p className="profile__card-dark-title">
+                <InvoiceWhiteIcon />
+                Invoices
+              </p>
+              <p className="profile__card-dark-sub">
+                {statistic.progressCount.total} Open Invoices
+              </p>
+            </div>
 
             <Button
               variant="text"
               size="sm"
               className="profile__card-dark-btn"
-              to={Routes.INVOICES}
+              to={Routes.FINANCIALS_RECEIVABLES}
             >
               Invoice History
               <CaretRightIcon />
@@ -205,16 +207,29 @@ export default function ClientProfile() {
           </Card>
 
           <Card className="profile__card-dark">
-            <p className="profile__card-dark-title">
-              <UsersIcon />
-              Sessions
-            </p>
-            <p className="profile__card-dark-sub">
-              {freeSessions.meta.total || 0} Free Sessions
-            </p>
-            <p className="profile__card-dark-sub">
-              {upcomingSessions.meta.total || 0} Upcoming Session
-            </p>
+            <div>
+              <p className="profile__card-dark-title">
+                <UsersIcon />
+                Sessions
+              </p>
+              <p className="profile__card-dark-sub">
+                {freeSessions.meta.total || 0} Free Sessions
+              </p>
+
+              <p className="profile__card-dark-sub">
+                {upcomingSessions.meta.total || 0} Upcoming Session
+              </p>
+            </div>
+
+            <Button
+              variant="text"
+              size="sm"
+              className="profile__card-dark-btn"
+              to={Routes.SESSIONS + '?upcoming=1'}
+            >
+              Sessions list
+              <CaretRightIcon />
+            </Button>
           </Card>
         </div>
       </div>

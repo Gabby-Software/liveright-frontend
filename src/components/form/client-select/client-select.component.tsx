@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import useClients from '../../../hooks/api/clients/useClients'
 import { dataToOptions } from '../../../utils/api/clients'
 import Select, { SelectProps } from '../select/select.component'
@@ -20,11 +22,11 @@ export default function ClientSelect({
   IS_LOADING = isLoading
   HAS_MORE = hasMore
 
-  const handleBottom = () => {
+  const handleBottom = useCallback(() => {
     if (!IS_LOADING && HAS_MORE) {
       loadMore()
     }
-  }
+  }, [])
 
   return (
     <Select

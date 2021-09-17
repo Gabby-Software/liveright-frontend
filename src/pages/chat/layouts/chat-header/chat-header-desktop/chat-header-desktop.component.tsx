@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, { FC } from 'react'
 
 import { ReactComponent as CalendarIcon } from '../../../../../assets/media/icons/calendar.svg'
@@ -7,18 +6,16 @@ import { ReactComponent as MinimizeIcon } from '../../../../../assets/media/icon
 import { ReactComponent as RevenueIcon } from '../../../../../assets/media/icons/revenue.svg'
 import { ReactComponent as ArrowIcon } from '../../../../../assets/media/icons/right-arrow.svg'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
+import UserBadge from '../../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import userTypes from '../../../../../enums/user-types.enum'
+import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
 import useSessions from '../../../../../hooks/api/sessions/useSessions'
 import useStatistic from '../../../../../hooks/api/stat/useStatistic'
 import { useAuth } from '../../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
-import { noImage } from '../../../../../pipes/no-image.pipe'
-import Styles, {
-  ClientHeader,
-  StyledAvatar
-} from './chat-header-desktop.styles'
+import Styles, { ClientHeader } from './chat-header-desktop.styles'
 
 type Props = {}
 
@@ -27,12 +24,15 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
   const { room, roomData } = useChatRoom()
   const { type } = useAuth()
   const statistic = useStatistic({ account_id: roomData?.user_id })
+
   const upcomingSessions = useSessions({
     filter: {
       client_id: roomData?.user_id,
       status: 'upcoming'
     }
   })
+
+  const { isOnline, lastSeen } = useChatOnline()
 
   if (type === userTypes.CLIENT)
     return (
@@ -43,10 +43,19 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
 
   return (
     <Styles>
-      <StyledAvatar
-        placeholder={noImage(roomData?.firstName, roomData?.lastName)}
-        url={roomData?.avatar?.url}
+      <UserBadge
+        key={roomData?.user_id}
+        firstName={roomData?.firstName}
+        lastName={roomData?.lastName}
+        avatar={roomData?.avatar?.url}
+        avatarOnly
+        size="xl"
+        online={isOnline(
+          roomData?.account_uuid || '',
+          roomData?.meta?.lastSeenAt
+        )}
       />
+
       <div className={'chat-header__body'}>
         <div className={'chat-header__body__top'}>
           <div className={'chat-header__name'}>
@@ -70,7 +79,7 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
           </div>
           <div className={'chat-header__data'}>
             <ClockIcon />
-            <span>Last logged {moment().fromNow()}</span>
+            {lastSeen(roomData?.account_uuid || '', roomData?.meta?.lastSeenAt)}
           </div>
           <MinimizeIcon
             className={'chat-header__minimize'}

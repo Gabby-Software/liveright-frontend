@@ -1,43 +1,48 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
-import { PaginatedDataType } from '../../../../types/paginated-data.type'
-import { SessionFilter, SessionType } from '../../../../types/session.type'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
+import { SessionType } from '../../../../types/session.type'
 import SessionCard from '../session-mobile-card/session-mobile-card.component'
 import SessionsFilters from '../sessions-filters/sessions-filters.component'
 
 interface Props {
-  sessions: PaginatedDataType<SessionType>
-  getSessions: (page: number, filter?: SessionFilter) => void
   renderOptions?: (session: SessionType) => ReactElement
-  onRemoveSession?: (id: number) => void
   withFilter?: boolean
   title?: boolean
   titleComponent?: ReactNode
   filterCalendar?: boolean
 }
 
-const SessionsCards: React.FC<Props> = (props) => {
-  const {
-    sessions,
-    getSessions,
-    renderOptions,
-    withFilter,
-    title,
-    filterCalendar,
-    titleComponent
-  } = props
-  const { data, meta } = sessions
+export default function SessionsCards({
+  renderOptions,
+  withFilter,
+  title,
+  filterCalendar,
+  meta,
+  filters,
+  onFilters,
+  sessions,
+  onSearch,
+  titleComponent,
+  onPage,
+  isLoading
+}: Props &
+  Pick<
+    UseSessions,
+    | 'sessions'
+    | 'meta'
+    | 'filters'
+    | 'onFilters'
+    | 'onSearch'
+    | 'onPage'
+    | 'isLoading'
+  >) {
   const { current_page, total } = meta
-  const [filter, setFilter] = useState<SessionFilter>({})
-
-  const handlePageSet = (page: number) => {
-    getSessions(page, filter)
-  }
-
-  useEffect(() => {
-    handlePageSet(1)
-  }, [filter])
 
   return (
     <div>
@@ -49,24 +54,35 @@ const SessionsCards: React.FC<Props> = (props) => {
       )}
       {withFilter && (
         <SessionsFilters
-          filters={filter}
-          onUpdate={setFilter}
+          filters={filters}
+          onFilters={onFilters}
+          onSearch={onSearch}
           calendar={filterCalendar}
         />
       )}
-      {data.map((it) => {
-        return (
-          <SessionCard session={it} key={it.id} renderOptions={renderOptions} />
-        )
-      })}
+
+      <div className="sessions__cards-container">
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : !sessions.length ? (
+          <EmptyPlaceholder />
+        ) : (
+          sessions.map((it) => (
+            <SessionCard
+              session={it}
+              key={it.id}
+              renderOptions={renderOptions}
+            />
+          ))
+        )}
+      </div>
+
       <DataPagination
         justify="center"
         page={current_page}
-        setPage={getSessions}
+        setPage={onPage}
         total={total}
       />
     </div>
   )
 }
-
-export default SessionsCards

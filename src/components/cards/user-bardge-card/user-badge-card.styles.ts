@@ -40,7 +40,6 @@ export default styled(Card)`
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding-left: 1rem;
     }
 
     &__title {

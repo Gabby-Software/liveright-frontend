@@ -19,7 +19,9 @@ import NotificationIcon from '../../components/notification-icon/notification-ic
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
+import useChatOnline from '../../hooks/api/chat/useChatOnline'
 import { useAuth } from '../../hooks/auth.hook'
+import { useChats } from '../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { classes } from '../../pipes/classes.pipe'
@@ -63,12 +65,10 @@ const menuItems: MenuItemType[] = [
   { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon }
 ]
 
-const DesktopSidebar = () => {
-  const { t } = useTranslation()
+export default function DesktopSidebar() {
   const { type } = useAuth()
   const { pathname } = useLocation()
   const [isOpen] = useState(false)
-  const { user: trainer } = useTrainerAccount()
 
   return (
     <>
@@ -78,17 +78,7 @@ const DesktopSidebar = () => {
             <BrandLogoIcon />
           </div>
 
-          {type === userTypes.CLIENT && trainer.id && (
-            <Link to={Routes.CHAT}>
-              <UserBadgeCard
-                img={trainer.avatar?.url}
-                firstName={trainer.first_name}
-                lastName={trainer.last_name}
-                userRole={t('your-trainer')}
-                className="sidebar__trainer"
-              />
-            </Link>
-          )}
+          {type === userTypes.CLIENT && <TrainerBadge />}
 
           <div className="sidebar__divider sidebar__divider_spacing" />
 
@@ -98,9 +88,7 @@ const DesktopSidebar = () => {
               {menuItems.map(
                 ({ url, name, Icon, type: permission, requireTrainer }) =>
                   (!permission || type === permission) &&
-                  (!requireTrainer ||
-                    type !== userTypes.CLIENT ||
-                    trainer.first_name) && (
+                  (!requireTrainer || type !== userTypes.CLIENT) && (
                     <Link
                       to={url}
                       key={url}
@@ -118,9 +106,34 @@ const DesktopSidebar = () => {
           </nav>
         </div>
       </Styles>
+
       <DesktopFooter />
     </>
   )
 }
 
-export default DesktopSidebar
+function TrainerBadge() {
+  const { t } = useTranslation()
+  const { user: trainer, account } = useTrainerAccount()
+  const { isOnline } = useChatOnline()
+  const { rooms } = useChats()
+
+  const trainerRoom = rooms?.[Object.keys(rooms)[0]]
+
+  if (!trainer.id) {
+    return null
+  }
+
+  return (
+    <Link to={Routes.CHAT}>
+      <UserBadgeCard
+        img={trainer.avatar?.url}
+        firstName={trainer.first_name}
+        lastName={trainer.last_name}
+        userRole={t('your-trainer')}
+        className="sidebar__trainer"
+        online={isOnline(account?.uuid, trainerRoom?.room?.meta?.lastSeenAt)}
+      />
+    </Link>
+  )
+}

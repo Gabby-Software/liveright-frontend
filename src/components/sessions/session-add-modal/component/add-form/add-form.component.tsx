@@ -7,9 +7,10 @@ import * as Yup from 'yup'
 import useCreditsWithTrainer from '../../../../../hooks/api/credits/useCreditsWithTrainer'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useIsBusy } from '../../../../../hooks/sessions.hook'
+import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { ACTION_CLIENT_REQUEST_SESSION_REQUEST } from '../../../../../store/action-types'
-import { Session } from '../../../../../types/session.type'
+import { Session, SessionType } from '../../../../../types/session.type'
 import Button from '../../../../buttons/button/button.component'
 import CreditsButton from '../../../../buttons/credits-button/credits-button.component'
 import DatePicker from '../../../../form/date-picker/date-picker.component'
@@ -33,13 +34,19 @@ const initialValues: FormValues = {
 interface AddFormProps {
   onSuccess?: () => void
   trainerId: number
+  mutate?: any
 }
 
-export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
+export default function AddForm({
+  onSuccess,
+  trainerId,
+  mutate
+}: AddFormProps) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const { credits } = useCreditsWithTrainer()
+  const { sendSession } = useChats()
 
   const handleSubmit = (
     values: FormValues,
@@ -56,7 +63,14 @@ export default function AddForm({ onSuccess, trainerId }: AddFormProps) {
           duration: moment(duration, 'h:mm').format('HH:mm:ss'),
           time: moment(time, 'h:mm').format('HH:mm:ss')
         },
-        trainer_id: trainerId
+        trainer_id: trainerId,
+        onSuccess: (session: SessionType) => {
+          mutate?.()
+          sendSession({
+            session_id: String(session.id),
+            requested_time: date + ' ' + moment(time, 'h:mm').format('HH:mm:ss')
+          })
+        }
       }
     })
 

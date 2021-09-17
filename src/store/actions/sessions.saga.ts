@@ -9,7 +9,12 @@ import { serverError } from '../../pipes/server-error.pipe'
 import { CallbackType } from '../../types/callback.type'
 import { InvoiceType } from '../../types/invoice.type'
 import { PaginatedDataType } from '../../types/paginated-data.type'
-import { Session, SessionEdit, SessionFilter } from '../../types/session.type'
+import {
+  Session,
+  SessionEdit,
+  SessionFilter,
+  SessionType
+} from '../../types/session.type'
 import {
   ACTION_CLIENT_REQUEST_SESSION_ERROR,
   ACTION_CLIENT_REQUEST_SESSION_LOAD,
@@ -111,6 +116,7 @@ function* requestClientSessionWorker({
       time: string
     }
     trainer_id: number
+    onSuccess?: (session: SessionType) => void
   } & CallbackType<void>
 >) {
   yield put({ type: ACTION_CLIENT_REQUEST_SESSION_LOAD })
@@ -118,10 +124,11 @@ function* requestClientSessionWorker({
   try {
     const session = (yield call(() =>
       api.post(EP_GET_SESSIONS, data).then((res) => res.data)
-    )) as PaginatedDataType<InvoiceType>
+    )) as SessionType
     logger.success('SESSIONS', session)
+
     yield put({ type: ACTION_CLIENT_REQUEST_SESSION_SUCCESS })
-    onSuccess && onSuccess()
+    onSuccess && onSuccess(session)
   } catch (e) {
     yield put({
       type: ACTION_CLIENT_REQUEST_SESSION_ERROR,

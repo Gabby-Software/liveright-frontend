@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import {
   ClientSolidIcon,
@@ -16,6 +16,10 @@ import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
 import {
@@ -25,54 +29,42 @@ import {
 import { Routes } from '../../../../enums/routes.enum'
 import useClients from '../../../../hooks/api/clients/useClients'
 import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
+import { UseSession } from '../../../../hooks/api/sessions/useSession'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { SessionsState } from '../../../../store/reducers/sessions.reducer'
-import {
-  SessionFilter,
-  SessionStatus,
-  SessionType
-} from '../../../../types/session.type'
+import { SessionStatus, SessionType } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
 import Styles from './desktop-sessions.styles'
 
-interface Props {
-  sessions: SessionsState
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filters?: SessionFilter) => void
-  onRemoveSession: (id: number) => void
-}
-
-const DesktopSessions: FC<Props> = (props) => {
-  const { sessions, getSessions, onRemoveSession } = props
-  const { upcoming, awaiting_scheduling, past } = sessions
+export default function DesktopSessions({
+  filters,
+  sessions,
+  onFilters,
+  onSearch,
+  changeStatus,
+  isLoading: isSessionsLoading,
+  meta,
+  onPage,
+  mutate,
+  onCancel
+}: UseSessions & UseSession) {
   const { t } = useTranslation()
   const { clients } = useClients()
   const { statistic, count, onRange } = useStatistic()
 
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
-  const [additionalFilter, setAdditionalFilter] = useState<SessionFilter>()
-  const [activeTab, setActiveTab] = useState('')
 
-  const { credits, isLoading } = useClientCredits(
-    additionalFilter?.['client_id']
-  )
+  const { credits, isLoading } = useClientCredits(filters.client_id)
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
   })
-
-  const handleClientFilterChange = (value: string) => {
-    const filter: SessionFilter = value === 'all' ? {} : { client_id: +value }
-    getSessions('awaiting_scheduling')(1, filter)
-    setAdditionalFilter(filter)
-  }
 
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
@@ -92,7 +84,7 @@ const DesktopSessions: FC<Props> = (props) => {
         <IconButton
           size="sm"
           tooltip="Remove"
-          onClick={() => onRemoveSession(item.id)}
+          onClick={() => onCancel(item.id)}
           className="sessions__row-remove-btn"
         >
           <DeleteOutlinedIcon />
@@ -109,10 +101,11 @@ const DesktopSessions: FC<Props> = (props) => {
             <ClientSelect
               id="sessions-client-filter"
               placeholder={t('sessions:filter-by-client')}
-              onChange={handleClientFilterChange}
+              value={filters.client_id || null}
+              onChange={(e) => onFilters('client_id', e === 'all' ? '' : e)}
             />
           </div>
-          {additionalFilter?.['client_id'] && (
+          {filters.client_id && (
             <CreditsButton
               color="secondary"
               count={credits}
@@ -121,26 +114,36 @@ const DesktopSessions: FC<Props> = (props) => {
           )}
         </div>
 
-        <div className="sessions__cards-grid">
-          {awaiting_scheduling.data.map((it) => {
-            return (
-              <ScheduleCard
-                key={it.id}
-                firstName={it.client?.user?.first_name || ''}
-                lastName={it.client?.user?.last_name || ''}
-                userAvatar={it.client?.user?.avatar?.url || ''}
-                onEdit={() => setEditOpen(it)}
-                schedule={it.is_awaiting_scheduling}
-                reschedule={it.is_awaiting_rescheduling}
-                scheduleDate={it.client_request?.date}
-                scheduleTime={it.client_request?.time}
-                currentDate={it.starts_at}
-              />
-            )
-          })}
-        </div>
+        {isSessionsLoading ? (
+          <LoadingPlaceholder />
+        ) : !sessions.length ? (
+          <EmptyPlaceholder />
+        ) : (
+          <div className="sessions__cards-grid">
+            {sessions.map((it) => {
+              return (
+                <ScheduleCard
+                  key={it.id}
+                  firstName={it.client?.user?.first_name || ''}
+                  lastName={it.client?.user?.last_name || ''}
+                  userAvatar={it.client?.user?.avatar?.url || ''}
+                  onEdit={() => setEditOpen(it)}
+                  schedule={it.is_awaiting_scheduling}
+                  reschedule={it.is_awaiting_rescheduling}
+                  scheduleDate={it.client_request?.date}
+                  scheduleTime={it.client_request?.time}
+                  currentDate={it.starts_at}
+                />
+              )
+            })}
+          </div>
+        )}
 
-        <DataPagination page={1} setPage={() => {}} total={1} />
+        <DataPagination
+          page={meta.current_page}
+          setPage={onPage}
+          total={meta.total}
+        />
       </Card>
     )
   }
@@ -148,11 +151,16 @@ const DesktopSessions: FC<Props> = (props) => {
   const renderUpcomingContent = () => {
     return (
       <SessionsTable
-        sessions={upcoming}
-        getSessions={getSessions('upcoming')}
+        meta={meta}
+        sessions={sessions}
         renderOptions={renderUpcomingItemOptions}
         withFilter
         FilterProps={{ calendar: true }}
+        loading={isSessionsLoading}
+        onPage={onPage}
+        filters={filters}
+        onFilters={onFilters}
+        onSearch={onSearch}
       />
     )
   }
@@ -160,15 +168,20 @@ const DesktopSessions: FC<Props> = (props) => {
   const renderPastContent = () => {
     return (
       <SessionsTable
-        getSessions={getSessions('past')}
-        sessions={past}
+        sessions={sessions}
+        meta={meta}
         withFilter
         FilterProps={{ calendar: false }}
+        loading={isSessionsLoading}
+        onPage={onPage}
+        filters={filters}
+        onFilters={onFilters}
+        onSearch={onSearch}
       />
     )
   }
 
-  const isPast = activeTab === 'Past'
+  const isPast = filters.status === 'past'
   return (
     <>
       <Styles>
@@ -182,17 +195,24 @@ const DesktopSessions: FC<Props> = (props) => {
             </PageTitle>
 
             <Tabs
-              onChange={(e) => setActiveTab(e)}
+              activeKey={filters.status}
+              onChange={(e) => changeStatus(e as SessionStatus)}
               tabs={[
                 {
+                  key: 'awaiting_scheduling',
                   label: t('sessions:awaiting'),
                   renderContent: renderAwaitingContent
                 },
                 {
+                  key: 'upcoming',
                   label: t('sessions:upcoming'),
                   renderContent: renderUpcomingContent
                 },
-                { label: t('sessions:past'), renderContent: renderPastContent }
+                {
+                  key: 'past',
+                  label: t('sessions:past'),
+                  renderContent: renderPastContent
+                }
               ]}
             />
           </div>
@@ -259,8 +279,13 @@ const DesktopSessions: FC<Props> = (props) => {
         </div>
       </Styles>
 
-      <AddSessionDesktop isOpen={addOpen} onClose={() => setAddOpen(false)} />
       <AddSessionDesktop
+        mutate={mutate}
+        isOpen={addOpen}
+        onClose={() => setAddOpen(false)}
+      />
+      <AddSessionDesktop
+        mutate={mutate}
         isOpen={!!editOpen}
         session={editOpen}
         onClose={() => setEditOpen(undefined)}
@@ -268,5 +293,3 @@ const DesktopSessions: FC<Props> = (props) => {
     </>
   )
 }
-
-export default DesktopSessions

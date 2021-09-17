@@ -1,27 +1,20 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ProfileImage from '../../../../components/profile-image/profile-image.component'
-
-export const AvatarStyled = styled(ProfileImage)`
-  .profile-image__img {
-    width: 42px;
-    height: 42px;
-    font-size: 16px;
-  }
-`
 export default styled(Link)`
   display: block;
-  margin-top: 10px;
+  margin-bottom: 0.5rem;
   ${(p) => p.theme.extend.flexCenter}
   background-color: ${(p) => p.theme.vars.colors.secondary3_v2};
   padding: 14px 16px;
   border-radius: 8px;
   transition: ${(p) => p.theme.vars.defaults.transition};
   border: 1px solid transparent;
+
   &:hover {
     background-color: #e8e8e8;
   }
+
   &.chat-room {
     &__unread {
       background-color: #fff8f8;

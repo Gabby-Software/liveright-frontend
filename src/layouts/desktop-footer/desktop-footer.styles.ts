@@ -16,7 +16,7 @@ export const FooterInvisible = styled.div<any>`
   padding: 0 2rem;
   transition: 0.25s ease-out;
   transform: translateX(${(props) => (props.$open ? '0px' : '-100vw')});
-  z-index: 79;
+  z-index: 112;
 
   @media only print {
     display: none;
@@ -61,7 +61,7 @@ export const FooterVisible = styled.div`
   background-color: #fff;
   border-top: 1px solid ${getColorCarry('secondary2')};
   border-right: 1px solid ${getColorCarry('secondary2')};
-  z-index: 80;
+  z-index: 113;
 
   @media only print {
     display: none;
@@ -81,7 +81,6 @@ export const FooterVisible = styled.div`
       }
 
       & .user-badge-card__content {
-        padding-left: 0.625rem;
       }
 
       & svg {

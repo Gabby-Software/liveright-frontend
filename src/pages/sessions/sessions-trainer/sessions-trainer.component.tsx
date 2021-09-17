@@ -1,60 +1,27 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useLocation } from 'react-router'
 
+import useSessions from '../../../hooks/api/sessions/useSessions'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
-import {
-  ACTION_GET_CLIENTS_REQUEST,
-  ACTION_TRAINER_REMOVE_SESSION_REQUEST
-} from '../../../store/action-types'
-import { SessionsState } from '../../../store/reducers/sessions.reducer'
-import { SessionFilter, SessionStatus } from '../../../types/session.type'
+import { parseQuery } from '../../../utils/query'
 import DesktopSessions from './desktop-sessions/desktop-sessions.component'
 import MobileSessions from './mobile-sessions/mobile-sessions.component'
 
-interface Props {
-  sessions: SessionsState
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filter?: SessionFilter) => void
-}
-
-const Sessions: React.FC<Props> = (props) => {
-  const { getSessions, sessions } = props
-  const dispatch = useDispatch()
+export default function Sessions() {
   const isMobile = useIsMobile()
+  const location = useLocation()
+  const query = parseQuery(location.search)
 
-  const handleRemoveSession = (id: number) => {
-    dispatch({
-      type: ACTION_TRAINER_REMOVE_SESSION_REQUEST,
-      payload: { id }
-    })
-  }
+  const sessions = useSessions({
+    include: 'client.user',
+    filter: {
+      status: query.upcoming ? 'upcoming' : 'awaiting_scheduling'
+    }
+  })
 
-  useEffect(() => {
-    dispatch({
-      type: ACTION_GET_CLIENTS_REQUEST,
-      payload: { status: 'active' }
-    })
-    getSessions('awaiting_scheduling')(1)
-  }, [])
-
-  if (isMobile) {
-    return (
-      <MobileSessions
-        getSessions={getSessions}
-        onRemoveSession={handleRemoveSession}
-        sessions={sessions}
-      />
-    )
-  }
-
-  return (
-    <DesktopSessions
-      getSessions={getSessions}
-      onRemoveSession={handleRemoveSession}
-      sessions={sessions}
-    />
+  return isMobile ? (
+    <MobileSessions {...sessions} />
+  ) : (
+    <DesktopSessions {...sessions} />
   )
 }
-
-export default Sessions

@@ -6,6 +6,7 @@ import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
+import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useChats } from '../../modules/chat/contexts/chats.context'
 import Styles from './chat.styles'
 import ChatMessages from './layouts/chat-messages/chat-messages.component'
@@ -17,6 +18,7 @@ const Chat = () => {
   const isMobile = useIsMobile()
   const { rooms } = useChats()
   const { room } = useParams<{ room?: string }>()
+
   if (type !== userTypes.CLIENT && room && !rooms[room])
     return <Redirect to={Routes.CHAT} />
   if (type === userTypes.CLIENT && !room) {
@@ -25,9 +27,23 @@ const Chat = () => {
       return <Redirect to={Routes.CHAT + `/${trainerRoom}`} />
     else return null
   }
+
   if (isMobile) {
-    return room ? <ChatMessages room={room} /> : <ChatRooms />
+    if (!room) {
+      return (
+        <MobilePage
+          color="secondary"
+          title="Chat"
+          headerNavChat
+          headerSpacing={10}
+        >
+          <ChatRooms />
+        </MobilePage>
+      )
+    }
+    return <ChatMessages room={room} />
   }
+
   return (
     <Styles>
       {type === userTypes.CLIENT ? <ChatTrainer /> : <ChatRooms />}

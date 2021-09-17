@@ -1,13 +1,17 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-export default styled.div`
-  background-color: white;
-  width: 330px;
-  max-width: calc(100vw - 40px);
-  padding: 28px 24px;
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
+
+export default styled(Link)`
+  background-color: #fff;
+  width: 100%;
+  max-width: 330px;
+  padding: 1.5rem 1.375rem;
   border-radius: 0 0 8px 8px;
   display: flex;
-  margin-top: 4px;
+  margin-top: 0.25rem;
+
   .cm-invoice {
     &__left {
       flex: 1;
@@ -33,6 +37,10 @@ export default styled.div`
       font-size: 18px;
     }
 
+    &__badge {
+      width: 130px;
+    }
+
     &__right {
       flex: 1;
       display: flex;
@@ -40,18 +48,29 @@ export default styled.div`
       justify-content: space-between;
       align-items: flex-end;
     }
-    &__status {
-      border: 1px dashed ${(p) => p.theme.vars.colors.orange_100};
-      border-radius: 10px;
-      padding: 8px 16px;
-      color: ${(p) => p.theme.vars.colors.orange_100};
-      background-color: ${(p) => p.theme.vars.colors.orange_20};
-    }
+
     &__cta {
-      background-color: ${(p) => p.theme.vars.colors.primary};
-      color: white;
-      border-radius: 10px;
-      padding: 8px 16px;
+      width: 130px;
     }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    flex-direction: column;
+
+    .cm-invoice {
+      &__left {
+        margin-bottom: 1rem;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__right {
+        align-items: center;
+      }
+
+      &__badge {
+        margin-bottom: 1rem;
+      }
   }
 `

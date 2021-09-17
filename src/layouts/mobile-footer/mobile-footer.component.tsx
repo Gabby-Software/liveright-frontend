@@ -65,7 +65,7 @@ const MobileFooterContent = () => {
         Icon: ProgressIcon,
         title: 'progress',
         className: 'mobile-footer__item',
-        url: Routes.PROGRESS_MEASUREMENTS
+        url: Routes.PROGRESS_CLIENTS
       },
       {
         Icon: OptionSolidIcon,

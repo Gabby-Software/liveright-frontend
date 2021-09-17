@@ -24,6 +24,10 @@ export default styled.div<any>`
       color: #fff;
 
       &_top {
+        & a {
+          color: #fff;
+        }
+
         & svg {
           margin-right: 0.5rem;
         }

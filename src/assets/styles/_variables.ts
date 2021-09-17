@@ -46,6 +46,7 @@ const vars = {
     orange: '#E48713',
     orange_90: '#FF9900',
     blue_20: '#D0E6FE',
+    blue_40: '#82B8FA',
     blue_50: '#549BF5',
     blue_70: '#1268E4',
     blue_80: '#0053D7',

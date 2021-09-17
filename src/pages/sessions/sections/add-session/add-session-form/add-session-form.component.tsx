@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
 import { useClients } from '../../../../../hooks/clients.hook'
-import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import {
   ACTION_EDIT_SESSIONS_REQUEST,
   ACTION_TRAINER_CREATE_SESSION_REQUEST
@@ -44,13 +43,14 @@ type Props = {
   children: React.ReactNode
   onClose: () => void
   session?: SessionType
+  mutate?: any
 }
 
 const AddSessionForm: React.FC<Props> = (props) => {
-  const { children, onClose, session } = props
+  const { children, onClose, session, mutate } = props
   const dispatch = useDispatch()
   const clients = useClients()
-  const { sendSession } = useChats()
+
   const initialValues = useMemo<AddSessionFormType>(() => {
     if (session) {
       const { client_request } = session
@@ -93,7 +93,8 @@ const AddSessionForm: React.FC<Props> = (props) => {
           isAwaiting: !!session.client_request,
           id: session?.id,
           duration: moment(duration, 'HH:mm').format('HH:mm:ss'),
-          time: moment(time, 'HH:mm').format('HH:mm:ss')
+          time: moment(time, 'HH:mm').format('HH:mm:ss'),
+          onSuccess: () => mutate?.()
         }
       })
     } else {
@@ -110,13 +111,7 @@ const AddSessionForm: React.FC<Props> = (props) => {
             first_name: client?.first_name,
             last_name: client?.last_name
           },
-          onSuccess: (id: number) => {
-            sendSession(Number(client_id), {
-              session_id: String(id),
-              current_time:
-                rest.date + ' ' + moment(time, 'h:mm').format('HH:mm:ss')
-            })
-          }
+          onSuccess: () => mutate?.()
         }
       })
     }

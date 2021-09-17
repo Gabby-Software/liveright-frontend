@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { classes } from '../../../pipes/classes.pipe'
 import Styles from './form-toggle.styles'
@@ -15,13 +15,26 @@ type Props = {
 }
 
 export const FormToggleUI = ({ label, value, onUpdate }: UIProps) => {
+  const [innerValue, setInnerValue] = useState(value)
+
+  const handleChange = () => {
+    setInnerValue((prevState) => {
+      onUpdate(!prevState)
+      return !prevState
+    })
+  }
+
+  useEffect(() => {
+    setInnerValue(value)
+  }, [value])
+
   return (
-    <Styles onClick={() => onUpdate(!value)}>
+    <Styles onClick={handleChange}>
       {label ? <span className={'toggle__label'}>{label}</span> : null}
       <div
         className={classes(
           'toggle__body',
-          value ? 'toggle__body__on' : 'toggle__body__off'
+          innerValue ? 'toggle__body__on' : 'toggle__body__off'
         )}
       />
     </Styles>

@@ -79,22 +79,22 @@ const FinancialsReceivablesTable = ({
               {t(`invoices:statuses.${item.status}`)}
             </StatusBadge>
           ),
-          options: ({ status, id, pdf }) => (
+          options: (invoice) => (
             <div className={'invoice-table__actions'}>
               {[
                 invoiceStatuses.OVERDUE,
                 invoiceStatuses.DUE_SOON,
                 invoiceStatuses.OUTSTANDING,
                 invoiceStatuses.DRAFT
-              ].includes(status) ? (
+              ].includes(invoice.status) ? (
                 <>
                   <span className={'invoice-table__link'}>
-                    {status === invoiceStatuses.DRAFT ? (
+                    {invoice.status === invoiceStatuses.DRAFT ? (
                       <Button
                         variant="secondary"
                         size="sm"
                         className="invoice-table__send-btn"
-                        onClick={() => actions.onSend(id)}
+                        onClick={() => actions.onSend(invoice.id)}
                         disabled={actions.isSendLoading}
                       >
                         {t('invoices:send-invoice')}
@@ -102,7 +102,7 @@ const FinancialsReceivablesTable = ({
                     ) : (
                       <Popconfirm
                         title={'Invoice will be marked as paid'}
-                        onConfirm={() => actions.onMarkPaid(id)}
+                        onConfirm={() => actions.onMarkPaid(invoice.id)}
                       >
                         <Button
                           variant="secondary"
@@ -117,21 +117,27 @@ const FinancialsReceivablesTable = ({
 
                   <IconButton
                     size="sm"
-                    onClick={() => fileManager.downloadUrl(pdf?.url)}
+                    onClick={() => fileManager.downloadUrl(invoice.pdf?.url)}
                     className="invoice-table__icon-btn"
                   >
                     <FilePdfIcon />
                   </IconButton>
 
-                  {status !== invoiceStatuses.DRAFT && (
-                    <IconButton size="sm" className="invoice-table__icon-btn">
+                  {invoice.status !== invoiceStatuses.DRAFT && (
+                    <IconButton
+                      size="sm"
+                      className="invoice-table__icon-btn"
+                      onClick={() =>
+                        actions.onRemind(invoice.invoice_to?.uuid, invoice)
+                      }
+                    >
                       <SendIcon />
                     </IconButton>
                   )}
 
                   <IconButton
                     size="sm"
-                    to={Routes.INVOICES + '/' + id}
+                    to={Routes.INVOICES + '/' + invoice.id}
                     className="invoice-table__icon-btn"
                   >
                     <InvoiceIcon />
@@ -139,7 +145,7 @@ const FinancialsReceivablesTable = ({
 
                   <Popconfirm
                     title={t('invoices:confirm-delete')}
-                    onConfirm={() => actions.onCancel(id)}
+                    onConfirm={() => actions.onCancel(invoice.id)}
                   >
                     <IconButton
                       size="sm"
@@ -150,12 +156,12 @@ const FinancialsReceivablesTable = ({
                     </IconButton>
                   </Popconfirm>
                 </>
-              ) : [invoiceStatuses.PAID].includes(status) ? (
+              ) : [invoiceStatuses.PAID].includes(invoice.status) ? (
                 <>
                   <IconButton
                     size="sm"
                     className="invoice-table__icon-btn"
-                    onClick={() => fileManager.downloadUrl(pdf?.url)}
+                    onClick={() => fileManager.downloadUrl(invoice.pdf?.url)}
                   >
                     <DownloadIcon />
                   </IconButton>
@@ -163,7 +169,7 @@ const FinancialsReceivablesTable = ({
                   <IconButton
                     className="invoice-table__icon-btn"
                     size="sm"
-                    to={Routes.INVOICES + '/' + id}
+                    to={Routes.INVOICES + '/' + invoice.id}
                   >
                     <InvoiceIcon />
                   </IconButton>

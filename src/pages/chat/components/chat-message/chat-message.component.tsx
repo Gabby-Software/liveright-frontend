@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 
 import { ReactComponent as SeenIcon } from '../../../../assets/media/icons/chat-seen.svg'
 import { ReactComponent as SentIcon } from '../../../../assets/media/icons/chat-sent.svg'
+import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../modules/chat/contexts/chat-room.context'
 import { chatMessageTypes } from '../../../../modules/chat/enums/chat-message-types.enum'
@@ -9,8 +10,7 @@ import { chatTime } from '../../../../modules/chat/pipes/chat-time.pipe'
 import { ChatFileType } from '../../../../modules/chat/types/chat-file.type'
 import { ChatMessageType } from '../../../../modules/chat/types/chat-message.type'
 import { classes } from '../../../../pipes/classes.pipe'
-import { noImage } from '../../../../pipes/no-image.pipe'
-import Styles, { ProfileImageStyled } from './chat-message.styles'
+import Styles from './chat-message.styles'
 import ChatMessageActions from './chat-message-actions/chat-message-actions.component'
 import ChatMessageAttachment from './chat-message-attachment/chat-message-attachment.component'
 import ChatMessageAudio from './chat-message-audio/chat-message-audio.component'
@@ -19,6 +19,7 @@ import ChatMessageInvoice from './chat-message-invoice/chat-message-invoice.comp
 import ChatMessageLink from './chat-message-link/chat-message-link.component'
 import ChatMessageSession from './chat-message-session/chat-message-session.component'
 import ChatMessageText from './chat-message-text/chat-message-text.component'
+
 type Props = {
   msg: ChatMessageType
 }
@@ -28,25 +29,28 @@ const emptyFile: ChatFileType = {
   mimetype: '',
   size: 0
 }
+
 const ChatMessage = ({ msg }: Props) => {
   const types = [...msg.types]
   const files = [...msg.content.files]
   const { isPopup, roomData } = useChatRoom()
   const { uuid } = useAuth()
   const isMe = useMemo(() => msg.senderId === uuid, [uuid])
+
   const renderInvoice = () => {
     if (types[0] === chatMessageTypes.INVOICE) {
       types.shift()
       return <ChatMessageInvoice {...msg.invoice_meta_data!} me={isMe} />
     }
   }
+
   const renderSession = () => {
     if (types[0] === chatMessageTypes.REQUEST_SESSION) {
       types.shift()
       return (
         <ChatMessageSession
           me={isMe}
-          date={msg.session_meta_data?.current_time || '1970-01-01 00:00'}
+          date={msg.session_meta_data?.requested_time || '1970-01-01 00:00'}
         />
       )
     }
@@ -117,12 +121,15 @@ const ChatMessage = ({ msg }: Props) => {
   }
   return (
     <Styles state={msg.state}>
-      <div className={'message__wrapper'}>
+      <div className="message__wrapper">
         {isMe ? null : (
-          <ProfileImageStyled
-            url={roomData?.avatar?.url}
-            placeholder={noImage(roomData?.firstName, roomData?.lastName)}
-            className={classes(isPopup && 'popup')}
+          <UserBadge
+            avatarOnly
+            avatar={roomData?.avatar?.url}
+            firstName={roomData?.firstName}
+            lastName={roomData?.lastName}
+            // placeholder={noImage(roomData?.firstName, roomData?.lastName)}
+            className={classes('message__badge', isPopup && 'popup')}
           />
         )}
         <div

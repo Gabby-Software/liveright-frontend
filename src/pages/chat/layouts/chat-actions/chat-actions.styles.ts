@@ -5,6 +5,8 @@ export default styled.form`
   background-color: white;
   flex-shrink: 0;
   display: flex;
+  z-index: 11;
+
   &.popup {
     padding: 14px;
   }

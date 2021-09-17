@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import {
-  ChatIcon,
   ClientSolidIcon,
   DocumentOutlinedIcon,
   GroupSolidIcon,
@@ -15,53 +14,37 @@ import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import Tabs from '../../../../components/tabs/tabs.component'
 import {
   statisticRange,
   statisticRangeOptions
 } from '../../../../enums/financials.enum'
+import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { SessionsState } from '../../../../store/reducers/sessions.reducer'
-import {
-  SessionFilter,
-  SessionStatus,
-  SessionType
-} from '../../../../types/session.type'
+import { SessionStatus, SessionType } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
 import Styles from './mobile-sessions.styles'
 
-interface Props {
-  sessions: SessionsState
-  getSessions: (
-    status: SessionStatus
-  ) => (page: number, filters?: SessionFilter) => void
-  onRemoveSession: (id: number) => void
-}
-
-const MobileSessions: React.FC<Props> = (props) => {
-  const { sessions, getSessions, onRemoveSession } = props
-  const { upcoming, awaiting_scheduling, past } = sessions
-  const awaitingMeta = awaiting_scheduling.meta
+export default function MobileSessions({
+  filters,
+  sessions,
+  onFilters,
+  onSearch,
+  changeStatus,
+  isLoading,
+  meta,
+  onPage
+}: UseSessions) {
   const { t } = useTranslation()
-  const [currentTab, setCurrentTab] = useState('')
-  const [filters, setFilters] = useState<SessionFilter>({})
   const { statistic, count, onRange } = useStatistic()
-
-  const handleFilter = (name: keyof SessionFilter, value: string) => {
-    let newFilter = { ...filters }
-    if (value) {
-      newFilter = { ...newFilter, [name]: value }
-    } else {
-      delete newFilter[name]
-    }
-
-    setFilters(newFilter)
-    getSessions('awaiting_scheduling')(1, newFilter)
-  }
 
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
@@ -93,33 +76,40 @@ const MobileSessions: React.FC<Props> = (props) => {
             id="sessions-client-filter"
             placeholder={t('sessions:filter-by-client')}
             value={filters.client_id}
-            onChange={(e) => handleFilter('client_id', e === 'all' ? null : e)}
+            onChange={(e) => onFilters('client_id', e === 'all' ? null : e)}
           />
         </div>
 
         <Card>
-          {awaiting_scheduling.data.map((it) => (
-            <ScheduleCard
-              key={it.id}
-              firstName={it.client?.user?.first_name || ''}
-              lastName={it.client?.user?.last_name || ''}
-              userAvatar={it.client?.user?.avatar?.url || ''}
-              editTo={`/sessions/schedule/confirm?session=${JSON.stringify(
-                it
-              )}`}
-              className="sessions__schedule-card"
-              schedule={it.is_awaiting_scheduling}
-              reschedule={it.is_awaiting_rescheduling}
-              scheduleDate={it.client_request?.date}
-              scheduleTime={it.client_request?.time}
-              currentDate={it.starts_at}
-            />
-          ))}
+          {isLoading ? (
+            <LoadingPlaceholder />
+          ) : !sessions.length ? (
+            <EmptyPlaceholder />
+          ) : (
+            sessions.map((it) => (
+              <ScheduleCard
+                key={it.id}
+                firstName={it.client?.user?.first_name || ''}
+                lastName={it.client?.user?.last_name || ''}
+                userAvatar={it.client?.user?.avatar?.url || ''}
+                editTo={`/sessions/schedule/confirm?session=${JSON.stringify(
+                  it
+                )}`}
+                className="sessions__schedule-card"
+                schedule={it.is_awaiting_scheduling}
+                reschedule={it.is_awaiting_rescheduling}
+                scheduleDate={it.client_request?.date}
+                scheduleTime={it.client_request?.time}
+                currentDate={it.starts_at}
+              />
+            ))
+          )}
+
           <DataPagination
-            justify="start"
-            page={awaitingMeta.current_page}
-            setPage={getSessions('awaiting_scheduling')}
-            total={awaitingMeta.current_page}
+            justify="center"
+            page={meta.current_page}
+            setPage={onPage}
+            total={meta.total}
           />
         </Card>
       </div>
@@ -132,9 +122,13 @@ const MobileSessions: React.FC<Props> = (props) => {
         withFilter
         filterCalendar
         renderOptions={renderUpcomingItemOptions}
-        sessions={upcoming}
-        getSessions={getSessions('upcoming')}
-        onRemoveSession={onRemoveSession}
+        sessions={sessions}
+        meta={meta}
+        onSearch={onSearch}
+        onPage={onPage}
+        filters={filters}
+        onFilters={onFilters}
+        isLoading={isLoading}
       />
     )
   }
@@ -144,18 +138,23 @@ const MobileSessions: React.FC<Props> = (props) => {
       <div className="sessions__cards-container">
         <SessionsCards
           withFilter
-          sessions={past}
-          getSessions={getSessions('past')}
+          sessions={sessions}
+          meta={meta}
+          onSearch={onSearch}
+          onPage={onPage}
+          filters={filters}
+          onFilters={onFilters}
+          isLoading={isLoading}
         />
       </div>
     )
   }
 
-  const isPast = currentTab === 'Past'
+  const isPast = filters.status === 'past'
   return (
     <MobilePage
       title={t('sessions:title')}
-      headerTitleIcon={<ChatIcon />}
+      headerNavChat
       actionComponent={
         <Button to="/sessions/schedule/new">{t('sessions:new-session')}</Button>
       }
@@ -166,16 +165,22 @@ const MobileSessions: React.FC<Props> = (props) => {
           className="sessions__tabs"
           tabs={[
             {
+              key: 'awaiting_scheduling',
               label: t('sessions:awaiting'),
               renderContent: renderAwaitingContent
             },
             {
+              key: 'upcoming',
               label: t('sessions:upcoming'),
               renderContent: renderUpcomingContent
             },
-            { label: t('sessions:past'), renderContent: renderPastContent }
+            {
+              key: 'past',
+              label: t('sessions:past'),
+              renderContent: renderPastContent
+            }
           ]}
-          onChange={(e) => setCurrentTab(e)}
+          onChange={(e) => changeStatus(e as SessionStatus)}
         />
 
         {!isPast && (
@@ -245,5 +250,3 @@ const MobileSessions: React.FC<Props> = (props) => {
     </MobilePage>
   )
 }
-
-export default MobileSessions

@@ -8,4 +8,5 @@ export interface HeaderProps {
   headerLink?: ReactNode
   topComponent?: ReactNode
   titleIcon?: ReactNode
+  navChat?: boolean
 }

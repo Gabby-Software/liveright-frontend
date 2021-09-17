@@ -5,20 +5,24 @@ import { ReactComponent as CrossIcon } from '../../../../../assets/media/icons/c
 import { ReactComponent as BackIcon } from '../../../../../assets/media/icons/left-arrow.svg'
 import { ReactComponent as ExpandIcon } from '../../../../../assets/media/icons/maximize.svg'
 import BlueLink from '../../../../../components/blue-link/blue-link.component'
+import UserBadge from '../../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import userTypes from '../../../../../enums/user-types.enum'
+import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
 import { useAuth } from '../../../../../hooks/auth.hook'
 import { useChatRoom } from '../../../../../modules/chat/contexts/chat-room.context'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { classes } from '../../../../../pipes/classes.pipe'
-import { noImage } from '../../../../../pipes/no-image.pipe'
-import Styles, { HeaderHolder, StyledAvatar } from './chat-header-mobile.styles'
+import Styles, { HeaderHolder } from './chat-header-mobile.styles'
 
 type Props = {}
 const ChatHeaderMobile: FC<Props> = ({}) => {
   const { type } = useAuth()
   const { isPopup, room, roomData } = useChatRoom()
   const { expand, close } = useChats()
+
+  const { isOnline } = useChatOnline()
+
   return (
     <>
       <Styles
@@ -32,10 +36,18 @@ const ChatHeaderMobile: FC<Props> = ({}) => {
             <BackIcon />
           </Link>
         )}
-        <StyledAvatar
-          placeholder={noImage(roomData?.firstName, roomData?.lastName)}
-          url={roomData?.avatar.url}
+
+        <UserBadge
+          avatarOnly
+          firstName={roomData?.firstName || ''}
+          lastName={roomData?.lastName || ''}
+          avatar={roomData?.avatar.url}
+          online={isOnline(
+            roomData?.account_uuid || '',
+            roomData?.meta?.lastSeenAt
+          )}
         />
+
         <div className={'chat-header__name'}>
           {roomData?.firstName} {roomData?.lastName}
         </div>

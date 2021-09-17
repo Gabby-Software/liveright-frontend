@@ -1,5 +1,9 @@
-import { CalendarIcon, NotificationsIcon } from '../../../../assets/media/icons'
+import { Link } from 'react-router-dom'
+
+import { CalendarIcon } from '../../../../assets/media/icons'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import ChatIcon from '../../../../components/chat-icon/chat-icon.component'
+import NotificationIcon from '../../../../components/notification-icon/notification-icon.component'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -14,7 +18,8 @@ export default function Header({
   spacing,
   component,
   topComponent,
-  titleIcon
+  titleIcon,
+  navChat
 }: HeaderProps) {
   const { type } = useAuth()
   return (
@@ -27,7 +32,13 @@ export default function Header({
             <TrainerBadge />
           ) : (
             <>
-              {titleIcon || (
+              {navChat ? (
+                <Link to={Routes.CHAT}>
+                  <ChatIcon />
+                </Link>
+              ) : titleIcon ? (
+                titleIcon
+              ) : (
                 <UserBadge
                   avatar=""
                   firstName="A"
@@ -53,7 +64,7 @@ export default function Header({
             className="mobile-page-header__action-icon"
             to={Routes.NOTIFICATIONS}
           >
-            <NotificationsIcon />
+            <NotificationIcon />
           </IconButton>
         </div>
       </div>

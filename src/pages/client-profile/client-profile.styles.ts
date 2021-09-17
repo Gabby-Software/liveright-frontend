@@ -8,8 +8,16 @@ export default styled.div`
   .profile {
     &__card-dark {
       background-color: ${getColorCarry('primaryDark_v2')};
+      width: 100%;
       max-width: 300px;
       margin-right: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &-wrapper {
+        display: block;
+      }
 
       &-title {
         font-size: 1rem;
@@ -34,7 +42,7 @@ export default styled.div`
       &-btn {
         width: fit-content;
         padding: 0;
-        color: #fff;
+        color: ${getColorCarry('link')};
         font-weight: 500;
 
         & svg {
