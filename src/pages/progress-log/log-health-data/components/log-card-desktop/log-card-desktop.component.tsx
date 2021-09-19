@@ -39,7 +39,6 @@ const LogCardDesktop: React.FC<Props> = (props) => {
 
       <div className="log-card__control">
         <Input
-          formik
           id={`log-progress-${inputName}`}
           name={inputName}
           value={(values as any)[inputName]}

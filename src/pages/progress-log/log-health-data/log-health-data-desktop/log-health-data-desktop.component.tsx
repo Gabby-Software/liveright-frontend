@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd'
 import { useFormikContext } from 'formik'
 import React, { useMemo } from 'react'
+import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
 import { HeartRateV2Icon } from '../../../../assets/media/icons'
@@ -11,11 +12,13 @@ import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/step
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../components/form/select/select.component'
 import TimePicker from '../../../../components/form/time-picker/time-picker.component'
+import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getDuration } from '../../../../pipes/duration.pipe'
+import { getRoute } from '../../../../utils/routes'
 import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
 import LogCardDesktop from '../components/log-card-desktop/log-card-desktop.component'
@@ -43,6 +46,7 @@ const LogHealthDataDesktop: React.FC = () => {
   const { values, setFieldValue } = useFormikContext<HealthData>()
   const { type } = useAuth()
   const history = useHistory()
+  const params = useParams<any>()
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -57,6 +61,11 @@ const LogHealthDataDesktop: React.FC = () => {
 
   return (
     <Wrapper>
+      <MobileBack
+        alias="health-data"
+        to={getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })}
+      />
+
       <h2 className="log-health__title">Log Health Data</h2>
 
       {type === userTypes.CLIENT ? null : <LogClient onSwitch={() => {}} />}

@@ -11,6 +11,7 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
+import useHealth from '../../../../hooks/api/progress/useHealth'
 import SwitchClient from '../switch-client/switch-client.component'
 import { Styles } from './client-info-mobile.styles'
 
@@ -19,12 +20,23 @@ export default function ClientInfoMobile() {
   const { user } = useClientAccount(params.id)
   const [opened, setOpened] = useState(false)
   const [switchClient, setSwitchClient] = useState(false)
+
+  const { health } = useHealth({
+    filter: {
+      account_id: params.id
+    },
+    per_page: 1
+  })
+
+  const data = health[0] || {}
+
   return (
     <>
       <Styles className="progress__client-card">
         <div className="progress__client-card-head">
           <div className="progress__client-card-badge">
             <UserBadge
+              key={params.id}
               avatar={user.avatar?.url}
               firstName={user.first_name}
               lastName={user.last_name}
@@ -54,7 +66,7 @@ export default function ClientInfoMobile() {
               Last Active:<span> Yesterday</span>
             </p>
             <p className="progress__client-card-text">
-              Last Activity on Health Data:<span> 22-05-2021</span>
+              Last Activity on Health Data:<span> {data.date || '-'}</span>
             </p>
           </div>
         )}

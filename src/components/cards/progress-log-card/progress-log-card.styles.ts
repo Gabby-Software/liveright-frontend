@@ -26,6 +26,8 @@ function getBadgeBgColor(props: any) {
 }
 
 export const Styles = styled<any>(Card)`
+  margin-bottom: 1.25rem;
+
   .progress-log-card {
     &__head {
       display: flex;

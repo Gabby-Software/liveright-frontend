@@ -48,6 +48,7 @@ export const TableWrapper = styled.div`
       text-align: center;
       justify-content: space-between;
       height: 100%;
+      //white-space: nowrap;
 
       svg {
         width: 22px;
@@ -61,6 +62,19 @@ export const TableWrapper = styled.div`
       white-space: initial;
       transform: none;
       justify-content: center;
+    }
+
+    & .ant-tabs-nav {
+      padding: 0 0.5rem;
+    }
+
+    & .ant-tabs-tab {
+      height: 100%;
+
+      & .ant-tabs-tab-btn {
+        height: 100%;
+        flex: 1;
+      }
     }
   }
 `

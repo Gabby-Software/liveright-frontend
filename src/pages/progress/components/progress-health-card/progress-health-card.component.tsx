@@ -29,12 +29,12 @@ const HealthCard: React.FC<Props> = (props) => {
         {icon}
         <div className="health-card__content">
           {data ? (
-            <div>
+            <>
               <Quality>{t(`progress:${quality || ''}`)}</Quality>
               <Data>{data}</Data>
-            </div>
+            </>
           ) : (
-            <div>
+            <>
               <Data>{t('progress:noLogs')}</Data>
 
               <Button
@@ -50,7 +50,7 @@ const HealthCard: React.FC<Props> = (props) => {
                 <span>{t('progress:logNow')}</span>
                 <ArrowIcon />
               </Button>
-            </div>
+            </>
           )}
         </div>
       </StyledCard>

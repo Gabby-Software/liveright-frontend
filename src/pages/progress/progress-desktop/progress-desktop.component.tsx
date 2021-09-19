@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Route } from 'react-router-dom'
 
@@ -14,15 +14,9 @@ import { getRoute } from '../../../utils/routes'
 import LogClient from '../../progress-log/log-health-data/components/log-client/log-client.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import SwitchClient from '../components/switch-client/switch-client.component'
-import { ProgressSectionsType } from '../progress.types'
 import { Wrapper } from './progress-desktop.styles'
 
-interface Props {
-  onLogClick: (value: ProgressSectionsType) => void
-}
-
-const ProgressDesktop: FC<Props> = () => {
-  // const { onLogClick } = props
+export default function ProgressDesktop() {
   const { t } = useTranslation()
   const { type } = useAuth()
   const [switchDialog, setSwitchDialog] = useState(false)
@@ -45,6 +39,7 @@ const ProgressDesktop: FC<Props> = () => {
         {type !== userTypes.CLIENT && (
           <LogClient onSwitch={() => setSwitchDialog(true)} />
         )}
+
         <RoutedTabs
           tabs={[
             {
@@ -70,5 +65,3 @@ const ProgressDesktop: FC<Props> = () => {
     </>
   )
 }
-
-export default ProgressDesktop

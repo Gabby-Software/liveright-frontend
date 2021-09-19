@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import Button from '../../../components/buttons/button/button.component'
 import { Routes } from '../../../enums/routes.enum'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
+import { getRoute } from '../../../utils/routes'
 import {
   getHealthDataAsync,
   logHealthDataAsync
@@ -22,7 +26,7 @@ import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile
 
 const LogHealthData = () => {
   const isMobile = useIsMobile()
-  const { date } = useParams<{ date: string }>()
+  const params = useParams<any>()
   const history = useHistory()
   const [initialValues, setInitialValues] = useState<HealthData>({
     id: '',
@@ -78,28 +82,28 @@ const LogHealthData = () => {
 
     logHealthDataAsync({
       ...payload,
-      edit: date === values.date,
+      edit: payload.date === values.date,
       id: values.id
     }).then(handleReturn)
   }
 
   useEffect(() => {
-    if (date) {
+    if (params.date) {
       const getHealthData = async () => {
-        const { data } = await getHealthDataAsync({ date })
+        const { data } = await getHealthDataAsync({ date: params.date })
 
         if (data.length) {
           setInitialValues(data[0])
         } else {
-          setInitialValues({ ...initialValues, date })
+          setInitialValues({ ...initialValues, date: params.date })
         }
       }
 
       getHealthData()
     }
-  }, [date])
+  }, [params.date])
 
-  return (
+  const content = (
     <Formik
       enableReinitialize
       onSubmit={handleSubmit}
@@ -150,6 +154,25 @@ const LogHealthData = () => {
         {isMobile ? <LogHealthDataMobile /> : <LogHealthDataDesktop />}
       </Form>
     </Formik>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Log Health Data"
+      headerSpacing={20}
+      headerTopComponent={
+        <HeaderLink
+          to={getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })}
+        >
+          Return to Health Data
+        </HeaderLink>
+      }
+      actionComponent={<Button>Save Logs</Button>}
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }
 

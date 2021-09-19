@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
 
@@ -12,8 +11,8 @@ import IconButton from '../../../../../components/buttons/icon-button/icon-butto
 import UserBadge from '../../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import useClientAccount from '../../../../../hooks/api/accounts/useClientAccount'
+import useHealth from '../../../../../hooks/api/progress/useHealth'
 import { classes } from '../../../../../pipes/classes.pipe'
-import { DATE_RENDER_FORMAT } from '../../../../../utils/date'
 import { Wrapper } from './log-client.styles'
 
 interface LogClientProps {
@@ -24,6 +23,15 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
   const { user, isLoading } = useClientAccount(params.id)
+
+  const { health } = useHealth({
+    filter: {
+      account_id: params.id
+    },
+    per_page: 1
+  })
+
+  const data = health[0] || {}
 
   return (
     <Wrapper>
@@ -68,7 +76,7 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
                   Last Activity on Health Data:
                 </div>
                 <div className={'log-client__bottom__value'}>
-                  {moment().format(DATE_RENDER_FORMAT)}
+                  {data.date || '-'}
                 </div>
               </div>
             </div>

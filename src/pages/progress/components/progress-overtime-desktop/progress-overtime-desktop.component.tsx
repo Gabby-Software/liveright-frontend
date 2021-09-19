@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { useContext } from 'react'
 
 import {
   GraphIcon,
@@ -14,61 +14,34 @@ import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
-import { PaginatedDataType } from '../../../../types/paginated-data.type'
 import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
-import {
-  HealthData as HealthDataType,
-  OverTimeType,
-  ProgressLogType
-} from '../../progress.types'
 import HealthChart from '../progress-chart/progress-chart.component'
+import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'
 import HealthTable from '../progress-table/progress-table.component'
 import { FilterWrapper, Wrapper } from './progress-overtime-desktop.styles'
 
 interface Props {
-  filter: OverTimeType
-  setFilter: (value: OverTimeType) => void
   filterOptions: OptionType[]
   graphView: boolean
   setGraphView: (value: boolean) => void
-  activeTab: ProgressLogType
-  setActiveTab: (value: ProgressLogType) => void
-  data: PaginatedDataType<HealthDataType>
-  specificDates: { from_date: string; to_date: string }
-  onSpecificDateChange: (name: string, date: string) => void
-  onPageChange: (page?: number) => void
 }
 
-const OverTimeDesktop: FC<Props> = (props) => {
-  const {
-    filter,
-    setFilter,
-    filterOptions,
-    graphView,
-    setGraphView,
-    activeTab,
-    setActiveTab,
-    data,
-    // specificDates,
-    onSpecificDateChange,
-    onPageChange
-  } = props
+export default function OverTimeDesktop({
+  filterOptions,
+  graphView,
+  setGraphView
+}: Props) {
   const { t } = useTranslation()
+  const { onOnlyInclude, onlyInclude, onFilters, filters } = useContext(
+    ProgressHealthDataContext
+  )
 
   const handleSwitchViewClick = () => {
     setGraphView(!graphView)
   }
 
   const renderDataContent = () => {
-    return graphView ? (
-      <HealthChart />
-    ) : (
-      <HealthTable
-        onPageChange={onPageChange}
-        data={data}
-        activeTab={activeTab}
-      />
-    )
+    return graphView ? <HealthChart /> : <HealthTable />
   }
 
   return (
@@ -89,19 +62,19 @@ const OverTimeDesktop: FC<Props> = (props) => {
           </Button>
 
           <FilterWrapper>
-            {filter === OVER_TIME.SPECIFIC && (
+            {filters.range === OVER_TIME.SPECIFIC && (
               <>
                 <DatePicker
                   id="progress-from"
-                  onChange={(e, date) =>
-                    onSpecificDateChange('from_date', date)
-                  }
+                  value={filters.from_date}
+                  onChange={(e, date) => onFilters('from_date', date)}
                   placeholder={t('from')}
                   className="progress-overtime__form-item progress-overtime__form-item_date"
                 />
                 <DatePicker
                   id="progress-to"
-                  onChange={(e, date) => onSpecificDateChange('to_date', date)}
+                  value={filters.to_date}
+                  onChange={(e, date) => onFilters('to_date', date)}
                   placeholder={t('to')}
                   className="progress-overtime__form-item progress-overtime__form-item_date"
                 />
@@ -110,9 +83,9 @@ const OverTimeDesktop: FC<Props> = (props) => {
 
             <Select
               id="progress-range"
-              value={filter}
+              value={filters.range}
               options={filterOptions}
-              onChange={(value) => setFilter(value as OverTimeType)}
+              onChange={(e) => onFilters('range', e)}
               className="progress-overtime__form-item progress-overtime__form-item_select"
             />
           </FilterWrapper>
@@ -120,8 +93,8 @@ const OverTimeDesktop: FC<Props> = (props) => {
       </div>
 
       <Tabs
-        activeKey={activeTab}
-        onChange={(key) => setActiveTab(key as ProgressLogType)}
+        activeKey={onlyInclude}
+        onChange={(key: any) => onOnlyInclude(key)}
         tabs={[
           {
             icon: <SleepIcon />,
@@ -152,5 +125,3 @@ const OverTimeDesktop: FC<Props> = (props) => {
     </Wrapper>
   )
 }
-
-export default OverTimeDesktop

@@ -65,6 +65,18 @@ export const StyledCard = styled(Card)<any>`
   }
 
   ${({ noLogs }) => (noLogs ? noLogsStyles : '')}
+
+  @media ${mediaQueries.MOBILE} {
+    .health-card {
+      &__content {
+        padding-left: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
 `
 
 export const Quality = styled.p`

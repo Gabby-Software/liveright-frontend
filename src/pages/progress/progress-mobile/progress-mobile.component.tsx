@@ -11,15 +11,9 @@ import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import ClientInfoMobile from '../components/client-info-mobile/client-info-mobile.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
-import { ProgressSectionsType } from '../progress.types'
 import { HeaderAction, Wrapper } from './progress-mobile.styles'
 
-interface Props {
-  onLogClick: (value: ProgressSectionsType) => void
-}
-
-const ProgressMobile: React.FC<Props> = (props) => {
-  const { onLogClick } = props
+export default function ProgressMobile() {
   const { t } = useTranslation()
   const [logModal, setLogModal] = useState(false)
 
@@ -70,13 +64,11 @@ const ProgressMobile: React.FC<Props> = (props) => {
           visible={logModal}
           title={t('progress:sections.log')}
           menu={map(PROGRESS_SECTIONS, (value) => ({
-            name: t(`progress:sections.${value}`),
-            onClick: () => onLogClick(value)
+            name: t(`progress:sections.${value}`)
+            // onClick: () => onLogClick(value)
           }))}
         />
       </Wrapper>
     </MobilePage>
   )
 }
-
-export default ProgressMobile

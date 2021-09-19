@@ -1,23 +1,20 @@
 import { Button } from 'antd'
 import styled from 'styled-components'
 
-export const Wrapper = styled.div`
+import Card from '../../../../components/cards/card/card.component'
+
+export const Wrapper = styled(Card)`
   overflow: auto;
   margin-bottom: 1.5rem;
+
+  .health-log {
+    &__table {
+      width: auto;
+      margin: -1.5rem -1.75rem 0 -1.75rem;
+    }
+  }
 `
 export const Pagination = styled.div`
-  width: 100%;
-  background-color: #fff;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding: 0 1rem 1.5rem 1rem;
-
-  .data-pagination {
-  }
-
-  .ant-pagination {
-  }
-
   .pagination {
     &__link {
       & svg {

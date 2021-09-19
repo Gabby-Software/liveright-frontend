@@ -2,81 +2,93 @@ import { TimePicker } from 'antd'
 import styled from 'styled-components'
 
 import { ReactComponent as InfoIcon } from '../../../../assets/media/icons/info-fill.svg'
+import Card from '../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled.div`
-  margin-bottom: 64px;
-`
-export const WhiteCard = styled.div`
-  background-color: white;
-  margin: 20px 0;
-  padding: 22px 20px;
-  border-radius: 10px;
-  .text_input__wrapper:first-child {
-    margin-bottom: 12px;
-  }
-  .select_input__wrapper {
-    margin-top: 20px;
+  .log-health {
+    &__submit {
+      width: 100%;
+    }
+
+    &__form-item {
+      margin-bottom: 0.75rem;
+    }
   }
 `
+
+export const WhiteCard = styled(Card)`
+  margin-bottom: 1.25rem;
+`
+
 export const CardTitle = styled.h2`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  color: ${(p) => p.theme.vars.colors.primaryDark_v2};
-  border-bottom: 1px solid ${(p) => p.theme.vars.colors.inputBorder_v2};
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  color: ${getColorCarry('primaryDark_v2')};
+  border-bottom: 1px solid ${getColorCarry('inputBorder_v2')};
+
   svg:first-child {
-    width: 40px;
-    height: 40px;
-    display: block;
+    width: 32px;
+    height: 32px;
   }
+
   span {
     padding: 0 10px 0 14px;
   }
 `
+
 export const GrayStyledTimeInput = styled(TimePicker)`
   border-radius: 10px;
-  background-color: ${(p) => p.theme.vars.colors.secondary3_v2};
+  background-color: ${getColorCarry('secondary3_v2')};
   ${(p) => p.theme.extend.flexCenter}
   border: none;
   outline: none;
   appearance: none;
   text-align: center;
-  padding: 14px;
-  font-size: 18px;
+  padding: 0.875rem;
+  font-size: 1.125rem;
   width: 100px;
   height: 70px;
+
   input {
-    font-size: 18px;
+    font-size: 1.125rem;
     text-align: center;
   }
 `
+
 export const GrayStyledInput = styled.input`
   width: 100px;
   height: 70px;
   border-radius: 10px;
-  background-color: ${(p) => p.theme.vars.colors.secondary3_v2};
+  background-color: ${getColorCarry('secondary3_v2')};
   ${(p) => p.theme.extend.flexCenter}
   border: none;
   outline: none;
   appearance: none;
   text-align: center;
-  padding: 14px;
-  font-size: 18px;
+  padding: 0.875rem;
+  font-size: 1.125rem;
 `
+
 export const Info = styled(InfoIcon)`
   display: block;
   width: 14px;
   height: 14px;
 `
+
 export const FormRow = styled.div`
   display: flex;
   justify-content: space-between;
-  &:not(:first-child) {
-    margin-top: 20px;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
   }
+
   .log-health {
     &__label {
       color: ${(p) => p.theme.vars.colors.secondary2_v2};
