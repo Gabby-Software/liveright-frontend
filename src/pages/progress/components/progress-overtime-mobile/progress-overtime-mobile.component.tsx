@@ -44,7 +44,15 @@ export default function OverTimeMobile({
   )
 
   const renderDataContent = () => () => {
-    return <div>{graphView ? <HealthChart /> : <HealthMobileCards />}</div>
+    return (
+      <div>
+        {graphView ? (
+          <HealthChart onClose={() => setGraphView(false)} />
+        ) : (
+          <HealthMobileCards />
+        )}
+      </div>
+    )
   }
 
   return (

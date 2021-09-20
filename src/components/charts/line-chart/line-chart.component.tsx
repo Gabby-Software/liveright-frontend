@@ -11,7 +11,7 @@ import {
 import { colors } from '../../../assets/styles/_variables'
 
 interface LineChartProps {
-  height?: number
+  height?: number | string
   data: any[]
   xDataKey: string
   dataKeys: string[]

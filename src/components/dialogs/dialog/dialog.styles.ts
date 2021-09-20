@@ -7,6 +7,7 @@ export const DialogStyles = styled(Modal)`
   &.ant-modal {
     width: 100%;
     max-width: 620px;
+    padding: 1rem;
   }
 
   & .ant-modal-content {

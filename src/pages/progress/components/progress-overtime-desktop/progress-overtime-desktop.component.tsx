@@ -41,7 +41,11 @@ export default function OverTimeDesktop({
   }
 
   const renderDataContent = () => {
-    return graphView ? <HealthChart /> : <HealthTable />
+    return graphView ? (
+      <HealthChart onClose={() => setGraphView(false)} />
+    ) : (
+      <HealthTable />
+    )
   }
 
   return (
