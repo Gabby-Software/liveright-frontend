@@ -14,6 +14,7 @@ type Props = ChatMessageInvoiceMetaType & {
 const ChatMessageInvoice: FC<Props> = ({
   total,
   invoice_id,
+  invoice_number,
   currency,
   status,
   name,
@@ -23,7 +24,7 @@ const ChatMessageInvoice: FC<Props> = ({
   return (
     <Styles to={Routes.INVOICES + `/${invoice_id}`} className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
-        <div className={'cm-invoice__id'}>Invoice #{invoice_id}</div>
+        <div className={'cm-invoice__id'}>Invoice #{invoice_number || '-'}</div>
         <div className={'cm-invoice__name'}>{name}</div>
         <div className={'cm-invoice__total'}>
           <span className={'cm-invoice__amount'}>{total} </span>

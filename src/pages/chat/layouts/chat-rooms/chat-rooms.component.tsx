@@ -55,7 +55,7 @@ const ChatRooms: FC<Props> = ({}) => {
             <ChatRoom
               room={room}
               key={room.roomId}
-              online={isOnline(room.account_uuid)}
+              online={isOnline(room.account_uuid, room.meta?.lastSeenAt)}
             />
           ))
         ) : (

@@ -53,6 +53,7 @@ const CreateInvoiceMobileItemForm: FC<
         label={t('invoices:create.description')}
         value={name}
         onChange={(e) => onChange('name', e.target.value)}
+        max={300}
       />
       {type === 'PT session' && (
         <DatePicker

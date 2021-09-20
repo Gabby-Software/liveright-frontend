@@ -15,6 +15,9 @@ export default styled.div`
       width: 100%;
       max-width: 300px;
       margin-right: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       &-wrapper {
         display: block;
@@ -43,7 +46,7 @@ export default styled.div`
       &-btn {
         width: fit-content;
         padding: 0;
-        color: #fff;
+        color: ${getColorCarry('link')};
         font-weight: 500;
 
         & svg {

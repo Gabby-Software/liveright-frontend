@@ -52,6 +52,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
           onChange={(e) =>
             form.setFieldValue(`items.${i}.description`, e.target.value)
           }
+          max={300}
         />
 
         {item.type === 'PT session' && (

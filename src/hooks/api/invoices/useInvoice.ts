@@ -100,7 +100,8 @@ export default function useInvoice(config: UseInvoiceConfig = {}): UseInvoice {
 
   const onRemind = (clientId: string, invoice: InvoiceType) => {
     chats.sendInvoice(clientId, {
-      invoice_id: '' + invoice.id,
+      invoice_id: `${invoice.id}`,
+      invoice_number: `${invoice.invoice_number}`,
       total: invoice.total,
       currency: invoice.currency.code,
       status: invoice.status,

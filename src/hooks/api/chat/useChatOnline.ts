@@ -6,8 +6,8 @@ import socketManager from '../../../modules/chat/managers/socket.manager'
 
 interface UseChatOnlineProps {
   usersSeen: Record<string, any>
-  isOnline: (uuid: string) => boolean
-  lastSeen: (uuid: string) => string
+  isOnline: (uuid: string, lastSeenAt?: string) => boolean
+  lastSeen: (uuid: string, lastSeenAt?: string) => string
 }
 
 export default function useChatOnline(): UseChatOnlineProps {
@@ -30,16 +30,18 @@ export default function useChatOnline(): UseChatOnlineProps {
     }
   }, [onlineListener])
 
-  const isOnline = (uuid: string) => {
+  const isOnline = (uuid: string, lastSeenAt?: string) => {
+    const userLastSeen = usersSeen[uuid] || lastSeenAt
     const minuteAgo = moment().subtract(2, 'minute')
-    return usersSeen[uuid] ? moment(usersSeen[uuid]).isAfter(minuteAgo) : false
+    return userLastSeen ? moment(userLastSeen).isAfter(minuteAgo) : false
   }
 
-  const lastSeen = (uuid: string) => {
-    return usersSeen[uuid]
-      ? isOnline(uuid)
+  const lastSeen = (uuid: string, lastSeenAt?: string) => {
+    const userLastSeen = usersSeen[uuid] || lastSeenAt
+    return userLastSeen
+      ? isOnline(uuid, userLastSeen)
         ? 'Online'
-        : `Last seen ${moment(usersSeen[uuid]).fromNow()}`
+        : `Last seen ${moment(userLastSeen).fromNow()}`
       : 'Offline'
   }
 
@@ -54,7 +56,7 @@ export function usePingChatOnline() {
   useEffect(() => {
     const interval = setInterval(() => {
       socketManager.pingLogin()
-    }, 10000)
+    }, 60000)
 
     return () => {
       clearInterval(interval)

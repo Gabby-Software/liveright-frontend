@@ -266,6 +266,15 @@ export default function ClientProfile() {
                 {upcomingSessions.meta.total || 0}{' '}
                 {t('profile:upcoming-sessions')}
               </p>
+              <Button
+                variant="text"
+                size="sm"
+                className="profile__card-dark-btn"
+                to={Routes.SESSIONS + '?upcoming=1'}
+              >
+                Sessions list
+                <CaretRightIcon />
+              </Button>
             </ClientProfileCard>
           </div>
         </div>
