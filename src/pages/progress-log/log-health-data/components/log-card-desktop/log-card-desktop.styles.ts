@@ -1,45 +1,41 @@
 import styled from 'styled-components'
 
-import Card from '../../../../../components/card/card.style'
-import { QualityType } from '../../../../progress/progress.types'
+import Card from '../../../../../components/cards/card/card.component'
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 12px;
-  padding: 16px 32px;
-  color: ${({ theme }) => theme.vars.colors.primaryDark};
-  background-color: white;
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;
+  margin-bottom: 1.25rem;
+  color: ${getColorCarry('primaryDark_v2')};
 
-  div:first-child {
-    display: flex;
-    align-items: center;
+  .log-card {
+    &__name {
+      align-items: center;
+      display: flex;
+    }
+
+    &__control {
+      padding: 0 1.875rem;
+      border-left: 1px solid ${getColorCarry('inputBorder_v2')};
+      border-right: 1px solid ${getColorCarry('inputBorder_v2')};
+    }
+
+    &__quality {
+    }
   }
-  .text_input__wrapper {
-    width: 100%;
-  }
-`
-export const Space = styled.div`
-  margin: auto;
-`
-export const Border = styled.div`
-  margin: 0px 30px;
-  border-right: 1px solid #f1f4f7;
-  flex-shrink: 0;
-  align-self: stretch;
 `
 
 export const LogName = styled.div`
+  padding-right: 1.875rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 250px;
-  flex-shrink: 0;
   align-self: stretch;
 
   & > span {
     font-weight: 500;
-    font-size: 14;
+    font-size: 0.875rem;
     padding: 0 11px;
   }
 
@@ -58,20 +54,9 @@ export const LogName = styled.div`
   }
 `
 
-// const qualityColors: { [key: string]: string } = {
-//   low: 'error',
-//   average: 'warning',
-//   good: 'success',
-//   high: 'error'
-// }
-
-export const LogQuality = styled.div<{
-  quality?: QualityType | ''
-}>`
+export const LogQuality = styled.div<any>`
+  padding-left: 1.875rem;
   display: flex;
-  width: 200px;
-  flex-shrink: 0;
-  align-self: stretch;
 
   span {
     display: block;
@@ -91,7 +76,6 @@ export const LogQuality = styled.div<{
   span.log-quality-value {
     margin-top: 16px;
     display: block;
-    align-items: left;
     color: ${({ theme }) => theme.vars.colors.primaryDark};
     // color: $ {({ quality, theme }) =>
     //   theme.vars.colors[qualityColors[quality || 'error']]};

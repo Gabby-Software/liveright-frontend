@@ -127,6 +127,7 @@ export default function Select({
           isLoading={loading}
           isDisabled={disabled}
           menuPosition={menuPosition}
+          menuPlacement="auto"
         />
         {name && <FormError name={name} className="field-error" />}
       </div>

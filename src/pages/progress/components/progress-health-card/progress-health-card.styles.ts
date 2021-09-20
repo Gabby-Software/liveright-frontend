@@ -1,92 +1,90 @@
-import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import { media } from '../../../../assets/styles/_media'
-import Card from '../../../../components/card/card.style'
-import FormButton from '../../../../components/forms/form-button/form-button.component'
+import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 const noLogsStyles = css`
-  border: 1px solid ${(p) => p.theme.vars.colors.link};
-  background-color: ${(p) => p.theme.vars.colors.link_bg};
-  color: ${(p) => p.theme.vars.colors.primaryDark_v2};
+  border: 1px solid ${getColorCarry('link')};
+  background-color: ${getColorCarry('link_bg')};
+  color: ${getColorCarry('primaryDark_v2')};
+
+  .health-card {
+    &__content {
+      padding-left: 0;
+    }
+  }
+
   svg {
     order: 2;
-    margin-left: auto;
-    margin-right: 10px;
     ${media('tablet', 'max')`
       order: 0;
     `}
   }
 `
 
-export const StyledCard = styled(Card)<{ noLogs: boolean }>`
+export const StyledCard = styled(Card)<any>`
   display: flex;
   align-items: center;
-  height: 93px;
-  width: 280px;
-  padding: 20px 18px;
-  color: white;
-  font-size: 16px;
+  flex-direction: row;
+  color: #fff;
   user-select: none;
-  border: 1px solid transparent;
-  background-color: ${({ theme }) => theme.vars.colors.primaryDark_v2};
-  margin-right: 24px;
+  background-color: ${getColorCarry('primaryDark_v2')};
+
   &:last-child {
     margin-right: 0;
   }
+
+  @media ${mediaQueries.MOBILE} {
+    flex-direction: column;
+  }
+
   svg {
     display: block;
     width: 40px;
     height: 40px;
     flex-shrink: 0;
-    margin-right: 25px;
   }
+
+  .health-card {
+    &__content {
+      flex: 1;
+      text-align: left;
+      padding-left: 1.5rem;
+    }
+
+    &__btn {
+      padding: 0;
+
+      & svg {
+        width: 6px;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
   ${({ noLogs }) => (noLogs ? noLogsStyles : '')}
-  ${media('tablet', 'max')`
-      width: calc(50% - 10px);
-      margin-right: 20px;
-      height: auto;
-      flex-direction: column;
-      text-align: center;
-      &:nth-child(even) {
-        margin-right: 0;
-      }
-      &:nth-child(-n +2) {
-        margin-bottom: 20px;
-      }
-      svg {
-        margin: 0 0 5px 0;
-      }
-  `}
-`
 
-export const Quality = styled.div`
-  color: #c2c2c2;
-  margin-bottom: 5px;
-`
-
-export const Data = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-`
-export const LogLink = styled(Link)`
-  color: ${(p) => p.theme.vars.colors.link};
-  display: flex;
-  align-items: center;
-  margin-top: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  svg {
-    height: 8px;
-    width: auto;
-    margin: 0 0 0 13px;
+  @media ${mediaQueries.MOBILE} {
+    .health-card {
+      &__content {
+        padding-left: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   }
-  ${media('tablet', 'max')`
-    justify-content: center;
-  `}
 `
-export const Button = styled(FormButton)`
-  padding: 4px;
+
+export const Quality = styled.p`
+  color: ${getColorCarry('neutral_50')};
+  margin-bottom: 0.25rem;
+`
+
+export const Data = styled.p`
+  font-size: 1rem;
+  font-weight: 400;
 `

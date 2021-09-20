@@ -36,6 +36,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
   const [switchAccountOpen, setSwitchAccountOpen] = useState(false)
   const { type } = useAuth()
   const dispatch = useDispatch()
+
   const menuItems: LinkType[] = [
     { Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile' },
     {
@@ -50,7 +51,6 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       Icon: ProgressIcon,
       permission: userTypes.TRAINER
     },
-    // {Icon: ChatIcon, url: Routes.CHAT, name: 'menu.chat', permission: userTypes.TRAINER},
     {
       Icon: InvoiceIcon,
       url: Routes.INVOICES,
@@ -79,6 +79,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       name: 'menu.log-out'
     }
   ]
+
   return (
     <>
       <BottomDrawer isOpen={isOpen} onClose={onClose} title={t('menu.more')}>

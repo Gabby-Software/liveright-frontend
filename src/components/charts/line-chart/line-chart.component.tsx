@@ -11,21 +11,27 @@ import {
 import { colors } from '../../../assets/styles/_variables'
 
 interface LineChartProps {
-  height?: number
+  height?: number | string
   data: any[]
   xDataKey: string
   dataKeys: string[]
+  dataStroke?: string[]
+  yTickFormatter?: any
+  tooltip?: any
 }
 
 export default function LineChart({
   height = 300,
   data,
   xDataKey,
-  dataKeys
+  dataKeys,
+  dataStroke,
+  yTickFormatter,
+  tooltip
 }: LineChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <ReLineChart data={data}>
+      <ReLineChart data={data} margin={{ top: 10, bottom: 10 }}>
         <CartesianGrid
           vertical={false}
           horizontal={<line strokeWidth={0.5} />}
@@ -44,16 +50,30 @@ export default function LineChart({
           tickLine={false}
           dx={-15}
           tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
+          tickFormatter={yTickFormatter}
         />
-        {dataKeys.map((key) => (
+        {dataKeys.map((key, index) => (
           <Line
             key={key}
             type="linear"
             strokeWidth={2}
-            stroke={colors.green_90}
+            stroke={dataStroke?.[index] || colors.green_90}
             dataKey={key}
+            dot={(props) => {
+              return (
+                <circle
+                  {...props}
+                  strokeWidth={3}
+                  r={5}
+                  {...(props.payload.dotColor && {
+                    stroke: props.payload.dotColor
+                  })}
+                />
+              )
+            }}
           />
         ))}
+        {tooltip}
       </ReLineChart>
     </ResponsiveContainer>
   )

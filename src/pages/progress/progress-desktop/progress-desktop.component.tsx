@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Route } from 'react-router-dom'
 
@@ -12,53 +12,75 @@ import { useAuth } from '../../../hooks/auth.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { getRoute } from '../../../utils/routes'
 import LogClient from '../../progress-log/log-health-data/components/log-client/log-client.component'
+import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import SwitchClient from '../components/switch-client/switch-client.component'
-import { ProgressSectionsType } from '../progress.types'
 import { Wrapper } from './progress-desktop.styles'
 
-interface Props {
-  onLogClick: (value: ProgressSectionsType) => void
-}
-
-const ProgressDesktop: FC<Props> = () => {
-  // const { onLogClick } = props
+export default function ProgressDesktop() {
   const { t } = useTranslation()
   const { type } = useAuth()
   const [switchDialog, setSwitchDialog] = useState(false)
   const params = useParams<any>()
 
+  const isClient = type === userTypes.CLIENT
+
+  const measurementsTo = isClient
+    ? Routes.PROGRESS_CLIENT_MEASUREMENTS
+    : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
+  const healthTo = isClient
+    ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+    : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+
+  const dropdown = (
+    <LogDropdown>
+      <Button className="progress__header-btn">
+        Log Data
+        <CaretDownIcon />
+      </Button>
+    </LogDropdown>
+  )
+
   return (
     <>
       <Wrapper>
-        <MobileBack
-          to={Routes.PROGRESS_CLIENTS}
-          alias="progress"
-          component={
-            <Button className="progress__header-btn">
-              Log Data
-              <CaretDownIcon />
-            </Button>
-          }
-        />
+        {type === userTypes.CLIENT ? (
+          <div className="progress__title-container">
+            <h2 className="progress__title">Progress & Metrics</h2>
+
+            {dropdown}
+          </div>
+        ) : (
+          <MobileBack
+            to={Routes.PROGRESS_CLIENTS}
+            alias="progress"
+            component={dropdown}
+          />
+        )}
 
         {type !== userTypes.CLIENT && (
           <LogClient onSwitch={() => setSwitchDialog(true)} />
         )}
+
         <RoutedTabs
           tabs={[
             {
               name: t('progress:sections.measurements'),
-              url: getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
+              url: measurementsTo
             },
             {
               name: t('progress:sections.health_data'),
-              url: getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+              url: healthTo
             }
           ]}
         />
         <Route path={Routes.PROGRESS_MEASUREMENTS}>TBD</Route>
-        <Route path={Routes.PROGRESS_HEALTH_DATA}>
+        <Route
+          path={[
+            Routes.PROGRESS_HEALTH_DATA,
+            Routes.PROGRESS_CLIENT_HEALTH_DATA
+          ]}
+        >
           <HealthData />
         </Route>
       </Wrapper>
@@ -70,5 +92,3 @@ const ProgressDesktop: FC<Props> = () => {
     </>
   )
 }
-
-export default ProgressDesktop

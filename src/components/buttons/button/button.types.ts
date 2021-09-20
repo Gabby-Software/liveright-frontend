@@ -8,4 +8,5 @@ export interface ButtonProps {
   type?: string
   disabled?: boolean
   htmlType?: string
+  form?: string
 }

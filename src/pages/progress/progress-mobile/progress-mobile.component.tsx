@@ -1,27 +1,22 @@
-import map from 'lodash/map'
-import React, { useState } from 'react'
-
 import { CaretDownIcon } from '../../../assets/media/icons'
-import FormButton from '../../../components/forms/form-button/form-button.component'
-import SmallModal from '../../../components/small-modal/small-modal.component'
+import Tabs from '../../../components/tabs/tabs.component'
 import { Routes } from '../../../enums/routes.enum'
+import userTypes from '../../../enums/user-types.enum'
+import { useAuth } from '../../../hooks/auth.hook'
+import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import ClientInfoMobile from '../components/client-info-mobile/client-info-mobile.component'
+import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import { PROGRESS_SECTIONS } from '../progress.constants'
-import { ProgressSectionsType } from '../progress.types'
-import { HeaderAction, StyledTabs, Wrapper } from './progress-mobile.styles'
+import { HeaderAction, Wrapper } from './progress-mobile.styles'
 
-interface Props {
-  onLogClick: (value: ProgressSectionsType) => void
-}
-
-const ProgressMobile: React.FC<Props> = (props) => {
-  const { onLogClick } = props
+export default function ProgressMobile() {
   const { t } = useTranslation()
-  const [logModal, setLogModal] = useState(false)
+  const { type } = useAuth()
+  const isMobile = useIsMobile()
 
   const renderHealthData = () => {
     return <HealthData />
@@ -35,25 +30,27 @@ const ProgressMobile: React.FC<Props> = (props) => {
     <MobilePage
       title="Client Progress"
       headerTopComponent={
-        <HeaderLink to={Routes.PROGRESS_CLIENTS}>
-          Return to Progress & Metrics
-        </HeaderLink>
+        type === userTypes.CLIENT ? undefined : (
+          <HeaderLink to={Routes.PROGRESS_CLIENTS}>
+            Return to Progress & Metrics
+          </HeaderLink>
+        )
       }
       actionComponent={
-        <HeaderAction>
-          Log Data
-          <CaretDownIcon />
-        </HeaderAction>
+        <LogDropdown>
+          <HeaderAction>
+            Log Data
+            <CaretDownIcon />
+          </HeaderAction>
+        </LogDropdown>
       }
-      headerSpacing={25}
+      headerSpacing={isMobile && type === userTypes.CLIENT ? 12 : 25}
     >
       <Wrapper>
-        <ClientInfoMobile />
+        {type !== userTypes.CLIENT && <ClientInfoMobile />}
 
-        <FormButton onClick={() => setLogModal(true)} type="primary">
-          {t('progress:sections.log')}
-        </FormButton>
-        <StyledTabs
+        <Tabs
+          className="health__tabs"
           tabs={[
             {
               label: t('progress:sections.health_data'),
@@ -67,18 +64,7 @@ const ProgressMobile: React.FC<Props> = (props) => {
             }
           ]}
         />
-        <SmallModal
-          onCancel={() => setLogModal(false)}
-          visible={logModal}
-          title={t('progress:sections.log')}
-          menu={map(PROGRESS_SECTIONS, (value) => ({
-            name: t(`progress:sections.${value}`),
-            onClick: () => onLogClick(value)
-          }))}
-        />
       </Wrapper>
     </MobilePage>
   )
 }
-
-export default ProgressMobile

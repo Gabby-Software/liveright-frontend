@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
+import { Routes } from '../../../enums/routes.enum'
 import { useAuth } from '../../../hooks/auth.hook'
-import logger from '../../../managers/logger.manager'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { ACTION_SWITCH_ACCOUNT_REQUEST } from '../../../store/action-types'
 import Card from '../../card/card.style'
@@ -12,12 +13,14 @@ import SwitchAccountModalContext from '../switch-account-modal.context'
 import Styles from './switch-account.styles'
 
 const SwitchAccount = () => {
+  const history = useHistory()
   const { onClose } = useContext(SwitchAccountModalContext)
   const { first_name, last_name, avatar, accounts } = useAuth()
   const dispatch = useDispatch()
   const { t } = useTranslation()
+
   const switchAccount = (uuid: string) => {
-    logger.info('SWITCH_ACCOUNT', 1, uuid)
+    history.push(Routes.HOME)
     dispatch({
       type: ACTION_SWITCH_ACCOUNT_REQUEST,
       payload: {
@@ -32,6 +35,7 @@ const SwitchAccount = () => {
       }
     })
   }
+
   return (
     <Styles>
       {accounts.map(({ uuid, type, is_current }, i) => (

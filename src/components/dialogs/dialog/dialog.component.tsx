@@ -4,16 +4,18 @@ import { CrossIcon } from '../../../assets/media/icons'
 import { DialogStyles } from './dialog.styles'
 
 interface DialogProps {
-  title: string
-  onClose: () => void
+  title?: string
+  onClose?: () => void
   open: boolean
+  className?: string
 }
 
 export default function Dialog({
   title,
   open,
   onClose,
-  children
+  children,
+  className
 }: PropsWithChildren<DialogProps>) {
   return (
     <DialogStyles
@@ -24,6 +26,7 @@ export default function Dialog({
       onCancel={onClose}
       width="100%"
       centered
+      className={className}
     >
       {children}
     </DialogStyles>
