@@ -21,7 +21,8 @@ interface Props {
 const LogCardDesktop: React.FC<Props> = (props) => {
   const { Icon, name, inputName, inputLabel, getQuality } = props
   const { t } = useTranslation()
-  const { getFieldMeta, values, setFieldValue } = useFormikContext<HealthData>()
+  const { getFieldMeta, setFieldValue, setFieldTouched } =
+    useFormikContext<HealthData>()
   const { value } = getFieldMeta<string>(inputName)
   const quality = Number(value) ? getQuality(+value) : ''
 
@@ -41,10 +42,11 @@ const LogCardDesktop: React.FC<Props> = (props) => {
         <Input
           id={`log-progress-${inputName}`}
           name={inputName}
-          value={(values as any)[inputName]}
+          value={value}
           label={inputLabel}
           format={formatter().number()}
           onChange={(e) => setFieldValue(inputName, e.target.value)}
+          onBlur={() => setFieldTouched(inputName, true)}
         />
       </div>
 

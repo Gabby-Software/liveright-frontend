@@ -8,7 +8,7 @@ import { SubmitButtonWrapper } from './submit-button-desktop.styles'
 
 const SubmitButtonDesktop: FC = () => {
   const { t } = useTranslation()
-  const { isValid, submitForm } = useFormikContext()
+  const { submitForm } = useFormikContext()
   const scrollY = useScroll()
   const [top, setTop] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -21,11 +21,7 @@ const SubmitButtonDesktop: FC = () => {
 
   return (
     <SubmitButtonWrapper top={top} ref={ref}>
-      <Button
-        disabled={!isValid}
-        onClick={submitForm}
-        className="submit__button"
-      >
+      <Button onClick={submitForm} className="submit__button">
         {t('progress:saveLogs')}
       </Button>
     </SubmitButtonWrapper>

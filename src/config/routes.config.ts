@@ -210,7 +210,7 @@ export const routes: RouteType[] = [
   },
   {
     title: 'Progress',
-    url: Routes.PROGRESS_LOG_HEALTH_DATA + '/:date?',
+    url: Routes.PROGRESS_LOG_HEALTH_DATA,
     Component: lazy(
       () =>
         import(

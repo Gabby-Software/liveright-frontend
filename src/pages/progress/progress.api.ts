@@ -37,6 +37,12 @@ export const logHealthDataAsync = async (
 ) => {
   const { id, ...body } = payload
 
+  const params = { ...body }
+
+  if (!params.account_id) {
+    delete params.account_id
+  }
+
   try {
     if (id) {
       await api.put(EP_HEALTH_DATA_LOGS + `/${id}`, body)

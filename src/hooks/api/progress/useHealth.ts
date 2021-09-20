@@ -56,6 +56,7 @@ interface HealthDataParams {
 
 interface UseHealthConfig extends Partial<HealthDataParams> {
   averages?: boolean
+  skip?: boolean
 }
 
 function getKey(params: HealthDataParams) {
@@ -93,8 +94,9 @@ export default function useHealth(config: UseHealthConfig = {}): UseHealth {
   }
 
   const skip =
-    params.filter?.range === 'specific_dates' &&
-    !(params.filter.from_date && params.filter.to_date)
+    config.skip ||
+    (params.filter?.range === 'specific_dates' &&
+      !(params.filter.from_date && params.filter.to_date))
 
   const { data, error } = useSWR(
     () => (skip ? null : getKey(params)),

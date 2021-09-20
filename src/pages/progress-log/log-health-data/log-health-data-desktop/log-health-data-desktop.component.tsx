@@ -80,7 +80,12 @@ const LogHealthDataDesktop: React.FC = () => {
               label={t('progress:loggingDate')}
               onChange={(e, date) => {
                 setFieldValue('date', date)
-                history.replace(Routes.PROGRESS_LOG_HEALTH_DATA + `/${date}`)
+                history.replace(
+                  getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+                    id: params.id,
+                    date
+                  })
+                )
               }}
             />
             <TimePicker

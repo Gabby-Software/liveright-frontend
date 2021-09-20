@@ -5,16 +5,14 @@ import * as Yup from 'yup'
 
 import Button from '../../../components/buttons/button/button.component'
 import { Routes } from '../../../enums/routes.enum'
+import useHealth from '../../../hooks/api/progress/useHealth'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
 import { getRoute } from '../../../utils/routes'
-import {
-  getHealthDataAsync,
-  logHealthDataAsync
-} from '../../progress/progress.api'
+import { logHealthDataAsync } from '../../progress/progress.api'
 import { HealthData } from '../../progress/progress.types'
 import {
   getGlucoseQuality,
@@ -30,11 +28,12 @@ const LogHealthData = () => {
   const history = useHistory()
   const [initialValues, setInitialValues] = useState<HealthData>({
     id: '',
-    sleep: {}
+    date: '',
+    time: ''
   })
 
   const handleReturn = () => {
-    history.push(Routes.PROGRESS_HEALTH_DATA)
+    history.push(getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id }))
   }
 
   const handleSubmit = async (values: HealthData) => {
@@ -83,25 +82,27 @@ const LogHealthData = () => {
     logHealthDataAsync({
       ...payload,
       edit: payload.date === values.date,
-      id: values.id
+      id: values.id,
+      account_id: Number(params.id)
     }).then(handleReturn)
   }
 
-  useEffect(() => {
-    if (params.date) {
-      const getHealthData = async () => {
-        const { data } = await getHealthDataAsync({ date: params.date })
-
-        if (data.length) {
-          setInitialValues(data[0])
-        } else {
-          setInitialValues({ ...initialValues, date: params.date })
-        }
-      }
-
-      getHealthData()
+  const { health } = useHealth({
+    skip: !params.date,
+    per_page: 1,
+    filter: {
+      account_id: params.id,
+      date: params.date
     }
-  }, [params.date])
+  })
+
+  useEffect(() => {
+    if (health[0] && health[0].id) {
+      setInitialValues(health[0])
+    } else {
+      setInitialValues((values) => ({ ...values, date: params.date }))
+    }
+  }, [health[0]?.id])
 
   const content = (
     <Formik

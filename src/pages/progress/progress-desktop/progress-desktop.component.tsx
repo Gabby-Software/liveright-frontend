@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
-import { Route } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 
 import { CaretDownIcon } from '../../../assets/media/icons'
 import Button from '../../../components/buttons/button/button.component'
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownMenuItem
+} from '../../../components/dropdown'
 import MobileBack from '../../../components/mobile-back/mobile-back.component'
 import RoutedTabs from '../../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../../enums/routes.enum'
@@ -29,10 +34,27 @@ export default function ProgressDesktop() {
           to={Routes.PROGRESS_CLIENTS}
           alias="progress"
           component={
-            <Button className="progress__header-btn">
-              Log Data
-              <CaretDownIcon />
-            </Button>
+            <Dropdown
+              trigger={['click']}
+              overlay={
+                <DropdownMenu>
+                  <Link
+                    to={getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+                      id: params.id
+                    })}
+                  >
+                    <DropdownMenuItem>Health</DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem>Measurements</DropdownMenuItem>
+                  <DropdownMenuItem>Photos</DropdownMenuItem>
+                </DropdownMenu>
+              }
+            >
+              <Button className="progress__header-btn">
+                Log Data
+                <CaretDownIcon />
+              </Button>
+            </Dropdown>
           }
         />
 
