@@ -187,23 +187,16 @@ export const routes: RouteType[] = [
     footer: footerTypes.TRAINER
   },
   {
-    title: 'Progress Clients',
-    url: Routes.PROGRESS_CLIENTS,
-    version: 2,
-    Component: lazy(
-      () => import('../pages/progress-clients/progress-clients.component')
-    ),
-    mobileLayout: false,
-    header: {
-      title: null
-    }
-  },
-  {
     title: 'Progress',
-    url: Routes.PROGRESS,
+    url: Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/progress-log/log-health-data/log-health-data.component'
+        )
+    ),
     version: 2,
     mobileLayout: false,
-    Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
       title: null
     }
@@ -219,6 +212,38 @@ export const routes: RouteType[] = [
     ),
     version: 2,
     mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Progress Clients',
+    url: Routes.PROGRESS_CLIENTS,
+    version: 2,
+    Component: lazy(
+      () => import('../pages/progress-clients/progress-clients.component')
+    ),
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Progress',
+    url: Routes.PROGRESS_CLIENT,
+    version: 2,
+    mobileLayout: false,
+    Component: lazy(() => import('../pages/progress/progress.component')),
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Progress',
+    url: Routes.PROGRESS,
+    version: 2,
+    mobileLayout: false,
+    Component: lazy(() => import('../pages/progress/progress.component')),
     header: {
       title: null
     }

@@ -1,6 +1,8 @@
 import { Field, FieldProps, useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { FC, useMemo } from 'react'
+import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
@@ -10,11 +12,13 @@ import Button from '../../../../components/buttons/button/button.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../components/form/select/select.component'
 import TimePicker from '../../../../components/form/time-picker/time-picker.component'
+import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { classes } from '../../../../pipes/classes.pipe'
 import { getDuration } from '../../../../pipes/duration.pipe'
+import { getRoute } from '../../../../utils/routes'
 import ClientInfoMobile from '../../../progress/components/client-info-mobile/client-info-mobile.component'
 import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
@@ -97,8 +101,9 @@ const LogHealthValue: FC<{
 const LogHealthDataMobile = () => {
   const { t } = useTranslation()
   const { type } = useAuth()
-  const { getFieldMeta, isValid, values, setFieldValue } =
-    useFormikContext<HealthData>()
+  const history = useHistory()
+  const params = useParams<any>()
+  const { getFieldMeta, values, setFieldValue } = useFormikContext<HealthData>()
 
   const sleepOptions = useMemo(
     () => [
@@ -122,6 +127,14 @@ const LogHealthDataMobile = () => {
     getFieldMeta<string>('sleep.nap_end_time').value
   )
 
+  const replaceUrl = (date: string) =>
+    type === userTypes.CLIENT
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, { date })
+      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+          id: params.id,
+          date
+        })
+
   return (
     <Wrapper>
       {type !== userTypes.CLIENT ? <ClientInfoMobile /> : null}
@@ -131,7 +144,10 @@ const LogHealthDataMobile = () => {
           id="log-date"
           name="date"
           value={values.date}
-          onChange={(e, date) => setFieldValue('date', date)}
+          onChange={(e, date) => {
+            setFieldValue('date', date)
+            history.replace(replaceUrl(date))
+          }}
           label={t('progress:loggingDate')}
           className="log-health__form-item"
         />
@@ -249,7 +265,7 @@ const LogHealthDataMobile = () => {
         />
       </WhiteCard>
 
-      <Button disabled={!isValid} type="submit" className="log-health__submit">
+      <Button htmlType="submit" className="log-health__submit">
         Save Logs
       </Button>
     </Wrapper>

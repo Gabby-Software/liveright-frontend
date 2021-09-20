@@ -3,9 +3,14 @@ import styled from 'styled-components'
 
 import { ReactComponent as InfoIcon } from '../../../../assets/media/icons/info-fill.svg'
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled.div`
+  @media ${mediaQueries.MOBILE} {
+    padding-top: 1.5rem;
+  }
+
   .log-health {
     &__submit {
       width: 100%;

@@ -12,6 +12,8 @@ import {
   LoadingPlaceholder
 } from '../../../../components/placeholders'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getRoute } from '../../../../utils/routes'
 import { PROGRESS_TABLE_KEYS } from '../../progress.constants'
@@ -22,6 +24,17 @@ import { Pagination, Wrapper } from './progress-table.styles'
 export default function HealthTable() {
   const params = useParams<any>()
   const { t } = useTranslation()
+  const { type } = useAuth()
+
+  const logTo =
+    type === userTypes.CLIENT
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, {
+          date: moment().format('YYYY-MM-DD')
+        })
+      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+          id: params.id,
+          date: moment().format('YYYY-MM-DD')
+        })
 
   const { health, onlyInclude, isLoading } = useContext(
     ProgressHealthDataContext
@@ -93,17 +106,7 @@ export default function HealthTable() {
 
       <Pagination>
         <DataPagination page={1} setPage={() => {}} total={1} justify="between">
-          <Button
-            to={getRoute(
-              Routes.PROGRESS_LOG_HEALTH_DATA +
-                `/${moment().format('YYYY-MM-DD')}`,
-              {
-                id: params.id
-              }
-            )}
-            variant="text"
-            className="pagination__link"
-          >
+          <Button to={logTo} variant="text" className="pagination__link">
             Some day missing? Add it
             <AddIcon />
           </Button>

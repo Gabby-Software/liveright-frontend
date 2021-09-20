@@ -59,12 +59,22 @@ const LogHealthDataDesktop: React.FC = () => {
     []
   )
 
+  const backUrl =
+    type === userTypes.CLIENT
+      ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+      : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+
+  const replaceUrl = (date: string) =>
+    type === userTypes.CLIENT
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, { date })
+      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+          id: params.id,
+          date
+        })
+
   return (
     <Wrapper>
-      <MobileBack
-        alias="health-data"
-        to={getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })}
-      />
+      <MobileBack alias="health-data" to={backUrl} />
 
       <h2 className="log-health__title">Log Health Data</h2>
 
@@ -80,12 +90,7 @@ const LogHealthDataDesktop: React.FC = () => {
               label={t('progress:loggingDate')}
               onChange={(e, date) => {
                 setFieldValue('date', date)
-                history.replace(
-                  getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
-                    id: params.id,
-                    date
-                  })
-                )
+                history.replace(replaceUrl(date))
               }}
             />
             <TimePicker

@@ -5,7 +5,9 @@ import * as Yup from 'yup'
 
 import Button from '../../../components/buttons/button/button.component'
 import { Routes } from '../../../enums/routes.enum'
+import userTypes from '../../../enums/user-types.enum'
 import useHealth from '../../../hooks/api/progress/useHealth'
+import { useAuth } from '../../../hooks/auth.hook'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
@@ -22,18 +24,27 @@ import {
 import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desktop.component'
 import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
+const initValues: HealthData = {
+  id: '',
+  date: '',
+  time: ''
+}
+
 const LogHealthData = () => {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
-  const [initialValues, setInitialValues] = useState<HealthData>({
-    id: '',
-    date: '',
-    time: ''
-  })
+  const [initialValues, setInitialValues] = useState<HealthData>(initValues)
+
+  const { type } = useAuth()
+
+  const backUrl =
+    type === userTypes.CLIENT
+      ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+      : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
 
   const handleReturn = () => {
-    history.push(getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id }))
+    history.push(backUrl)
   }
 
   const handleSubmit = async (values: HealthData) => {
@@ -100,7 +111,7 @@ const LogHealthData = () => {
     if (health[0] && health[0].id) {
       setInitialValues(health[0])
     } else {
-      setInitialValues((values) => ({ ...values, date: params.date }))
+      setInitialValues({ ...initValues, date: params.date })
     }
   }, [health[0]?.id])
 
@@ -151,7 +162,7 @@ const LogHealthData = () => {
         )
       })}
     >
-      <Form>
+      <Form id="health-form">
         {isMobile ? <LogHealthDataMobile /> : <LogHealthDataDesktop />}
       </Form>
     </Formik>
@@ -160,15 +171,15 @@ const LogHealthData = () => {
   return isMobile ? (
     <MobilePage
       title="Log Health Data"
-      headerSpacing={20}
+      headerSpacing={type === userTypes.CLIENT ? 0 : 20}
       headerTopComponent={
-        <HeaderLink
-          to={getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })}
-        >
-          Return to Health Data
-        </HeaderLink>
+        <HeaderLink to={backUrl}>Return to Health Data</HeaderLink>
       }
-      actionComponent={<Button>Save Logs</Button>}
+      actionComponent={
+        <Button htmlType="submit" form="health-form">
+          Save Logs
+        </Button>
+      }
     >
       {content}
     </MobilePage>
