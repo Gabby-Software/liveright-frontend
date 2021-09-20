@@ -50,7 +50,7 @@ export default function ProgressMobile() {
         {type !== userTypes.CLIENT && <ClientInfoMobile />}
 
         <Tabs
-          className="health__tabs"
+          className={type !== userTypes.CLIENT ? '' : 'health__tabs'}
           tabs={[
             {
               label: t('progress:sections.health_data'),

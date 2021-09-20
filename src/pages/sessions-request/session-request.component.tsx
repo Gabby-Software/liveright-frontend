@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import CreditsButton from '../../components/buttons/credits-button/credits-button.component'
 import AddForm from '../../components/sessions/session-add-modal/component/add-form/add-form.component'
 import userTypes from '../../enums/user-types.enum'
+import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import useCreditsWithTrainer from '../../hooks/api/credits/useCreditsWithTrainer'
 import { useTrainerSelector } from '../../hooks/trainer.hook'
 import HeaderLink from '../../layouts/mobile-page/components/header-link/header-link.component'
@@ -12,7 +13,7 @@ import { HeaderComponent, Styles } from './session-request.styles'
 
 export default function SessionRequest() {
   const { t } = useTranslation()
-  const trainer = useTrainerSelector()
+  const { account } = useTrainerAccount()
   const history = useHistory()
   const { credits } = useCreditsWithTrainer()
   return (
@@ -29,9 +30,7 @@ export default function SessionRequest() {
     >
       <Styles>
         <AddForm
-          trainerId={
-            trainer.accounts.find((it) => it.type === userTypes.TRAINER)!.id
-          }
+          trainerId={account?.id}
           onSuccess={() => history.push('/sessions')}
         />
       </Styles>
