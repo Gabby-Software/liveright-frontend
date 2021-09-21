@@ -44,22 +44,26 @@ function App() {
         <Route path={authRoutes.map((r) => r.url)}>
           <AuthFormProvider>
             <Suspense fallback={<Skeleton className={'suspense'} />}>
-              {authRoutes.map((R) => (
-                <Route exact path={R.url} key={R.url} {...R.props}>
-                  <R.Component />
-                </Route>
-              ))}
+              <Switch>
+                {authRoutes.map((R) => (
+                  <Route exact path={R.url} key={R.url} {...R.props}>
+                    <R.Component />
+                  </Route>
+                ))}
+              </Switch>
             </Suspense>
           </AuthFormProvider>
         </Route>
         <Route exact path={routes.map((r) => r.url)}>
           <Layout>
             <Suspense fallback={<Skeleton className={'suspense'} />}>
-              {routes.map((R, index) => (
-                <Route exact path={R.url} key={R.url + index} {...R.props}>
-                  <R.Component />
-                </Route>
-              ))}
+              <Switch>
+                {routes.map((R, index) => (
+                  <Route exact path={R.url} key={R.url + index} {...R.props}>
+                    <R.Component />
+                  </Route>
+                ))}
+              </Switch>
             </Suspense>
           </Layout>
         </Route>

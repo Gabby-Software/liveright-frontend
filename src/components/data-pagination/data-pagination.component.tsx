@@ -7,7 +7,7 @@ type Props = {
   page: number
   setPage: (page: number) => void
   total: number
-  justify?: 'start' | 'center' | 'end'
+  justify?: 'start' | 'center' | 'end' | 'between'
 }
 
 const DataPagination: FC<Props> = ({

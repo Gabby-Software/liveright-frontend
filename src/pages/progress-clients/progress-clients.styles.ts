@@ -28,7 +28,12 @@ export const Styles = styled.div`
     }
 
     &__search {
-      width: 350px;
+      width: 100%;
+      max-width: 350px;
+
+      @media ${mediaQueries.MOBILE} {
+        max-width: 100%;
+      }
     }
 
     &__client {

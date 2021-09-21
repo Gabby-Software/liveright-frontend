@@ -1,16 +1,16 @@
 import { Popover } from 'antd'
 import { Moment } from 'moment'
 import React, { ReactElement } from 'react'
+import { useParams } from 'react-router'
 
 import { ReactComponent as ArrowIcon } from '../../../../assets/media/icons/right-arrow.svg'
+import Button from '../../../../components/buttons/button/button.component'
+import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { PROGRESS_LOG_URL } from '../../progress.constants'
-import {
-  Data,
-  LogLink,
-  Quality,
-  StyledCard
-} from './progress-health-card.styles'
+import { getRoute } from '../../../../utils/routes'
+import { Data, Quality, StyledCard } from './progress-health-card.styles'
 
 interface Props {
   icon: ReactElement
@@ -23,29 +23,45 @@ interface Props {
 const HealthCard: React.FC<Props> = (props) => {
   const { icon, quality, data, date, title } = props
   const { t } = useTranslation()
+  const params = useParams<any>()
+  const { type } = useAuth()
+
+  const logTo =
+    type === userTypes.CLIENT
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, {
+          date: date?.format('YYYY-MM-DD')
+        })
+      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+          id: params.id,
+          date: date?.format('YYYY-MM-DD')
+        })
 
   return (
     <Popover content={title}>
       <StyledCard noLogs={!data}>
         {icon}
-        {data ? (
-          <div>
-            <Quality>{t(`progress:${quality || ''}`)}</Quality>
-            <Data>{data}</Data>
-          </div>
-        ) : (
-          <div>
-            <Data>{t('progress:noLogs')}</Data>
-            <LogLink
-              to={
-                PROGRESS_LOG_URL.health_data + `/${date?.format('YYYY-MM-DD')}`
-              }
-            >
-              <span>{t('progress:logNow')}</span>
-              <ArrowIcon />
-            </LogLink>
-          </div>
-        )}
+        <div className="health-card__content">
+          {data ? (
+            <>
+              <Quality>{t(`progress:${quality || ''}`)}</Quality>
+              <Data>{data}</Data>
+            </>
+          ) : (
+            <>
+              <Data>{t('progress:noLogs')}</Data>
+
+              <Button
+                to={logTo}
+                variant="text"
+                size="sm"
+                className="health-card__btn"
+              >
+                <span>{t('progress:logNow')}</span>
+                <ArrowIcon />
+              </Button>
+            </>
+          )}
+        </div>
       </StyledCard>
     </Popover>
   )

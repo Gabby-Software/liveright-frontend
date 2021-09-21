@@ -3,14 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import Button from '../../../components/buttons/button/button.component'
 import { Routes } from '../../../enums/routes.enum'
+import userTypes from '../../../enums/user-types.enum'
+import useHealth from '../../../hooks/api/progress/useHealth'
+import { useAuth } from '../../../hooks/auth.hook'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
-import {
-  getHealthDataAsync,
-  logHealthDataAsync
-} from '../../progress/progress.api'
+import { getRoute } from '../../../utils/routes'
+import { logHealthDataAsync } from '../../progress/progress.api'
 import { HealthData } from '../../progress/progress.types'
 import {
   getGlucoseQuality,
@@ -20,21 +24,30 @@ import {
 import LogHealthDataDesktop from './log-health-data-desktop/log-health-data-desktop.component'
 import LogHealthDataMobile from './log-health-data-mobile/log-health-data-mobile.component'
 
+const initValues: HealthData = {
+  id: '',
+  date: '',
+  time: ''
+}
+
 const LogHealthData = () => {
   const isMobile = useIsMobile()
-  const { date } = useParams<{ date: string }>()
+  const params = useParams<any>()
   const history = useHistory()
-  const [initialValues, setInitialValues] = useState<HealthData>({
-    id: '',
-    sleep: {}
-  })
+  const [initialValues, setInitialValues] = useState<HealthData>(initValues)
+
+  const { type } = useAuth()
+
+  const backUrl =
+    type === userTypes.CLIENT
+      ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+      : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
 
   const handleReturn = () => {
-    history.push(Routes.PROGRESS_HEALTH_DATA)
+    history.push(backUrl)
   }
 
   const handleSubmit = async (values: HealthData) => {
-    console.log({ values })
     const { time, sleep, heart_rate, steps, blood_glucose } = values
     const payload: HealthData = {
       date: values.date,
@@ -79,28 +92,30 @@ const LogHealthData = () => {
 
     logHealthDataAsync({
       ...payload,
-      edit: date === values.date,
-      id: values.id
+      edit: payload.date === values.date,
+      id: values.id,
+      account_id: Number(params.id)
     }).then(handleReturn)
   }
 
-  useEffect(() => {
-    if (date) {
-      const getHealthData = async () => {
-        const { data } = await getHealthDataAsync({ date })
-
-        if (data.length) {
-          setInitialValues(data[0])
-        } else {
-          setInitialValues({ ...initialValues, date })
-        }
-      }
-
-      getHealthData()
+  const { health } = useHealth({
+    skip: !params.date,
+    per_page: 1,
+    filter: {
+      account_id: params.id,
+      date: params.date
     }
-  }, [date])
+  })
 
-  return (
+  useEffect(() => {
+    if (health[0] && health[0].id) {
+      setInitialValues(health[0])
+    } else {
+      setInitialValues({ ...initValues, date: params.date })
+    }
+  }, [health[0]?.id])
+
+  const content = (
     <Formik
       enableReinitialize
       onSubmit={handleSubmit}
@@ -147,10 +162,29 @@ const LogHealthData = () => {
         )
       })}
     >
-      <Form>
+      <Form id="health-form">
         {isMobile ? <LogHealthDataMobile /> : <LogHealthDataDesktop />}
       </Form>
     </Formik>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Log Health Data"
+      headerSpacing={type === userTypes.CLIENT ? 0 : 20}
+      headerTopComponent={
+        <HeaderLink to={backUrl}>Return to Health Data</HeaderLink>
+      }
+      actionComponent={
+        <Button htmlType="submit" form="health-form">
+          Save Logs
+        </Button>
+      }
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }
 

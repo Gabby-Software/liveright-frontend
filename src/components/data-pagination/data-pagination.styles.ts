@@ -15,6 +15,8 @@ function getJustify(props: any): string {
       return 'flex-start'
     case 'center':
       return 'center'
+    case 'between':
+      return 'space-between'
     default:
       return 'flex-end'
   }

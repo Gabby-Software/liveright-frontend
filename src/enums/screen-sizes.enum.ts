@@ -5,5 +5,6 @@ export const screenSizes = {
 }
 
 export const mediaQueries = {
-  MOBILE: `(max-width: ${screenSizes.MOBILE}px)`
+  LANDSCAPE: '(orientation: landscape) and (hover: none) and (pointer: coarse)',
+  MOBILE: `(orientation: landscape) and (hover: none) and (pointer: coarse), (max-width: ${screenSizes.MOBILE}px)`
 }

@@ -18,6 +18,8 @@ import {
 } from '../../components/quick-access/quick-access.context'
 import { footerTypes } from '../../enums/footer-types'
 import { Routes } from '../../enums/routes.enum'
+import userTypes from '../../enums/user-types.enum'
+import { useAuth } from '../../hooks/auth.hook'
 import { usePage } from '../../hooks/page.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
@@ -37,10 +39,13 @@ const MobileFooterContent = () => {
   const location = useLocation()
   const { id } = useParams<any>()
   const page = usePage()
+  const { type } = useAuth()
+
   const footerType = useMemo(
     () => (page?.footer === undefined ? footerTypes.DEFAULT : page?.footer),
     [page]
   )
+
   const menuItemsOptions: { [key: string]: MenuItemType[] } = {
     [footerTypes.DEFAULT]: [
       {
@@ -65,7 +70,10 @@ const MobileFooterContent = () => {
         Icon: ProgressIcon,
         title: 'progress',
         className: 'mobile-footer__item',
-        url: Routes.PROGRESS_CLIENTS
+        url:
+          type === userTypes.CLIENT
+            ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+            : Routes.PROGRESS_CLIENTS
       },
       {
         Icon: OptionSolidIcon,
@@ -95,10 +103,12 @@ const MobileFooterContent = () => {
       }
     ]
   }
+
   const menuItems: MenuItemType[] = useMemo(
     () => menuItemsOptions[footerType],
-    [footerType]
+    [footerType, type]
   )
+
   return (
     <Styles>
       <div className={'mobile-footer__cont'}>

@@ -39,7 +39,18 @@ type MenuItemType = {
 const menuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeIcon },
   { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
-  { name: 'progress', url: Routes.PROGRESS_CLIENTS, Icon: ProgressIcon },
+  {
+    name: 'progress',
+    url: Routes.PROGRESS_CLIENTS,
+    Icon: ProgressIcon,
+    type: userTypes.TRAINER
+  },
+  {
+    name: 'progress',
+    url: Routes.PROGRESS_CLIENT_HEALTH_DATA,
+    Icon: ProgressIcon,
+    type: userTypes.CLIENT
+  },
   { name: 'sessions', url: Routes.SESSIONS, Icon: UsersIcon },
   {
     name: 'clients',

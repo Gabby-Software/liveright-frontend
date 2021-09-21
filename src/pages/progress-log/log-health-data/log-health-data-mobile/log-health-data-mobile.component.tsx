@@ -1,24 +1,27 @@
 import { Field, FieldProps, useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { FC, useMemo } from 'react'
+import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
+import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
-import { ReactComponent as HeartRateIcon } from '../../../../assets/media/icons/heart-rate.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
-import ButtonSubmit from '../../../../components/forms/button-submit/button-submit.component'
-import FormDatepicker from '../../../../components/forms/form-datepicker/form-datepicker.component'
-import FormSelect from '../../../../components/forms/form-select/form-select.component'
-import FormTimepicker from '../../../../components/forms/form-timepicker/form-timepicker.component'
+import Button from '../../../../components/buttons/button/button.component'
+import DatePicker from '../../../../components/form/date-picker/date-picker.component'
+import Select from '../../../../components/form/select/select.component'
+import TimePicker from '../../../../components/form/time-picker/time-picker.component'
+import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
-import logger from '../../../../managers/logger.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { classes } from '../../../../pipes/classes.pipe'
 import { getDuration } from '../../../../pipes/duration.pipe'
+import { getRoute } from '../../../../utils/routes'
+import ClientInfoMobile from '../../../progress/components/client-info-mobile/client-info-mobile.component'
 import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
-import LogClientMobile from '../components/log-client-mobile/log-client-mobile.component'
 import {
   getGlucoseQuality,
   getHeartRateQuality,
@@ -74,13 +77,16 @@ const GrayInput: FC<{
     </div>
   )
 }
+
 const LogHealthValue: FC<{
   name: string
   getQuality: (val: number) => string
 }> = ({ name, getQuality }) => {
   const { getFieldMeta } = useFormikContext<HealthData>()
+
   const value = getFieldMeta<number>(name)
   const quality = getQuality(value.value)
+
   const { t } = useTranslation()
   return (
     <div className={'log-health__value__cont'}>
@@ -91,10 +97,14 @@ const LogHealthValue: FC<{
     </div>
   )
 }
+
 const LogHealthDataMobile = () => {
   const { t } = useTranslation()
   const { type } = useAuth()
-  const { getFieldMeta, isValid } = useFormikContext<HealthData>()
+  const history = useHistory()
+  const params = useParams<any>()
+  const { getFieldMeta, values, setFieldValue } = useFormikContext<HealthData>()
+
   const sleepOptions = useMemo(
     () => [
       { value: QUALITY.LOW, label: t(`progress:${QUALITY.LOW}`) },
@@ -106,31 +116,57 @@ const LogHealthDataMobile = () => {
     ],
     []
   )
+
   const sleepTime = getDuration(
     getFieldMeta<string>('sleep.start_time').value,
     getFieldMeta<string>('sleep.end_time').value
   )
+
   const nupTime = getDuration(
     getFieldMeta<string>('sleep.nap_start_time').value,
     getFieldMeta<string>('sleep.nap_end_time').value
   )
-  logger.info(
-    getFieldMeta<string>('sleep.nap_start_time').value,
-    getFieldMeta<string>('sleep.nap_end_time').value
-  )
+
+  const replaceUrl = (date: string) =>
+    type === userTypes.CLIENT
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, { date })
+      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+          id: params.id,
+          date
+        })
+
   return (
     <Wrapper>
-      {type !== userTypes.CLIENT ? <LogClientMobile /> : null}
+      {type !== userTypes.CLIENT ? <ClientInfoMobile /> : null}
+
       <WhiteCard>
-        <FormDatepicker name="date" label={t('progress:loggingDate')} />
-        <FormTimepicker name="time" label={t('progress:loggingTime')} />
+        <DatePicker
+          id="log-date"
+          name="date"
+          value={values.date}
+          onChange={(e, date) => {
+            setFieldValue('date', date)
+            history.replace(replaceUrl(date))
+          }}
+          label={t('progress:loggingDate')}
+          className="log-health__form-item"
+        />
+        <TimePicker
+          id="log-time"
+          name="time"
+          value={values.time}
+          onChange={(e, date) => setFieldValue('time', date)}
+          label={t('progress:loggingTime')}
+        />
       </WhiteCard>
+
       <WhiteCard>
         <CardTitle>
-          <HeartRateIcon />
+          <HeartRateV2Icon />
           <span>{t('progress:heart_rate')}</span>
           <Info />
         </CardTitle>
+
         <FormRow>
           <GrayInput
             name={'heart_rate.avg_rate'}
@@ -143,6 +179,7 @@ const LogHealthDataMobile = () => {
           />
         </FormRow>
       </WhiteCard>
+
       <WhiteCard>
         <CardTitle>
           <StepsIcon />
@@ -161,6 +198,7 @@ const LogHealthDataMobile = () => {
           />
         </FormRow>
       </WhiteCard>
+
       <WhiteCard>
         <CardTitle>
           <BloodIcon />
@@ -179,6 +217,7 @@ const LogHealthDataMobile = () => {
           />
         </FormRow>
       </WhiteCard>
+
       <WhiteCard>
         <CardTitle>
           <SleepIcon />
@@ -215,13 +254,20 @@ const LogHealthDataMobile = () => {
             time
           />
         </FormRow>
-        <FormSelect
+
+        <Select
+          id="log-quality"
           label={t('progress:qualityLabel')}
           name={'sleep.quality'}
           options={sleepOptions}
+          value={values.sleep?.quality}
+          onChange={(e) => setFieldValue('sleep.quality', e)}
         />
       </WhiteCard>
-      <ButtonSubmit disabled={!isValid}>Save Logs</ButtonSubmit>
+
+      <Button htmlType="submit" className="log-health__submit">
+        Save Logs
+      </Button>
     </Wrapper>
   )
 }

@@ -13,6 +13,7 @@ export default function Button({
   to,
   disabled,
   htmlType,
+  form,
   ...props
 }: PropsWithChildren<ButtonProps>) {
   let content = (
@@ -23,6 +24,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       htmlType={htmlType}
+      form={form}
       {...props}
     >
       {children}

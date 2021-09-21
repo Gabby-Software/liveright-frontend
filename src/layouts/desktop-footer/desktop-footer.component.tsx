@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { CaretLeftIcon, CaretRightIcon } from '../../assets/media/icons'
 import Button from '../../components/buttons/button/button.component'
@@ -21,6 +22,7 @@ export default function DesktopFooter() {
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const history = useHistory()
 
   const logout = () => {
     dispatch({ type: ACTION_LOGOUT_REQUEST })
@@ -28,6 +30,7 @@ export default function DesktopFooter() {
 
   const switchAccount = () => {
     const uuid = accounts.find((acc) => !acc.is_current)?.uuid
+    history.push(Routes.HOME)
     dispatch({
       type: ACTION_SWITCH_ACCOUNT_REQUEST,
       payload: {
