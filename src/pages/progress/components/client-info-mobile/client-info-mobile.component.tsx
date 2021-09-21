@@ -11,6 +11,7 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
+import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
 import useHealth from '../../../../hooks/api/progress/useHealth'
 import SwitchClient from '../switch-client/switch-client.component'
 import { Styles } from './client-info-mobile.styles'
@@ -20,6 +21,7 @@ export default function ClientInfoMobile() {
   const { user } = useClientAccount(params.id)
   const [opened, setOpened] = useState(false)
   const [switchClient, setSwitchClient] = useState(false)
+  const { isOnline } = useChatOnline()
 
   const { health } = useHealth({
     filter: {
@@ -63,7 +65,8 @@ export default function ClientInfoMobile() {
         {opened && (
           <div className="progress__client-card-info">
             <p className="progress__client-card-text">
-              Last Active:<span> Yesterday</span>
+              Last Active:
+              <span> {isOnline(user.uuid) ? 'Online' : 'Offline'}</span>
             </p>
             <p className="progress__client-card-text">
               Last Activity on Health Data:<span> {data.date || '-'}</span>
