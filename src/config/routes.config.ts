@@ -182,12 +182,12 @@ export const routes: RouteType[] = [
     // header: {
     //   title: ''
     // },
-    // back: {
-    //   url: Routes.CLIENTS,
-    //   alias: 'clients'
-    // },
+    back: {
+      url: Routes.CLIENTS,
+      alias: 'clients'
+    },
     // version: 2,
-    // footer: footerTypes.TRAINER
+    footer: footerTypes.TRAINER,
     version: 2,
     mobileLayout: false,
     header: {
