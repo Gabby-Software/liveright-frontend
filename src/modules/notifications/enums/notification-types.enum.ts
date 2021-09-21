@@ -10,5 +10,6 @@ export enum notificationsTypes {
   SESSION_DELETED = 'trainer_deleted_session',
   SESSION_REMIND = 'p_t_session_reminder',
   CREDITS_DEPOSITED = 'credits_deposited',
-  NEW_CHAT_MESSAGE = 'new_message_notification'
+  NEW_CHAT_MESSAGE = 'new_message_notification',
+  HEALTH_REMINDER = 'health_data_reminder'
 }

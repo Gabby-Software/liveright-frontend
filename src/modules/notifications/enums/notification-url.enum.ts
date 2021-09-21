@@ -1,4 +1,6 @@
 import { Routes } from '../../../enums/routes.enum'
+import userTypes from '../../../enums/user-types.enum'
+import { AccessOptionType } from '../../../types/access-option.type'
 import { notificationsTypes } from './notification-types.enum'
 
 const EMPTY_RESPONSE = {
@@ -7,8 +9,9 @@ const EMPTY_RESPONSE = {
 }
 export const notificationUrl: (
   message: string,
-  data: Record<string, any>
-) => { slug: string; url: string } = (message, data) => {
+  data: Record<string, any>,
+  userType?: AccessOptionType
+) => { slug: string; url: string } = (message, data, userType) => {
   switch (message) {
     case notificationsTypes.INVITATION_ACCEPT:
       return {
@@ -55,6 +58,14 @@ export const notificationUrl: (
       return {
         url: Routes.CHAT + `/${data.room_id}`,
         slug: 'chat'
+      }
+    case notificationsTypes.HEALTH_REMINDER:
+      return {
+        url:
+          userType === userTypes.CLIENT
+            ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+            : Routes.CHAT,
+        slug: userType === userTypes.CLIENT ? 'health data' : 'chat'
       }
     default:
       return EMPTY_RESPONSE

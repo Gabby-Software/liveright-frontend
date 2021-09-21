@@ -5,6 +5,7 @@ import { LinkIcon, ShowIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import PopOnScroll from '../../../../components/pop-on-scroll/pop-on-scroll.component'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { notificationIcon } from '../../../../modules/notifications/enums/notification-icon.enum'
@@ -19,10 +20,11 @@ const Notification = ({
   type
 }: NotificationType) => {
   const isMobile = useIsMobile()
+  const auth = useAuth()
   const { t } = useTranslation()
   const { Icon, color } = notificationIcon(type)
   // const EyeIcon = notificationSeen(!!read_at)
-  const { url, slug } = notificationUrl(type, data)
+  const { url, slug } = notificationUrl(type, data, auth.type)
 
   return (
     <PopOnScroll offset={70}>
