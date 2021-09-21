@@ -11,6 +11,7 @@ import IconButton from '../../../../../components/buttons/icon-button/icon-butto
 import UserBadge from '../../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import useClientAccount from '../../../../../hooks/api/accounts/useClientAccount'
+import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
 import useHealth from '../../../../../hooks/api/progress/useHealth'
 import { classes } from '../../../../../pipes/classes.pipe'
 import { Wrapper } from './log-client.styles'
@@ -23,6 +24,7 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
   const { user, isLoading } = useClientAccount(params.id)
+  const { isOnline } = useChatOnline()
 
   const { health } = useHealth({
     filter: {
@@ -68,7 +70,9 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
             <div className={'log-client__bottom'}>
               <div className={'log-client__bottom__item'}>
                 <div className={'log-client__bottom__label'}>Last Active:</div>
-                <div className={'log-client__bottom__value'}>Yesterday</div>
+                <div className={'log-client__bottom__value'}>
+                  {isOnline(user.uuid) ? 'Online' : 'Offline'}
+                </div>
               </div>
               <div className={'log-client__bottom__separator'} />
               <div className={'log-client__bottom__item'}>
