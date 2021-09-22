@@ -71,8 +71,8 @@ export const PreviewSub = styled.p`
 
 export const ActionContainer = styled.div`
   padding-left: 2rem;
-  border-left: 1px solid ${getColorCarry('inputBorder_v2')};
 `
+// border-left: 1px solid ${getColorCarry('inputBorder_v2')};
 
 export const ActionButton = styled(Button)``
 
