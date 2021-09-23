@@ -6,16 +6,17 @@ export default function PaymentBadge() {
     account,
     onCreateAccount,
     isCreateAccountLoading,
-    isCreateLinkLoading
+    isCreateLinkLoading,
+    onCreateLink
   } = usePaymentAccount()
-  // const isActive = !!account.id
+  const isActive = !!account.id
   const isCompleted = account.details_submitted
   return (
     <Styles
       $active={isCompleted}
       className="financials__payment-btn"
-      // onClick={() => (isActive ? onCreateAccount() : onCreateLink())}
-      onClick={() => onCreateAccount()}
+      onClick={() => (isActive ? onCreateLink() : onCreateAccount())}
+      // onClick={() => onCreateAccount()}
       disabled={isCreateAccountLoading || isCreateLinkLoading}
     >
       S
