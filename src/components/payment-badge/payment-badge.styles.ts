@@ -17,6 +17,7 @@ export const Styles = styled.button<any>`
   position: absolute;
   right: 1rem;
   line-height: 1;
+  cursor: pointer;
 
   &::after {
     content: '';
