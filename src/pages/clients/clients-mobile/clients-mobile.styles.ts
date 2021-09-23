@@ -12,13 +12,21 @@ export default styled.div`
       box-shadow: 1px 2px 3px ${(p) => p.theme.vars.colors.secondary}88;
     }
     &__name {
-      ${(p) => p.theme.extend.p1}
-      color: ${(p) => p.theme.vars.colors.primaryDark};
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: ${(p) => p.theme.vars.colors.neutral_100};
     }
     &__label {
-      ${(p) => p.theme.extend.p1}
-      color: ${(p) => p.theme.vars.colors.secondary};
-      margin-top: 4px;
+      font-weight: 400;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: ${(p) => p.theme.vars.colors.neutral_70};
+      margin-top: 1rem;
+    }
+    &__filter-wrapper {
+      padding-top: 1.5rem;
+      padding-bottom: 1.25rem;
     }
     &__filter-wrapper {
       padding-top: 1.5rem;

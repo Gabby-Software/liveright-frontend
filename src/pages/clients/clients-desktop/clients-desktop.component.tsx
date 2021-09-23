@@ -129,12 +129,12 @@ const ClientsDesktop = ({}: Props) => {
   }
   useEffect(fetchClients, [query, type, status])
 
-  // if(!data.length) {
-  //     return (
-  //         <Styles>
-  //             <p>You have no clients currently</p>
-  //         </Styles>
-  //     );
+  // if (!data.length) {
+  //   return (
+  //     <Styles>
+  //       <p>You have no clients currently</p>
+  //     </Styles>
+  //   )
   // }
   return (
     <SessionStyles>
@@ -179,8 +179,6 @@ const ClientsDesktop = ({}: Props) => {
                         <ActionIconWrapper
                           key={item.title}
                           title={item.title || ''}
-                          // {...item}
-                          // className={'clients__action'}
                         >
                           {item.icon}
                         </ActionIconWrapper>
@@ -188,8 +186,6 @@ const ClientsDesktop = ({}: Props) => {
                     </div>
                   ),
                   status: ({ status }) => capitalize(status),
-                  // sessions: ({ sessions }) =>
-                  //   t('clients:sessions-remind', { n: sessions || 0 })
                   sessions: ({ extras: { credits } }) =>
                     t('clients:sessions-remind', { n: credits || 0 })
                 }}
