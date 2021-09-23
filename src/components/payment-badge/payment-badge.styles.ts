@@ -19,6 +19,10 @@ export const Styles = styled.button<any>`
   line-height: 1;
   cursor: pointer;
 
+  &:disabled {
+    opacity: 0.5;
+  }
+
   &::after {
     content: '';
     visibility: ${(props) => (props.$active ? 'visible' : 'hidden')};
