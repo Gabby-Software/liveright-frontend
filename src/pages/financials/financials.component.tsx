@@ -3,6 +3,7 @@ import React, { lazy } from 'react'
 import { Route, useLocation } from 'react-router-dom'
 
 import Button from '../../components/buttons/button/button.component'
+import PaymentBadge from '../../components/payment-badge/payment-badge.component'
 import RoutedTabs from '../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../enums/routes.enum'
 import { onlyTrainer } from '../../guards/trainer.guard'
@@ -49,7 +50,10 @@ const Financials = ({}: Props) => {
         </div>
       )}
 
-      <RoutedTabs tabs={financialTabs} className="financials__tabs" />
+      <div className="financials__tabs-container">
+        <RoutedTabs tabs={financialTabs} className="financials__tabs" />
+        <PaymentBadge />
+      </div>
 
       <React.Suspense fallback={Skeleton}>
         <Route
