@@ -30,6 +30,7 @@ type FormSelectUIProps = {
   onBlur?: FocusEventHandler<HTMLElement>
   children?: React.ReactNode
   onSearch?: (search: string) => void
+  placeholder?: string
 }
 export const FormSelectUI = ({
   name,
@@ -41,7 +42,8 @@ export const FormSelectUI = ({
   error,
   onBlur,
   children,
-  onSearch
+  onSearch,
+  placeholder
 }: FormSelectUIProps) => {
   const isMobile = useIsMobile()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -60,6 +62,7 @@ export const FormSelectUI = ({
             options.find((op) => op.value.toString() === value?.toString())
               ?.label
           }
+          placeholder={placeholder}
         />
       </label>
       {children}
@@ -103,6 +106,7 @@ export const FormSelectUI = ({
           onChange={(value) => onUpdate(value.value)}
           id={name}
           onBlur={onBlur}
+          placeholder={placeholder}
         >
           {options.map(({ label, value }) => (
             // eslint-disable-next-line react/jsx-key
@@ -120,7 +124,8 @@ const FormSelect = ({
   options,
   onUpdate,
   disabled,
-  onSearch
+  onSearch,
+  placeholder
 }: FormSelectPropsType) => {
   const handleChange = (value: string, form: FormikProps<any>) => {
     form.setFieldValue(name, value)
@@ -139,6 +144,7 @@ const FormSelect = ({
           error={Boolean(form.errors[name] && form.touched[name])}
           onBlur={field.onBlur}
           onSearch={onSearch}
+          placeholder={placeholder}
         >
           <FormError name={name} />
         </FormSelectUI>

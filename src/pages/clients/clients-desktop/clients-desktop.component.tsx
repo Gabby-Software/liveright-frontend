@@ -1,26 +1,45 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as ExerciseIcon } from '../../../assets/media/icons/exercise.svg'
-import { ReactComponent as FoodIcon } from '../../../assets/media/icons/food.svg'
-import { ReactComponent as MeasureIcon } from '../../../assets/media/icons/measure.svg'
-import { ReactComponent as WorkoutIcon } from '../../../assets/media/icons/workout.svg'
-import ActionIcon from '../../../components/action-icon/action-icon.component'
+import /* { ReactComponent as ExerciseIcon } */ ExerciseIcon from '../../../assets/media/icons/exercise_1.png'
+import /* { ReactComponent as FoodIcon } */ FoodIcon from '../../../assets/media/icons/food_1.png'
+import /* { ReactComponent as MeasureIcon } */ MeasureIcon from '../../../assets/media/icons/measure_1.png'
+import /* { ReactComponent as WorkoutIcon } */ WorkoutIcon from '../../../assets/media/icons/workout_1.png'
+import ActionIconWrapper from '../../../components/action-wrapper/action-wrapper.component'
+import Button from '../../../components/buttons/button/button.component'
+import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer.component'
 import ClientsFilter from '../../../components/clients/clients-filter/clients-filter.component'
 import DataPagination from '../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../components/data-table/data-table.component'
-import Link from '../../../components/link/link.component'
+import PageTitle from '../../../components/titles/page-title.styles'
 import { Routes } from '../../../enums/routes.enum'
 import { useClients } from '../../../hooks/clients.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { capitalize } from '../../../pipes/capitalize.pipe'
 import { ACTION_GET_CLIENTS_REQUEST } from '../../../store/action-types'
-import { TableActionType } from '../../../types/table-action.type'
-import Styles from './clients-desktop.styles'
+// import { TableActionType } from '../../../types/table-action.type'
+import SessionStyles from '../../sessions/sessions-trainer/desktop-sessions/desktop-sessions.styles'
+import ClientContainer from './clients-desktop.styles'
 
 type Props = {}
 const ClientsDesktop = ({}: Props) => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const [query, setQuery] = useState('')
+  const [type, setType] = useState('')
+  const [status, setStatus] = useState('')
   const { t } = useTranslation()
+  const timer = useRef(0)
+
+  useEffect(() => {
+    const params = new URLSearchParams(document.location.search)
+    const add = params.get('add')
+    if (add) {
+      setModalOpen(true)
+    }
+  }, [])
+
   const {
     data: { data, meta },
     loading,
@@ -35,7 +54,7 @@ const ClientsDesktop = ({}: Props) => {
     'profile:phone',
     'clients:sessions',
     'clients:status',
-    ''
+    'clients:actions'
   ]
   const keys: string[] = [
     'name',
@@ -45,12 +64,36 @@ const ClientsDesktop = ({}: Props) => {
     'status',
     'actions'
   ]
-  const actions: TableActionType[] = [
-    { icon: WorkoutIcon, onClick: () => {}, title: 'Workshops' },
-    { icon: ExerciseIcon, onClick: () => {}, title: 'Exercises' },
-    { icon: FoodIcon, onClick: () => {}, title: 'Meals' },
-    { icon: MeasureIcon, onClick: () => {}, title: 'Measures' }
+  const actions = [
+    {
+      icon: (
+        <img src={WorkoutIcon} alt={t('clients:workout')} />
+      ) as React.ReactNode,
+      onClick: () => {},
+      title: 'Workshops'
+    },
+    {
+      icon: <img src={ExerciseIcon} alt={t('clients:exercise')} />,
+      onClick: () => {},
+      title: 'Exercises'
+    },
+    {
+      icon: <img src={FoodIcon} alt={t('clients:meals')} />,
+      onClick: () => {},
+      title: 'Meals'
+    },
+    {
+      icon: <img src={MeasureIcon} alt={t('clients:measures')} />,
+      onClick: () => {},
+      title: 'Measures'
+    }
   ]
+  // const actions: TableActionType[] = [
+  //   { icon: WorkoutIcon, onClick: () => {}, title: 'Workshops' },
+  //   { icon: ExerciseIcon, onClick: () => {}, title: 'Exercises' },
+  //   { icon: FoodIcon, onClick: () => {}, title: 'Meals' },
+  //   { icon: MeasureIcon, onClick: () => {}, title: 'Measures' }
+  // ]
   const setPage = (page: number) => {
     dispatch({
       type: ACTION_GET_CLIENTS_REQUEST,
@@ -69,57 +112,111 @@ const ClientsDesktop = ({}: Props) => {
       }
     })
   }
-  // if(!data.length) {
-  //     return (
-  //         <Styles>
-  //             <p>You have no clients currently</p>
-  //         </Styles>
-  //     );
+
+  const fetchClients = () => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      dispatch({
+        type: ACTION_GET_CLIENTS_REQUEST,
+        payload: {
+          query,
+          type,
+          status,
+          page: 0
+        }
+      })
+    }, 400) as unknown as number
+  }
+  useEffect(fetchClients, [query, type, status])
+
+  // if (!data.length) {
+  //   return (
+  //     <Styles>
+  //       <p>You have no clients currently</p>
+  //     </Styles>
+  //   )
   // }
   return (
-    <Styles>
-      <div className={'clients__cont'}>
-        <ClientsFilter />
-        <div ref={dataRef}>
-          <DataTable
-            labels={labels}
-            data={data}
-            loading={loading}
-            error={error || data.length ? '' : t('clients:no-data')}
-            keys={keys}
-            render={{
-              name: ({ first_name, last_name, id, status }) =>
-                status === 'awaiting' ? (
-                  <div>{`${first_name} ${last_name}`}</div>
-                ) : (
-                  <Link
-                    to={`${Routes.CLIENTS}/${id}`}
-                  >{`${first_name} ${last_name}`}</Link>
-                ),
-              actions: () => (
-                <div className={'clients__activities'}>
-                  {actions.map((item) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <ActionIcon {...item} className={'clients__action'} />
-                  ))}
-                </div>
-              ),
-              status: ({ status }) => capitalize(status),
-              sessions: ({ sessions }) =>
-                t('clients:sessions-remind', { n: sessions || 0 })
-            }}
-          />
+    <>
+      <SessionStyles>
+        <div className="sessions">
+          <div className="sessions__main">
+            <PageTitle className="sessions__title">
+              {t('clients:title')}
+              <Button type={'primary'} onClick={() => setModalOpen(true)}>
+                {t('clients:add')}
+              </Button>
+            </PageTitle>
+
+            <ClientContainer>
+              <ClientsFilter
+                onSetQuery={setQuery}
+                onSetStatus={setStatus}
+                onSetType={setType}
+                query={query}
+                status={status}
+                type={type}
+              />
+              <div ref={dataRef}>
+                <DataTable
+                  labels={labels}
+                  data={data}
+                  loading={loading}
+                  error={error || data.length ? '' : t('clients:no-data')}
+                  keys={keys}
+                  render={{
+                    name: ({ first_name, last_name, id, status }) =>
+                      status === 'awaiting' ? (
+                        <div className="clients__name">{`${first_name} ${last_name}`}</div>
+                      ) : (
+                        <Link
+                          className="clients__name"
+                          to={`${Routes.CLIENTS}/${id}`}
+                        >{`${first_name} ${last_name}`}</Link>
+                      ),
+                    actions: () => (
+                      <div className={'clients__activities'}>
+                        {actions.map((item) => (
+                          <ActionIconWrapper
+                            key={item.title}
+                            title={item.title || ''}
+                          >
+                            {item.icon}
+                          </ActionIconWrapper>
+                        ))}
+                      </div>
+                    ),
+                    status: ({ status }) => capitalize(status),
+                    sessions: ({ extras: { credits } }) =>
+                      t('clients:sessions-remind', { n: credits || 0 })
+                  }}
+                  actionWidth="15rem"
+                />
+              </div>
+              <DataPagination
+                page={meta?.current_page}
+                setPage={(current_page: number) => setPage(current_page)}
+                total={meta?.total}
+              />
+              {/* Modal */}
+              {/* <AddClientModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onSubmit={fetchClients}
+              /> */}
+              {/*    data.length ? null : <p className={'clients__no-data'}>{t('no-data')}</p>*/}
+            </ClientContainer>
+          </div>
         </div>
-        <DataPagination
-          page={meta?.current_page}
-          setPage={(current_page: number) => setPage(current_page)}
-          total={meta?.total}
-        />
-        {/*{*/}
-        {/*    data.length ? null : <p className={'clients__no-data'}>{t('no-data')}</p>*/}
-        {/*}*/}
-      </div>
-    </Styles>
+      </SessionStyles>
+      <AddClientDrawer
+        title={t('clients:add')}
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={fetchClients}
+        width="32.5rem"
+      />
+    </>
   )
 }
 

@@ -2,10 +2,12 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled.table<{ roundBottom?: boolean }>`
+export default styled.table<{
+  actionWidth?: string
+  round?: string
+}>`
   width: 100%;
-  border-radius: ${({ roundBottom }) =>
-    roundBottom ? '10px' : '10px 10px 0 0'};
+  border-radius: ${({ round }) => round || '0px'};
   overflow: hidden;
 
   .data-table {
@@ -60,11 +62,19 @@ export default styled.table<{ roundBottom?: boolean }>`
       font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
 
+      .clients__name {
+        color: ${getColorCarry('blue_70')};
+        font-size: 0.875rem;
+        font-weight: normal;
+        line-height: 1.25rem;
+      }
+
       &:first-child {
         padding-left: 1.75rem;
       }
       &:last-child {
         padding-right: 1.75rem;
+        width: ${({ actionWidth }) => (actionWidth ? actionWidth : 'unset')};
       }
     }
   }

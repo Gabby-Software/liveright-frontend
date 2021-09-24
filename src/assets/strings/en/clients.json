@@ -1,13 +1,19 @@
 {
   "active": "Active",
   "inactive": "Inactive",
+  "actions": "Actions",
+  "title": "Clients",
   "client-name": "Client Name",
   "sessions": "Sessions",
   "status": "Status",
   "sessions-remind": "{{n}} Sessions remain",
   "add": "Add New Client",
+  "add-mobile": "New Client",
   "client-exist": "is on LiveRight, send him a message alongside your invite",
   "view-profile": "View Profile",
   "no-data": "Oops... Looks like you have no clients yet.",
-  "filters": "Clients Filters"
+  "filter-input-mobile": "Search for client name",
+  "filters": "Filter Clients",
+  "search": "Search for Client Name",
+  "all-status": "All Status"
 }

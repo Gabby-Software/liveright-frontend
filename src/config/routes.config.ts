@@ -139,8 +139,11 @@ export const routes: RouteType[] = [
     title: 'Clients',
     url: Routes.CLIENTS,
     Component: lazy(() => import('../pages/clients/clients.component')),
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Clients'
+      title: null,
+      items: headers.default
     }
   },
   {
@@ -150,16 +153,19 @@ export const routes: RouteType[] = [
     header: {
       title: 'Client'
     },
+    mobileLayout: false,
     footer: footerTypes.TRAINER
   },
   {
     title: 'Clients',
-    url: Routes.CLIENTS + '/:id',
-    Component: lazy(() => import('../pages/client/client.component')),
+    url: Routes.CLIENTS,
+    Component: lazy(() => import('../pages/clients/clients.component')),
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: ''
-    },
-    footer: footerTypes.TRAINER
+      title: null,
+      items: headers.default
+    }
   },
   {
     title: 'Clients',
@@ -176,15 +182,21 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/client-profile/client-profile.component')
     ),
-    header: {
-      title: ''
-    },
+    // header: {
+    //   title: ''
+    // },
     back: {
       url: Routes.CLIENTS,
       alias: 'clients'
     },
+    // version: 2,
+    footer: footerTypes.TRAINER,
     version: 2,
-    footer: footerTypes.TRAINER
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: headers.default
+    }
   },
   {
     title: 'Progress',
