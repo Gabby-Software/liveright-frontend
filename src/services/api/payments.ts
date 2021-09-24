@@ -28,5 +28,5 @@ export async function createAccountLink() {
   const response = await api.post(EP_PAYMENT_CREATE_LINK, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   })
-  return response.data
+  return response.data.data
 }

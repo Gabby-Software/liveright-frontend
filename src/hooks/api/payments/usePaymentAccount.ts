@@ -42,6 +42,7 @@ export default function usePaymentAccount(): UsePaymentAccount {
       setCreateLinkLoading(true)
       const response = await createAccountLink()
       setCreateLinkLoading(false)
+      window.open(response.url, '_blank')
     } catch (e) {
       setCreateLinkLoading(false)
       console.error(e)
