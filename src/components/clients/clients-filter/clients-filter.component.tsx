@@ -12,7 +12,8 @@ import FormButton from '../../forms/form-button/form-button.component'
 import { FormInputLabeledUI } from '../../forms/form-input-labeled/form-input-labeled.component'
 import FormRow from '../../forms/form-row/form-row.component'
 import { FormSelectUI } from '../../forms/form-select/form-select.component'
-import AddClientModal from '../add-client-modal/add-client-modal.component'
+import AddClientDrawer from '../add-client-modal/add-client-drawer.component'
+// import AddClientModal from '../add-client-modal/add-client-modal.component'
 import Styles from './clients-filter.styles'
 
 type FilterType = {
@@ -60,6 +61,7 @@ const ClientsFilter = () => {
     // todo: handle submition
     helper.setSubmitting(false)
   }
+
   const typeOptions: OptionType[] = [
     { label: 'All', value: '' },
     { label: 'Leads', value: 'leads' },
@@ -91,8 +93,6 @@ const ClientsFilter = () => {
         />
         <div />
         <div />
-        {/*<FormSelectUI name={'type'} value={type} label={t('clients:type')}*/}
-        {/*              options={typeOptions} onUpdate={setType}/>*/}
 
         <div className={'clients__cta'}>
           <FormButton
@@ -103,10 +103,17 @@ const ClientsFilter = () => {
             {t('clients:add')}
           </FormButton>
         </div>
-        <AddClientModal
+        {/* <AddClientModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onSubmit={fetchClients}
+        /> */}
+        <AddClientDrawer
+          title={t('clients:add')}
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSubmit={fetchClients}
+          width="32.5rem"
         />
       </FormRow>
     </Styles>
