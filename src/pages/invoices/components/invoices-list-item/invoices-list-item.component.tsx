@@ -110,7 +110,7 @@ const InvoicesListItem = ({
               invoiceStatuses.OVERDUE
             ].includes(status) ? (
               <a
-                href={payments(Routes.INVOICES + '/' + id)}
+                href={payments(`${Routes.INVOICES}/${id}/pay`)}
                 className={'invoice-li__cta'}
                 onClick={(e) => e.stopPropagation()}
               >

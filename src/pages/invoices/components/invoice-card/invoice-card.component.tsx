@@ -78,7 +78,7 @@ const InvoiceCard = ({
             </Button>
           ) : (
             <a
-              href={payments(Routes.INVOICES + '/' + id)}
+              href={payments(`${Routes.INVOICES}/${id}/pay`)}
               onClick={(e) => e.stopPropagation()}
             >
               <Button
