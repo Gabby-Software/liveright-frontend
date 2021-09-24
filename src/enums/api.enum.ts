@@ -46,3 +46,9 @@ export const EP_ACCOUNT_BY_ID = ALLRIGHT_BASE + '/user/accounts'
 
 export const EP_STATISTIC_AR = ALLRIGHT_BASE + '/analytics/stats'
 export const EP_STATISTIC_LR = LIVERIGHT_BASE + '/analytics/stats'
+
+export const EP_PAYMENT_ACCOUNT = ALLRIGHT_BASE + '/stripe/connect/account'
+export const EP_PAYMENT_CREATE_ACCOUNT =
+  ALLRIGHT_BASE + '/stripe/connect/onboarding'
+export const EP_PAYMENT_CREATE_LINK =
+  ALLRIGHT_BASE + '/stripe/connect/account-link'
