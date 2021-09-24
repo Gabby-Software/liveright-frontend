@@ -10,6 +10,9 @@ export const EditRoot = styled.div``
 export const Card = styled(CardComponent)<any>`
   width: 100%;
   margin-bottom: 1.25rem;
+  flex-direction: ${(props) => (props.$row ? 'row' : 'column')};
+  justify-content: ${(props) => (props.$between ? 'space-between' : 'stretch')};
+  align-items: ${(props) => (props.$itemsCenter ? 'center' : 'stretch')};
 
   @media ${mediaQueries.MOBILE} {
     padding: 1.5rem 1.875rem;
