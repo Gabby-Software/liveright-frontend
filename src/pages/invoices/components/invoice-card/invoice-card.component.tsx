@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 
 import { InvoiceIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import Ellipsis from '../../../../components/ellipsis/ellipsis.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { Routes } from '../../../../enums/routes.enum'
@@ -151,18 +152,18 @@ const InvoiceCard = ({
     >
       <div className="invoice-card__row">
         <div>
-          <h3 className={'invoice-card__number'}>
+          <Ellipsis className={'invoice-card__number'}>
             {t('invoices:number', { number: invoice_number })}
-          </h3>
+          </Ellipsis>
 
           {showDate ? (
             <p className="invoice-card__issuer">{createdDate}</p>
           ) : (
-            <p className="invoice-card__issuer">
+            <Ellipsis className="invoice-card__issuer">
               {type === userTypes.CLIENT
                 ? t('invoices:from', { name })
                 : t('invoices:to', { name })}
-            </p>
+            </Ellipsis>
           )}
         </div>
 
