@@ -1,15 +1,17 @@
 import { Skeleton } from 'antd'
-import React, { lazy } from 'react'
-import { Route, useLocation } from 'react-router-dom'
+import React, { lazy, useEffect } from 'react'
+import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import Button from '../../components/buttons/button/button.component'
 import PaymentBadge from '../../components/payment-badge/payment-badge.component'
 import RoutedTabs from '../../components/routed-tabs/routed-tabs.component'
+import { toast } from '../../components/toast/toast.component'
 import { Routes } from '../../enums/routes.enum'
 import { onlyTrainer } from '../../guards/trainer.guard'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
+import { parseQuery } from '../../utils/query'
 import { financialTabs } from './financials.data'
 import Styles from './financials.styles'
 
@@ -30,8 +32,21 @@ type Props = {}
 
 const Financials = ({}: Props) => {
   const { t } = useTranslation()
+  const history = useHistory()
   const location = useLocation()
   const isMobile = useIsMobile()
+  const query = parseQuery(location.search)
+
+  useEffect(() => {
+    // ?sr=1 is returned from stripe if link expired or any error
+    if (query.sr) {
+      toast.show({
+        type: 'error',
+        msg: 'Stripe link is expired, please try again.'
+      })
+      history.replace(location.pathname)
+    }
+  }, [query.sr])
 
   const content = (
     <Styles>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import ChainIcon from '../../assets/media/icons/chain.svg'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const Styles = styled.button<any>`
@@ -35,5 +36,9 @@ export const Styles = styled.button<any>`
     border: 2px solid #fff;
     right: -0.25rem;
     top: -0.25rem;
+    background-image: url(${ChainIcon});
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: #fff;
   }
 `

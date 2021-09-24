@@ -9,10 +9,12 @@ export async function getPaymentAccount(url: string) {
   return response.data.data
 }
 
+const REFRESH_URL = window.location.href + '?sr=1'
+
 export async function createAccount() {
   const formData = new FormData()
   formData.append('return_url', window.location.href)
-  formData.append('refresh_url', window.location.href)
+  formData.append('refresh_url', REFRESH_URL)
 
   const response = await api.post(EP_PAYMENT_CREATE_ACCOUNT, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
@@ -23,7 +25,7 @@ export async function createAccount() {
 export async function createAccountLink() {
   const formData = new FormData()
   formData.append('return_url', window.location.href)
-  formData.append('refresh_url', window.location.href)
+  formData.append('refresh_url', REFRESH_URL)
 
   const response = await api.post(EP_PAYMENT_CREATE_LINK, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
