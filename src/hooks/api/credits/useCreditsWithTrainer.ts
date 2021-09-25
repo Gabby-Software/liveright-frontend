@@ -11,7 +11,7 @@ interface UseCreditsWithTrainer {
 
 export default function useCreditsWithTrainer(): UseCreditsWithTrainer {
   const { account } = useTrainerAccount()
-  const id = account.id
+  const id = account?.id
   const { data, error } = useSWR(
     id ? EP_CREDITS + `?trainer_id=${id}` : null,
     getCredits
