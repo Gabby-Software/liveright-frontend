@@ -3,7 +3,6 @@ import React, { FC, useCallback, useState } from 'react'
 import { ReactComponent as SearchIcon } from '../../../../assets/media/icons/search.svg'
 import { EP_GET_CLIENTS } from '../../../../enums/api.enum'
 import api from '../../../../managers/api.manager'
-import logger from '../../../../managers/logger.manager'
 import { excerpt } from '../../../../pipes/excerpt.pipe'
 import { noImage } from '../../../../pipes/no-image.pipe'
 import { throttle } from '../../../../pipes/throttle.pipe'
@@ -36,7 +35,6 @@ const QuickAccessSelectClient: FC<Props> = ({}) => {
       getClients.next(val)
     }
   }, [])
-  logger.info('clients', clients)
   return (
     <Styles>
       <FormInputUI

@@ -7,7 +7,7 @@ import socketManager from '../../../modules/chat/managers/socket.manager'
 interface UseChatOnlineProps {
   usersSeen: Record<string, any>
   isOnline: (uuid: string, lastSeenAt?: string) => boolean
-  lastSeen: (uuid: string, lastSeenAt?: string) => string
+  lastSeen: (uuid: string, lastSeenAt?: string, prefix?: boolean) => string
 }
 
 export default function useChatOnline(): UseChatOnlineProps {
@@ -36,12 +36,12 @@ export default function useChatOnline(): UseChatOnlineProps {
     return userLastSeen ? moment(userLastSeen).isAfter(minuteAgo) : false
   }
 
-  const lastSeen = (uuid: string, lastSeenAt?: string) => {
+  const lastSeen = (uuid: string, lastSeenAt?: string, prefix?: boolean) => {
     const userLastSeen = usersSeen[uuid] || lastSeenAt
     return userLastSeen
       ? isOnline(uuid, userLastSeen)
         ? 'Online'
-        : `Last seen ${moment(userLastSeen).fromNow()}`
+        : `${prefix ? 'Last seen' : ''} ${moment(userLastSeen).fromNow()}`
       : 'Offline'
   }
 
