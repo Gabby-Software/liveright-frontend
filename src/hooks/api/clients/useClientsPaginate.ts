@@ -9,10 +9,6 @@ import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { formatClients } from '../../../utils/api/clients'
 import { stringifyURL } from '../../../utils/query'
 
-function getKey(params: Record<string, any>) {
-  return stringifyURL(EP_GET_CLIENTS, params)
-}
-
 interface UseClientsPaginate {
   isLoading: boolean
   clients: AccountObjType[]
@@ -21,14 +17,28 @@ interface UseClientsPaginate {
   onSearch: (e: any) => void
 }
 
-export default function useClientsPaginate(): UseClientsPaginate {
+interface UseClientsParams {
+  page: number
+  per_page: number
+  query: string
+}
+
+interface UseClientsPaginateConfig extends Partial<UseClientsParams> {}
+
+function getKey(params: Record<string, any>) {
+  return stringifyURL(EP_GET_CLIENTS, params)
+}
+
+export default function useClientsPaginate(
+  config: UseClientsPaginateConfig = {}
+): UseClientsPaginate {
   const [filters, setFilters] = useState({
-    page: 1,
-    query: ''
+    page: config.page || 1,
+    query: config.query || ''
   })
 
-  const params = {
-    per_page: 10,
+  const params: UseClientsParams = {
+    per_page: config.per_page || 10,
     ...filters
   }
 
