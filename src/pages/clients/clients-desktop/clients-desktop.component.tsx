@@ -8,7 +8,8 @@ import /* { ReactComponent as MeasureIcon } */ MeasureIcon from '../../../assets
 import /* { ReactComponent as WorkoutIcon } */ WorkoutIcon from '../../../assets/media/icons/workout_1.png'
 import ActionIconWrapper from '../../../components/action-wrapper/action-wrapper.component'
 import Button from '../../../components/buttons/button/button.component'
-import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer.component'
+import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer/add-client-drawer.component'
+import { clientFormSteps } from '../../../components/clients/add-client-modal/add-client-modal.context'
 import ClientsFilter from '../../../components/clients/clients-filter/clients-filter.component'
 import DataPagination from '../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../components/data-table/data-table.component'
@@ -25,6 +26,7 @@ import ClientContainer from './clients-desktop.styles'
 type Props = {}
 const ClientsDesktop = ({}: Props) => {
   const [modalOpen, setModalOpen] = useState(false)
+  const [step, setStep] = useState<number>(clientFormSteps.EMAIL)
 
   const [query, setQuery] = useState('')
   const [type, setType] = useState('')
@@ -215,6 +217,8 @@ const ClientsDesktop = ({}: Props) => {
         onClose={() => setModalOpen(false)}
         onSubmit={fetchClients}
         width="32.5rem"
+        step={step}
+        setStep={setStep}
       />
     </>
   )

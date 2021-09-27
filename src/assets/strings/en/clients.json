@@ -15,5 +15,6 @@
   "filter-input-mobile": "Search for client name",
   "filters": "Filter Clients",
   "search": "Search for Client Name",
-  "all-status": "All Status"
+  "all-status": "All Status",
+  "input-email": "Return to Input Email"
 }

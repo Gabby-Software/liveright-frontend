@@ -18,6 +18,7 @@ export const Routes = {
   TRAINER: '/trainer',
   INVOICES: '/invoices',
   CLIENTS: '/clients',
+  ADD_NEW_CLIENT: '/add-new-client',
   SESSIONS: '/sessions',
   PLANS: '/plans',
   MEALS: '/meals',
