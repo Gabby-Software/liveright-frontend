@@ -1,4 +1,3 @@
-import logger from '../../managers/logger.manager'
 import { AccountObjType, AccountType } from '../../types/account.type'
 import {
   ACTION_ADD_ACCOUNT_SUCCESS,
