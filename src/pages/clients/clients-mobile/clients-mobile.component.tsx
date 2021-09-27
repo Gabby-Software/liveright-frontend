@@ -6,14 +6,13 @@ import { Link } from 'react-router-dom'
 import Button from '../../../components/buttons/button/button.component'
 import Card from '../../../components/card/card.style'
 import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer/add-client-drawer.component'
-import AddClientForms from '../../../components/clients/add-client-modal/add-client-forms.component'
-import AddClientModal from '../../../components/clients/add-client-modal/add-client-modal.component'
+import { clientFormSteps } from '../../../components/clients/add-client-modal/add-client-modal.context'
 import ClientsFilterMobile from '../../../components/clients/clients-filter-mobile/clients-filter-mobile.component'
 import DataPagination from '../../../components/data-pagination/data-pagination.component'
 import PopOnScroll from '../../../components/pop-on-scroll/pop-on-scroll.component'
 import { Routes } from '../../../enums/routes.enum'
 import { useClients } from '../../../hooks/clients.hook'
-import { useIsMobile } from '../../../hooks/is-mobile.hook'
+// import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { classes } from '../../../pipes/classes.pipe'
@@ -21,10 +20,11 @@ import { ACTION_GET_CLIENTS_REQUEST } from '../../../store/action-types'
 import Styles from './clients-mobile.styles'
 
 const ClientsMobile = () => {
+  const [step, setStep] = useState<number>(clientFormSteps.EMAIL)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
-  const isMobile = useIsMobile()
+  // const isMobile = useIsMobile()
 
   const {
     data: { data, meta },
@@ -66,7 +66,7 @@ const ClientsMobile = () => {
       title={t('clients:title')}
       headerNavChat
       actionComponent={
-        <Button onClick={() => setIsOpen(true)}>
+        <Button /* onClick={() => setIsOpen(true)} */ to={'add-new-client'}>
           {t('clients:add-mobile')}
         </Button>
       }
@@ -79,6 +79,8 @@ const ClientsMobile = () => {
             onClose={() => setIsOpen(false)}
             onSubmit={refetchClients}
             width="100%"
+            step={step}
+            setStep={setStep}
           />
         ) : (
           <>

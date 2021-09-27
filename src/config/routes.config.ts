@@ -186,7 +186,7 @@ export const routes: RouteType[] = [
       url: Routes.CLIENTS,
       alias: 'clients'
     },
-    footer: footerTypes.TRAINER,
+    footer: footerTypes.NONE,
     version: 2,
     mobileLayout: false,
     header: {

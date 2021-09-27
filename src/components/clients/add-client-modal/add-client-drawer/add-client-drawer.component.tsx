@@ -21,6 +21,8 @@ type AddClientDrawerProps = {
   onClose: () => void
   width?: string | number
   onSubmit?: () => void
+  setStep: (step: number) => void
+  step: number
 }
 
 export default function AddClientDrawer({
@@ -28,10 +30,12 @@ export default function AddClientDrawer({
   title,
   onClose,
   width,
-  onSubmit
+  onSubmit,
+  setStep,
+  step
 }: AddClientDrawerProps) {
   const [form, setFrom] = useState<ClientFormType>(defaultValues)
-  const [step, setStep] = useState<number>(clientFormSteps.EMAIL)
+
   const isMobile = useIsMobile()
   const update = (name: string, val: string) =>
     setFrom({

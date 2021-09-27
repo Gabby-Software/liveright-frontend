@@ -1,34 +1,33 @@
 import { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import AddClientDrawer from '../../components/clients/add-client-modal/add-client-drawer/add-client-drawer.component'
-import AddClientForms from '../../components/clients/add-client-modal/add-client-forms.component'
-import AddClientModal from '../../components/clients/add-client-modal/add-client-modal.component'
-import {
-  ActionButton,
-  ActionContainer
-} from '../../components/profile-components'
+import { Routes } from '../../enums/routes.enum'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import HeaderLink from '../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
+import HeaderButton from './header-button.component'
 
 export default function AddNewClientMobile() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [step, setStep] = useState<number>(0)
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  if (!isMobile) return <Redirect to={'clients'} />
   return (
     <MobilePage
-      title={t('sessions:title')}
+      title={t('clients:title')}
       headerTopComponent={
-        <HeaderLink to="/clients">{t('profile:return-to-clients')}</HeaderLink>
+        step ? (
+          <HeaderButton onClick={() => setStep(0)}>
+            {t('clients:input-email')}
+          </HeaderButton>
+        ) : (
+          <HeaderLink to={step ? 'add-new-client' : Routes.CLIENTS}>
+            {t('profile:return-to-clients')}
+          </HeaderLink>
+        )
       }
-      //   actionComponent={
-      //     <ActionContainer>
-      //       <ActionButton onClick={() => setEdit(true)}>
-      //         {t('profile:edit-details')}
-      //       </ActionButton>
-      //     </ActionContainer>
-      //   }
     >
       <AddClientDrawer
         isOpen={true}
@@ -36,6 +35,8 @@ export default function AddNewClientMobile() {
         onSubmit={() => null}
         title=""
         onClose={() => null}
+        setStep={setStep}
+        step={step}
       />
     </MobilePage>
   )

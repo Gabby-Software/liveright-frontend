@@ -1,5 +1,6 @@
 import { ReactElement } from 'react'
 
+// import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { clientFormSteps } from './add-client-modal.context'
 import AddClientModalEmail from './add-client-modal-email/add-client-modal-email.component'
 import AddClientModalForm from './add-client-modal-form/add-client-modal-form.component'
@@ -14,6 +15,7 @@ export default function AddClientForms({
   step,
   onSubmit
 }: AddClientFormsProps): ReactElement {
+  // const isMobile = useIsMobile()
   return (
     <div className="add-client-drawer__content">
       <div className="add-client-drawer__mask">

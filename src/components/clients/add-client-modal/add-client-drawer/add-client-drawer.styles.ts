@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 
-const AddClientDrawerStyles = styled.div`
+const AddClientDrawerStyles = styled.div<any>`
   background-color: white;
   min-height: 100%;
   .add-client-drawer {
@@ -27,6 +27,17 @@ const AddClientDrawerStyles = styled.div`
   @media ${mediaQueries.LANDSCAPE} {
     .client-add__message__wrap {
       width: 100% !important;
+    }
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    min-height: calc(100% - 9.4rem);
+
+    .ant-btn-default {
+      display: none;
     }
   }
 `
