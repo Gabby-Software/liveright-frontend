@@ -177,6 +177,24 @@ export const routes: RouteType[] = [
     footer: footerTypes.TRAINER
   },
   {
+    title: 'Add Client',
+    url: /* Routes.CLIENTS + */ '/add-new-client',
+    Component: lazy(
+      () => import('../pages/add-new-client-mobile/add-client-mobile.component')
+    ),
+    back: {
+      url: Routes.CLIENTS,
+      alias: 'clients'
+    },
+    footer: footerTypes.TRAINER,
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: headers.default
+    }
+  },
+  {
     title: 'Clients',
     url: Routes.CLIENTS + '/:id' + Routes.PROFILE,
     Component: lazy(

@@ -8,7 +8,7 @@ import /* { ReactComponent as MeasureIcon } */ MeasureIcon from '../../../assets
 import /* { ReactComponent as WorkoutIcon } */ WorkoutIcon from '../../../assets/media/icons/workout_1.png'
 import ActionIconWrapper from '../../../components/action-wrapper/action-wrapper.component'
 import Button from '../../../components/buttons/button/button.component'
-import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer.component'
+import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer/add-client-drawer.component'
 import ClientsFilter from '../../../components/clients/clients-filter/clients-filter.component'
 import DataPagination from '../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../components/data-table/data-table.component'

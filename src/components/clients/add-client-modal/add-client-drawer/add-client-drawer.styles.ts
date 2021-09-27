@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { mediaQueries } from '../../../enums/screen-sizes.enum'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 
 const AddClientDrawerStyles = styled.div`
   background-color: white;
