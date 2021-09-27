@@ -7,14 +7,17 @@ export default styled.div`
     height: 39px;
     font-size: 14px;
   }
+
   .qa-search {
     &__clients {
-      margin-top: 35px;
+      margin-top: 1.25rem;
     }
+
     &__client {
       display: flex;
       align-items: center;
       margin: 10px 0;
+
       &__data {
         margin: 0 auto 0 11px;
       }
@@ -34,6 +37,13 @@ export default styled.div`
         margin: auto 0 auto 10px;
         background-color: transparent;
       }
+    }
+
+    &__badge {
+      margin-bottom: 0.75rem;
+    }
+
+    &__btn {
     }
   }
 `

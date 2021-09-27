@@ -1,4 +1,5 @@
 import cookieManager from '../../managers/cookie.manager'
+import { isCookieBlocked } from '../../utils/cookie'
 import { ActionType } from '../action-types'
 
 export const withCookies =
@@ -18,7 +19,11 @@ export const withCookies =
       }
     }
     const newState = reducer(state, action)
-    if (!action.type.startsWith('@@redux'))
-      cookieManager.set(key, JSON.stringify(newState), 60 * 60 * 24 * 7)
+
+    if (!action.type.startsWith('@@redux')) {
+      if (!isCookieBlocked()) {
+        cookieManager.set(key, JSON.stringify(newState), 60 * 60 * 24 * 7)
+      }
+    }
     return newState
   }

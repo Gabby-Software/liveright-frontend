@@ -2,7 +2,7 @@ import useSWR from 'swr'
 
 import { EP_CREDITS } from '../../../enums/api.enum'
 import { getCredits } from '../../../services/api/credits'
-import { useTrainerSelector } from '../../trainer.hook'
+import useTrainerAccount from '../accounts/useTrainerAccount'
 
 interface UseCreditsWithTrainer {
   isLoading: boolean
@@ -10,8 +10,8 @@ interface UseCreditsWithTrainer {
 }
 
 export default function useCreditsWithTrainer(): UseCreditsWithTrainer {
-  const trainer = useTrainerSelector()
-  const id = trainer?.accounts?.[0]?.id
+  const { account } = useTrainerAccount()
+  const id = account?.id
   const { data, error } = useSWR(
     id ? EP_CREDITS + `?trainer_id=${id}` : null,
     getCredits

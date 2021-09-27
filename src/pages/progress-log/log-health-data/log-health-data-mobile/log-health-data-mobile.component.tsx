@@ -24,8 +24,7 @@ import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
 import {
   getGlucoseQuality,
-  getHeartRateQuality,
-  getStepsQuality
+  getHeartRateQuality
 } from '../log-health-data.helpers'
 import {
   CardTitle,
@@ -192,10 +191,10 @@ const LogHealthDataMobile = () => {
             label={t('progress:daily_steps')}
             max={1e5}
           />
-          <LogHealthValue
-            name={'steps.daily_steps'}
-            getQuality={getStepsQuality}
-          />
+          {/*<LogHealthValue*/}
+          {/*  name={'steps.daily_steps'}*/}
+          {/*  getQuality={getStepsQuality}*/}
+          {/*/>*/}
         </FormRow>
       </WhiteCard>
 
