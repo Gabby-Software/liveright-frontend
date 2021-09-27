@@ -8,8 +8,7 @@ import { LoadingPlaceholder } from '../../../../components/placeholders'
 import { timeWithoutSeconds } from '../../../../pipes/time.pipe'
 import {
   getGlucoseQuality,
-  getHeartRateQuality,
-  getStepsQuality
+  getHeartRateQuality
 } from '../../../progress-log/log-health-data/log-health-data.helpers'
 import HealthCard from '../progress-health-card/progress-health-card.component'
 import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'

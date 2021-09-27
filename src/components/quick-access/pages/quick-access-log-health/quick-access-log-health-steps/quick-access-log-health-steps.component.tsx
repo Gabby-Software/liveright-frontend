@@ -2,7 +2,6 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import React, { FC } from 'react'
 import * as Yup from 'yup'
 
-import logger from '../../../../../managers/logger.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { HealthData } from '../../../../../pages/progress/progress.types'
 import { getStepsQuality } from '../../../../../pages/progress-log/log-health-data/log-health-data.helpers'

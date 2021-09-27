@@ -37,7 +37,7 @@ export default styled.div`
           margin: 0 -1.25rem 0 -1.25rem;
           border-radius: 0;
           padding: 0;
-          
+
           & .tabs__wrapper {
             justify-content: center;
           }

@@ -32,8 +32,7 @@ import LogClient from '../components/log-client/log-client.component'
 import SubmitButtonDesktop from '../components/submit-button-desktop/submit-button-desktop.component'
 import {
   getGlucoseQuality,
-  getHeartRateQuality,
-  getStepsQuality
+  getHeartRateQuality
 } from '../log-health-data.helpers'
 import {
   CardsWrapper,
