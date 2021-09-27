@@ -46,7 +46,7 @@ export default function DateHighLights({ date, data }: Props) {
         data={
           data?.steps?.daily_steps ? data?.steps?.daily_steps + ' Steps' : ''
         }
-        quality={data?.steps?.quality}
+        // quality={data?.steps?.quality}
         title={'Your Steps'}
       />
       <HealthCard

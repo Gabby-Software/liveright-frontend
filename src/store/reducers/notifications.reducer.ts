@@ -1,4 +1,3 @@
-import logger from '../../managers/logger.manager'
 import { NotificationSettingsType } from '../../modules/notifications/types/notification-settings.type'
 import { NotificationType } from '../../types/notifications.type'
 import { PaginatedDataType } from '../../types/paginated-data.type'
@@ -50,19 +49,16 @@ export const notificationsReducer = withStorage(
   (state = initialValues, { type, payload }: ActionType<any>) => {
     switch (type) {
       case ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS:
-        logger.info('REDUCER - GET UNREAD NOTIFICATIONS SUCCESS')
         return {
           ...state,
           unread: payload
         }
       case ACTION_GET_NOTIFICATIONS_SUCCESS:
-        logger.info('REDUCER - GET NOTIFICATIONS SUCCESS')
         return {
           ...state,
           notifications: payload
         }
       case ACTION_NEW_NOTIFICATION:
-        logger.info('NEW UNREAD NOTIFICATION')
         return {
           ...state,
           unread: state.unread + 1

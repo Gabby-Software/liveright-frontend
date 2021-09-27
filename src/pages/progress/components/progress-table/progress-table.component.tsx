@@ -47,13 +47,13 @@ export default function HealthTable() {
     const labels = [
       'progress:date',
       'progress:reported_by',
-      'progress:qualityLabel',
+      ...(onlyInclude !== 'steps' ? ['progress:qualityLabel'] : []),
       ...PROGRESS_TABLE_KEYS[onlyInclude].map((it) => `progress:${it}`)
     ]
     const keys = [
       'date',
       reportedByKey,
-      qualityKey,
+      ...(onlyInclude !== 'steps' ? [qualityKey] : []),
       ...PROGRESS_TABLE_KEYS[onlyInclude].map((it) => `${onlyInclude}.${it}`)
     ]
 

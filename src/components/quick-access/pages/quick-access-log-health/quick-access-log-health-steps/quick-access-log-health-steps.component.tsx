@@ -2,7 +2,6 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import React, { FC } from 'react'
 import * as Yup from 'yup'
 
-import logger from '../../../../../managers/logger.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import { HealthData } from '../../../../../pages/progress/progress.types'
 import { getStepsQuality } from '../../../../../pages/progress-log/log-health-data/log-health-data.helpers'
@@ -25,7 +24,6 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
     values: QuickAccessLogDataType,
     helper: FormikHelpers<QuickAccessLogDataType>
   ) => {
-    console.log('submitting', values)
     const payload: Partial<HealthData> = {
       steps: {
         daily_steps: +values.data,
@@ -40,7 +38,7 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
       })
       .catch((e) => toast.show({ type: 'error', msg: serverError(e) }))
   }
-  logger.info('TODAY DATA', todayHealthData)
+
   return (
     <Styles>
       <QuickAccessBack
@@ -50,6 +48,7 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
       <QuickAccessTitle label={'Today'}>
         {t('quickaccess:menu.steps')}
       </QuickAccessTitle>
+
       <Formik
         initialValues={{
           data: String(todayHealthData.steps?.daily_steps || '')
@@ -66,7 +65,6 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
               min={0}
               max={1e5}
               label={t('progress:daily_steps')}
-              getQuality={getStepsQuality}
             />
             <QuickAccessButton
               htmlType={'submit'}

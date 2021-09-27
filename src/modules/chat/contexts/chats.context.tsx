@@ -31,12 +31,15 @@ import { ChatMessageSessionMetaType } from '../types/chat-message-session-meta.t
 import { ChatQueueItemType } from '../types/chat-queue-item.type'
 import { ChatRoomType } from '../types/chat-room.type'
 
-type ContextRoomType = {
-  [roomId: string]: {
-    room: ChatRoomType
-    messages: ChatMessageType[]
-  }
+interface RoomResponse {
+  room: ChatRoomType
+  messages: ChatMessageType[]
 }
+
+type ContextRoomType = {
+  [roomId: string]: RoomResponse
+}
+
 export type ChatsContextType = {
   rooms: ContextRoomType
   popups: string[]
@@ -50,6 +53,7 @@ export type ChatsContextType = {
   sendSession: (meta: ChatMessageSessionMetaType) => void
   sendSessionReschedule: (meta: ChatMessageSessionMetaType) => void
   removeMessage: (room: string, id: string) => void
+  findRoomByUserId: (userId: number) => RoomResponse | null
 }
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
@@ -243,6 +247,21 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     [rooms]
   )
 
+  const findRoomByUserId = useCallback(
+    (userId: number): RoomResponse | null => {
+      let room = null
+
+      Object.keys(rooms).forEach((roomId) => {
+        if (rooms[roomId].room.user_id === Number(userId)) {
+          room = rooms[roomId]
+        }
+      })
+
+      return room
+    },
+    [rooms]
+  )
+
   return (
     <ChatsContext.Provider
       value={{
@@ -257,7 +276,8 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         sendInvoice,
         removeMessage,
         sendSession,
-        sendSessionReschedule
+        sendSessionReschedule,
+        findRoomByUserId
       }}
     >
       {children}

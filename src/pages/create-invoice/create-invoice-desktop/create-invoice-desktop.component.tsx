@@ -24,7 +24,6 @@ import { paymentMethodsOptions } from '../../../enums/payment-method.enum'
 import { Routes } from '../../../enums/routes.enum'
 import useClients from '../../../hooks/api/clients/useClients'
 import { handleError } from '../../../managers/api.manager'
-import logger from '../../../managers/logger.manager'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { ACTION_CREATE_INVOICE_REQUEST } from '../../../store/action-types'
 import { RootState } from '../../../store/reducers'
@@ -63,7 +62,6 @@ const CreateInvoiceDesktop = ({}: Props) => {
     values: InvoiceFormType,
     helper: FormikHelpers<InvoiceFormType>
   ) => {
-    logger.info('SUBMITTING', values)
     dispatch({
       type: ACTION_CREATE_INVOICE_REQUEST,
       payload: {

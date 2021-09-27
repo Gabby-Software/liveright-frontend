@@ -8,6 +8,7 @@ interface ProgressLogCardProps {
   sleepData?: string
   napData?: string
   value?: string
+  showQuality?: boolean
 }
 
 export default function ProgressLogCard({
@@ -15,7 +16,8 @@ export default function ProgressLogCard({
   quality = '',
   sleepData,
   napData,
-  value
+  value,
+  showQuality
 }: ProgressLogCardProps) {
   const { t } = useTranslation()
   return (
@@ -23,9 +25,11 @@ export default function ProgressLogCard({
       <div className="progress-log-card__head">
         <p className="progress-log-card__title">{date}</p>
 
-        <div className="progress-log-card__badge">
-          {t(`progress:${quality}`) || '-'}
-        </div>
+        {showQuality && (
+          <div className="progress-log-card__badge">
+            {t(`progress:${quality}`) || '-'}
+          </div>
+        )}
       </div>
 
       <div className="progress-log-card__reported">

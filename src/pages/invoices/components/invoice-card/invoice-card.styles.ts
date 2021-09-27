@@ -54,7 +54,11 @@ export const Styles = styled<any>(Card)`
       color: ${getColorCarry('primaryDark2_v2')};
       font-weight: 700;
       line-height: 1.25;
-      //white-space: nowrap;
+      white-space: nowrap;
+
+      @media ${mediaQueries.MOBILE} {
+        white-space: normal;
+      }
     }
 
     &__issuer {
@@ -62,7 +66,11 @@ export const Styles = styled<any>(Card)`
       font-size: 0.75rem;
       font-weight: 400;
       line-height: 1.25;
-      //white-space: nowrap;
+      white-space: nowrap;
+
+      @media ${mediaQueries.MOBILE} {
+        white-space: normal;
+      }
     }
 
     &__price {

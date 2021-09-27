@@ -2,9 +2,10 @@ import styled from 'styled-components'
 
 import { QuickAccessCard } from '../quick-access-card.styles'
 
-export default styled(QuickAccessCard)`
+export default styled(QuickAccessCard)<any>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.$center ? 'center' : 'space-between')};
+
   .qa-log {
     &__quality {
       &__label {

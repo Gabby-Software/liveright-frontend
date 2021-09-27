@@ -154,7 +154,6 @@ class SocketManager {
   }
 
   delivered(roomId: string) {
-    logger.info('message delivered send')
     this.socket?.emit('message:deliveredAt:send', {
       roomId,
       meta: {

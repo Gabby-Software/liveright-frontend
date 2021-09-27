@@ -79,7 +79,11 @@ const ChatHeaderDesktop: FC<Props> = ({}) => {
           </div>
           <div className={'chat-header__data'}>
             <ClockIcon />
-            {lastSeen(roomData?.account_uuid || '', roomData?.meta?.lastSeenAt)}
+            {lastSeen(
+              roomData?.account_uuid || '',
+              roomData?.meta?.lastSeenAt,
+              true
+            )}
           </div>
           <MinimizeIcon
             className={'chat-header__minimize'}
