@@ -106,10 +106,18 @@ export default function InvoiceMobile({}: Props) {
               <DownloadIcon />
             </IconButton>
           </HeaderActions>
-        ) : invoice.id && invoice.status !== invoiceStatuses.PAID ? (
-          <Button onClick={() => onMarkPaid(invoice.id)}>
-            {t('invoices:mark-paid')}
-          </Button>
+        ) : invoice.id ? (
+          invoice.status !== invoiceStatuses.PAID ? (
+            invoice.status === invoiceStatuses.DRAFT ? (
+              <Button onClick={() => onSend(invoice.id)}>
+                {t('invoices:send-invoice')}
+              </Button>
+            ) : (
+              <Button onClick={() => onMarkPaid(invoice.id)}>
+                {t('invoices:mark-paid')}
+              </Button>
+            )
+          ) : null
         ) : null
       }
     >
@@ -274,8 +282,8 @@ export default function InvoiceMobile({}: Props) {
               <TableRow key={index}>
                 <Row className="mb-4">
                   <RowCell>
-                    <RowText>{item.name}</RowText>
-                    <RowTitle>{item.type}</RowTitle>
+                    <RowText>{item.type}</RowText>
+                    <RowTitle>{item.name}</RowTitle>
                   </RowCell>
 
                   <RowCell right>

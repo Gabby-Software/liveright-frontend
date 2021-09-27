@@ -77,7 +77,7 @@ const vars = {
   },
   zIndex: {
     header: 40,
-    footer: 40,
+    footer: 111,
     chatPopup: 50,
     quickAccess: 55,
     modal: 60,

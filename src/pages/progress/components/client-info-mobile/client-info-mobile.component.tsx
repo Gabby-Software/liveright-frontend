@@ -13,6 +13,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
 import useHealth from '../../../../hooks/api/progress/useHealth'
+import { useChats } from '../../../../modules/chat/contexts/chats.context'
 import SwitchClient from '../switch-client/switch-client.component'
 import { Styles } from './client-info-mobile.styles'
 
@@ -21,7 +22,10 @@ export default function ClientInfoMobile() {
   const { user } = useClientAccount(params.id)
   const [opened, setOpened] = useState(false)
   const [switchClient, setSwitchClient] = useState(false)
-  const { isOnline } = useChatOnline()
+  const { lastSeen } = useChatOnline()
+  const { findRoomByUserId } = useChats()
+
+  const room = findRoomByUserId(params.id)
 
   const { health } = useHealth({
     filter: {
@@ -47,7 +51,11 @@ export default function ClientInfoMobile() {
             />
 
             {opened && (
-              <IconButton size="sm" className="progress__client-card-link">
+              <IconButton
+                size="sm"
+                className="progress__client-card-link"
+                to={`${Routes.CHAT}/${room?.room.roomId}`}
+              >
                 <ChatIcon />
               </IconButton>
             )}
@@ -66,7 +74,7 @@ export default function ClientInfoMobile() {
           <div className="progress__client-card-info">
             <p className="progress__client-card-text">
               Last Active:
-              <span> {isOnline(user.uuid) ? 'Online' : 'Offline'}</span>
+              <span> {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}</span>
             </p>
             <p className="progress__client-card-text">
               Last Activity on Health Data:<span> {data.date || '-'}</span>

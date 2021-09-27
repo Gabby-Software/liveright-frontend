@@ -20,6 +20,12 @@ export default styled.div`
     &__tabs {
       margin-bottom: 0;
 
+      @media ${mediaQueries.MOBILE} {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+      }
+
       &-container {
         margin: 2.75rem 0 1.5rem 0;
         position: relative;
@@ -27,9 +33,14 @@ export default styled.div`
         align-items: center;
 
         @media ${mediaQueries.MOBILE} {
+          width: auto;
           margin: 0 -1.25rem 0 -1.25rem;
           border-radius: 0;
-          padding: 0 1rem;
+          padding: 0;
+
+          & .tabs__wrapper {
+            justify-content: center;
+          }
 
           & .tabs__item__wrapper {
             &:not(:first-child) {

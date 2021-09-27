@@ -8,8 +8,7 @@ import { LoadingPlaceholder } from '../../../../components/placeholders'
 import { timeWithoutSeconds } from '../../../../pipes/time.pipe'
 import {
   getGlucoseQuality,
-  getHeartRateQuality,
-  getStepsQuality
+  getHeartRateQuality
 } from '../../../progress-log/log-health-data/log-health-data.helpers'
 import HealthCard from '../progress-health-card/progress-health-card.component'
 import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'
@@ -44,7 +43,6 @@ export default function AverageHighLights() {
         <HealthCard
           icon={<StepsIcon />}
           data={averages?.avg_steps?.toFixed(0).toString() + ' Steps'}
-          quality={getStepsQuality(averages?.avg_steps)}
           title={'Your Steps'}
         />
       )}

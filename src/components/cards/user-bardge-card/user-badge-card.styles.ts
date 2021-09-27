@@ -40,6 +40,7 @@ export default styled(Card)`
       flex: 1;
       display: flex;
       flex-direction: column;
+      margin-right: 0.5rem;
     }
 
     &__title {
@@ -53,6 +54,8 @@ export default styled(Card)`
       font-size: 0.875rem;
       line-height: 1.25rem;
       color: ${getColorCarry('secondary2_v2')};
+      white-space: normal;
+      word-break: break-all;
     }
   }
 `

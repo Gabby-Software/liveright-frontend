@@ -63,7 +63,7 @@ export default function HealthChart({ onClose }: HealthChartProps) {
             onClick={onClose}
           >
             <CaretLeftIcon />
-            Back to Financials
+            Back to Health Data
           </Button>
         </div>
       </DialogStyles>

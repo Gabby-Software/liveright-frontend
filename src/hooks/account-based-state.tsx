@@ -15,12 +15,10 @@ export function useAccountBasedState<G>(
   useEffect(() => {
     const key = `${uuid}-${storedKey}`
     const storedState = localStorage.getItem(key)
-    console.log('stored-value', uuid, storedState)
     setState(storedState ? JSON.parse(storedState) : initialState)
   }, [uuid])
   const update: Dispatch<G> = (newState: G) => {
     const key = `${uuid}-${storedKey}`
-    console.log('update-stored-value', uuid, newState)
     localStorage.setItem(key, JSON.stringify(newState))
     setState(newState)
   }

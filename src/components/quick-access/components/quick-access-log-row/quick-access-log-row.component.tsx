@@ -7,7 +7,7 @@ import Styles from './quick-access-log-row.styles'
 
 type Props = {
   label: string
-  getQuality: (x: number) => string
+  getQuality?: (x: number) => string
   min: number
   max: number
 }
@@ -15,23 +15,25 @@ const QuickAccessLogRow: FC<Props> = ({ label, getQuality, min, max }) => {
   const { t } = useTranslation()
   const [quality, setQuality] = useState<string>('-')
   return (
-    <Styles>
+    <Styles $center={!getQuality}>
       <QuickAccessRectInput
         label={label}
         name={'data'}
         onUpdate={(_, val) => {
-          setQuality(val ? getQuality(+val) : '-')
+          setQuality(val && getQuality ? getQuality(+val) : '-')
         }}
         format={formatter().number().min(min).max(max)}
       />
-      <div className={'qa-log__quality'}>
-        <div className={'qa-log__quality__label'}>
-          {t('progress:qualityLabel')}
+      {getQuality && (
+        <div className={'qa-log__quality'}>
+          <div className={'qa-log__quality__label'}>
+            {t('progress:qualityLabel')}
+          </div>
+          <div className={'qa-log__quality__value'}>
+            {t(`progress:${quality}`)}
+          </div>
         </div>
-        <div className={'qa-log__quality__value'}>
-          {t(`progress:${quality}`)}
-        </div>
-      </div>
+      )}
     </Styles>
   )
 }
