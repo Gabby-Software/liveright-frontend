@@ -192,10 +192,10 @@ const LogHealthDataMobile = () => {
             label={t('progress:daily_steps')}
             max={1e5}
           />
-          <LogHealthValue
-            name={'steps.daily_steps'}
-            getQuality={getStepsQuality}
-          />
+          {/*<LogHealthValue*/}
+          {/*  name={'steps.daily_steps'}*/}
+          {/*  getQuality={getStepsQuality}*/}
+          {/*/>*/}
         </FormRow>
       </WhiteCard>
 

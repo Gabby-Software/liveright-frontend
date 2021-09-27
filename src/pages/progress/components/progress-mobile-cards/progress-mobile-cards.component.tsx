@@ -47,6 +47,7 @@ export default function HealthMobileCard() {
             <ProgressLogCard
               key={it.id}
               date={it.date || ''}
+              showQuality={onlyInclude !== 'steps'}
               quality={quality}
               sleepData={sleepData}
               napData={napData}

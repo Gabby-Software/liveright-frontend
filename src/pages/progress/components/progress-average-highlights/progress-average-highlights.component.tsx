@@ -44,7 +44,6 @@ export default function AverageHighLights() {
         <HealthCard
           icon={<StepsIcon />}
           data={averages?.avg_steps?.toFixed(0).toString() + ' Steps'}
-          quality={getStepsQuality(averages?.avg_steps)}
           title={'Your Steps'}
         />
       )}

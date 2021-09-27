@@ -121,7 +121,6 @@ const LogHealthDataDesktop: React.FC = () => {
               name={t('progress:steps')}
               inputName="steps.daily_steps"
               inputLabel={t('progress:daily_steps')}
-              getQuality={getStepsQuality}
               Icon={<StepsIcon />}
               max={1e5}
             />

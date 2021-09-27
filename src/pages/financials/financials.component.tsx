@@ -67,7 +67,7 @@ const Financials = ({}: Props) => {
 
       <div className="financials__tabs-container">
         <RoutedTabs tabs={financialTabs} className="financials__tabs" />
-        <PaymentBadge />
+        {!isMobile && <PaymentBadge />}
       </div>
 
       <React.Suspense fallback={Skeleton}>
