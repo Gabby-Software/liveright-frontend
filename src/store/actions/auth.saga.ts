@@ -144,7 +144,7 @@ function* updateAccountWorker({
     yield call(() => logger.info('UPDATE ACCOUNT - response', res))
     yield put({ type: ACTION_UPDATE_ACCOUNT_SUCCESS, payload: res })
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     logger.info('UPDATE ACCOUNT - error', e)
     toast.show({ type: 'error', msg: serverError(e) })
     onError && onError(serverError(e))
@@ -161,7 +161,7 @@ function* updateAuthWorker({
     )) as AccountObjType
     yield put({ type: ACTION_UPDATE_AUTH_SUCCESS, payload: res })
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     toast.show({ type: 'error', msg: serverError(e) })
     onError && onError(serverError(e))
   }
@@ -193,7 +193,7 @@ function* addAccountWorker({
       type: ACTION_ADD_ACCOUNT_SUCCESS,
       payload: { ...res, profile: null }
     })
-  } catch (e) {
+  } catch (e: any) {
     onError && onError(e)
     toast.show({ type: 'error', msg: serverError(e) })
   }

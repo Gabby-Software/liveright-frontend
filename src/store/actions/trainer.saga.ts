@@ -26,7 +26,7 @@ function* getTrainerWorker({ payload }: ActionType<CallbackType<void>>) {
       api.get(EP_GET_TRAINER).then((res) => res.data)
     )) as { data: AccountObjType }
     yield put({ type: ACTION_GET_TRAINER_SUCCESS, payload: data })
-  } catch (e) {
+  } catch (e:any) {
     yield put({ type: ACTION_GET_TRAINER_ERROR, payload: serverError(e) })
   }
 }

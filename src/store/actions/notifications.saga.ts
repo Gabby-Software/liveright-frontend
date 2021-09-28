@@ -73,7 +73,7 @@ export function* updateNotificationSettings({
   try {
     yield call(() => NotificationsManager.updateSettings(payload))
     yield put({ type: ACTION_UPDATE_NOTIFICATIONS_SETTINGS_SUCCESS, payload })
-  } catch (e) {
+  } catch (e: any) {
     toast.show({ type: 'error', msg: serverError(e) })
   }
 }

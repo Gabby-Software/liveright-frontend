@@ -69,7 +69,7 @@ function* updateClientWorker({
     )) as AccountObjType
     yield put({ type: ACTION_UPDATE_CLIENT_SUCCESS, payload: user })
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     onError && onError(serverError(e))
   }
 }
