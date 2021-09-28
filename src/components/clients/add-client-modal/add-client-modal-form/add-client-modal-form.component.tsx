@@ -69,6 +69,10 @@ const AddClientModalFormContent = ({
         value={values.birthday}
         onChange={(e, date) => setFieldValue('birthday', date)}
         name="birthday"
+        disabledDate={(date) =>
+          moment().add(-16, 'years').isBefore(moment(date))
+        }
+        defaultPickerValue={moment().add(-16, 'years')}
       />
       <FormSwitch name={'gender'} options={genderOptions} />
       <FormPhone
