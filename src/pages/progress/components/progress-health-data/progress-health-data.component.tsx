@@ -76,7 +76,7 @@ const HealthData: React.FC<Props> = () => {
       <Wrapper>
         {healthAll.isLoading ? (
           <LoadingPlaceholder />
-        ) : (
+        ) : healthAll.health[previewIndex] ? (
           <>
             <div className="progress__subtitle-container">
               <h3 className="progress__subtitle">
@@ -109,7 +109,7 @@ const HealthData: React.FC<Props> = () => {
               data={healthAll.health[previewIndex] || {}}
             />
           </>
-        )}
+        ) : null}
 
         {isMobile ? (
           <OverTimeMobile
