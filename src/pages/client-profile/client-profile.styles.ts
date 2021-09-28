@@ -1,11 +1,15 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export default styled.div`
   padding-bottom: 2rem;
 
   .profile {
+    &__main {
+      padding-top: 26px;
+    }
     &__card-dark {
       background-color: ${getColorCarry('primaryDark_v2')};
       width: 100%;
@@ -58,6 +62,10 @@ export default styled.div`
       grid-column-gap: 1rem;
       grid-row-gap: 1.5rem;
 
+      &-user-names-mobile {
+        display: none;
+      }
+
       &-item {
         &-name,
         &-value {
@@ -71,6 +79,61 @@ export default styled.div`
           color: ${getColorCarry('primaryDark_v2')};
         }
       }
+
+      &__dob-mobile {
+        display: none;
+      }
+    }
+  }
+
+  .dark-cards {
+    display: flex;
+  }
+
+  @media ${mediaQueries.MOBILE} {
+    .profile {
+      padding-bottom: 0;
+      &__grid {
+        grid-template-columns: 1fr;
+
+        &-user-names-desktop {
+          display: none;
+        }
+
+        &-user-names-mobile {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      &__dob-desktop {
+        display: none;
+      }
+
+      &__dob-mobile {
+        display: block;
+      }
+
+      &__card-dark {
+        max-width: 100%;
+        &-sub {
+          color: ${getColorCarry('neutral_50')};
+          font-weight: normal;
+          padding: 0.5rem 1rem;
+          margin-bottom: 0;
+        }
+        &-btn {
+          padding: 0.5rem 1rem;
+          font-size: 14px;
+          line-height: 20px;
+          color: ${getColorCarry('blue_50')};
+          font-weight: normal;
+        }
+      }
+    }
+
+    .dark-cards {
+      flex-direction: column-reverse;
     }
   }
 `

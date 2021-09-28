@@ -22,6 +22,8 @@ interface Props<G> {
   className?: string
   loading?: boolean
   error?: string
+  actionWidth?: string
+  round?: string
 }
 const DataTable = ({
   labels,
@@ -33,15 +35,21 @@ const DataTable = ({
   children,
   className,
   loading,
-  error
+  error,
+  actionWidth,
+  round
 }: Props<any>) => {
   const { t } = useTranslation()
+  console.log({ data })
   return (
-    <Styles className={`data-table ${className}`}>
+    <Styles
+      round={round}
+      className={`data-table ${className}`}
+      actionWidth={actionWidth}
+    >
       <thead className={'data-table__head'}>
-        {labels.map((label) => (
-          // eslint-disable-next-line react/jsx-key
-          <th className={'data-table__th'}>
+        {labels.map((label, index) => (
+          <th key={label + index.toString()} className={'data-table__th'}>
             <div className="data-table__th-container">
               {t(label)}
               <SortGroupIcon />
@@ -60,6 +68,7 @@ const DataTable = ({
           data.map((item) => (
             // eslint-disable-next-line react/jsx-key
             <tr
+              key={item.id}
               className={classes(
                 'data-table__tr',
                 onClick && 'data-table__tr__clickable',
@@ -68,8 +77,8 @@ const DataTable = ({
               onClick={onClick ? () => onClick(item) : undefined}
             >
               {(keys || labels).map((key) => (
-                // eslint-disable-next-line react/jsx-key
                 <td
+                  key={key}
                   className={'data-table__td'}
                   {...(key === 'options' || key === 'actions'
                     ? { width: 1 }

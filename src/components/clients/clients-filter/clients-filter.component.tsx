@@ -3,16 +3,14 @@ import { FormikHelpers } from 'formik'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { ReactComponent as SearchIcon } from '../../../assets/media/icons/search.svg'
+import { ReactComponent as SearchIcon } from '../../../assets/media/icons/search-2.svg'
 import { useClients } from '../../../hooks/clients.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { ACTION_GET_CLIENTS_REQUEST } from '../../../store/action-types'
 import { OptionType } from '../../../types/option.type'
-import FormButton from '../../forms/form-button/form-button.component'
-import { FormInputLabeledUI } from '../../forms/form-input-labeled/form-input-labeled.component'
+import Input from '../../form/input/input.component'
+import Select from '../../form/select/select.component'
 import FormRow from '../../forms/form-row/form-row.component'
-import { FormSelectUI } from '../../forms/form-select/form-select.component'
-import AddClientModal from '../add-client-modal/add-client-modal.component'
 import Styles from './clients-filter.styles'
 
 type FilterType = {
@@ -21,37 +19,55 @@ type FilterType = {
 const initialValues = {
   search: ''
 }
-const ClientsFilter = () => {
+
+type ClientFilterProps = {
+  onSetQuery: (param: string) => any
+  onSetType: (param: string) => any
+  onSetStatus: (param: string) => any
+  query: string
+  status: string
+  type: string
+}
+
+const ClientsFilter = ({
+  onSetQuery,
+  onSetType,
+  onSetStatus,
+  query,
+  status,
+  type
+}: ClientFilterProps) => {
   const { t } = useTranslation()
-  const timer = useRef(0)
-  const [modalOpen, setModalOpen] = useState(false)
-  const { filters, data } = useClients()
-  const dispatch = useDispatch()
-  const [query, setQuery] = useState('')
-  const [type, setType] = useState('')
-  const [status, setStatus] = useState('')
-  const fetchClients = () => {
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => {
-      dispatch({
-        type: ACTION_GET_CLIENTS_REQUEST,
-        payload: {
-          query,
-          type,
-          status,
-          page: 0
-        }
-      })
-    }, 400) as unknown as number
-  }
-  useEffect(fetchClients, [query, type, status])
-  useEffect(() => {
-    const params = new URLSearchParams(document.location.search)
-    const add = params.get('add')
-    if (add) {
-      setModalOpen(true)
-    }
-  }, [])
+  // const timer = useRef(0)
+  // const [modalOpen, setModalOpen] = useState(false)
+  // const { filters, data } = useClients()
+  // const dispatch = useDispatch()
+  // const [query, setQuery] = useState('')
+  // const [type, setType] = useState('')
+  // const [status, setStatus] = useState('')
+
+  // const fetchClients = () => {
+  //   clearTimeout(timer.current)
+  //   timer.current = setTimeout(() => {
+  //     dispatch({
+  //       type: ACTION_GET_CLIENTS_REQUEST,
+  //       payload: {
+  //         query,
+  //         type,
+  //         status,
+  //         page: 0
+  //       }
+  //     })
+  //   }, 400) as unknown as number
+  // }
+  // useEffect(fetchClients, [query, type, status])
+  // useEffect(() => {
+  //   const params = new URLSearchParams(document.location.search)
+  //   const add = params.get('add')
+  //   if (add) {
+  //     setModalOpen(true)
+  //   }
+  // }, [])
 
   const handleSubmit = (
     values: FilterType,
@@ -60,6 +76,7 @@ const ClientsFilter = () => {
     // todo: handle submition
     helper.setSubmitting(false)
   }
+
   const typeOptions: OptionType[] = [
     { label: 'All', value: '' },
     { label: 'Leads', value: 'leads' },
@@ -74,40 +91,25 @@ const ClientsFilter = () => {
   return (
     <Styles>
       <FormRow>
-        <FormInputLabeledUI
-          icon={<SearchIcon />}
-          iconPrepend
+        <Input
+          id={'search'}
+          prefix={<SearchIcon />}
           value={query}
-          name={'search'}
-          label={t('search')}
-          onUpdate={setQuery}
+          label={''}
+          onChange={(e) => onSetQuery(e.target.value)}
+          placeholder={t('clients:search')}
         />
-        <FormSelectUI
-          name={'status'}
+        <Select
+          className="client__status-filter"
+          id={'status'}
           value={status}
-          label={t('clients:status')}
+          label={''}
           options={statusOptions}
-          onUpdate={setStatus}
+          onChange={onSetStatus}
+          placeholder={t('clients:all-status')}
         />
         <div />
         <div />
-        {/*<FormSelectUI name={'type'} value={type} label={t('clients:type')}*/}
-        {/*              options={typeOptions} onUpdate={setType}/>*/}
-
-        <div className={'clients__cta'}>
-          <FormButton
-            type={'primary'}
-            className={'clients__add'}
-            onClick={() => setModalOpen(true)}
-          >
-            {t('clients:add')}
-          </FormButton>
-        </div>
-        <AddClientModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onSubmit={fetchClients}
-        />
       </FormRow>
     </Styles>
   )

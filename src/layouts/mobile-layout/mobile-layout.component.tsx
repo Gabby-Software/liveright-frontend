@@ -10,6 +10,7 @@ import { usePage } from '../../hooks/page.hook'
 import { classes } from '../../pipes/classes.pipe'
 import Header from '../header/header.component'
 import MobileFooter from '../mobile-footer/mobile-footer.component'
+// import Header from '../mobile-page/components/header/header.component'
 import Styles from './mobile-layout.styles'
 
 const mobileTitleRef: { setTitleContent: (el: React.ReactNode) => void } = {
@@ -50,6 +51,14 @@ const MobileLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Styles className={classes(`mobile-layout__v${version}`)}>
       <Header />
+      {/* <Header
+        title={title}
+        actionComponent={actionComponent}
+        spacing={headerSpacing}
+        component={headerComponent}
+        topComponent={headerTopComponent}
+        titleIcon={headerTitleIcon}
+      /> */}
       <main className={'mobile-layout__main'}>
         {v === 1 ? <MobileBack /> : null}
         {renderTitle ? (
