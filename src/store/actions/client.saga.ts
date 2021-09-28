@@ -42,7 +42,7 @@ function* getFullClientWorker({ payload }: ActionType<string>) {
         .then((res) => res.data.data)
     )) as MinimalProfileType
     yield put({ type: ACTION_GET_FULL_CLIENT_SUCCESS, payload: user })
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: ACTION_GET_FULL_CLIENT_ERROR, payload: serverError(e) })
   }
 }
@@ -69,7 +69,7 @@ function* updateClientWorker({
     )) as AccountObjType
     yield put({ type: ACTION_UPDATE_CLIENT_SUCCESS, payload: user })
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     onError && onError(serverError(e))
   }
 }

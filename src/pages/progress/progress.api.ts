@@ -50,7 +50,7 @@ export const logHealthDataAsync = async (
       await api.post(EP_HEALTH_DATA_LOGS, params)
     }
     return
-  } catch (e) {
+  } catch (e: any) {
     console.log(e)
     toast.show({ type: 'error', msg: serverError(e) })
   }

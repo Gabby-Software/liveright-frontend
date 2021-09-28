@@ -61,7 +61,7 @@ function* getClientsWorker({
     logger.success('CLIENTS RESPONSE', clients)
     yield put({ type: ACTION_GET_CLIENTS_SUCCESS, payload: clients })
     payload.onSuccess && payload.onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     logger.error('CLIENTS ERROR', e)
     yield put({ type: ACTION_GET_CLIENTS_ERROR, payload: serverError(e) })
     payload.onError && payload.onError(serverError(e))

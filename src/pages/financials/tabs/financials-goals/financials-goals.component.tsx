@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-import Styles from './financials-goals.styles'
+import FinancialsGoalsCardList from './components/financials-goals-list/financial-goals-list.component'
 
-type Props = {}
-const FinancialsGoals = ({}: Props) => {
+import { TabTitle } from './financials-goals.styles'
+
+const FinancialsGoals: FC = () => {
   return (
-    <Styles>
-      <h1>Goals</h1>
-    </Styles>
+    <>
+      <TabTitle>Overall Goals</TabTitle>
+      <FinancialsGoalsCardList />
+    </>
   )
 }
 

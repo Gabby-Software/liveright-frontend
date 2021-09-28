@@ -69,7 +69,7 @@ function* getInvoicesWorker({
     logger.success('INVOICES', invoices)
     yield put({ type: ACTION_GET_INVOICES_SUCCESS, payload: invoices })
     payload.onSuccess && payload.onSuccess()
-  } catch (e) {
+  } catch (e: any) {
     alert(serverError(e))
     yield put({ type: ACTION_GET_INVOICES_ERROR, payload: serverError(e) })
   }
@@ -90,7 +90,7 @@ function* getAttentionInvoicesWorker({
       type: ACTION_GET_ATTENTION_INVOICES_SUCCESS,
       payload: invoices
     })
-  } catch (e) {
+  } catch (e: any) {
     logger.error('Field to load attention invoices', serverError(e))
   }
 }
@@ -157,7 +157,7 @@ function* createInvoiceWorker({
     )) as { id: number }
     logger.success('Invoice added', res)
     onSuccess && onSuccess(res.id)
-  } catch (e) {
+  } catch (e: any) {
     onError && onError(serverError(e))
   }
 }

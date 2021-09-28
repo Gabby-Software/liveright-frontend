@@ -37,7 +37,7 @@ function* setHealthDataWorker({
     yield put({ type: ACTION_SET_HEALTH_DATA_SUCCESS })
 
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_SET_HEALTH_DATA_ERROR,
       payload: serverError(e)
@@ -72,7 +72,7 @@ function* getHealthDataWorker({
     yield put({ type: ACTION_GET_HEALTH_DATA_SUCCESS })
 
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_GET_HEALTH_DATA_ERROR,
       payload: serverError(e)

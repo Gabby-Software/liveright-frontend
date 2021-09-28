@@ -19,7 +19,7 @@ const UpdatePopup = ({}: Props) => {
   const refresh = () => {
     waitingWorker?.postMessage({ type: 'SKIP_WAITING' })
     setShowReload(false)
-    document.location.reload(true)
+    document.location.reload()
   }
   if (!showReload) return null
   return (

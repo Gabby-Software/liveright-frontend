@@ -40,7 +40,7 @@ export default function useClientAccount(id: number): UseClientAccount {
       toast.show({ type: 'success', msg: 'Client updated successfully' })
       mutate()
       onSuccess?.()
-    } catch (e) {
+    } catch (e: any) {
       setUpdateLoading(false)
       toast.show({ type: 'error', msg: e.response?.data?.message || 'Error' })
       console.error(e)

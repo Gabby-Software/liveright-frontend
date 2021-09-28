@@ -97,7 +97,7 @@ function* createTrainerSessionsWorker({
       }
     })
     onSuccess && onSuccess(session.data.id)
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_TRAINER_CREATE_SESSION_ERROR,
       payload: serverError(e)
@@ -129,7 +129,7 @@ function* requestClientSessionWorker({
 
     yield put({ type: ACTION_CLIENT_REQUEST_SESSION_SUCCESS })
     onSuccess && onSuccess(session)
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_CLIENT_REQUEST_SESSION_ERROR,
       payload: serverError(e)
@@ -163,7 +163,7 @@ function* rescheduleClientSessionWorker({
       payload: { session: session.data }
     })
     onSuccess && onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_CLIENT_RESCHEDULE_SESSION_ERROR,
       payload: serverError(e)
@@ -200,7 +200,7 @@ function* getSessionsWorker({
       payload: { [filters.status || 'upcoming']: sessions }
     })
     payload.onSuccess && payload.onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({ type: ACTION_GET_SESSIONS_ERROR, payload: serverError(e) })
   }
 }
@@ -222,7 +222,7 @@ function* editTrainerSessionsWorker({
       payload: { session: session.data, isAwaiting }
     })
     payload.onSuccess && payload.onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({ type: ACTION_EDIT_SESSIONS_ERROR, payload: serverError(e) })
   }
 }
@@ -242,7 +242,7 @@ function* removeTrainerSessionsWorker({
       payload
     })
     payload.onSuccess && payload.onSuccess()
-  } catch (e) {
+  } catch (e:any) {
     yield put({
       type: ACTION_TRAINER_REMOVE_SESSION_ERROR,
       payload: serverError(e)
