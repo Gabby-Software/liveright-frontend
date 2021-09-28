@@ -16,7 +16,6 @@ import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import fileManager from '../../../../managers/file.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { date } from '../../../../pipes/date.pipe'
 import { payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
@@ -80,13 +79,13 @@ const InvoicesTable = () => {
           total: (t) => `${t.total} ${t.currency.code}`,
           name: (t) =>
             `${invoiceUser(t)?.first_name} ${invoiceUser(t)?.last_name}`,
-          status: (t) => {
+          status: ({ status }) => {
             return (
               <StatusBadge
-                status={t.status?.toLowerCase()}
+                status={status?.toLowerCase()}
                 className="invoice-table__status"
               >
-                {capitalize(t.status)}
+                {t(`invoices:statuses.${status}`)}
               </StatusBadge>
             )
           },
