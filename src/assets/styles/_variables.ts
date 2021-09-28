@@ -53,6 +53,8 @@ const vars = {
     blue_80: '#0053D7',
     neutral_10: '#FAFAFA',
     neutral_50: '#C2C2C2',
+    neutral_70: '#757575',
+    neutral_100: '#2E2F31',
     red: '#EF1733',
     red_10: '#FFEBEB',
     red_40: '#FA8284',
@@ -78,7 +80,7 @@ const vars = {
   },
   zIndex: {
     header: 40,
-    footer: 40,
+    footer: 111,
     chatPopup: 50,
     quickAccess: 55,
     modal: 60,

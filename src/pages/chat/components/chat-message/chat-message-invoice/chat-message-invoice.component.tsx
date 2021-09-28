@@ -37,7 +37,11 @@ const ChatMessageInvoice: FC<Props> = ({
         </StatusBadge>
 
         {!me ? null : (
-          <a href={payments(`/${invoice_id}`)} target="_blank" rel="noreferrer">
+          <a
+            href={payments(`${Routes.INVOICES}/${invoice_id}/pay`)}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Button size="sm" className={'cm-invoice__cta'}>
               Settle Now
             </Button>

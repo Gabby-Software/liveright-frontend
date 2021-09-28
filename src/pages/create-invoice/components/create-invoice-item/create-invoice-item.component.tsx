@@ -48,9 +48,9 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
           id={`add-item-desc-${i}`}
           name={`items.${i}.name`}
           label={t('invoices:create.description')}
-          value={item.description}
+          value={item.name}
           onChange={(e) =>
-            form.setFieldValue(`items.${i}.description`, e.target.value)
+            form.setFieldValue(`items.${i}.name`, e.target.value)
           }
           max={300}
         />

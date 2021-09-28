@@ -16,7 +16,8 @@ export default function useClients(): UseClients &
   const { search, onSearch } = useSearch()
   const params = {
     per_page: 10,
-    query: search
+    query: search,
+    status: 'active'
   }
 
   const { data, isLoading, loadMore, hasMore } = useSwrInfinite<AccountObjType>(

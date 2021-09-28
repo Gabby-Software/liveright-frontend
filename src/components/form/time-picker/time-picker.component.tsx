@@ -43,10 +43,12 @@ export default function TimePicker({
         value={value ? moment(value, format) : null}
         onChange={onChange}
         format={format}
-        disabledHours={() => getDisabledHours(disabledUntilNow || false)}
-        disabledMinutes={(hour) =>
-          getDisabledMinutes(disabledUntilNow || false, hour)
-        }
+        disabledHours={() => {
+          return getDisabledHours(disabledUntilNow || false)
+        }}
+        disabledMinutes={(hour) => {
+          return getDisabledMinutes(disabledUntilNow || false, hour)
+        }}
       />
       {name && <FormError name={name} className="field-error" />}
       {error && <Error name={error} />}

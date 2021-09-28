@@ -13,6 +13,7 @@ import { Routes } from '../../../../../enums/routes.enum'
 import useClientAccount from '../../../../../hooks/api/accounts/useClientAccount'
 import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
 import useHealth from '../../../../../hooks/api/progress/useHealth'
+import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { classes } from '../../../../../pipes/classes.pipe'
 import { Wrapper } from './log-client.styles'
 
@@ -24,7 +25,10 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
   const { user, isLoading } = useClientAccount(params.id)
-  const { isOnline } = useChatOnline()
+  const { lastSeen } = useChatOnline()
+  const { findRoomByUserId } = useChats()
+
+  const room = findRoomByUserId(params.id)
 
   const { health } = useHealth({
     filter: {
@@ -71,7 +75,7 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
               <div className={'log-client__bottom__item'}>
                 <div className={'log-client__bottom__label'}>Last Active:</div>
                 <div className={'log-client__bottom__value'}>
-                  {isOnline(user.uuid) ? 'Online' : 'Offline'}
+                  {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}
                 </div>
               </div>
               <div className={'log-client__bottom__separator'} />
@@ -91,15 +95,20 @@ const LogClient = ({ onSwitch }: LogClientProps) => {
       <div className={'log-client__actions'}>
         {expanded && (
           <IconButton
-            to={Routes.CHAT}
+            to={`${Routes.CHAT}/${room?.room.roomId}`}
             size="sm"
             className="log-client__chat-btn"
+            disabled={!room?.room.roomId}
           >
             <ChatIcon />
           </IconButton>
         )}
 
-        <Button variant="secondary" size="sm" to={Routes.CLIENTS}>
+        <Button
+          variant="secondary"
+          size="sm"
+          to={`${Routes.CLIENTS}/${params.id}/profile`}
+        >
           Open Profile
         </Button>
 

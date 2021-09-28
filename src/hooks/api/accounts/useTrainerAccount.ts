@@ -18,10 +18,11 @@ interface UseTrainerAccount {
   address: AddressType
   error: any
   account: AccountType
+  noTrainer: boolean
 }
 
 export default function useTrainerAccount(): UseTrainerAccount {
-  const { trainer } = useTrainer()
+  const { trainer, noTrainer } = useTrainer()
 
   const { data, error } = useSWR(
     trainer.id ? EP_ACCOUNT_BY_ID + `/${trainer.id}` : null,
@@ -42,6 +43,7 @@ export default function useTrainerAccount(): UseTrainerAccount {
     profile,
     address,
     account,
-    error
+    error,
+    noTrainer
   }
 }

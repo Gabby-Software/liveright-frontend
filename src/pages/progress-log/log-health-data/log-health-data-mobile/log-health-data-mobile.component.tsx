@@ -12,6 +12,7 @@ import Button from '../../../../components/buttons/button/button.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../components/form/select/select.component'
 import TimePicker from '../../../../components/form/time-picker/time-picker.component'
+import FormError from '../../../../components/forms/form-error/form-error.component'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -24,8 +25,7 @@ import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
 import {
   getGlucoseQuality,
-  getHeartRateQuality,
-  getStepsQuality
+  getHeartRateQuality
 } from '../log-health-data.helpers'
 import {
   CardTitle,
@@ -42,18 +42,19 @@ const GrayInput: FC<{
   label: string
   time?: boolean
   max?: number
-}> = ({ name, label, time, max }) => {
+}> = ({ name, label, time }) => {
   return (
     <div>
       <div className={'log-health__label'}>{label}</div>
       <Field name={name}>
-        {({ field, form }: FieldProps) =>
-          time ? (
+        {({ field, form }: FieldProps) => {
+          const meta = form.getFieldMeta(name)
+          return time ? (
             <GrayStyledTimeInput
               value={field.value ? moment(field.value, 'H:mm') : null}
               className={classes(
                 'text_input__input',
-                form.errors[name] && form.touched[name] && 'text_input__error'
+                meta.error && meta.touched && 'text_input__error'
               )}
               onChange={(date, dateString: string) => {
                 form.setFieldValue(name, dateString)
@@ -66,14 +67,15 @@ const GrayInput: FC<{
           ) : (
             <GrayStyledInput
               {...field}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 const val = +e.target.value.replace(/\D/g, '')
-                form.setFieldValue(name, Math.min(val, max || Infinity))
+                form.setFieldValue(name, val)
               }}
             />
           )
-        }
+        }}
       </Field>
+      <FormError name={name} />
     </div>
   )
 }
@@ -192,10 +194,10 @@ const LogHealthDataMobile = () => {
             label={t('progress:daily_steps')}
             max={1e5}
           />
-          <LogHealthValue
-            name={'steps.daily_steps'}
-            getQuality={getStepsQuality}
-          />
+          {/*<LogHealthValue*/}
+          {/*  name={'steps.daily_steps'}*/}
+          {/*  getQuality={getStepsQuality}*/}
+          {/*/>*/}
         </FormRow>
       </WhiteCard>
 
@@ -231,7 +233,9 @@ const LogHealthDataMobile = () => {
             time
           />
           <div className={'log-health__result'}>
-            <span>{sleepTime}</span>
+            {values.sleep?.start_time && values.sleep?.end_time && (
+              <span>{sleepTime}</span>
+            )}
           </div>
           <GrayInput
             name={'sleep.end_time'}
@@ -246,7 +250,9 @@ const LogHealthDataMobile = () => {
             time
           />
           <div className={'log-health__result'}>
-            <span>{nupTime}</span>
+            {values.sleep?.nap_start_time && values.sleep?.nap_end_time && (
+              <span>{nupTime}</span>
+            )}
           </div>
           <GrayInput
             name={'sleep.nap_end_time'}

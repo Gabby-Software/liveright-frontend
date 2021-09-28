@@ -1,78 +1,56 @@
-import React, { FC, useCallback, useState } from 'react'
-
-import { ReactComponent as SearchIcon } from '../../../../assets/media/icons/search.svg'
-import { EP_GET_CLIENTS } from '../../../../enums/api.enum'
-import api from '../../../../managers/api.manager'
-import logger from '../../../../managers/logger.manager'
-import { excerpt } from '../../../../pipes/excerpt.pipe'
-import { noImage } from '../../../../pipes/no-image.pipe'
-import { throttle } from '../../../../pipes/throttle.pipe'
+import { SearchIcon } from '../../../../assets/media/icons'
+import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
 import { AccountObjType } from '../../../../types/account.type'
-import Card from '../../../card/card.style'
-import FormButton from '../../../forms/form-button/form-button.component'
-import { FormInputUI } from '../../../forms/form-input/form-input.component'
-import ProfileImage from '../../../profile-image/profile-image.component'
+import Button from '../../../buttons/button/button.component'
+import UserBadgeCard from '../../../cards/user-bardge-card/user-badge-card.component'
+import Input from '../../../form/input/input.component'
+import { EmptyPlaceholder, LoadingPlaceholder } from '../../../placeholders'
 import { useQuickAccess } from '../../quick-access.context'
 import Styles from './quick-access-select-client.styles'
 
-type Props = {}
-const QuickAccessSelectClient: FC<Props> = ({}) => {
+export default function QuickAccessSelectClient() {
   const { setClient } = useQuickAccess()
-  const [clients, setClients] = useState<AccountObjType[]>([])
-  const [input, setInput] = useState('')
-  const getClients = throttle<[string]>((value: string) => {
-    api
-      .get(EP_GET_CLIENTS + `?status=active&query=${value}`)
-      .then((res) => res.data.data)
-      .then((res) => {
-        setClients(res.slice(0, 4))
-      })
-  }, 500)
-  const handleUpdate = useCallback((val: string) => {
-    setInput(val)
-    if (!val) {
-      setClients([])
-    } else {
-      getClients.next(val)
-    }
-  }, [])
-  logger.info('clients', clients)
+  const { clients, onSearch, isLoading } = useClientsPaginate({
+    per_page: 3
+  })
+
   return (
     <Styles>
-      <FormInputUI
-        name={'search'}
-        icon={<SearchIcon />}
-        value={input}
-        label={'Search client to log to'}
-        onUpdate={handleUpdate}
+      <Input
+        id="quick-log-search"
+        prefix={<SearchIcon />}
+        placeholder="Search client to log to"
+        onChange={(e) => onSearch(e.target.value)}
       />
-      <div className={'qa-search__clients'}>
-        {clients.map((client: AccountObjType) => (
-          <Card className={'qa-search__client'} key={client.id}>
-            <ProfileImage
-              url={client.avatar?.url}
-              placeholder={noImage(client.first_name, client.last_name)}
+      <div className="qa-search__clients">
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : !clients.length ? (
+          <EmptyPlaceholder />
+        ) : (
+          clients.map((client: AccountObjType) => (
+            <UserBadgeCard
+              circle
+              key={client.id}
+              firstName={client.first_name}
+              lastName={client.last_name}
+              userRole={client.email}
+              img={client.avatar?.url}
+              className="qa-search__badge"
+              component={
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="qa-search__btn"
+                  onClick={() => setClient(client)}
+                >
+                  Select
+                </Button>
+              }
             />
-            <div className={'qa-search__client__data'}>
-              <div className={'qa-search__client__name'}>
-                {excerpt(`${client.first_name} ${client.last_name}`, 20)}
-              </div>
-              <div className={'qa-search__client__email'}>
-                {excerpt(client.email, 28)}
-              </div>
-            </div>
-            <FormButton
-              type={'text'}
-              className={'qa-search__client__action'}
-              onClick={() => setClient(client)}
-            >
-              Log
-            </FormButton>
-          </Card>
-        ))}
+          ))
+        )}
       </div>
     </Styles>
   )
 }
-
-export default QuickAccessSelectClient

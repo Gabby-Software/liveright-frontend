@@ -1,5 +1,3 @@
-import { Moment } from 'moment'
-
 import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
@@ -12,7 +10,7 @@ import HealthCard from '../progress-health-card/progress-health-card.component'
 import { CardsWrapper } from '../progress-health-data/progress-health-data.styles'
 
 interface Props {
-  date?: Moment
+  date?: string
   data: HealthData
 }
 
@@ -46,7 +44,7 @@ export default function DateHighLights({ date, data }: Props) {
         data={
           data?.steps?.daily_steps ? data?.steps?.daily_steps + ' Steps' : ''
         }
-        quality={data?.steps?.quality}
+        // quality={data?.steps?.quality}
         title={'Your Steps'}
       />
       <HealthCard

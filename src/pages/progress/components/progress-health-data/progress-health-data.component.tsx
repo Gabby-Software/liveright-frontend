@@ -1,14 +1,13 @@
-import moment, { Moment } from 'moment'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 
 import { CaretLeftIcon } from '../../../../assets/media/icons'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import { LoadingPlaceholder } from '../../../../components/placeholders'
 import useHealth from '../../../../hooks/api/progress/useHealth'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { OptionType } from '../../../../types/option.type'
-import { DATE_FORMAT } from '../../../../utils/date'
 import { OVER_TIME } from '../../progress.constants'
 import AverageHighLights from '../progress-average-highlights/progress-average-highlights.component'
 import DateHighLights from '../progress-date-highlights/progress-date-highlights.component'
@@ -23,6 +22,7 @@ const HealthData: React.FC<Props> = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const params = useParams<any>()
+  const [previewIndex, setPreviewIndex] = useState(0)
 
   const health = useHealth({
     filter: {
@@ -32,29 +32,22 @@ const HealthData: React.FC<Props> = () => {
     averages: true
   })
 
-  const dateHealth = useHealth({
+  const healthAll = useHealth({
     filter: {
-      account_id: params.id,
-      date: moment().format(DATE_FORMAT)
+      account_id: params.id
     },
-    per_page: 1
+    sort: {
+      date: 'asc'
+    }
   })
 
-  const [highlightDay, setHighlightDay] = useState<Moment>(moment())
+  const count = healthAll.health.length
 
-  const highlightLabel = useMemo(() => {
-    return moment().isSame(highlightDay, 'day')
-      ? t('progress:todayHighlights')
-      : highlightDay.format('YYYY-MM-DD') + ' Highlights'
-  }, [highlightDay])
-
-  const prevDisabled = useMemo(() => {
-    return moment().diff(highlightDay, 'day') > 2
-  }, [highlightDay])
-
-  const nextDisabled = useMemo(() => {
-    return moment().diff(highlightDay, 'day') <= 0
-  }, [highlightDay])
+  useEffect(() => {
+    if (count) {
+      setPreviewIndex(count - 1)
+    }
+  }, [count])
 
   const [isGraphView, setIsGraphView] = useState(false)
 
@@ -73,42 +66,50 @@ const HealthData: React.FC<Props> = () => {
     []
   )
 
+  const prevDisabled = !(
+    previewIndex - 1 >= 0 && !!healthAll.health[previewIndex - 1]
+  )
+  const nextDisabled = !healthAll.health[previewIndex + 1]
+
   return (
     <ProgressHealthDataContext.Provider value={health}>
       <Wrapper>
-        <div className="progress__subtitle-container">
-          <h3 className="progress__subtitle">{highlightLabel}</h3>
+        {healthAll.isLoading ? (
+          <LoadingPlaceholder />
+        ) : healthAll.health[previewIndex] ? (
+          <>
+            <div className="progress__subtitle-container">
+              <h3 className="progress__subtitle">
+                {healthAll.health[previewIndex]?.date + ' Highlight'}
+              </h3>
 
-          <div className="progress__highlight-container">
-            <IconButton
-              size="sm"
-              disabled={prevDisabled}
-              className="progress__highlight-btn"
-              onClick={() => {
-                const newDate = moment(highlightDay.add(-1, 'day'))
-                setHighlightDay(newDate)
-                dateHealth.onFilters('date', newDate.format(DATE_FORMAT))
-              }}
-            >
-              <CaretLeftIcon />
-            </IconButton>
+              <div className="progress__highlight-container">
+                <IconButton
+                  size="sm"
+                  disabled={prevDisabled}
+                  className="progress__highlight-btn"
+                  onClick={() => setPreviewIndex(previewIndex - 1)}
+                >
+                  <CaretLeftIcon />
+                </IconButton>
 
-            <IconButton
-              size="sm"
-              disabled={nextDisabled}
-              className="progress__highlight-btn"
-              onClick={() => {
-                const newDate = moment(highlightDay.add(1, 'day'))
-                setHighlightDay(newDate)
-                dateHealth.onFilters('date', newDate.format(DATE_FORMAT))
-              }}
-            >
-              <CaretLeftIcon />
-            </IconButton>
-          </div>
-        </div>
+                <IconButton
+                  size="sm"
+                  disabled={nextDisabled}
+                  className="progress__highlight-btn"
+                  onClick={() => setPreviewIndex(previewIndex + 1)}
+                >
+                  <CaretLeftIcon />
+                </IconButton>
+              </div>
+            </div>
 
-        <DateHighLights date={highlightDay} data={dateHealth.health[0] || {}} />
+            <DateHighLights
+              date={healthAll.health[previewIndex].date}
+              data={healthAll.health[previewIndex] || {}}
+            />
+          </>
+        ) : null}
 
         {isMobile ? (
           <OverTimeMobile

@@ -5,6 +5,7 @@ import { EP_GET_USER } from '../enums/api.enum'
 import api from '../managers/api.manager'
 import cookieManager from '../managers/cookie.manager'
 import { ACTION_LOGIN_SUCCESS } from '../store/action-types'
+import { unblockCookies } from '../utils/cookie'
 import { useEvent } from './event.hook'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,7 +54,9 @@ export type AuthResponseType = {
 
 export const useAuthorization = () => {
   const dispatch = useDispatch()
+
   useEffect(() => {
+    unblockCookies()
     api
       .get(EP_GET_USER)
       .then((res) => res.data.data)
@@ -61,6 +64,7 @@ export const useAuthorization = () => {
         dispatch({ type: ACTION_LOGIN_SUCCESS, payload: res })
       })
   }, [])
+
   useEvent('focus', () => {
     const user = cookieManager.get('auth')
     dispatch({

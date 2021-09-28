@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { useContext } from 'react'
 import * as Yup from 'yup'
@@ -7,14 +7,13 @@ import { genderTypes } from '../../../../enums/gender-types'
 import { handleError } from '../../../../managers/api.manager'
 import InvitationManager from '../../../../managers/invitation.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import ButtonSubmit from '../../../forms/button-submit/button-submit.component'
-import FormButton from '../../../forms/form-button/form-button.component'
-import FormCountrySelect from '../../../forms/form-country-select/form-country-select.component'
-import FormDatepicker from '../../../forms/form-datepicker/form-datepicker.component'
-import FormInputLabeled from '../../../forms/form-input-labeled/form-input-labeled.component'
+import { OptionType } from '../../../../types/option.type'
+import Button from '../../../buttons/button/button.component'
+import DatePicker from '../../../form/date-picker/date-picker.component'
+import Input from '../../../form/input/input.component'
+import Textarea from '../../../form/textarea/textarea.component'
 import FormPhone from '../../../forms/form-phone/form-phone.component'
 import FormSwitch from '../../../forms/form-switch/form-switch.component'
-import FormTextarea from '../../../forms/form-textarea/form-textarea.component'
 import { toast } from '../../../toast/toast.component'
 import {
   ClientFormContext,
@@ -24,6 +23,155 @@ import {
 import Styles from './add-client-modal-form.styles'
 
 type Props = { onSubmit?: () => void }
+type AddClientModalFormContentProps = {
+  t: (key: string, data?: any) => any
+  setStep: (step: number) => void
+  update: (name: string, value: any) => void
+  genderOptions: OptionType[]
+}
+
+const AddClientModalFormContent = ({
+  update,
+  setStep,
+  t,
+  genderOptions
+}: AddClientModalFormContentProps) => {
+  const { values, setFieldValue, submitForm } =
+    useFormikContext<ClientFormType>()
+  return (
+    <>
+      <Input
+        className="client-add__input"
+        id={'first_name'}
+        name={'first_name'}
+        label={t('profile:first-name')}
+        onChange={(e) => {
+          update('first_name', e.target.value)
+          setFieldValue('first_name', e.target.value)
+        }}
+        value={values.first_name}
+      />
+      <Input
+        className="client-add__input"
+        id={'last_name'}
+        name={'last_name'}
+        label={t('profile:last-name')}
+        onChange={(e) => {
+          update('last_name', e.target.value)
+          setFieldValue('last_name', e.target.value)
+        }}
+        value={values.last_name}
+      />
+      <DatePicker
+        className="client-add__input"
+        id="birthday"
+        label={t('profile:birth-date')}
+        value={values.birthday}
+        onChange={(e, date) => setFieldValue('birthday', date)}
+        name="birthday"
+        disabledDate={(date) =>
+          moment().add(-16, 'years').isBefore(moment(date))
+        }
+        defaultPickerValue={moment().add(-16, 'years')}
+      />
+      <FormSwitch name={'gender'} options={genderOptions} />
+      <FormPhone
+        name={'phone_number'}
+        label={t('profile:phone')}
+        onUpdate={(name, value) => {
+          update(name, value)
+          setFieldValue(name, value)
+        }}
+      />
+      <Input
+        className="client-add__input"
+        id={'city'}
+        name={'city'}
+        label={t('profile:city')}
+        onChange={(e) => {
+          update('city', e.target.value)
+          setFieldValue('city', e.target.value)
+        }}
+        value={values.city}
+      />
+      <Input
+        className="client-add__input"
+        id={'postal_code'}
+        name={'postal_code'}
+        label={t('profile:postal-code')}
+        onChange={(e) => {
+          update('postal_code', e.target.value)
+          setFieldValue('postal_code', e.target.value)
+        }}
+        value={values.postal_code}
+      />
+      <Input
+        className="client-add__input"
+        id={'country'}
+        name={'country'}
+        label={t('profile:country')}
+        onChange={(e) => {
+          update('country', e.target.value)
+          setFieldValue('country', e.target.value)
+        }}
+        value={values.country}
+      />
+      <Input
+        className="client-add__input"
+        id={'address'}
+        name={'address'}
+        label={t('profile:address')}
+        onChange={(e) => {
+          update('address', e.target.value)
+          setFieldValue('address', e.target.value)
+        }}
+        value={values.address}
+      />
+      <Textarea
+        className="client-add__input"
+        id="dietary_restrictions"
+        label={t('profile:dietary-restrictions')}
+        onChange={(e) => {
+          update('dietary_restrictions', e.target.value)
+          setFieldValue('dietary_restrictions', e.target.value)
+        }}
+        value={values.dietary_restrictions}
+      />
+      <Textarea
+        className="client-add__input"
+        id="injuries"
+        label={t('profile:injuries')}
+        onChange={(e) => {
+          update('injuries', e.target.value)
+          setFieldValue('injuries', e.target.value)
+        }}
+        value={values.injuries}
+      />
+      <Textarea
+        className="client-add__input"
+        id="message"
+        label={t('profile:message')}
+        onChange={(e) => {
+          update('message', e.target.value)
+          setFieldValue('message', e.target.value)
+        }}
+        value={values.message}
+      />
+      {/* <ButtonSubmit>{t('submit')}</ButtonSubmit> */}
+      <Button onClick={submitForm} className={'client-add__submit'}>
+        {t('submit')}
+      </Button>
+      <Button
+        variant={'secondary'}
+        className={'client-add__submit'}
+        type={'default'}
+        onClick={() => setStep(clientFormSteps.EMAIL)}
+      >
+        {t('back')}
+      </Button>
+    </>
+  )
+}
 
 const AddClientModalForm = ({ onSubmit }: Props) => {
   const { setStep, form, update, onClose } = useContext(ClientFormContext)
@@ -68,74 +216,12 @@ const AddClientModalForm = ({ onSubmit }: Props) => {
         })}
       >
         <Form>
-          <FormInputLabeled
-            name={'first_name'}
-            label={t('profile:first-name')}
-            onUpdate={update}
+          <AddClientModalFormContent
+            update={update}
+            genderOptions={genderOptions}
+            setStep={setStep}
+            t={t}
           />
-          <FormInputLabeled
-            name={'last_name'}
-            label={t('profile:last-name')}
-            onUpdate={update}
-          />
-          <FormDatepicker
-            name={'birthday'}
-            label={t('profile:birth-date')}
-            onUpdate={update}
-            disabledDate={(date) =>
-              moment().add(-16, 'years').isBefore(moment(date))
-            }
-            defaultPickerValue={moment().add(-16, 'years')}
-          />
-          <FormSwitch name={'gender'} options={genderOptions} />
-          <FormPhone
-            name={'phone_number'}
-            label={t('profile:phone')}
-            onUpdate={update}
-          />
-          <FormInputLabeled
-            name={'city'}
-            label={t('profile:city')}
-            onUpdate={update}
-          />
-          <FormInputLabeled
-            name={'postal_code'}
-            label={t('profile:postal-code')}
-            onUpdate={update}
-          />
-          <FormCountrySelect
-            name={'country.code'}
-            onUpdate={(code) => {
-              update('country', { code })
-            }}
-          />
-          <FormInputLabeled
-            name={'address'}
-            label={t('profile:address')}
-            onUpdate={update}
-          />
-          <FormTextarea
-            name={'dietary_restrictions'}
-            label={t('profile:dietary-restrictions')}
-            onUpdate={update}
-          />
-          <FormTextarea
-            name={'injuries'}
-            label={t('profile:injuries')}
-            onUpdate={update}
-          />
-          <FormTextarea
-            name={'message'}
-            label={t('Message')}
-            onUpdate={update}
-          />
-          <ButtonSubmit>{t('submit')}</ButtonSubmit>
-          <FormButton
-            type={'default'}
-            onClick={() => setStep(clientFormSteps.EMAIL)}
-          >
-            {t('back')}
-          </FormButton>
         </Form>
       </Formik>
     </Styles>

@@ -14,7 +14,7 @@ interface Props {
   inputName: string
   inputLabel: string
   Icon: ReactElement
-  getQuality: (value: number) => QualityType
+  getQuality?: (value: number) => QualityType
   max?: number
 }
 
@@ -24,7 +24,7 @@ const LogCardDesktop: React.FC<Props> = (props) => {
   const { getFieldMeta, setFieldValue, setFieldTouched } =
     useFormikContext<HealthData>()
   const { value } = getFieldMeta<string>(inputName)
-  const quality = Number(value) ? getQuality(+value) : ''
+  const quality = Number(value) && getQuality ? getQuality(Number(value)) : ''
 
   return (
     <Wrapper>
@@ -50,21 +50,23 @@ const LogCardDesktop: React.FC<Props> = (props) => {
         />
       </div>
 
-      <div className="log-card__quality">
-        <LogQuality quality={quality}>
-          <div>
-            <span className={'log-quality-label'}>
-              {t('progress:qualityLabel')}
-              <Tooltip title="TBD">
-                <InfoIcon />
-              </Tooltip>
-            </span>
-            <span className={'log-quality-value'}>
-              {quality ? t(`progress:${quality}`) : '-'}
-            </span>
-          </div>
-        </LogQuality>
-      </div>
+      {getQuality && (
+        <div className="log-card__quality">
+          <LogQuality quality={quality}>
+            <div>
+              <span className={'log-quality-label'}>
+                {t('progress:qualityLabel')}
+                <Tooltip title="TBD">
+                  <InfoIcon />
+                </Tooltip>
+              </span>
+              <span className={'log-quality-value'}>
+                {quality ? t(`progress:${quality}`) : '-'}
+              </span>
+            </div>
+          </LogQuality>
+        </div>
+      )}
     </Wrapper>
   )
 }

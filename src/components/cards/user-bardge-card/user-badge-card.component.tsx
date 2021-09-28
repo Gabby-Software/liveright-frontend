@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 
 import { classes } from '../../../pipes/classes.pipe'
+import Ellipsis from '../../ellipsis/ellipsis.component'
 import UserBadge from '../../user-badge/user-badge.component'
 import Styles from './user-badge-card.styles'
 
@@ -13,6 +14,7 @@ interface UserBadgeCardProps {
   className?: string
   onClick?: () => void
   online?: boolean
+  circle?: boolean
 }
 
 export default function UserBadgeCard({
@@ -23,13 +25,14 @@ export default function UserBadgeCard({
   component,
   className,
   onClick,
-  online
+  online,
+  circle
 }: UserBadgeCardProps) {
   return (
     <Styles className={classes('user-badge-card', className)} onClick={onClick}>
       <UserBadge
         avatarOnly
-        square
+        square={!circle}
         avatar={img}
         firstName={firstName}
         lastName={lastName}
@@ -38,7 +41,7 @@ export default function UserBadgeCard({
 
       <div className="user-badge-card__content">
         <p className="user-badge-card__title">{firstName + ' ' + lastName}</p>
-        <p className="user-badge-card__subtitle">{userRole}</p>
+        <Ellipsis className="user-badge-card__subtitle">{userRole}</Ellipsis>
       </div>
       {component}
     </Styles>

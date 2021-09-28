@@ -1,4 +1,3 @@
-import logger from '../../managers/logger.manager'
 import { AccountObjType, AccountType } from '../../types/account.type'
 import {
   ACTION_ADD_ACCOUNT_SUCCESS,
@@ -24,6 +23,7 @@ const initialState: AccountObjType = {
   is_active: false,
   uuid: ''
 }
+
 export const authReducer = withCookies(
   (state = initialState, { type, payload }: ActionType<any>) => {
     switch (type) {
@@ -36,7 +36,6 @@ export const authReducer = withCookies(
           ...payload
         }
       case ACTION_UPDATE_ACCOUNT_SUCCESS:
-        logger.info('UPDATE ACCOUNT', payload)
         // eslint-disable-next-line no-case-declarations
         const accountIndex = state.accounts.findIndex(
           (a: AccountType) => a.is_current

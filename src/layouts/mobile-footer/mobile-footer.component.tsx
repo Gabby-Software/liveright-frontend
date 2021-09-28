@@ -141,6 +141,7 @@ const MobileFooterContent = () => {
           )
         })}
       </div>
+
       <MobileLogDrawer
         isOpen={logDrawerOpen}
         onClose={() => setLogDrawerOpen(false)}
