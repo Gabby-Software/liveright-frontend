@@ -1,3 +1,7 @@
 import styled from 'styled-components'
 
-export default styled.div``
+const TabTitle = styled.h1`
+  margin-top: 24px;
+`
+
+export { TabTitle }

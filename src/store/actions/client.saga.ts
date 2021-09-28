@@ -42,7 +42,7 @@ function* getFullClientWorker({ payload }: ActionType<string>) {
         .then((res) => res.data.data)
     )) as MinimalProfileType
     yield put({ type: ACTION_GET_FULL_CLIENT_SUCCESS, payload: user })
-  } catch (e) {
+  } catch (e: any) {
     yield put({ type: ACTION_GET_FULL_CLIENT_ERROR, payload: serverError(e) })
   }
 }

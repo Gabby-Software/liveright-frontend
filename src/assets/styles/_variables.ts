@@ -21,6 +21,7 @@ const vars = {
     info: '#2F86EC',
     warning: '#FC7D08',
     warningDark: '#c46106',
+    white: '#FFFFFF',
 
     // V2
     primary_v2: '#EF1733',
