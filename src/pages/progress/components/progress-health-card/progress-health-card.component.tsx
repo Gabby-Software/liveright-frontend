@@ -1,5 +1,4 @@
 import { Popover } from 'antd'
-import { Moment } from 'moment'
 import React, { ReactElement } from 'react'
 import { useParams } from 'react-router'
 
@@ -16,7 +15,7 @@ interface Props {
   icon: ReactElement
   quality?: string
   data?: string
-  date?: Moment
+  date?: string
   title: string
 }
 
@@ -29,11 +28,11 @@ const HealthCard: React.FC<Props> = (props) => {
   const logTo =
     type === userTypes.CLIENT
       ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, {
-          date: date?.format('YYYY-MM-DD')
+          date
         })
       : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
           id: params.id,
-          date: date?.format('YYYY-MM-DD')
+          date
         })
 
   return (

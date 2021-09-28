@@ -17,6 +17,7 @@ import { usePusher } from '../../../modules/notifications/hooks/pusher.hook'
 import { addressLine } from '../../../pipes/address-line.pipe'
 import { asMoney } from '../../../pipes/as-money.pipe'
 import { date } from '../../../pipes/date.pipe'
+import { payments } from '../../../pipes/payments.pipe'
 import IconActions from '../components/icon-actions/icon-actions.component'
 import Styles from './invoice-desktop.styles'
 
@@ -110,7 +111,9 @@ export default function InvoiceDesktop() {
 
           {invoice.status === invoiceStatuses.PAID ? null : type ===
             userTypes.CLIENT ? (
-            <Button className="invoice__send-btn">{t('invoices:pay')}</Button>
+            <a href={payments(`${Routes.INVOICES}/${invoice.id}/pay`)}>
+              <Button className="invoice__send-btn">{t('invoices:pay')}</Button>
+            </a>
           ) : invoice.status === invoiceStatuses.DRAFT ? (
             <Button
               className="invoice__send-btn"

@@ -5,7 +5,12 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 
 export default function TrainerBadge() {
-  const { user } = useTrainerAccount()
+  const { user, noTrainer } = useTrainerAccount()
+
+  if (noTrainer) {
+    return <h5 className="mobile-page-header__title">LiveRight</h5>
+  }
+
   return (
     <>
       <Link to={Routes.CHAT}>

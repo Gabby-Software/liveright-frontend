@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
+import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import { useAuth } from '../../hooks/auth.hook'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
@@ -18,6 +19,11 @@ const Chat = () => {
   const isMobile = useIsMobile()
   const { rooms } = useChats()
   const { room } = useParams<{ room?: string }>()
+  const { noTrainer } = useTrainerAccount()
+
+  if (noTrainer) {
+    return <Redirect to={Routes.HOME} />
+  }
 
   if (type !== userTypes.CLIENT && room && !rooms[room])
     return <Redirect to={Routes.CHAT} />

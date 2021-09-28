@@ -7,6 +7,7 @@ import { useAuth } from '../../auth.hook'
 
 interface UseTrainer {
   isLoading: boolean
+  noTrainer: boolean
   trainer: {
     id: number
   }
@@ -23,6 +24,7 @@ export default function useTrainer(): UseTrainer {
   const trainer = data?.accounts?.[0] || {}
   return {
     isLoading,
-    trainer
+    trainer,
+    noTrainer: !!error
   }
 }
