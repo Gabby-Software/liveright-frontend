@@ -1,5 +1,3 @@
-import { Moment } from 'moment'
-
 import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
@@ -12,7 +10,7 @@ import HealthCard from '../progress-health-card/progress-health-card.component'
 import { CardsWrapper } from '../progress-health-data/progress-health-data.styles'
 
 interface Props {
-  date?: Moment
+  date?: string
   data: HealthData
 }
 

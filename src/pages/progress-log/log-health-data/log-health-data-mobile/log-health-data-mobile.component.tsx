@@ -233,7 +233,9 @@ const LogHealthDataMobile = () => {
             time
           />
           <div className={'log-health__result'}>
-            <span>{sleepTime}</span>
+            {values.sleep?.start_time && values.sleep?.end_time && (
+              <span>{sleepTime}</span>
+            )}
           </div>
           <GrayInput
             name={'sleep.end_time'}
@@ -248,7 +250,9 @@ const LogHealthDataMobile = () => {
             time
           />
           <div className={'log-health__result'}>
-            <span>{nupTime}</span>
+            {values.sleep?.nap_start_time && values.sleep?.nap_end_time && (
+              <span>{nupTime}</span>
+            )}
           </div>
           <GrayInput
             name={'sleep.nap_end_time'}

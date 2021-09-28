@@ -199,22 +199,26 @@ const LogHealthDataDesktop: React.FC = () => {
                       <InfoIcon />
                     </span>
                     <span className={'log-quality-value'}>
-                      {getDuration(
-                        values.sleep?.start_time,
-                        values.sleep?.end_time
-                      ) || '-'}
+                      {values.sleep?.start_time && values.sleep.end_time
+                        ? getDuration(
+                            values.sleep?.start_time,
+                            values.sleep?.end_time
+                          )
+                        : '-'}
                     </span>
                   </span>
-                  <span style={{ marginTop: '44px' }}>
+                  <span style={{ marginTop: '35px' }}>
                     <span className={'log-quality-label'}>
                       <span>{t('progress:duration')}</span>
                       <InfoIcon />
                     </span>
                     <span className={'log-quality-value'}>
-                      {getDuration(
-                        values.sleep?.nap_start_time,
-                        values.sleep?.nap_end_time
-                      ) || '-'}
+                      {values.sleep?.nap_start_time && values.sleep.nap_end_time
+                        ? getDuration(
+                            values.sleep?.nap_start_time,
+                            values.sleep?.nap_end_time
+                          )
+                        : '-'}
                     </span>
                   </span>
                 </div>

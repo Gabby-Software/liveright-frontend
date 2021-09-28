@@ -84,7 +84,7 @@ export default function useHealth(config: UseHealthConfig = {}): UseHealth {
     page: 1,
     per_page: config.per_page || 10,
     only_include: onlyInclude,
-    sort: {
+    sort: config.sort || {
       date: 'desc'
     },
     filter: {
