@@ -133,7 +133,7 @@ const AddClientModalFormContent = ({
       <Textarea
         className="client-add__input"
         id="injuries"
-        label={t('profile:dietary-injuries')}
+        label={t('profile:injuries')}
         onChange={(e) => {
           update('injuries', e.target.value)
           setFieldValue('injuries', e.target.value)
