@@ -6,7 +6,7 @@ export default styled.div`
 
   margin-bottom: 24px;
   padding: 30px 30px 0px;
-  .select__control {
+  .client__status-filter {
     max-width: 197px;
   }
   .clients {

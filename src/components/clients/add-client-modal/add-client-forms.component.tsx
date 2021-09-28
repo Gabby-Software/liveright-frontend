@@ -15,7 +15,6 @@ export default function AddClientForms({
   step,
   onSubmit
 }: AddClientFormsProps): ReactElement {
-  // const isMobile = useIsMobile()
   return (
     <div className="add-client-drawer__content">
       <div className="add-client-drawer__mask">

@@ -1,12 +1,12 @@
-import { Form, Formik, FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
 import React, { useContext } from 'react'
 import * as Yup from 'yup'
 
 import InvitationManager from '../../../../managers/invitation.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { serverError } from '../../../../pipes/server-error.pipe'
-import ButtonSubmit from '../../../forms/button-submit/button-submit.component'
-import FormInputLabeled from '../../../forms/form-input-labeled/form-input-labeled.component'
+import Button from '../../../buttons/button/button.component'
+import Input from '../../../form/input/input.component'
 import { toast } from '../../../toast/toast.component'
 import {
   ClientFormContext,
@@ -14,11 +14,41 @@ import {
   ClientFormType
 } from '../add-client-modal.context'
 import Styles from './add-client-modal-email.styles'
+type AddClientModalEmailContentProps = {
+  update: (name: string, value: any) => void
+}
+
+const AddClientModalEmailContent = ({
+  update
+}: AddClientModalEmailContentProps) => {
+  const { values, isSubmitting, setFieldValue, submitForm } =
+    useFormikContext<ClientFormType>()
+  const { t } = useTranslation()
+  return (
+    <>
+      <Input
+        id="email"
+        value={values.email}
+        name={'email'}
+        label={t('profile:email')}
+        onChange={(e) => {
+          update('email', e.target.value)
+          setFieldValue('email', e.target.value)
+        }}
+      />
+      <Button
+        className={'client-add__submit'}
+        disabled={isSubmitting}
+        onClick={submitForm}
+      >
+        {t('next')}
+      </Button>
+    </>
+  )
+}
 
 const AddClientModalEmail = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { step, setStep, form, update } = useContext(ClientFormContext)
-  const { t } = useTranslation()
   const handleSubmit = (
     values: ClientFormType,
     helper: FormikHelpers<ClientFormType>
@@ -42,12 +72,7 @@ const AddClientModalEmail = () => {
         })}
       >
         <Form>
-          <FormInputLabeled
-            name={'email'}
-            label={t('profile:email')}
-            onUpdate={update}
-          />
-          <ButtonSubmit>{t('next')}</ButtonSubmit>
+          <AddClientModalEmailContent update={update} />
         </Form>
       </Formik>
     </Styles>

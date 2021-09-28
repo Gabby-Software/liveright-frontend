@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from 'formik'
+import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
 import React, { useContext } from 'react'
 import * as Yup from 'yup'
 
@@ -6,9 +6,10 @@ import { handleError } from '../../../../managers/api.manager'
 import InvitationManager from '../../../../managers/invitation.manager'
 import logger from '../../../../managers/logger.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import ButtonSubmit from '../../../forms/button-submit/button-submit.component'
-import FormButton from '../../../forms/form-button/form-button.component'
-import FormTextarea from '../../../forms/form-textarea/form-textarea.component'
+import Button from '../../../buttons/button/button.component'
+import Textarea from '../../../form/textarea/textarea.component'
+// import ButtonSubmit from '../../../forms/button-submit/button-submit.component'
+// import FormTextarea from '../../../forms/form-textarea/form-textarea.component'
 import { toast } from '../../../toast/toast.component'
 import {
   ClientFormContext,
@@ -18,6 +19,56 @@ import {
 import Styles from './add-client-modal-message.styles'
 
 type Props = { onSubmit?: () => void }
+type AddClientModalMessageContentProps = {
+  t: (key: string, data?: any) => any
+  setStep: (step: number) => void
+  update: (name: string, value: any) => void
+}
+
+const AddClientModalMessageContent = ({
+  t,
+  setStep,
+  update
+}: AddClientModalMessageContentProps) => {
+  const { values, isSubmitting, setFieldValue, submitForm } =
+    useFormikContext<ClientFormType>()
+  return (
+    <>
+      <Textarea
+        value={values.message}
+        id={'message'}
+        label={'Message'}
+        onChange={(e) => {
+          update('message', e.target.value)
+          setFieldValue('message', e.target.value)
+        }}
+      />
+      {/* <ButtonSubmit>{t('submit')}</ButtonSubmit> */}
+      <Button
+        disabled={isSubmitting}
+        className={'client-add__submit'}
+        onClick={submitForm}
+      >
+        {t('submit')}
+      </Button>
+      <Button
+        variant={'secondary'}
+        className={'client-add__btn client-add__submit'}
+        onClick={() => setStep(clientFormSteps.EMAIL)}
+      >
+        {t('back')}
+      </Button>
+      {/* <FormButton
+        className={'client-add__submit'}
+        type={'default'}
+        onClick={() => setStep(clientFormSteps.EMAIL)}
+      >
+        {t('back')}
+      </FormButton> */}
+    </>
+  )
+}
+
 const AddClientModalMessage = ({ onSubmit }: Props) => {
   const { step, setStep, form, update, onClose } = useContext(ClientFormContext)
   const { t } = useTranslation()
@@ -55,18 +106,11 @@ const AddClientModalMessage = ({ onSubmit }: Props) => {
           })}
         >
           <Form>
-            <FormTextarea
-              name={'message'}
-              label={'Message'}
-              onUpdate={update}
+            <AddClientModalMessageContent
+              update={update}
+              t={t}
+              setStep={setStep}
             />
-            <ButtonSubmit>{t('submit')}</ButtonSubmit>
-            <FormButton
-              type={'default'}
-              onClick={() => setStep(clientFormSteps.EMAIL)}
-            >
-              {t('back')}
-            </FormButton>
           </Form>
         </Formik>
       </div>

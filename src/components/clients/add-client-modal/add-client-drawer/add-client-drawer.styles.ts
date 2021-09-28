@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 const AddClientDrawerStyles = styled.div<any>`
   background-color: white;
+  border-radius: 10px;
   min-height: 100%;
   .add-client-drawer {
     &__mask {
@@ -22,6 +24,25 @@ const AddClientDrawerStyles = styled.div<any>`
 
   .client-add__message__wrap {
     width: 100% !important;
+  }
+
+  .text_input__label {
+    color: ${getColorCarry('secondary2_v2')} !important;
+    font-weight: normal !important;
+  }
+  .client-add__input {
+    margin-bottom: 22px;
+    .text_input__input,
+    .input__input {
+    }
+  }
+
+  .client-add__submit {
+    padding-top: 13px;
+    padding-bottom: 13px;
+    margin-top: 30px;
+    font-size: 18px;
+    width: 100%;
   }
 
   @media ${mediaQueries.LANDSCAPE} {
