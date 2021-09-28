@@ -11,7 +11,8 @@ type Props = {
   min: number
   max: number
 }
-const QuickAccessLogRow: FC<Props> = ({ label, getQuality, min, max }) => {
+
+const QuickAccessLogRow: FC<Props> = ({ label, getQuality }) => {
   const { t } = useTranslation()
   const [quality, setQuality] = useState<string>('-')
   return (
