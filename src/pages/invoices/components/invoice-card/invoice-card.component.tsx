@@ -74,9 +74,11 @@ const InvoiceCard = ({
       {type === userTypes.CLIENT ? (
         status !== invoiceStatuses.PAID ? (
           showPay ? (
-            <Button className="invoice-card__btn" size="sm">
-              {t('invoices:pay')}
-            </Button>
+            <a href={payments(`${Routes.INVOICES}/${id}/pay`)}>
+              <Button className="invoice-card__btn" size="sm">
+                {t('invoices:pay')}
+              </Button>
+            </a>
           ) : (
             <a
               href={payments(`${Routes.INVOICES}/${id}/pay`)}
