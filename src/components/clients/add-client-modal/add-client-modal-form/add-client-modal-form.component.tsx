@@ -74,7 +74,10 @@ const AddClientModalFormContent = ({
       <FormPhone
         name={'phone_number'}
         label={t('profile:phone')}
-        onUpdate={update}
+        onUpdate={(name, value) => {
+          update(name, value)
+          setFieldValue(name, value)
+        }}
       />
       <Input
         className="client-add__input"
