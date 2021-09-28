@@ -33,8 +33,9 @@
   "free-sessions": "Free Sessions",
   "upcoming-sessions": "upcoming sessions",
   "return-to-clients": "Return to Clients",
-  "sessions":"Sessions",
-  "invoices":"Invoices",
+  "sessions": "Sessions",
+  "invoices": "Invoices",
+  "message": "Message",
   "payment-info": {
     "title": "Payment Info",
     "bank": "Bank",
