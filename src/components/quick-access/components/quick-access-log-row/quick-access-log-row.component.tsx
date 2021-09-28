@@ -22,7 +22,7 @@ const QuickAccessLogRow: FC<Props> = ({ label, getQuality, min, max }) => {
         onUpdate={(_, val) => {
           setQuality(val && getQuality ? getQuality(+val) : '-')
         }}
-        format={formatter().number().min(min).max(max)}
+        format={formatter().number()}
       />
       {getQuality && (
         <div className={'qa-log__quality'}>

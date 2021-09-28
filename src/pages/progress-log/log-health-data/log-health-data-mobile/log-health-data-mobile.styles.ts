@@ -1,5 +1,5 @@
 import { TimePicker } from 'antd'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { ReactComponent as InfoIcon } from '../../../../assets/media/icons/info-fill.svg'
 import Card from '../../../../components/cards/card/card.component'
@@ -65,7 +65,7 @@ export const GrayStyledTimeInput = styled(TimePicker)`
   }
 `
 
-export const GrayStyledInput = styled.input`
+export const GrayStyledInput = styled.input<any>`
   width: 100px;
   height: 70px;
   border-radius: 10px;
@@ -77,6 +77,12 @@ export const GrayStyledInput = styled.input`
   text-align: center;
   padding: 0.875rem;
   font-size: 1.125rem;
+
+  ${(props) =>
+    props.error &&
+    css`
+      border: 1px solid ${getColorCarry('primary_v2')};
+    `}
 `
 
 export const Info = styled(InfoIcon)`
