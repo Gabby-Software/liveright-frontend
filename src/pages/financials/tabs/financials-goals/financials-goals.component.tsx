@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 
 import FinancialsGoalsCardList from './components/financials-goals-list/financial-goals-list.component'
-
 import { TabTitle } from './financials-goals.styles'
 
 const FinancialsGoals: FC = () => {
