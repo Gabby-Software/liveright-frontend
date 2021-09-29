@@ -7,6 +7,9 @@ const AddClientDrawerStyles = styled.div<any>`
   background-color: white;
   border-radius: 10px;
   min-height: 100%;
+  form {
+    margin: 0 3px;
+  }
   .add-client-drawer {
     &__mask {
       overflow: hidden;

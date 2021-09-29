@@ -12,7 +12,6 @@ import DataPagination from '../../../components/data-pagination/data-pagination.
 import PopOnScroll from '../../../components/pop-on-scroll/pop-on-scroll.component'
 import { Routes } from '../../../enums/routes.enum'
 import { useClients } from '../../../hooks/clients.hook'
-// import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { classes } from '../../../pipes/classes.pipe'
@@ -24,8 +23,6 @@ const ClientsMobile = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
-  // const isMobile = useIsMobile()
-
   const {
     data: { data, meta },
     filters,
