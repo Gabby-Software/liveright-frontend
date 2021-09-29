@@ -19,6 +19,11 @@ export const Wrapper = styled.div`
     &__form-item {
       margin-bottom: 0.75rem;
     }
+
+    &__error {
+      font-size: 0.75rem;
+      color: ${getColorCarry('primary_v2')};
+    }
   }
 `
 

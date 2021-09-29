@@ -18,6 +18,7 @@ import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getDuration } from '../../../../pipes/duration.pipe'
+import { isOverlap, isOverlapBetween } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import SwitchClient from '../../../progress/components/switch-client/switch-client.component'
 import { QUALITY } from '../../../progress/progress.constants'
@@ -72,6 +73,15 @@ const LogHealthDataDesktop: React.FC = () => {
           id: params.id,
           date
         })
+
+  const overlap = values.sleep
+    ? isOverlapBetween(
+        values.sleep?.start_time,
+        values.sleep?.end_time,
+        values.sleep?.nap_start_time,
+        values.sleep?.nap_end_time
+      )
+    : false
 
   return (
     <>
@@ -169,6 +179,7 @@ const LogHealthDataDesktop: React.FC = () => {
                     onChange={(e, date) =>
                       setFieldValue('sleep.nap_start_time', date)
                     }
+                    error={overlap ? 'Sleep and nap should not overlap' : ''}
                   />
                   <TimePicker
                     id="log-health-nap-end"
