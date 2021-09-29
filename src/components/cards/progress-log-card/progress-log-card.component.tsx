@@ -1,3 +1,4 @@
+import { useAuth } from '../../../hooks/auth.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import UserBadge from '../../user-badge/user-badge.component'
 import { Styles } from './progress-log-card.styles'
@@ -9,6 +10,7 @@ interface ProgressLogCardProps {
   napData?: string
   value?: string
   showQuality?: boolean
+  loggedBy?: number
 }
 
 export default function ProgressLogCard({
@@ -17,8 +19,10 @@ export default function ProgressLogCard({
   sleepData,
   napData,
   value,
-  showQuality
+  showQuality,
+  loggedBy
 }: ProgressLogCardProps) {
+  const auth = useAuth()
   const { t } = useTranslation()
   return (
     <Styles $quality={quality}>
@@ -32,10 +36,18 @@ export default function ProgressLogCard({
         )}
       </div>
 
-      <div className="progress-log-card__reported">
-        <UserBadge size="sm" avatarOnly />
-        <p className="progress-log-card__reported-text">Reported By You</p>
-      </div>
+      {loggedBy === auth?.id && (
+        <div className="progress-log-card__reported">
+          <UserBadge
+            size="sm"
+            avatarOnly
+            avatar={auth?.avatar?.url}
+            firstName={auth?.first_name}
+            lastName={auth?.last_name}
+          />
+          <p className="progress-log-card__reported-text">Reported By You</p>
+        </div>
+      )}
 
       {sleepData && (
         <div>
