@@ -21,6 +21,7 @@ interface InvoicesQuery {
   page: number
   include: string
   filter: InvoicesFilters
+  per_page: number
 }
 
 export interface UseInvoices {
@@ -38,6 +39,7 @@ function getKey(params: InvoicesQuery) {
 interface UseInvoicesConfig {
   initialFilters?: InvoicesFilters
   initialInclude?: string
+  perPage?: number
 }
 
 export default function useInvoices(
@@ -49,7 +51,8 @@ export default function useInvoices(
   const params: InvoicesQuery = {
     page: pagination.page,
     include: config?.initialInclude || 'invoiceTo',
-    filter: { ...(config?.initialFilters || {}), ...filters.filters }
+    filter: { ...(config?.initialFilters || {}), ...filters.filters },
+    per_page: config.perPage || 10
   }
 
   const { data, error, mutate } = useSWR(() => getKey(params), getInvoices)
