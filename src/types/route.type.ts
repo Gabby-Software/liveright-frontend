@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { ComponentType } from 'react'
 
 import { footerTypes } from '../enums/footer-types'

@@ -1,7 +1,9 @@
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router'
 import * as Yup from 'yup'
 
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { handleError } from '../../../../managers/api.manager'
 import InvitationManager from '../../../../managers/invitation.manager'
 import logger from '../../../../managers/logger.manager'
@@ -72,6 +74,8 @@ const AddClientModalMessageContent = ({
 const AddClientModalMessage = ({ onSubmit }: Props) => {
   const { step, setStep, form, update, onClose } = useContext(ClientFormContext)
   const { t } = useTranslation()
+  const history = useHistory()
+  const isMobile = useIsMobile()
   const handleSubmit = (
     values: ClientFormType,
     helper: FormikHelpers<ClientFormType>
@@ -87,6 +91,7 @@ const AddClientModalMessage = ({ onSubmit }: Props) => {
         helper.resetForm()
         toast.show({ type: 'success', msg: t('alerts:client-add-success') })
         onClose()
+        isMobile && history.push('/clients')
         onSubmit && onSubmit()
       })
       .catch(handleError(helper))
