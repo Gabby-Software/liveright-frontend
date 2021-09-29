@@ -10,8 +10,9 @@ import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
 import { useAuth } from '../../../hooks/auth.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
-import { getRoute } from '../../../utils/routes'
+import { getViewRoutes } from '../../../utils/api/progress'
 import LogClient from '../../progress-log/log-health-data/components/log-client/log-client.component'
+import Goals from '../components/goals/goals.component'
 import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import SwitchClient from '../components/switch-client/switch-client.component'
@@ -23,14 +24,7 @@ export default function ProgressDesktop() {
   const [switchDialog, setSwitchDialog] = useState(false)
   const params = useParams<any>()
 
-  const isClient = type === userTypes.CLIENT
-
-  const measurementsTo = isClient
-    ? Routes.PROGRESS_CLIENT_MEASUREMENTS
-    : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
-  const healthTo = isClient
-    ? Routes.PROGRESS_CLIENT_HEALTH_DATA
-    : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+  const { measurementsTo, goalsTo, healthTo } = getViewRoutes(params, type)
 
   const dropdown = (
     <LogDropdown>
@@ -71,6 +65,10 @@ export default function ProgressDesktop() {
             {
               name: t('progress:sections.health_data'),
               url: healthTo
+            },
+            {
+              name: t('progress:sections.goals'),
+              url: goalsTo
             }
           ]}
         />
@@ -82,6 +80,9 @@ export default function ProgressDesktop() {
           ]}
         >
           <HealthData />
+        </Route>
+        <Route path={[Routes.PROGRESS_GOALS, Routes.PROGRESS_CLIENT_GOALS]}>
+          <Goals />
         </Route>
       </Wrapper>
 

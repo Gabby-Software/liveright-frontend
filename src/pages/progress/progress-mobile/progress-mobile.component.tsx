@@ -1,5 +1,8 @@
+import { useParams } from 'react-router'
+import { Route } from 'react-router-dom'
+
 import { CaretDownIcon } from '../../../assets/media/icons'
-import Tabs from '../../../components/tabs/tabs.component'
+import RoutedTabs from '../../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
 import { useAuth } from '../../../hooks/auth.hook'
@@ -7,24 +10,20 @@ import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
+import { getViewRoutes } from '../../../utils/api/progress'
 import ClientInfoMobile from '../components/client-info-mobile/client-info-mobile.component'
+import Goals from '../components/goals/goals.component'
 import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
-import { PROGRESS_SECTIONS } from '../progress.constants'
 import { HeaderAction, Wrapper } from './progress-mobile.styles'
 
 export default function ProgressMobile() {
   const { t } = useTranslation()
   const { type } = useAuth()
+  const params = useParams<any>()
   const isMobile = useIsMobile()
 
-  const renderHealthData = () => {
-    return <HealthData />
-  }
-
-  const renderMeasurements = () => {
-    return <div>123</div>
-  }
+  const { measurementsTo, goalsTo, healthTo } = getViewRoutes(params, type)
 
   return (
     <MobilePage
@@ -49,21 +48,36 @@ export default function ProgressMobile() {
       <Wrapper>
         {type !== userTypes.CLIENT && <ClientInfoMobile />}
 
-        <Tabs
-          className={type !== userTypes.CLIENT ? '' : 'health__tabs'}
+        <RoutedTabs
+          className="health__tabs"
           tabs={[
             {
-              label: t('progress:sections.health_data'),
-              renderContent: renderHealthData,
-              key: PROGRESS_SECTIONS.HEALTH_DATA
+              name: t('progress:sections.measurements'),
+              url: measurementsTo
             },
             {
-              label: t('progress:sections.measurements'),
-              renderContent: renderMeasurements,
-              key: PROGRESS_SECTIONS.MEASUREMENTS
+              name: t('progress:sections.health_data'),
+              url: healthTo
+            },
+            {
+              name: t('progress:sections.goals'),
+              url: goalsTo
             }
           ]}
         />
+
+        <Route path={Routes.PROGRESS_MEASUREMENTS}>TBD</Route>
+        <Route
+          path={[
+            Routes.PROGRESS_HEALTH_DATA,
+            Routes.PROGRESS_CLIENT_HEALTH_DATA
+          ]}
+        >
+          <HealthData />
+        </Route>
+        <Route path={[Routes.PROGRESS_GOALS, Routes.PROGRESS_CLIENT_GOALS]}>
+          <Goals />
+        </Route>
       </Wrapper>
     </MobilePage>
   )

@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   .health {
     &__tabs {
       @media ${mediaQueries.MOBILE} {
-        margin-top: -1.5rem;
+        margin: 0 0 1.875rem 0;
       }
     }
   }

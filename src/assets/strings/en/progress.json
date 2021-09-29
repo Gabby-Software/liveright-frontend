@@ -43,6 +43,7 @@
   "sections": {
     "log": "Log Data",
     "health_data": "Health Data",
+    "goals":  "Goals",
     "measurements": "Measurements",
     "photos": "Photos"
   }
