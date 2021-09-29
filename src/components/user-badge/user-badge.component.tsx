@@ -14,6 +14,7 @@ interface UserBadgeProps {
   square?: boolean
   text?: 'semi-bold'
   online?: boolean
+  unreadCount?: number
 }
 
 export default function UserBadge({
@@ -25,7 +26,8 @@ export default function UserBadge({
   avatarOnly,
   square,
   text,
-  online
+  online,
+  unreadCount
 }: UserBadgeProps) {
   return (
     <Styles
@@ -33,8 +35,12 @@ export default function UserBadge({
       $size={size}
       $square={square}
       $online={online}
+      $unread={unreadCount}
     >
       <div className="user-badge__preview">
+        {!!unreadCount && (
+          <span className="user-badge__unread">{unreadCount}</span>
+        )}
         <Image src={avatar} />
         <span>{noImage(firstName, lastName)}</span>
       </div>
