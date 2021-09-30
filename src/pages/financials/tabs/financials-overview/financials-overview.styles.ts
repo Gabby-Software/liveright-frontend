@@ -5,7 +5,7 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled.div`
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-bottom: 0;
     padding-top: 2.5rem;
   }
@@ -25,7 +25,7 @@ export default styled.div`
     &__range {
       max-width: 200px;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         max-width: 100%;
       }
     }
@@ -38,7 +38,7 @@ export default styled.div`
       display: flex;
       flex-direction: row;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin: 1.25rem 0;
       }
 

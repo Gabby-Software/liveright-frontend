@@ -12,7 +12,7 @@ export const Styles = styled(Card)`
   color: ${getColorCarry('primaryDark_v2')};
   margin-bottom: 1.875rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
@@ -36,7 +36,7 @@ export const Styles = styled(Card)`
         padding-left: 1.875rem;
       }
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         &:first-child {
           border-right: 0;
           padding-right: 0;
@@ -68,7 +68,7 @@ export const Styles = styled(Card)`
     }
 
     &__input {
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         & .input__input {
           height: 70px;
           border: 0;
@@ -94,7 +94,7 @@ export const Styles = styled(Card)`
         font-size: 0.875rem;
         font-weight: 500;
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           font-size: 1.125rem;
           font-weight: 400;
         }

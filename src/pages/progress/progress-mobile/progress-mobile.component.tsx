@@ -16,6 +16,7 @@ import Goals from '../components/goals/goals.component'
 import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
 import { HeaderAction, Wrapper } from './progress-mobile.styles'
+import { isClient } from '../../../utils/api/auth'
 
 export default function ProgressMobile() {
   const { t } = useTranslation()
@@ -45,7 +46,7 @@ export default function ProgressMobile() {
       }
       headerSpacing={isMobile && type === userTypes.CLIENT ? 12 : 25}
     >
-      <Wrapper>
+      <Wrapper $client={isClient(type)}>
         {type !== userTypes.CLIENT && <ClientInfoMobile />}
 
         <RoutedTabs

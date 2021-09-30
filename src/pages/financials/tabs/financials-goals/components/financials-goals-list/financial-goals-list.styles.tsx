@@ -7,7 +7,7 @@ const ListWrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 16px 14px;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     grid-template-columns: 1fr;
     margin-top: 18px;
   }

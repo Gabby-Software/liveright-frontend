@@ -10,7 +10,7 @@ export default styled.div`
   background-color: #fff;
   padding: 1.5rem 1.75rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 1.5rem 1.25rem;
   }
 

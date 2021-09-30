@@ -54,7 +54,7 @@ const AddClientDrawerStyles = styled.div<any>`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     width: 100%;
     position: absolute;
     left: 0;

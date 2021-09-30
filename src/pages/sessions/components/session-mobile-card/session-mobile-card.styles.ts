@@ -30,7 +30,7 @@ export default styled(Card)`
       align-items: flex-end;
       min-width: max-content;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 0.75rem;
       }
     }
@@ -47,7 +47,7 @@ export default styled(Card)`
       & svg {
         margin-left: 1rem;
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           margin-left: 0.5rem;
         }
       }

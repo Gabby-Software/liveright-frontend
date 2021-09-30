@@ -10,6 +10,7 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import { Routes } from '../../../../enums/routes.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
 import { getRoute } from '../../../../utils/routes'
@@ -27,7 +28,7 @@ export default function GoalsLog() {
     : getRoute(Routes.PROGRESS_GOALS, { id: params.id })
 
   const content = (
-    <Styles>
+    <Styles $client={isClient(type)}>
       {!isMobile && (
         <>
           <MobileBack to={backTo} alias="goals" />
@@ -87,8 +88,9 @@ export default function GoalsLog() {
   return isMobile ? (
     <MobilePage
       title="Log Goals"
-      headerSpacing={20}
+      headerSpacing={isClient(type) ? undefined : 20}
       actionComponent={<Button>Save Goals</Button>}
+      headerTopComponent={<HeaderLink to={backTo}>Back to Goals</HeaderLink>}
     >
       {content}
     </MobilePage>

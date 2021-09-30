@@ -41,7 +41,7 @@ export const Styles = styled(Tabs)`
     background-color: ${getColorCarry('blue_70')};
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     & .ant-tabs-nav-wrap {
       justify-content: center;
     }

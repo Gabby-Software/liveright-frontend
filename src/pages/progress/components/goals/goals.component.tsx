@@ -22,13 +22,18 @@ export default function Goals() {
     : getRoute(Routes.PROGRESS_LOG_GOALS, { id: params.id })
 
   return (
-    <Styles>
-      <Alert message={ALERT} className="goals__alert" />
+    <Styles $client={isClient(type)}>
+      {isClient(type) && <Alert message={ALERT} className="goals__alert" />}
 
       <div className="goals__title-container">
         <p className="goals__title">Current Goals</p>
 
-        <Button variant="secondary" className="goals__button" to={editTo}>
+        <Button
+          variant="secondary"
+          className="goals__button"
+          linkClassName="goals__button-wrapper"
+          to={editTo}
+        >
           Edit Current/Future Goals
         </Button>
       </div>

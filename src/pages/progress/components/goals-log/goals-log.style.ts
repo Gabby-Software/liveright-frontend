@@ -2,7 +2,11 @@ import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 
-export const Styles = styled.div`
+export const Styles = styled.div<any>`
+  @media ${mediaQueries.TABLET} {
+    padding-top: ${(props) => (props.$client ? '1.25rem' : 0)};
+  }
+
   .log-goals {
     &__title {
       font-size: 1.125rem;
@@ -15,7 +19,7 @@ export const Styles = styled.div`
       grid-template-columns: 1fr 250px;
       gap: 1.875rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         grid-template-columns: 1fr;
       }
 
@@ -29,7 +33,7 @@ export const Styles = styled.div`
         gap: 1.875rem;
         margin-bottom: 1.875rem;
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           grid-template-columns: 1fr;
         }
       }

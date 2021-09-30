@@ -9,4 +9,5 @@ export interface ButtonProps {
   disabled?: boolean
   htmlType?: string
   form?: string
+  linkClassName?: string
 }

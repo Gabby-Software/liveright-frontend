@@ -12,7 +12,7 @@ export default styled(Card)<any>`
   padding: 1.125rem 1rem;
   margin-bottom: 1.5rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     margin-bottom: 0;
     background-color: #fff;
   }

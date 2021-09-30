@@ -30,7 +30,7 @@ export default styled.div`
       font-size: 0.875rem;
       line-height: 1.25rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 0.75rem;
       }
     }
@@ -40,7 +40,7 @@ export default styled.div`
       font-weight: 700;
       line-height: 1.5rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 0.875rem;
       }
     }
@@ -48,7 +48,7 @@ export default styled.div`
     &__item-container {
       margin-left: 1.5rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-left: 0.75rem;
       }
     }
