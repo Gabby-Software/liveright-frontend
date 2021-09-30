@@ -1,9 +1,9 @@
-import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
+import { /* Form, Formik, */ FormikHelpers, useFormikContext } from 'formik'
 import moment from 'moment'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
-import * as Yup from 'yup'
 
+// import * as Yup from 'yup'
 import { genderTypes } from '../../../../enums/gender-types'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { handleError } from '../../../../managers/api.manager'
@@ -14,6 +14,7 @@ import Button from '../../../buttons/button/button.component'
 import DatePicker from '../../../form/date-picker/date-picker.component'
 import Input from '../../../form/input/input.component'
 import Textarea from '../../../form/textarea/textarea.component'
+import FormCountrySelect from '../../../forms/form-country-select/form-country-select.component'
 import FormPhone from '../../../forms/form-phone/form-phone.component'
 import FormSwitch from '../../../forms/form-switch/form-switch.component'
 import { toast } from '../../../toast/toast.component'
@@ -24,22 +25,49 @@ import {
 } from '../add-client-modal.context'
 import Styles from './add-client-modal-form.styles'
 
-type Props = { onSubmit?: () => void }
+type Props = {
+  onClose?: (params?: any) => any
+  onSubmit?: () => void
+}
+
 type AddClientModalFormContentProps = {
   t: (key: string, data?: any) => any
   setStep: (step: number) => void
-  update: (name: string, value: any) => void
+  update?: (name: string, value: any) => void
   genderOptions: OptionType[]
+  onSubmit?: (params?: any) => any
+  onClose?: (params?: any) => any
 }
 
 const AddClientModalFormContent = ({
-  update,
   setStep,
   t,
-  genderOptions
+  genderOptions,
+  onSubmit,
+  onClose
 }: AddClientModalFormContentProps) => {
-  const { values, setFieldValue, submitForm } =
+  const { values, setFieldValue, setSubmitting, resetForm, setFieldTouched } =
     useFormikContext<ClientFormType>()
+  const isMobile = useIsMobile()
+  const history = useHistory()
+
+  const handleSubmit = (values: ClientFormType) => {
+    InvitationManager.sendInvitationNewUser({
+      ...values,
+      type: 'training',
+      country_code: values.country
+    })
+      .then(() => {
+        onSubmit && onSubmit()
+        setSubmitting(false)
+        resetForm()
+        toast.show({ type: 'success', msg: t('alerts:client-add-success') })
+        setStep(clientFormSteps.EMAIL)
+        onClose && onClose()
+        isMobile && history.push('/clients')
+      })
+      .catch(handleError({ setSubmitting } as FormikHelpers<ClientFormType>))
+  }
   return (
     <>
       <Input
@@ -48,10 +76,10 @@ const AddClientModalFormContent = ({
         name={'first_name'}
         label={t('profile:first-name')}
         onChange={(e) => {
-          update('first_name', e.target.value)
           setFieldValue('first_name', e.target.value)
         }}
         value={values.first_name}
+        onFocus={() => setFieldTouched('first_name', true)}
       />
       <Input
         className="client-add__input"
@@ -59,10 +87,10 @@ const AddClientModalFormContent = ({
         name={'last_name'}
         label={t('profile:last-name')}
         onChange={(e) => {
-          update('last_name', e.target.value)
           setFieldValue('last_name', e.target.value)
         }}
         value={values.last_name}
+        onFocus={() => setFieldTouched('last_name', true)}
       />
       <DatePicker
         className="client-add__input"
@@ -81,7 +109,7 @@ const AddClientModalFormContent = ({
         name={'phone_number'}
         label={t('profile:phone')}
         onUpdate={(name, value) => {
-          update(name, value)
+          // update(name, value)
           setFieldValue(name, value)
         }}
       />
@@ -91,10 +119,11 @@ const AddClientModalFormContent = ({
         name={'city'}
         label={t('profile:city')}
         onChange={(e) => {
-          update('city', e.target.value)
+          // update('city', e.target.value)
           setFieldValue('city', e.target.value)
         }}
         value={values.city}
+        onFocus={() => setFieldTouched('city', true)}
       />
       <Input
         className="client-add__input"
@@ -102,21 +131,16 @@ const AddClientModalFormContent = ({
         name={'postal_code'}
         label={t('profile:postal-code')}
         onChange={(e) => {
-          update('postal_code', e.target.value)
+          // update('postal_code', e.target.value)
           setFieldValue('postal_code', e.target.value)
         }}
         value={values.postal_code}
+        onFocus={() => setFieldTouched('postal_code', true)}
       />
-      <Input
-        className="client-add__input"
-        id={'country'}
-        name={'country'}
+      <FormCountrySelect
+        name="country"
         label={t('profile:country')}
-        onChange={(e) => {
-          update('country', e.target.value)
-          setFieldValue('country', e.target.value)
-        }}
-        value={values.country}
+        onUpdate={(v) => setFieldValue('country', v)}
       />
       <Input
         className="client-add__input"
@@ -124,17 +148,18 @@ const AddClientModalFormContent = ({
         name={'address'}
         label={t('profile:address')}
         onChange={(e) => {
-          update('address', e.target.value)
+          // update('address', e.target.value)
           setFieldValue('address', e.target.value)
         }}
         value={values.address}
+        onFocus={() => setFieldTouched('address', true)}
       />
       <Textarea
         className="client-add__input"
         id="dietary_restrictions"
         label={t('profile:dietary-restrictions')}
         onChange={(e) => {
-          update('dietary_restrictions', e.target.value)
+          // update('dietary_restrictions', e.target.value)
           setFieldValue('dietary_restrictions', e.target.value)
         }}
         value={values.dietary_restrictions}
@@ -144,7 +169,7 @@ const AddClientModalFormContent = ({
         id="injuries"
         label={t('profile:injuries')}
         onChange={(e) => {
-          update('injuries', e.target.value)
+          // update('injuries', e.target.value)
           setFieldValue('injuries', e.target.value)
         }}
         value={values.injuries}
@@ -154,12 +179,15 @@ const AddClientModalFormContent = ({
         id="message"
         label={t('profile:message')}
         onChange={(e) => {
-          update('message', e.target.value)
+          // update('message', e.target.value)
           setFieldValue('message', e.target.value)
         }}
         value={values.message}
       />
-      <Button onClick={submitForm} className={'client-add__submit'}>
+      <Button
+        onClick={() => handleSubmit(values)}
+        className={'client-add__submit'}
+      >
         {t('submit')}
       </Button>
       <Button
@@ -174,31 +202,9 @@ const AddClientModalFormContent = ({
   )
 }
 
-const AddClientModalForm = ({ onSubmit }: Props) => {
-  const { setStep, form, update, onClose } = useContext(ClientFormContext)
+const AddClientModalForm = ({ onSubmit, onClose }: Props) => {
+  const { setStep, update } = useContext(ClientFormContext)
   const { t } = useTranslation()
-  const isMobile = useIsMobile()
-  const history = useHistory()
-
-  const handleSubmit = (
-    values: ClientFormType,
-    helper: FormikHelpers<ClientFormType>
-  ) => {
-    InvitationManager.sendInvitationNewUser({
-      ...values,
-      type: 'training',
-      country_code: values.country
-    })
-      .then(() => {
-        helper.setSubmitting(false)
-        helper.resetForm()
-        toast.show({ type: 'success', msg: t('alerts:client-add-success') })
-        onClose()
-        isMobile && history.push('/clients')
-        onSubmit && onSubmit()
-      })
-      .catch(handleError(helper))
-  }
 
   const genderOptions = [
     { label: t('profile:male'), value: genderTypes.MALE },
@@ -207,27 +213,14 @@ const AddClientModalForm = ({ onSubmit }: Props) => {
 
   return (
     <Styles>
-      <Formik
-        initialValues={form}
-        onSubmit={handleSubmit}
-        enableReinitialize
-        validationSchema={Yup.object({
-          first_name: Yup.string().required().name(),
-          last_name: Yup.string().required().name(),
-          phone_number: Yup.string().phone(),
-          birthday: Yup.date().max(moment().startOf('day').toDate()),
-          postal_code: Yup.string().zip().nullable()
-        })}
-      >
-        <Form>
-          <AddClientModalFormContent
-            update={update}
-            genderOptions={genderOptions}
-            setStep={setStep}
-            t={t}
-          />
-        </Form>
-      </Formik>
+      <AddClientModalFormContent
+        update={update}
+        genderOptions={genderOptions}
+        setStep={setStep}
+        t={t}
+        onSubmit={onSubmit}
+        onClose={onClose}
+      />
     </Styles>
   )
 }

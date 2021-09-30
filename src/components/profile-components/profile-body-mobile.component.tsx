@@ -4,7 +4,6 @@ import { Routes } from '../../enums/routes.enum'
 import useImage from '../../hooks/ui/useImage'
 import HeaderLink from '../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
-import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { date } from '../../pipes/date.pipe'
 import { noImage } from '../../pipes/no-image.pipe'
@@ -137,7 +136,7 @@ export default function ProfileBodyMobile({
           </Card>
 
           <Card>
-            <CardTitle>Addresses</CardTitle>
+            <CardTitle>Address</CardTitle>
             <div className="profile__grid">
               <div className="profile__grid-item">
                 <p className="profile__grid-item-name">Country</p>
@@ -168,7 +167,7 @@ export default function ProfileBodyMobile({
 
           {account?.type === 'trainer' ? (
             <Card>
-              <CardTitle>Trainer Info</CardTitle>
+              <CardTitle>Other Info</CardTitle>
 
               <div className="profile__grid">
                 <div className="profile__grid-item">

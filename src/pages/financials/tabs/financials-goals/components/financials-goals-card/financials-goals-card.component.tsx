@@ -1,12 +1,12 @@
 import { FC, ReactNode } from 'react'
 
 import {
-  Wrapper,
-  Title,
+  CurrentWrapper,
+  Icon,
   PriceText,
   PriceWrapper,
-  CurrentWrapper,
-  Icon
+  Title,
+  Wrapper
 } from './financials-goals-card.styles'
 
 interface FinancialsGoalsCardProps {

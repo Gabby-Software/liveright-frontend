@@ -1,17 +1,14 @@
 import { FC } from 'react'
 
-import useInvoices from '../../../../../../hooks/api/invoices/useInvoices'
-import useSessions from '../../../../../../hooks/api/sessions/useSessions'
-
-import FinancialsGoalsCard from '../financials-goals-card/financials-goals-card.component'
-
 import {
   ClientSolidIcon,
   GroupSolidIcon,
   PhoneSolidIcon,
   RevenueSolidIcon
 } from '../../../../../../assets/media/icons'
-
+import useInvoices from '../../../../../../hooks/api/invoices/useInvoices'
+import useSessions from '../../../../../../hooks/api/sessions/useSessions'
+import FinancialsGoalsCard from '../financials-goals-card/financials-goals-card.component'
 import { ListWrapper } from './financial-goals-list.styles'
 
 interface FinancialsGoalsListProps {}
