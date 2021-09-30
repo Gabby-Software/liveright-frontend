@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useParams } from 'react-router'
 import { Route } from 'react-router-dom'
 
@@ -15,13 +14,11 @@ import LogClient from '../../progress-log/log-health-data/components/log-client/
 import Goals from '../components/goals/goals.component'
 import LogDropdown from '../components/log-dropdown/log-dropdown.component'
 import HealthData from '../components/progress-health-data/progress-health-data.component'
-import SwitchClient from '../components/switch-client/switch-client.component'
 import { Wrapper } from './progress-desktop.styles'
 
 export default function ProgressDesktop() {
   const { t } = useTranslation()
   const { type } = useAuth()
-  const [switchDialog, setSwitchDialog] = useState(false)
   const params = useParams<any>()
 
   const { measurementsTo, goalsTo, healthTo } = getViewRoutes(params, type)
@@ -52,9 +49,7 @@ export default function ProgressDesktop() {
           />
         )}
 
-        {type !== userTypes.CLIENT && (
-          <LogClient onSwitch={() => setSwitchDialog(true)} />
-        )}
+        {type !== userTypes.CLIENT && <LogClient />}
 
         <RoutedTabs
           tabs={[
@@ -85,11 +80,6 @@ export default function ProgressDesktop() {
           <Goals />
         </Route>
       </Wrapper>
-
-      <SwitchClient
-        open={switchDialog}
-        onClose={() => setSwitchDialog(false)}
-      />
     </>
   )
 }

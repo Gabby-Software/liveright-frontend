@@ -11,7 +11,7 @@ import FormError from '../../forms/form-error/form-error.component'
 import Label from '../label/label.component'
 import Styles from './input.styles'
 
-interface InputProps {
+export interface InputProps {
   id: string
   type?: 'text' | 'password'
   label?: string

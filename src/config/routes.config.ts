@@ -217,6 +217,32 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Log Goals',
+    url: Routes.PROGRESS_LOG_CLIENT_GOALS,
+    Component: lazy(
+      () =>
+        import('../pages/progress/components/goals-log/goals-log.components')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Log Goals',
+    url: Routes.PROGRESS_LOG_GOALS,
+    Component: lazy(
+      () =>
+        import('../pages/progress/components/goals-log/goals-log.components')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
     title: 'Progress',
     url: Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA,
     Component: lazy(
