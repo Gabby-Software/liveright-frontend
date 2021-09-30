@@ -87,8 +87,15 @@ export const routes: RouteType[] = [
     title: 'Trainer',
     url: Routes.TRAINER,
     Component: lazy(() => import('../pages/trainer/trainer.component')),
+    version: 2,
+    mobileLayout: false,
+    back: {
+      url: Routes.HOME,
+      alias: 'home'
+    },
+    footer: footerTypes.DEFAULT,
     header: {
-      title: 'My Trainer',
+      title: null,
       items: headers.default
     }
   },
@@ -200,14 +207,10 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/client-profile/client-profile.component')
     ),
-    // header: {
-    //   title: ''
-    // },
     back: {
       url: Routes.CLIENTS,
       alias: 'clients'
     },
-    // version: 2,
     footer: footerTypes.TRAINER,
     version: 2,
     mobileLayout: false,

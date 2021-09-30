@@ -45,6 +45,7 @@ const AddClientDrawerStyles = styled.div<any>`
     padding-bottom: 13px;
     margin-top: 30px;
     font-size: 18px;
+    font-weight: 400;
     width: 100%;
   }
 

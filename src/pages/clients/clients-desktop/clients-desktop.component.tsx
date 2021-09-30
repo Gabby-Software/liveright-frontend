@@ -130,14 +130,6 @@ const ClientsDesktop = ({}: Props) => {
     }, 400) as unknown as number
   }
   useEffect(fetchClients, [query, type, status])
-
-  // if (!data.length) {
-  //   return (
-  //     <Styles>
-  //       <p>You have no clients currently</p>
-  //     </Styles>
-  //   )
-  // }
   return (
     <>
       <SessionStyles>
@@ -200,13 +192,6 @@ const ClientsDesktop = ({}: Props) => {
                 setPage={(current_page: number) => setPage(current_page)}
                 total={meta?.total}
               />
-              {/* Modal */}
-              {/* <AddClientModal
-                isOpen={modalOpen}
-                onClose={() => setModalOpen(false)}
-                onSubmit={fetchClients}
-              /> */}
-              {/*    data.length ? null : <p className={'clients__no-data'}>{t('no-data')}</p>*/}
             </ClientContainer>
           </div>
         </div>
