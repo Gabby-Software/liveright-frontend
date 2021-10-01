@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
 
-export default styled.div`
+export const Styles = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;

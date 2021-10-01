@@ -4,9 +4,10 @@ import { addFailedImage, checkFailedImage } from '../../utils/api/images'
 
 interface ImageProps {
   src?: string
+  className?: string
 }
 
-export default function Image({ src }: ImageProps) {
+export default function Image({ src, className }: ImageProps) {
   const [url, setUrl] = useState('')
 
   useEffect(() => {
@@ -25,6 +26,11 @@ export default function Image({ src }: ImageProps) {
   }
 
   return (
-    <img src={!checkFailedImage(url) ? url : ''} alt="" onError={handleFail} />
+    <img
+      src={!checkFailedImage(url) ? url : ''}
+      alt=""
+      onError={handleFail}
+      className={className}
+    />
   )
 }

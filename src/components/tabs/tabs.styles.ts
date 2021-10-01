@@ -13,7 +13,7 @@ export const Styles = styled(Tabs)`
     background-color: #fff;
     padding: 0 1.75rem;
     border-radius: 10px;
-    margin-bottom: 2.125rem;
+    margin-bottom: 1.875rem;
   }
   & .ant-tabs-tab {
     padding: 17px 0;
