@@ -13,6 +13,7 @@ import HeaderLink from '../../../layouts/mobile-page/components/header-link/head
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import { getDuration } from '../../../pipes/duration.pipe'
 import { timeWithSeconds } from '../../../pipes/time.pipe'
+import { isOverlapBetween } from '../../../utils/date'
 import { getRoute } from '../../../utils/routes'
 import { logHealthDataAsync } from '../../progress/progress.api'
 import { HealthData } from '../../progress/progress.types'
@@ -49,6 +50,19 @@ const LogHealthData = () => {
 
   const handleSubmit = async (values: HealthData) => {
     const { time, sleep, heart_rate, steps, blood_glucose } = values
+
+    if (
+      sleep &&
+      isOverlapBetween(
+        sleep.start_time,
+        sleep.end_time,
+        sleep.nap_start_time,
+        sleep.nap_end_time
+      )
+    ) {
+      return
+    }
+
     const payload: HealthData = {
       date: values.date,
       time: timeWithSeconds(time)

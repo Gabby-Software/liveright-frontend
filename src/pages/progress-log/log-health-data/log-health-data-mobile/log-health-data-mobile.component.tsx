@@ -19,6 +19,7 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { classes } from '../../../../pipes/classes.pipe'
 import { getDuration } from '../../../../pipes/duration.pipe'
+import { isOverlapBetween } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ClientInfoMobile from '../../../progress/components/client-info-mobile/client-info-mobile.component'
 import { QUALITY } from '../../../progress/progress.constants'
@@ -136,6 +137,15 @@ const LogHealthDataMobile = () => {
           id: params.id,
           date
         })
+
+  const overlap = values.sleep
+    ? isOverlapBetween(
+        values.sleep?.start_time,
+        values.sleep?.end_time,
+        values.sleep?.nap_start_time,
+        values.sleep?.nap_end_time
+      )
+    : false
 
   return (
     <Wrapper>
@@ -260,6 +270,10 @@ const LogHealthDataMobile = () => {
             time
           />
         </FormRow>
+
+        {overlap && (
+          <p className="log-health__error">Sleep and nap should not overlap</p>
+        )}
 
         <Select
           id="log-quality"

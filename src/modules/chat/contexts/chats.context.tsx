@@ -55,6 +55,7 @@ export type ChatsContextType = {
   removeMessage: (room: string, id: string) => void
   findRoomByUserId: (userId: number) => RoomResponse | null
 }
+
 const ChatsContext = createContext<ChatsContextType | null>(null)
 export const useChats = () => useContext(ChatsContext) as ChatsContextType
 
@@ -69,6 +70,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
 
   useEffect(() => {
     if (!isOnline) return
+
     const retry = async () => {
       for await (const item of queue.current) {
         const room = roomsRef.current[item.message.chat_room_id]
@@ -88,6 +90,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         setRooms({ ...roomsRef.current })
       }
     }
+
     retry()
   }, [isOnline])
   // const addToQueue = (queueItem: ChatQueueItemType) => {
@@ -102,6 +105,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     close(roomId)
     history.push(Routes.CHAT + `/${roomId}`)
   }
+
   socketManager.useDelivered()(({ roomId }) => {
     logger.success('message seen handle', roomId)
     roomsRef.current[roomId].messages.forEach((message) => {
@@ -139,8 +143,7 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
     socketManager.delivered(msg.chat_room_id)
   })
 
-  useEffect(() => {
-    socketManager.init(uuid)
+  const fetchRooms = () => {
     getChatUsers()
       .then((res) => {
         res.forEach((room) => {
@@ -159,7 +162,20 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
         setRooms(roomsRef.current)
       })
       .catch((err) => logger.error('Fail to load chat users', serverError(err)))
+  }
+
+  useEffect(() => {
+    socketManager.init(uuid)
+    fetchRooms()
   }, [uuid])
+
+  useEffect(() => {
+    setTimeout(() => {
+      socketManager.on('room:created:receive', () => {
+        fetchRooms()
+      })
+    }, 1000)
+  }, [])
 
   const collapse = (roomId: string) => {
     setPopups([...new Set([roomId, ...popups])])

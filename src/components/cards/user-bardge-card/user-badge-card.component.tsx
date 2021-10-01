@@ -15,6 +15,7 @@ interface UserBadgeCardProps {
   onClick?: () => void
   online?: boolean
   circle?: boolean
+  unreadCount?: number
 }
 
 export default function UserBadgeCard({
@@ -26,7 +27,8 @@ export default function UserBadgeCard({
   className,
   onClick,
   online,
-  circle
+  circle,
+  unreadCount
 }: UserBadgeCardProps) {
   return (
     <Styles className={classes('user-badge-card', className)} onClick={onClick}>
@@ -37,6 +39,7 @@ export default function UserBadgeCard({
         firstName={firstName}
         lastName={lastName}
         online={online}
+        unreadCount={unreadCount}
       />
 
       <div className="user-badge-card__content">
