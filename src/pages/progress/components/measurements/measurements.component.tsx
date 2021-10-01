@@ -4,6 +4,8 @@ import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/step
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import PhotoCard from '../../../../components/cards/photo-card/photo-card.component'
+import ProgressLogCard from '../../../../components/cards/progress-log-card/progress-log-card.component'
+import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Tabs from '../../../../components/tabs/tabs.component'
@@ -64,7 +66,7 @@ const DATA = [
 ]
 
 export default function Measurements() {
-  // const isMobile = useIsMobile()
+  const isMobile = useIsMobile()
   return (
     <Styles>
       <Filters
@@ -107,18 +109,33 @@ export default function Measurements() {
       />
 
       <div className="measurements__content">
-        <Card className="measurements__table-card">
-          <div className="measurements__table-container">
-            <DataTable
-              className="measurements__table"
-              labels={LABELS}
-              keys={KEYS}
-              data={DATA}
+        {!isMobile ? (
+          <Card className="measurements__table-card">
+            <div className="measurements__table-container">
+              <DataTable
+                className="measurements__table"
+                labels={LABELS}
+                keys={KEYS}
+                data={DATA}
+              />
+            </div>
+
+            <TablePagination logTo="/" page={1} onPage={() => {}} total={1} />
+          </Card>
+        ) : (
+          <div>
+            {DATA.map((row, index) => (
+              <ProgressLogCard key={index} quality="" {...row} />
+            ))}
+
+            <DataPagination
+              page={1}
+              setPage={() => {}}
+              total={1}
+              justify="center"
             />
           </div>
-
-          <TablePagination logTo="/" page={1} onPage={() => {}} total={1} />
-        </Card>
+        )}
       </div>
 
       <div>
@@ -135,7 +152,12 @@ export default function Measurements() {
             placeholder="With"
             className="measurements__photo-filters-field"
           />
-          <Button variant="secondary">Compare</Button>
+          <Button
+            variant="secondary"
+            className="measurements__photo-filters-button"
+          >
+            Compare
+          </Button>
         </div>
       </div>
 

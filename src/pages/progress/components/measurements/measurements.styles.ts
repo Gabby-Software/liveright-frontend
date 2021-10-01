@@ -33,9 +33,17 @@ export const Styles = styled.div`
         margin-right: 1.25rem;
         width: 100%;
         max-width: 250px;
+
+        @media ${mediaQueries.TABLET} {
+          max-width: 100%;
+          margin-bottom: 1.25rem;
+          margin-right: 0;
+        }
       }
 
       @media ${mediaQueries.TABLET} {
+        width: 100%;
+        flex-direction: column;
       }
     }
 
@@ -43,6 +51,10 @@ export const Styles = styled.div`
       display: flex;
       flex-direction: row;
       align-items: center;
+
+      @media ${mediaQueries.TABLET} {
+        flex-direction: column;
+      }
     }
 
     &__photo-divider {
@@ -50,6 +62,17 @@ export const Styles = styled.div`
       font-size: 3rem;
       font-weight: 700;
       color: ${getColorCarry('primary_v2')};
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 1.375rem;
+        margin: 2rem 3rem;
+      }
+    }
+
+    &__photo-filters-button {
+      @media ${mediaQueries.TABLET} {
+        width: 100%;
+      }
     }
 
     &__tabs {

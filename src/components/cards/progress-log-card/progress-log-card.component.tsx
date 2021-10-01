@@ -11,6 +11,12 @@ interface ProgressLogCardProps {
   value?: string
   showQuality?: boolean
   loggedBy?: number
+  weight?: string
+  circumference?: string
+  skinfold?: string
+  bodyFat?: string
+  fatMass?: string
+  leanMass?: string
 }
 
 export default function ProgressLogCard({
@@ -20,10 +26,26 @@ export default function ProgressLogCard({
   napData,
   value,
   showQuality,
-  loggedBy
+  loggedBy,
+  weight,
+  circumference,
+  skinfold,
+  bodyFat,
+  fatMass,
+  leanMass
 }: ProgressLogCardProps) {
   const auth = useAuth()
   const { t } = useTranslation()
+
+  const keysValues = {
+    weight,
+    circumference,
+    skinfold,
+    bodyFat,
+    fatMass,
+    leanMass
+  }
+
   return (
     <Styles $quality={quality}>
       <div className="progress-log-card__head">
@@ -56,6 +78,15 @@ export default function ProgressLogCard({
         </div>
       )}
       {value && <p className="progress-log-card__value">{value}</p>}
+
+      {Object.keys(keysValues).map((key: any, index) => (
+        <p className="progress-log-card__row" key={index}>
+          <span className="progress-log-card__row-label">{key}</span>
+          <span className="progress-log-card__row-value">
+            {(keysValues as any)[key]}
+          </span>
+        </p>
+      ))}
     </Styles>
   )
 }
