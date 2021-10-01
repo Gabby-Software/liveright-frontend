@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 
 const ListWrapper = styled.div`

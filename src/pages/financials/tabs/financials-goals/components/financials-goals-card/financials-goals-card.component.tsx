@@ -1,35 +1,43 @@
 import { FC, ReactNode } from 'react'
 
 import {
-  Wrapper,
-  Title,
+  CurrentText,
+  CurrentWrapper,
+  Icon,
   PriceText,
   PriceWrapper,
-  CurrentWrapper,
-  Icon
+  Title,
+  Wrapper
 } from './financials-goals-card.styles'
 
 interface FinancialsGoalsCardProps {
   title: string
   planned: string
   current?: number
-  icon?: ReactNode
+  icon: ReactNode
+  currency?: string
 }
 
 const FinancialsGoalsCard: FC<FinancialsGoalsCardProps> = ({
   title,
   planned,
   current,
-  icon
+  icon,
+  currency = ''
 }) => {
   return (
     <Wrapper>
       <Title>{title}</Title>
       <PriceWrapper>
         {planned}
-        <PriceText>AEM</PriceText>
+        <PriceText>{currency}</PriceText>
       </PriceWrapper>
-      <CurrentWrapper>Current: {current}</CurrentWrapper>
+      <CurrentWrapper>
+        Current
+        <CurrentText>
+          {current} {currency}
+        </CurrentText>
+      </CurrentWrapper>
       <Icon>{icon}</Icon>
     </Wrapper>
   )

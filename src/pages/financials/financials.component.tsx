@@ -62,6 +62,11 @@ const Financials = ({}: Props) => {
               {t('invoices:manage-payment-methods')}
             </Button>
           )}
+          {location.pathname.includes(Routes.FINANCIALS_GOALS) && (
+            <Button variant="secondary" size="md">
+              {t('financials:overview.edit-goal')}
+            </Button>
+          )}
         </div>
       )}
 
@@ -93,7 +98,15 @@ const Financials = ({}: Props) => {
       title={t('menu.financials')}
       headerNavChat
       actionComponent={
-        <Button to={Routes.CREATE_INVOICE}>{t('invoices:new-invoice')}</Button>
+        location.pathname.includes(Routes.FINANCIALS_GOALS) ? (
+          <Button variant="secondary" size="md">
+            {t('financials:overview.edit-goal')}
+          </Button>
+        ) : (
+          <Button to={Routes.CREATE_INVOICE}>
+            {t('invoices:new-invoice')}
+          </Button>
+        )
       }
     >
       {content}
