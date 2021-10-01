@@ -25,9 +25,12 @@ export interface SessionsRequestParams {
   filter?: SessionsFilter
   include?: 'client.user' | 'trainer.user'
   page?: number
+  per_page?: number
 }
 
-export type UseSessionsConfig = Partial<SessionsRequestParams>
+export type UseSessionsConfig = Partial<
+  Omit<SessionsRequestParams, 'per_page'> & { perPage?: number }
+>
 
 export interface UseSessions {
   sessions: SessionType[]
@@ -58,7 +61,8 @@ export default function useSessions(
       ...config.filter,
       ...filters
     },
-    ...(config.include && { include: config.include })
+    ...(config.include && { include: config.include }),
+    per_page: config.perPage || 10
   }
 
   const { data, error, mutate } = useSWR(() => getKey(params), getSessions)

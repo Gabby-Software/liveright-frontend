@@ -20,6 +20,7 @@ import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import useTrainerAccount from '../../hooks/api/accounts/useTrainerAccount'
 import useChatOnline from '../../hooks/api/chat/useChatOnline'
+import useChatUnread from '../../hooks/api/chat/useChatUnread'
 import { useAuth } from '../../hooks/auth.hook'
 import { useChats } from '../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
@@ -128,6 +129,7 @@ function TrainerBadge() {
   const { user: trainer, account } = useTrainerAccount()
   const { isOnline } = useChatOnline()
   const { rooms } = useChats()
+  const { unread } = useChatUnread()
 
   const trainerRoom = rooms?.[Object.keys(rooms)[0]]
 
@@ -143,6 +145,7 @@ function TrainerBadge() {
         lastName={trainer.last_name}
         userRole={t('your-trainer')}
         className="sidebar__trainer"
+        unreadCount={unread}
         online={isOnline(account?.uuid, trainerRoom?.room?.meta?.lastSeenAt)}
       />
     </Link>

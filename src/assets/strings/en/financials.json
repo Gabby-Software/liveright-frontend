@@ -1,8 +1,16 @@
 {
   "overview": {
-    "title": "Revenue",
+    "coaching": "Coaching",
+    "coaching-revenue": "Coaching Revenue",
+    "consultation": "Consultations",
+    "consultation-revenue": "Consultation Revenue",
     "current": "Current",
-    "goal": "Goal"
+    "edit-goal": "Edit Goal",
+    "goal": "Goal",
+    "other": "Other Revenue",
+    "pt-sessions": "PT Sessions",
+    "pt-sessions-revenue": "PT Sessions Revenue",
+    "revenue": "Revenue"
   },
   "view-graph": "View Full Graph"
 }

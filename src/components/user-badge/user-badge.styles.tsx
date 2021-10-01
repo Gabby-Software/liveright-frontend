@@ -123,5 +123,20 @@ export const Styles = styled.div<any>`
         font-size: inherit;
       }
     }
+
+    &__unread {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: -5px;
+      right: -5px;
+      z-index: 13;
+      background-color: ${getColorCarry('primary_v2')};
+      border: 1px solid ${getColorCarry('white')};
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 `

@@ -8,15 +8,16 @@ import {
 } from '../../../../../../assets/media/icons'
 import useInvoices from '../../../../../../hooks/api/invoices/useInvoices'
 import useSessions from '../../../../../../hooks/api/sessions/useSessions'
+import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
 import FinancialsGoalsCard from '../financials-goals-card/financials-goals-card.component'
 import { ListWrapper } from './financial-goals-list.styles'
 
 interface FinancialsGoalsListProps {}
 
 const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
-  const { invoices } = useInvoices()
+  const { t } = useTranslation()
 
-  console.log(invoices)
+  const { invoices } = useInvoices({ perPage: 100000 })
 
   const generalRevenue = invoices.reduce((acc, value) => {
     return acc + value.total
@@ -25,7 +26,7 @@ const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
     const revenue = value.type === 'Coaching session' ? acc + value.total : acc
     return revenue
   }, 0)
-  // console.log(coachingRevenue)
+
   const ptSessionRevenue = invoices.reduce((acc, value) => {
     const revenue = value.type === 'PT session' ? acc + value.total : acc
     return revenue
@@ -43,11 +44,8 @@ const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
         : acc
     return revenue
   }, 0)
-  // console.log(otherRevenue)
 
-  // console.log(generalRevenue)
-
-  const { sessions } = useSessions()
+  const { sessions } = useSessions({ perPage: 100000 })
 
   const ptSessions = sessions.filter((item) => {
     return item.type === 'Paid PT'
@@ -62,49 +60,54 @@ const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
   return (
     <ListWrapper>
       <FinancialsGoalsCard
-        title="Revenue"
+        title={t('financials:overview.revenue')}
         planned="200"
         icon={<RevenueSolidIcon />}
         current={generalRevenue}
+        currency="AED"
       />
       <FinancialsGoalsCard
-        title="Coaching revenue"
+        title={t('financials:overview.coaching-revenue')}
         planned="300"
         icon={<RevenueSolidIcon />}
         current={coachingRevenue}
+        currency="AED"
       />
       <FinancialsGoalsCard
-        title="PT Sessions Revenue"
+        title={t('financials:overview.pt-sessions-revenue')}
         planned="20"
         icon={<RevenueSolidIcon />}
         current={ptSessionRevenue}
+        currency="AED"
       />
       <FinancialsGoalsCard
-        title="Consultation Revenue"
+        title={t('financials:overview.consultation-revenue')}
         planned="20"
         icon={<RevenueSolidIcon />}
         current={consultRevenue}
+        currency="AED"
       />
       <FinancialsGoalsCard
-        title="Other Revenue"
+        title={t('financials:overview.other')}
         planned="20"
         icon={<RevenueSolidIcon />}
         current={otherRevenue}
+        currency="AED"
       />
       <FinancialsGoalsCard
-        title="PT Sessions"
+        title={t('financials:overview.pt-sessions')}
         planned="20"
         current={ptSessions.length}
         icon={<GroupSolidIcon />}
       />
       <FinancialsGoalsCard
-        title="Consultation"
+        title={t('financials:overview.consultation')}
         planned="20"
         current={consultations.length}
         icon={<PhoneSolidIcon />}
       />
       <FinancialsGoalsCard
-        title="Coaching"
+        title={t('financials:overview.coaching')}
         planned="20"
         current={coaching.length}
         icon={<ClientSolidIcon />}
