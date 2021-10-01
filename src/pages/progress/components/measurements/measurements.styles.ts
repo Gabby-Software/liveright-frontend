@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   width: 100%;
@@ -36,7 +36,6 @@ export const Styles = styled.div`
       }
 
       @media ${mediaQueries.TABLET} {
-        
       }
     }
 
@@ -51,6 +50,9 @@ export const Styles = styled.div`
       font-size: 3rem;
       font-weight: 700;
       color: ${getColorCarry('primary_v2')};
+    }
+
+    &__tabs {
     }
   }
 `

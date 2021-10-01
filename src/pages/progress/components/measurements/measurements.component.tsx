@@ -8,10 +8,10 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../components/typography'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import Filters from '../filters/filters.component'
 import TablePagination from '../table-pagination/table-pagination.component'
 import { Styles } from './measurements.styles'
-import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 
 const LABELS = [
   'Date',
@@ -64,7 +64,7 @@ const DATA = [
 ]
 
 export default function Measurements() {
-  const isMobile = useIsMobile()
+  // const isMobile = useIsMobile()
   return (
     <Styles>
       <Filters
@@ -75,6 +75,7 @@ export default function Measurements() {
       />
 
       <Tabs
+        className="measurements__tabs"
         activeKey=""
         onChange={() => {}}
         tabs={[
