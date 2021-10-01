@@ -1,6 +1,6 @@
 export interface ButtonProps {
   variant?: 'secondary' | 'text'
-  size?: 'sm'
+  size?: 'sm' | 'md'
   onClick?: any
   className?: string
   to?: string

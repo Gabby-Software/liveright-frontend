@@ -2,6 +2,8 @@ export function getPadding(props: any): string {
   switch (props.$size) {
     case 'sm':
       return '8px 16px'
+    case 'md':
+      return '11px 40px'
     default:
       switch (props.$var) {
         case 'text':
@@ -16,6 +18,8 @@ export function getMobilePadding(props: any): string {
   switch (props.$size) {
     case 'sm':
       return '16px'
+    case 'md':
+      return '8px 30px'
     default:
       return '0 20px'
   }

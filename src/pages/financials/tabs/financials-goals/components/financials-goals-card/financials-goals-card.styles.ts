@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
@@ -11,7 +10,7 @@ const Wrapper = styled.div`
   padding: 19px 18px 19px 20px;
 `
 const Title = styled.h3`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
   color: ${getColorCarry('white')};
@@ -39,10 +38,19 @@ const PriceText = styled.p`
   margin-left: 8px;
 `
 const CurrentWrapper = styled.p`
+  display: flex;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.428;
   color: ${getColorCarry('neutral_50')};
+`
+
+const CurrentText = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.428;
+  color: ${getColorCarry('neutral_50')};
+  margin-left: 14px;
 `
 
 const Icon = styled.div`
@@ -62,4 +70,12 @@ const Icon = styled.div`
   }
 `
 
-export { Wrapper, Title, PriceText, PriceWrapper, CurrentWrapper, Icon }
+export {
+  Wrapper,
+  Title,
+  PriceText,
+  PriceWrapper,
+  CurrentWrapper,
+  CurrentText,
+  Icon
+}
