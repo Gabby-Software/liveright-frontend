@@ -1,3 +1,5 @@
+import { useParams } from 'react-router'
+
 import { CalendarIcon, MenuIcon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
@@ -10,7 +12,11 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { isClient } from '../../../../utils/api/auth'
+import { getRoute } from '../../../../utils/routes'
 import Filters from '../filters/filters.component'
 import TablePagination from '../table-pagination/table-pagination.component'
 import { Styles } from './measurements.styles'
@@ -67,6 +73,13 @@ const DATA = [
 
 export default function Measurements() {
   const isMobile = useIsMobile()
+  const params = useParams<any>()
+  const { type } = useAuth()
+
+  const logTo = isClient(type)
+    ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS)
+    : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id })
+
   return (
     <Styles>
       <Filters
@@ -120,7 +133,12 @@ export default function Measurements() {
               />
             </div>
 
-            <TablePagination logTo="/" page={1} onPage={() => {}} total={1} />
+            <TablePagination
+              logTo={logTo}
+              page={1}
+              onPage={() => {}}
+              total={1}
+            />
           </Card>
         ) : (
           <div>

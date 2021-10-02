@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import Card from '../../cards/card/card.component'
 
-export const Styles = styled(Card)`
+export const Styles = styled(Card)<any>`
   padding: 1.25rem 1.875rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -83,6 +83,13 @@ export const Styles = styled(Card)`
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.875rem;
+
+      ${(props) =>
+        props.$infoVar &&
+        css`
+          display: flex;
+          flex-direction: column;
+        `}
 
       &-label {
         font-size: 0.875rem;

@@ -11,14 +11,14 @@ export const Styles = styled(Tabs)<any>`
 
   & .ant-tabs-nav {
     background-color: #fff;
-    padding: 0 1.75rem;
     border-radius: 10px;
     margin-bottom: 1.875rem;
     padding: 0 1.5rem;
   }
 
   & .ant-tabs-tab {
-    padding: 1rem;
+    padding: 1rem 0;
+    margin: 0 1rem;
     font-size: 0.875rem;
     line-height: 1.125rem;
 
@@ -44,10 +44,6 @@ export const Styles = styled(Tabs)<any>`
 
   & .ant-tabs-ink-bar {
     background-color: ${getColorCarry('blue_70')};
-  }
-
-  & .ant-tabs-tab + .ant-tabs-tab {
-    margin: 0;
   }
 
   @media ${mediaQueries.TABLET} {
@@ -95,7 +91,8 @@ export const Styles = styled(Tabs)<any>`
     }
 
     & .ant-tabs-tab {
-      padding: 1rem 0.5rem;
+      padding: 1rem 0;
+      margin: 0 0.5rem;
     }
 
     & .tabs-label-wrapper {

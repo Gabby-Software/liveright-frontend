@@ -6,23 +6,31 @@ import { Styles } from './progress-edit-card.styles'
 interface ProgressEditCardProps {
   icon: ReactNode
   title: string
-  InputProps: InputProps
+  InputProps?: InputProps
+  inputComponent?: ReactNode
+  infoVariant?: 'secondary'
 }
 
 export default function ProgressEditCard({
   icon,
   title,
-  InputProps
+  InputProps,
+  inputComponent,
+  infoVariant
 }: ProgressEditCardProps) {
   return (
-    <Styles>
+    <Styles $infoVar={infoVariant}>
       <div className="progress-edit-card__cell">
         <div className="progress-edit-card__icon">{icon}</div>
         <p className="progress-edit-card__title">{title}</p>
       </div>
 
       <div className="progress-edit-card__cell progress-edit-card__cell_input">
-        <Input {...InputProps} className="progress-edit-card__input" />
+        {inputComponent ? (
+          inputComponent
+        ) : InputProps ? (
+          <Input {...InputProps} className="progress-edit-card__input" />
+        ) : null}
       </div>
 
       <div className="progress-edit-card__cell">
