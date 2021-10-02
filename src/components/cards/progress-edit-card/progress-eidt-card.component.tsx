@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
-import Input, { InputProps } from '../../form/input/input.component'
-import { Styles } from './progress-edit-card.styles'
+import { InputProps } from '../../form/input/input.component'
+import { InputStyles, Styles } from './progress-edit-card.styles'
 
 interface ProgressEditCardProps {
   icon: ReactNode
@@ -31,7 +31,7 @@ export default function ProgressEditCard({
         {inputComponent ? (
           inputComponent
         ) : InputProps ? (
-          <Input {...InputProps} className="progress-edit-card__input" />
+          <InputStyles {...InputProps} className="progress-edit-card__input" />
         ) : null}
       </div>
 

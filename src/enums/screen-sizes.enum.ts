@@ -7,5 +7,5 @@ export const screenSizes = {
 export const mediaQueries = {
   LANDSCAPE: '(orientation: landscape) and (hover: none) and (pointer: coarse)',
   MOBILE: `(orientation: landscape) and (hover: none) and (pointer: coarse), (max-width: ${screenSizes.MOBILE}px)`,
-  TABLET: `(orientation: landscape) and (hover: none) and (pointer: coarse), (max-width: ${screenSizes.TABLET}px)`,
+  TABLET: `(orientation: landscape) and (hover: none) and (pointer: coarse), (max-width: ${screenSizes.TABLET}px)`
 }

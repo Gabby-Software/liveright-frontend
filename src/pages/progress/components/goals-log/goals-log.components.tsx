@@ -1,10 +1,7 @@
 import { useParams } from 'react-router'
 
-import { WeightIcon } from '../../../../assets/media/icons'
 import Alert from '../../../../components/alerts/alert/alert.component'
 import Button from '../../../../components/buttons/button/button.component'
-import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
-import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { useAuth } from '../../../../hooks/auth.hook'

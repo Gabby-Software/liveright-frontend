@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -22,10 +23,20 @@ export const Styles = styled.div`
 
     &__fields {
       width: 100%;
+
+      @media ${mediaQueries.TABLET} {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.875rem;
+      }
     }
 
     &__field {
       margin-bottom: 1.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     &__toggle-row {
@@ -77,12 +88,20 @@ export const TotalStyles = styled(Card)`
       font-weight: 400;
       color: ${getColorCarry('secondary2_v2')};
       margin-bottom: 0.75rem;
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 1.125rem;
+      }
     }
 
     &__value {
       font-size: 0.875rem;
       font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 1.125rem;
+      }
     }
   }
 `

@@ -1,8 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import Card from '../../cards/card/card.component'
+import Input from '../../form/input/input.component'
 
 export const Styles = styled(Card)<any>`
   padding: 1.25rem 1.875rem;
@@ -67,34 +68,21 @@ export const Styles = styled(Card)<any>`
       font-weight: 500;
     }
 
-    &__input {
-      @media ${mediaQueries.TABLET} {
-        & .input__input {
-          height: 70px;
-          border: 0;
-          background-color: ${getColorCarry('secondary3_v2')};
-          font-size: 1.125rem;
-        }
-      }
-    }
-
     &__info {
       width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.875rem;
 
-      ${(props) =>
-        props.$infoVar &&
-        css`
-          display: flex;
-          flex-direction: column;
-        `}
-
       &-label {
         font-size: 0.875rem;
         font-weight: 400;
         color: ${getColorCarry('secondary2_v2')};
+
+        @media ${mediaQueries.TABLET} {
+          font-size: 1.125rem;
+          font-weight: 400;
+        }
       }
 
       &-value {
@@ -106,6 +94,17 @@ export const Styles = styled(Card)<any>`
           font-weight: 400;
         }
       }
+    }
+  }
+`
+
+export const InputStyles = styled(Input)`
+  @media ${mediaQueries.TABLET} {
+    & .input__input {
+      height: 70px;
+      border: 0;
+      background-color: ${getColorCarry('secondary3_v2')};
+      font-size: 1.125rem;
     }
   }
 `

@@ -1,6 +1,6 @@
 import { WeightIcon } from '../../../../assets/media/icons'
+import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
-import Input from '../../../../components/form/input/input.component'
 import { TotalStyles } from './measurements-log.styles'
 
 const FIELDS = [
@@ -39,17 +39,18 @@ function WeightLogCard() {
       title="Lean Mass(kg)"
       inputComponent={
         <div className="log-measurements__fields">
-          <Input
+          <InputStyles
             id="log-current-weight-kg"
             label="Current Weight (kgs)"
             placeholder="80"
             className="log-measurements__field"
           />
 
-          <Input
+          <InputStyles
             id="log-current-weight-lbs"
             label="Current Weight (lbs)"
             placeholder="80"
+            className="log-measurements__field"
           />
         </div>
       }

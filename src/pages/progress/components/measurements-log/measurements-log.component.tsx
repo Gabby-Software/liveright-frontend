@@ -11,6 +11,8 @@ import { Subtitle } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
 import { getRoute } from '../../../../utils/routes'
 import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
@@ -38,7 +40,7 @@ export default function MeasurementsLog() {
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
-  return (
+  const content = (
     <Styles>
       {!isMobile && (
         <>
@@ -124,5 +126,20 @@ export default function MeasurementsLog() {
         </div>
       </LogForm>
     </Styles>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Log Measurements"
+      headerSpacing={isClient(type) ? undefined : 20}
+      actionComponent={<Button>Save</Button>}
+      headerTopComponent={
+        <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
+      }
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }
