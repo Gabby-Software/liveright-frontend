@@ -16,7 +16,6 @@ import { getRoute } from '../../../../utils/routes'
 import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
 import ClientInfoMobile from '../client-info-mobile/client-info-mobile.component'
 import GoalsForm from '../goals-form/goals-form.component'
-import LogDateCard from '../log-date-card/log-date-card.component'
 import LogForm from '../log-form/log-form.component'
 import { Styles } from './goals-log.style'
 

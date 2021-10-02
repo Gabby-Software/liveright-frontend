@@ -9,6 +9,7 @@ interface ProgressEditCardProps {
   InputProps?: InputProps
   inputComponent?: ReactNode
   infoVariant?: 'secondary'
+  className?: string
 }
 
 export default function ProgressEditCard({
@@ -16,10 +17,11 @@ export default function ProgressEditCard({
   title,
   InputProps,
   inputComponent,
-  infoVariant
+  infoVariant,
+  className
 }: ProgressEditCardProps) {
   return (
-    <Styles $infoVar={infoVariant}>
+    <Styles $infoVar={infoVariant} className={className}>
       <div className="progress-edit-card__cell">
         <div className="progress-edit-card__icon">{icon}</div>
         <p className="progress-edit-card__title">{title}</p>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import Card from '../../../../components/cards/card/card.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -49,6 +50,39 @@ export const Styles = styled.div`
 
     &__goals-form {
       padding-top: 1.875rem;
+    }
+  }
+`
+
+export const TotalStyles = styled(Card)`
+  background-color: ${getColorCarry('red_10')};
+  border: 1px solid ${getColorCarry('primary_v2')};
+
+  .log-total {
+    &__row {
+      background-color: transparent;
+      padding-left: 0;
+      padding-right: 0;
+      margin-bottom: 0;
+      border-radius: 0;
+      border-bottom: 1px solid ${getColorCarry('inputBorder_v2')};
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    &__label {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: ${getColorCarry('secondary2_v2')};
+      margin-bottom: 0.75rem;
+    }
+
+    &__value {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: ${getColorCarry('primaryDark_v2')};
     }
   }
 `

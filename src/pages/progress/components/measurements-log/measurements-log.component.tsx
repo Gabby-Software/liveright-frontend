@@ -14,12 +14,16 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { isClient } from '../../../../utils/api/auth'
 import { getRoute } from '../../../../utils/routes'
 import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
-import CheckInForm from '../check-in-form/check-in-form.component'
 import ClientInfoMobile from '../client-info-mobile/client-info-mobile.component'
 import GoalsForm from '../goals-form/goals-form.component'
 import LogDateCard from '../log-date-card/log-date-card.component'
 import LogForm from '../log-form/log-form.component'
 import PhotoForm from '../photo-form/photo-form.component'
+import {
+  CheckInForm,
+  CircumferenceForm,
+  SkinfoldForm
+} from './measurements-log.forms'
 import { Styles } from './measurements-log.styles'
 
 export default function MeasurementsLog() {
@@ -67,12 +71,12 @@ export default function MeasurementsLog() {
                 {
                   label: 'Skinfold',
                   key: 'skinfold',
-                  renderContent: () => <></>
+                  renderContent: SkinfoldForm
                 },
                 {
                   label: 'Circumference',
                   key: 'circumference',
-                  renderContent: () => <></>
+                  renderContent: CircumferenceForm
                 }
               ]}
             />
