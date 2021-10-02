@@ -4,9 +4,13 @@ import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Styles = styled.div`
+export const Styles = styled.div<any>`
   width: 100%;
   padding-bottom: 3rem;
+
+  @media ${mediaQueries.TABLET} {
+    padding-top: ${(props) => (props.$client ? '1.25rem' : 0)};
+  }
 
   .log-measurements {
     &__title {

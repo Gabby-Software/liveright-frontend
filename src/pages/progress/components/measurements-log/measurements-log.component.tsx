@@ -41,7 +41,7 @@ export default function MeasurementsLog() {
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
   const content = (
-    <Styles>
+    <Styles $client={isClient(type)}>
       {!isMobile && (
         <>
           <MobileBack to={backTo} alias="goals" />
