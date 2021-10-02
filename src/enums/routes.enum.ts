@@ -13,7 +13,7 @@ export const Routes = {
   CHAT: '/chat',
   CALENDAR: '/calendar',
   NOTIFICATIONS: '/notifications',
-  SETTINGS: '/settings',
+  SETTINGS: '/settings/:tab?',
   NOTIFICATIONS_SETTINGS: '/settings/notifications',
   TRAINER: '/trainer',
   INVOICES: '/invoices',
