@@ -52,12 +52,12 @@ export default function AddClientDrawer({
     >
       {isMobile ? (
         <AddClientDrawerStyles>
-          <AddClientForms step={step} onSubmit={onSubmit} />
+          <AddClientForms step={step} onSubmit={onSubmit} onClose={onClose} />
         </AddClientDrawerStyles>
       ) : (
         <Drawer open={isOpen} title={title} onClose={onClose} width={width}>
           <AddClientDrawerStyles>
-            <AddClientForms step={step} onSubmit={onSubmit} />
+            <AddClientForms step={step} onSubmit={onSubmit} onClose={onClose} />
           </AddClientDrawerStyles>
         </Drawer>
       )}

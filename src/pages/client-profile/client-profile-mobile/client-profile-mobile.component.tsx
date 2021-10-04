@@ -241,7 +241,7 @@ export default function ClientProfileMobile() {
                 variant="text"
                 size="sm"
                 className="profile__card-dark-btn"
-                to={Routes.INVOICES}
+                to={Routes.FINANCIALS_RECEIVABLES}
               >
                 {t('profile:invoice-history')}
                 <CaretRightIcon />
