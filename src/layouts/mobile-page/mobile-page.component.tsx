@@ -25,6 +25,7 @@ export default function MobilePage({
   headerNavChat,
   color = 'primary'
 }: PropsWithChildren<MobilePageProps>) {
+  console.log(children)
   return (
     <Styles className="mobile-page" $color={color}>
       <Header

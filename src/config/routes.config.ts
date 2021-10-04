@@ -432,6 +432,22 @@ export const routes: RouteType[] = [
       items: []
     },
     footer: footerTypes.NONE
+  },
+
+  {
+    title: 'Edit Goals',
+    url: Routes.EDIT_GOALS,
+    Component: lazy(() => import('../pages/edit-goals/edit-goals.component')),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    },
+    back: {
+      url: Routes.FINANCIALS_GOALS,
+      alias: 'goals'
+    }
   }
 ]
 
