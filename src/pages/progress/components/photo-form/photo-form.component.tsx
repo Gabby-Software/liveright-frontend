@@ -1,8 +1,24 @@
-import { UploadIcon } from '../../../../assets/media/icons'
-import { Subtitle } from '../../../../components/typography'
-import { Styles } from './photo-form.styles'
+import { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
 
-export default function PhotoForm() {
+import { UploadIcon } from '../../../../assets/media/icons'
+import Image from '../../../../components/image/image.component'
+import { Subtitle } from '../../../../components/typography'
+import { DropStyles, Styles } from './photo-form.styles'
+
+interface PhotoFormProps {
+  front?: any
+  side?: any
+  back?: any
+  onChange: (name: string, file: any) => void
+}
+
+export default function PhotoForm({
+  front,
+  side,
+  back,
+  onChange
+}: PhotoFormProps) {
   return (
     <Styles>
       <div>
@@ -10,7 +26,10 @@ export default function PhotoForm() {
           Front Photo
         </Subtitle>
 
-        <Drop />
+        <Drop
+          file={front}
+          onChange={(file) => onChange('images.front', file)}
+        />
       </div>
 
       <div>
@@ -18,7 +37,7 @@ export default function PhotoForm() {
           Side Photo
         </Subtitle>
 
-        <Drop />
+        <Drop file={side} onChange={(file) => onChange('images.side', file)} />
       </div>
 
       <div>
@@ -26,17 +45,42 @@ export default function PhotoForm() {
           Back Photo
         </Subtitle>
 
-        <Drop />
+        <Drop file={back} onChange={(file) => onChange('images.back', file)} />
       </div>
     </Styles>
   )
 }
 
-function Drop() {
+interface DropProps {
+  file?: any
+  onChange?: (file: any) => void
+}
+
+function Drop({ file, onChange }: DropProps) {
+  const onDrop = useCallback((files) => {
+    onChange && files[0] && onChange(files[0])
+  }, [])
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: 'image/*'
+  })
+
   return (
-    <div className="photo-form__drop">
-      <UploadIcon />
-      <p className="photo-form__drop-text">Select/drag photo here</p>
-    </div>
+    <DropStyles {...getRootProps()}>
+      <input {...getInputProps()} />
+      {file ? (
+        <Image
+          src={typeof file === 'string' ? file : URL.createObjectURL(file)}
+          className="drop__image"
+        />
+      ) : (
+        <>
+          <UploadIcon />
+          <p className="drop__text">Select/drag photo here</p>
+        </>
+      )}
+    </DropStyles>
   )
 }

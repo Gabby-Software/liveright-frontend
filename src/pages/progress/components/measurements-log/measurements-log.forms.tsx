@@ -1,9 +1,16 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { WeightIcon } from '../../../../assets/media/icons'
 import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
 import formatter from '../../../../managers/formatter.manager'
+import {
+  getBodyFat,
+  getFatMass,
+  getLeanMass,
+  getTotal
+} from '../../../../utils/api/progress'
 import { kgToLb, lbToKg } from '../../../../utils/body'
 import { TotalStyles } from './measurements-log.styles'
 
@@ -31,8 +38,7 @@ const CIRCUMFERENCE_FIELDS = [
   { key: 'upper_arm', label: 'Upper Arm' },
   { key: 'waist', label: 'Waist' },
   { key: 'hips', label: 'Hips' },
-  { key: 'upper_thighs', label: 'Upper Thighs' },
-  { key: 'calf', label: 'Calf' }
+  { key: 'upper_thighs', label: 'Upper Thighs' }
 ]
 
 function WeightLogCard() {
@@ -154,22 +160,28 @@ export function CircumferenceForm() {
         />
       ))}
 
-      <TotalCard bodyFat={false} fatMass={false} leanMass={false} />
+      <TotalCard />
     </div>
   )
 }
 
-interface TotalCardProps {
-  bodyFat?: boolean
-  fatMass?: boolean
-  leanMass?: boolean
-}
+function TotalCard() {
+  const { control, setValue } = useFormContext()
+  const values = useWatch({ control })
 
-function TotalCard({
-  bodyFat = true,
-  fatMass = true,
-  leanMass = true
-}: TotalCardProps) {
+  const bodyFatValue = getBodyFat(values)
+  const fatMassValue = getFatMass(values)
+  const leanMassValue = getLeanMass(values)
+  const totalValue = getTotal(values, values.type)
+
+  useEffect(() => {
+    setValue('body_fat', bodyFatValue)
+    setValue('fat_mass', fatMassValue)
+    setValue('lean_mass', leanMassValue)
+  }, [bodyFatValue, fatMassValue, leanMassValue])
+
+  const skinfold = values.type === 'skin_fold'
+
   return (
     <TotalStyles>
       <ProgressEditCard
@@ -179,48 +191,46 @@ function TotalCard({
         inputComponent={
           <div>
             <p className="log-total__label">Measurement (mm)</p>
-            <p className="log-total__value">45</p>
+            <p className="log-total__value">{totalValue}</p>
           </div>
         }
       />
-      {bodyFat && (
-        <ProgressEditCard
-          icon={<WeightIcon />}
-          title="Body Fat %"
-          className="log-total__row"
-          inputComponent={
-            <div>
-              <p className="log-total__label">Measurement (mm)</p>
-              <p className="log-total__value">45</p>
-            </div>
-          }
-        />
-      )}
-      {fatMass && (
-        <ProgressEditCard
-          icon={<WeightIcon />}
-          title="Fat Mass(kg)"
-          className="log-total__row"
-          inputComponent={
-            <div>
-              <p className="log-total__label">Measurement (mm)</p>
-              <p className="log-total__value">45</p>
-            </div>
-          }
-        />
-      )}
-      {leanMass && (
-        <ProgressEditCard
-          icon={<WeightIcon />}
-          title="Lean Mass(kg)"
-          className="log-total__row"
-          inputComponent={
-            <div>
-              <p className="log-total__label">Measurement (mm)</p>
-              <p className="log-total__value">45</p>
-            </div>
-          }
-        />
+      {skinfold && (
+        <>
+          <ProgressEditCard
+            icon={<WeightIcon />}
+            title="Body Fat %"
+            className="log-total__row"
+            inputComponent={
+              <div>
+                <p className="log-total__label">Measurement (%)</p>
+                <p className="log-total__value">{bodyFatValue}</p>
+              </div>
+            }
+          />
+          <ProgressEditCard
+            icon={<WeightIcon />}
+            title="Fat Mass(kg)"
+            className="log-total__row"
+            inputComponent={
+              <div>
+                <p className="log-total__label">Measurement (kg)</p>
+                <p className="log-total__value">{fatMassValue}</p>
+              </div>
+            }
+          />
+          <ProgressEditCard
+            icon={<WeightIcon />}
+            title="Lean Mass(kg)"
+            className="log-total__row"
+            inputComponent={
+              <div>
+                <p className="log-total__label">Measurement (kg)</p>
+                <p className="log-total__value">{leanMassValue}</p>
+              </div>
+            }
+          />
+        </>
       )}
     </TotalStyles>
   )

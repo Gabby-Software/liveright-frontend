@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams } from 'react-router'
 
 import { CalendarIcon, MenuIcon } from '../../../../assets/media/icons'
@@ -10,89 +11,66 @@ import ProgressLogCard from '../../../../components/cards/progress-log-card/prog
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useMeasurements from '../../../../hooks/api/progress/useMeasurements'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { isClient } from '../../../../utils/api/auth'
+import { getTotal } from '../../../../utils/api/progress'
 import { getRoute } from '../../../../utils/routes'
 import Filters from '../filters/filters.component'
 import TablePagination from '../table-pagination/table-pagination.component'
 import { Styles } from './measurements.styles'
-
-const LABELS = [
-  'Date',
-  'Reported By',
-  'Weight(lbs/kg)',
-  'Circumference',
-  'Skinfold',
-  'Body Fat%',
-  'Fat Mass(kg)',
-  'Lean Mass(kg)'
-]
-
-const KEYS = [
-  'date',
-  'reportedBy',
-  'weight',
-  'circumference',
-  'skinfold',
-  'bodyFat',
-  'fatMass',
-  'leanMass'
-]
 
 const PHOTO_1 =
   'https://www.scotsman.com/images-e.jpimedia.uk/imagefetch/http://www.scotsman.com/webimage/Prestige.Item.1.74151213!image/image.jpg?crop=982:524,smart&width=990'
 const PHOTO_2 =
   'https://i.pinimg.com/736x/48/27/13/4827136674d8a27403fd2591dabc5453.jpg'
 
-const DATA = [
-  {
-    date: '2021-03-04',
-    reportedBy: 'Frank Trainer',
-    weight: '22 / 58 kg',
-    circumference: '40 cm',
-    skinfold: '48',
-    bodyFat: '10',
-    fatMass: '0 kg',
-    leanMass: '2 kg'
-  },
-  {
-    date: '2021-03-04',
-    reportedBy: 'Frank Trainer',
-    weight: '22 / 58 kg',
-    circumference: '40 cm',
-    skinfold: '48',
-    bodyFat: '10',
-    fatMass: '0 kg',
-    leanMass: '2 kg'
-  }
-]
-
 export default function Measurements() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const { type } = useAuth()
+  const [activeTab, setActiveTab] = useState('summary')
+
+  const { measurements, isLoading, meta, filters, onFilters } = useMeasurements(
+    {
+      filter: {
+        account_id: params.id,
+        range: 'month'
+      }
+    }
+  )
 
   const logTo = isClient(type)
     ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS)
     : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id })
+
+  const placeholders = isLoading ? (
+    <LoadingPlaceholder spacing />
+  ) : !measurements.length ? (
+    <EmptyPlaceholder spacing />
+  ) : null
 
   return (
     <Styles>
       <Filters
         onView={() => {}}
         isGraph={false}
-        filters={{}}
-        onFilters={() => {}}
+        filters={filters}
+        onFilters={onFilters}
       />
 
       <Tabs
         className="measurements__tabs"
-        activeKey=""
-        onChange={() => {}}
+        activeKey={activeTab}
+        onChange={setActiveTab}
         tabs={[
           {
             icon: <MenuIcon />,
@@ -103,7 +81,7 @@ export default function Measurements() {
           {
             icon: <CalendarIcon />,
             label: 'Check-In',
-            key: 'check-in',
+            key: 'check_in',
             renderContent: () => <></>
           },
           {
@@ -115,7 +93,7 @@ export default function Measurements() {
           {
             icon: <BloodIcon />,
             label: 'Skinfold',
-            key: 'skinfold',
+            key: 'skin_fold',
             renderContent: () => <></>
           }
         ]}
@@ -127,29 +105,59 @@ export default function Measurements() {
             <div className="measurements__table-container">
               <DataTable
                 className="measurements__table"
-                labels={LABELS}
-                keys={KEYS}
-                data={DATA}
+                labels={getLabels(activeTab)}
+                keys={getKeys(activeTab)}
+                data={measurements}
+                render={{
+                  date: (data) => <span>{data.date || '-'}</span>,
+                  reportedBy: (data) => <span>{data.created_by || '-'}</span>,
+                  weight: (data) => (
+                    <span>
+                      {data.weight_lbs || '-'}/{data.weight_kgs || '-'} kg
+                    </span>
+                  ),
+                  circumference: (data) => (
+                    <span>
+                      {data.measurements
+                        ? getTotal(data, 'circumference') || '-'
+                        : '-'}
+                    </span>
+                  ),
+                  skinfold: (data) => (
+                    <span>
+                      {data.measurements
+                        ? getTotal(data, 'skin_fold') || '-'
+                        : '-'}
+                    </span>
+                  ),
+                  bodyFat: (data) => <span>{data.body_fat || '-'}</span>,
+                  fatMass: (data) => <span>{data.fat_mass || '-'}</span>,
+                  leanMass: (data) => <span>{data.lean_mass || '-'}</span>
+                }}
               />
             </div>
 
+            {placeholders}
+
             <TablePagination
               logTo={logTo}
-              page={1}
+              page={meta.current_page}
               onPage={() => {}}
-              total={1}
+              total={meta.total}
             />
           </Card>
         ) : (
           <div>
-            {DATA.map((row, index) => (
+            {measurements.map((row, index) => (
               <ProgressLogCard key={index} quality="" {...row} />
             ))}
 
+            {placeholders}
+
             <DataPagination
-              page={1}
+              page={meta.current_page}
               setPage={() => {}}
-              total={1}
+              total={meta.total}
               justify="center"
             />
           </div>
@@ -213,4 +221,64 @@ export default function Measurements() {
       </Card>
     </Styles>
   )
+}
+
+function getKeys(activeTab: string): string[] {
+  switch (activeTab) {
+    case 'check_in':
+      return ['date', 'reportedBy', 'weight']
+    case 'skin_fold':
+      return [
+        'date',
+        'reportedBy',
+        'weight',
+        'skinfold',
+        'bodyFat',
+        'fatMass',
+        'leanMass'
+      ]
+    case 'circumference':
+      return ['date', 'reportedBy', 'weight', 'circumference']
+    default:
+      return [
+        'date',
+        'reportedBy',
+        'weight',
+        'circumference',
+        'skinfold',
+        'bodyFat',
+        'fatMass',
+        'leanMass'
+      ]
+  }
+}
+
+function getLabels(activeTab: string): string[] {
+  switch (activeTab) {
+    case 'check_in':
+      return ['Date', 'Reported By', 'Weight(lbs/kg)']
+    case 'skin_fold':
+      return [
+        'Date',
+        'Reported By',
+        'Weight(lbs/kg)',
+        'Skinfold',
+        'Body Fat%',
+        'Fat Mass(kg)',
+        'Lean Mass(kg)'
+      ]
+    case 'circumference':
+      return ['Date', 'Reported By', 'Weight(lbs/kg)', 'Circumference']
+    default:
+      return [
+        'Date',
+        'Reported By',
+        'Weight(lbs/kg)',
+        'Circumference',
+        'Skinfold',
+        'Body Fat%',
+        'Fat Mass(kg)',
+        'Lean Mass(kg)'
+      ]
+  }
 }

@@ -11,6 +11,11 @@ export async function getHealthAverage(url: string) {
   return response.data.data
 }
 
+export async function getMeasurements(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
 export async function addMeasurements(data: any) {
   const response = await api.post(EP_MEASUREMENTS, data)
   return response.data.data

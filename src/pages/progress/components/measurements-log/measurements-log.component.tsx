@@ -35,7 +35,8 @@ const formConfig = {
   defaultValues: {
     type: 'check_in',
     date: '',
-    notes: ''
+    notes: '',
+    images: {}
   }
 }
 
@@ -47,11 +48,18 @@ export default function MeasurementsLog() {
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
 
-  const { onAdd } = useMeasurements()
+  const { onAdd } = useMeasurements({
+    skip: true
+  })
 
   const methods = useForm(formConfig)
 
-  const [logType] = useWatch({ control: methods.control, name: ['type'] })
+  const values = useWatch({
+    control: methods.control,
+    name: ['type', 'images']
+  })
+  const logType: string = values[0]
+  const images: any = values[1]
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
@@ -145,7 +153,14 @@ export default function MeasurementsLog() {
                 </span>
               </div>
 
-              {isPhoto && <PhotoForm />}
+              {isPhoto && (
+                <PhotoForm
+                  front={images.front}
+                  side={images.side}
+                  back={images.back}
+                  onChange={(name: any, file) => methods.setValue(name, file)}
+                />
+              )}
             </div>
 
             <div className="log-measurements__toggle-container">

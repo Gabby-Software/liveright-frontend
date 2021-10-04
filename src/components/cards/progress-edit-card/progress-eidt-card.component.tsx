@@ -39,12 +39,12 @@ export default function ProgressEditCard({
         <div className="progress-edit-card__info">
           <div>
             <p className="progress-edit-card__info-label">Previously</p>
-            <p className="progress-edit-card__info-value">10 kg</p>
+            <p className="progress-edit-card__info-value">-</p>
           </div>
 
           <div>
             <p className="progress-edit-card__info-label">Average</p>
-            <p className="progress-edit-card__info-value">10 kg</p>
+            <p className="progress-edit-card__info-value">-</p>
           </div>
         </div>
       </div>

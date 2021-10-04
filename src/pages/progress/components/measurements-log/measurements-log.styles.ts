@@ -82,8 +82,13 @@ export const TotalStyles = styled(Card)`
       border-radius: 0;
       border-bottom: 1px solid ${getColorCarry('inputBorder_v2')};
 
+      &:first-child {
+        padding-top: 0;
+      }
+
       &:last-child {
         border-bottom: 0;
+        padding-bottom: 0;
       }
     }
 

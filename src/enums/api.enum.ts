@@ -20,6 +20,7 @@ export const EP_HEALTH_DATA_LOGS = '/health-data-logs'
 export const EP_MEASUREMENTS = '/measurements'
 export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE + '/pusher/beams-auth'
 export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE + '/pusher/auth'
+export const EP_FILES = '/files'
 
 export const EP_GET_INVOICES = ALLRIGHT_BASE + '/invoices'
 export const EP_ADD_INVOICE = ALLRIGHT_BASE + '/invoices'
