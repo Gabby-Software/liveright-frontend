@@ -17,6 +17,7 @@ export const EP_GET_CLIENTS = LIVERIGHT_BASE + '/training/client-users'
 // export const EP_GET_CLIENTS = ALLRIGHT_BASE + '/training/clients'
 export const EP_GET_SESSIONS = '/sessions'
 export const EP_HEALTH_DATA_LOGS = '/health-data-logs'
+export const EP_MEASUREMENTS = '/measurements'
 export const EP_PUSHER_BEAMS_AUTH = ALLRIGHT_BASE + '/pusher/beams-auth'
 export const EP_PUSHER_CHANNEL_AUTH = ALLRIGHT_BASE + '/pusher/auth'
 

@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
@@ -9,6 +11,7 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useMeasurements from '../../../../hooks/api/progress/useMeasurements'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -28,104 +31,166 @@ import {
 } from './measurements-log.forms'
 import { Styles } from './measurements-log.styles'
 
+const formConfig = {
+  defaultValues: {
+    type: 'check_in',
+    date: '',
+    notes: ''
+  }
+}
+
 export default function MeasurementsLog() {
   const { type } = useAuth()
+  const history = useHistory()
   const params = useParams<any>()
   const isMobile = useIsMobile()
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
-  const [logType, setLogType] = useState('checkIn')
+
+  const { onAdd } = useMeasurements()
+
+  const methods = useForm(formConfig)
+
+  const [logType] = useWatch({ control: methods.control, name: ['type'] })
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
   const content = (
-    <Styles $client={isClient(type)}>
-      {!isMobile && (
-        <>
-          <MobileBack to={backTo} alias="goals" />
-          <Subtitle size="sm" className="log-measurements__title">
-            Log Measurements
-          </Subtitle>
-        </>
-      )}
+    <FormProvider {...methods}>
+      <Styles $client={isClient(type)}>
+        {!isMobile && (
+          <>
+            <MobileBack to={backTo} alias="goals" />
+            <Subtitle size="sm" className="log-measurements__title">
+              Log Measurements
+            </Subtitle>
+          </>
+        )}
 
-      {!isClient(type) ? isMobile ? <ClientInfoMobile /> : <LogClient /> : null}
+        {!isClient(type) ? (
+          isMobile ? (
+            <ClientInfoMobile />
+          ) : (
+            <LogClient />
+          )
+        ) : null}
 
-      <LogForm>
-        <div>
-          <LogDateCard>
-            <DatePicker id="log-measurements-date" label="Logging Date" />
-            <DatePicker id="log-measurements-time" label="Logging Time" />
-          </LogDateCard>
-
-          <div className="log-measurements__forms">
-            <Tabs
-              activeKey={logType}
-              onChange={setLogType}
-              tabs={[
-                {
-                  label: 'Check-In',
-                  key: 'checkIn',
-                  renderContent: CheckInForm
-                },
-                {
-                  label: 'Skinfold',
-                  key: 'skinfold',
-                  renderContent: SkinfoldForm
-                },
-                {
-                  label: 'Circumference',
-                  key: 'circumference',
-                  renderContent: CircumferenceForm
-                }
-              ]}
-            />
-          </div>
-
-          <div className="log-measurements__toggle-container">
-            <div className="log-measurements__toggle-row">
-              <FormToggleUI
-                value={isPhoto}
-                onUpdate={() => setPhoto(!isPhoto)}
+        <LogForm>
+          <div>
+            <LogDateCard>
+              <Controller
+                render={({ field: { name, value } }) => (
+                  <DatePicker
+                    id="log-measurements-date"
+                    label="Logging Date"
+                    value={value}
+                    onChange={(e, date) => {
+                      methods.setValue(name, date)
+                      history.replace(
+                        isClient(type)
+                          ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, {
+                              date
+                            })
+                          : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, {
+                              id: params.id,
+                              date
+                            })
+                      )
+                    }}
+                  />
+                )}
+                name="date"
               />
-              <span className="log-measurements__toggle-label">Add Photos</span>
+              <DatePicker
+                id="log-measurements-time"
+                label="Logging Time"
+                disabled
+              />
+            </LogDateCard>
+
+            <div className="log-measurements__forms">
+              <Tabs
+                activeKey={logType}
+                onChange={(key) => methods.setValue('type', key)}
+                tabs={[
+                  {
+                    label: 'Check-In',
+                    key: 'check_in',
+                    renderContent: CheckInForm
+                  },
+                  {
+                    label: 'Skinfold',
+                    key: 'skin_fold',
+                    renderContent: SkinfoldForm
+                  },
+                  {
+                    label: 'Circumference',
+                    key: 'circumference',
+                    renderContent: CircumferenceForm
+                  }
+                ]}
+              />
             </div>
 
-            {isPhoto && <PhotoForm />}
-          </div>
+            <div className="log-measurements__toggle-container">
+              <div className="log-measurements__toggle-row">
+                <FormToggleUI
+                  value={isPhoto}
+                  onUpdate={() => setPhoto(!isPhoto)}
+                />
+                <span className="log-measurements__toggle-label">
+                  Add Photos
+                </span>
+              </div>
 
-          <div className="log-measurements__toggle-container">
-            <div className="log-measurements__toggle-row">
-              <FormToggleUI
-                value={isGoals}
-                onUpdate={() => setGoals(!isGoals)}
-              />
-              <span className="log-measurements__toggle-label">
-                Change Related Goals
-              </span>
+              {isPhoto && <PhotoForm />}
             </div>
 
-            {isGoals && <GoalsForm className="log-measurements__goals-form" />}
+            <div className="log-measurements__toggle-container">
+              <div className="log-measurements__toggle-row">
+                <FormToggleUI
+                  value={isGoals}
+                  onUpdate={() => setGoals(!isGoals)}
+                />
+                <span className="log-measurements__toggle-label">
+                  Change Related Goals
+                </span>
+              </div>
+
+              {isGoals && (
+                <GoalsForm className="log-measurements__goals-form" />
+              )}
+            </div>
+
+            <div>
+              <Controller
+                render={({ field: { name, value } }) => (
+                  <Textarea
+                    id="log-measurement-notes"
+                    label="Comments/Notes"
+                    placeholder="Add note..."
+                    value={value}
+                    onChange={(e) => methods.setValue(name, e.target.value)}
+                  />
+                )}
+                name="notes"
+              />
+            </div>
           </div>
 
           <div>
-            <Textarea
-              id="log-measurement-notes"
-              label="Comments/Notes"
-              placeholder="Add note..."
-            />
+            <Button
+              className="log-measurements__submit"
+              onClick={() => methods.handleSubmit(onAdd)()}
+            >
+              Save Measurements
+            </Button>
           </div>
-        </div>
-
-        <div>
-          <Button className="log-measurements__submit">
-            Save Measurements
-          </Button>
-        </div>
-      </LogForm>
-    </Styles>
+        </LogForm>
+      </Styles>
+    </FormProvider>
   )
 
   return isMobile ? (

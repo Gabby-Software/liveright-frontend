@@ -1,4 +1,5 @@
 import { Routes } from '../../enums/routes.enum'
+import { omitEmpty } from '../obj'
 import { getRoute } from '../routes'
 import { isClient } from './auth'
 
@@ -24,4 +25,20 @@ export function getViewRoutes(params: any, type: any): GetViewRoutes {
     healthTo,
     goalsTo
   }
+}
+
+export function formatMeasurementsValues(values: any): any {
+  const body: any = {}
+
+  body['type'] = values['type']
+  body['source'] = values['manual']
+  body['date'] = values['date']
+  body['weight_kgs'] = values['weight_kgs']
+  body['weight_lbs'] = values['weight_lbs']
+
+  if (['skin_fold', 'circumference'].includes(values['type'])) {
+    body['measurements'] = omitEmpty(values['measurements'])
+  }
+
+  return body
 }
