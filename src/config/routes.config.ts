@@ -411,17 +411,17 @@ export const routes: RouteType[] = [
   //     items: []
   //   }
   // },
-  // {
-  //   title: 'Financials',
-  //   url: Routes.FINANCIALS,
-  //   Component: lazy(() => import('../pages/financials/financials.component')),
-  //   version: 2,
-  //   mobileLayout: false,
-  //   header: {
-  //     title: null,
-  //     items: []
-  //   }
-  // },
+  {
+    title: 'Financials',
+    url: Routes.FINANCIALS,
+    Component: lazy(() => import('../pages/financials/financials.component')),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
   {
     title: 'Chat',
     url: Routes.CHAT,
