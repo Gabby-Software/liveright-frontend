@@ -39,8 +39,11 @@ interface MeasurementsParams {
 
 type OnAdd = (values: any, id?: string) => void
 
+type OnPage = (page: number) => void
+
 interface UseMeasurements {
   onAdd: OnAdd
+  onPage: OnPage
   isLoading: boolean
   filters: MeasurementsFilters
   onFilters: OnFilters
@@ -63,6 +66,7 @@ export default function useMeasurements(
   const history = useHistory()
   const params = useParams<any>()
   const { type } = useAuth()
+  const [page, setPage] = useState(1)
 
   const [filters, setFilters] = useState<MeasurementsFilters>({
     ...config.filter
@@ -70,14 +74,18 @@ export default function useMeasurements(
 
   const apiParams: MeasurementsParams = {
     filter: filters,
-    page: config.page || 1,
+    page,
     per_page: config.per_page || 10,
     sort: config.sort || {
       date: 'desc'
     }
   }
 
-  const skip = config.skip || (config.requireDate && !filters.date)
+  const skip =
+    config.skip ||
+    (config.requireDate && !filters.date) ||
+    (apiParams.filter?.range === 'specific_dates' &&
+      !(apiParams.filter.from_date && apiParams.filter.to_date))
 
   const { data, error } = useSWR(
     () => (skip ? null : getKey(apiParams)),
@@ -106,10 +114,15 @@ export default function useMeasurements(
   }
 
   const onFilters: OnFilters = (name, value) => {
+    setPage(1)
     setFilters((filters) => ({
       ...filters,
       [name]: value
     }))
+  }
+
+  const onPage: OnPage = (page) => {
+    setPage(page)
   }
 
   const isLoading = !data && !error
@@ -117,6 +130,7 @@ export default function useMeasurements(
   const meta = data?.meta || {}
   return {
     onAdd,
+    onPage,
     isLoading,
     filters,
     onFilters,

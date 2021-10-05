@@ -112,6 +112,10 @@ export default function MeasurementsLog() {
       if (Object.keys(formValues.images)?.length) {
         setPhoto(true)
       }
+    } else {
+      methods.reset({
+        date: params.date
+      })
     }
   }, [dataKey])
 

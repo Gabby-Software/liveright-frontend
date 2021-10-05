@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 
-import { CalendarIcon, MenuIcon } from '../../../../assets/media/icons'
+import {
+  CalendarIcon,
+  EditIcon,
+  MenuIcon
+} from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import Card from '../../../../components/cards/card/card.component'
@@ -70,18 +75,18 @@ export default function Measurements() {
   const auth = useAuth()
   const [activeTab, setActiveTab] = useState('summary')
 
-  const { measurements, isLoading, meta, filters, onFilters } = useMeasurements(
-    {
+  const { measurements, isLoading, meta, filters, onFilters, onPage } =
+    useMeasurements({
       filter: {
         account_id: params.id,
         range: 'month'
       }
-    }
-  )
+    })
 
-  const logTo = isClient(auth.type)
-    ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS)
-    : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id })
+  const logTo = (date?: string) =>
+    isClient(auth.type)
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, { date })
+      : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id, date })
 
   const keys = getKeys(activeTab)
 
@@ -143,6 +148,14 @@ export default function Measurements() {
                 data={measurements}
                 render={{
                   ...VALUE_GETTER,
+                  date: (data) => (
+                    <Link to={logTo(data.date)}>
+                      <span className="measurements__table-edit">
+                        {data.date || '-'}
+                        <EditIcon />
+                      </span>
+                    </Link>
+                  ),
                   reportedBy: (data) => (
                     <span>
                       {data.created_by === auth.id
@@ -159,9 +172,9 @@ export default function Measurements() {
             {placeholders}
 
             <TablePagination
-              logTo={logTo}
+              logTo={logTo()}
               page={meta.current_page}
-              onPage={() => {}}
+              onPage={onPage}
               total={meta.total}
             />
           </Card>
@@ -183,7 +196,7 @@ export default function Measurements() {
 
             <DataPagination
               page={meta.current_page}
-              setPage={() => {}}
+              setPage={onPage}
               total={meta.total}
               justify="center"
             />
