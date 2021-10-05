@@ -5,6 +5,7 @@ import Alert from '../../../../components/alerts/alert/alert.component'
 import Button from '../../../../components/buttons/button/button.component'
 import ProgressCard from '../../../../components/cards/progress-card/progress-card.component'
 import { Routes } from '../../../../enums/routes.enum'
+import useGoals from '../../../../hooks/api/progress/useGoals'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { isClient } from '../../../../utils/api/auth'
 import { getRoute } from '../../../../utils/routes'
@@ -15,15 +16,18 @@ const ALERT =
 
 export default function Goals() {
   const params = useParams<any>()
-  const { type } = useAuth()
+  const auth = useAuth()
+  useGoals()
 
-  const editTo = isClient(type)
+  const editTo = isClient(auth.type)
     ? Routes.PROGRESS_LOG_CLIENT_GOALS
     : getRoute(Routes.PROGRESS_LOG_GOALS, { id: params.id })
 
   return (
-    <Styles $client={isClient(type)}>
-      {isClient(type) && <Alert message={ALERT} className="goals__alert" />}
+    <Styles $client={isClient(auth.type)}>
+      {isClient(auth.type) && (
+        <Alert message={ALERT} className="goals__alert" />
+      )}
 
       <div className="goals__title-container">
         <p className="goals__title">Current Goals</p>

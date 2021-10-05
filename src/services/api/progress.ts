@@ -22,3 +22,8 @@ export async function addMeasurements(data: any, id?: string) {
     : await api.post(EP_MEASUREMENTS, data)
   return response.data.data
 }
+
+export async function getGoals(url: string) {
+  const response = await api.get(url)
+  return response.data.data
+}

@@ -69,7 +69,9 @@ export async function formatMeasurementsValues(
   body['lean_mass'] = copy['lean_mass']
   body['notes'] = copy['notes']
 
-  body['measurements'] = omitEmpty(copy['measurements'])
+  if (copy['measurements']) {
+    body['measurements'] = omitEmpty(copy['measurements'])
+  }
 
   if (Object.keys(images).length) {
     body['images'] = images
