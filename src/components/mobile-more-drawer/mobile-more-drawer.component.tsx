@@ -2,13 +2,17 @@ import React, { ComponentType, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { InvoiceIcon, ProgressIcon } from '../../assets/media/icons'
-import { ReactComponent as PowerIcon } from '../../assets/media/icons/power.svg'
-import { ReactComponent as ProfileIcon } from '../../assets/media/icons/profile.svg'
-import { ReactComponent as SessionIcon } from '../../assets/media/icons/session.svg'
-import { ReactComponent as SettingsIcon } from '../../assets/media/icons/settings.svg'
-import { ReactComponent as SyncIcon } from '../../assets/media/icons/sync.svg'
-import { ReactComponent as UsersIcon } from '../../assets/media/icons/users.svg'
+import {
+  ClientSolidIcon,
+  Invoice3Icon,
+  LogoutIcon,
+  OptionsIcon as SettingsIcon,
+  ProfileIcon,
+  ProgressIcon,
+  RevenueIcon,
+  RoundedArrowIcon,
+  UsersIcon
+} from '../../assets/media/icons'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
 import { useAuth } from '../../hooks/auth.hook'
@@ -40,7 +44,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
   const menuItems: LinkType[] = [
     { Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile' },
     {
-      Icon: UsersIcon,
+      Icon: ClientSolidIcon,
       url: Routes.CLIENTS,
       name: 'menu.clients',
       permission: userTypes.TRAINER
@@ -52,20 +56,20 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       permission: userTypes.TRAINER
     },
     {
-      Icon: InvoiceIcon,
+      Icon: Invoice3Icon,
       url: Routes.INVOICES,
       name: 'menu.invoices',
       permission: userTypes.CLIENT
     },
     {
-      Icon: InvoiceIcon,
+      Icon: RevenueIcon,
       url: Routes.FINANCIALS_OVERVIEW,
       name: 'menu.financials',
       permission: userTypes.TRAINER
     },
-    { Icon: SessionIcon, url: Routes.SESSIONS, name: 'menu.sessions' },
+    { Icon: UsersIcon, url: Routes.SESSIONS, name: 'menu.sessions' },
     {
-      Icon: SyncIcon,
+      Icon: RoundedArrowIcon,
       onClick: () => {
         setSwitchAccountOpen(true)
         onClose()
@@ -78,7 +82,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       name: 'menu.settings'
     },
     {
-      Icon: PowerIcon,
+      Icon: LogoutIcon,
       onClick: () => dispatch({ type: ACTION_LOGOUT_REQUEST }),
       name: 'menu.log-out'
     }
