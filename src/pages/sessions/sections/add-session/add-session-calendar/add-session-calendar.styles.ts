@@ -76,7 +76,7 @@ export default styled.div`
           transform: rotate(180deg);
         }
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           margin: 1rem 0.25rem;
         }
       }

@@ -11,7 +11,7 @@ export const Styles = styled.div`
       width: 320px;
       margin-right: 1.25rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         width: auto;
         flex: 1;
         margin-right: 1rem;

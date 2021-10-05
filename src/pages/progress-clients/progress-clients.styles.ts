@@ -4,7 +4,7 @@ import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-top: 1.25rem;
   }
 
@@ -22,7 +22,7 @@ export const Styles = styled.div`
       align-items: center;
       margin-bottom: 3.125rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-bottom: 1.25rem;
       }
     }
@@ -31,7 +31,7 @@ export const Styles = styled.div`
       width: 100%;
       max-width: 350px;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         max-width: 100%;
       }
     }
@@ -45,7 +45,7 @@ export const Styles = styled.div`
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1.875rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         grid-template-columns: 1fr;
         gap: 1.25rem;
       }

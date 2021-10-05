@@ -40,7 +40,6 @@ const DataTable = ({
   round
 }: Props<any>) => {
   const { t } = useTranslation()
-  console.log({ data })
   return (
     <Styles
       round={round}
@@ -65,10 +64,10 @@ const DataTable = ({
         ) : loading && !data.length ? (
           <Skeleton />
         ) : data?.length ? (
-          data.map((item) => (
+          data.map((item, index) => (
             // eslint-disable-next-line react/jsx-key
             <tr
-              key={item.id}
+              key={item.id || index}
               className={classes(
                 'data-table__tr',
                 onClick && 'data-table__tr__clickable',

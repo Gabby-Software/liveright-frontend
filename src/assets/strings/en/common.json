@@ -37,6 +37,8 @@
     "clients": "Clients",
     "plans": "Plans",
     "log": "Log",
+    "goals": "Goals",
+    "measurements": "Measurements",
     "progress": "Progress",
     "profile": "Profile",
     "hub": "Hub",
@@ -54,7 +56,8 @@
     "personal-details": "Personal Details",
     "log-out": "Log Out",
     "chat": "Chat",
-    "health-data": "Health Data"
+    "health-data": "Health Data",
+    "goals": "Goals"
   },
   "done": "Done",
   "your-trainer": "Your trainer",

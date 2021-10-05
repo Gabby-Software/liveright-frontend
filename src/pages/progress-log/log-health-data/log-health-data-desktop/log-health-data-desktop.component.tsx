@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd'
 import { useFormikContext } from 'formik'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
@@ -20,7 +20,6 @@ import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getDuration } from '../../../../pipes/duration.pipe'
 import { isOverlapBetween } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
-import SwitchClient from '../../../progress/components/switch-client/switch-client.component'
 import { QUALITY } from '../../../progress/progress.constants'
 import { HealthData } from '../../../progress/progress.types'
 import LogCardDesktop from '../components/log-card-desktop/log-card-desktop.component'
@@ -44,7 +43,6 @@ import {
 
 const LogHealthDataDesktop: React.FC = () => {
   const { t } = useTranslation()
-  const [switchDialog, setSwitchDialog] = useState(false)
   const { values, setFieldValue } = useFormikContext<HealthData>()
   const { type } = useAuth()
   const history = useHistory()
@@ -90,9 +88,7 @@ const LogHealthDataDesktop: React.FC = () => {
 
         <h2 className="log-health__title">Log Health Data</h2>
 
-        {type !== userTypes.CLIENT && (
-          <LogClient onSwitch={() => setSwitchDialog(true)} />
-        )}
+        {type !== userTypes.CLIENT && <LogClient />}
 
         <div className="log-health__container">
           <CardsWrapper>
@@ -240,11 +236,6 @@ const LogHealthDataDesktop: React.FC = () => {
           <SubmitButtonDesktop />
         </div>
       </Wrapper>
-
-      <SwitchClient
-        open={switchDialog}
-        onClose={() => setSwitchDialog(false)}
-      />
     </>
   )
 }

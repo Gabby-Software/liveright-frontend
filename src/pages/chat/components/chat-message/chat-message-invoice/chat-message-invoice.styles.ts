@@ -54,7 +54,7 @@ export default styled(Link)`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     flex-direction: column;
 
     .cm-invoice {

@@ -76,7 +76,11 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       },
       name: 'menu.switch-account'
     },
-    { Icon: SettingsIcon, url: Routes.SETTINGS, name: 'menu.settings' },
+    {
+      Icon: SettingsIcon,
+      url: Routes.SETTINGS.split('/:')[0],
+      name: 'menu.settings'
+    },
     {
       Icon: LogoutIcon,
       onClick: () => dispatch({ type: ACTION_LOGOUT_REQUEST }),
