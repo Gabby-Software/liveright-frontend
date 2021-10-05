@@ -1,23 +1,15 @@
 import moment from 'moment'
 import { useContext, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
 import { Tooltip } from 'recharts'
 
-import {
-  CaretLeftIcon,
-  CrossIcon,
-  LandscapePhoneIcon
-} from '../../../../assets/media/icons'
 import { colors } from '../../../../assets/styles/_variables'
-import Button from '../../../../components/buttons/button/button.component'
+import {
+  ChartCheckbox,
+  ChartCheckboxes
+} from '../../../../components/chart-container/chart-container.component'
 import LineChart from '../../../../components/charts/line-chart/line-chart.component'
 import { TooltipContainer } from '../../../../components/charts/tooltip'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import {
-  EmptyPlaceholder,
-  LoadingPlaceholder
-} from '../../../../components/placeholders'
-import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { HealthOnlyInclude } from '../../../../hooks/api/progress/useHealth'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -26,7 +18,7 @@ import { DATE_FORMAT, DATE_MONTH_RENDER_FORMAT } from '../../../../utils/date'
 import { shortNum } from '../../../../utils/numbers'
 import { HealthData, QualityType } from '../../progress.types'
 import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'
-import { DialogStyles, Styles } from './progress-chart.styles'
+import { Styles } from './progress-chart.styles'
 
 interface HealthChartProps {
   onClose: () => void
@@ -42,104 +34,62 @@ export default function HealthChart({ onClose }: HealthChartProps) {
   )
 
   const isMobile = useIsMobile()
-  const isLandscape = useMediaQuery({ query: mediaQueries.LANDSCAPE })
-
-  if (isMobile && !isLandscape) {
-    return (
-      <DialogStyles open onClose={() => {}}>
-        <div className="chart-dialog__container">
-          <span className="chart-dialog__icon">
-            <LandscapePhoneIcon />
-          </span>
-
-          <p className="chart-dialog__title">
-            Please use phone in landscape to see graph
-          </p>
-
-          <Button
-            variant="text"
-            size="sm"
-            className="chart-dialog__button"
-            onClick={onClose}
-          >
-            <CaretLeftIcon />
-            Back to Health Data
-          </Button>
-        </div>
-      </DialogStyles>
-    )
-  }
 
   const chartData = formatChartData(health, onlyInclude)
 
   return (
-    <Styles>
-      <div className="chart__title-container">
-        <h4 className="chart__title">{t(`progress:${onlyInclude}`)}</h4>
-
-        <div className="chart__quality">
-          <p className="chart__quality-text">Good</p>
-          <p className="chart__quality-text">Bad</p>
-          <p className="chart__quality-text">Average</p>
-        </div>
-
-        <div className="chart__checkboxes">
-          <div className="chart__checkbox">
-            <Checkbox
-              checked={tooltipValue}
-              onChange={(e) => setTooltipValue(e.target.checked)}
-            />
-            <p className="chart__checkbox-text">
-              Show {t(`progress:${onlyInclude}`)}
-            </p>
+    <Styles
+      DialogProps={{ backText: 'Back to Health', onClose }}
+      title={t(`progress:${onlyInclude}`)}
+      noData={!health.length}
+      loading={isLoading}
+      titleComponent={
+        <>
+          <div className="chart__quality">
+            <p className="chart__quality-text">Good</p>
+            <p className="chart__quality-text">Bad</p>
+            <p className="chart__quality-text">Average</p>
           </div>
 
-          <div className="chart__checkbox">
-            <Checkbox
-              checked={tooltipQuantity}
-              onChange={(e) => setTooltipQuantity(e.target.checked)}
+          <ChartCheckboxes>
+            <ChartCheckbox
+              value={tooltipValue}
+              onChange={(e: any) => setTooltipValue(e)}
+              title={`Show ${t(`progress:${onlyInclude}`)}`}
             />
-            <p className="chart__checkbox-text">Show Quality</p>
-          </div>
-        </div>
-
-        {isMobile && <CrossIcon onClick={onClose} />}
-      </div>
-
-      {isLoading ? (
-        <LoadingPlaceholder spacing />
-      ) : !health.length ? (
-        <EmptyPlaceholder spacing />
-      ) : (
-        <div className="chart__chart-container">
-          <LineChart
-            height={isMobile ? '100%' : 250}
-            data={chartData}
-            xDataKey="date"
-            dataKeys={['value']}
-            dataStroke={[colors.secondary4_v2]}
-            yTickFormatter={
-              onlyInclude === 'steps'
-                ? (tick: number) => shortNum(tick)
-                : undefined
-            }
-            tooltip={
-              tooltipQuantity || tooltipValue ? (
-                <Tooltip
-                  cursor={false}
-                  content={(props) => (
-                    <TooltipContent
-                      {...props}
-                      tooltipValue={tooltipValue}
-                      tooltipQuantity={tooltipQuantity}
-                    />
-                  )}
+            <ChartCheckbox
+              value={tooltipQuantity}
+              onChange={(e: any) => setTooltipQuantity(e)}
+              title="Show Quality"
+            />
+          </ChartCheckboxes>
+        </>
+      }
+    >
+      <LineChart
+        height={isMobile ? '100%' : 250}
+        data={chartData}
+        xDataKey="date"
+        dataKeys={['value']}
+        dataStroke={[colors.secondary4_v2]}
+        yTickFormatter={
+          onlyInclude === 'steps' ? (tick: number) => shortNum(tick) : undefined
+        }
+        tooltip={
+          tooltipQuantity || tooltipValue ? (
+            <Tooltip
+              cursor={false}
+              content={(props) => (
+                <TooltipContent
+                  {...props}
+                  tooltipValue={tooltipValue}
+                  tooltipQuantity={tooltipQuantity}
                 />
-              ) : null
-            }
-          />
-        </div>
-      )}
+              )}
+            />
+          ) : null
+        }
+      />
     </Styles>
   )
 }
