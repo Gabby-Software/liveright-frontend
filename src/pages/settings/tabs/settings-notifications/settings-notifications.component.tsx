@@ -1,8 +1,8 @@
 import React from 'react'
 
-import NotificationSettingItem from './notification-setting-item/notification-setting-item.component'
 import useUserSettings from '../../../../hooks/api/settings/useUserSettings'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import NotificationSettingItem from './notification-setting-item/notification-setting-item.component'
 import Styles from './settings-notifications.styles'
 
 const NotificationsSettings = () => {
