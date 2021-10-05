@@ -14,7 +14,7 @@ export const Card = styled(CardComponent)<any>`
   justify-content: ${(props) => (props.$between ? 'space-between' : 'stretch')};
   align-items: ${(props) => (props.$itemsCenter ? 'center' : 'stretch')};
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 1.5rem 1.875rem;
   }
 `
@@ -37,7 +37,7 @@ export const Grid = styled.div`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     grid-template-columns: 1fr;
 
     .edit__grid-user-names-mobile {

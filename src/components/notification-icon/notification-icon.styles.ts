@@ -38,7 +38,7 @@ export default styled.div`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     position: relative;
 
     &::after {

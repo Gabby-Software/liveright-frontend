@@ -10,7 +10,6 @@ import Select from '../../../../components/form/select/select.component'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { OptionType } from '../../../../types/option.type'
 import { OVER_TIME, PROGRESS_LOG } from '../../progress.constants'
 import HealthChart from '../progress-chart/progress-chart.component'
 import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'
@@ -22,16 +21,11 @@ import {
 } from './progress-overtime-mobile.styles'
 
 interface Props {
-  filterOptions: OptionType[]
   graphView: boolean
   setGraphView: (value: boolean) => void
 }
 
-export default function OverTimeMobile({
-  filterOptions,
-  graphView,
-  setGraphView
-}: Props) {
+export default function OverTimeMobile({ graphView, setGraphView }: Props) {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
 
@@ -76,7 +70,7 @@ export default function OverTimeMobile({
         <Select
           id="progress-over-due"
           value={filters.range}
-          options={filterOptions}
+          options={[]}
           onChange={(e) => onFilters('range', e)}
         />
 

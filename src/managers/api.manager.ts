@@ -15,6 +15,7 @@ import logger from './logger.manager'
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_API_URL
 })
+
 api.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const token = cookieManager.get('access_token')
@@ -28,6 +29,7 @@ api.interceptors.request.use(
   },
   (err) => Promise.reject(err)
 )
+
 api.interceptors.response.use(
   (res) => {
     return res
@@ -52,6 +54,7 @@ api.interceptors.response.use(
     return Promise.reject(err)
   }
 )
+
 export const handleError = (formHelper: FormikHelpers<any>) => (e: any) => {
   if (e?.response?.data?.errors) {
     for (const [name, [message]] of Object.entries<string[]>(
@@ -65,4 +68,26 @@ export const handleError = (formHelper: FormikHelpers<any>) => (e: any) => {
   }
   formHelper.setSubmitting(false)
 }
+
+export function handleErrorMessage(error: any) {
+  let err = ''
+
+  const errObj = error?.response?.data?.errors
+
+  if (errObj) {
+    Object.keys(errObj).forEach((key) => {
+      if (errObj[key]?.[0] && !err) {
+        err = errObj[key]?.[0]
+      }
+    })
+  }
+
+  if (!err && error?.response?.data?.message) {
+    err = error?.response?.data?.message
+  }
+
+  toast.show({ type: 'error', msg: err })
+  return err
+}
+
 export default api

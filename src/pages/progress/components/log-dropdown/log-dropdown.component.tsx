@@ -8,20 +8,22 @@ import {
   DropdownMenuItem
 } from '../../../../components/dropdown'
 import { Routes } from '../../../../enums/routes.enum'
-import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
+import { isClient } from '../../../../utils/api/auth'
 import { getRoute } from '../../../../utils/routes'
 
 export default function LogDropdown({ children }: PropsWithChildren<any>) {
   const { type } = useAuth()
   const params = useParams<any>()
 
-  const logTo =
-    type === userTypes.CLIENT
-      ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA)
-      : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
-          id: params.id
-        })
+  const logTo = isClient(type)
+    ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA)
+    : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
+        id: params.id
+      })
+  const measurementsTo = isClient(type)
+    ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS)
+    : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id })
 
   return (
     <Dropdown
@@ -31,7 +33,9 @@ export default function LogDropdown({ children }: PropsWithChildren<any>) {
           <Link to={logTo}>
             <DropdownMenuItem>Health</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>Measurements</DropdownMenuItem>
+          <Link to={measurementsTo}>
+            <DropdownMenuItem>Measurements</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>Photos</DropdownMenuItem>
         </DropdownMenu>
       }

@@ -26,7 +26,7 @@ export default styled(Card)`
       grid-template-columns: 1fr 1fr;
       gap: 10rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -34,7 +34,7 @@ export default styled(Card)`
     }
 
     &__action {
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-bottom: 1.5rem;
 
         &:last-child {

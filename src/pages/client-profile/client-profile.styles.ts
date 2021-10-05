@@ -90,7 +90,7 @@ export default styled.div`
     display: flex;
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     .profile {
       padding-bottom: 0;
       &__grid {
