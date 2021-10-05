@@ -16,5 +16,6 @@
   "filters": "Filter Clients",
   "search": "Search for Client Name",
   "all-status": "All Status",
-  "input-email": "Return to Input Email"
+  "input-email": "Return to Input Email",
+  "apply-filter": "Apply Filter"
 }

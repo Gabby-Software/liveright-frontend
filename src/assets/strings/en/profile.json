@@ -36,6 +36,8 @@
   "sessions": "Sessions",
   "invoices": "Invoices",
   "message": "Message",
+  "trainer-title": "My Trainer",
+  "return-to-home": "Return to Home",
   "payment-info": {
     "title": "Payment Info",
     "bank": "Bank",
