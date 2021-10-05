@@ -69,7 +69,7 @@ export const SummaryTargetValue = styled.p`
 export const ButtonText = styled.p`
   font-weight: 500;
   font-size: 18px;
-  line-height: 1.333;
+  line-height: 1.5rem;
   color: ${getColorCarry('white')};
 
   @media ${mediaQueries.MOBILE} {

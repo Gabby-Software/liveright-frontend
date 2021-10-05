@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import /* { ReactComponent as ExerciseIcon } */ ExerciseIcon from '../../../assets/media/icons/exercise_1.png'
-import /* { ReactComponent as FoodIcon } */ FoodIcon from '../../../assets/media/icons/food_1.png'
-import /* { ReactComponent as MeasureIcon } */ MeasureIcon from '../../../assets/media/icons/measure_1.png'
-import /* { ReactComponent as WorkoutIcon } */ WorkoutIcon from '../../../assets/media/icons/workout_1.png'
+import ExerciseIcon from '../../../assets/media/icons/exercise_1.png'
+import FoodIcon from '../../../assets/media/icons/food_1.png'
+import MeasureIcon from '../../../assets/media/icons/measure_1.png'
+import WorkoutIcon from '../../../assets/media/icons/workout_1.png'
 import ActionIconWrapper from '../../../components/action-wrapper/action-wrapper.component'
 import Button from '../../../components/buttons/button/button.component'
 import AddClientDrawer from '../../../components/clients/add-client-modal/add-client-drawer/add-client-drawer.component'
@@ -90,12 +90,6 @@ const ClientsDesktop = ({}: Props) => {
       title: 'Measures'
     }
   ]
-  // const actions: TableActionType[] = [
-  //   { icon: WorkoutIcon, onClick: () => {}, title: 'Workshops' },
-  //   { icon: ExerciseIcon, onClick: () => {}, title: 'Exercises' },
-  //   { icon: FoodIcon, onClick: () => {}, title: 'Meals' },
-  //   { icon: MeasureIcon, onClick: () => {}, title: 'Measures' }
-  // ]
   const setPage = (page: number) => {
     dispatch({
       type: ACTION_GET_CLIENTS_REQUEST,
@@ -131,13 +125,6 @@ const ClientsDesktop = ({}: Props) => {
   }
   useEffect(fetchClients, [query, type, status])
 
-  // if (!data.length) {
-  //   return (
-  //     <Styles>
-  //       <p>You have no clients currently</p>
-  //     </Styles>
-  //   )
-  // }
   return (
     <>
       <SessionStyles>
@@ -200,13 +187,6 @@ const ClientsDesktop = ({}: Props) => {
                 setPage={(current_page: number) => setPage(current_page)}
                 total={meta?.total}
               />
-              {/* Modal */}
-              {/* <AddClientModal
-                isOpen={modalOpen}
-                onClose={() => setModalOpen(false)}
-                onSubmit={fetchClients}
-              /> */}
-              {/*    data.length ? null : <p className={'clients__no-data'}>{t('no-data')}</p>*/}
             </ClientContainer>
           </div>
         </div>

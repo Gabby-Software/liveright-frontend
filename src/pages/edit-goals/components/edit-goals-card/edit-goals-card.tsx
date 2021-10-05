@@ -1,13 +1,13 @@
 import { FormikProps } from 'formik'
 import { FC, ReactNode, useState } from 'react'
 
+import Input from '../../../../components/form/input/input.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import formatter from '../../../../managers/formatter.manager'
+import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import {
-  GoalsCardAverageInput,
   GoalsCardAverageInputText,
   GoalsCardAverageInputWrap,
-  GoalsCardRevenueInput,
-  GoalsCardRevenueInputText,
   GoalsCardRevenueInputWrap,
   GoalsCardTitle,
   GoalsCardTitleWrap,
@@ -15,12 +15,16 @@ import {
   GoalsWrapContent
 } from './edit-goals-card.styles'
 
-export const calcRevenue = (average: string, quantity: string) => {
-  return parseInt(average) * parseInt(quantity) || 0
-}
+// export const calcRevenue = (average: string, quantity: string) => {
+//   return parseInt(average) * parseInt(quantity) || 0
+// }
 
-export const calcAverage = (quantity: string, revenue: string) => {
-  return parseInt(revenue) / parseInt(quantity) || 0
+// export const calcAverage = (quantity: string, revenue: string) => {
+//   return parseInt(revenue) / parseInt(quantity) || 0
+// }
+
+export const appendAED = (v: number): string => {
+  return `${v.toLocaleString('it')} AED`
 }
 
 interface Props {
@@ -31,57 +35,82 @@ interface Props {
   title?: string
 }
 
-const EditGoalsCard: FC<Props> = ({ type, icon, title, formikProps }) => {
+const EditGoalsCard: FC<Props> = ({
+  type: fieldName,
+  icon,
+  title,
+  formikProps
+}) => {
   const [open, setOpen] = useState(false)
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
+  const { values } = formikProps
+
+  const handleChange = (name: string, type: string, value: string) => {
+    const previousValue = values[type] // get previous values
+    const { average, quantity } = previousValue
+    let currentValue
+    if (name === 'average') {
+      currentValue = {
+        average: value ?? '',
+        quantity: quantity,
+        total: Number(average) * Number(quantity) || 0
+      }
+    }
+    if (name === 'quantity') {
+      currentValue = {
+        average: average,
+        quantity: value ?? '',
+        total: Number(average) * Number(value) || 0
+      }
+    }
+    if (name === 'total') {
+      currentValue = {
+        average: average,
+        quantity:
+          Number(value) === 0 ? 0 : Number(value) / Number(average) || 0,
+        total: Number(value) || 0
+      }
+    }
+    formikProps.setFieldValue(type, currentValue)
+  }
+
   const content = (
     <GoalsWrapContent>
       <GoalsCardAverageInputWrap>
         <GoalsCardAverageInputText>
-          Average Cost?
-          <GoalsCardAverageInput
-            type="number"
-            name={`${type}.average`}
-            onChange={(e: any) => {
-              formikProps.values[type].revenue = calcRevenue(
-                formikProps.values[type].quantity,
-                e.target.value
-              )
-              formikProps.handleChange(e)
-            }}
+          <Input
+            id={`average-${fieldName}`}
+            name="average"
+            format={formatter().number()}
+            onChange={(e) => handleChange('average', fieldName, e.target.value)}
+            label={t('financials:edit-goals.average-cost')}
+            value={values[fieldName].average}
           />
         </GoalsCardAverageInputText>
         <GoalsCardAverageInputText>
-          Quantity Per Month
-          <GoalsCardAverageInput
-            type="number"
-            name={`${type}.quantity`}
-            onChange={(e: any) => {
-              formikProps.values[type].revenue = calcRevenue(
-                e.target.value,
-                formikProps.values[type].average
-              )
-              formikProps.handleChange(e)
-            }}
+          <Input
+            id={`quantity-${fieldName}`}
+            name="quantity"
+            format={formatter().number()}
+            onChange={(e) =>
+              handleChange('quantity', fieldName, e.target.value)
+            }
+            label={t('financials:edit-goals.quantity')}
+            value={values[fieldName].quantity}
           />
         </GoalsCardAverageInputText>
       </GoalsCardAverageInputWrap>
 
       <GoalsCardRevenueInputWrap>
-        <GoalsCardRevenueInputText>
-          Revenue Per Month
-          <GoalsCardRevenueInput
-            type="number"
-            name={`${type}.revenue`}
-            onChange={(e: any) => {
-              formikProps.values[type].average = calcAverage(
-                formikProps.values[type].quantity,
-                e.target.value
-              )
-              formikProps.handleChange(e)
-            }}
-          />
-        </GoalsCardRevenueInputText>
+        <Input
+          id={`total-${fieldName}`}
+          name="total"
+          format={formatter().number()}
+          onChange={(e) => handleChange('total', fieldName, e.target.value)}
+          label={t('financials:edit-goals.revenue-per-month')}
+          value={appendAED(Number(values[fieldName].total))}
+        />
       </GoalsCardRevenueInputWrap>
     </GoalsWrapContent>
   )

@@ -8,6 +8,7 @@ export const SuggestionsWrapper = styled.div`
   border-radius: 10px;
   min-height: 194px;
   margin-top: 40px;
+  margin-bottom: 6.6875rem;
 `
 
 export const SuggestionsHead = styled.div`

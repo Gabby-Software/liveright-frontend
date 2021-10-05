@@ -40,7 +40,6 @@ const DataTable = ({
   round
 }: Props<any>) => {
   const { t } = useTranslation()
-  console.log({ data })
   return (
     <Styles
       round={round}

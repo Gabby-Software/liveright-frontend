@@ -48,7 +48,7 @@ const AddClientModalEmailContent = ({
 }
 
 const AddClientModalEmail = () => {
-  const { step, setStep, form, update } = useContext(ClientFormContext)
+  const { setStep, form, update } = useContext(ClientFormContext)
   const handleSubmit = (
     values: ClientFormType,
     helper: FormikHelpers<ClientFormType>
@@ -57,7 +57,6 @@ const AddClientModalEmail = () => {
     InvitationManager.checkEmailExist(values.email)
       .then((res) => {
         setStep(res ? clientFormSteps.MESSAGE : clientFormSteps.FORM)
-        console.log({ res, next: step })
       })
       .catch((e) => toast.show({ type: 'error', msg: serverError(e) }))
     // setStep(Math.random() > .5 ? clientFormSteps.MESSAGE : clientFormSteps.FORM);
