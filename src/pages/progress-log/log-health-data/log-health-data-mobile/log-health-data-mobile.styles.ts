@@ -7,7 +7,7 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled.div`
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-top: 1.5rem;
   }
 
@@ -18,6 +18,11 @@ export const Wrapper = styled.div`
 
     &__form-item {
       margin-bottom: 0.75rem;
+    }
+
+    &__error {
+      font-size: 0.75rem;
+      color: ${getColorCarry('primary_v2')};
     }
   }
 `

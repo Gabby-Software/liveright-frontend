@@ -6,7 +6,7 @@ import { getColorCarry } from '../../pipes/theme-color.pipe'
 export default styled.div`
   padding-bottom: 5rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-bottom: 0;
     padding-top: 2.5rem;
   }
@@ -18,7 +18,7 @@ export default styled.div`
       color: ${getColorCarry('primaryDark2_v2')};
       margin-bottom: 1.25rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 1.125rem;
       }
     }

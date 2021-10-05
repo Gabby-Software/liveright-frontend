@@ -13,7 +13,7 @@ export const Styles = styled(Card)`
   .client-progress-card {
     &__avatar {
       & .user-badge__preview {
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           width: 40px;
           height: 40px;
         }
@@ -32,7 +32,7 @@ export const Styles = styled(Card)`
         font-size: 1rem;
         font-weight: 500;
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           font-size: 0.875rem;
         }
 
@@ -53,7 +53,7 @@ export const Styles = styled(Card)`
           margin-left: 0.5rem;
         }
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           font-size: 0.625rem;
         }
       }
@@ -67,7 +67,7 @@ export const Styles = styled(Card)`
           color: ${getColorCarry('primaryDark_v2')};
         }
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           font-size: 0.625rem;
         }
       }

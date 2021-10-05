@@ -8,7 +8,7 @@ export default styled.div`
   position: relative;
   padding-bottom: 6.875rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-bottom: 0;
     padding-top: 2.5rem;
   }
@@ -20,7 +20,7 @@ export default styled.div`
       align-items: center;
       margin-bottom: 1.25rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -43,7 +43,7 @@ export default styled.div`
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 1.125rem;
       }
     }
@@ -51,7 +51,7 @@ export default styled.div`
     &__range-select {
       width: 200px;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-top: 1.25rem;
         width: 100%;
       }

@@ -64,10 +64,10 @@ const DataTable = ({
         ) : loading && !data.length ? (
           <Skeleton />
         ) : data?.length ? (
-          data.map((item) => (
+          data.map((item, index) => (
             // eslint-disable-next-line react/jsx-key
             <tr
-              key={item.id}
+              key={item.id || index}
               className={classes(
                 'data-table__tr',
                 onClick && 'data-table__tr__clickable',

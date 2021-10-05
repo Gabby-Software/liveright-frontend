@@ -6,7 +6,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 export default styled.div`
   padding-bottom: 5rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-top: 2.5rem;
   }
 
@@ -34,7 +34,7 @@ export default styled.div`
       display: flex;
       justify-content: center;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-top: 0;
       }
 

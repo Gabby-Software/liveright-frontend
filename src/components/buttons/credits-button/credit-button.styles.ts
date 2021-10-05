@@ -45,7 +45,7 @@ export default styled(Button)<any>`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     font-size: 0.875rem;
   }
 `

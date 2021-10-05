@@ -17,7 +17,7 @@ export const LinkStyles = styled<any>(Link)`
   ${(props) =>
     !props.$mobCol &&
     css`
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-right: 0;
       }
     `}
@@ -27,7 +27,7 @@ export const Styles = styled<any>(Card)`
   flex-direction: column;
   min-width: 330px;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     width: 100%;
     min-width: auto;
   }
@@ -44,7 +44,7 @@ export const Styles = styled<any>(Card)`
         margin-bottom: 0;
       }
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         flex-wrap: nowrap;
       }
     }
@@ -56,7 +56,7 @@ export const Styles = styled<any>(Card)`
       line-height: 1.25;
       white-space: nowrap;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         white-space: normal;
       }
     }
@@ -68,7 +68,7 @@ export const Styles = styled<any>(Card)`
       line-height: 1.25;
       white-space: nowrap;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         white-space: normal;
       }
     }
@@ -111,13 +111,13 @@ export const Styles = styled<any>(Card)`
   ${(props) =>
     !props.$mobCol &&
     css`
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin-right: 0;
         margin-bottom: 1rem;
       }
 
       .invoice-card {
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           &__price {
             font-size: 1.25rem;
             font-weight: 700;
@@ -129,7 +129,7 @@ export const Styles = styled<any>(Card)`
         }
 
         &__btn {
-          @media ${mediaQueries.MOBILE} {
+          @media ${mediaQueries.TABLET} {
             min-width: auto;
             width: 115px;
           }
@@ -140,7 +140,7 @@ export const Styles = styled<any>(Card)`
   ${(props) =>
     props.$mobCol &&
     css`
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         min-width: auto;
         width: 175px;
         max-width: 175px;
@@ -148,7 +148,7 @@ export const Styles = styled<any>(Card)`
 
       .invoice-card {
         &__row {
-          @media ${mediaQueries.MOBILE} {
+          @media ${mediaQueries.TABLET} {
             flex-direction: column;
             align-items: center;
             margin-bottom: 1.25rem;
@@ -156,13 +156,13 @@ export const Styles = styled<any>(Card)`
         }
 
         &__issuer {
-          @media ${mediaQueries.MOBILE} {
+          @media ${mediaQueries.TABLET} {
             text-align: center;
           }
         }
 
         &__btn {
-          @media ${mediaQueries.MOBILE} {
+          @media ${mediaQueries.TABLET} {
             margin-bottom: 1rem;
             margin-left: 0;
 

@@ -39,6 +39,7 @@ export const Styles = styled<any>(Card)`
       font-size: 1rem;
       font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
+      margin-bottom: 0.5rem;
     }
 
     &__badge {
@@ -78,6 +79,24 @@ export const Styles = styled<any>(Card)`
       font-size: 1.125rem;
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
+    }
+
+    &__row {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: ${getColorCarry('primaryDark_v2')};
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.625rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &-label {
+        color: ${getColorCarry('neutral_70')};
+      }
     }
   }
 `

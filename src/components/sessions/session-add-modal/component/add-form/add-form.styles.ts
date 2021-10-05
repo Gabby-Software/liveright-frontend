@@ -25,7 +25,7 @@ export default styled(Card)`
       font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         font-size: 0.875rem;
         text-align: left;
       }

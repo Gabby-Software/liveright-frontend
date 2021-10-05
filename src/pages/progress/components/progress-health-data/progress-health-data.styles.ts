@@ -37,7 +37,7 @@ export const Wrapper = styled.div`
           }
         }
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           padding: 0;
         }
       }
@@ -51,7 +51,7 @@ export const CardsWrapper = styled.div`
   gap: 1.25rem;
   margin-bottom: 1.25rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     grid-template-columns: 1fr 1fr;
   }
 `

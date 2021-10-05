@@ -94,10 +94,24 @@ class FileManager {
       })
     })
   }
+
+  /**
+   * Download files using a Blob or File
+   *
+   * @param blob A blob or file to be downloaded
+   * @param filename A name for the downloaded file
+   */
   download(blob: Blob | File, filename = 'image.jpg') {
     const url = URL.createObjectURL(blob)
     this.downloadUrl(url, filename)
   }
+
+  /**
+   * Download files using a URL
+   *
+   * @param url URL for the file to be downloaded
+   * @param filename A name for the downloaded file
+   */
   downloadUrl(url: string, filename = 'file.txt') {
     const a = document.createElement('a')
     a.setAttribute('href', url)

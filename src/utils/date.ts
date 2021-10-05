@@ -33,26 +33,29 @@ export function hoursBetween(from: number, to: number): number[] {
 }
 
 export function isOverlap(
-  start1?: string,
-  end1?: string,
-  start2?: string,
-  end2?: string
+  start1 = '',
+  end1 = '',
+  start2 = '',
+  end2 = ''
 ): boolean {
   try {
     if (!(start1 && end1 && start2 && end2)) {
       return false
     }
-    // console.log(start1, end1, start2, end2)
 
     const s1 = moment(start1, 'H:mm')
     const e1 = moment(end1, 'H:mm')
     const s2 = moment(start2, 'H:mm')
     const e2 = moment(end2, 'H:mm')
 
-    // console.log(s1, e1)
-
-    return s1.isAfter(e2) && s2.isBefore(e1)
+    return (
+      (s2.isAfter(s1) && s2.isBefore(e1)) || (e2.isAfter(s1) && e2.isBefore(e1))
+    )
   } catch (e) {
     return false
   }
+}
+
+export function isOverlapBetween(s1 = '', e1 = '', s2 = '', e2 = ''): boolean {
+  return isOverlap(s1, e1, s2, e2) || isOverlap(s2, e2, s1, e1)
 }

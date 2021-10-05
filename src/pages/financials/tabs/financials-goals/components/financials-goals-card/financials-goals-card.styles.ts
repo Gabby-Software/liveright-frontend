@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+// import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 const Wrapper = styled.div`
