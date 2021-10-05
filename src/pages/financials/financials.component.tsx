@@ -3,7 +3,7 @@ import React, { lazy, useEffect } from 'react'
 import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import Button from '../../components/buttons/button/button.component'
-import PaymentBadge from '../../components/payment-badge/payment-badge.component'
+// import PaymentBadge from '../../components/payment-badge/payment-badge.component'
 import RoutedTabs from '../../components/routed-tabs/routed-tabs.component'
 import { toast } from '../../components/toast/toast.component'
 import { Routes } from '../../enums/routes.enum'
@@ -26,6 +26,10 @@ const FinancialsReceivables = lazy(
 )
 const FinancialsGoals = lazy(
   () => import('./tabs/financials-goals/financials-goals.component')
+)
+
+const FinancialGetPaid = lazy(
+  () => import('./tabs/financials-getPaid/financials-getPaid.component')
 )
 
 type Props = {}
@@ -67,12 +71,15 @@ const Financials = ({}: Props) => {
               {t('financials:overview.edit-goal')}
             </Button>
           )}
+          {location.pathname.includes(Routes.FINANCIALS_GET_PAID) && (
+            <Button to={Routes.CREATE_INVOICE}>{t('invoices:add')}</Button>
+          )}
         </div>
       )}
 
       <div className="financials__tabs-container">
         <RoutedTabs tabs={financialTabs} className="financials__tabs" />
-        {!isMobile && <PaymentBadge />}
+        {/* {!isMobile && <PaymentBadge />} */}
       </div>
 
       <React.Suspense fallback={Skeleton}>
@@ -89,6 +96,7 @@ const Financials = ({}: Props) => {
           component={FinancialsPayables}
         />
         <Route path={Routes.FINANCIALS_GOALS} component={FinancialsGoals} />
+        <Route path={Routes.FINANCIALS_GET_PAID} component={FinancialGetPaid} />
       </React.Suspense>
     </Styles>
   )

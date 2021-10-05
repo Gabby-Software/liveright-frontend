@@ -12,5 +12,14 @@
     "pt-sessions-revenue": "PT Sessions Revenue",
     "revenue": "Revenue"
   },
+  "payout": {
+    "title": "Payout History",
+    "username": "User Name",
+    "eventType": "Event Type",
+    "amount": "Amount",
+    "dateRecieved": "Date Recieved",
+    "datePayout": "Date Payout",
+    "options": "Options"
+  },
   "view-graph": "View Full Graph"
 }
