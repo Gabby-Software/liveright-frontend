@@ -440,25 +440,36 @@ export const routes: RouteType[] = [
     }
   },
   {
-    title: 'Notification Settings',
-    url: Routes.NOTIFICATIONS_SETTINGS,
-    Component: lazy(
-      () =>
-        import(
-          '../pages/notifications-settings/notifications-settings.component'
-        )
-    ),
-    back: {
-      url: Routes.NOTIFICATIONS,
-      alias: 'notifications'
-    },
+    title: 'Settings',
+    url: Routes.SETTINGS,
+    Component: lazy(() => import('../pages/settings/settings.component')),
     version: 2,
     mobileLayout: false,
     header: {
-      title: null,
+      title: 'Account Settings',
       items: []
     }
   },
+  // {
+  //   title: 'Notification Settings',
+  //   url: Routes.NOTIFICATIONS_SETTINGS,
+  //   Component: lazy(
+  //     () =>
+  //       import(
+  //         '../pages/notifications-settings/notifications-settings.component'
+  //       )
+  //   ),
+  //   back: {
+  //     url: Routes.NOTIFICATIONS,
+  //     alias: 'notifications'
+  //   },
+  //   version: 2,
+  //   mobileLayout: false,
+  //   header: {
+  //     title: null,
+  //     items: []
+  //   }
+  // },
   {
     title: 'Financials',
     url: Routes.FINANCIALS,

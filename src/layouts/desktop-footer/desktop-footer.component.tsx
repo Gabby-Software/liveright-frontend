@@ -91,7 +91,7 @@ export default function DesktopFooter() {
 
           <Button
             variant="secondary"
-            to="#"
+            to={Routes.SETTINGS.split('/:')[0]}
             size="sm"
             className="footer__action"
           >
