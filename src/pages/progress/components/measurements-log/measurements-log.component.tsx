@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -17,6 +17,7 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
+import { dataToFormValues } from '../../../../utils/api/progress'
 import { getRoute } from '../../../../utils/routes'
 import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
 import ClientInfoMobile from '../client-info-mobile/client-info-mobile.component'
@@ -48,9 +49,16 @@ export default function MeasurementsLog() {
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
 
-  const { onAdd } = useMeasurements({
-    skip: true
+  const { onAdd, onFilters, measurements } = useMeasurements({
+    skip: !params.date,
+    filter: {
+      date: params.date,
+      account_id: params.id
+    },
+    per_page: 1
   })
+
+  const data = measurements[0] || {}
 
   const methods = useForm(formConfig)
 
@@ -61,9 +69,29 @@ export default function MeasurementsLog() {
   const logType: string = values[0]
   const images: any = values[1]
 
+  const dataKey = JSON.stringify(data)
+
+  useEffect(() => {
+    if (data.id) {
+      const formValues = dataToFormValues(data)
+
+      Object.keys(formValues).forEach((key) =>
+        methods.setValue(key as any, formValues[key])
+      )
+
+      if (Object.keys(formValues.images)?.length) {
+        setPhoto(true)
+      }
+    }
+  }, [dataKey])
+
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
+
+  const handleSave = (values: any) => {
+    onAdd(values, data.id)
+  }
 
   const content = (
     <FormProvider {...methods}>
@@ -96,6 +124,7 @@ export default function MeasurementsLog() {
                     value={value}
                     onChange={(e, date) => {
                       methods.setValue(name, date)
+                      onFilters('date', date)
                       history.replace(
                         isClient(type)
                           ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, {
@@ -198,7 +227,7 @@ export default function MeasurementsLog() {
           <div>
             <Button
               className="log-measurements__submit"
-              onClick={() => methods.handleSubmit(onAdd)()}
+              onClick={() => methods.handleSubmit(handleSave)()}
             >
               Save Measurements
             </Button>

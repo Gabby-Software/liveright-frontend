@@ -37,7 +37,16 @@ export async function formatMeasurementsValues(
 
   if (images.front || images.side || images.back) {
     for (const key of Object.keys(images)) {
-      if (images[key]) {
+      // Remove images from body if empty or already uploaded (starts with https://)
+      if (
+        !images[key] ||
+        (typeof images[key] === 'string' && images[key].includes('https://'))
+      ) {
+        delete images[key]
+      }
+
+      // Upload image and attach if a file
+      if (images[key] && typeof images[key] !== 'string') {
         const path = await uploadFile(images[key])
         images[key] = path
       }
@@ -58,6 +67,7 @@ export async function formatMeasurementsValues(
   body['body_fat'] = copy['body_fat']
   body['fat_mass'] = copy['fat_mass']
   body['lean_mass'] = copy['lean_mass']
+  body['notes'] = copy['notes']
 
   body['measurements'] = omitEmpty(copy['measurements'])
 
@@ -65,9 +75,24 @@ export async function formatMeasurementsValues(
     body['images'] = images
   }
 
-  console.log(body)
-
   return body
+}
+
+export function dataToFormValues(data: any) {
+  const formValues: any = {}
+
+  formValues['body_fat'] = data['body_fat']
+  formValues['date'] = data['date']
+  formValues['fat_mass'] = data['fat_mass']
+  formValues['lean_mass'] = data['lean_mass']
+  formValues['measurements'] = data['measurements']
+  formValues['notes'] = data['notes']
+  formValues['weight_kgs'] = data['weight_kgs']
+  formValues['weight_lbs'] = data['weight_lbs']
+
+  formValues['images'] = omitEmpty(data['images'])
+
+  return formValues
 }
 
 export function getBodyFat(values: any): number {

@@ -18,8 +18,6 @@ import { stringifyURL } from '../../../utils/query'
 import { getRoute } from '../../../utils/routes'
 import { useAuth } from '../../auth.hook'
 
-type OnFilters = (name: string, value: any) => void
-
 interface MeasurementsFilters {
   range?: 'week' | 'month' | 'quarter' | 'ytd' | 'last_year' | 'specific_dates'
   from_date?: string
@@ -27,6 +25,8 @@ interface MeasurementsFilters {
   account_id?: string
   date?: string
 }
+
+type OnFilters = (name: keyof MeasurementsFilters, value: any) => void
 
 interface MeasurementsParams {
   filter?: MeasurementsFilters
@@ -37,8 +37,10 @@ interface MeasurementsParams {
   per_page?: number
 }
 
+type OnAdd = (values: any, id?: string) => void
+
 interface UseMeasurements {
-  onAdd: (values: any) => void
+  onAdd: OnAdd
   isLoading: boolean
   filters: MeasurementsFilters
   onFilters: OnFilters
@@ -48,6 +50,7 @@ interface UseMeasurements {
 
 interface UseMeasurementsConfig extends Partial<MeasurementsParams> {
   skip?: boolean
+  requireDate?: boolean
 }
 
 function getKey(params: any) {
@@ -74,17 +77,22 @@ export default function useMeasurements(
     }
   }
 
+  const skip = config.skip || (config.requireDate && !filters.date)
+
   const { data, error } = useSWR(
-    () => (config.skip ? null : getKey(apiParams)),
+    () => (skip ? null : getKey(apiParams)),
     getMeasurements
   )
 
-  const onAdd = async (values: any) => {
+  const onAdd: OnAdd = async (values, id) => {
     try {
       const formattedValues = await formatMeasurementsValues(values, params.id)
-      await addMeasurements(formattedValues)
+      await addMeasurements(formattedValues, id)
 
-      toast.show({ type: 'success', msg: 'Measurements saved!' })
+      toast.show({
+        type: 'success',
+        msg: id ? 'Measurements updated!' : 'Measurements saved!'
+      })
 
       history.push(
         isClient(type)

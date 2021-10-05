@@ -12,8 +12,26 @@ export const Styles = styled.div`
   .photo-card {
     &__img {
       width: 100%;
-      height: 250px;
+      height: 100%;
       object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      &-container {
+        width: 100%;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        & span {
+          font-size: 1rem;
+          font-weight: 400;
+          color: ${getColorCarry('secondary2_v2')};
+        }
+      }
     }
 
     &__info {
