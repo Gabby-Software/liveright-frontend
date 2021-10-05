@@ -72,7 +72,13 @@ function Drop({ file, onChange }: DropProps) {
       <input {...getInputProps()} />
       {file ? (
         <Image
-          src={typeof file === 'string' ? file : URL.createObjectURL(file)}
+          src={
+            file
+              ? typeof file === 'string'
+                ? file
+                : URL.createObjectURL(file)
+              : ''
+          }
           className="drop__image"
         />
       ) : (

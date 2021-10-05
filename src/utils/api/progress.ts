@@ -154,7 +154,7 @@ export function getTotal(values: any, type: string): number {
           'upper_thighs'
         ]
 
-  const val = fields.reduce((acc, cur) => acc + (measurements[cur] || 0), 0)
+  const val = fields.reduce((acc, cur) => acc + (measurements?.[cur] || 0), 0)
 
   return Number(val.toFixed(2))
 }

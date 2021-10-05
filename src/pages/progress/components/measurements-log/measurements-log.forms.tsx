@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { WeightIcon } from '../../../../assets/media/icons'
@@ -41,13 +41,33 @@ const CIRCUMFERENCE_FIELDS = [
   { key: 'upper_thighs', label: 'Upper Thighs' }
 ]
 
+interface MeasurementsLogContextProps {
+  initMeasurement: any
+  prevMeasurement: any
+}
+
+export const MeasurementsLogContext =
+  createContext<MeasurementsLogContextProps>({
+    initMeasurement: {},
+    prevMeasurement: {}
+  })
+
 function WeightLogCard() {
   const { setValue } = useFormContext()
+  const { initMeasurement, prevMeasurement } = useContext(
+    MeasurementsLogContext
+  )
   return (
     <ProgressEditCard
       infoVariant="secondary"
       icon={<WeightIcon />}
-      title="Lean Mass(kg)"
+      title="Weight"
+      init={
+        initMeasurement?.weight_kgs ? `${initMeasurement?.weight_kgs} kg` : '-'
+      }
+      prev={
+        prevMeasurement?.weight_kgs ? `${prevMeasurement?.weight_kgs} kg` : '-'
+      }
       inputComponent={
         <div className="log-measurements__fields">
           <Controller
@@ -103,6 +123,9 @@ export function CheckInForm() {
 
 export function SkinfoldForm() {
   const { setValue } = useFormContext()
+  const { initMeasurement, prevMeasurement } = useContext(
+    MeasurementsLogContext
+  )
   return (
     <div>
       <WeightLogCard />
@@ -114,6 +137,8 @@ export function SkinfoldForm() {
             <ProgressEditCard
               icon={<WeightIcon />}
               title={field.label}
+              init={initMeasurement?.measurements?.[field.key] || '-'}
+              prev={prevMeasurement?.measurements?.[field.key] || '-'}
               InputProps={{
                 id: `log-health-${field.key}`,
                 label: 'Measurement (mm)',
@@ -135,6 +160,9 @@ export function SkinfoldForm() {
 
 export function CircumferenceForm() {
   const { setValue } = useFormContext()
+  const { initMeasurement, prevMeasurement } = useContext(
+    MeasurementsLogContext
+  )
   return (
     <div>
       <WeightLogCard />
@@ -146,6 +174,8 @@ export function CircumferenceForm() {
             <ProgressEditCard
               icon={<WeightIcon />}
               title={field.label}
+              init={initMeasurement?.measurements?.[field.key] || '-'}
+              prev={prevMeasurement?.measurements?.[field.key] || '-'}
               InputProps={{
                 id: `log-health-${field.key}`,
                 label: 'Measurement (mm)',
@@ -169,6 +199,10 @@ function TotalCard() {
   const { control, setValue } = useFormContext()
   const values = useWatch({ control })
 
+  const { initMeasurement, prevMeasurement } = useContext(
+    MeasurementsLogContext
+  )
+
   const bodyFatValue = getBodyFat(values)
   const fatMassValue = getFatMass(values)
   const leanMassValue = getLeanMass(values)
@@ -188,6 +222,12 @@ function TotalCard() {
         icon={<WeightIcon />}
         title="Total"
         className="log-total__row"
+        init={
+          initMeasurement ? `${getTotal(initMeasurement, values.type)}` : '-'
+        }
+        prev={
+          prevMeasurement ? `${getTotal(prevMeasurement, values.type)}` : '-'
+        }
         inputComponent={
           <div>
             <p className="log-total__label">Measurement (mm)</p>
@@ -201,6 +241,12 @@ function TotalCard() {
             icon={<WeightIcon />}
             title="Body Fat %"
             className="log-total__row"
+            init={
+              initMeasurement?.body_fat ? `${initMeasurement?.body_fat}%` : '-'
+            }
+            prev={
+              prevMeasurement?.body_fat ? `${prevMeasurement?.body_fat}%` : '-'
+            }
             inputComponent={
               <div>
                 <p className="log-total__label">Measurement (%)</p>
@@ -212,6 +258,16 @@ function TotalCard() {
             icon={<WeightIcon />}
             title="Fat Mass(kg)"
             className="log-total__row"
+            init={
+              initMeasurement?.fat_mass
+                ? `${initMeasurement?.fat_mass} kg`
+                : '-'
+            }
+            prev={
+              prevMeasurement?.fat_mass
+                ? `${prevMeasurement?.fat_mass} kg`
+                : '-'
+            }
             inputComponent={
               <div>
                 <p className="log-total__label">Measurement (kg)</p>
@@ -223,6 +279,16 @@ function TotalCard() {
             icon={<WeightIcon />}
             title="Lean Mass(kg)"
             className="log-total__row"
+            init={
+              initMeasurement?.lean_mass
+                ? `${initMeasurement?.lean_mass} kg`
+                : '-'
+            }
+            prev={
+              prevMeasurement?.lean_mass
+                ? `${prevMeasurement?.lean_mass} kg`
+                : '-'
+            }
             inputComponent={
               <div>
                 <p className="log-total__label">Measurement (kg)</p>

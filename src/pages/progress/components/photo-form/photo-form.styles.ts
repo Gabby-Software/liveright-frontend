@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -7,6 +8,10 @@ export const Styles = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1.875rem;
+
+  @media ${mediaQueries.TABLET} {
+    grid-template-columns: 1fr;
+  }
 
   .photo-form {
     &__label {

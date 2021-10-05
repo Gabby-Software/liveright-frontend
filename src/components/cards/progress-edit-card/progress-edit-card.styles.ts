@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
@@ -73,6 +73,24 @@ export const Styles = styled(Card)<any>`
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.875rem;
+
+      ${(props) =>
+        props.$infoVar === 'secondary' &&
+        css`
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 0;
+          height: 100%;
+          padding: 1rem 0;
+
+          @media ${mediaQueries.TABLET} {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.875rem;
+          }
+        `}
 
       &-label {
         font-size: 0.875rem;

@@ -15,6 +15,7 @@ interface DatePickerProps {
   value?: any
   onChange?: (date: Moment | null, dateStr: string) => void
   disabledDate?: (date: Moment) => boolean
+  disabledFuture?: boolean
   disabledPast?: boolean
   error?: string
   name?: string
@@ -31,6 +32,7 @@ export default function DatePicker({
   onChange,
   disabledDate,
   disabledPast,
+  disabledFuture,
   name,
   error,
   disabled,
@@ -45,7 +47,13 @@ export default function DatePicker({
         suffixIcon={<CalendarBoldIcon />}
         value={value ? moment(value) : null}
         onChange={onChange}
-        disabledDate={disabledPast ? onDisablePast : disabledDate}
+        disabledDate={
+          disabledPast
+            ? onDisablePast
+            : disabledFuture
+            ? onDisableFuture
+            : disabledDate
+        }
         disabled={disabled}
         defaultPickerValue={defaultPickerValue}
       />
@@ -57,4 +65,8 @@ export default function DatePicker({
 
 function onDisablePast(date: Moment): boolean {
   return date.isBefore(moment().startOf('day'))
+}
+
+function onDisableFuture(date: Moment): boolean {
+  return date.isAfter(moment(), 'day')
 }
