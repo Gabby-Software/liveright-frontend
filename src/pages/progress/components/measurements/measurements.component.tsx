@@ -5,7 +5,9 @@ import { CalendarIcon, MenuIcon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
 import Card from '../../../../components/cards/card/card.component'
-import ProgressLogCard from '../../../../components/cards/progress-log-card/progress-log-card.component'
+import ProgressLogCard, {
+  ProgressLogCardRow
+} from '../../../../components/cards/progress-log-card/progress-log-card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import {
@@ -25,6 +27,43 @@ import TablePagination from '../table-pagination/table-pagination.component'
 import ComparePhotos from './components/compare-photos/compare-photos.component'
 import { Styles } from './measurements.styles'
 
+const ROW_LABELS: any = {
+  date: 'Date',
+  reportedBy: 'Reported By',
+  weight: 'Weight',
+  skinfold: 'Skinfold',
+  bodyFat: 'Body Fat',
+  fatMass: 'Fat Mass',
+  leanMass: 'Lean Mass',
+  circumference: 'Circumference'
+}
+
+const VALUE_GETTER: any = {
+  date: (data: any) => <span>{data.date || '-'}</span>,
+  weight: (data: any) => (
+    <span>
+      {data.weight_lbs || '-'}/{data.weight_kgs || '-'} kg
+    </span>
+  ),
+  circumference: (data: any) => (
+    <span>
+      {data.measurements ? getTotal(data, 'circumference') || '-' : '-'}
+    </span>
+  ),
+  skinfold: (data: any) => (
+    <span>{data.measurements ? getTotal(data, 'skin_fold') || '-' : '-'}</span>
+  ),
+  bodyFat: (data: any) => (
+    <span>{data.body_fat ? `${data.body_fat}%` : '-'}</span>
+  ),
+  fatMass: (data: any) => (
+    <span>{data.fat_mass ? `${data.fat_mass} kg` : '-'}</span>
+  ),
+  leanMass: (data: any) => (
+    <span>{data.lean_mass ? `${data.lean_mass} kg` : '-'}</span>
+  )
+}
+
 export default function Measurements() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -43,6 +82,8 @@ export default function Measurements() {
   const logTo = isClient(auth.type)
     ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS)
     : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id })
+
+  const keys = getKeys(activeTab)
 
   const placeholders = isLoading ? (
     <LoadingPlaceholder spacing />
@@ -97,38 +138,20 @@ export default function Measurements() {
             <div className="measurements__table-container">
               <DataTable
                 className="measurements__table"
-                labels={getLabels(activeTab)}
-                keys={getKeys(activeTab)}
+                labels={keys.map((key) => ROW_LABELS[key])}
+                keys={keys}
                 data={measurements}
                 render={{
-                  date: (data) => <span>{data.date || '-'}</span>,
+                  ...VALUE_GETTER,
                   reportedBy: (data) => (
                     <span>
-                      {data.created_by === auth.id ? 'You' : 'Trainer'}
+                      {data.created_by === auth.id
+                        ? 'You'
+                        : isClient(auth.type)
+                        ? 'Trainer'
+                        : 'Client'}
                     </span>
-                  ),
-                  weight: (data) => (
-                    <span>
-                      {data.weight_lbs || '-'}/{data.weight_kgs || '-'} kg
-                    </span>
-                  ),
-                  circumference: (data) => (
-                    <span>
-                      {data.measurements
-                        ? getTotal(data, 'circumference') || '-'
-                        : '-'}
-                    </span>
-                  ),
-                  skinfold: (data) => (
-                    <span>
-                      {data.measurements
-                        ? getTotal(data, 'skin_fold') || '-'
-                        : '-'}
-                    </span>
-                  ),
-                  bodyFat: (data) => <span>{data.body_fat || '-'}</span>,
-                  fatMass: (data) => <span>{data.fat_mass || '-'}</span>,
-                  leanMass: (data) => <span>{data.lean_mass || '-'}</span>
+                  )
                 }}
               />
             </div>
@@ -147,19 +170,12 @@ export default function Measurements() {
             {measurements.map((row, index) => (
               <ProgressLogCard
                 key={index}
-                quality=""
-                weight={`${row.weight_lbs || '-'}/${row.weight_kgs || '-'} kg`}
-                circumference={
-                  row.measurements ? getTotal(row, 'circumference') || '-' : '-'
-                }
-                skinfold={
-                  row.measurements ? getTotal(row, 'skin_fold') || '-' : '-'
-                }
-                bodyFat={row.body_fat || '-'}
-                fatMass={row.fat_mass || '-'}
-                leanMass={row.lean_mass || '-'}
+                date={row.date}
                 loggedBy={row.created_by}
-                {...row}
+                quality=""
+                component={
+                  <ProgressLogCardRows activeTab={activeTab} data={row} />
+                }
               />
             ))}
 
@@ -177,6 +193,26 @@ export default function Measurements() {
 
       <ComparePhotos />
     </Styles>
+  )
+}
+
+interface ProgressLogCardRowsProps {
+  activeTab: string
+  data: any
+}
+
+function ProgressLogCardRows({ activeTab, data }: ProgressLogCardRowsProps) {
+  const keys = getKeys(activeTab).filter((key) => key !== 'reportedBy')
+  return (
+    <>
+      {keys.map((key, index) => (
+        <ProgressLogCardRow
+          key={index}
+          label={ROW_LABELS[key]}
+          value={VALUE_GETTER[key] ? VALUE_GETTER[key](data) : '-'}
+        />
+      ))}
+    </>
   )
 }
 
@@ -206,36 +242,6 @@ function getKeys(activeTab: string): string[] {
         'bodyFat',
         'fatMass',
         'leanMass'
-      ]
-  }
-}
-
-function getLabels(activeTab: string): string[] {
-  switch (activeTab) {
-    case 'check_in':
-      return ['Date', 'Reported By', 'Weight(lbs/kg)']
-    case 'skin_fold':
-      return [
-        'Date',
-        'Reported By',
-        'Weight(lbs/kg)',
-        'Skinfold',
-        'Body Fat%',
-        'Fat Mass(kg)',
-        'Lean Mass(kg)'
-      ]
-    case 'circumference':
-      return ['Date', 'Reported By', 'Weight(lbs/kg)', 'Circumference']
-    default:
-      return [
-        'Date',
-        'Reported By',
-        'Weight(lbs/kg)',
-        'Circumference',
-        'Skinfold',
-        'Body Fat%',
-        'Fat Mass(kg)',
-        'Lean Mass(kg)'
       ]
   }
 }

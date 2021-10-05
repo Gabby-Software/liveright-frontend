@@ -39,6 +39,7 @@ export const Styles = styled<any>(Card)`
       font-size: 1rem;
       font-weight: 400;
       color: ${getColorCarry('primaryDark_v2')};
+      margin-bottom: 0.5rem;
     }
 
     &__badge {

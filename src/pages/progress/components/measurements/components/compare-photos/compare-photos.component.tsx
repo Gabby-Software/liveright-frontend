@@ -2,8 +2,11 @@ import moment from 'moment'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 
-import { CalendarIcon, MenuIcon } from '../../../../../../assets/media/icons'
-import { ReactComponent as StepsIcon } from '../../../../../../assets/media/icons/steps.svg'
+import {
+  BackCamIcon,
+  FrontCamIcon,
+  SidesIcon
+} from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import Card from '../../../../../../components/cards/card/card.component'
 import PhotoCard from '../../../../../../components/cards/photo-card/photo-card.component'
@@ -68,19 +71,19 @@ export default function ComparePhotos() {
         onChange={setActiveTab}
         tabs={[
           {
-            icon: <MenuIcon />,
+            icon: <FrontCamIcon />,
             label: 'Front',
             key: 'front',
             renderContent: () => <></>
           },
           {
-            icon: <CalendarIcon />,
+            icon: <BackCamIcon />,
             label: 'Back',
             key: 'back',
             renderContent: () => <></>
           },
           {
-            icon: <StepsIcon />,
+            icon: <SidesIcon />,
             label: 'Side',
             key: 'side',
             renderContent: () => <></>
