@@ -2,6 +2,7 @@ import { Styles, Text } from './styles'
 
 interface PlaceholderProps {
   spacing?: boolean
+  text?: string
 }
 
 export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
@@ -12,10 +13,10 @@ export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
   )
 }
 
-export function EmptyPlaceholder({ spacing }: PlaceholderProps) {
+export function EmptyPlaceholder({ spacing, text }: PlaceholderProps) {
   return (
     <Styles $spacing={spacing}>
-      <Text>No data</Text>
+      <Text>{text || 'No data'}</Text>
     </Styles>
   )
 }

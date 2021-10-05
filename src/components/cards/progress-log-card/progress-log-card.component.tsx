@@ -1,5 +1,8 @@
+import { ReactNode } from 'react'
+
 import { useAuth } from '../../../hooks/auth.hook'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
+import { isClient } from '../../../utils/api/auth'
 import UserBadge from '../../user-badge/user-badge.component'
 import { Styles } from './progress-log-card.styles'
 
@@ -11,6 +14,7 @@ interface ProgressLogCardProps {
   value?: string
   showQuality?: boolean
   loggedBy?: number
+  component?: ReactNode
 }
 
 export default function ProgressLogCard({
@@ -20,10 +24,14 @@ export default function ProgressLogCard({
   napData,
   value,
   showQuality,
-  loggedBy
+  loggedBy,
+  component
 }: ProgressLogCardProps) {
   const auth = useAuth()
   const { t } = useTranslation()
+
+  const reportedByMe = loggedBy === auth.id
+
   return (
     <Styles $quality={quality}>
       <div className="progress-log-card__head">
@@ -36,8 +44,8 @@ export default function ProgressLogCard({
         )}
       </div>
 
-      {loggedBy === auth?.id && (
-        <div className="progress-log-card__reported">
+      <div className="progress-log-card__reported">
+        {reportedByMe && (
           <UserBadge
             size="sm"
             avatarOnly
@@ -45,9 +53,16 @@ export default function ProgressLogCard({
             firstName={auth?.first_name}
             lastName={auth?.last_name}
           />
-          <p className="progress-log-card__reported-text">Reported By You</p>
-        </div>
-      )}
+        )}
+        <p className="progress-log-card__reported-text">
+          Reported By{' '}
+          {loggedBy === auth.id
+            ? 'You'
+            : isClient(auth.type)
+            ? 'Trainer'
+            : 'Client'}
+        </p>
+      </div>
 
       {sleepData && (
         <div>
@@ -56,6 +71,22 @@ export default function ProgressLogCard({
         </div>
       )}
       {value && <p className="progress-log-card__value">{value}</p>}
+
+      {component}
     </Styles>
+  )
+}
+
+interface ProgressLogCardRowProps {
+  label: string
+  value: string
+}
+
+export function ProgressLogCardRow({ label, value }: ProgressLogCardRowProps) {
+  return (
+    <p className="progress-log-card__row">
+      <span className="progress-log-card__row-label">{label}</span>
+      <span className="progress-log-card__row-value">{value}</span>
+    </p>
   )
 }

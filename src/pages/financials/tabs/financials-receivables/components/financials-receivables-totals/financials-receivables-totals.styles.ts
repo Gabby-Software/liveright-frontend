@@ -8,7 +8,7 @@ export default styled.div`
   gap: 1rem;
   margin-bottom: 2.875rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     grid-template-columns: 1fr 1fr;
   }
 `

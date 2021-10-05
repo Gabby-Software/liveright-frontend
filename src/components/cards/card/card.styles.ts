@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { mediaQueries } from '../../../enums/screen-sizes.enum'
 
-export default styled.div`
+export const Styles = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -10,7 +10,7 @@ export default styled.div`
   background-color: #fff;
   padding: 1.5rem 1.75rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 1.5rem 1.25rem;
   }
 

@@ -14,6 +14,7 @@ export default function Button({
   disabled,
   htmlType,
   form,
+  linkClassName,
   ...props
 }: PropsWithChildren<ButtonProps>) {
   let content = (
@@ -33,7 +34,7 @@ export default function Button({
 
   if (to) {
     content = (
-      <Link to={to} {...LinkProps}>
+      <Link to={to} className={linkClassName} {...LinkProps}>
         {content}
       </Link>
     )

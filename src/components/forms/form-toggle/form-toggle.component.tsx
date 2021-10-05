@@ -4,12 +4,13 @@ import { classes } from '../../../pipes/classes.pipe'
 import Styles from './form-toggle.styles'
 
 type UIProps = {
-  label: string
+  label?: string
   value: boolean
   onUpdate: (val: boolean) => void
 }
+
 type Props = {
-  label: string
+  label?: string
   name: string
   onUpdate: (name: string, value: boolean) => void
 }

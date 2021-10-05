@@ -7,7 +7,7 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled.div`
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding-top: 1.5rem;
   }
 

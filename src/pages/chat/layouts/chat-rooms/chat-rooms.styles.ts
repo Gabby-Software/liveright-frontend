@@ -26,7 +26,7 @@ export default styled.div`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 0;
     background: none;
     border-radius: 0;

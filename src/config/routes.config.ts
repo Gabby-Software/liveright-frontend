@@ -87,8 +87,15 @@ export const routes: RouteType[] = [
     title: 'Trainer',
     url: Routes.TRAINER,
     Component: lazy(() => import('../pages/trainer/trainer.component')),
+    version: 2,
+    mobileLayout: false,
+    back: {
+      url: Routes.HOME,
+      alias: 'home'
+    },
+    footer: footerTypes.DEFAULT,
     header: {
-      title: 'My Trainer',
+      title: null,
       items: headers.default
     }
   },
@@ -200,20 +207,72 @@ export const routes: RouteType[] = [
     Component: lazy(
       () => import('../pages/client-profile/client-profile.component')
     ),
-    // header: {
-    //   title: ''
-    // },
     back: {
       url: Routes.CLIENTS,
       alias: 'clients'
     },
-    // version: 2,
     footer: footerTypes.TRAINER,
     version: 2,
     mobileLayout: false,
     header: {
       title: null,
       items: headers.default
+    }
+  },
+  {
+    title: 'Log Measurements',
+    url: Routes.PROGRESS_LOG_MEASUREMENTS,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/progress/components/measurements-log/measurements-log.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Log Measurements',
+    url: Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/progress/components/measurements-log/measurements-log.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Log Goals',
+    url: Routes.PROGRESS_LOG_CLIENT_GOALS,
+    Component: lazy(
+      () =>
+        import('../pages/progress/components/goals-log/goals-log.components')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
+    }
+  },
+  {
+    title: 'Log Goals',
+    url: Routes.PROGRESS_LOG_GOALS,
+    Component: lazy(
+      () =>
+        import('../pages/progress/components/goals-log/goals-log.components')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null
     }
   },
   {

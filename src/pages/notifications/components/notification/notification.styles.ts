@@ -10,7 +10,7 @@ export default styled(Card)`
   margin-bottom: 1rem;
   padding: 1rem;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     align-items: flex-start;
   }
 
@@ -46,7 +46,7 @@ export default styled(Card)`
       display: flex;
       justify-content: space-between;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         flex-direction: column;
       }
     }
@@ -60,7 +60,7 @@ export default styled(Card)`
       font-weight: 400;
       color: ${getColorCarry('secondary2_v2')};
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         margin: 0.25rem 0;
       }
     }
