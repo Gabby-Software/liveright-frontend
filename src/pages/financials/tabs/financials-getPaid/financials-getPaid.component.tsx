@@ -8,6 +8,7 @@ import Styles from './financials-getPaid.styles'
 
 const dummyData = [
   {
+    id: 1,
     user: {
       firstName: 'John',
       lastName: 'Doe',
@@ -22,6 +23,7 @@ const dummyData = [
     datePayout: new Date().toISOString()
   },
   {
+    id: 2,
     user: {
       firstName: 'John',
       lastName: 'Doe',
@@ -45,7 +47,7 @@ const GetPaid = () => {
         data={dummyData}
         meta={{ current_page: 1, per_page: 10, total: 500 }}
         onPage={() => {}}
-        renderOptions={(_) => <Link to="#">View Invoice</Link>}
+        renderOptions={(data) => <Link to={`#${data.id}`}>View Invoice</Link>}
         withFilter
       />
       <StripeConnect />

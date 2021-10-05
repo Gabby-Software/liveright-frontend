@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router'
 
 import Tabs from '../../../components/tabs/tabs.component'
-import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { content } from '../settings.context'
 import { ParamsType } from '../settings.types'
 import Styles from './settings-desktop.style'
 
 const DesktopSettings = () => {
   const params = useParams<ParamsType>()
-  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<string>(
     params.tab || 'notifications'
   )

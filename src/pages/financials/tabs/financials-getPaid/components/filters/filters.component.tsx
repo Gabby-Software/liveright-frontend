@@ -21,7 +21,7 @@ const GetPaidFilters = () => {
       value={type}
       placeholder={t('sessions:type')}
       options={sessionTypeOptions}
-      onChange={(e, option) => setType(e)}
+      onChange={(e) => setType(e)}
       className="invoice-filters__status"
     />
   )
@@ -30,7 +30,7 @@ const GetPaidFilters = () => {
     <ClientSelect
       id="sessions-client"
       placeholder={t('sessions:filter-by-client')}
-      onChange={(e, option) => {
+      onChange={(e) => {
         console.log(e)
       }}
       value={'Dafy Duck'}

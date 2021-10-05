@@ -55,6 +55,8 @@ export default styled(Card)`
     }
 
     &__connect_button {
+      border: none;
+      box-shadow: none;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
