@@ -9,7 +9,6 @@ import {
 } from '../../../../components/chart-container/chart-container.component'
 import LineChart from '../../../../components/charts/line-chart/line-chart.component'
 import { TooltipContainer } from '../../../../components/charts/tooltip'
-import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import { HealthOnlyInclude } from '../../../../hooks/api/progress/useHealth'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'

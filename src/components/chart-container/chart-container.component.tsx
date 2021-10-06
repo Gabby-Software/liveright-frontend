@@ -25,6 +25,7 @@ interface ChartContainerProps {
   DialogProps: LandscapeDialogProps
   loading?: boolean
   noData?: boolean
+  legendComponent?: ReactNode
 }
 
 export default function ChartContainer({
@@ -34,7 +35,8 @@ export default function ChartContainer({
   title,
   titleComponent,
   loading,
-  noData
+  noData,
+  legendComponent
 }: PropsWithChildren<ChartContainerProps>) {
   const isMobile = useIsMobile()
   const isLandscape = useMediaQuery({ query: mediaQueries.LANDSCAPE })
@@ -47,6 +49,8 @@ export default function ChartContainer({
       <div className="chart__title-container">
         <h4 className="chart__title">{title}</h4>
 
+        {isMobile && legendComponent}
+
         {titleComponent}
 
         {isMobile && <CrossIcon onClick={DialogProps.onClose} />}
@@ -57,7 +61,11 @@ export default function ChartContainer({
       ) : noData ? (
         <EmptyPlaceholder spacing />
       ) : (
-        <div className="chart__chart-container">{children}</div>
+        <div className="chart__chart-container">
+          {children}
+
+          {!isMobile && legendComponent}
+        </div>
       )}
     </Styles>
   )

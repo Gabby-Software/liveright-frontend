@@ -12,6 +12,15 @@
     "pt-sessions-revenue": "PT Sessions Revenue",
     "revenue": "Revenue"
   },
+  "payout": {
+    "title": "Payout History",
+    "username": "User Name",
+    "eventType": "Event Type",
+    "amount": "Amount",
+    "dateRecieved": "Date Recieved",
+    "datePayout": "Date Payout",
+    "options": "Options"
+  },
   "edit-goals": {
     "title": "Define Your Target",
     "suggestions-title": "CoachRight Suggestions",
