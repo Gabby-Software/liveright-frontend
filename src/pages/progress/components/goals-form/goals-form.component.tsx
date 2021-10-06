@@ -119,7 +119,7 @@ export default function GoalsForm({
         render={({ field: { value, name } }) => (
           <ProgressEditCard
             icon={<WeightIcon />}
-            title="Fit Percentage %"
+            title="Fat Percentage %"
             InputProps={{
               id: 'log-health-fat',
               label: 'Target Fat',

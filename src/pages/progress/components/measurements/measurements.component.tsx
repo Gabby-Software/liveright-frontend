@@ -38,9 +38,9 @@ const ROW_LABELS: any = {
   reportedBy: 'Reported By',
   weight: 'Weight',
   skinfold: 'Skinfold',
-  bodyFat: 'Body Fat',
-  fatMass: 'Fat Mass',
-  leanMass: 'Lean Mass',
+  bodyFat: 'Body Fat (%)',
+  fatMass: 'Fat Mass (kg)',
+  leanMass: 'Lean Mass (kg)',
   circumference: 'Circumference'
 }
 

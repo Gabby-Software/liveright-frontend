@@ -17,7 +17,7 @@ export default function ProgressMobile() {
 
   return (
     <MobilePage
-      title="Client Progress"
+      title={isClient(type) ? 'Progress&Metrics' : 'Client Progress'}
       headerTopComponent={
         !isClient(type) && (
           <HeaderLink to={Routes.PROGRESS_CLIENTS}>

@@ -82,10 +82,22 @@ function WeightLogCard() {
       icon={<Weight2Icon />}
       title="Weight"
       init={
-        initMeasurement?.weight_kgs ? `${initMeasurement?.weight_kgs} kg` : '-'
+        initMeasurement?.weight_kgs ? (
+          <>
+            {initMeasurement.weight_kgs} kg <span>{initMeasurement.date}</span>
+          </>
+        ) : (
+          '-'
+        )
       }
       prev={
-        prevMeasurement?.weight_kgs ? `${prevMeasurement?.weight_kgs} kg` : '-'
+        prevMeasurement?.weight_kgs ? (
+          <>
+            {prevMeasurement?.weight_kgs} kg <span>{prevMeasurement.date}</span>
+          </>
+        ) : (
+          '-'
+        )
       }
       inputComponent={
         <div className="log-measurements__fields">
@@ -199,7 +211,7 @@ export function CircumferenceForm() {
               prev={prevMeasurement?.measurements?.[field.key] || '-'}
               InputProps={{
                 id: `log-health-${field.key}`,
-                label: 'Measurement (mm)',
+                label: 'Measurement (cm)',
                 placeholder: '80',
                 format: formatter().number(),
                 onChange: (e) => setValue(name, Number(e.target.value)),
@@ -251,7 +263,9 @@ function TotalCard() {
         }
         inputComponent={
           <div>
-            <p className="log-total__label">Measurement (mm)</p>
+            <p className="log-total__label">
+              Measurement ({skinfold ? 'mm' : 'cm'})
+            </p>
             <p className="log-total__value">{totalValue}</p>
           </div>
         }

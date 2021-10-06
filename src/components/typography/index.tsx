@@ -13,5 +13,6 @@ export const Subtitle = styled.h4<SubtitleProps>`
   color: ${getColorCarry('primaryDark2_v2')};
 
   @media ${mediaQueries.TABLET} {
+    font-size: 1.125rem;
   }
 `
