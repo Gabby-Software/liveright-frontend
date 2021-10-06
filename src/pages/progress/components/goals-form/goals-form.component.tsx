@@ -11,9 +11,25 @@ import { Styles } from './goals-form.styles'
 
 interface GoalsFormProps {
   className?: string
+  names?: {
+    from: string
+    to: string
+    lean_mass: string
+    body_weight: string
+    body_fat: string
+  }
 }
 
-export default function GoalsForm({ className }: GoalsFormProps) {
+export default function GoalsForm({
+  className,
+  names = {
+    from: 'from',
+    to: 'to',
+    lean_mass: 'lean_mass',
+    body_weight: 'body_weight',
+    body_fat: 'body_fat'
+  }
+}: GoalsFormProps) {
   const params = useParams<any>()
   const { setValue, formState } = useFormContext()
   const { errors } = formState
@@ -38,10 +54,10 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               label="Goal Starts On"
               value={value}
               onChange={(e, date) => setValue(name, date)}
-              error={errors.from?.message}
+              error={errors[names.from]?.message}
             />
           )}
-          name="from"
+          name={names.from}
         />
         <Controller
           render={({ field: { value, name } }) => (
@@ -50,10 +66,10 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               label="Goal Ends By"
               value={value}
               onChange={(e, date) => setValue(name, date)}
-              error={errors.to?.message}
+              error={errors[names.to]?.message}
             />
           )}
-          name="to"
+          name={names.to}
         />
       </LogDateCard>
 
@@ -69,13 +85,13 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
               format: formatter().number(),
-              error: errors.lean_mass?.message
+              error: errors[names.lean_mass]?.message
             }}
             init={leanMass ? `${leanMass.goal} kg` : '-'}
             average={leanMass ? `${leanMass.goal} kg` : '-'}
           />
         )}
-        name="lean_mass"
+        name={names.lean_mass}
       />
 
       <Controller
@@ -90,20 +106,20 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
               format: formatter().number(),
-              error: errors.body_weight?.message
+              error: errors[names.body_weight]?.message
             }}
             init={bodyWeight ? `${bodyWeight.goal} kg` : '-'}
             average={bodyWeight ? `${bodyWeight.goal} kg` : '-'}
           />
         )}
-        name="body_weight"
+        name={names.body_weight}
       />
 
       <Controller
         render={({ field: { value, name } }) => (
           <ProgressEditCard
             icon={<WeightIcon />}
-            title="Fit Percentage %"
+            title="Fat Percentage %"
             InputProps={{
               id: 'log-health-fat',
               label: 'Target Fat',
@@ -111,13 +127,13 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
               format: formatter().number(),
-              error: errors.body_fat?.message
+              error: errors[names.body_fat]?.message
             }}
             init={bodyFat ? `${bodyFat.goal}%` : '-'}
             average={bodyFat ? `${bodyFat.goal}%` : '-'}
           />
         )}
-        name="body_fat"
+        name={names.body_fat}
       />
     </Styles>
   )

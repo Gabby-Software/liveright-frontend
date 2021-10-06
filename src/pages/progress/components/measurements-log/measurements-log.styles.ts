@@ -41,6 +41,10 @@ export const Styles = styled.div<any>`
       &:last-child {
         margin-bottom: 0;
       }
+
+      @media ${mediaQueries.TABLET} {
+        margin-bottom: 0;
+      }
     }
 
     &__toggle-row {

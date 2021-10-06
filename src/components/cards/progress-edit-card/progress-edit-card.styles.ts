@@ -107,9 +107,19 @@ export const Styles = styled(Card)<any>`
         font-size: 0.875rem;
         font-weight: 500;
 
-        @media ${mediaQueries.TABLET} {
-          font-size: 1.125rem;
+        & span {
+          font-size: 0.75rem;
           font-weight: 400;
+          color: ${getColorCarry('secondary2_v2')};
+        }
+
+        @media ${mediaQueries.TABLET} {
+          font-size: 1rem;
+          font-weight: 400;
+
+          & span {
+            font-size: 0.625rem;
+          }
         }
       }
     }

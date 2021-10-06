@@ -30,11 +30,11 @@ export default function LogDropdown({ children }: PropsWithChildren<any>) {
       trigger={['click']}
       overlay={
         <DropdownMenu>
-          <Link to={logTo}>
-            <DropdownMenuItem>Health</DropdownMenuItem>
-          </Link>
           <Link to={measurementsTo}>
             <DropdownMenuItem>Measurements</DropdownMenuItem>
+          </Link>
+          <Link to={logTo}>
+            <DropdownMenuItem>Health</DropdownMenuItem>
           </Link>
           <DropdownMenuItem>Photos</DropdownMenuItem>
         </DropdownMenu>

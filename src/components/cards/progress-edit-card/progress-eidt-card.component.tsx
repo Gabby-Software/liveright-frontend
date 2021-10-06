@@ -10,9 +10,9 @@ export interface ProgressEditCardProps {
   inputComponent?: ReactNode
   infoVariant?: 'secondary'
   className?: string
-  prev?: string
-  average?: string
-  init?: string
+  prev?: string | ReactNode
+  average?: string | ReactNode
+  init?: string | ReactNode
 }
 
 export default function ProgressEditCard({
