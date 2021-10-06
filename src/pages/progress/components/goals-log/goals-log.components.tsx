@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import moment from 'moment'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -14,7 +15,11 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
-import { isDateOverlapBetween, isOverlapBetween } from '../../../../utils/date'
+import {
+  DATE_FORMAT,
+  DATE_PRETTY_FORMAT,
+  isDateOverlapBetween
+} from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
 import ClientInfoMobile from '../client-info-mobile/client-info-mobile.component'
@@ -41,7 +46,11 @@ export default function GoalsLog() {
   const history = useHistory()
   const isMobile = useIsMobile()
 
-  const { onAdd, goals } = useGoals()
+  const { onAdd, goals } = useGoals({
+    filter: {
+      account_id: params.id
+    }
+  })
 
   const leanMass = goals.find((goal) => goal.type === 'lean_mass')
 
@@ -69,6 +78,13 @@ export default function GoalsLog() {
     onAdd(values, onSuccess)
   }
 
+  const curFrom = currentFrom
+    ? moment(currentFrom, DATE_FORMAT).format(DATE_PRETTY_FORMAT)
+    : ''
+  const curTo = currentTo
+    ? moment(currentTo, DATE_FORMAT).format(DATE_PRETTY_FORMAT)
+    : ''
+
   const content = (
     <Styles $client={isClient(type)}>
       {!isMobile && (
@@ -92,7 +108,9 @@ export default function GoalsLog() {
           </Button>
 
           {isOverlap && (
-            <Alert message="Your old targets set from 07/05/2021 to 07/07/2021 will be overwritten after you save your new goals" />
+            <Alert
+              message={`Your old targets set from ${curFrom} to ${curTo} will be overwritten after you save your new goals`}
+            />
           )}
         </div>
       </LogForm>
