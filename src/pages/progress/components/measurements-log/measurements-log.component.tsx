@@ -39,13 +39,15 @@ const validationSchema = yup.object().shape({
   date: yup.string().required()
 })
 
+const defaultValues = {
+  type: 'check_in',
+  date: '',
+  notes: '',
+  images: {}
+}
+
 const formConfig: any = {
-  defaultValues: {
-    type: 'check_in',
-    date: '',
-    notes: '',
-    images: {}
-  },
+  defaultValues,
   resolver: yupResolver(validationSchema)
 }
 
@@ -114,6 +116,7 @@ export default function MeasurementsLog() {
       }
     } else {
       methods.reset({
+        ...defaultValues,
         date: params.date
       })
     }

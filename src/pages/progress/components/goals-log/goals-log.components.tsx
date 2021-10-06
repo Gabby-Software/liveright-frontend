@@ -25,20 +25,8 @@ import LogClient from '../../../progress-log/log-health-data/components/log-clie
 import ClientInfoMobile from '../client-info-mobile/client-info-mobile.component'
 import GoalsForm from '../goals-form/goals-form.component'
 import LogForm from '../log-form/log-form.component'
+import { GOALS_FORM_CONFIG } from './goals-log.config'
 import { Styles } from './goals-log.style'
-
-const validationSchema = yup.object().shape({
-  from: yup.string().required(),
-  to: yup.string().required()
-})
-
-const formConfig: any = {
-  defaultValues: {
-    from: '',
-    to: ''
-  },
-  resolver: yupResolver(validationSchema)
-}
 
 export default function GoalsLog() {
   const { type } = useAuth()
@@ -57,7 +45,7 @@ export default function GoalsLog() {
   const currentFrom = leanMass?.from
   const currentTo = leanMass?.to
 
-  const methods = useForm(formConfig)
+  const methods = useForm(GOALS_FORM_CONFIG)
 
   const [from, to] = useWatch({
     control: methods.control,

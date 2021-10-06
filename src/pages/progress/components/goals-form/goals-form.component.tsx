@@ -68,7 +68,8 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               placeholder: '80',
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
-              format: formatter().number()
+              format: formatter().number(),
+              error: errors.lean_mass?.message
             }}
             init={leanMass ? `${leanMass.goal} kg` : '-'}
             average={leanMass ? `${leanMass.goal} kg` : '-'}
@@ -88,7 +89,8 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               placeholder: '80',
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
-              format: formatter().number()
+              format: formatter().number(),
+              error: errors.body_weight?.message
             }}
             init={bodyWeight ? `${bodyWeight.goal} kg` : '-'}
             average={bodyWeight ? `${bodyWeight.goal} kg` : '-'}
@@ -108,7 +110,8 @@ export default function GoalsForm({ className }: GoalsFormProps) {
               placeholder: '80',
               value: value,
               onChange: (e) => setValue(name, Number(e.target.value)),
-              format: formatter().number()
+              format: formatter().number(),
+              error: errors.body_fat?.message
             }}
             init={bodyFat ? `${bodyFat.goal}%` : '-'}
             average={bodyFat ? `${bodyFat.goal}%` : '-'}

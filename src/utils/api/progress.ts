@@ -94,7 +94,7 @@ export function dataToFormValues(data: any) {
 
   formValues['images'] = omitEmpty(data['images'])
 
-  return formValues
+  return omitEmpty(formValues)
 }
 
 export function getBodyFat(values: any): number {
