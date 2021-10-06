@@ -8,6 +8,7 @@
   "onboard-success": "Onboard successfully!",
   "client-add-success": "Client added successfully",
   "client-update-success": "Client updated succesfully",
+  "goal-update-success": "Goal updated succesfully",
   "switch-account-success": "Account switched successfully!",
   "update-email-success": "New verification email was sent to new email address"
 }

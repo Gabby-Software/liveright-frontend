@@ -55,3 +55,4 @@ export const EP_PAYMENT_CREATE_ACCOUNT =
   ALLRIGHT_BASE + '/stripe/connect/onboarding'
 export const EP_PAYMENT_CREATE_LINK =
   ALLRIGHT_BASE + '/stripe/connect/account-link'
+export const EP_UPDATE_GOALS_TARGET = LIVERIGHT_BASE + '/goal-targets'

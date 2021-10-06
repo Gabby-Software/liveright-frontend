@@ -50,5 +50,6 @@ export const Routes = {
   FINANCIALS_PAYABLES: '/financials/payables',
   FINANCIALS_GOALS: '/financials/goals',
   FINANCIALS_GET_PAID: '/financials/get-paid',
+  EDIT_GOALS: '/edit-goals',
   PAYMENT_METHODS: '/payment-methods'
 }

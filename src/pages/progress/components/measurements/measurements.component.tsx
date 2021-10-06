@@ -29,6 +29,7 @@ import { getTotal } from '../../../../utils/api/progress'
 import { getRoute } from '../../../../utils/routes'
 import Filters from '../filters/filters.component'
 import TablePagination from '../table-pagination/table-pagination.component'
+import Chart from './components/chart/chart.component'
 import ComparePhotos from './components/compare-photos/compare-photos.component'
 import { Styles } from './measurements.styles'
 
@@ -74,6 +75,7 @@ export default function Measurements() {
   const params = useParams<any>()
   const auth = useAuth()
   const [activeTab, setActiveTab] = useState('summary')
+  const [isGraph, setGraph] = useState(false)
 
   const { measurements, isLoading, meta, filters, onFilters, onPage } =
     useMeasurements({
@@ -99,46 +101,50 @@ export default function Measurements() {
   return (
     <Styles>
       <Filters
-        onView={() => {}}
-        isGraph={false}
+        onView={() => setGraph(!isGraph)}
+        isGraph={isGraph}
         filters={filters}
         onFilters={onFilters}
       />
 
-      <Tabs
-        className="measurements__tabs"
-        activeKey={activeTab}
-        onChange={setActiveTab}
-        tabs={[
-          {
-            icon: <MenuIcon />,
-            label: 'Summary',
-            key: 'summary',
-            renderContent: () => <></>
-          },
-          {
-            icon: <CalendarIcon />,
-            label: 'Check-In',
-            key: 'check_in',
-            renderContent: () => <></>
-          },
-          {
-            icon: <StepsIcon />,
-            label: 'Circumference',
-            key: 'circumference',
-            renderContent: () => <></>
-          },
-          {
-            icon: <BloodIcon />,
-            label: 'Skinfold',
-            key: 'skin_fold',
-            renderContent: () => <></>
-          }
-        ]}
-      />
+      {!isGraph && (
+        <Tabs
+          className="measurements__tabs"
+          activeKey={activeTab}
+          onChange={setActiveTab}
+          tabs={[
+            {
+              icon: <MenuIcon />,
+              label: 'Summary',
+              key: 'summary',
+              renderContent: () => <></>
+            },
+            {
+              icon: <CalendarIcon />,
+              label: 'Check-In',
+              key: 'check_in',
+              renderContent: () => <></>
+            },
+            {
+              icon: <StepsIcon />,
+              label: 'Circumference',
+              key: 'circumference',
+              renderContent: () => <></>
+            },
+            {
+              icon: <BloodIcon />,
+              label: 'Skinfold',
+              key: 'skin_fold',
+              renderContent: () => <></>
+            }
+          ]}
+        />
+      )}
 
       <div className="measurements__content">
-        {!isMobile ? (
+        {isGraph ? (
+          <Chart onClose={() => setGraph(false)} data={measurements} />
+        ) : !isMobile ? (
           <Card className="measurements__table-card">
             <div className="measurements__table-container">
               <DataTable
