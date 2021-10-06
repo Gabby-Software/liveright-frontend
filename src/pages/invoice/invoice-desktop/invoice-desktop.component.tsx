@@ -20,6 +20,7 @@ import { date } from '../../../pipes/date.pipe'
 import { payments } from '../../../pipes/payments.pipe'
 import IconActions from '../components/icon-actions/icon-actions.component'
 import Styles from './invoice-desktop.styles'
+import { paymentMethods } from '../../../enums/payment-method.enum'
 
 const labels = [
   'invoices:item',
@@ -111,6 +112,7 @@ export default function InvoiceDesktop() {
 
           {invoice.status === invoiceStatuses.PAID ? null : type ===
             userTypes.CLIENT ? (
+            invoice.payment_method === paymentMethods.CREDIT_CARD &&
             <a href={payments(`${Routes.INVOICES}/${invoice.id}/pay`)}>
               <Button className="invoice__send-btn">{t('invoices:pay')}</Button>
             </a>
