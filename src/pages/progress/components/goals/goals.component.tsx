@@ -1,13 +1,19 @@
+import moment from 'moment'
 import { useParams } from 'react-router'
 
 import { WeightIcon } from '../../../../assets/media/icons'
 import Alert from '../../../../components/alerts/alert/alert.component'
 import Button from '../../../../components/buttons/button/button.component'
 import ProgressCard from '../../../../components/cards/progress-card/progress-card.component'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import { Routes } from '../../../../enums/routes.enum'
 import useGoals from '../../../../hooks/api/progress/useGoals'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { isClient } from '../../../../utils/api/auth'
+import { DATE_FORMAT, DATE_PRETTY_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import { Styles } from './goals.styles'
 
@@ -17,7 +23,16 @@ const ALERT =
 export default function Goals() {
   const params = useParams<any>()
   const auth = useAuth()
-  useGoals()
+
+  const { isLoading, goals } = useGoals({
+    filter: {
+      account_id: params.id
+    }
+  })
+
+  const leanMass = goals.find((goal) => goal.type === 'lean_mass')
+  const bodyWeight = goals.find((goal) => goal.type === 'body_weight')
+  const bodyFat = goals.find((goal) => goal.type === 'body_fat')
 
   const editTo = isClient(auth.type)
     ? Routes.PROGRESS_LOG_CLIENT_GOALS
@@ -42,26 +57,46 @@ export default function Goals() {
         </Button>
       </div>
 
-      <div className="goals__cards">
-        <ProgressCard
-          icon={<WeightIcon />}
-          title="Lean Mass(kg)"
-          value="10 kg"
-          subtitle="Nov 10th, 2020"
-        />
-        <ProgressCard
-          icon={<WeightIcon />}
-          title="Body Weight(kg)"
-          value="80 kg"
-          subtitle="Nov 10th, 2020"
-        />
-        <ProgressCard
-          icon={<WeightIcon />}
-          title="Fat %"
-          value="2 %"
-          subtitle="Nov 10th, 2020"
-        />
-      </div>
+      {isLoading ? (
+        <LoadingPlaceholder />
+      ) : !goals.length ? (
+        <EmptyPlaceholder />
+      ) : (
+        <div className="goals__cards">
+          <ProgressCard
+            icon={<WeightIcon />}
+            title="Lean Mass(kg)"
+            value={leanMass ? `${leanMass.goal} kg` : '-'}
+            subtitle={
+              leanMass
+                ? moment(leanMass.to, DATE_FORMAT).format(DATE_PRETTY_FORMAT)
+                : '-'
+            }
+          />
+          <ProgressCard
+            icon={<WeightIcon />}
+            title="Body Weight(kg)"
+            value={bodyWeight ? `${bodyWeight.goal} kg` : '-'}
+            subtitle={
+              bodyWeight
+                ? `${moment(bodyWeight.to, DATE_FORMAT).format(
+                    DATE_PRETTY_FORMAT
+                  )} kg`
+                : '-'
+            }
+          />
+          <ProgressCard
+            icon={<WeightIcon />}
+            title="Fat %"
+            value={bodyFat ? `${bodyFat.goal}%` : '-'}
+            subtitle={
+              bodyFat
+                ? moment(bodyFat.to, DATE_FORMAT).format(DATE_PRETTY_FORMAT)
+                : '-'
+            }
+          />
+        </div>
+      )}
     </Styles>
   )
 }
