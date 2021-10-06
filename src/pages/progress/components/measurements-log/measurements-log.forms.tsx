@@ -1,7 +1,26 @@
 import { createContext, useContext, useEffect } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
-import { WeightIcon } from '../../../../assets/media/icons'
+import {
+  AbdominalIcon,
+  Biceps2Icon,
+  BicepsIcon,
+  CalfIcon,
+  CheekIcon,
+  ChinIcon,
+  HamstringIcon,
+  KneeIcon,
+  LibraryIcon,
+  LowerBackIcon,
+  MenuIcon,
+  MidaxillaryIcon,
+  PecIcon,
+  QuadIcon,
+  SuprailiacIcon,
+  TricepsIcon,
+  Weight2Icon,
+  WeightIcon
+} from '../../../../assets/media/icons'
 import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
 import formatter from '../../../../managers/formatter.manager'
@@ -15,30 +34,30 @@ import { kgToLb, lbToKg } from '../../../../utils/body'
 import { TotalStyles } from './measurements-log.styles'
 
 const FIELDS = [
-  { key: 'chin', label: 'Chin' },
-  { key: 'cheek', label: 'Cheek' },
-  { key: 'pec', label: 'Pec' },
-  { key: 'biceps', label: 'Biceps' },
-  { key: 'midaxillary', label: 'Midaxillary' },
-  { key: 'suprailiac', label: 'Suprailiac ' },
-  { key: 'abdominal', label: 'Abdominal ' },
-  { key: 'triceps', label: 'Triceps ' },
-  { key: 'subscapular', label: 'Subscapular' },
-  { key: 'lower_back', label: 'Lower Back' },
-  { key: 'knee', label: 'Knee' },
-  { key: 'calf', label: 'Calf' },
-  { key: 'quad', label: 'Quad' },
-  { key: 'hamstring', label: 'Hamstring' }
+  { key: 'chin', label: 'Chin', icon: ChinIcon },
+  { key: 'cheek', label: 'Cheek', icon: CheekIcon },
+  { key: 'pec', label: 'Pec', icon: PecIcon },
+  { key: 'biceps', label: 'Biceps', icon: Biceps2Icon },
+  { key: 'midaxillary', label: 'Midaxillary', icon: MidaxillaryIcon },
+  { key: 'suprailiac', label: 'Suprailiac', icon: SuprailiacIcon },
+  { key: 'abdominal', label: 'Abdominal', icon: AbdominalIcon },
+  { key: 'triceps', label: 'Triceps', icon: TricepsIcon },
+  { key: 'subscapular', label: 'Subscapular', icon: SuprailiacIcon },
+  { key: 'lower_back', label: 'Lower Back', icon: LowerBackIcon },
+  { key: 'knee', label: 'Knee', icon: KneeIcon },
+  { key: 'calf', label: 'Calf', icon: CalfIcon },
+  { key: 'quad', label: 'Quad', icon: QuadIcon },
+  { key: 'hamstring', label: 'Hamstring', icon: HamstringIcon }
 ]
 
 const CIRCUMFERENCE_FIELDS = [
-  { key: 'neck', label: 'Neck' },
-  { key: 'chest', label: 'Chest' },
-  { key: 'shoulders', label: 'Shoulders' },
-  { key: 'upper_arm', label: 'Upper Arm' },
-  { key: 'waist', label: 'Waist' },
-  { key: 'hips', label: 'Hips' },
-  { key: 'upper_thighs', label: 'Upper Thighs' }
+  { key: 'neck', label: 'Neck', icon: ChinIcon },
+  { key: 'chest', label: 'Chest', icon: AbdominalIcon },
+  { key: 'shoulders', label: 'Shoulders', icon: AbdominalIcon },
+  { key: 'upper_arm', label: 'Upper Arm', icon: Biceps2Icon },
+  { key: 'waist', label: 'Waist', icon: Biceps2Icon },
+  { key: 'hips', label: 'Hips', icon: Biceps2Icon },
+  { key: 'upper_thighs', label: 'Upper Thighs', icon: Biceps2Icon }
 ]
 
 interface MeasurementsLogContextProps {
@@ -60,7 +79,7 @@ function WeightLogCard() {
   return (
     <ProgressEditCard
       infoVariant="secondary"
-      icon={<WeightIcon />}
+      icon={<Weight2Icon />}
       title="Weight"
       init={
         initMeasurement?.weight_kgs ? `${initMeasurement?.weight_kgs} kg` : '-'
@@ -135,7 +154,7 @@ export function SkinfoldForm() {
           key={field.key}
           render={({ field: { name, value } }) => (
             <ProgressEditCard
-              icon={<WeightIcon />}
+              icon={<field.icon />}
               title={field.label}
               init={initMeasurement?.measurements?.[field.key] || '-'}
               prev={prevMeasurement?.measurements?.[field.key] || '-'}
@@ -172,7 +191,7 @@ export function CircumferenceForm() {
           key={field.key}
           render={({ field: { name, value } }) => (
             <ProgressEditCard
-              icon={<WeightIcon />}
+              icon={<field.icon />}
               title={field.label}
               init={initMeasurement?.measurements?.[field.key] || '-'}
               prev={prevMeasurement?.measurements?.[field.key] || '-'}
@@ -219,7 +238,7 @@ function TotalCard() {
   return (
     <TotalStyles>
       <ProgressEditCard
-        icon={<WeightIcon />}
+        icon={<LibraryIcon />}
         title="Total"
         className="log-total__row"
         init={
@@ -238,7 +257,7 @@ function TotalCard() {
       {skinfold && (
         <>
           <ProgressEditCard
-            icon={<WeightIcon />}
+            icon={<Biceps2Icon />}
             title="Body Fat %"
             className="log-total__row"
             init={
@@ -255,7 +274,7 @@ function TotalCard() {
             }
           />
           <ProgressEditCard
-            icon={<WeightIcon />}
+            icon={<AbdominalIcon />}
             title="Fat Mass(kg)"
             className="log-total__row"
             init={
@@ -276,7 +295,7 @@ function TotalCard() {
             }
           />
           <ProgressEditCard
-            icon={<WeightIcon />}
+            icon={<AbdominalIcon />}
             title="Lean Mass(kg)"
             className="log-total__row"
             init={

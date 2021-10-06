@@ -43,7 +43,14 @@ const defaultValues = {
   type: 'check_in',
   date: '',
   notes: '',
-  images: {}
+  images: {},
+  goals: {
+    from: '',
+    to: '',
+    lean_mass: null,
+    body_fat: null,
+    body_weight: null
+  }
 }
 
 const formConfig: any = {
@@ -233,7 +240,18 @@ export default function MeasurementsLog() {
               </span>
             </div>
 
-            {isGoals && <GoalsForm className="log-measurements__goals-form" />}
+            {isGoals && (
+              <GoalsForm
+                className="log-measurements__goals-form"
+                names={{
+                  from: 'goals.from',
+                  to: 'goals.to',
+                  lean_mass: 'goals.lean_mass',
+                  body_fat: 'goals.body_fat',
+                  body_weight: 'goals.body_weight'
+                }}
+              />
+            )}
           </div>
 
           <div>

@@ -8,12 +8,16 @@ import { EP_MEASUREMENTS } from '../../../enums/api.enum'
 import { Routes } from '../../../enums/routes.enum'
 import { handleErrorMessage } from '../../../managers/api.manager'
 import {
+  addGoals,
   addMeasurements,
   getMeasurements
 } from '../../../services/api/progress'
 import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { isClient } from '../../../utils/api/auth'
-import { formatMeasurementsValues } from '../../../utils/api/progress'
+import {
+  formatGoalsValues,
+  formatMeasurementsValues
+} from '../../../utils/api/progress'
 import { stringifyURL } from '../../../utils/query'
 import { getRoute } from '../../../utils/routes'
 import { useAuth } from '../../auth.hook'
@@ -96,6 +100,18 @@ export default function useMeasurements(
     try {
       const formattedValues = await formatMeasurementsValues(values, params.id)
       await addMeasurements(formattedValues, id)
+
+      const goals = values.goals
+      if (
+        goals.from &&
+        goals.to &&
+        goals.body_weight &&
+        goals.body_fat &&
+        goals.lean_mass
+      ) {
+        const formattedValues = formatGoalsValues(goals, params.id)
+        await addGoals(formattedValues)
+      }
 
       toast.show({
         type: 'success',
