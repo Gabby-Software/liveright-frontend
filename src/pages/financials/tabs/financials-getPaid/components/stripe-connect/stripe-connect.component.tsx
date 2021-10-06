@@ -27,7 +27,7 @@ const StripeConnect = () => {
 
   console.log(account)
 
-  const content = isActive ? (
+  const content = !isActive ? (
     <Styles>
       <h3>Connect Stripe Account</h3>
       <p>
