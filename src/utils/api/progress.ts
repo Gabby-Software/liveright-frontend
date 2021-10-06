@@ -158,3 +158,39 @@ export function getTotal(values: any, type: string): number {
 
   return Number(val.toFixed(2))
 }
+
+export function formatGoalsValues(values: any, accountId?: null) {
+  const data: any = {}
+
+  if (accountId) {
+    data['account_id'] = Number(accountId)
+  }
+
+  data['targets'] = []
+
+  data.targets.push({
+    from: values['from'],
+    to: values['to'],
+    goal: values['body_weight'],
+    type: 'body_weight',
+    value_type: 'number'
+  })
+
+  data.targets.push({
+    from: values['from'],
+    to: values['to'],
+    goal: values['lean_mass'],
+    type: 'lean_mass',
+    value_type: 'number'
+  })
+
+  data.targets.push({
+    from: values['from'],
+    to: values['to'],
+    goal: values['body_fat'],
+    type: 'body_fat',
+    value_type: 'number'
+  })
+
+  return data
+}
