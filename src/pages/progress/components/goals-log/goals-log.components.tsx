@@ -1,9 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup'
 import moment from 'moment'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
-import * as yup from 'yup'
 
 import Alert from '../../../../components/alerts/alert/alert.component'
 import Button from '../../../../components/buttons/button/button.component'
