@@ -243,7 +243,7 @@ export default function InvoiceDesktop() {
       <div className="invoice__footer">
         <p className="invoice__footer-text">
           <span>{t('invoices:footer-note')}: </span>
-          {t('invoices:footer-text')}
+          {invoice.description}
         </p>
       </div>
     </Styles>
