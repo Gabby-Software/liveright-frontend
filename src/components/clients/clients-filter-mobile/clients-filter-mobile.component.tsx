@@ -87,7 +87,6 @@ const ClientsFilterMobile = () => {
             label={'Status'}
             value={option.label}
             onDelete={() => {
-              console.log({ filters })
               setOption({ label: 'All Status', value: '' })
               handleSubmit({ status: '', query })
             }}

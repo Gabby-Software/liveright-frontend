@@ -67,7 +67,7 @@ const Financials = ({}: Props) => {
             </Button>
           )}
           {location.pathname.includes(Routes.FINANCIALS_GOALS) && (
-            <Button variant="secondary" size="md">
+            <Button variant="secondary" size="md" to={Routes.EDIT_GOALS}>
               {t('financials:overview.edit-goal')}
             </Button>
           )}
@@ -107,7 +107,7 @@ const Financials = ({}: Props) => {
       headerNavChat
       actionComponent={
         location.pathname.includes(Routes.FINANCIALS_GOALS) ? (
-          <Button variant="secondary" size="md">
+          <Button variant="secondary" size="md" to={Routes.EDIT_GOALS}>
             {t('financials:overview.edit-goal')}
           </Button>
         ) : (

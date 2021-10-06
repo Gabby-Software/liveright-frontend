@@ -18,6 +18,7 @@ interface LineChartProps {
   dataStroke?: string[]
   yTickFormatter?: any
   tooltip?: any
+  dot?: boolean
 }
 
 export default function LineChart({
@@ -27,7 +28,8 @@ export default function LineChart({
   dataKeys,
   dataStroke,
   yTickFormatter,
-  tooltip
+  tooltip,
+  dot = true
 }: LineChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -60,6 +62,7 @@ export default function LineChart({
             stroke={dataStroke?.[index] || colors.green_90}
             dataKey={key}
             dot={(props) => {
+              if (!dot) return <></>
               return (
                 <circle
                   {...props}

@@ -20,6 +20,15 @@
     "dateRecieved": "Date Recieved",
     "datePayout": "Date Payout",
     "options": "Options"
+  "edit-goals": {
+    "title": "Define Your Target",
+    "suggestions-title": "CoachRight Suggestions",
+    "increase-revenue": "Try increasing your revenue persession",
+    "trainers-revenue": "A lot of trainers have revenue from coaching",
+    "average-cost": "Average Cost?",
+    "quantity": "Quantity per month",
+    "revenue-per-month": "Revenue per month",
+    "save-goals": "Save Goals"
   },
   "view-graph": "View Full Graph"
 }
