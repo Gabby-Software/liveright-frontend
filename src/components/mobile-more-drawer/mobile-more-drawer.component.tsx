@@ -82,6 +82,11 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       name: 'menu.settings'
     },
     {
+      Icon: SettingsIcon,
+      url: Routes.SETTINGS.split('/:')[0],
+      name: 'menu.settings'
+    },
+    {
       Icon: LogoutIcon,
       onClick: () => dispatch({ type: ACTION_LOGOUT_REQUEST }),
       name: 'menu.log-out'
