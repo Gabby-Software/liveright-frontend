@@ -41,10 +41,22 @@ export default function Chart({ onClose, data }: ChartProps) {
     }))
   }
 
+  const dataKey = Object.keys(active).filter((key) => !!active[key])
+  const dataStroke = Object.keys(active)
+    .filter((key) => !!active[key])
+    .map((key) => COLORS[key])
+
   return (
     <Styles
       DialogProps={{ backText: 'Back to Measurements', onClose }}
       title="Measurements"
+      legendComponent={
+        <div className="measurements-chart__legends">
+          <div className="measurements-chart__legend">Body Weight</div>
+          <div className="measurements-chart__legend">Body Fat %</div>
+          <div className="measurements-chart__legend">Lean Mass</div>
+        </div>
+      }
       titleComponent={
         <>
           <ChartCheckboxes>
@@ -71,10 +83,8 @@ export default function Chart({ onClose, data }: ChartProps) {
         height={isMobile ? '100%' : 250}
         data={chartData}
         xDataKey="date"
-        dataKeys={Object.keys(active).filter((key) => !!active[key])}
-        dataStroke={Object.keys(active)
-          .filter((key) => !!active[key])
-          .map((key) => COLORS[key])}
+        dataKeys={dataKey}
+        dataStroke={dataStroke}
         dot={false}
       />
     </Styles>
