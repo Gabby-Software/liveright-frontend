@@ -95,6 +95,7 @@ export default function ComparePhotos() {
         {measurementTo.filters.date && measurementFrom.filters.date ? (
           <>
             <PhotoCard
+              key={activeTab + '_from'}
               img={from.images?.[activeTab]}
               title={
                 from.date
@@ -106,6 +107,7 @@ export default function ComparePhotos() {
             <div className="compare-photos__divider">VS</div>
 
             <PhotoCard
+              key={activeTab + '_to'}
               img={to.images?.[activeTab]}
               title={
                 to.date
