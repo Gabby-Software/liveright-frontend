@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ICalendarLink from 'react-icalendar-link'
 
 import {
   DocumentOutlinedIcon,
@@ -24,6 +25,7 @@ import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/deskt
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../types/session.type'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
+import { getCalenderEvent } from '../../sessions.utils'
 import Styles from './desktop-sessions.styles'
 
 interface DesktopSessionsProps {
@@ -62,13 +64,15 @@ export default function DesktopSessions({
         >
           {t('sessions:reschedule')}
         </Button>
-        <IconButton
-          size="sm"
-          tooltip="Calendar"
-          className="sessions__row-doc-btn"
-        >
-          <DocumentOutlinedIcon />
-        </IconButton>
+        <ICalendarLink event={getCalenderEvent(item, 'client')}>
+          <IconButton
+            size="sm"
+            tooltip="Calendar"
+            className="sessions__row-doc-btn"
+          >
+            <DocumentOutlinedIcon />
+          </IconButton>
+        </ICalendarLink>
       </div>
     )
   }

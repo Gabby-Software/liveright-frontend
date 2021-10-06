@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ICalendarLink from 'react-icalendar-link'
 
 import {
   ClientSolidIcon,
@@ -26,7 +27,6 @@ import {
   statisticRange,
   statisticRangeOptions
 } from '../../../../enums/financials.enum'
-import { Routes } from '../../../../enums/routes.enum'
 import useClients from '../../../../hooks/api/clients/useClients'
 import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
 import { UseSession } from '../../../../hooks/api/sessions/useSession'
@@ -39,6 +39,7 @@ import ProgressCard from '../../components/progress-card/progress-card.component
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
+import { getCalenderEvent } from '../../sessions.utils'
 import Styles from './desktop-sessions.styles'
 
 export default function DesktopSessions({
@@ -73,14 +74,16 @@ export default function DesktopSessions({
           {t('sessions:edit-reschedule')}
         </Button>
 
-        <IconButton
-          size="sm"
-          tooltip="Calendar"
-          to={Routes.CALENDAR}
-          className="sessions__row-doc-btn"
-        >
-          <DocumentOutlinedIcon />
-        </IconButton>
+        <ICalendarLink event={getCalenderEvent(item, 'trainer')}>
+          <IconButton
+            size="sm"
+            tooltip="Calendar"
+            // to={Routes.CALENDAR}
+            className="sessions__row-doc-btn"
+          >
+            <DocumentOutlinedIcon />
+          </IconButton>
+        </ICalendarLink>
         <IconButton
           size="sm"
           tooltip="Remove"
