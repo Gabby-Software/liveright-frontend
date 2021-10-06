@@ -4,7 +4,6 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import {
   AbdominalIcon,
   Biceps2Icon,
-  BicepsIcon,
   CalfIcon,
   CheekIcon,
   ChinIcon,
@@ -12,14 +11,12 @@ import {
   KneeIcon,
   LibraryIcon,
   LowerBackIcon,
-  MenuIcon,
   MidaxillaryIcon,
   PecIcon,
   QuadIcon,
   SuprailiacIcon,
   TricepsIcon,
-  Weight2Icon,
-  WeightIcon
+  Weight2Icon
 } from '../../../../assets/media/icons'
 import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
@@ -72,10 +69,13 @@ export const MeasurementsLogContext =
   })
 
 function WeightLogCard() {
-  const { setValue } = useFormContext()
+  const { setValue, formState } = useFormContext()
   const { initMeasurement, prevMeasurement } = useContext(
     MeasurementsLogContext
   )
+
+  const { errors } = formState
+
   return (
     <ProgressEditCard
       infoVariant="secondary"
@@ -103,6 +103,7 @@ function WeightLogCard() {
                   setValue(name, value)
                   setValue('weight_lbs', kgToLb(value))
                 }}
+                error={errors.weight_kgs}
               />
             )}
             name="weight_kgs"
@@ -122,6 +123,7 @@ function WeightLogCard() {
                   setValue(name, value)
                   setValue('weight_kgs', lbToKg(value))
                 }}
+                error={errors.weight_lbs}
               />
             )}
             name="weight_lbs"

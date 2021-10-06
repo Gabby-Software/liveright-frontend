@@ -36,7 +36,9 @@ import {
 import { Styles } from './measurements-log.styles'
 
 const validationSchema = yup.object().shape({
-  date: yup.string().required()
+  date: yup.string().required(),
+  weight_kgs: yup.number().max(400).required().nullable(),
+  weight_lbs: yup.number().max(882).required().nullable()
 })
 
 const defaultValues = {
@@ -44,6 +46,8 @@ const defaultValues = {
   date: '',
   notes: '',
   images: {},
+  weight_kgs: null,
+  weight_lbs: null,
   goals: {
     from: '',
     to: '',
