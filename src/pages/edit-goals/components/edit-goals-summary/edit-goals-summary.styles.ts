@@ -57,14 +57,14 @@ export const SummaryTargetText = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 1.428;
-  color: #2e2f31;
+  color: ${getColorCarry('primaryDark_v2')};
 `
 
 export const SummaryTargetValue = styled.p`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-  color: #2e2f31;
+  color: ${getColorCarry('primaryDark_v2')};
 `
 export const ButtonText = styled.p`
   font-weight: 500;

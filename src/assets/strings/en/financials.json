@@ -10,7 +10,7 @@
     "other": "Other Revenue",
     "pt-sessions": "PT Sessions",
     "pt-sessions-revenue": "PT Sessions Revenue",
-    "revenue": "Revenue"
+    "revenue": "Monthly Revenue"
   },
   "edit-goals": {
     "title": "Define Your Target",
@@ -20,7 +20,11 @@
     "average-cost": "Average Cost?",
     "quantity": "Quantity per month",
     "revenue-per-month": "Revenue per month",
-    "save-goals": "Save Goals"
+    "save-goals": "Save Goals",
+    "other-sources": "Other Sources",
+    "yearly-target": "Yearly Target",
+    "weekly-target": "Weekly Target",
+    "monthly-target": "Monthly Target"
   },
   "view-graph": "View Full Graph"
 }

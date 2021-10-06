@@ -133,27 +133,27 @@ const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
                 type="pt_session"
                 formikProps={formikProps}
                 icon={<GroupGoalIcon />}
-                title="PT Sessions"
+                title={t('financials:overview.pt-sessions')}
               />
 
               <EditGoalsCard
                 type="consultation"
                 formikProps={formikProps}
                 icon={<CallGoalIcon />}
-                title="Consultation"
+                title={t('financials:overview.consultation')}
               />
               <EditGoalsCard
                 type="coaching"
                 formikProps={formikProps}
                 icon={<ClientGoalIcon />}
-                title="Coaching"
+                title={t('financials:overview.coaching')}
               />
 
               <EditGoalsOtherCard
                 type="other"
                 formikProps={formikProps}
                 icon={<OtherGoalIcon />}
-                title="Other Revenue"
+                title={t('financials:edit-goals.other-sources')}
               />
             </GoalsList>
             <EditGoalsSummary

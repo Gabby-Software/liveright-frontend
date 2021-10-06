@@ -37,6 +37,7 @@ export default styled(WhiteCard)`
       }
       &__active {
         color: ${getColorCarry('blue_70')};
+        font-weight: 700;
       }
       &__wrapper {
         &:not(:first-child) {

@@ -15,14 +15,6 @@ import {
   GoalsWrapContent
 } from './edit-goals-card.styles'
 
-// export const calcRevenue = (average: string, quantity: string) => {
-//   return parseInt(average) * parseInt(quantity) || 0
-// }
-
-// export const calcAverage = (quantity: string, revenue: string) => {
-//   return parseInt(revenue) / parseInt(quantity) || 0
-// }
-
 export const appendAED = (v: number): string => {
   return `${v.toLocaleString('it')} AED`
 }
@@ -54,7 +46,7 @@ const EditGoalsCard: FC<Props> = ({
       currentValue = {
         average: value ?? '',
         quantity: quantity,
-        total: Number(average) * Number(quantity) || 0
+        total: Number(value) * Number(quantity) || 0
       }
     }
     if (name === 'quantity') {
@@ -108,8 +100,8 @@ const EditGoalsCard: FC<Props> = ({
           name="total"
           format={formatter().number()}
           onChange={(e) => handleChange('total', fieldName, e.target.value)}
-          label={t('financials:edit-goals.revenue-per-month')}
-          value={appendAED(Number(values[fieldName].total))}
+          label={t('financials:edit-goals.revenue-per-month') + ' (AED)'}
+          value={Number(values[fieldName].total)}
         />
       </GoalsCardRevenueInputWrap>
     </GoalsWrapContent>

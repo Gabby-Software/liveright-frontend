@@ -6,9 +6,11 @@ import {
   PhoneSolidIcon,
   RevenueSolidIcon
 } from '../../../../../../assets/media/icons'
+import useGoals from '../../../../../../hooks/api/goals/useGoals'
 import useInvoices from '../../../../../../hooks/api/invoices/useInvoices'
 import useSessions from '../../../../../../hooks/api/sessions/useSessions'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
+import { TargetDataType } from '../../../../../../types/goals-api-data.type'
 import FinancialsGoalsCard from '../financials-goals-card/financials-goals-card.component'
 import { ListWrapper } from './financial-goals-list.styles'
 
@@ -57,58 +59,68 @@ const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
     return item.type === 'Coaching'
   })
 
+  const { data: goalsData } = useGoals()
+
+  console.log({ invoices, sessions, goalsData })
+  const getGoalsTargetByType = (
+    type: string,
+    goals: TargetDataType[] | null = goalsData
+  ): number | undefined => {
+    return goals?.find((goal) => goal.type === type)?.goal
+  }
+
   return (
     <ListWrapper>
       <FinancialsGoalsCard
         title={t('financials:overview.revenue')}
-        planned="200"
+        planned={200}
         icon={<RevenueSolidIcon />}
         current={generalRevenue}
         currency="AED"
       />
       <FinancialsGoalsCard
         title={t('financials:overview.coaching-revenue')}
-        planned="300"
+        planned={getGoalsTargetByType('coaching') as number}
         icon={<RevenueSolidIcon />}
         current={coachingRevenue}
         currency="AED"
       />
       <FinancialsGoalsCard
         title={t('financials:overview.pt-sessions-revenue')}
-        planned="20"
+        planned={getGoalsTargetByType('pt_session') as number}
         icon={<RevenueSolidIcon />}
         current={ptSessionRevenue}
         currency="AED"
       />
       <FinancialsGoalsCard
         title={t('financials:overview.consultation-revenue')}
-        planned="20"
+        planned={getGoalsTargetByType('consultation') as number}
         icon={<RevenueSolidIcon />}
         current={consultRevenue}
         currency="AED"
       />
       <FinancialsGoalsCard
         title={t('financials:overview.other')}
-        planned="20"
+        planned={getGoalsTargetByType('other') as number}
         icon={<RevenueSolidIcon />}
         current={otherRevenue}
         currency="AED"
       />
       <FinancialsGoalsCard
         title={t('financials:overview.pt-sessions')}
-        planned="20"
+        planned={20}
         current={ptSessions.length}
         icon={<GroupSolidIcon />}
       />
       <FinancialsGoalsCard
         title={t('financials:overview.consultation')}
-        planned="20"
+        planned={20}
         current={consultations.length}
         icon={<PhoneSolidIcon />}
       />
       <FinancialsGoalsCard
         title={t('financials:overview.coaching')}
-        planned="20"
+        planned={20}
         current={coaching.length}
         icon={<ClientSolidIcon />}
       />
