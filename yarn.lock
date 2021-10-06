@@ -10940,6 +10940,11 @@ react-hook-form@^7.14.2:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.14.2.tgz#e5615ba883588a6dd73bbbbbd7d3bb71b73440e3"
   integrity sha512-32uvgKkaE/0vOncfnJdwQhfahhocPpcb5c7F4j9Eq7dOnqS2Hg8h70Bmt6KXb6veLSWJultc1+ik9QSfqXFmLA==
 
+react-icalendar-link@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-icalendar-link/-/react-icalendar-link-3.0.1.tgz#85fc0bf6d4f89d892266bf47c0c79f34ed339543"
+  integrity sha512-t1/gBjzWDsehL+7wjQlC4iWGZeDOF9yqgmb8MhqWZ8VmL0vawqKY3s2Bf5+q6BXUpf0rzavwpMs3YW/F6TQyNg==
+
 react-input-autosize@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-3.0.0.tgz#6b5898c790d4478d69420b55441fcc31d5c50a85"
