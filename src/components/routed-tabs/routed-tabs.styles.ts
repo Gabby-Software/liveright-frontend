@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { WhiteCard } from '../../pages/progress-log/log-health-data/log-health-data-mobile/log-health-data-mobile.styles'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled(WhiteCard)`
+export default styled(WhiteCard)<any>`
   max-width: 100%;
   overflow-y: auto;
   display: flex;
@@ -38,6 +38,13 @@ export default styled(WhiteCard)`
 
       @media ${mediaQueries.TABLET} {
         padding: 0 1rem;
+
+        ${(props) =>
+          props.$variant === 'secondary' &&
+          css`
+            width: 100%;
+            justify-content: space-around;
+          `}
       }
     }
 
@@ -50,6 +57,14 @@ export default styled(WhiteCard)`
       line-height: 1.125rem;
       white-space: nowrap;
 
+      @media ${mediaQueries.TABLET} {
+        ${(props) =>
+          props.$variant === 'secondary' &&
+          css`
+            color: ${getColorCarry('secondary2_v2')};
+          `}
+      }
+
       &:hover {
         color: ${getColorCarry('blue_70')};
       }
@@ -61,10 +76,19 @@ export default styled(WhiteCard)`
       &__wrapper {
         padding: 1rem 0;
         margin: 0 0.5rem;
+
+        @media ${mediaQueries.TABLET} {
+          ${(props) =>
+            props.$variant === 'secondary' &&
+            css`
+              padding: 1.5rem 0;
+            `}
+        }
       }
     }
 
     &__indicator {
+      display: ${(props) => (props.$indicator ? 'block' : 'none')};
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: absolute;
       background-color: ${getColorCarry('blue_70')};

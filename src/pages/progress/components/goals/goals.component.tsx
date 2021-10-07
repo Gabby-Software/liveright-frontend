@@ -26,7 +26,7 @@ export default function Goals() {
 
   const { isLoading, goals } = useGoals({
     filter: {
-      account_id: params.id
+      account_id: params.id || auth.id
     }
   })
 

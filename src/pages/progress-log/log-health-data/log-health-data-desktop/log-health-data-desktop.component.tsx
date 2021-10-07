@@ -94,6 +94,7 @@ const LogHealthDataDesktop: React.FC = () => {
           <CardsWrapper>
             <LogCard>
               <DatePicker
+                disabledFuture
                 id="log-date"
                 name="date"
                 value={values.date}

@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 import RoutedTabs from '../../../../components/routed-tabs/routed-tabs.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getViewRoutes } from '../../../../utils/api/progress'
 import Goals from '../goals/goals.component'
@@ -29,13 +30,15 @@ const CONTENT = [
 export default function Content() {
   const { t } = useTranslation()
   const params = useParams<any>()
+  const isMobile = useIsMobile()
   const { type } = useAuth()
   const { measurementsTo, goalsTo, healthTo } = getViewRoutes(params, type)
 
   return (
     <Styles>
       <RoutedTabs
-        className="content__tabs"
+        variant="secondary"
+        indicator={!isMobile}
         tabs={[
           {
             name: t('progress:sections.measurements'),

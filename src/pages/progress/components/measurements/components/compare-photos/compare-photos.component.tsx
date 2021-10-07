@@ -18,6 +18,27 @@ import useMeasurements from '../../../../../../hooks/api/progress/useMeasurement
 import { DATE_FORMAT, MONTH_RENDER_FORMAT } from '../../../../../../utils/date'
 import { Styles } from './compare-photos.styles'
 
+const TABS = [
+  {
+    icon: <FrontCamIcon />,
+    label: 'Front',
+    key: 'front',
+    renderContent: () => <></>
+  },
+  {
+    icon: <BackCamIcon />,
+    label: 'Back',
+    key: 'back',
+    renderContent: () => <></>
+  },
+  {
+    icon: <SidesIcon />,
+    label: 'Side',
+    key: 'side',
+    renderContent: () => <></>
+  }
+]
+
 export default function ComparePhotos() {
   const params = useParams<any>()
   const [activeTab, setActiveTab] = useState('front')
@@ -67,28 +88,10 @@ export default function ComparePhotos() {
       </div>
 
       <Tabs
+        justify="between"
         activeKey={activeTab}
         onChange={setActiveTab}
-        tabs={[
-          {
-            icon: <FrontCamIcon />,
-            label: 'Front',
-            key: 'front',
-            renderContent: () => <></>
-          },
-          {
-            icon: <BackCamIcon />,
-            label: 'Back',
-            key: 'back',
-            renderContent: () => <></>
-          },
-          {
-            icon: <SidesIcon />,
-            label: 'Side',
-            key: 'side',
-            renderContent: () => <></>
-          }
-        ]}
+        tabs={TABS}
       />
 
       <Card className="compare-photos__card">
