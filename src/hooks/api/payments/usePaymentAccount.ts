@@ -5,6 +5,7 @@ import { EP_PAYMENT_ACCOUNT } from '../../../enums/api.enum'
 import {
   createAccount,
   createAccountLink,
+  createDashboardLink,
   getPaymentAccount
 } from '../../../services/api/payments'
 
@@ -13,13 +14,16 @@ interface UsePaymentAccount {
   isLoading: boolean
   onCreateAccount: () => void
   onCreateLink: () => void
+  onCreateDashboardLink: () => void
   isCreateAccountLoading: boolean
   isCreateLinkLoading: boolean
+  isDashboardLinkLoading: boolean
 }
 
 export default function usePaymentAccount(): UsePaymentAccount {
   const [isCreateAccountLoading, setCreateAccountLoading] = useState(false)
   const [isCreateLinkLoading, setCreateLinkLoading] = useState(false)
+  const [isDashboardLinkLoading, setDashboardLinkLoading] = useState(false)
 
   const { data, error } = useSWR(EP_PAYMENT_ACCOUNT, getPaymentAccount, {
     shouldRetryOnError: false
@@ -49,6 +53,19 @@ export default function usePaymentAccount(): UsePaymentAccount {
     }
   }
 
+  const onCreateDashboardLink = async () => {
+    try {
+      setDashboardLinkLoading(true)
+      const response = await createDashboardLink()
+      console.log(response)
+      setDashboardLinkLoading(false)
+      window.open(response.url, '_blank')
+    } catch (e) {
+      setDashboardLinkLoading(false)
+      console.error(e)
+    }
+  }
+
   const account = data || {}
   const isLoading = !data && !error
   return {
@@ -56,7 +73,9 @@ export default function usePaymentAccount(): UsePaymentAccount {
     isLoading,
     onCreateAccount,
     onCreateLink,
+    onCreateDashboardLink,
     isCreateLinkLoading,
-    isCreateAccountLoading
+    isCreateAccountLoading,
+    isDashboardLinkLoading
   }
 }
