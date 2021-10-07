@@ -50,8 +50,8 @@ export default function usePayoutBalance(): usePayoutBalance {
     }
   }
 
-  const balance = data?.available[0].amount
-  const currency = data?.available[0].currency
+  const balance = data?.available[0]?.amount || 0
+  const currency = data?.available[0]?.currency || ''
   const isBalanceLoading = !data && !error
 
   return {
