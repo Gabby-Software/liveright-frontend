@@ -20,7 +20,7 @@ export default styled.div`
     &__tabs {
       margin-bottom: 0;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         width: 100%;
         margin: 0;
         border-radius: 0;
@@ -32,7 +32,7 @@ export default styled.div`
         display: flex;
         align-items: center;
 
-        @media ${mediaQueries.MOBILE} {
+        @media ${mediaQueries.TABLET} {
           width: auto;
           margin: 0 -1.25rem 0 -1.25rem;
           border-radius: 0;

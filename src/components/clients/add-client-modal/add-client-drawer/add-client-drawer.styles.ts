@@ -7,9 +7,7 @@ const AddClientDrawerStyles = styled.div<any>`
   background-color: white;
   border-radius: 10px;
   min-height: 100%;
-  form {
-    margin: 0 3px;
-  }
+
   .add-client-drawer {
     &__mask {
       overflow: hidden;
@@ -22,6 +20,14 @@ const AddClientDrawerStyles = styled.div<any>`
       position: relative;
       transition: ${(p) => p.theme.vars.defaults.transition};
       height: 100%;
+    }
+
+    &__content-inner {
+      width: 100%;
+      flex-shrink: 0;
+      & > div {
+        padding: 0 3px;
+      }
     }
   }
 
@@ -45,6 +51,7 @@ const AddClientDrawerStyles = styled.div<any>`
     padding-bottom: 13px;
     margin-top: 30px;
     font-size: 18px;
+    font-weight: 400;
     width: 100%;
   }
 
@@ -54,7 +61,7 @@ const AddClientDrawerStyles = styled.div<any>`
     }
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     width: 100%;
     position: absolute;
     left: 0;

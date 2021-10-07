@@ -8,9 +8,11 @@ import Styles from './routed-tabs.styles'
 type Props = {
   tabs: MenuItemType[]
   className?: string
+  indicator?: boolean
+  variant?: 'secondary'
 }
 
-const RoutedTabs = ({ tabs, className }: Props) => {
+const RoutedTabs = ({ tabs, className, indicator = true, variant }: Props) => {
   const { pathname } = useLocation()
   const activeRef = useRef<HTMLDivElement>(null)
   const [[left, width], setIndicator] = useState([0, 0])
@@ -25,29 +27,36 @@ const RoutedTabs = ({ tabs, className }: Props) => {
   }, [activeRef, pathname])
 
   return (
-    <Styles className={classes('tabs', className)}>
-      <div className={'tabs__wrapper'}>
-        {tabs.map(({ name, url }) => (
-          <div
-            key={url}
-            className={'tabs__item__wrapper'}
-            ref={pathname === url ? activeRef : null}
-          >
-            <Link
-              to={url || ''}
-              className={classes(
-                'tabs__item',
-                pathname === url && 'tabs__item__active'
-              )}
+    <Styles
+      className={classes('tabs', className)}
+      $indicator={indicator}
+      $variant={variant}
+    >
+      <div className="tabs__content">
+        <div className="tabs__wrapper">
+          {tabs.map(({ name, url }) => (
+            <div
+              key={url}
+              className="tabs__item__wrapper"
+              ref={pathname === url ? activeRef : null}
             >
-              {name}
-            </Link>
-          </div>
-        ))}
-        <div
-          className={'tabs__indicator'}
-          style={{ '--w': `${width}px`, '--l': `${left}px` } as any}
-        />
+              <Link
+                to={url || ''}
+                className={classes(
+                  'tabs__item',
+                  pathname === url && 'tabs__item__active'
+                )}
+              >
+                {name}
+              </Link>
+            </div>
+          ))}
+
+          <div
+            className="tabs__indicator"
+            style={{ '--w': `${width}px`, '--l': `${left}px` } as any}
+          />
+        </div>
       </div>
     </Styles>
   )

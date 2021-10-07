@@ -36,7 +36,7 @@ export const StyledCard = styled(Card)<any>`
     margin-right: 0;
   }
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     flex-direction: column;
   }
 
@@ -66,7 +66,7 @@ export const StyledCard = styled(Card)<any>`
 
   ${({ noLogs }) => (noLogs ? noLogsStyles : '')}
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     .health-card {
       &__content {
         padding-left: 0;

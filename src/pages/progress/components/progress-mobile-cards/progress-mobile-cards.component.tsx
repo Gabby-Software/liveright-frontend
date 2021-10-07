@@ -51,6 +51,7 @@ export default function HealthMobileCard() {
               quality={quality}
               sleepData={sleepData}
               napData={napData}
+              loggedBy={it[onlyInclude]?.reported_by}
               value={
                 onlyInclude === PROGRESS_LOG.SLEEP
                   ? ''

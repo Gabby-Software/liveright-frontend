@@ -3,9 +3,6 @@ import moment from 'moment'
 import React, { useContext, useMemo } from 'react'
 import { useParams } from 'react-router'
 
-import { AddIcon } from '../../../../assets/media/icons'
-import Button from '../../../../components/buttons/button/button.component'
-import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import {
   EmptyPlaceholder,
@@ -19,7 +16,8 @@ import { getRoute } from '../../../../utils/routes'
 import { PROGRESS_TABLE_KEYS } from '../../progress.constants'
 import { HealthData } from '../../progress.types'
 import ProgressHealthDataContext from '../progress-health-data/progress-health-data.context'
-import { Pagination, Wrapper } from './progress-table.styles'
+import TablePagination from '../table-pagination/table-pagination.component'
+import { Wrapper } from './progress-table.styles'
 
 export default function HealthTable() {
   const params = useParams<any>()
@@ -36,7 +34,7 @@ export default function HealthTable() {
           date: moment().format('YYYY-MM-DD')
         })
 
-  const { health, onlyInclude, isLoading } = useContext(
+  const { health, onlyInclude, isLoading, meta } = useContext(
     ProgressHealthDataContext
   )
 
@@ -104,14 +102,12 @@ export default function HealthTable() {
         <EmptyPlaceholder spacing />
       ) : null}
 
-      <Pagination>
-        <DataPagination page={1} setPage={() => {}} total={1} justify="between">
-          <Button to={logTo} variant="text" className="pagination__link">
-            Some day missing? Add it
-            <AddIcon />
-          </Button>
-        </DataPagination>
-      </Pagination>
+      <TablePagination
+        logTo={logTo}
+        page={meta.current_page}
+        onPage={() => {}}
+        total={meta.total}
+      />
     </Wrapper>
   )
 }

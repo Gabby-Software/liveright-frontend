@@ -1,4 +1,5 @@
 import React from 'react'
+import ICalendarLink from 'react-icalendar-link'
 
 import {
   ClientSolidIcon,
@@ -31,6 +32,7 @@ import { SessionStatus, SessionType } from '../../../../types/session.type'
 import ProgressCard from '../../components/progress-card/progress-card.component'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
+import { getCalenderEvent } from '../../sessions.utils'
 import Styles from './mobile-sessions.styles'
 
 export default function MobileSessions({
@@ -60,9 +62,11 @@ export default function MobileSessions({
         </div>
 
         <div>
-          <IconButton size="sm" className="sessions__doc-btn">
-            <DocumentOutlinedIcon />
-          </IconButton>
+          <ICalendarLink event={getCalenderEvent(item, 'trainer')}>
+            <IconButton size="sm" className="sessions__doc-btn">
+              <DocumentOutlinedIcon />
+            </IconButton>
+          </ICalendarLink>
         </div>
       </div>
     )

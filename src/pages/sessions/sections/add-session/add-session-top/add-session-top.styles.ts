@@ -33,7 +33,7 @@ export default styled.div`
       gap: 1.875rem;
       margin-bottom: 1.875rem;
 
-      @media ${mediaQueries.MOBILE} {
+      @media ${mediaQueries.TABLET} {
         grid-template-columns: 1fr;
       }
     }

@@ -1,4 +1,5 @@
 import React from 'react'
+import ICalendarLink from 'react-icalendar-link'
 
 import {
   CalendarIcon,
@@ -14,6 +15,7 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionType } from '../../../../types/session.type'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
+import { getCalenderEvent } from '../../sessions.utils'
 import { HeaderComponent, Styles } from './mobile-sessions.styles'
 
 interface MobileSessionsProps {
@@ -39,9 +41,11 @@ export default function MobileSessions({
           {t('sessions:reschedule')}
         </Button>
 
-        <IconButton size="sm" className="sessions__doc-btn">
-          <DocumentOutlinedIcon />
-        </IconButton>
+        <ICalendarLink event={getCalenderEvent(item, 'client')}>
+          <IconButton size="sm" className="sessions__doc-btn">
+            <DocumentOutlinedIcon />
+          </IconButton>
+        </ICalendarLink>
       </div>
     )
   }

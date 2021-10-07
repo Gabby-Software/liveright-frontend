@@ -15,6 +15,8 @@ import { payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { LinkStyles, Styles } from './invoice-card.styles'
+import { paymentMethods } from '../../../../enums/payment-method.enum'
+
 
 interface InvoiceCardProps {
   mobileColumn?: boolean
@@ -48,7 +50,8 @@ const InvoiceCard = ({
   showPay,
   onRemind,
   onSend,
-  asLink = true
+  asLink = true,
+  payment_method
 }: InvoiceCardProps & InvoiceType) => {
   const { t } = useTranslation()
   const { type } = useAuth()
@@ -72,7 +75,8 @@ const InvoiceCard = ({
   const actionBtn = (
     <>
       {type === userTypes.CLIENT ? (
-        status !== invoiceStatuses.PAID ? (
+        status !== invoiceStatuses.PAID && payment_method === paymentMethods.CREDIT_CARD
+           ? (
           showPay ? (
             <a href={payments(`${Routes.INVOICES}/${id}/pay`)}>
               <Button className="invoice-card__btn" size="sm">

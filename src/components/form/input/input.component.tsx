@@ -8,10 +8,11 @@ import React, {
 
 import { Formatter } from '../../../managers/formatter.manager'
 import FormError from '../../forms/form-error/form-error.component'
+import Error from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './input.styles'
 
-interface InputProps {
+export interface InputProps {
   id: string
   type?: 'text' | 'password'
   label?: string
@@ -32,6 +33,7 @@ interface InputProps {
   format?: Formatter
   labelComponent?: ReactNode
   max?: number
+  error?: string
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -56,7 +58,8 @@ const Input = forwardRef<any, InputProps>(
       onBlur,
       format,
       labelComponent,
-      max
+      max,
+      error
     },
     ref
   ) => {
@@ -102,6 +105,7 @@ const Input = forwardRef<any, InputProps>(
           maxLength={max}
         />
         {name && <FormError name={name} className="field-error" />}
+        {error && <Error name={error} />}
       </Styles>
     )
   }

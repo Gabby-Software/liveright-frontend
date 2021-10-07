@@ -10,7 +10,7 @@ export default styled.div`
   flex-direction: column;
   justify-content: center;
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 6.25rem 0;
   }
 

@@ -110,21 +110,22 @@ const ClientsDesktop = ({}: Props) => {
   }
 
   const fetchClients = () => {
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => {
-      dispatch({
-        type: ACTION_GET_CLIENTS_REQUEST,
-        payload: {
-          query,
-          type,
-          status,
-          page: 0
-        }
-      })
-    }, 400) as unknown as number
+    dispatch({
+      type: ACTION_GET_CLIENTS_REQUEST,
+      payload: {
+        query,
+        type,
+        status,
+        page: 1
+      }
+    })
   }
-  useEffect(fetchClients, [query, type, status])
 
+  const refetchClients = () => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(fetchClients, 400) as unknown as number
+  }
+  useEffect(refetchClients, [query, type, status])
   return (
     <>
       <SessionStyles>
@@ -194,7 +195,10 @@ const ClientsDesktop = ({}: Props) => {
       <AddClientDrawer
         title={t('clients:add')}
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          setModalOpen(false)
+          setTimeout(fetchClients, 7000)
+        }}
         onSubmit={fetchClients}
         width="32.5rem"
         step={step}

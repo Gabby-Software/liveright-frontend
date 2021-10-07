@@ -88,6 +88,7 @@ const ClientsFilterMobile = () => {
             value={option.label}
             onDelete={() => {
               setOption({ label: 'All Status', value: '' })
+              handleSubmit({ status: '', query })
             }}
           />
         </ActiveFilters>
@@ -114,7 +115,7 @@ const ClientsFilterMobile = () => {
               onClick={() => handleSubmit({ status: option.value, query })}
               className="client__drawer-button"
             >
-              {t('submit')}
+              {t('clients:apply-filter')}
             </Button>
           </Styles>
         </BottomDrawer.Body>

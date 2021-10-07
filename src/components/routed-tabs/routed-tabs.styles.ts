@@ -1,51 +1,95 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { media } from '../../assets/styles/_media'
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { WhiteCard } from '../../pages/progress-log/log-health-data/log-health-data-mobile/log-health-data-mobile.styles'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export default styled(WhiteCard)`
+export default styled(WhiteCard)<any>`
   max-width: 100%;
-  overflow: auto;
+  overflow-y: auto;
   display: flex;
-  padding: 0 1.75rem;
+  padding: 0;
   border-radius: 10px;
 
-  ${media('tablet', 'max')`
-        margin: 0 -20px 70px -20px;
-        max-width: calc(100% + 40px);
-        justify-content: center;
-    `}
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .tabs {
+    &__content {
+      width: max-content;
+      min-width: 100%;
+      display: flex;
+
+      @media ${mediaQueries.TABLET} {
+        justify-content: center;
+      }
+    }
+
     &__wrapper {
       display: flex;
       position: relative;
-      max-width: 100%;
+      padding: 0 1.75rem;
+      width: max-content;
+
+      @media ${mediaQueries.TABLET} {
+        padding: 0 1rem;
+
+        ${(props) =>
+          props.$variant === 'secondary' &&
+          css`
+            width: 100%;
+            justify-content: space-around;
+          `}
+      }
     }
+
     &__item {
       display: block;
       color: ${getColorCarry('primaryDark_v2')};
       transition: ${(p) => p.theme.vars.defaults.transition};
       font-weight: 500;
-      padding: 17px 0;
       font-size: 0.875rem;
       line-height: 1.125rem;
+      white-space: nowrap;
+
+      @media ${mediaQueries.TABLET} {
+        ${(props) =>
+          props.$variant === 'secondary' &&
+          css`
+            color: ${getColorCarry('secondary2_v2')};
+          `}
+      }
 
       &:hover {
         color: ${getColorCarry('blue_70')};
       }
+
       &__active {
         color: ${getColorCarry('blue_70')};
         font-weight: 700;
       }
+
       &__wrapper {
-        &:not(:first-child) {
-          margin: 0 0 0 32px;
+        padding: 1rem 0;
+        margin: 0 0.5rem;
+
+        @media ${mediaQueries.TABLET} {
+          ${(props) =>
+            props.$variant === 'secondary' &&
+            css`
+              padding: 1.5rem 0;
+            `}
         }
       }
     }
+
     &__indicator {
+      display: ${(props) => (props.$indicator ? 'block' : 'none')};
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: absolute;
       background-color: ${getColorCarry('blue_70')};
