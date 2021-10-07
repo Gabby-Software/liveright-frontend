@@ -37,9 +37,10 @@ export async function formatMeasurementsValues(
 
   if (images.front || images.side || images.back) {
     for (const key of Object.keys(images)) {
-      // Remove images from body if empty or already uploaded (starts with https://)
+      // Remove images from body if empty or already uploaded (starts with https://), keep null to remove
       if (
         !images[key] ||
+        images[key] !== null ||
         (typeof images[key] === 'string' && images[key].includes('https://'))
       ) {
         delete images[key]
