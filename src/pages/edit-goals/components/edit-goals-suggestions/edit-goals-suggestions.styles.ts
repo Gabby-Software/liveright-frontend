@@ -27,6 +27,9 @@ export const SuggestionsTipsWrapper = styled.div`
   & svg {
     margin-right: 10px;
   }
+  @media ${mediaQueries.MOBILE} {
+    padding: 20px 23px 36px 23px;
+  }
 `
 
 export const SuggestionsTipsText = styled.p`

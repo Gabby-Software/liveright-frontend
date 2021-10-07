@@ -71,6 +71,7 @@ export default styled(WhiteCard)<any>`
 
       &__active {
         color: ${getColorCarry('blue_70')};
+        font-weight: 700;
       }
 
       &__wrapper {

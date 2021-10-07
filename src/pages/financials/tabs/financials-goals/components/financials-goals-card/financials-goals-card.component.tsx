@@ -12,7 +12,7 @@ import {
 
 interface FinancialsGoalsCardProps {
   title: string
-  planned: string
+  planned: number
   current?: number
   icon: ReactNode
   currency?: string
@@ -34,7 +34,7 @@ const FinancialsGoalsCard: FC<FinancialsGoalsCardProps> = ({
       </PriceWrapper>
       <CurrentWrapper>
         Current
-        <CurrentText>
+        <CurrentText performing={current ? current > planned : false}>
           {current} {currency}
         </CurrentText>
       </CurrentWrapper>
