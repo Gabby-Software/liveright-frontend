@@ -39,12 +39,13 @@ export default function usePayoutTransactions(): usePayoutTransactions {
 
   console.log(data)
   const transactionLoading = !data && !error
-  const transactions = data?.slice(page - 1, 10).map((d: any) => ({
-    amount: d.amount,
-    type: d.type,
-    date: d.created,
-    currency: d.currency
-  }))
+  const transactions =
+    data?.slice(page - 1, 10).map((d: any) => ({
+      amount: d.amount,
+      type: d.type,
+      date: d.created,
+      currency: d.currency
+    })) || []
 
   const meta: PaginationMetaType = {
     current_page: page,

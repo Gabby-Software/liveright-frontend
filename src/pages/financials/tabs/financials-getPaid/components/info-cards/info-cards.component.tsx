@@ -60,7 +60,7 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
         label="Available Payout"
         value={balance?.toString() || '0'}
         currency={currency}
-        note={'(30 Invoices)'}
+        note={''}
       />
       <div className="info_cards__payouts">
         <Button
