@@ -5,7 +5,6 @@ import Input from '../../../../components/form/input/input.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import formatter from '../../../../managers/formatter.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { appendAED } from './edit-goals-card'
 import {
   GoalsCardOterInputText,
   GoalsCardOtherInputWrap,
@@ -34,8 +33,8 @@ const EditGoalsOtherCard: FC<Props> = ({ icon, title, formikProps }) => {
           onChange={(e: any) =>
             formikProps.setFieldValue('other.total', Number(e.target.value))
           }
-          label={t('financials:edit-goals.revenue-per-month')}
-          value={appendAED(Number(formikProps.values.other.total))}
+          label={t('financials:edit-goals.revenue-per-month') + ' (AED)'}
+          value={Number(formikProps.values.other.total)}
         />
       </GoalsCardOterInputText>
     </GoalsCardOtherInputWrap>

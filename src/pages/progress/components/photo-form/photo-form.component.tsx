@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-import { UploadIcon } from '../../../../assets/media/icons'
+import { CrossIcon, UploadIcon } from '../../../../assets/media/icons'
 import Image from '../../../../components/image/image.component'
 import { Subtitle } from '../../../../components/typography'
 import { DropStyles, Styles } from './photo-form.styles'
@@ -67,26 +67,40 @@ function Drop({ file, onChange }: DropProps) {
     accept: 'image/*'
   })
 
+  const fileUrl = getFileUrl(file)
+
   return (
-    <DropStyles {...getRootProps()}>
-      <input {...getInputProps()} />
-      {file ? (
-        <Image
-          src={
-            file
-              ? typeof file === 'string'
-                ? file
-                : URL.createObjectURL(file)
-              : ''
-          }
-          className="drop__image"
-        />
-      ) : (
-        <>
-          <UploadIcon />
-          <p className="drop__text">Select/drag photo here</p>
-        </>
+    <DropStyles>
+      <div className="drop__container" {...getRootProps()}>
+        <input {...getInputProps()} />
+        {file ? (
+          <Image src={fileUrl} className="drop__image" />
+        ) : (
+          <>
+            <UploadIcon />
+            <p className="drop__text">Select/drag photo here</p>
+          </>
+        )}
+      </div>
+
+      {file && !(typeof file === 'string' && file.includes('https://')) && (
+        <p className="drop__remove" onClick={() => onChange?.(null)}>
+          <CrossIcon />
+          Remove
+        </p>
       )}
     </DropStyles>
   )
+}
+
+function getFileUrl(file: any) {
+  try {
+    if (!file) {
+      return ''
+    }
+
+    return typeof file === 'string' ? file : URL.createObjectURL(file)
+  } catch (e) {
+    return ''
+  }
 }

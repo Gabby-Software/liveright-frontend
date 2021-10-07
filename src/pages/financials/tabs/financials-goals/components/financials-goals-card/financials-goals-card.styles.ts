@@ -46,11 +46,12 @@ const CurrentWrapper = styled.p`
   color: ${getColorCarry('neutral_50')};
 `
 
-const CurrentText = styled.p`
+const CurrentText = styled.p<{ performing: boolean }>`
   font-weight: 400;
   font-size: 14px;
   line-height: 1.428;
-  color: ${getColorCarry('neutral_50')};
+  color: ${(p) =>
+    p.performing ? getColorCarry('green_primary') : getColorCarry('red_50')};
   margin-left: 14px;
 `
 

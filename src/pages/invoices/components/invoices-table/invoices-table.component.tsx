@@ -21,6 +21,7 @@ import { payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { useInvoices } from '../../invoices.context'
 import Styles from './invoices-table.styles'
+import { paymentMethods } from '../../../../enums/payment-method.enum'
 
 const InvoicesTable = () => {
   const { type } = useAuth()
@@ -89,13 +90,13 @@ const InvoicesTable = () => {
               </StatusBadge>
             )
           },
-          options: ({ status, id, pdf }) => (
+          options: ({ status, id, pdf, payment_method }) => (
             <div className="invoice-table__actions">
               {[
                 invoiceStatuses.OVERDUE,
                 invoiceStatuses.DUE_SOON,
                 invoiceStatuses.OUTSTANDING
-              ].includes(status) ? (
+              ].includes(status) && payment_method === paymentMethods.CREDIT_CARD ? (
                 <a
                   href={payments(`${Routes.INVOICES}/${id}/pay`)}
                   className="invoice-table__link"

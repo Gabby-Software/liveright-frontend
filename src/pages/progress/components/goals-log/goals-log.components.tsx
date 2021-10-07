@@ -27,14 +27,14 @@ import { GOALS_FORM_CONFIG } from './goals-log.config'
 import { Styles } from './goals-log.style'
 
 export default function GoalsLog() {
-  const { type } = useAuth()
+  const { type, id } = useAuth()
   const params = useParams<any>()
   const history = useHistory()
   const isMobile = useIsMobile()
 
   const { onAdd, goals } = useGoals({
     filter: {
-      account_id: params.id
+      account_id: params.id || id
     }
   })
 

@@ -23,7 +23,7 @@ export const GoalsCardWrapper = styled.div`
 `
 
 export const GoalsCardTitle = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   & svg {
     color: #000000;
     margin-right: 19px;
@@ -33,7 +33,6 @@ export const GoalsCardTitle = styled.div`
   display: flex;
   align-items: flex-start;
   min-width: 213px;
-  font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
 

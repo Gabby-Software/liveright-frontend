@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import {
@@ -27,26 +27,38 @@ const EditGoalsSummary: FC<EditGoalsSummaryProps> = ({
   totalWeek,
   formikProps
 }) => {
+  const { initialValues, values, submitCount } = formikProps
+  const [refValues, setRefValues] = useState(values)
   const { t } = useTranslation()
+
+  useEffect(() => {
+    submitCount && setRefValues(values)
+  }, [submitCount])
+
+  const hasChanged: boolean =
+    JSON.stringify(refValues) !== JSON.stringify(values)
+
+  console.log({ initialValues, values, hasChanged, formikProps })
+
   return (
     <Summary>
       <SummaryWrapper>
-        <SummaryHead>Monthly Target</SummaryHead>
-        <SummaryTotal>{totalMonth.toLocaleString('it')} AED</SummaryTotal>
+        <SummaryHead>{t('financials:edit-goals.monthly-target')}</SummaryHead>
+        <SummaryTotal>{totalMonth} AED</SummaryTotal>
         <SummaryTargetWrapper>
-          <SummaryTargetText>Weekly Target</SummaryTargetText>
-          <SummaryTargetValue>
-            {totalWeek.toLocaleString('it')} AED
-          </SummaryTargetValue>
+          <SummaryTargetText>
+            {t('financials:edit-goals.weekly-target')}
+          </SummaryTargetText>
+          <SummaryTargetValue>{totalWeek} AED</SummaryTargetValue>
         </SummaryTargetWrapper>
         <SummaryTargetWrapper>
-          <SummaryTargetText>Yearly Target</SummaryTargetText>
-          <SummaryTargetValue>
-            {totalYear.toLocaleString('it')} AED
-          </SummaryTargetValue>
+          <SummaryTargetText>
+            {t('financials:edit-goals.yearly-target')}
+          </SummaryTargetText>
+          <SummaryTargetValue>{totalYear} AED</SummaryTargetValue>
         </SummaryTargetWrapper>
       </SummaryWrapper>
-      <SummaryButton onClick={formikProps.submitForm}>
+      <SummaryButton disabled={!hasChanged} onClick={formikProps.submitForm}>
         <ButtonText>{t('financials:edit-goals.save-goals')}</ButtonText>
       </SummaryButton>
     </Summary>

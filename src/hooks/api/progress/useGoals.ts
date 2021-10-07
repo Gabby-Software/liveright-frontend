@@ -6,7 +6,6 @@ import { EP_GOALS } from '../../../enums/api.enum'
 import { addGoals, getGoals } from '../../../services/api/progress'
 import { formatGoalsValues } from '../../../utils/api/progress'
 import { stringifyURL } from '../../../utils/query'
-import { useAuth } from '../../auth.hook'
 
 type OnAdd = (values: any, onSuccess?: any) => void
 
