@@ -12,7 +12,6 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { authReducer } from '../../../../store/reducers/auth.reducer'
 import { isClient } from '../../../../utils/api/auth'
 import {
   DATE_FORMAT,
