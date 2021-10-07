@@ -1,5 +1,5 @@
 import { Tabs } from 'antd'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
@@ -47,9 +47,9 @@ export const Styles = styled(Tabs)<any>`
   }
 
   @media ${mediaQueries.TABLET} {
-    & .ant-tabs-ink-bar {
-      display: none;
-    }
+    //& .ant-tabs-ink-bar {
+    //  display: none;
+    //}
 
     &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-operations,
     .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-operations {
@@ -73,6 +73,13 @@ export const Styles = styled(Tabs)<any>`
       transform: none !important;
       //padding: 0 1rem;
       transition: none;
+
+      ${(props) =>
+        props.$justify === 'between' &&
+        css`
+          width: 100%;
+          justify-content: space-around;
+        `}
     }
 
     // New mobile styles for tabs with scroll and column

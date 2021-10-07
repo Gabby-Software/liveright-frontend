@@ -31,6 +31,11 @@ export const Styles = styled.div`
       padding: 0;
       height: fit-content;
       font-weight: 400;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: underline;
+      }
 
       @media ${mediaQueries.TABLET} {
         font-size: 0.875rem;

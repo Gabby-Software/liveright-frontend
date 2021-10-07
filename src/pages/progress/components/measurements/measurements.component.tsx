@@ -70,6 +70,33 @@ const VALUE_GETTER: any = {
   )
 }
 
+const TABS = [
+  {
+    icon: <MenuIcon />,
+    label: 'Summary',
+    key: 'summary',
+    renderContent: () => <></>
+  },
+  {
+    icon: <CalendarIcon />,
+    label: 'Check-In',
+    key: 'check_in',
+    renderContent: () => <></>
+  },
+  {
+    icon: <StepsIcon />,
+    label: 'Circumference',
+    key: 'circumference',
+    renderContent: () => <></>
+  },
+  {
+    icon: <BloodIcon />,
+    label: 'Skinfold',
+    key: 'skin_fold',
+    renderContent: () => <></>
+  }
+]
+
 export default function Measurements() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -112,32 +139,7 @@ export default function Measurements() {
           className="measurements__tabs"
           activeKey={activeTab}
           onChange={setActiveTab}
-          tabs={[
-            {
-              icon: <MenuIcon />,
-              label: 'Summary',
-              key: 'summary',
-              renderContent: () => <></>
-            },
-            {
-              icon: <CalendarIcon />,
-              label: 'Check-In',
-              key: 'check_in',
-              renderContent: () => <></>
-            },
-            {
-              icon: <StepsIcon />,
-              label: 'Circumference',
-              key: 'circumference',
-              renderContent: () => <></>
-            },
-            {
-              icon: <BloodIcon />,
-              label: 'Skinfold',
-              key: 'skin_fold',
-              renderContent: () => <></>
-            }
-          ]}
+          tabs={TABS}
         />
       )}
 

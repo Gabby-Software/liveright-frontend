@@ -9,6 +9,7 @@ interface Props {
   tabPosition?: TabsPosition
   activeKey?: string
   onChange?: (key: string) => void
+  justify?: 'between'
   tabs: {
     icon?: ReactElement
     key?: string
@@ -18,10 +19,11 @@ interface Props {
 }
 
 const Tabs: React.FC<Props> = (props) => {
-  const { tabs, tabPosition, activeKey, onChange, className } = props
+  const { tabs, tabPosition, activeKey, onChange, className, justify } = props
 
   return (
     <Styles
+      $justify={justify}
       className={className}
       tabPosition={tabPosition}
       activeKey={activeKey}

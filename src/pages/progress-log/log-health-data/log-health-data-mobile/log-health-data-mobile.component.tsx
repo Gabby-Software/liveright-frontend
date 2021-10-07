@@ -162,6 +162,7 @@ const LogHealthDataMobile = () => {
           }}
           label={t('progress:loggingDate')}
           className="log-health__form-item"
+          disabledFuture
         />
         <TimePicker
           id="log-time"

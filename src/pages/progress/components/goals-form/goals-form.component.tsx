@@ -5,6 +5,7 @@ import { WeightIcon } from '../../../../assets/media/icons'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import useGoals from '../../../../hooks/api/progress/useGoals'
+import { useAuth } from '../../../../hooks/auth.hook'
 import formatter from '../../../../managers/formatter.manager'
 import LogDateCard from '../log-date-card/log-date-card.component'
 import { Styles } from './goals-form.styles'
@@ -30,13 +31,14 @@ export default function GoalsForm({
     body_fat: 'body_fat'
   }
 }: GoalsFormProps) {
+  const auth = useAuth()
   const params = useParams<any>()
   const { setValue, formState } = useFormContext()
   const { errors } = formState
 
   const { goals } = useGoals({
     filter: {
-      account_id: params.id
+      account_id: params.id || auth.id
     }
   })
 
