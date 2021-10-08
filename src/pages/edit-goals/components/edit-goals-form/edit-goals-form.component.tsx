@@ -74,12 +74,15 @@ const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
     })
     ?.reduce((prev, curr) => ({ ...prev, ...curr }), {})
 
-  const initialValues: GoalsType = apiValues || {
-    pt_session: { average: 0, quantity: 0, total: 0 },
-    consultation: { average: 0, quantity: 0, total: 0 },
-    coaching: { average: 0, quantity: 0, total: 0 },
-    other: { total: 0 }
-  }
+  const initialValues: GoalsType =
+    apiValues && Object.keys(apiValues).length
+      ? apiValues
+      : {
+          pt_session: { average: 0, quantity: 0, total: 0 },
+          consultation: { average: 0, quantity: 0, total: 0 },
+          coaching: { average: 0, quantity: 0, total: 0 },
+          other: { total: 0 }
+        }
 
   const handleSubmit = async (
     values: GoalsType,
