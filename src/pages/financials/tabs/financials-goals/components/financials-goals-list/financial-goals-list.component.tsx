@@ -66,7 +66,7 @@ const FinancialsGoalsList: FC<FinancialsGoalsListProps> = ({}) => {
     goals: TargetDataType[] | null = goalsData
   ): number | undefined => {
     const filteredGoals = goals?.filter((goal) => goal.type === type)
-    return filteredGoals?.[filteredGoals.length - 1]?.goal
+    return filteredGoals?.[filteredGoals?.length - 1]?.goal
   }
 
   return (
