@@ -68,6 +68,8 @@ export default function usePaymentAccount(): UsePaymentAccount {
 
   const account = data || {}
   const isLoading = !data && !error
+
+  console.log(account)
   return {
     account,
     isLoading,

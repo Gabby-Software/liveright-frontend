@@ -1,3 +1,4 @@
+import { Spin } from 'antd'
 import React from 'react'
 
 import { ThreeDotsIcon } from '../../../../../../assets/media/icons'
@@ -55,6 +56,7 @@ const StripeConnect = (props: StripeConnectProps) => {
             your <strong>Stripe Account</strong> with your{' '}
             <strong>CoachRight Account</strong>
           </p>
+          {(isCreateLinkLoading || isCreateAccountLoading) && <Spin />}
           <button
             className="stripe-not-connected__connect_button"
             onClick={handleClick}
@@ -83,7 +85,7 @@ const StripeConnect = (props: StripeConnectProps) => {
             alt="stripe"
             className="stripe-connected__stripe-logo"
           />
-          <p>Stripe Account - {account.business_profile.name}</p>
+          <p>Stripe Account - {account.business_profile?.name || ''}</p>
           <ThreeDotsIcon />
         </div>
       </Styles>

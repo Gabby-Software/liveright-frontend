@@ -27,9 +27,16 @@ export default styled(Card)`
     }
 
     &__subtitle {
-      color: ${getColorCarry('neutral_50')};
       font-size: 0.75rem;
       font-weight: 400;
+
+      &.mutted {
+        color: ${getColorCarry('neutral_50')};
+      }
+
+      &.white {
+        color: #fff;
+      }
     }
   }
 `
