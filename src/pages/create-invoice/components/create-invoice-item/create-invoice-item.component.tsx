@@ -27,7 +27,7 @@ type Props = {
 const typeOptions: OptionType[] = [
   { label: 'PT session', value: 'PT session' },
   { label: 'Coaching session', value: 'Coaching session' },
-  { label: 'Consultation', value: 'Consultation' }
+  { label: 'Consultation', value: 'Consultation session' }
 ]
 
 const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
