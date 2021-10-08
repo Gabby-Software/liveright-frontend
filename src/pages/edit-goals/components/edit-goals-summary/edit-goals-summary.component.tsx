@@ -27,7 +27,7 @@ const EditGoalsSummary: FC<EditGoalsSummaryProps> = ({
   totalWeek,
   formikProps
 }) => {
-  const { initialValues, values, submitCount } = formikProps
+  const { values, submitCount } = formikProps
   const [refValues, setRefValues] = useState(values)
   const { t } = useTranslation()
 
@@ -38,7 +38,7 @@ const EditGoalsSummary: FC<EditGoalsSummaryProps> = ({
   const hasChanged: boolean =
     JSON.stringify(refValues) !== JSON.stringify(values)
 
-  console.log({ initialValues, values, hasChanged, formikProps })
+  // console.log({ initialValues, values, hasChanged, formikProps })
 
   return (
     <Summary>

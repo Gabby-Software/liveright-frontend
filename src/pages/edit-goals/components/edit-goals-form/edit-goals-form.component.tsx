@@ -1,5 +1,6 @@
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
 import { FC } from 'react'
+import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import {
@@ -9,6 +10,7 @@ import {
   OtherGoalIcon
 } from '../../../../assets/media/icons'
 import { toast } from '../../../../components/toast/toast.component'
+import { Routes } from '../../../../enums/routes.enum'
 import useGoals from '../../../../hooks/api/goals/useGoals'
 import { handleError } from '../../../../managers/api.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
@@ -64,6 +66,7 @@ type GoalsType =
 const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
   const { t } = useTranslation()
   const { data } = useGoals()
+  const history = useHistory()
 
   const apiValues: GoalsType | undefined = data
     ?.map((curr) => {
@@ -86,13 +89,45 @@ const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
       ([key, value]) => ({
         type: key,
         value_type: 'number',
-        goal: value.total,
-        frequency: 'm'
+        goal: value.total
       })
     )
+
+    targets.push({
+      type: 'pt_session_quantity',
+      value_type: 'number',
+      goal: Number((values as any).pt_session.quantity)
+    })
+    targets.push({
+      type: 'pt_session_average',
+      value_type: 'number',
+      goal: Number((values as any).pt_session.average)
+    })
+    targets.push({
+      type: 'consultation_quantity',
+      value_type: 'number',
+      goal: Number((values as any).consultation.quantity)
+    })
+    targets.push({
+      type: 'consultation_average',
+      value_type: 'number',
+      goal: Number((values as any).consultation.average)
+    })
+    targets.push({
+      type: 'coaching_quantity',
+      value_type: 'number',
+      goal: Number((values as any).coaching.quantity)
+    })
+    targets.push({
+      type: 'coaching_average',
+      value_type: 'number',
+      goal: Number((values as any).coaching.average)
+    })
+
     try {
       await updateGoalsTarget({ targets })
       toast.show({ type: 'success', msg: t('alerts:goal-update-success') })
+      history.push(Routes.FINANCIALS_GOALS)
     } catch (e: any) {
       handleError(actions)
       toast.show({ type: 'error', msg: e.message })
@@ -156,6 +191,7 @@ const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
                 title={t('financials:edit-goals.other-sources')}
               />
             </GoalsList>
+
             <EditGoalsSummary
               totalMonth={calcTotalMonth(formikProps.values)}
               totalYear={calcTotalYear(formikProps.values)}
