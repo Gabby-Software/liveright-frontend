@@ -1,56 +1,53 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import usePaymentAccount from '../../../../hooks/api/payments/usePaymentAccount'
+import usePayoutTransactions from '../../../../hooks/api/payments/usePayoutTransactions'
 import GetPaidTable from './components/financial-getPaid-table/financial-getPaid-table.component'
 import InfoCards from './components/info-cards/info-cards.component'
 import StripeConnect from './components/stripe-connect/stripe-connect.component'
 import Styles from './financials-getPaid.styles'
 
-const dummyData = [
-  {
-    id: 1,
-    user: {
-      firstName: 'John',
-      lastName: 'Doe',
-      avatar: {
-        url: 'https://yt3.ggpht.com/ytc/AKedOLTFonjbt3zMbyY3XlcSF1ahTGVeBPercEXgKbiJ=s900-c-k-c0x00ffffff-no-rj'
-      }
-    },
-    type: 'Some Event Type',
-    amount: 750,
-    currency: 'AED',
-    dateRecieved: new Date().toISOString(),
-    datePayout: new Date().toISOString()
-  },
-  {
-    id: 2,
-    user: {
-      firstName: 'John',
-      lastName: 'Doe',
-      avatar: {
-        url: 'https://yt3.ggpht.com/ytc/AKedOLTFonjbt3zMbyY3XlcSF1ahTGVeBPercEXgKbiJ=s900-c-k-c0x00ffffff-no-rj'
-      }
-    },
-    type: 'Some Event Type',
-    amount: 750,
-    currency: 'AED',
-    dateRecieved: new Date().toISOString(),
-    datePayout: new Date().toISOString()
-  }
-]
-
 const GetPaid = () => {
+  const stripeConnectData = usePaymentAccount()
+  const {
+    transactions,
+    transactionLoading,
+    meta,
+    onPage,
+    mutate,
+    onFilter,
+    filters
+  } = usePayoutTransactions()
+
+  const stripeExistsAndComp =
+    stripeConnectData.account.id && stripeConnectData.account.details_submitted
   return (
     <Styles>
-      <InfoCards />
-      <GetPaidTable
-        data={dummyData}
-        meta={{ current_page: 1, per_page: 10, total: 500 }}
-        onPage={() => {}}
-        renderOptions={(data) => <Link to={`#${data.id}`}>View Invoice</Link>}
-        withFilter
-      />
-      <StripeConnect />
+      {stripeExistsAndComp && (
+        <>
+          <InfoCards
+            stripeAcc={{
+              createdAt: stripeConnectData.account.created,
+              visitStripeAcc: stripeConnectData.onCreateDashboardLink
+            }}
+            transactionsMutate={mutate}
+          />
+          <GetPaidTable
+            data={transactions}
+            meta={meta}
+            onPage={onPage}
+            filters={filters}
+            onFilter={onFilter}
+            loading={transactionLoading}
+            renderOptions={(data) => (
+              <Link to={`#${data.id}`}>View Invoice</Link>
+            )}
+            withFilter
+          />
+        </>
+      )}
+      <StripeConnect {...stripeConnectData} />
     </Styles>
   )
 }

@@ -18,9 +18,9 @@
     "username": "User Name",
     "eventType": "Event Type",
     "amount": "Amount",
-    "dateRecieved": "Date Recieved",
-    "datePayout": "Date Payout",
-    "options": "Options"
+    "date": "Date",
+    "options": "Options",
+    "type": "Filter by Type"
   },
   "edit-goals": {
     "title": "Define Your Target",
