@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import Button from '../../../../../../components/buttons/button/button.component'
 import usePayoutBalance from '../../../../../../hooks/api/payments/usePayoutBalance'
@@ -21,6 +20,7 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
   const { first_name, last_name, avatar } = useAuth()
   const {
     balance,
+    pendingBalance,
     currency,
     isBalanceLoading,
     onCreatePayout,
@@ -60,7 +60,8 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
         label="Available Payout"
         value={balance?.toString() || '0'}
         currency={currency}
-        note={''}
+        noteStyle="white"
+        note={`${pendingBalance} ${currency.toUpperCase()} (Pending Clearence)`}
       />
       <div className="info_cards__payouts">
         <Button
@@ -69,13 +70,6 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
         >
           Payout Now
         </Button>
-        <Link
-          to="#"
-          onClick={() => stripeAcc.visitStripeAcc()}
-          className="info_cards__payouts__link"
-        >
-          View Payouts on Stripe
-        </Link>
       </div>
     </Styles>
   )

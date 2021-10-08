@@ -11,6 +11,7 @@ import {
 
 interface usePayoutBalance {
   balance: number
+  pendingBalance: number
   currency: string
   isBalanceLoading: boolean
   isPayoutLoading: boolean
@@ -51,11 +52,13 @@ export default function usePayoutBalance(): usePayoutBalance {
   }
 
   const balance = data?.available[0]?.amount || 0
+  const pendingBalance = data?.pending[0]?.amount || 0
   const currency = data?.available[0]?.currency || ''
   const isBalanceLoading = !data && !error
 
   return {
     balance,
+    pendingBalance,
     currency,
     isBalanceLoading,
     onCreatePayout,

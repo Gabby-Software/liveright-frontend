@@ -5,22 +5,22 @@ import { useHistory } from 'react-router-dom'
 
 import Button from '../../../components/buttons/button/button.component'
 import DataTable from '../../../components/data-table/data-table.component'
+import IconActions from '../components/icon-actions/icon-actions.component'
 import { useMobileBack } from '../../../components/mobile-back/mobile-back.component'
 import StatusBadge from '../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../enums/invoice-statuses'
+import { paymentMethods } from '../../../enums/payment-method.enum'
 import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
 import useInvoice from '../../../hooks/api/invoices/useInvoice'
 import { useAuth } from '../../../hooks/auth.hook'
+import Styles from './invoice-desktop.styles'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { usePusher } from '../../../modules/notifications/hooks/pusher.hook'
 import { addressLine } from '../../../pipes/address-line.pipe'
 import { asMoney } from '../../../pipes/as-money.pipe'
 import { date } from '../../../pipes/date.pipe'
 import { payments } from '../../../pipes/payments.pipe'
-import IconActions from '../components/icon-actions/icon-actions.component'
-import Styles from './invoice-desktop.styles'
-import { paymentMethods } from '../../../enums/payment-method.enum'
 
 const labels = [
   'invoices:item',
@@ -112,10 +112,13 @@ export default function InvoiceDesktop() {
 
           {invoice.status === invoiceStatuses.PAID ? null : type ===
             userTypes.CLIENT ? (
-            invoice.payment_method === paymentMethods.CREDIT_CARD &&
-            <a href={payments(`${Routes.INVOICES}/${invoice.id}/pay`)}>
-              <Button className="invoice__send-btn">{t('invoices:pay')}</Button>
-            </a>
+            invoice.payment_method === paymentMethods.CREDIT_CARD && (
+              <a href={payments(`${Routes.INVOICES}/${invoice.id}/pay`)}>
+                <Button className="invoice__send-btn">
+                  {t('invoices:pay')}
+                </Button>
+              </a>
+            )
           ) : invoice.status === invoiceStatuses.DRAFT ? (
             <Button
               className="invoice__send-btn"
