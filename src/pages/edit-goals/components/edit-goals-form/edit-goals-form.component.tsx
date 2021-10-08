@@ -68,11 +68,12 @@ const EditGoalsCardList: FC<EditGoalsCardListProps> = ({}) => {
   const { data } = useGoals()
   const history = useHistory()
 
-  const apiValues: GoalsType | undefined = data
-    ?.map((curr) => {
-      return { [curr.type]: { total: curr.goal } }
-    })
-    .reduce((prev, curr) => ({ ...prev, ...curr }))
+  const apiValues: GoalsType | undefined =
+    data
+      ?.map((curr) => {
+        return { [curr.type]: { total: curr.goal } }
+      })
+      ?.reduce((prev, curr) => ({ ...prev, ...curr }), {}) || {}
 
   const initialValues: GoalsType = apiValues || {
     pt_session: { average: 0, quantity: 0, total: 0 },
