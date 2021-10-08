@@ -11,6 +11,7 @@ import DataPagination from '../../../../components/data-pagination/data-paginati
 import DataTable from '../../../../components/data-table/data-table.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
+import { paymentMethods } from '../../../../enums/payment-method.enum'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -21,7 +22,6 @@ import { payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { useInvoices } from '../../invoices.context'
 import Styles from './invoices-table.styles'
-import { paymentMethods } from '../../../../enums/payment-method.enum'
 
 const InvoicesTable = () => {
   const { type } = useAuth()
@@ -96,7 +96,8 @@ const InvoicesTable = () => {
                 invoiceStatuses.OVERDUE,
                 invoiceStatuses.DUE_SOON,
                 invoiceStatuses.OUTSTANDING
-              ].includes(status) && payment_method === paymentMethods.CREDIT_CARD ? (
+              ].includes(status) &&
+              payment_method === paymentMethods.CREDIT_CARD ? (
                 <a
                   href={payments(`${Routes.INVOICES}/${id}/pay`)}
                   className="invoice-table__link"
