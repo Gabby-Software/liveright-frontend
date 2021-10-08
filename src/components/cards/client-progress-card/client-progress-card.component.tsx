@@ -1,4 +1,6 @@
 import { CaretRightIcon } from '../../../assets/media/icons'
+import useChatOnline from '../../../hooks/api/chat/useChatOnline'
+import { useChats } from '../../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import Button from '../../buttons/button/button.component'
 import UserBadge from '../../user-badge/user-badge.component'
@@ -9,15 +11,24 @@ interface ClientProgressCardProps {
   lastName: string
   avatar?: string
   to: string
+  id?: number
+  uuid: string
 }
 
 export default function ClientProgressCard({
   firstName,
   lastName,
   avatar,
-  to
+  to,
+  id,
+  uuid
 }: ClientProgressCardProps) {
   const { t } = useTranslation()
+  const { findRoomByUserId } = useChats()
+  const { lastSeen } = useChatOnline()
+
+  const room = findRoomByUserId(id)
+
   return (
     <Styles>
       <div className="client-progress-card__header">
@@ -48,7 +59,8 @@ export default function ClientProgressCard({
           </div>
 
           <p className="client-progress-card__header-subtitle">
-            Last Activity: <span>22-05-2021</span>
+            Last Activity:{' '}
+            <span>{lastSeen(uuid, room?.room.meta?.lastSeenAt)}</span>
           </p>
         </div>
       </div>

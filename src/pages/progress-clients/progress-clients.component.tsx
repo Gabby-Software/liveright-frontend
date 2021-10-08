@@ -18,7 +18,9 @@ import { Styles } from './progress-clients.styles'
 export default function ProgressClients() {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { clients, meta, isLoading, onSearch, onPage } = useClientsPaginate()
+  const { clients, meta, isLoading, onSearch, onPage } = useClientsPaginate({
+    status: 'active'
+  })
 
   const filters = (
     <div className="progress__filters-container">
@@ -44,7 +46,7 @@ export default function ProgressClients() {
         {isLoading ? (
           <LoadingPlaceholder />
         ) : !clients.length ? (
-          <EmptyPlaceholder />
+          <EmptyPlaceholder text="No Clients" />
         ) : (
           <div className="progress__cards-container">
             {clients.map((client) => (
@@ -56,6 +58,8 @@ export default function ProgressClients() {
                 firstName={client.first_name}
                 lastName={client.last_name}
                 avatar={client.avatar?.url}
+                uuid={client.uuid}
+                id={client.id}
               />
             ))}
           </div>

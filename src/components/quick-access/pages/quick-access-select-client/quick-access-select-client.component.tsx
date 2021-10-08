@@ -11,7 +11,8 @@ import Styles from './quick-access-select-client.styles'
 export default function QuickAccessSelectClient() {
   const { setClient } = useQuickAccess()
   const { clients, onSearch, isLoading } = useClientsPaginate({
-    per_page: 3
+    per_page: 3,
+    status: 'active'
   })
 
   return (

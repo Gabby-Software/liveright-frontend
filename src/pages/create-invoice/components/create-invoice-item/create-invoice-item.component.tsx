@@ -143,12 +143,14 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
       </div>
 
       <div className="flex justify-between align-center">
-        {item.type === 'PT session' && (
-          <p className="ci-item__credits">
-            {t('invoices:total-after-invoice')}
-            <span> {credits}</span>
-          </p>
-        )}
+        <div>
+          {item.type === 'PT session' && (
+            <p className="ci-item__credits">
+              {t('invoices:total-after-invoice')}
+              <span> {credits}</span>
+            </p>
+          )}
+        </div>
 
         {form.values.items.length > 1 && (
           <IconButton

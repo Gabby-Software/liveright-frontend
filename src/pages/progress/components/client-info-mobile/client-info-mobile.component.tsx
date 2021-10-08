@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import {
   CaretDownIcon,
   ChatIcon,
-  UsersIcon
+  GroupIcon
 } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
@@ -12,7 +12,7 @@ import UserBadge from '../../../../components/user-badge/user-badge.component'
 import { Routes } from '../../../../enums/routes.enum'
 import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
-import useHealth from '../../../../hooks/api/progress/useHealth'
+import useLastActivity from '../../../../hooks/api/progress/useLastActivity'
 import { useChats } from '../../../../modules/chat/contexts/chats.context'
 import SwitchClient from '../switch-client/switch-client.component'
 import { Styles } from './client-info-mobile.styles'
@@ -27,14 +27,7 @@ export default function ClientInfoMobile() {
 
   const room = findRoomByUserId(params.id)
 
-  const { health } = useHealth({
-    filter: {
-      account_id: params.id
-    },
-    per_page: 1
-  })
-
-  const data = health[0] || {}
+  const { activityValue, activityLabel } = useLastActivity()
 
   return (
     <>
@@ -77,7 +70,7 @@ export default function ClientInfoMobile() {
               <span> {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}</span>
             </p>
             <p className="progress__client-card-text">
-              Last Activity on Health Data:<span> {data.date || '-'}</span>
+              {activityLabel} <span>{activityValue}</span>
             </p>
           </div>
         )}
@@ -89,7 +82,7 @@ export default function ClientInfoMobile() {
             className="progress__client-card-switch"
             onClick={() => setSwitchClient(true)}
           >
-            <UsersIcon />
+            <GroupIcon />
             Switch Client
           </Button>
 

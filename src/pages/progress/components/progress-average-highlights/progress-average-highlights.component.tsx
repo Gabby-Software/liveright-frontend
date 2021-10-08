@@ -4,7 +4,10 @@ import { HeartRateV2Icon } from '../../../../assets/media/icons'
 import { ReactComponent as BloodIcon } from '../../../../assets/media/icons/blood.svg'
 import { ReactComponent as SleepIcon } from '../../../../assets/media/icons/sleep.svg'
 import { ReactComponent as StepsIcon } from '../../../../assets/media/icons/steps.svg'
-import { LoadingPlaceholder } from '../../../../components/placeholders'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import { timeWithoutSeconds } from '../../../../pipes/time.pipe'
 import {
   getGlucoseQuality,
@@ -21,9 +24,19 @@ export default function AverageHighLights() {
     return <LoadingPlaceholder spacing />
   }
 
+  const allEmpty =
+    !(averages?.avg_sleep && averages?.avg_sleep !== '00:00:00') &&
+    !averages?.avg_heart_rate &&
+    !averages?.avg_steps &&
+    !averages?.avg_glucose
+
+  if (allEmpty) {
+    return <EmptyPlaceholder spacing />
+  }
+
   return (
     <CardsWrapper>
-      {averages?.avg_sleep && (
+      {averages?.avg_sleep && averages?.avg_sleep !== '00:00:00' && (
         <HealthCard
           icon={<SleepIcon />}
           data={timeWithoutSeconds(averages?.avg_sleep) + ' Hours'}

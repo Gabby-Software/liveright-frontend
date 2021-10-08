@@ -53,7 +53,7 @@ export type ChatsContextType = {
   sendSession: (meta: ChatMessageSessionMetaType) => void
   sendSessionReschedule: (meta: ChatMessageSessionMetaType) => void
   removeMessage: (room: string, id: string) => void
-  findRoomByUserId: (userId: number) => RoomResponse | null
+  findRoomByUserId: (userId?: number) => RoomResponse | null
 }
 
 const ChatsContext = createContext<ChatsContextType | null>(null)
@@ -264,7 +264,11 @@ export const ChatsProvider: FC<unknown> = ({ children }) => {
   )
 
   const findRoomByUserId = useCallback(
-    (userId: number): RoomResponse | null => {
+    (userId?: number): RoomResponse | null => {
+      if (!userId) {
+        return null
+      }
+
       let room = null
 
       Object.keys(rooms).forEach((roomId) => {
