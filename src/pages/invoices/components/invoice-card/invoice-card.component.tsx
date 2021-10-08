@@ -6,6 +6,7 @@ import Button from '../../../../components/buttons/button/button.component'
 import Ellipsis from '../../../../components/ellipsis/ellipsis.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
+import { paymentMethods } from '../../../../enums/payment-method.enum'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -15,8 +16,6 @@ import { payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { LinkStyles, Styles } from './invoice-card.styles'
-import { paymentMethods } from '../../../../enums/payment-method.enum'
-
 
 interface InvoiceCardProps {
   mobileColumn?: boolean
@@ -75,8 +74,8 @@ const InvoiceCard = ({
   const actionBtn = (
     <>
       {type === userTypes.CLIENT ? (
-        status !== invoiceStatuses.PAID && payment_method === paymentMethods.CREDIT_CARD
-           ? (
+        status !== invoiceStatuses.PAID &&
+        payment_method === paymentMethods.CREDIT_CARD ? (
           showPay ? (
             <a href={payments(`${Routes.INVOICES}/${id}/pay`)}>
               <Button className="invoice-card__btn" size="sm">
