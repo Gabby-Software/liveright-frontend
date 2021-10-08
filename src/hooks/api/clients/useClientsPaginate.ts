@@ -21,6 +21,7 @@ interface UseClientsParams {
   page: number
   per_page: number
   query: string
+  status?: 'active' | 'past' | 'awaiting'
 }
 
 interface UseClientsPaginateConfig extends Partial<UseClientsParams> {}
@@ -39,6 +40,7 @@ export default function useClientsPaginate(
 
   const params: UseClientsParams = {
     per_page: config.per_page || 10,
+    status: config.status,
     ...filters
   }
 

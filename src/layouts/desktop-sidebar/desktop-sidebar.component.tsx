@@ -5,13 +5,13 @@ import {
   BrandLogoIcon,
   CalendarIcon,
   ClientSolidIcon,
+  GroupIcon,
   HomeIcon,
   InvoiceIcon,
   LibraryIcon,
   PlanIcon,
   ProgressIcon,
-  RevenueIcon,
-  UsersIcon
+  RevenueIcon
 } from '../../assets/media/icons'
 import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
 import ChatIcon from '../../components/chat-icon/chat-icon.component'
@@ -35,6 +35,7 @@ type MenuItemType = {
   url: string
   type?: string
   requireTrainer?: boolean
+  occur?: string[]
 }
 
 const menuItems: MenuItemType[] = [
@@ -44,15 +45,17 @@ const menuItems: MenuItemType[] = [
     name: 'progress',
     url: Routes.PROGRESS_CLIENTS,
     Icon: ProgressIcon,
-    type: userTypes.TRAINER
+    type: userTypes.TRAINER,
+    occur: ['progress']
   },
   {
     name: 'progress',
     url: Routes.PROGRESS_CLIENT_HEALTH_DATA,
     Icon: ProgressIcon,
-    type: userTypes.CLIENT
+    type: userTypes.CLIENT,
+    occur: ['progress']
   },
-  { name: 'sessions', url: Routes.SESSIONS, Icon: UsersIcon },
+  { name: 'sessions', url: Routes.SESSIONS, Icon: GroupIcon },
   {
     name: 'clients',
     url: Routes.CLIENTS,
@@ -98,7 +101,14 @@ export default function DesktopSidebar() {
           <nav className="sidebar__nav">
             <ul className="sidebar__menu">
               {menuItems.map(
-                ({ url, name, Icon, type: permission, requireTrainer }) =>
+                ({
+                  url,
+                  name,
+                  Icon,
+                  type: permission,
+                  requireTrainer,
+                  occur
+                }) =>
                   (!permission || type === permission) &&
                   (!requireTrainer || type !== userTypes.CLIENT) && (
                     <Link
@@ -106,7 +116,9 @@ export default function DesktopSidebar() {
                       key={url}
                       className={classes(
                         'sidebar__item',
-                        pathname === url && 'sidebar__item_active'
+                        (pathname === url ||
+                          occur?.some((o) => pathname.includes(o))) &&
+                          'sidebar__item_active'
                       )}
                     >
                       <Icon />

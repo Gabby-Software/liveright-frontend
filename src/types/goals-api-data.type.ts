@@ -1,7 +1,6 @@
 export type TargetDataType = {
   from?: string
   to?: string
-  frequency: string
   goal: number
   type: string
   value_type: string

@@ -27,7 +27,7 @@ type Props = {
 const typeOptions: OptionType[] = [
   { label: 'PT session', value: 'PT session' },
   { label: 'Coaching session', value: 'Coaching session' },
-  { label: 'Consultation', value: 'Consultation' }
+  { label: 'Consultation', value: 'Consultation session' }
 ]
 
 const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
@@ -143,12 +143,14 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
       </div>
 
       <div className="flex justify-between align-center">
-        {item.type === 'PT session' && (
-          <p className="ci-item__credits">
-            {t('invoices:total-after-invoice')}
-            <span> {credits}</span>
-          </p>
-        )}
+        <div>
+          {item.type === 'PT session' && (
+            <p className="ci-item__credits">
+              {t('invoices:total-after-invoice')}
+              <span> {credits}</span>
+            </p>
+          )}
+        </div>
 
         {form.values.items.length > 1 && (
           <IconButton

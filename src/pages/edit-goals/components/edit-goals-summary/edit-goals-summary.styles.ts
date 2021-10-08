@@ -1,28 +1,19 @@
 import styled from 'styled-components'
 
 import Button from '../../../../components/buttons/button/button.component'
+import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Summary = styled.div`
-  margin-left: 41px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  @media ${mediaQueries.MOBILE} {
-    margin-left: 0;
-    margin-top: 22px;
-  }
 `
 
-export const SummaryWrapper = styled.div`
-  width: 291px;
-  height: 274px;
-  border-radius: 10px;
-  background: ${getColorCarry('white')};
-  margin-bottom: 23px;
-  padding: 28px 26px 30px 29px;
+export const SummaryWrapper = styled(Card)`
+  width: 100%;
+  margin-bottom: 1.25rem;
 
   @media ${mediaQueries.MOBILE} {
     width: 100%;
@@ -72,7 +63,7 @@ export const ButtonText = styled.p`
   line-height: 1.5rem;
   color: ${getColorCarry('white')};
 
-  @media ${mediaQueries.MOBILE} {
+  @media ${mediaQueries.TABLET} {
     padding: 0 21px;
   }
 `

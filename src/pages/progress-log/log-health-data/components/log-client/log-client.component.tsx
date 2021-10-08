@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import {
   CaretDownIcon,
   ChatIcon,
-  UsersIcon
+  GroupIcon
 } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../components/buttons/icon-button/icon-button.component'
@@ -12,7 +12,7 @@ import UserBadge from '../../../../../components/user-badge/user-badge.component
 import { Routes } from '../../../../../enums/routes.enum'
 import useClientAccount from '../../../../../hooks/api/accounts/useClientAccount'
 import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
-import useHealth from '../../../../../hooks/api/progress/useHealth'
+import useLastActivity from '../../../../../hooks/api/progress/useLastActivity'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { classes } from '../../../../../pipes/classes.pipe'
 import SwitchClient from '../../../../progress/components/switch-client/switch-client.component'
@@ -26,16 +26,9 @@ export default function LogClient() {
   const { findRoomByUserId } = useChats()
   const [switchDialog, setSwitchDialog] = useState(false)
 
+  const { activityValue, activityLabel } = useLastActivity()
+
   const room = findRoomByUserId(params.id)
-
-  const { health } = useHealth({
-    filter: {
-      account_id: params.id
-    },
-    per_page: 1
-  })
-
-  const data = health[0] || {}
 
   return (
     <>
@@ -64,7 +57,7 @@ export default function LogClient() {
                 className={'log-client__switch'}
                 onClick={() => setSwitchDialog(true)}
               >
-                <UsersIcon />
+                <GroupIcon />
                 <span>Switch Client</span>
               </Button>
             </div>
@@ -82,10 +75,10 @@ export default function LogClient() {
                 <div className={'log-client__bottom__separator'} />
                 <div className={'log-client__bottom__item'}>
                   <div className={'log-client__bottom__label'}>
-                    Last Activity on Health Data:
+                    {activityLabel}
                   </div>
                   <div className={'log-client__bottom__value'}>
-                    {data.date || '-'}
+                    {activityValue}
                   </div>
                 </div>
               </div>
