@@ -43,14 +43,14 @@ export const authRoutes: RouteType[] = [
   //     Component: lazy(() => import('../pages/auth/sign-up-confirmation/sign-up-confirmation.component')),
   //     header: {}
   // },
-  {
-    title: 'Sign up onboarding',
-    url: Routes.REGISTER_ON_BOARD,
-    Component: lazy(
-      () => import('../pages/auth/sign-up-onboard/sign-up-onboard.component')
-    ),
-    header: {}
-  }
+  // {
+  //   title: 'Sign up onboarding',
+  //   url: Routes.REGISTER_ON_BOARD,
+  //   Component: lazy(
+  //     () => import('../pages/auth/sign-up-onboard/sign-up-onboard.component')
+  //   ),
+  //   header: {}
+  // }
   // {
   //     title: 'Email verification',
   //     url: `${Routes.VERIFY_EMAIL}/:id/:token`,
