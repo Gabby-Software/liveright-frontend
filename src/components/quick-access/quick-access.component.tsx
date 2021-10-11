@@ -11,6 +11,7 @@ const QuickAccessContent: FC = () => {
   const { open, setOpen } = useQuickAccess()
   const { pathname } = useLocation()
   const routesWhichFuckedUpAndNoNormalSolutionProvided = [Routes.CHAT]
+
   return (
     <Styles
       elevate={routesWhichFuckedUpAndNoNormalSolutionProvided.some((route) =>
@@ -24,6 +25,7 @@ const QuickAccessContent: FC = () => {
     </Styles>
   )
 }
+
 const QuickAccess = () => (
   <QuickAccessProvider>
     <QuickAccessContent />
