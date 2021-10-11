@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
-import { useHistory } from 'react-router-dom'
 import useSWR from 'swr'
 
 import { toast } from '../../../components/toast/toast.component'
 import { EP_MEASUREMENTS } from '../../../enums/api.enum'
-import { Routes } from '../../../enums/routes.enum'
 import { handleErrorMessage } from '../../../managers/api.manager'
 import {
   addGoals,
@@ -13,14 +11,11 @@ import {
   getMeasurements
 } from '../../../services/api/progress'
 import { PaginationMetaType } from '../../../types/pagination-meta.type'
-import { isClient } from '../../../utils/api/auth'
 import {
   formatGoalsValues,
   formatMeasurementsValues
 } from '../../../utils/api/progress'
 import { stringifyURL } from '../../../utils/query'
-import { getRoute } from '../../../utils/routes'
-import { useAuth } from '../../auth.hook'
 
 interface MeasurementsFilters {
   range?: 'week' | 'month' | 'quarter' | 'ytd' | 'last_year' | 'specific_dates'
@@ -67,9 +62,7 @@ function getKey(params: any) {
 export default function useMeasurements(
   config: UseMeasurementsConfig = {}
 ): UseMeasurements {
-  const history = useHistory()
   const params = useParams<any>()
-  const { type } = useAuth()
   const [page, setPage] = useState(1)
 
   const [filters, setFilters] = useState<MeasurementsFilters>({

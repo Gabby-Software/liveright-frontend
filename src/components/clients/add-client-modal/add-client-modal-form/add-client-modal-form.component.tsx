@@ -1,9 +1,8 @@
-import { /* Form, Formik, */ FormikHelpers, useFormikContext } from 'formik'
+import { FormikHelpers, useFormikContext } from 'formik'
 import moment from 'moment'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
 
-// import * as Yup from 'yup'
 import { genderTypes } from '../../../../enums/gender-types'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { handleError } from '../../../../managers/api.manager'
@@ -46,24 +45,27 @@ const AddClientModalFormContent = ({
   onSubmit,
   onClose
 }: AddClientModalFormContentProps) => {
-  const { errors, values, setFieldValue, setSubmitting, resetForm, setFieldTouched } =
-    useFormikContext<ClientFormType>()
+  const {
+    errors,
+    values,
+    setFieldValue,
+    setSubmitting,
+    resetForm,
+    setFieldTouched
+  } = useFormikContext<ClientFormType>()
   const isMobile = useIsMobile()
   const history = useHistory()
-  const [firstErrorElement, setFirstErrorElement] = useState("")
+  const [firstErrorElement, setFirstErrorElement] = useState('')
 
   const handleCheckErrorsAndSubmit = () => {
-    const errorObjectLength = Object.values(errors).length;
-    const firstErrorObjectKey = Object.keys(errors)[0];
-    
-    if(errorObjectLength === 0){      
+    const errorObjectLength = Object.values(errors).length
+    const firstErrorObjectKey = Object.keys(errors)[0]
+
+    if (errorObjectLength === 0) {
       handleSubmit(values)
-    }
-    else
-    {
+    } else {
       setFirstErrorElement(firstErrorObjectKey)
     }
-
   }
 
   const handleSubmit = (values: ClientFormType) => {

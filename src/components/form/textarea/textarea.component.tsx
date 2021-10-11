@@ -32,20 +32,24 @@ const Textarea = forwardRef<any, TextareaProps>((props, ref) => {
     shouldScrollTo,
     ...other
   } = props
-  
+
   const handleScrollTo = () => {
-    scrollRef.current?.scrollIntoView({behavior: "smooth"})
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
-  
+
   useEffect(() => {
-    if(shouldScrollTo){
+    if (shouldScrollTo) {
       handleScrollTo()
     }
-  },[shouldScrollTo])
+  }, [shouldScrollTo])
 
   return (
     <Styles className={className}>
-      {label && <Label ref={scrollRef} htmlFor={id}>{label}</Label>}
+      {label && (
+        <Label ref={scrollRef} htmlFor={id}>
+          {label}
+        </Label>
+      )}
       <TextArea
         ref={ref}
         id={id}

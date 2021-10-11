@@ -4,8 +4,8 @@ import React, {
   FocusEventHandler,
   forwardRef,
   ReactNode,
-  useRef,
-  useEffect
+  useEffect,
+  useRef
 } from 'react'
 
 import { Formatter } from '../../../managers/formatter.manager'
@@ -67,17 +67,16 @@ const Input = forwardRef<any, InputProps>(
     },
     ref
   ) => {
-
     const scrollRef = useRef<HTMLLabelElement>(null)
     const handleScrollTo = () => {
-      scrollRef.current?.scrollIntoView({behavior: "smooth"})
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
     useEffect(() => {
-      if(shouldScrollTo){
+      if (shouldScrollTo) {
         handleScrollTo()
       }
-    },[shouldScrollTo])
+    }, [shouldScrollTo])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (format) {
@@ -97,7 +96,7 @@ const Input = forwardRef<any, InputProps>(
         $disabled={disabled}
       >
         {label && (
-          <Label  ref={scrollRef} htmlFor={id} className="input__label">
+          <Label ref={scrollRef} htmlFor={id} className="input__label">
             {labelComponent}
 
             {label}
