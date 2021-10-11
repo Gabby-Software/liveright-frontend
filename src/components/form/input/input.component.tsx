@@ -3,7 +3,9 @@ import React, {
   ChangeEvent,
   FocusEventHandler,
   forwardRef,
-  ReactNode
+  ReactNode,
+  useEffect,
+  useRef
 } from 'react'
 
 import { Formatter } from '../../../managers/formatter.manager'
@@ -34,6 +36,7 @@ export interface InputProps {
   labelComponent?: ReactNode
   max?: number
   error?: string
+  shouldScrollTo?: Boolean
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -59,10 +62,22 @@ const Input = forwardRef<any, InputProps>(
       format,
       labelComponent,
       max,
-      error
+      error,
+      shouldScrollTo
     },
     ref
   ) => {
+    const scrollRef = useRef<HTMLLabelElement>(null)
+    const handleScrollTo = () => {
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    useEffect(() => {
+      if (shouldScrollTo) {
+        handleScrollTo()
+      }
+    }, [shouldScrollTo])
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (format) {
         onChange?.({
@@ -81,7 +96,7 @@ const Input = forwardRef<any, InputProps>(
         $disabled={disabled}
       >
         {label && (
-          <Label htmlFor={id} className="input__label">
+          <Label ref={scrollRef} htmlFor={id} className="input__label">
             {labelComponent}
 
             {label}

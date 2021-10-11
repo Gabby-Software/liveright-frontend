@@ -1,9 +1,8 @@
-import { /* Form, Formik, */ FormikHelpers, useFormikContext } from 'formik'
+import { FormikHelpers, useFormikContext } from 'formik'
 import moment from 'moment'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
 
-// import * as Yup from 'yup'
 import { genderTypes } from '../../../../enums/gender-types'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { handleError } from '../../../../managers/api.manager'
@@ -46,10 +45,28 @@ const AddClientModalFormContent = ({
   onSubmit,
   onClose
 }: AddClientModalFormContentProps) => {
-  const { values, setFieldValue, setSubmitting, resetForm, setFieldTouched } =
-    useFormikContext<ClientFormType>()
+  const {
+    errors,
+    values,
+    setFieldValue,
+    setSubmitting,
+    resetForm,
+    setFieldTouched
+  } = useFormikContext<ClientFormType>()
   const isMobile = useIsMobile()
   const history = useHistory()
+  const [firstErrorElement, setFirstErrorElement] = useState('')
+
+  const handleCheckErrorsAndSubmit = () => {
+    const errorObjectLength = Object.values(errors).length
+    const firstErrorObjectKey = Object.keys(errors)[0]
+
+    if (errorObjectLength === 0) {
+      handleSubmit(values)
+    } else {
+      setFirstErrorElement(firstErrorObjectKey)
+    }
+  }
 
   const handleSubmit = (values: ClientFormType) => {
     InvitationManager.sendInvitationNewUser({
@@ -80,6 +97,7 @@ const AddClientModalFormContent = ({
         }}
         value={values.first_name}
         onFocus={() => setFieldTouched('first_name', true)}
+        shouldScrollTo={firstErrorElement === 'first_name'}
       />
       <Input
         className="client-add__input"
@@ -91,6 +109,7 @@ const AddClientModalFormContent = ({
         }}
         value={values.last_name}
         onFocus={() => setFieldTouched('last_name', true)}
+        shouldScrollTo={firstErrorElement === 'last_name'}
       />
       <DatePicker
         className="client-add__input"
@@ -124,6 +143,7 @@ const AddClientModalFormContent = ({
         }}
         value={values.city}
         onFocus={() => setFieldTouched('city', true)}
+        shouldScrollTo={firstErrorElement === 'city'}
       />
       <Input
         className="client-add__input"
@@ -136,6 +156,7 @@ const AddClientModalFormContent = ({
         }}
         value={values.postal_code}
         onFocus={() => setFieldTouched('postal_code', true)}
+        shouldScrollTo={firstErrorElement === 'postal_code'}
       />
       <FormCountrySelect
         name="country"
@@ -153,6 +174,7 @@ const AddClientModalFormContent = ({
         }}
         value={values.address}
         onFocus={() => setFieldTouched('address', true)}
+        shouldScrollTo={firstErrorElement === 'address'}
       />
       <Textarea
         className="client-add__input"
@@ -183,9 +205,10 @@ const AddClientModalFormContent = ({
           setFieldValue('message', e.target.value)
         }}
         value={values.message}
+        shouldScrollTo={firstErrorElement === 'message'}
       />
       <Button
-        onClick={() => handleSubmit(values)}
+        onClick={handleCheckErrorsAndSubmit}
         className={'client-add__submit'}
       >
         {t('submit')}
