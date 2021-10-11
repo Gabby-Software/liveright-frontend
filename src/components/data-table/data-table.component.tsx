@@ -2,11 +2,7 @@ import { Skeleton } from 'antd'
 import get from 'lodash/get'
 import React from 'react'
 
-import {
-  // SortAscIcon,
-  // SortDescIcon,
-  SortGroupIcon
-} from '../../assets/media/icons'
+import { SortGroupIcon } from '../../assets/media/icons'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
 import Styles from './data-table.styles'
@@ -52,12 +48,11 @@ const DataTable = ({
             <div className="data-table__th-container">
               {t(label)}
               <SortGroupIcon />
-              {/*{false && <SortAscIcon />}*/}
-              {/*{false && <SortDescIcon />}*/}
             </div>
           </th>
         ))}
       </thead>
+
       <tbody className={'data-table__body'}>
         {error ? (
           <p className={'data-table__error'}>{error}</p>
@@ -65,7 +60,6 @@ const DataTable = ({
           <Skeleton />
         ) : data?.length ? (
           data.map((item, index) => (
-            // eslint-disable-next-line react/jsx-key
             <tr
               key={item.id || index}
               className={classes(
@@ -89,6 +83,7 @@ const DataTable = ({
             </tr>
           ))
         ) : null}
+
         {children}
       </tbody>
     </Styles>

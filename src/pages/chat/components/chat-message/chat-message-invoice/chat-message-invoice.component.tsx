@@ -2,10 +2,9 @@ import React, { FC } from 'react'
 
 import Button from '../../../../../components/buttons/button/button.component'
 import StatusBadge from '../../../../../components/status-badge/status-badge.component'
-import { Routes } from '../../../../../enums/routes.enum'
 import { ChatMessageInvoiceMetaType } from '../../../../../modules/chat/types/chat-message-invoice-meta.type'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
-import { payments } from '../../../../../pipes/payments.pipe'
+import { invoices, payments } from '../../../../../pipes/payments.pipe'
 import Styles from './chat-message-invoice.styles'
 
 type Props = ChatMessageInvoiceMetaType & {
@@ -22,7 +21,7 @@ const ChatMessageInvoice: FC<Props> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <Styles to={Routes.INVOICES + `/${invoice_id}`} className={'cm-invoice'}>
+    <Styles href={invoices(invoice_id)} className={'cm-invoice'}>
       <div className={'cm-invoice__left'}>
         <div className={'cm-invoice__id'}>Invoice #{invoice_number || '-'}</div>
         <div className={'cm-invoice__name'}>{name}</div>
@@ -37,11 +36,7 @@ const ChatMessageInvoice: FC<Props> = ({
         </StatusBadge>
 
         {!me ? null : (
-          <a
-            href={payments(`${Routes.INVOICES}/${invoice_id}/pay`)}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={payments(invoice_id)} target="_blank" rel="noreferrer">
             <Button size="sm" className={'cm-invoice__cta'}>
               Settle Now
             </Button>

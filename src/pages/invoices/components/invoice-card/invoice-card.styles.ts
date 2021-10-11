@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const LinkStyles = styled<any>(Link)`
+export const LinkStyles = styled.a<any>`
   display: block;
   width: auto;
   margin-right: 0.875rem;

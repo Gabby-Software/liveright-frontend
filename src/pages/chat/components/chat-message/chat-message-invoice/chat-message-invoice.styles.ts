@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 
-export default styled(Link)`
+export default styled.a`
   background-color: #fff;
   width: 100%;
   max-width: 330px;
