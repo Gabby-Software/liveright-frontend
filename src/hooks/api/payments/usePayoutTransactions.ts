@@ -26,7 +26,6 @@ export default function usePayoutTransactions(): usePayoutTransactions {
   const [filters, setFilters] = useState({})
 
   const url = stringifyURL(EP_PAYOUT_TRANSACTIONS, omitEmpty(filters))
-  console.log(url)
   const { data, error, mutate } = useSWR(url, getPayoutTransactions)
 
   const onPage = (page: number) => {

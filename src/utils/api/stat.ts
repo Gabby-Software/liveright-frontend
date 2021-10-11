@@ -35,7 +35,11 @@ export const STATISTIC_INITIAL_PARAMS = (
         total: true,
         outstanding: true,
         overdue: true,
-        paid: true
+        paid: true,
+        coaching_sessions: true,
+        consultations_sessions: true,
+        pt_sessions: true,
+        other_sessions: true
       }
     }
   }
