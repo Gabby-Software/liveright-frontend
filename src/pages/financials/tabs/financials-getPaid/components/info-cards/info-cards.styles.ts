@@ -21,7 +21,8 @@ export default styled.div`
       flex-direction: column;
       justify-content: center;
 
-      a {
+      &__link {
+        margin: 8px 0;
         font-style: normal;
         font-weight: bold;
         font-size: 14px;

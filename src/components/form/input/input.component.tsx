@@ -78,7 +78,7 @@ const Input = forwardRef<any, InputProps>(
         handleScrollTo()
       }
     },[shouldScrollTo])
-    
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (format) {
         onChange?.({
@@ -97,7 +97,7 @@ const Input = forwardRef<any, InputProps>(
         $disabled={disabled}
       >
         {label && (
-          <Label ref={scrollRef} htmlFor={id}>
+          <Label  ref={scrollRef} htmlFor={id} className="input__label">
             {labelComponent}
 
             {label}

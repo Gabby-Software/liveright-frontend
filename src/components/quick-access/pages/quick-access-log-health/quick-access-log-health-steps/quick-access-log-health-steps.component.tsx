@@ -20,6 +20,7 @@ type Props = {}
 const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
   const { t } = useTranslation()
   const { setOpen, todayHealthData, logHealthData } = useQuickAccess()
+
   const onSubmit = (
     values: QuickAccessLogDataType,
     helper: FormikHelpers<QuickAccessLogDataType>
@@ -45,6 +46,7 @@ const QuickAccessLogHealthSteps: FC<Props> = ({}) => {
         label={'health-data'}
         route={quickAccessRoutes.LOG_HEALTH_DATA}
       />
+
       <QuickAccessTitle label={'Today'}>
         {t('quickaccess:menu.steps')}
       </QuickAccessTitle>

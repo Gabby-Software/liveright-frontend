@@ -29,12 +29,12 @@ export default function AddClientForms({
           onSubmit={console.log}
           enableReinitialize
           validationSchema={Yup.object({
-            first_name: Yup.string().required().name(),
-            last_name: Yup.string().required().name(),
+            first_name: Yup.string().required().name().trim(),
+            last_name: Yup.string().required().name().trim(),
             phone_number: Yup.string().phone(),
             birthday: Yup.date().max(moment().startOf('day').toDate()),
             postal_code: Yup.string().zip().nullable(),
-            email: Yup.string().required().email(),
+            email: Yup.string().required().email().trim(),
             message: Yup.string().required()
           })}
         >

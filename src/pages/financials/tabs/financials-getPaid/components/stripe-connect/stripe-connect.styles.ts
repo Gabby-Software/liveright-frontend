@@ -68,6 +68,7 @@ export default styled(Card)`
       border-radius: 10px;
       width: 279px;
       height: 46px;
+      cursor: pointer;
     }
   }
 

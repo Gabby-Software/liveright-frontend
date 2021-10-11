@@ -61,7 +61,7 @@ const ForgotPassword = () => {
           initialValues={form}
           onSubmit={handleSubmit}
           validationSchema={Yup.object({
-            email: Yup.string().required().email()
+            email: Yup.string().required().email().trim()
           })}
         >
           {(form: FormikProps<EmailType>) => (

@@ -55,4 +55,11 @@ export const EP_PAYMENT_CREATE_ACCOUNT =
   ALLRIGHT_BASE + '/stripe/connect/onboarding'
 export const EP_PAYMENT_CREATE_LINK =
   ALLRIGHT_BASE + '/stripe/connect/account-link'
+export const EP_PAYMENT_CREATE_STRIPE_DASHBOARD_LINK =
+  ALLRIGHT_BASE + '/stripe/connect/dashboard-link'
+export const EP_STRIPE_AVAILABLE_BALANCE =
+  ALLRIGHT_BASE + '/stripe/connect/balance'
+export const EP_STRIPE_CREATE_PAYOUT = ALLRIGHT_BASE + '/stripe/connect/payouts'
+export const EP_PAYOUT_TRANSACTIONS =
+  ALLRIGHT_BASE + '/stripe/connect/balance-transactions'
 export const EP_UPDATE_GOALS_TARGET = LIVERIGHT_BASE + '/goal-targets'

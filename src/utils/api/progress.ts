@@ -40,7 +40,6 @@ export async function formatMeasurementsValues(
       // Remove images from body if empty or already uploaded (starts with https://), keep null to remove
       if (
         !images[key] ||
-        images[key] !== null ||
         (typeof images[key] === 'string' && images[key].includes('https://'))
       ) {
         delete images[key]

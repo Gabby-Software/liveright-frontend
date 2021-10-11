@@ -73,7 +73,7 @@ const Login = () => {
           onSubmit={handleSubmit}
           validationSchema={Yup.object({
             type: Yup.string().required(),
-            email: Yup.string().required().email(),
+            email: Yup.string().required().email().trim(),
             password: Yup.string().required().min(8).password()
           })}
         >

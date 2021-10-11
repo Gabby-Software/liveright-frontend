@@ -14,12 +14,12 @@ import DataPagination from '../../../../../../components/data-pagination/data-pa
 import DataTable from '../../../../../../components/data-table/data-table.component'
 import StatusBadge from '../../../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../../../enums/invoice-statuses'
-import { Routes } from '../../../../../../enums/routes.enum'
 import { UseInvoice } from '../../../../../../hooks/api/invoices/useInvoice'
 import { UsePagination } from '../../../../../../hooks/ui/usePagination'
 import fileManager from '../../../../../../managers/file.manager'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
 import { date } from '../../../../../../pipes/date.pipe'
+import { invoices } from '../../../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../../../types/invoice.type'
 import { PaginationMetaType } from '../../../../../../types/pagination-meta.type'
 import Styles from './financials-receivables-table.styles'
@@ -135,13 +135,11 @@ const FinancialsReceivablesTable = ({
                     </IconButton>
                   )}
 
-                  <IconButton
-                    size="sm"
-                    to={Routes.INVOICES + '/' + invoice.id}
-                    className="invoice-table__icon-btn"
-                  >
-                    <InvoiceIcon />
-                  </IconButton>
+                  <a href={invoices(invoice.id)}>
+                    <IconButton size="sm" className="invoice-table__icon-btn">
+                      <InvoiceIcon />
+                    </IconButton>
+                  </a>
 
                   <Popconfirm
                     title={t('invoices:confirm-delete')}
@@ -166,13 +164,11 @@ const FinancialsReceivablesTable = ({
                     <DownloadIcon />
                   </IconButton>
 
-                  <IconButton
-                    className="invoice-table__icon-btn"
-                    size="sm"
-                    to={Routes.INVOICES + '/' + invoice.id}
-                  >
-                    <InvoiceIcon />
-                  </IconButton>
+                  <a href={invoices(invoice.id)}>
+                    <IconButton size="sm" className="invoice-table__icon-btn">
+                      <InvoiceIcon />
+                    </IconButton>
+                  </a>
                 </>
               ) : null}
             </div>

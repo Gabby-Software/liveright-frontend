@@ -86,9 +86,9 @@ const SignUp = () => {
           onSubmit={handleSubmit}
           validationSchema={Yup.object({
             type: Yup.string().required(),
-            first_name: Yup.string().required().name(),
-            last_name: Yup.string().required().name(),
-            email: Yup.string().required().email(),
+            first_name: Yup.string().required().name().trim(),
+            last_name: Yup.string().required().name().trim(),
+            email: Yup.string().required().email().trim(),
             password: Yup.string().required().min(8).password()
           })}
         >

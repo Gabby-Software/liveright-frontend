@@ -9,22 +9,39 @@ import {
   LoadingPlaceholder
 } from '../../../../../../components/placeholders'
 import UserBadge from '../../../../../../components/user-badge/user-badge.component'
+import { useAuth } from '../../../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
 import { PaginationMetaType } from '../../../../../../types/pagination-meta.type'
+import {
+  PayoutFilters,
+  PayoutTransaction
+} from '../../../../../../types/payoutTransaction'
 import GetPaidFilters from '../filters/filters.component'
 
 interface Props {
-  data: any[]
+  data: PayoutTransaction[]
   meta: PaginationMetaType
   renderOptions?: (invoice: any) => ReactElement
   withFilter?: boolean
   FilterProps?: any
   loading?: boolean
+  filters: PayoutFilters
   onPage: (page: number) => void
+  onFilter: (filters: PayoutFilters) => void
 }
 
 const GetPaidTable = (props: Props) => {
-  const { data, meta, renderOptions, withFilter, loading, onPage } = props
+  const {
+    data,
+    meta,
+    renderOptions,
+    withFilter,
+    loading,
+    onPage,
+    onFilter,
+    filters
+  } = props
+  const { first_name, last_name, avatar } = useAuth()
   const { t } = useTranslation()
 
   const { labels, keys } = useMemo(() => {
@@ -32,16 +49,9 @@ const GetPaidTable = (props: Props) => {
       'financials:payout.username',
       'financials:payout.eventType',
       'financials:payout.amount',
-      'financials:payout.dateRecieved',
-      'financials:payout.datePayout'
+      'financials:payout.date'
     ]
-    const keys = [
-      'username',
-      'eventType',
-      'amount',
-      'dateRecieved',
-      'datePayout'
-    ]
+    const keys = ['username', 'eventType', 'amount', 'date']
 
     if (renderOptions) {
       labels.push('financials:payout.options')
@@ -54,7 +64,7 @@ const GetPaidTable = (props: Props) => {
   return (
     <Card className="payoutTable">
       <h2 className="payoutTable__title">{t('financials:payout.title')}</h2>
-      {withFilter && <GetPaidFilters />}
+      {withFilter && <GetPaidFilters onFilter={onFilter} filters={filters} />}
       <br />
       <DataTable
         labels={labels}
@@ -62,26 +72,23 @@ const GetPaidTable = (props: Props) => {
         data={data}
         className="payoutTable__table"
         render={{
-          username: (it) => {
+          username: () => {
             return (
               <UserBadge
-                avatar={it.user.avatar?.url}
-                firstName={it?.user.firstName}
-                lastName={it?.user.lastName}
+                avatar={avatar?.url}
+                firstName={first_name}
+                lastName={last_name}
               />
             )
           },
-          eventType: ({ type }) => {
-            return type
+          eventType: ({ type }: PayoutTransaction) => {
+            return type[0].toUpperCase() + type.substr(1)
           },
-          amount: ({ amount, currency }) => {
+          amount: ({ amount, currency }: PayoutTransaction) => {
             return `${amount} ${currency.toUpperCase()}`
           },
-          dateRecieved: ({ dateRecieved }) => {
-            return moment(dateRecieved).format('YYYY-MM-DD')
-          },
-          datePayout: ({ datePayout }) => {
-            return moment(datePayout).format('YYYY-MM-DD')
+          date: ({ date }: PayoutTransaction) => {
+            return moment(date).format('YYYY-MM-DD')
           },
           options: (item) =>
             renderOptions ? renderOptions(item) : React.Fragment
