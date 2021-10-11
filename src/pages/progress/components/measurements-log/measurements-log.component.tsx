@@ -138,7 +138,9 @@ export default function MeasurementsLog() {
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
   const handleSave = (values: any) => {
-    onAdd(values, data.id)
+    onAdd(values, data.id, () => {
+      history.push(backTo)
+    })
   }
 
   const contextValue = {

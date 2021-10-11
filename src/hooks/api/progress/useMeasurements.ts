@@ -41,7 +41,7 @@ interface MeasurementsParams {
   per_page?: number
 }
 
-type OnAdd = (values: any, id?: string) => void
+type OnAdd = (values: any, id?: string, onSuccess?: any) => void
 
 type OnPage = (page: number) => void
 
@@ -96,13 +96,14 @@ export default function useMeasurements(
     getMeasurements
   )
 
-  const onAdd: OnAdd = async (values, id) => {
+  const onAdd: OnAdd = async (values, id, onSuccess) => {
     try {
       const formattedValues = await formatMeasurementsValues(values, params.id)
       await addMeasurements(formattedValues, id)
 
       const goals = values.goals
       if (
+        goals &&
         goals.from &&
         goals.to &&
         goals.body_weight &&
@@ -118,11 +119,7 @@ export default function useMeasurements(
         msg: id ? 'Measurements updated!' : 'Measurements saved!'
       })
 
-      history.push(
-        isClient(type)
-          ? Routes.PROGRESS_CLIENT_MEASUREMENTS
-          : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
-      )
+      onSuccess?.()
     } catch (e) {
       handleErrorMessage(e)
       console.error(e)
