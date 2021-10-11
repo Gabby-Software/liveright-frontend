@@ -33,6 +33,10 @@ interface UseStatistic {
     outstanding: number
     overdue: number
     paid: number
+    coaching_sessions: number
+    consultations_sessions: number
+    pt_sessions: number
+    other_sessions: number
   }
   chart: Record<string, number>
   onRange: (range: string) => void
@@ -41,12 +45,13 @@ interface UseStatistic {
 
 interface UseStatisticConfig {
   account_id?: number
+  range?: string
 }
 
 export default function useStatistic(
   config: UseStatisticConfig = {}
 ): UseStatistic {
-  const [range, setRange] = useState('week')
+  const [range, setRange] = useState(config.range || 'week')
   const rangeObj = getDateRanges(range)
 
   const params = STATISTIC_INITIAL_PARAMS(

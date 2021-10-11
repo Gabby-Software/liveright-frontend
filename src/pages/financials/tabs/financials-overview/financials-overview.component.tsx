@@ -10,6 +10,7 @@ import {
 } from '../../../../enums/financials.enum'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { useFinancialOverview } from '../../../../hooks/useFinancialOverview'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { asMoney } from '../../../../pipes/as-money.pipe'
 import { formatChartData } from '../../../../utils/api/stat'
@@ -22,6 +23,10 @@ const FinancialsOverview = ({}: Props) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const { statistic, chart, onRange, range } = useStatistic()
+  const data = useFinancialOverview()
+
+  console.log(data)
+
   const chartData = formatChartData(chart, range)
 
   const cards = (

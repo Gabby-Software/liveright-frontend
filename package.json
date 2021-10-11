@@ -73,7 +73,9 @@
     "eject": "react-scripts eject",
     "setup": "yarn install && lr init-env",
     "prettier": "npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "eslint": "npx eslint './**/*.{js,jsx,ts,tsx}' --config ./.eslintrc.js --max-warnings=0"
+    "eslint": "npx eslint './**/*.{js,jsx,ts,tsx}' --config ./.eslintrc.js --max-warnings=0",
+    "prettier-windows": "npx prettier --write ./**/*.{js,jsx,ts,tsx,css,md,json} --config ./.prettierrc",
+    "eslint-windows": "npx eslint ./**/*.{js,jsx,ts,tsx} --config ./.eslintrc.js --max-warnings=0"
   },
   "eslintConfig": {
     "extends": [
