@@ -13,6 +13,7 @@ import QuickAccessTitle from '../../components/quick-access-title/quick-access-t
 import { quickAccessRoutes } from '../../quick-access.routes'
 import { QuickAccessActionType } from '../../types/quick-access-action.type'
 import Styles from './quick-access-log-health.styles'
+
 const options: QuickAccessActionType[] = [
   {
     icon: StepsIcon,

@@ -81,7 +81,7 @@ const Input = forwardRef<any, InputProps>(
         $disabled={disabled}
       >
         {label && (
-          <Label htmlFor={id}>
+          <Label htmlFor={id} className="input__label">
             {labelComponent}
 
             {label}

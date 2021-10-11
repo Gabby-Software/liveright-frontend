@@ -19,6 +19,7 @@ type Props = {}
 const QuickAccessLog: FC<Props> = ({}) => {
   const { type } = useAuth()
   const { client } = useQuickAccess()
+
   const options = useMemo(
     () => [
       {
@@ -48,7 +49,9 @@ const QuickAccessLog: FC<Props> = ({}) => {
     ],
     [type]
   )
+
   if (type !== userTypes.CLIENT && !client) return <QuickAccessSelectClient />
+
   return (
     <Styles>
       {type !== userTypes.CLIENT ? <QuickAccessSelectedClient /> : null}
