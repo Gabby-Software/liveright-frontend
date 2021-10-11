@@ -10,6 +10,7 @@ import Textarea from '../../../../../components/form/textarea/textarea.component
 import { Routes } from '../../../../../enums/routes.enum'
 import { handleError } from '../../../../../managers/api.manager'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
+import { invoices } from '../../../../../pipes/payments.pipe'
 import { ACTION_CREATE_INVOICE_REQUEST } from '../../../../../store/action-types'
 import CreateInvoiceSection from '../../../components/create-invoice-section/create-invoice-section.component'
 import { useInvoiceForm } from '../../../create-invoice.context'
@@ -46,7 +47,8 @@ const CreateInvoiceMobileNotes = ({}: Props) => {
         onSuccess: (id: number) => {
           helper.setSubmitting(false)
           helper.resetForm()
-          history.push(Routes.INVOICES + `/${id}`)
+          history.push(Routes.FINANCIALS_RECEIVABLES)
+          window.open(invoices(id))
         },
         onError: handleError(helper)
       }

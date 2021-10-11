@@ -113,7 +113,7 @@ export default function InvoiceDesktop() {
           {invoice.status === invoiceStatuses.PAID ? null : type ===
             userTypes.CLIENT ? (
             invoice.payment_method === paymentMethods.CREDIT_CARD && (
-              <a href={payments(`${Routes.INVOICES}/${invoice.id}/pay`)}>
+              <a href={payments(invoice.id)}>
                 <Button className="invoice__send-btn">
                   {t('invoices:pay')}
                 </Button>

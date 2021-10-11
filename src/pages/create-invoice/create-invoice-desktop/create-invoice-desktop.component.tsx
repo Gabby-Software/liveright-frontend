@@ -25,6 +25,7 @@ import { Routes } from '../../../enums/routes.enum'
 import useClients from '../../../hooks/api/clients/useClients'
 import { handleError } from '../../../managers/api.manager'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
+import { invoices } from '../../../pipes/payments.pipe'
 import { ACTION_CREATE_INVOICE_REQUEST } from '../../../store/action-types'
 import { RootState } from '../../../store/reducers'
 import { AccountObjType } from '../../../types/account.type'
@@ -78,7 +79,8 @@ const CreateInvoiceDesktop = ({}: Props) => {
         onSuccess: (id: number) => {
           helper.setSubmitting(false)
           helper.resetForm()
-          history.push(Routes.INVOICES + `/${id}`)
+          history.push(Routes.FINANCIALS_RECEIVABLES)
+          window.open(invoices(id))
         },
         onError: handleError(helper)
       }

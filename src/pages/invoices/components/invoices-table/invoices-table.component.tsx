@@ -12,13 +12,12 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { paymentMethods } from '../../../../enums/payment-method.enum'
-import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import fileManager from '../../../../managers/file.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { date } from '../../../../pipes/date.pipe'
-import { payments } from '../../../../pipes/payments.pipe'
+import { invoices, payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
 import { useInvoices } from '../../invoices.context'
 import Styles from './invoices-table.styles'
@@ -98,10 +97,7 @@ const InvoicesTable = () => {
                 invoiceStatuses.OUTSTANDING
               ].includes(status) &&
               payment_method === paymentMethods.CREDIT_CARD ? (
-                <a
-                  href={payments(`${Routes.INVOICES}/${id}/pay`)}
-                  className="invoice-table__link"
-                >
+                <a href={payments(id)} className="invoice-table__link">
                   <Button variant="secondary" size="sm">
                     {t('invoices:settle-now')}
                   </Button>
@@ -124,13 +120,11 @@ const InvoicesTable = () => {
                 <FilePdfIcon />
               </IconButton>
 
-              <IconButton
-                size="sm"
-                to={Routes.INVOICES + '/' + id}
-                className="invoice-table__action"
-              >
-                <InvoiceIcon />
-              </IconButton>
+              <a href={invoices(id)}>
+                <IconButton size="sm" className="invoice-table__action">
+                  <InvoiceIcon />
+                </IconButton>
+              </a>
             </div>
           )
         }}

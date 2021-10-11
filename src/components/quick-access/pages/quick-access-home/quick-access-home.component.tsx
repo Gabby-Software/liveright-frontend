@@ -12,10 +12,12 @@ import QuickAccessLog from '../quick-access-log/quick-access-log.component'
 import Styles, { StyledTabs } from './quick-access-home.styles'
 
 type Props = {}
+
 const QuickAccessHome: FC<Props> = ({}) => {
   const { route, setRoute } = useQuickAccess()
   const { t } = useTranslation()
   const { type } = useAuth()
+
   return (
     <Styles>
       <StyledTabs
@@ -29,6 +31,7 @@ const QuickAccessHome: FC<Props> = ({}) => {
           <QuickAccessAdd />
         </Tabs.TabPane>
       </StyledTabs>
+
       {type === userTypes.CLIENT ? <QuickAccessChat /> : null}
     </Styles>
   )

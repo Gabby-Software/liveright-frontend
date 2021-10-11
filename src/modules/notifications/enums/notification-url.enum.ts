@@ -1,5 +1,6 @@
 import { Routes } from '../../../enums/routes.enum'
 import userTypes from '../../../enums/user-types.enum'
+import { invoices } from '../../../pipes/payments.pipe'
 import { AccessOptionType } from '../../../types/access-option.type'
 import { notificationsTypes } from './notification-types.enum'
 
@@ -30,7 +31,7 @@ export const notificationUrl: (
     case notificationsTypes.INVOICE_CREATED:
     case notificationsTypes.INVOICE_STATUS_CHANGED:
       return {
-        url: Routes.INVOICES + `/${data.invoice_id}`,
+        url: invoices(data.invoice_id),
         slug: 'invoice'
       }
     case notificationsTypes.SESSION_DELETED:

@@ -13,6 +13,7 @@ import Styles, { Times } from './quick-access-popup.styles'
 
 const QuickAccessPopup: FC = () => {
   const { open, setOpen, route } = useQuickAccess()
+
   const Content = useMemo(() => {
     switch (route) {
       case quickAccessRoutes.ADD:
@@ -32,6 +33,7 @@ const QuickAccessPopup: FC = () => {
         return React.Fragment
     }
   }, [route])
+
   return (
     <Styles open={open}>
       <Times onClick={() => setOpen(false)}>
