@@ -1,27 +1,33 @@
 import { Spin } from 'antd'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { ThreeDotsIcon } from '../../../../../../assets/media/icons'
 import StripeImage from '../../../../../../assets/media/Stripe.png'
 import StripeSImage from '../../../../../../assets/media/Stripe-S.png'
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownMenuItem
+} from '../../../../../../components/dropdown'
+import { toast } from '../../../../../../components/toast/toast.component'
+import usePaymentAccount from '../../../../../../hooks/api/payments/usePaymentAccount'
+import usePayoutBalance from '../../../../../../hooks/api/payments/usePayoutBalance'
 import Styles from './stripe-connect.styles'
 
-interface StripeConnectProps {
-  account: any
-  onCreateAccount: () => void
-  onCreateLink: () => void
-  isCreateAccountLoading: boolean
-  isCreateLinkLoading: boolean
-}
-
-const StripeConnect = (props: StripeConnectProps) => {
+const StripeConnect = () => {
   const {
     account,
     onCreateAccount,
+    onCreateLink,
+    onCreateDashboardLink,
     isCreateAccountLoading,
     isCreateLinkLoading,
-    onCreateLink
-  } = props
+    isDashboardLinkLoading
+  } = usePaymentAccount()
+
+  const { balance, pendingBalance } = usePayoutBalance()
+
   const isActive = !!account.id
   const isCompleted = account.details_submitted
 
@@ -32,6 +38,39 @@ const StripeConnect = (props: StripeConnectProps) => {
       console.log('account connected')
     }
   }
+
+  const handleUnlinkAccount = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    if (balance > 0 || pendingBalance > 0) {
+      toast.show({
+        type: 'error',
+        msg: 'Available and Pending Balance should be 0 before unlinking Stripe account'
+      })
+      return
+    }
+    alert('Account Unlinked')
+  }
+
+  const dropMenu = (
+    <DropdownMenu>
+      <DropdownMenuItem disable={isDashboardLinkLoading}>
+        <Link
+          to="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onCreateDashboardLink()
+          }}
+        >
+          Go to Strip Account
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem danger>
+        <Link to="#" onClick={handleUnlinkAccount}>
+          Unlink Stripe
+        </Link>
+      </DropdownMenuItem>
+    </DropdownMenu>
+  )
 
   const content =
     !isActive || !isCompleted ? (
@@ -80,13 +119,16 @@ const StripeConnect = (props: StripeConnectProps) => {
         <p>Your stripe account was connected successfully</p>
         <div className="divider"></div>
         <div className="stripe-connected">
+          {isDashboardLinkLoading && <Spin />}
           <img
             src={StripeImage}
             alt="stripe"
             className="stripe-connected__stripe-logo"
           />
           <p>Stripe Account - {account.business_profile?.name || ''}</p>
-          <ThreeDotsIcon />
+          <Dropdown overlay={dropMenu} placement="topLeft">
+            <ThreeDotsIcon style={{ cursor: 'pointer' }} />
+          </Dropdown>
         </div>
       </Styles>
     )

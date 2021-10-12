@@ -85,7 +85,7 @@ const GetPaidTable = (props: Props) => {
             return type[0].toUpperCase() + type.substr(1)
           },
           amount: ({ amount, currency }: PayoutTransaction) => {
-            return `${amount} ${currency.toUpperCase()}`
+            return `${Math.abs(amount)} ${currency.toUpperCase()}`
           },
           date: ({ date }: PayoutTransaction) => {
             return moment(date).format('YYYY-MM-DD')

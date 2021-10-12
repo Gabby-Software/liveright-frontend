@@ -6,6 +6,7 @@ import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 export default styled(Card)`
   align-items: center;
   background-color: ${getColorCarry('primaryDark_v2')};
+  text-align: center;
 
   .card {
     &__title {
@@ -36,6 +37,10 @@ export default styled(Card)`
 
       &.white {
         color: #fff;
+      }
+
+      p {
+        display: inline-block;
       }
     }
   }

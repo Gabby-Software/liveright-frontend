@@ -9,7 +9,7 @@ import {
   getPaymentAccount
 } from '../../../services/api/payments'
 
-interface UsePaymentAccount {
+interface usePaymentAccount {
   account: any
   isLoading: boolean
   onCreateAccount: () => void
@@ -20,7 +20,7 @@ interface UsePaymentAccount {
   isDashboardLinkLoading: boolean
 }
 
-export default function usePaymentAccount(): UsePaymentAccount {
+export default function usePaymentAccount(): usePaymentAccount {
   const [isCreateAccountLoading, setCreateAccountLoading] = useState(false)
   const [isCreateLinkLoading, setCreateLinkLoading] = useState(false)
   const [isDashboardLinkLoading, setDashboardLinkLoading] = useState(false)

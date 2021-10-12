@@ -9,14 +9,10 @@ import UserDetailsCard from '../user-details-card/user-details-card.component'
 import Styles from './info-cards.styles'
 
 interface InfoCardsProps {
-  stripeAcc: {
-    createdAt: string
-    visitStripeAcc: () => void
-  }
   transactionsMutate: any
 }
 
-const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
+const InfoCards = ({ transactionsMutate }: InfoCardsProps) => {
   const { first_name, last_name, avatar } = useAuth()
   const {
     balance,
@@ -36,9 +32,7 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
   const user = {
     firstName: first_name,
     lastName: last_name,
-    avatar,
-    joinedAt: stripeAcc.createdAt,
-    getStripeAccountLink: stripeAcc.visitStripeAcc
+    avatar
   }
 
   const payoutHandler = () => {
@@ -52,16 +46,21 @@ const InfoCards = ({ stripeAcc, transactionsMutate }: InfoCardsProps) => {
       <UserDetailsCard {...user} />
       <TotalInfoCard
         label="Total Recieved"
-        value={totalRecieved.toString()}
+        value={Math.floor(totalRecieved).toString()}
         currency={invoiceCurrency}
         note={`(${invoiceCount} Invoices)`}
       />
       <TotalInfoCard
         label="Available Payout"
-        value={balance?.toString() || '0'}
+        value={Math.floor(balance).toString()}
         currency={currency}
         noteStyle="white"
-        note={`${pendingBalance} ${currency.toUpperCase()} (Pending Clearence)`}
+        note={
+          <div>
+            <p>{`${Math.floor(pendingBalance)} ${currency.toUpperCase()}`}</p>{' '}
+            <p>(Pending Clearence)</p>
+          </div>
+        }
       />
       <div className="info_cards__payouts">
         <Button
