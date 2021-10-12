@@ -25,6 +25,12 @@ const COLORS: any = {
   lean_mass: colors.primary_v2
 }
 
+const Y_ID: any = {
+  weight_kgs: 'primaryY',
+  fat_mass: 'secondaryY',
+  lean_mass: 'primaryY'
+}
+
 export default function Chart({ onClose, data }: ChartProps) {
   const isMobile = useIsMobile()
   const chartData = formatData(data)
@@ -41,10 +47,10 @@ export default function Chart({ onClose, data }: ChartProps) {
     }))
   }
 
-  const dataKey = Object.keys(active).filter((key) => !!active[key])
-  const dataStroke = Object.keys(active)
-    .filter((key) => !!active[key])
-    .map((key) => COLORS[key])
+  const filterKeys = Object.keys(active).filter((key) => !!active[key])
+  const dataKey = filterKeys
+  const dataStroke = filterKeys.map((key) => COLORS[key])
+  const dataYId = filterKeys.map((key) => Y_ID[key])
 
   return (
     <Styles
@@ -85,7 +91,13 @@ export default function Chart({ onClose, data }: ChartProps) {
         xDataKey="date"
         dataKeys={dataKey}
         dataStroke={dataStroke}
+        dataYId={dataYId}
         dot={false}
+        yAxisId="primaryY"
+        secondaryY={{
+          yAxisId: 'secondaryY',
+          tickFormatter: (tick: any) => `${tick}%`
+        }}
       />
     </Styles>
   )
