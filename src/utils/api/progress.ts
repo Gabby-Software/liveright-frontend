@@ -62,8 +62,8 @@ export async function formatMeasurementsValues(
   body['type'] = copy['type']
   body['source'] = 'manual'
   body['date'] = copy['date']
-  body['weight_kgs'] = copy['weight_kgs']
-  body['weight_lbs'] = copy['weight_lbs']
+  body['weight_kgs'] = Number(copy['weight_kgs'])
+  body['weight_lbs'] = Number(copy['weight_lbs'])
   body['body_fat'] = copy['body_fat']
   body['fat_mass'] = copy['fat_mass']
   body['lean_mass'] = copy['lean_mass']

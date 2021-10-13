@@ -7,11 +7,14 @@ export default styled.div`
   .layout {
     &__wrapper {
       width: calc(100% - 56px);
+
       @media all and (max-height: 800px) {
         width: calc(100% - 46px);
       }
-      // overflow: auto;
+
+      //overflow: auto;
       padding: 0 128px 0 56px;
+
       @media only print {
         padding: 0 0 0 40px;
       }
