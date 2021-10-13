@@ -109,9 +109,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_lbs', kgToLb(value))
                 }}
@@ -129,9 +129,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_kgs', lbToKg(value))
                 }}
@@ -176,8 +176,8 @@ export function SkinfoldForm() {
                 id: `log-health-${field.key}`,
                 label: 'Measurement (mm)',
                 placeholder: '80',
-                format: formatter().number(),
-                onChange: (e) => setValue(name, Number(e.target.value)),
+                format: formatter().float(),
+                onChange: (e) => setValue(name, e.target.value),
                 value: value
               }}
             />
@@ -213,8 +213,8 @@ export function CircumferenceForm() {
                 id: `log-health-${field.key}`,
                 label: 'Measurement (cm)',
                 placeholder: '80',
-                format: formatter().number(),
-                onChange: (e) => setValue(name, Number(e.target.value)),
+                format: formatter().float(),
+                onChange: (e) => setValue(name, e.target.value),
                 value: value
               }}
             />

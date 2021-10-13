@@ -62,15 +62,19 @@ export async function formatMeasurementsValues(
   body['type'] = copy['type']
   body['source'] = 'manual'
   body['date'] = copy['date']
-  body['weight_kgs'] = copy['weight_kgs']
-  body['weight_lbs'] = copy['weight_lbs']
-  body['body_fat'] = copy['body_fat']
-  body['fat_mass'] = copy['fat_mass']
-  body['lean_mass'] = copy['lean_mass']
+  body['weight_kgs'] = Number(copy['weight_kgs'])
+  body['weight_lbs'] = Number(copy['weight_lbs'])
+  body['body_fat'] = Number(copy['body_fat'])
+  body['fat_mass'] = Number(copy['fat_mass'])
+  body['lean_mass'] = Number(copy['lean_mass'])
   body['notes'] = copy['notes']
 
   if (copy['measurements']) {
     body['measurements'] = omitEmpty(copy['measurements'])
+
+    Object.keys(body['measurements']).forEach((key) => {
+      body['measurements'][key] = Number(body['measurements'][key])
+    })
   }
 
   if (Object.keys(images).length) {
@@ -104,7 +108,7 @@ export function getBodyFat(values: any): number {
 
   const measurementsToSM = getTotal(values, 'skin_fold') / 100
 
-  const val = (27 * measurementsToSM) / (values.weight_lbs || 1)
+  const val = (27 * measurementsToSM) / (Number(values.weight_lbs) || 1)
 
   return Number(val.toFixed(2))
 }
@@ -114,12 +118,12 @@ export function getFatMass(values: any): number {
     return 0
   }
 
-  const val = values.weight_kgs * (values.body_fat / 100)
+  const val = Number(values.weight_kgs) * (Number(values.body_fat) / 100)
   return Number(val.toFixed(2))
 }
 
 export function getLeanMass(values: any): number {
-  const val = (values.weight_kgs || 0) - (values.fat_mass || 0)
+  const val = (Number(values.weight_kgs) || 0) - (Number(values.fat_mass) || 0)
   return Number(val.toFixed(2))
 }
 
@@ -154,7 +158,10 @@ export function getTotal(values: any, type: string): number {
           'upper_thighs'
         ]
 
-  const val = fields.reduce((acc, cur) => acc + (measurements?.[cur] || 0), 0)
+  const val = fields.reduce(
+    (acc, cur) => acc + (measurements?.[cur] ? Number(measurements[cur]) : 0),
+    0
+  )
 
   return Number(val.toFixed(2))
 }
