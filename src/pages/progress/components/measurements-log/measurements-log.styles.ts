@@ -19,6 +19,13 @@ export const Styles = styled.div<any>`
 
     &__submit {
       width: 100%;
+      position: sticky;
+      top: 1.5rem;
+
+      @media ${mediaQueries.TABLET} {
+        position: static;
+        top: unset;
+      }
     }
 
     &__forms {
