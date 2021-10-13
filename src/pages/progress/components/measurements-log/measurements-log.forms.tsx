@@ -109,9 +109,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_lbs', kgToLb(value))
                 }}
@@ -129,9 +129,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_kgs', lbToKg(value))
                 }}
