@@ -6,11 +6,8 @@ export default styled.div`
 
   .layout {
     &__wrapper {
-      width: calc(100% - 56px);
-
-      @media all and (max-height: 800px) {
-        width: calc(100% - 46px);
-      }
+      width: calc(100% - 220px);
+      max-width: calc(100% - 220px);
 
       //overflow: auto;
       padding: 0 128px 0 56px;
