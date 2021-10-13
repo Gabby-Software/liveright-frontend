@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 
 export const Styles = styled.div<any>`
   width: 100%;
@@ -28,7 +28,7 @@ export const Styles = styled.div<any>`
         top: unset;
       }
     }
-    
+
     &__submitContainer {
       display: flex;
       align-self: start;
@@ -146,9 +146,9 @@ export const DialogStyles = styled(Dialog)`
       flex-direction: column;
       align-items: center;
     }
-    
+
     &__btncontainer {
-      width:100%;
+      width: 100%;
       display: flex;
       justify-content: space-evenly;
     }

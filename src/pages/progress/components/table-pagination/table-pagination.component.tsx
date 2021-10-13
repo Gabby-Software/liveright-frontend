@@ -1,8 +1,8 @@
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
-import { Pagination } from '../progress-table/progress-table.styles'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { Pagination } from '../progress-table/progress-table.styles'
 
 interface TablePaginationProps {
   logTo: string
@@ -27,7 +27,7 @@ export default function TablePagination({
         justify="between"
       >
         <Button to={logTo} variant="text" className="pagination__link">
-          {t("progress:missingDay")}
+          {t('progress:missingDay')}
           <AddIcon />
         </Button>
       </DataPagination>
