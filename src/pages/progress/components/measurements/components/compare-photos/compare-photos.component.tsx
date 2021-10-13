@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 
@@ -43,6 +43,18 @@ export default function ComparePhotos() {
   const params = useParams<any>()
   const [activeTab, setActiveTab] = useState('front')
 
+  const measurementsPhotos = useMeasurements({
+    columns: 'date',
+    per_page: 0,
+    filter: {
+      has_photos: true
+    }
+  })
+
+  const datesArray = measurementsPhotos.measurements.map(
+    (measurement) => measurement.date
+  )
+
   const measurementFrom = useMeasurements({
     per_page: 1,
     filter: {
@@ -61,6 +73,9 @@ export default function ComparePhotos() {
   const from = measurementFrom.measurements[0] || {}
   const to = measurementTo.measurements[0] || {}
 
+  const isDisable = (date: Moment) =>
+    !datesArray.includes(date.format(DATE_FORMAT))
+
   return (
     <Styles>
       <div>
@@ -73,6 +88,7 @@ export default function ComparePhotos() {
             className="compare-photos__field"
             value={measurementFrom.filters.date}
             onChange={(e, date) => measurementFrom.onFilters('date', date)}
+            disabledDate={isDisable}
           />
           <DatePicker
             id="measurements-compare-to"
@@ -80,6 +96,7 @@ export default function ComparePhotos() {
             className="compare-photos__field"
             value={measurementTo.filters.date}
             onChange={(e, date) => measurementTo.onFilters('date', date)}
+            disabledDate={isDisable}
           />
           <Button variant="secondary" className="compare-photos__button">
             Compare
@@ -98,7 +115,7 @@ export default function ComparePhotos() {
         {measurementTo.filters.date && measurementFrom.filters.date ? (
           <>
             <PhotoCard
-              key={activeTab + '_from'}
+              key={`${activeTab}_${from?.id}_from`}
               img={from.images?.[activeTab]}
               title={
                 from.date
@@ -110,7 +127,7 @@ export default function ComparePhotos() {
             <div className="compare-photos__divider">VS</div>
 
             <PhotoCard
-              key={activeTab + '_to'}
+              key={`${activeTab}_${to?.id}_to`}
               img={to.images?.[activeTab]}
               title={
                 to.date

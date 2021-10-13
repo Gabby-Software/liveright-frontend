@@ -23,6 +23,7 @@ interface MeasurementsFilters {
   to_date?: string
   account_id?: string
   date?: string
+  has_photos?: boolean
 }
 
 type OnFilters = (name: keyof MeasurementsFilters, value: any) => void
@@ -34,6 +35,7 @@ interface MeasurementsParams {
   }
   page?: number
   per_page?: number
+  columns?: string
 }
 
 type OnAdd = (values: any, id?: string, onSuccess?: any) => void
@@ -72,10 +74,13 @@ export default function useMeasurements(
   const apiParams: MeasurementsParams = {
     filter: filters,
     page,
-    per_page: config.per_page || 10,
     sort: config.sort || {
       date: 'desc'
-    }
+    },
+    columns: config.columns,
+    ...(config.per_page !== 0 && {
+      per_page: config.per_page || 10
+    })
   }
 
   const skip =
