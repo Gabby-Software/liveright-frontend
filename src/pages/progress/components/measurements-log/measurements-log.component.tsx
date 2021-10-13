@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
-import { useParams } from 'react-router'
-import { useHistory } from 'react-router-dom'
+import { useParams, Prompt } from 'react-router'
+import { useHistory, BrowserRouter } from 'react-router-dom'
 import * as yup from 'yup'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -33,7 +33,8 @@ import {
   MeasurementsLogContext,
   SkinfoldForm
 } from './measurements-log.forms'
-import { Styles } from './measurements-log.styles'
+import { Styles, DialogStyles } from './measurements-log.styles'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 
 const validationSchema = yup.object().shape({
   date: yup.string().required(),
@@ -69,6 +70,9 @@ export default function MeasurementsLog() {
   const isMobile = useIsMobile()
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
+  const [confirmSave, setConfirmSave] = useState(false)
+  const [blockedLocation, setBlockedLocation] = useState('')
+  const keepBlockingHistory = useRef(true)
 
   const initMeasurements = useMeasurements({
     per_page: 1,
@@ -115,6 +119,24 @@ export default function MeasurementsLog() {
   const dataKey = JSON.stringify(data)
 
   useEffect(() => {
+    const unblock = history.block((location, action) => {
+      const formHasValues = checkInputHasValue()
+
+      if(formHasValues && keepBlockingHistory.current){
+        checkInputHasValue()
+        setBlockedLocation(location.pathname)
+        setConfirmSave(true)
+        return false;
+      }
+
+    })
+
+    return () => {
+      unblock()
+    }
+  }, [])
+
+  useEffect(() => {
     if (data.id) {
       const formValues = dataToFormValues(data)
 
@@ -139,8 +161,21 @@ export default function MeasurementsLog() {
 
   const handleSave = (values: any) => {
     onAdd(values, data.id, () => {
-      history.push(backTo)
+      keepBlockingHistory.current = false
+      if(blockedLocation !== ""){
+        history.push(blockedLocation)
+      }else{
+        history.push(backTo)
+      }
     })
+  }
+
+  const checkInputHasValue = () => {
+    const inputValues = methods.getValues()
+    if(inputValues.weight_kgs !== null || inputValues.measurements){
+      return true;
+    }
+    return false;
   }
 
   const contextValue = {
@@ -276,7 +311,7 @@ export default function MeasurementsLog() {
           </div>
         </div>
 
-        <div>
+        <div className="log-measurements__submitContainer">
           <Button
             className="log-measurements__submit"
             onClick={() => methods.handleSubmit(handleSave)()}
@@ -288,28 +323,65 @@ export default function MeasurementsLog() {
     </Styles>
   )
 
+  const cancelHistoryBlock = () => {    
+    setConfirmSave(false)
+    keepBlockingHistory.current = false
+    history.push(blockedLocation)
+  }  
+
+  const handleMeasurementsSubmit = () => {
+    setConfirmSave(false)
+    methods.handleSubmit(handleSave)()
+  }
+
+
   return (
-    <MeasurementsLogContext.Provider value={contextValue}>
-      <FormProvider {...methods}>
-        {isMobile ? (
-          <MobilePage
-            title="Log Measurements"
-            headerSpacing={isClient(type) ? undefined : 20}
-            actionComponent={
-              <Button onClick={() => methods.handleSubmit(handleSave)()}>
-                Save
-              </Button>
-            }
-            headerTopComponent={
-              <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
-            }
-          >
-            {content}
-          </MobilePage>
-        ) : (
-          content
-        )}
-      </FormProvider>
-    </MeasurementsLogContext.Provider>
+    <>      
+      <MeasurementsLogContext.Provider value={contextValue}>  
+        <FormProvider {...methods}>
+          {isMobile ? (
+            <MobilePage
+              title="Log Measurements"
+              headerSpacing={isClient(type) ? undefined : 20}
+              actionComponent={
+                <Button onClick={() => methods.handleSubmit(handleSave)()}>
+                  Save
+                </Button>
+              }
+              headerTopComponent={
+                <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
+              }
+            >
+              {content}
+            </MobilePage>
+          ) : (
+            content
+          )}
+        </FormProvider>
+      </MeasurementsLogContext.Provider>
+      <DialogStyles 
+        title={"Confirmation"}
+        open={confirmSave}
+        onClose={() => {}}
+      >
+        <div className="measurements-dialog__container">
+          <p className="measurements-dialog__title">
+          {"You have unsaved changes, if you don't save it now, your data will be lost."}
+          </p>
+
+          <div className="measurements-dialog__btncontainer">
+            <Button
+              variant="secondary"
+              onClick={cancelHistoryBlock}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleMeasurementsSubmit}>
+              Save
+            </Button>
+          </div>
+        </div>
+      </DialogStyles>
+    </>
   )
 }
