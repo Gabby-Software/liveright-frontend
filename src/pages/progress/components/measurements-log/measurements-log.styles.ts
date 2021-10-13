@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 
 export const Styles = styled.div<any>`
   width: 100%;
@@ -26,6 +27,13 @@ export const Styles = styled.div<any>`
         position: static;
         top: unset;
       }
+    }
+    
+    &__submitContainer {
+      display: flex;
+      align-self: start;
+      position: sticky !important;
+      top: 1rem;
     }
 
     &__forms {
@@ -122,6 +130,36 @@ export const TotalStyles = styled(Card)`
       @media ${mediaQueries.TABLET} {
         font-size: 1.125rem;
       }
+    }
+  }
+`
+
+export const DialogStyles = styled(Dialog)`
+  .measurements-dialog {
+    &__icon {
+      margin-bottom: 1.25rem;
+      color: ${getColorCarry('primaryDark_v2')};
+    }
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    &__btncontainer {
+      width:100%;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    &__title {
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      font-weight: 400;
+      color: ${getColorCarry('primaryDark_v2')};
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
   }
 `
