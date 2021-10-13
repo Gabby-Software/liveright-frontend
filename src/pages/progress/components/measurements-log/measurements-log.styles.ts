@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 
 export const Styles = styled.div<any>`
   width: 100%;

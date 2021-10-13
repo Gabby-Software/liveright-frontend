@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -33,7 +33,7 @@ import {
   MeasurementsLogContext,
   SkinfoldForm
 } from './measurements-log.forms'
-import { Styles, DialogStyles } from './measurements-log.styles'
+import { DialogStyles, Styles } from './measurements-log.styles'
 
 const validationSchema = yup.object().shape({
   date: yup.string().required(),
