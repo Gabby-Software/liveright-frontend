@@ -27,7 +27,7 @@ export default function TablePagination({
         justify="between"
       >
         <Button to={logTo} variant="text" className="pagination__link">
-          {t("progress:missingDay")}
+          {t('progress:missingDay')}
           <AddIcon />
         </Button>
       </DataPagination>

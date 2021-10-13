@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState, useRef } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
-import { useParams, Prompt } from 'react-router'
-import { useHistory, BrowserRouter } from 'react-router-dom'
+import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -34,7 +34,6 @@ import {
   SkinfoldForm
 } from './measurements-log.forms'
 import { Styles, DialogStyles } from './measurements-log.styles'
-import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 
 const validationSchema = yup.object().shape({
   date: yup.string().required(),
@@ -119,16 +118,14 @@ export default function MeasurementsLog() {
   const dataKey = JSON.stringify(data)
 
   useEffect(() => {
-    const unblock = history.block((location, action) => {
+    const unblock = history.block((location) => {
       const formHasValues = checkInputHasValue()
-
-      if(formHasValues && keepBlockingHistory.current){
+      if (formHasValues && keepBlockingHistory.current) {
         checkInputHasValue()
         setBlockedLocation(location.pathname)
         setConfirmSave(true)
-        return false;
+        return false
       }
-
     })
 
     return () => {
@@ -162,9 +159,9 @@ export default function MeasurementsLog() {
   const handleSave = (values: any) => {
     onAdd(values, data.id, () => {
       keepBlockingHistory.current = false
-      if(blockedLocation !== ""){
+      if (blockedLocation !== '') {
         history.push(blockedLocation)
-      }else{
+      } else {
         history.push(backTo)
       }
     })
@@ -172,10 +169,10 @@ export default function MeasurementsLog() {
 
   const checkInputHasValue = () => {
     const inputValues = methods.getValues()
-    if(inputValues.weight_kgs !== null || inputValues.measurements){
-      return true;
+    if (inputValues.weight_kgs !== null || inputValues.measurements) {
+      return true
     }
-    return false;
+    return false
   }
 
   const contextValue = {
@@ -323,21 +320,20 @@ export default function MeasurementsLog() {
     </Styles>
   )
 
-  const cancelHistoryBlock = () => {    
+  const cancelHistoryBlock = () => {
     setConfirmSave(false)
     keepBlockingHistory.current = false
     history.push(blockedLocation)
-  }  
+  }
 
   const handleMeasurementsSubmit = () => {
     setConfirmSave(false)
     methods.handleSubmit(handleSave)()
   }
 
-
   return (
-    <>      
-      <MeasurementsLogContext.Provider value={contextValue}>  
+    <>
+      <MeasurementsLogContext.Provider value={contextValue}>
         <FormProvider {...methods}>
           {isMobile ? (
             <MobilePage
@@ -359,26 +355,21 @@ export default function MeasurementsLog() {
           )}
         </FormProvider>
       </MeasurementsLogContext.Provider>
-      <DialogStyles 
-        title={"Confirmation"}
+      <DialogStyles
+        title={'Confirmation'}
         open={confirmSave}
-        onClose={() => {}}
+        onClose={() => setConfirmSave(false)}
       >
         <div className="measurements-dialog__container">
           <p className="measurements-dialog__title">
-          {"You have unsaved changes, if you don't save it now, your data will be lost."}
+            {`You have unsaved changes, if you don't save it now, your data will be lost.`}
           </p>
 
           <div className="measurements-dialog__btncontainer">
-            <Button
-              variant="secondary"
-              onClick={cancelHistoryBlock}
-            >
+            <Button variant="secondary" onClick={cancelHistoryBlock}>
               Cancel
             </Button>
-            <Button onClick={handleMeasurementsSubmit}>
-              Save
-            </Button>
+            <Button onClick={handleMeasurementsSubmit}>Save</Button>
           </div>
         </div>
       </DialogStyles>

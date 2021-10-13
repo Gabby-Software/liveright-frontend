@@ -21,7 +21,7 @@ export const Styles = styled.div<any>`
     &__submit {
       width: 100%;
     }
-    
+
     &__submitContainer {
       display: flex;
       align-self: start;
@@ -139,9 +139,9 @@ export const DialogStyles = styled(Dialog)`
       flex-direction: column;
       align-items: center;
     }
-    
+
     &__btncontainer {
-      width:100%;
+      width: 100%;
       display: flex;
       justify-content: space-evenly;
     }
