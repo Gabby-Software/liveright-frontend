@@ -62,18 +62,18 @@ export async function formatMeasurementsValues(
   body['type'] = copy['type']
   body['source'] = 'manual'
   body['date'] = copy['date']
-  body['weight_kgs'] = Number(copy['weight_kgs'])
-  body['weight_lbs'] = Number(copy['weight_lbs'])
-  body['body_fat'] = Number(copy['body_fat'])
-  body['fat_mass'] = Number(copy['fat_mass'])
-  body['lean_mass'] = Number(copy['lean_mass'])
+  body['weight_kgs'] = convertNumber(copy['weight_kgs'])
+  body['weight_lbs'] = convertNumber(copy['weight_lbs'])
+  body['body_fat'] = convertNumber(copy['body_fat'])
+  body['fat_mass'] = convertNumber(copy['fat_mass'])
+  body['lean_mass'] = convertNumber(copy['lean_mass'])
   body['notes'] = copy['notes']
 
   if (copy['measurements']) {
     body['measurements'] = omitEmpty(copy['measurements'])
 
     Object.keys(body['measurements']).forEach((key) => {
-      body['measurements'][key] = Number(body['measurements'][key])
+      body['measurements'][key] = convertNumber(body['measurements'][key])
     })
   }
 
@@ -82,6 +82,26 @@ export async function formatMeasurementsValues(
   }
 
   return body
+}
+
+function convertNumber(value: any) {
+  return value === null ? null : Number(value)
+}
+
+export function formatNumberValues(values: any) {
+  const copy = { ...values }
+
+  copy['weight_kgs'] = convertNumber(copy['weight_kgs'])
+  copy['weight_lbs'] = convertNumber(copy['weight_lbs'])
+  copy['body_fat'] = convertNumber(copy['body_fat'])
+  copy['fat_mass'] = convertNumber(copy['fat_mass'])
+  copy['lean_mass'] = convertNumber(copy['lean_mass'])
+
+  Object.keys(copy['measurements']).forEach((key) => {
+    copy['measurements'][key] = convertNumber(copy['measurements'][key])
+  })
+
+  return copy
 }
 
 export function dataToFormValues(data: any) {

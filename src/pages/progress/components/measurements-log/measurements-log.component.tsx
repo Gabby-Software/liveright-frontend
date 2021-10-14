@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -16,6 +16,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import useMeasurements from '../../../../hooks/api/progress/useMeasurements'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import useMeasurementsFormLock from '../../../../hooks/ui/useMeasurementsFormLock'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
@@ -30,10 +31,11 @@ import PhotoForm from '../photo-form/photo-form.component'
 import {
   CheckInForm,
   CircumferenceForm,
+  ConfirmDialog,
   MeasurementsLogContext,
   SkinfoldForm
 } from './measurements-log.forms'
-import { DialogStyles, Styles } from './measurements-log.styles'
+import { Styles } from './measurements-log.styles'
 
 const validationSchema = yup.object().shape({
   date: yup.string().required(),
@@ -45,9 +47,39 @@ const defaultValues = {
   type: 'check_in',
   date: '',
   notes: '',
-  images: {},
+  images: {
+    front: null,
+    back: null,
+    side: null
+  },
   weight_kgs: null,
   weight_lbs: null,
+  lean_mass: null,
+  body_fat: null,
+  fat_mass: null,
+  measurements: {
+    chin: null,
+    cheek: null,
+    pec: null,
+    biceps: null,
+    midaxillary: null,
+    suprailiac: null,
+    abdominal: null,
+    triceps: null,
+    subscapular: null,
+    lower_back: null,
+    knee: null,
+    calf: null,
+    quad: null,
+    hamstring: null,
+    neck: null,
+    chest: null,
+    shoulders: null,
+    upper_arm: null,
+    waist: null,
+    hips: null,
+    upper_thighs: null
+  },
   goals: {
     from: '',
     to: '',
@@ -70,8 +102,6 @@ export default function MeasurementsLog() {
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
   const [confirmSave, setConfirmSave] = useState(false)
-  const [blockedLocation, setBlockedLocation] = useState('')
-  const keepBlockingHistory = useRef(true)
 
   const initMeasurements = useMeasurements({
     per_page: 1,
@@ -112,30 +142,24 @@ export default function MeasurementsLog() {
     control: methods.control,
     name: ['type', 'images']
   })
+
+  const { updateInitialValues, onUnlock, blockedPath } =
+    useMeasurementsFormLock(methods.control, defaultValues, () =>
+      setConfirmSave(true)
+    )
+
   const logType: string = values[0]
   const images: any = values[1]
 
   const dataKey = JSON.stringify(data)
 
   useEffect(() => {
-    const unblock = history.block((location) => {
-      const formHasValues = checkInputHasValue()
-      if (formHasValues && keepBlockingHistory.current) {
-        checkInputHasValue()
-        setBlockedLocation(location.pathname)
-        setConfirmSave(true)
-        return false
-      }
-    })
-
-    return () => {
-      unblock()
-    }
-  }, [])
-
-  useEffect(() => {
     if (data.id) {
-      const formValues = dataToFormValues(data)
+      const formValues: any = {
+        ...defaultValues,
+        ...dataToFormValues(data)
+      }
+      updateInitialValues(formValues)
 
       Object.keys(formValues).forEach((key) =>
         methods.setValue(key as any, formValues[key])
@@ -143,14 +167,18 @@ export default function MeasurementsLog() {
 
       if (Object.keys(formValues.images)?.length) {
         setPhoto(true)
+      } else {
+        setPhoto(false)
       }
     } else {
-      methods.reset({
+      const values = {
         ...defaultValues,
-        date: params.date
-      })
+        date: params.date || ''
+      }
+      updateInitialValues(values)
+      methods.reset(values)
     }
-  }, [dataKey])
+  }, [dataKey, params.date])
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
@@ -158,21 +186,12 @@ export default function MeasurementsLog() {
 
   const handleSave = (values: any) => {
     onAdd(values, data.id, () => {
-      keepBlockingHistory.current = false
-      if (blockedLocation !== '') {
-        history.push(blockedLocation)
+      if (blockedPath) {
+        history.push(blockedPath)
       } else {
         history.push(backTo)
       }
     })
-  }
-
-  const checkInputHasValue = () => {
-    const inputValues = methods.getValues()
-    if (inputValues.weight_kgs !== null || inputValues.measurements) {
-      return true
-    }
-    return false
   }
 
   const contextValue = {
@@ -320,17 +339,6 @@ export default function MeasurementsLog() {
     </Styles>
   )
 
-  const cancelHistoryBlock = () => {
-    setConfirmSave(false)
-    keepBlockingHistory.current = false
-    history.push(blockedLocation)
-  }
-
-  const handleMeasurementsSubmit = () => {
-    setConfirmSave(false)
-    methods.handleSubmit(handleSave)()
-  }
-
   return (
     <>
       <MeasurementsLogContext.Provider value={contextValue}>
@@ -355,24 +363,19 @@ export default function MeasurementsLog() {
           )}
         </FormProvider>
       </MeasurementsLogContext.Provider>
-      <DialogStyles
-        title={'Confirmation'}
+
+      <ConfirmDialog
         open={confirmSave}
         onClose={() => setConfirmSave(false)}
-      >
-        <div className="measurements-dialog__container">
-          <p className="measurements-dialog__title">
-            {`You have unsaved changes, if you don't save it now, your data will be lost.`}
-          </p>
-
-          <div className="measurements-dialog__btncontainer">
-            <Button variant="secondary" onClick={cancelHistoryBlock}>
-              Cancel
-            </Button>
-            <Button onClick={handleMeasurementsSubmit}>Save</Button>
-          </div>
-        </div>
-      </DialogStyles>
+        onSave={() => {
+          onUnlock()
+          methods.handleSubmit(handleSave)()
+        }}
+        onCancel={() => {
+          onUnlock()
+          history.push(blockedPath)
+        }}
+      />
     </>
   )
 }

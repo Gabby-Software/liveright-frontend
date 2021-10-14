@@ -18,6 +18,7 @@ import {
   TricepsIcon,
   Weight2Icon
 } from '../../../../assets/media/icons'
+import Button from '../../../../components/buttons/button/button.component'
 import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
 import formatter from '../../../../managers/formatter.manager'
@@ -28,7 +29,7 @@ import {
   getTotal
 } from '../../../../utils/api/progress'
 import { kgToLb, lbToKg } from '../../../../utils/body'
-import { TotalStyles } from './measurements-log.styles'
+import { DialogStyles, TotalStyles } from './measurements-log.styles'
 
 const FIELDS = [
   { key: 'chin', label: 'Chin', icon: ChinIcon },
@@ -334,5 +335,36 @@ function TotalCard() {
         </>
       )}
     </TotalStyles>
+  )
+}
+
+interface ConfirmDialogProps {
+  open: boolean
+  onClose: any
+  onSave: any
+  onCancel: any
+}
+
+export function ConfirmDialog({
+  open,
+  onSave,
+  onClose,
+  onCancel
+}: ConfirmDialogProps) {
+  return (
+    <DialogStyles title={'Confirmation'} open={open} onClose={onClose}>
+      <div className="measurements-dialog__container">
+        <p className="measurements-dialog__title">
+          {`You have unsaved changes, if you don't save it now, your data will be lost.`}
+        </p>
+
+        <div className="measurements-dialog__btncontainer">
+          <Button variant="secondary" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button onClick={onSave}>Save</Button>
+        </div>
+      </div>
+    </DialogStyles>
   )
 }
