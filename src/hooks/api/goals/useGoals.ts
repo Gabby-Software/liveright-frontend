@@ -14,9 +14,10 @@ interface useGoalsConfig {
 
 export default function useGoals(config?: useGoalsConfig): {
   data: TargetDataType[] | null
+  mutate: any
 } {
   const url = stringifyURL(EP_UPDATE_GOALS_TARGET, omitEmpty(config || {}))
-  const { data, error } = useSWR<any, any>(url, api.get)
+  const { data, error, mutate } = useSWR<any, any>(url, api.get)
   const apiData = data?.data
-  return { data: error ? null : apiData?.data }
+  return { data: error ? null : apiData?.data, mutate }
 }
