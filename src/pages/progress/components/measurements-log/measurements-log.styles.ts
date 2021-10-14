@@ -147,19 +147,28 @@ export const DialogStyles = styled(Dialog)`
       align-items: center;
     }
 
-    &__btncontainer {
+    &__btn-container {
       width: 100%;
-      display: flex;
-      justify-content: space-evenly;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    &__btn {
+      width: 100%;
     }
 
     &__title {
       font-size: 1.125rem;
-      line-height: 1.5rem;
       font-weight: 400;
-      color: ${getColorCarry('primaryDark_v2')};
+      color: ${getColorCarry('secondary2_v2')};
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 3rem;
     }
   }
 `

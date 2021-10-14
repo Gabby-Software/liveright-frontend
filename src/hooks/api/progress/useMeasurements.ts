@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import useSWR from 'swr'
 
@@ -70,6 +70,12 @@ export default function useMeasurements(
   const [filters, setFilters] = useState<MeasurementsFilters>({
     ...config.filter
   })
+
+  useEffect(() => {
+    if (config.filter?.date) {
+      setFilters((filters) => ({ ...filters, date: config.filter?.date }))
+    }
+  }, [config.filter?.date])
 
   const apiParams: MeasurementsParams = {
     filter: filters,

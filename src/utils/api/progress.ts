@@ -85,23 +85,21 @@ export async function formatMeasurementsValues(
 }
 
 function convertNumber(value: any) {
-  return value === null ? null : Number(value)
+  return Number(value)
 }
 
 export function formatNumberValues(values: any) {
-  const copy = { ...values }
+  values['weight_kgs'] = convertNumber(values['weight_kgs'])
+  values['weight_lbs'] = convertNumber(values['weight_lbs'])
+  values['body_fat'] = convertNumber(values['body_fat'])
+  values['fat_mass'] = convertNumber(values['fat_mass'])
+  values['lean_mass'] = convertNumber(values['lean_mass'])
 
-  copy['weight_kgs'] = convertNumber(copy['weight_kgs'])
-  copy['weight_lbs'] = convertNumber(copy['weight_lbs'])
-  copy['body_fat'] = convertNumber(copy['body_fat'])
-  copy['fat_mass'] = convertNumber(copy['fat_mass'])
-  copy['lean_mass'] = convertNumber(copy['lean_mass'])
-
-  Object.keys(copy['measurements']).forEach((key) => {
-    copy['measurements'][key] = convertNumber(copy['measurements'][key])
+  Object.keys(values['measurements']).forEach((key) => {
+    values['measurements'][key] = convertNumber(values['measurements'][key])
   })
 
-  return copy
+  return values
 }
 
 export function dataToFormValues(data: any) {
