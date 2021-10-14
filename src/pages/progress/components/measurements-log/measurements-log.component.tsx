@@ -16,7 +16,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import useMeasurements from '../../../../hooks/api/progress/useMeasurements'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
-import useMeasurementsFormLock from '../../../../hooks/ui/useMeasurementsFormLock'
+// import useMeasurementsFormLock from '../../../../hooks/ui/useMeasurementsFormLock'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { isClient } from '../../../../utils/api/auth'
@@ -31,7 +31,7 @@ import PhotoForm from '../photo-form/photo-form.component'
 import {
   CheckInForm,
   CircumferenceForm,
-  ConfirmDialog,
+  // ConfirmDialog,
   MeasurementsLogContext,
   SkinfoldForm
 } from './measurements-log.forms'
@@ -101,7 +101,7 @@ export default function MeasurementsLog() {
   const isMobile = useIsMobile()
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
-  const [confirmSave, setConfirmSave] = useState(false)
+  // const [confirmSave, setConfirmSave] = useState(false)
 
   const initMeasurements = useMeasurements({
     per_page: 1,
@@ -143,10 +143,10 @@ export default function MeasurementsLog() {
     name: ['type', 'images']
   })
 
-  const { updateInitialValues, onUnlock, blockedPath } =
-    useMeasurementsFormLock(methods.control, defaultValues, () =>
-      setConfirmSave(true)
-    )
+  // const { updateInitialValues, onUnlock, blockedPath } =
+  //   useMeasurementsFormLock(methods.control, defaultValues, () =>
+  //     setConfirmSave(true)
+  //   )
 
   const logType: string = values[0]
   const images: any = values[1]
@@ -159,7 +159,7 @@ export default function MeasurementsLog() {
         ...defaultValues,
         ...dataToFormValues(data)
       }
-      updateInitialValues(formValues)
+      // updateInitialValues(formValues)
 
       Object.keys(formValues).forEach((key) =>
         methods.setValue(key as any, formValues[key])
@@ -175,7 +175,7 @@ export default function MeasurementsLog() {
         ...defaultValues,
         date: params.date || ''
       }
-      updateInitialValues(values)
+      // updateInitialValues(values)
       methods.reset(values)
     }
   }, [dataKey, params.date])
@@ -186,11 +186,12 @@ export default function MeasurementsLog() {
 
   const handleSave = (values: any) => {
     onAdd(values, data.id, () => {
-      if (blockedPath) {
-        history.push(blockedPath)
-      } else {
-        history.push(backTo)
-      }
+      history.push(backTo)
+      // if (blockedPath) {
+      //   history.push(blockedPath)
+      // } else {
+      //   history.push(backTo)
+      // }
     })
   }
 
@@ -364,18 +365,18 @@ export default function MeasurementsLog() {
         </FormProvider>
       </MeasurementsLogContext.Provider>
 
-      <ConfirmDialog
-        open={confirmSave}
-        onClose={() => setConfirmSave(false)}
-        onSave={() => {
-          onUnlock()
-          methods.handleSubmit(handleSave)()
-        }}
-        onCancel={() => {
-          onUnlock()
-          history.push(blockedPath)
-        }}
-      />
+      {/*<ConfirmDialog*/}
+      {/*  open={confirmSave}*/}
+      {/*  onClose={() => setConfirmSave(false)}*/}
+      {/*  onSave={() => {*/}
+      {/*    onUnlock()*/}
+      {/*    methods.handleSubmit(handleSave)()*/}
+      {/*  }}*/}
+      {/*  onCancel={() => {*/}
+      {/*    onUnlock()*/}
+      {/*    history.push(blockedPath)*/}
+      {/*  }}*/}
+      {/*/>*/}
     </>
   )
 }
