@@ -88,7 +88,8 @@ const GetPaidTable = (props: Props) => {
             return `${Math.abs(amount)} ${currency.toUpperCase()}`
           },
           date: ({ date }: PayoutTransaction) => {
-            return moment(date).format('YYYY-MM-DD')
+            // date are given in seconds. Need to convert in ms before use.
+            return moment(date * 1000).format('YYYY-MM-DD')
           },
           options: (item) =>
             renderOptions ? renderOptions(item) : React.Fragment

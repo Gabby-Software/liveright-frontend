@@ -6,7 +6,8 @@ import {
   createAccount,
   createAccountLink,
   createDashboardLink,
-  getPaymentAccount
+  getPaymentAccount,
+  unlinkStripeAccount
 } from '../../../services/api/payments'
 
 interface UsePaymentAccount {
@@ -15,19 +16,26 @@ interface UsePaymentAccount {
   onCreateAccount: () => void
   onCreateLink: () => void
   onCreateDashboardLink: () => void
+  onUnlinkStripeAccount: () => void
   isCreateAccountLoading: boolean
   isCreateLinkLoading: boolean
   isDashboardLinkLoading: boolean
+  isUnlinkStripeLoading: boolean
 }
 
 export default function usePaymentAccount(): UsePaymentAccount {
   const [isCreateAccountLoading, setCreateAccountLoading] = useState(false)
   const [isCreateLinkLoading, setCreateLinkLoading] = useState(false)
   const [isDashboardLinkLoading, setDashboardLinkLoading] = useState(false)
+  const [isUnlinkStripeLoading, setUnlinkStripeLoading] = useState(false)
 
-  const { data, error } = useSWR(EP_PAYMENT_ACCOUNT, getPaymentAccount, {
-    shouldRetryOnError: false
-  })
+  const { data, error, mutate } = useSWR(
+    EP_PAYMENT_ACCOUNT,
+    getPaymentAccount,
+    {
+      shouldRetryOnError: false
+    }
+  )
 
   const onCreateAccount = async () => {
     try {
@@ -57,7 +65,6 @@ export default function usePaymentAccount(): UsePaymentAccount {
     try {
       setDashboardLinkLoading(true)
       const response = await createDashboardLink()
-      console.log(response)
       setDashboardLinkLoading(false)
       window.open(response.url, '_blank')
     } catch (e) {
@@ -66,18 +73,32 @@ export default function usePaymentAccount(): UsePaymentAccount {
     }
   }
 
+  const onUnlinkStripeAccount = async () => {
+    try {
+      setUnlinkStripeLoading(true)
+      const response = await unlinkStripeAccount()
+      setUnlinkStripeLoading(false)
+      console.log(response)
+      mutate()
+    } catch (e) {
+      setUnlinkStripeLoading(false)
+      console.error(e)
+    }
+  }
+
   const account = data || {}
   const isLoading = !data && !error
 
-  console.log(account)
   return {
     account,
     isLoading,
     onCreateAccount,
     onCreateLink,
     onCreateDashboardLink,
+    onUnlinkStripeAccount,
     isCreateLinkLoading,
     isCreateAccountLoading,
-    isDashboardLinkLoading
+    isDashboardLinkLoading,
+    isUnlinkStripeLoading
   }
 }

@@ -2,6 +2,7 @@ import {
   EP_PAYMENT_CREATE_ACCOUNT,
   EP_PAYMENT_CREATE_LINK,
   EP_PAYMENT_CREATE_STRIPE_DASHBOARD_LINK,
+  EP_PAYMENT_UNLINK_STRIPE,
   EP_STRIPE_CREATE_PAYOUT
 } from '../../enums/api.enum'
 import api from '../../managers/api.manager'
@@ -63,5 +64,10 @@ export async function createPayout(
 
 export async function getPayoutTransactions(url: string) {
   const response = await api.get(url)
+  return response.data.data
+}
+
+export async function unlinkStripeAccount() {
+  const response = await api.delete(EP_PAYMENT_UNLINK_STRIPE)
   return response.data.data
 }

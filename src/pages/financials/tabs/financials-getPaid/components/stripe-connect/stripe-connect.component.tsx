@@ -1,10 +1,15 @@
 import { Spin } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { ThreeDotsIcon } from '../../../../../../assets/media/icons'
+import {
+  DeleteOutlinedIcon,
+  ThreeDotsIcon
+} from '../../../../../../assets/media/icons'
 import StripeImage from '../../../../../../assets/media/Stripe.png'
 import StripeSImage from '../../../../../../assets/media/Stripe-S.png'
+import Button from '../../../../../../components/buttons/button/button.component'
+import Dialog from '../../../../../../components/dialogs/dialog/dialog.component'
 import {
   Dropdown,
   DropdownMenu,
@@ -21,12 +26,15 @@ const StripeConnect = () => {
     onCreateAccount,
     onCreateLink,
     onCreateDashboardLink,
+    onUnlinkStripeAccount,
     isCreateAccountLoading,
     isCreateLinkLoading,
-    isDashboardLinkLoading
+    isDashboardLinkLoading,
+    isUnlinkStripeLoading
   } = usePaymentAccount()
 
   const { balance, pendingBalance } = usePayoutBalance()
+  const [isDeleting, setDeleting] = useState(false)
 
   const isActive = !!account.id
   const isCompleted = account.details_submitted
@@ -46,9 +54,11 @@ const StripeConnect = () => {
         type: 'error',
         msg: 'Available and Pending Balance should be 0 before unlinking Stripe account'
       })
+      setDeleting(false)
       return
     }
-    alert('Account Unlinked')
+    onUnlinkStripeAccount()
+    setDeleting(false)
   }
 
   const dropMenu = (
@@ -61,11 +71,11 @@ const StripeConnect = () => {
             onCreateDashboardLink()
           }}
         >
-          Go to Strip Account
+          Go to Stripe Account
         </Link>
       </DropdownMenuItem>
-      <DropdownMenuItem danger>
-        <Link to="#" onClick={handleUnlinkAccount}>
+      <DropdownMenuItem danger disable={isUnlinkStripeLoading}>
+        <Link to="#" onClick={() => setDeleting(true)}>
           Unlink Stripe
         </Link>
       </DropdownMenuItem>
@@ -119,7 +129,7 @@ const StripeConnect = () => {
         <p>Your stripe account was connected successfully</p>
         <div className="divider"></div>
         <div className="stripe-connected">
-          {isDashboardLinkLoading && <Spin />}
+          {(isDashboardLinkLoading || isUnlinkStripeLoading) && <Spin />}
           <img
             src={StripeImage}
             alt="stripe"
@@ -133,7 +143,25 @@ const StripeConnect = () => {
       </Styles>
     )
 
-  return content
+  return (
+    <>
+      {content}
+      <Dialog
+        title="Confirm Unlink Account?"
+        open={isDeleting}
+        onClose={() => setDeleting(false)}
+      >
+        <p>
+          Are you sure you want to unlink Stripe account? Make sure your pending
+          and available balances are zero before unlinking!
+        </p>
+        <br />
+        <Button onClick={handleUnlinkAccount}>
+          <DeleteOutlinedIcon /> Unlink
+        </Button>
+      </Dialog>
+    </>
+  )
 }
 
 export default StripeConnect

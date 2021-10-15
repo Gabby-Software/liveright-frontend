@@ -10,22 +10,15 @@ import Styles from './financials-getPaid.styles'
 
 const GetPaid = () => {
   const { account } = usePaymentAccount()
-  const {
-    transactions,
-    transactionLoading,
-    meta,
-    onPage,
-    mutate,
-    onFilter,
-    filters
-  } = usePayoutTransactions()
+  const { transactions, transactionLoading, meta, onPage, onFilter, filters } =
+    usePayoutTransactions()
 
   const stripeExistsAndComp = account.id && account.details_submitted
   return (
     <Styles>
       {stripeExistsAndComp && (
         <>
-          <InfoCards transactionsMutate={mutate} />
+          <InfoCards />
           <GetPaidTable
             data={transactions}
             meta={meta}

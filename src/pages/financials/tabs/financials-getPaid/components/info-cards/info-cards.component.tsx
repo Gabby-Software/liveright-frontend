@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSWRConfig } from 'swr'
 
 import Button from '../../../../../../components/buttons/button/button.component'
+import { EP_PAYOUT_TRANSACTIONS } from '../../../../../../enums/api.enum'
 import usePayoutBalance from '../../../../../../hooks/api/payments/usePayoutBalance'
 import useTotalRecieved from '../../../../../../hooks/api/payments/useTotalRecieved'
 import { useAuth } from '../../../../../../hooks/auth.hook'
@@ -8,12 +10,9 @@ import TotalInfoCard from '../total-info-card/total-info-card.component'
 import UserDetailsCard from '../user-details-card/user-details-card.component'
 import Styles from './info-cards.styles'
 
-interface InfoCardsProps {
-  transactionsMutate: any
-}
-
-const InfoCards = ({ transactionsMutate }: InfoCardsProps) => {
+const InfoCards = () => {
   const { first_name, last_name, avatar } = useAuth()
+  const { mutate } = useSWRConfig()
   const {
     balance,
     pendingBalance,
@@ -38,7 +37,8 @@ const InfoCards = ({ transactionsMutate }: InfoCardsProps) => {
   const payoutHandler = () => {
     onCreatePayout()
     totalRecievedMutate()
-    transactionsMutate()
+    // transactionsMutate()
+    mutate(EP_PAYOUT_TRANSACTIONS)
   }
 
   return (
