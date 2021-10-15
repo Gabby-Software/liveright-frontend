@@ -4,14 +4,14 @@ export default styled.div`
   .editable-input {
     width: 60%;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
   }
   .checkBtn {
     padding: 10px;
     display: inline-block;
 
     svg {
-      width: 90%;
+      width: 80%;
     }
   }
 `
