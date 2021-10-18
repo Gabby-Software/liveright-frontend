@@ -62,15 +62,19 @@ export async function formatMeasurementsValues(
   body['type'] = copy['type']
   body['source'] = 'manual'
   body['date'] = copy['date']
-  body['weight_kgs'] = copy['weight_kgs']
-  body['weight_lbs'] = copy['weight_lbs']
-  body['body_fat'] = copy['body_fat']
-  body['fat_mass'] = copy['fat_mass']
-  body['lean_mass'] = copy['lean_mass']
+  body['weight_kgs'] = convertNumber(copy['weight_kgs'])
+  body['weight_lbs'] = convertNumber(copy['weight_lbs'])
+  body['body_fat'] = convertNumber(copy['body_fat'])
+  body['fat_mass'] = convertNumber(copy['fat_mass'])
+  body['lean_mass'] = convertNumber(copy['lean_mass'])
   body['notes'] = copy['notes']
 
   if (copy['measurements']) {
     body['measurements'] = omitEmpty(copy['measurements'])
+
+    Object.keys(body['measurements']).forEach((key) => {
+      body['measurements'][key] = convertNumber(body['measurements'][key])
+    })
   }
 
   if (Object.keys(images).length) {
@@ -78,6 +82,24 @@ export async function formatMeasurementsValues(
   }
 
   return body
+}
+
+function convertNumber(value: any) {
+  return Number(value)
+}
+
+export function formatNumberValues(values: any) {
+  values['weight_kgs'] = convertNumber(values['weight_kgs'])
+  values['weight_lbs'] = convertNumber(values['weight_lbs'])
+  values['body_fat'] = convertNumber(values['body_fat'])
+  values['fat_mass'] = convertNumber(values['fat_mass'])
+  values['lean_mass'] = convertNumber(values['lean_mass'])
+
+  Object.keys(values['measurements']).forEach((key) => {
+    values['measurements'][key] = convertNumber(values['measurements'][key])
+  })
+
+  return values
 }
 
 export function dataToFormValues(data: any) {
@@ -104,7 +126,7 @@ export function getBodyFat(values: any): number {
 
   const measurementsToSM = getTotal(values, 'skin_fold') / 100
 
-  const val = (27 * measurementsToSM) / (values.weight_lbs || 1)
+  const val = (27 * measurementsToSM) / (Number(values.weight_lbs) || 1)
 
   return Number(val.toFixed(2))
 }
@@ -114,12 +136,12 @@ export function getFatMass(values: any): number {
     return 0
   }
 
-  const val = values.weight_kgs * (values.body_fat / 100)
+  const val = Number(values.weight_kgs) * (Number(values.body_fat) / 100)
   return Number(val.toFixed(2))
 }
 
 export function getLeanMass(values: any): number {
-  const val = (values.weight_kgs || 0) - (values.fat_mass || 0)
+  const val = (Number(values.weight_kgs) || 0) - (Number(values.fat_mass) || 0)
   return Number(val.toFixed(2))
 }
 
@@ -154,7 +176,10 @@ export function getTotal(values: any, type: string): number {
           'upper_thighs'
         ]
 
-  const val = fields.reduce((acc, cur) => acc + (measurements?.[cur] || 0), 0)
+  const val = fields.reduce(
+    (acc, cur) => acc + (measurements?.[cur] ? Number(measurements[cur]) : 0),
+    0
+  )
 
   return Number(val.toFixed(2))
 }

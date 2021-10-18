@@ -1,35 +1,22 @@
 import React from 'react'
 import ICalendarLink from 'react-icalendar-link'
 
-import {
-  ClientSolidIcon,
-  DocumentOutlinedIcon,
-  GroupSolidIcon,
-  OptionSolidIcon,
-  PhoneSolidIcon,
-  RevenueSolidIcon
-} from '../../../../assets/media/icons'
+import { DocumentOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
-import Select from '../../../../components/form/select/select.component'
 import {
   EmptyPlaceholder,
   LoadingPlaceholder
 } from '../../../../components/placeholders'
 import Tabs from '../../../../components/tabs/tabs.component'
-import {
-  statisticRange,
-  statisticRangeOptions
-} from '../../../../enums/financials.enum'
 import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
-import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionStatus, SessionType } from '../../../../types/session.type'
-import ProgressCard from '../../components/progress-card/progress-card.component'
+import ProgressCardList from '../../components/progress-card-list/progress-card-list'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsCards from '../../components/sessions-mobile-cards/sessions-mobile-cards.component'
 import { getCalenderEvent } from '../../sessions.utils'
@@ -46,8 +33,6 @@ export default function MobileSessions({
   onPage
 }: UseSessions) {
   const { t } = useTranslation()
-  const { statistic, count, onRange } = useStatistic()
-
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (
       <div className="sessions__options">
@@ -194,53 +179,7 @@ export default function MobileSessions({
             <h1 className="mobile-layout__title sessions__title">
               {t('sessions:progress')}
             </h1>
-
-            <div className="sessions__progress-range-container">
-              <Select
-                id="sessions-progress-range"
-                options={statisticRangeOptions}
-                defaultValue={statisticRange.WEEK}
-                onChange={onRange}
-              />
-            </div>
-
-            <ProgressCard
-              title={t('revenue')}
-              current={count.total || 0}
-              target={0}
-              icon={<RevenueSolidIcon />}
-              money
-              earn={statistic.total || 0}
-            />
-            <ProgressCard
-              title={t('sessions:ptSessions')}
-              current={count.pt || 0}
-              target={0}
-              icon={<GroupSolidIcon />}
-              earn={statistic.pt_sessions || 0}
-            />
-            <ProgressCard
-              title={t('sessions:coaching')}
-              current={count.coaching || 0}
-              target={0}
-              icon={<ClientSolidIcon />}
-              earn={statistic.coaching_sessions || 0}
-            />
-            <ProgressCard
-              title={t('sessions:consultation')}
-              current={count.consultation || 0}
-              target={0}
-              icon={<PhoneSolidIcon />}
-              earn={statistic.consultations_sessions || 0}
-            />
-            <ProgressCard
-              title={t('sessions:other')}
-              current={0}
-              target={0}
-              icon={<OptionSolidIcon />}
-              earn={statistic.other || 0}
-            />
-
+            <ProgressCardList />
             <Button
               variant="secondary"
               onClick={() => {}}

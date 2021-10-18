@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
 import {
   AbdominalIcon,
@@ -18,8 +19,11 @@ import {
   TricepsIcon,
   Weight2Icon
 } from '../../../../assets/media/icons'
+import Button from '../../../../components/buttons/button/button.component'
+import Card from '../../../../components/cards/card/card.component'
 import { InputStyles } from '../../../../components/cards/progress-edit-card/progress-edit-card.styles'
 import ProgressEditCard from '../../../../components/cards/progress-edit-card/progress-eidt-card.component'
+import useMeasurementsFormLock from '../../../../hooks/ui/useMeasurementsFormLock'
 import formatter from '../../../../managers/formatter.manager'
 import {
   getBodyFat,
@@ -28,7 +32,8 @@ import {
   getTotal
 } from '../../../../utils/api/progress'
 import { kgToLb, lbToKg } from '../../../../utils/body'
-import { TotalStyles } from './measurements-log.styles'
+import { defaultValues } from './measurements-log.component'
+import { DialogStyles, TotalStyles } from './measurements-log.styles'
 
 const FIELDS = [
   { key: 'chin', label: 'Chin', icon: ChinIcon },
@@ -109,9 +114,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_lbs', kgToLb(value))
                 }}
@@ -129,9 +134,9 @@ function WeightLogCard() {
                 placeholder="80"
                 className="log-measurements__field"
                 value={value}
-                format={formatter().number()}
+                format={formatter().float()}
                 onChange={(e) => {
-                  const value = Number(e.target.value)
+                  const value = e.target.value
                   setValue(name, value)
                   setValue('weight_kgs', lbToKg(value))
                 }}
@@ -176,8 +181,8 @@ export function SkinfoldForm() {
                 id: `log-health-${field.key}`,
                 label: 'Measurement (mm)',
                 placeholder: '80',
-                format: formatter().number(),
-                onChange: (e) => setValue(name, Number(e.target.value)),
+                format: formatter().float(),
+                onChange: (e) => setValue(name, e.target.value),
                 value: value
               }}
             />
@@ -213,8 +218,8 @@ export function CircumferenceForm() {
                 id: `log-health-${field.key}`,
                 label: 'Measurement (cm)',
                 placeholder: '80',
-                format: formatter().number(),
-                onChange: (e) => setValue(name, Number(e.target.value)),
+                format: formatter().float(),
+                onChange: (e) => setValue(name, e.target.value),
                 value: value
               }}
             />
@@ -334,5 +339,73 @@ function TotalCard() {
         </>
       )}
     </TotalStyles>
+  )
+}
+
+interface ConfirmDialogProps {
+  onSave: any
+  onRedirectTo: any
+  redirectTo: string
+  updateValuesRef: any
+}
+
+export function ConfirmDialog({
+  onSave,
+  redirectTo,
+  onRedirectTo,
+  updateValuesRef
+}: ConfirmDialogProps) {
+  const history = useHistory()
+  const [open, setOpen] = useState(false)
+
+  const { control } = useFormContext()
+
+  const { updateInitialValues, onUnlock } = useMeasurementsFormLock(
+    control,
+    defaultValues,
+    () => setOpen(true),
+    onRedirectTo
+  )
+
+  useEffect(() => {
+    updateValuesRef.current = updateInitialValues
+  }, [])
+
+  return (
+    <DialogStyles
+      title="Confirmation"
+      open={open}
+      onClose={() => setOpen(false)}
+    >
+      <Card className="measurements-dialog__container">
+        <p className="measurements-dialog__title">
+          {`You have unsaved changes, if you don't save it now, your data will be lost.`}
+        </p>
+
+        <div className="measurements-dialog__btn-container">
+          <Button
+            className="measurements-dialog__btn"
+            variant="secondary"
+            onClick={() => {
+              onUnlock()
+              setOpen(false)
+              history.push(redirectTo)
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="measurements-dialog__btn"
+            onClick={() => {
+              onUnlock()
+              setOpen(false)
+              onSave()
+            }}
+          >
+            Save
+          </Button>
+        </div>
+      </Card>
+    </DialogStyles>
   )
 }
