@@ -4,7 +4,7 @@ import Styles from './total-info-card.styles'
 
 interface TotalInfoCardProps {
   label: string
-  note: string
+  note: string | React.ReactNode
   value?: string
   currency?: string
   noteStyle?: 'mutted' | 'white'

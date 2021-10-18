@@ -41,13 +41,13 @@ export default function usePayoutBalance(): usePayoutBalance {
       })
       console.log(res)
       mutate()
-    } catch (err) {
+    } catch (err: any) {
       setPayoutLoading(false)
       toast.show({
         type: 'error',
-        msg: 'Payout failed!'
+        msg: err.response?.data?.message || 'Payout Failed!'
       })
-      console.log(err)
+      console.log(err.response)
     }
   }
 
