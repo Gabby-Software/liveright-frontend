@@ -33,7 +33,7 @@ export async function formatMeasurementsValues(
   accountId?: string
 ): Promise<any> {
   const copy = { ...values }
-  const images = { ...copy.images }
+  const images: any = omitEmpty(copy.images)
 
   if (images.front || images.side || images.back) {
     for (const key of Object.keys(images)) {

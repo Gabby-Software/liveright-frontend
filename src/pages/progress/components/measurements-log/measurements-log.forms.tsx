@@ -347,13 +347,15 @@ interface ConfirmDialogProps {
   onRedirectTo: any
   redirectTo: string
   updateValuesRef: any
+  onUnlockRef: any
 }
 
 export function ConfirmDialog({
   onSave,
   redirectTo,
   onRedirectTo,
-  updateValuesRef
+  updateValuesRef,
+  onUnlockRef
 }: ConfirmDialogProps) {
   const history = useHistory()
   const [open, setOpen] = useState(false)
@@ -369,6 +371,7 @@ export function ConfirmDialog({
 
   useEffect(() => {
     updateValuesRef.current = updateInitialValues
+    onUnlockRef.current = onUnlock
   }, [])
 
   return (
