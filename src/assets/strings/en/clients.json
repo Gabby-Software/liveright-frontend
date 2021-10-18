@@ -6,7 +6,7 @@
   "client-name": "Client Name",
   "sessions": "Sessions",
   "status": "Status",
-  "sessions-remind": "{{n}} Sessions remain",
+  "sessions-remind": "{{n}} sessions remaining",
   "add": "Add New Client",
   "add-mobile": "New Client",
   "client-exist": "is on LiveRight, send him a message alongside your invite",

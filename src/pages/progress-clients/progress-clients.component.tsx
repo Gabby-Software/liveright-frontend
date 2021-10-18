@@ -52,7 +52,7 @@ export default function ProgressClients() {
             {clients.map((client) => (
               <ClientProgressCard
                 key={client.id}
-                to={getRoute(Routes.PROGRESS_HEALTH_DATA, {
+                to={getRoute(Routes.PROGRESS_MEASUREMENTS, {
                   id: client.id
                 })}
                 firstName={client.first_name}
