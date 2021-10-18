@@ -25,5 +25,12 @@
   "language-settings": {
     "title": "Language Settings",
     "selected-language": "Selected Language"
+  },
+  "billings": {
+    "title": "Payment Methods",
+    "add-method": "Add New Card",
+    "card-holder": "Card Holder",
+    "expiry-date": "Expiry Date",
+    "provide-card-details": "Provide Card Details"
   }
 }

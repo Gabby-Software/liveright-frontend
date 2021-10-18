@@ -11,3 +11,9 @@ export function payments(id: number | string) {
 export function invoices(id: number | string) {
   return `${getBase('invoices')}/invoices/${id}`
 }
+
+export const formatCreditCard = (no: string) => {
+  let formatedNo = no.replace(/.(?=.{4})/g, '*')
+  formatedNo = formatedNo.replace(/^(.{3})(.{4})(.{5})(.*)$/, '$1 $2 $3 $4')
+  return formatedNo
+}
