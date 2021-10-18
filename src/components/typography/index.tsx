@@ -3,6 +3,12 @@ import styled from 'styled-components'
 import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
+export const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${getColorCarry('primaryDark2_v2')};
+`
+
 interface SubtitleProps {
   size?: 'sm'
 }

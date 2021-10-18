@@ -15,6 +15,7 @@ interface UseClientsPaginate {
   meta: PaginationMetaType
   onPage: (page: number) => void
   onSearch: (e: any) => void
+  mutate: any
 }
 
 interface UseClientsParams {
@@ -44,7 +45,10 @@ export default function useClientsPaginate(
     ...filters
   }
 
-  const { data, error } = useSWR(() => getKey(params), getClientsPaginate)
+  const { data, error, mutate } = useSWR(
+    () => getKey(params),
+    getClientsPaginate
+  )
 
   const onSearch = debounce((e) => {
     setFilters((filters) => ({
@@ -69,6 +73,7 @@ export default function useClientsPaginate(
     clients: formatClients(clients),
     onSearch,
     onPage,
-    meta
+    meta,
+    mutate
   }
 }
