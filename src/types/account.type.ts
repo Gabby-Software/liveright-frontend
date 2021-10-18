@@ -26,6 +26,7 @@ export type ProfileType = {
 
 interface ExtrasType {
   status?: string
+  credits?: string
 }
 
 export type AccountObjType = {
