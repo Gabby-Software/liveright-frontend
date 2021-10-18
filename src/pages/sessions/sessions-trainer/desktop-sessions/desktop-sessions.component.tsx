@@ -2,13 +2,8 @@ import { useState } from 'react'
 import ICalendarLink from 'react-icalendar-link'
 
 import {
-  ClientSolidIcon,
   DeleteOutlinedIcon,
-  DocumentOutlinedIcon,
-  GroupSolidIcon,
-  OptionSolidIcon,
-  PhoneSolidIcon,
-  RevenueSolidIcon
+  DocumentOutlinedIcon
 } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
@@ -16,26 +11,20 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
-import Select from '../../../../components/form/select/select.component'
 import {
   EmptyPlaceholder,
   LoadingPlaceholder
 } from '../../../../components/placeholders'
 import Tabs from '../../../../components/tabs/tabs.component'
 import PageTitle from '../../../../components/titles/page-title.styles'
-import {
-  statisticRange,
-  statisticRangeOptions
-} from '../../../../enums/financials.enum'
 import useClients from '../../../../hooks/api/clients/useClients'
 import useClientCredits from '../../../../hooks/api/credits/useClientCredits'
 import { UseSession } from '../../../../hooks/api/sessions/useSession'
 import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
-import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionStatus, SessionType } from '../../../../types/session.type'
-import ProgressCard from '../../components/progress-card/progress-card.component'
+import ProgressCardList from '../../components/progress-card-list/progress-card-list'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
 import AddSessionDesktop from '../../sections/add-session/add-session-desktop/add-session-desktop.component'
@@ -56,7 +45,6 @@ export default function DesktopSessions({
 }: UseSessions & UseSession) {
   const { t } = useTranslation()
   const { clients } = useClients()
-  const { statistic, count, onRange } = useStatistic()
 
   const [addOpen, setAddOpen] = useState<boolean>(false)
   const [editOpen, setEditOpen] = useState<SessionType>()
@@ -223,55 +211,7 @@ export default function DesktopSessions({
           {!isPast && (
             <div className="sessions__right">
               <PageTitle>{t('sessions:progress')}</PageTitle>
-
-              <div className="sessions__date-range">
-                <Select
-                  id="sessions-progress-range"
-                  options={statisticRangeOptions}
-                  defaultValue={statisticRange.WEEK}
-                  onChange={onRange}
-                />
-              </div>
-
-              <div className="sessions__progress">
-                <ProgressCard
-                  title={t('revenue')}
-                  current={count.total || 0}
-                  target={0}
-                  icon={<RevenueSolidIcon />}
-                  money
-                  earn={statistic.total || 0}
-                />
-                <ProgressCard
-                  title={t('sessions:ptSessions')}
-                  current={count.pt || 0}
-                  target={0}
-                  icon={<GroupSolidIcon />}
-                  earn={statistic.pt_sessions || 0}
-                />
-                <ProgressCard
-                  title={t('sessions:coaching')}
-                  current={count.coaching || 0}
-                  target={0}
-                  icon={<ClientSolidIcon />}
-                  earn={statistic.coaching_sessions || 0}
-                />
-                <ProgressCard
-                  title={t('sessions:consultation')}
-                  current={count.consultation || 0}
-                  target={0}
-                  icon={<PhoneSolidIcon />}
-                  earn={statistic.consultations_sessions || 0}
-                />
-                <ProgressCard
-                  title={t('sessions:other')}
-                  current={0}
-                  target={0}
-                  icon={<OptionSolidIcon />}
-                  earn={statistic.other || 0}
-                />
-              </div>
-
+              <ProgressCardList />
               <div className="sessions__right-footer">
                 <Button className="sessions__manage-btn" variant="secondary">
                   {t('sessions:manage-targets')}

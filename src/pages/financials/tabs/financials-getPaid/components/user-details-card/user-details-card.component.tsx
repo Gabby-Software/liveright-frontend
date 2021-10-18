@@ -1,6 +1,4 @@
-import moment from 'moment'
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import UserBadge from '../../../../../../components/user-badge/user-badge.component'
 import { FileType } from '../../../../../../types/file.type'
@@ -10,23 +8,15 @@ interface IProps {
   avatar: FileType | null
   firstName: string
   lastName: string
-  joinedAt: string
-  getStripeAccountLink: () => void
 }
 
-const UserDetailsCard = ({
-  avatar,
-  firstName,
-  lastName,
-  joinedAt,
-  getStripeAccountLink
-}: IProps) => {
+const UserDetailsCard = ({ avatar, firstName, lastName }: IProps) => {
   return (
     <Styles className="card">
       <UserBadge
         avatarOnly
         square
-        size="md"
+        size="xl"
         avatar={avatar?.url}
         firstName={firstName}
         lastName={lastName}
@@ -34,16 +24,6 @@ const UserDetailsCard = ({
       <p className="card__name">
         {firstName} {lastName}
       </p>
-      <p className="card__joinedAt">
-        Joined {moment(joinedAt).format('MM YYYY')}
-      </p>
-      <Link
-        className="card__account_link"
-        to="#"
-        onClick={() => getStripeAccountLink()}
-      >
-        View Stripe Account
-      </Link>
     </Styles>
   )
 }

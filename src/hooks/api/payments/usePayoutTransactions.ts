@@ -46,6 +46,9 @@ export default function usePayoutTransactions(): usePayoutTransactions {
       currency: d.currency
     })) || []
 
+  console.log(transactions)
+  console.log(data)
+
   const meta: PaginationMetaType = {
     current_page: page,
     per_page: 10,
