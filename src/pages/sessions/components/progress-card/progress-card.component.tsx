@@ -63,7 +63,7 @@ export default function ProgressCard({
       </div>
 
       <div className="progress-card__bar">
-        {earn && (
+        {!!earn && (
           <p className="progress-card__bar-hint">
             {t('sessions:you-earn')} {asMoney(earn)} <span>AED</span>
           </p>
