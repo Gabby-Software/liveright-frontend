@@ -27,7 +27,7 @@ export default function useGoals(config?: useGoalsConfig): UseGoals {
   )
 
   const userGoals =
-    data.data?.filter((g: any) => {
+    data?.data?.filter((g: any) => {
       if (config?.filter?.account_id)
         return g.created_by.uuid === config?.filter?.account_id
       else return true
@@ -42,7 +42,7 @@ export default function useGoals(config?: useGoalsConfig): UseGoals {
   }
 
   return {
-    data: error ? null : data.data,
+    data: error ? null : data?.data,
     mutate,
     getGoalsTargetByType
   }
