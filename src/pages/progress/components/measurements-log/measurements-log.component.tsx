@@ -104,6 +104,7 @@ export default function MeasurementsLog() {
   const [redirectTo, setRedirectTo] = useState('')
 
   const updateValuesRef = useRef<any>()
+  const onUnlockRef = useRef<any>()
 
   const initMeasurements = useMeasurements({
     per_page: 1,
@@ -183,10 +184,15 @@ export default function MeasurementsLog() {
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
-  const handleSave = (values: any) => {
+  const onSave = (values: any) => {
     onAdd(values, data.id, () => {
       history.push(redirectTo || backTo)
     })
+  }
+
+  const handleSave = () => {
+    onUnlockRef.current?.()
+    methods.handleSubmit(onSave)()
   }
 
   const contextValue = {
@@ -323,10 +329,7 @@ export default function MeasurementsLog() {
         </div>
 
         <div className="log-measurements__submitContainer">
-          <Button
-            className="log-measurements__submit"
-            onClick={() => methods.handleSubmit(handleSave)()}
-          >
+          <Button className="log-measurements__submit" onClick={handleSave}>
             Save Measurements
           </Button>
         </div>
@@ -342,11 +345,7 @@ export default function MeasurementsLog() {
             <MobilePage
               title="Log Measurements"
               headerSpacing={isClient(type) ? undefined : 20}
-              actionComponent={
-                <Button onClick={() => methods.handleSubmit(handleSave)()}>
-                  Save
-                </Button>
-              }
+              actionComponent={<Button onClick={handleSave}>Save</Button>}
               headerTopComponent={
                 <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
               }
@@ -359,11 +358,10 @@ export default function MeasurementsLog() {
 
           <ConfirmDialog
             updateValuesRef={updateValuesRef}
+            onUnlockRef={onUnlockRef}
             redirectTo={redirectTo}
             onRedirectTo={setRedirectTo}
-            onSave={() => {
-              methods.handleSubmit(handleSave)()
-            }}
+            onSave={handleSave}
           />
         </>
       </FormProvider>
