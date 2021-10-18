@@ -72,7 +72,7 @@ const MobileFooterContent = () => {
         className: 'mobile-footer__item',
         url:
           type === userTypes.CLIENT
-            ? Routes.PROGRESS_CLIENT_HEALTH_DATA
+            ? Routes.PROGRESS_CLIENT_MEASUREMENTS
             : Routes.PROGRESS_CLIENTS
       },
       {
