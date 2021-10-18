@@ -16,9 +16,15 @@ interface LineChartProps {
   xDataKey: string
   dataKeys: string[]
   dataStroke?: string[]
+  dataYId?: string[]
   yTickFormatter?: any
   tooltip?: any
   dot?: boolean
+  yAxisId?: string
+  secondaryY?: {
+    yAxisId?: string
+    tickFormatter?: any
+  }
 }
 
 export default function LineChart({
@@ -26,10 +32,13 @@ export default function LineChart({
   data,
   xDataKey,
   dataKeys,
+  dataYId,
   dataStroke,
   yTickFormatter,
   tooltip,
-  dot = true
+  dot = true,
+  yAxisId,
+  secondaryY
 }: LineChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -53,13 +62,25 @@ export default function LineChart({
           dx={-15}
           tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
           tickFormatter={yTickFormatter}
+          yAxisId={yAxisId}
         />
+        {!!secondaryY && (
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            dx={15}
+            yAxisId={secondaryY.yAxisId}
+            orientation="right"
+            tickFormatter={secondaryY.tickFormatter}
+          />
+        )}
         {dataKeys.map((key, index) => (
           <Line
             key={key}
             type="linear"
             strokeWidth={2}
             stroke={dataStroke?.[index] || colors.green_90}
+            yAxisId={dataYId?.[index]}
             dataKey={key}
             dot={(props) => {
               if (!dot) return <></>

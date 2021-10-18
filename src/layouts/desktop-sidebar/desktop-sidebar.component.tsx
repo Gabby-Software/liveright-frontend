@@ -50,7 +50,7 @@ const menuItems: MenuItemType[] = [
   },
   {
     name: 'progress',
-    url: Routes.PROGRESS_CLIENT_HEALTH_DATA,
+    url: Routes.PROGRESS_CLIENT_MEASUREMENTS,
     Icon: ProgressIcon,
     type: userTypes.CLIENT,
     occur: ['progress']

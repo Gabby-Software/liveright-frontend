@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import deepmerge from 'deepmerge'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -30,6 +31,7 @@ import PhotoForm from '../photo-form/photo-form.component'
 import {
   CheckInForm,
   CircumferenceForm,
+  ConfirmDialog,
   MeasurementsLogContext,
   SkinfoldForm
 } from './measurements-log.forms'
@@ -41,13 +43,43 @@ const validationSchema = yup.object().shape({
   weight_lbs: yup.number().max(882).required().nullable()
 })
 
-const defaultValues = {
+export const defaultValues = {
   type: 'check_in',
   date: '',
   notes: '',
-  images: {},
+  images: {
+    front: null,
+    back: null,
+    side: null
+  },
   weight_kgs: null,
   weight_lbs: null,
+  lean_mass: null,
+  body_fat: null,
+  fat_mass: null,
+  measurements: {
+    chin: null,
+    cheek: null,
+    pec: null,
+    biceps: null,
+    midaxillary: null,
+    suprailiac: null,
+    abdominal: null,
+    triceps: null,
+    subscapular: null,
+    lower_back: null,
+    knee: null,
+    calf: null,
+    quad: null,
+    hamstring: null,
+    neck: null,
+    chest: null,
+    shoulders: null,
+    upper_arm: null,
+    waist: null,
+    hips: null,
+    upper_thighs: null
+  },
   goals: {
     from: '',
     to: '',
@@ -69,6 +101,9 @@ export default function MeasurementsLog() {
   const isMobile = useIsMobile()
   const [isPhoto, setPhoto] = useState(false)
   const [isGoals, setGoals] = useState(false)
+  const [redirectTo, setRedirectTo] = useState('')
+
+  const updateValuesRef = useRef<any>()
 
   const initMeasurements = useMeasurements({
     per_page: 1,
@@ -90,7 +125,7 @@ export default function MeasurementsLog() {
     }
   })
 
-  const { onAdd, onFilters, measurements } = useMeasurements({
+  const { onAdd, measurements } = useMeasurements({
     skip: !params.date,
     filter: {
       date: params.date,
@@ -105,10 +140,11 @@ export default function MeasurementsLog() {
 
   const { errors } = methods.formState
 
-  const values = useWatch({
+  const values: any = useWatch({
     control: methods.control,
     name: ['type', 'images']
   })
+
   const logType: string = values[0]
   const images: any = values[1]
 
@@ -116,22 +152,32 @@ export default function MeasurementsLog() {
 
   useEffect(() => {
     if (data.id) {
-      const formValues = dataToFormValues(data)
+      const formValues: any = deepmerge(defaultValues, dataToFormValues(data))
+      updateValuesRef.current?.(formValues)
 
       Object.keys(formValues).forEach((key) =>
         methods.setValue(key as any, formValues[key])
       )
 
-      if (Object.keys(formValues.images)?.length) {
+      if (
+        Object.keys(formValues.images)?.filter(
+          (key) => !!formValues.images?.[key]
+        )?.length
+      ) {
         setPhoto(true)
+      } else {
+        setPhoto(false)
       }
     } else {
-      methods.reset({
+      const values = {
         ...defaultValues,
-        date: params.date
-      })
+        date: params.date || ''
+      }
+      setPhoto(false)
+      updateValuesRef.current?.(values)
+      methods.reset(values)
     }
-  }, [dataKey])
+  }, [dataKey, params.date])
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
@@ -139,7 +185,7 @@ export default function MeasurementsLog() {
 
   const handleSave = (values: any) => {
     onAdd(values, data.id, () => {
-      history.push(backTo)
+      history.push(redirectTo || backTo)
     })
   }
 
@@ -165,7 +211,7 @@ export default function MeasurementsLog() {
         <div>
           <LogDateCard>
             <Controller
-              render={({ field: { name, value } }) => (
+              render={({ field: { value } }) => (
                 <DatePicker
                   id="log-measurements-date"
                   label="Logging Date"
@@ -173,9 +219,9 @@ export default function MeasurementsLog() {
                   disabledFuture
                   error={errors.date?.message}
                   onChange={(e, date) => {
-                    methods.setValue(name, date)
-                    onFilters('date', date)
-                    history.replace(
+                    // methods.setValue(name, date)
+                    // onFilters('date', date)
+                    history.push(
                       isClient(type)
                         ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, {
                             date
@@ -276,7 +322,7 @@ export default function MeasurementsLog() {
           </div>
         </div>
 
-        <div>
+        <div className="log-measurements__submitContainer">
           <Button
             className="log-measurements__submit"
             onClick={() => methods.handleSubmit(handleSave)()}
@@ -291,24 +337,35 @@ export default function MeasurementsLog() {
   return (
     <MeasurementsLogContext.Provider value={contextValue}>
       <FormProvider {...methods}>
-        {isMobile ? (
-          <MobilePage
-            title="Log Measurements"
-            headerSpacing={isClient(type) ? undefined : 20}
-            actionComponent={
-              <Button onClick={() => methods.handleSubmit(handleSave)()}>
-                Save
-              </Button>
-            }
-            headerTopComponent={
-              <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
-            }
-          >
-            {content}
-          </MobilePage>
-        ) : (
-          content
-        )}
+        <>
+          {isMobile ? (
+            <MobilePage
+              title="Log Measurements"
+              headerSpacing={isClient(type) ? undefined : 20}
+              actionComponent={
+                <Button onClick={() => methods.handleSubmit(handleSave)()}>
+                  Save
+                </Button>
+              }
+              headerTopComponent={
+                <HeaderLink to={backTo}>Back to Measurements</HeaderLink>
+              }
+            >
+              {content}
+            </MobilePage>
+          ) : (
+            content
+          )}
+
+          <ConfirmDialog
+            updateValuesRef={updateValuesRef}
+            redirectTo={redirectTo}
+            onRedirectTo={setRedirectTo}
+            onSave={() => {
+              methods.handleSubmit(handleSave)()
+            }}
+          />
+        </>
       </FormProvider>
     </MeasurementsLogContext.Provider>
   )

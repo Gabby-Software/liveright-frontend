@@ -37,28 +37,33 @@ export default function AddClientDrawer({
   const [form, setFrom] = useState<ClientFormType>(defaultValues)
 
   const isMobile = useIsMobile()
+
   const update = (name: string, val: string) =>
     setFrom({
       ...form,
       [name]: val
     })
+
   const handleClose = () => {
     setStep(clientFormSteps.EMAIL)
     onClose()
   }
+
+  const content = (
+    <AddClientDrawerStyles>
+      <AddClientForms step={step} onSubmit={onSubmit} onClose={onClose} />
+    </AddClientDrawerStyles>
+  )
+
   return (
     <ClientFormContext.Provider
       value={{ form, update, step, setStep, onClose: handleClose }}
     >
       {isMobile ? (
-        <AddClientDrawerStyles>
-          <AddClientForms step={step} onSubmit={onSubmit} onClose={onClose} />
-        </AddClientDrawerStyles>
+        content
       ) : (
         <Drawer open={isOpen} title={title} onClose={onClose} width={width}>
-          <AddClientDrawerStyles>
-            <AddClientForms step={step} onSubmit={onSubmit} onClose={onClose} />
-          </AddClientDrawerStyles>
+          {content}
         </Drawer>
       )}
     </ClientFormContext.Provider>
