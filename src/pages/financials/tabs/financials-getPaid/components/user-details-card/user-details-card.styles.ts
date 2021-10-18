@@ -6,14 +6,17 @@ import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 export default styled(Card)`
   align-items: center;
   background-color: ${getColorCarry('primaryDark_v2')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
     .card {
       &__name {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 22px;
         color: #FFFFFF;
-        margin: 4px 0 2px 0;
+        margin: 10px 0;
       }
 
       &__joinedAt {

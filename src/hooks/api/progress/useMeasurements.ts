@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import useSWR from 'swr'
 
@@ -23,6 +23,7 @@ interface MeasurementsFilters {
   to_date?: string
   account_id?: string
   date?: string
+  has_photos?: boolean
 }
 
 type OnFilters = (name: keyof MeasurementsFilters, value: any) => void
@@ -34,6 +35,7 @@ interface MeasurementsParams {
   }
   page?: number
   per_page?: number
+  columns?: string
 }
 
 type OnAdd = (values: any, id?: string, onSuccess?: any) => void
@@ -69,13 +71,22 @@ export default function useMeasurements(
     ...config.filter
   })
 
+  useEffect(() => {
+    if (config.filter?.date) {
+      setFilters((filters) => ({ ...filters, date: config.filter?.date }))
+    }
+  }, [config.filter?.date])
+
   const apiParams: MeasurementsParams = {
     filter: filters,
     page,
-    per_page: config.per_page || 10,
     sort: config.sort || {
       date: 'desc'
-    }
+    },
+    columns: config.columns,
+    ...(config.per_page !== 0 && {
+      per_page: config.per_page || 10
+    })
   }
 
   const skip =
