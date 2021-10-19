@@ -1,19 +1,10 @@
 import styled from 'styled-components'
 
-import { mediaQueries } from '../../../../enums/screen-sizes.enum'
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import Card from '../../../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
-export default styled.div`
-  @media ${mediaQueries.TABLET} {
-    padding-bottom: 0;
-    padding-top: 2.5rem;
-  }
-
-  .divider {
-    border: 1px solid ${getColorCarry('neutral_50')};
-    margin: 15px 0;
-  }
-
+export default styled(Card)`
   .f-overview {
     &__view-btn {
       width: 100%;

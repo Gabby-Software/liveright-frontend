@@ -1,10 +1,8 @@
 import useSWR from 'swr'
 
 import { EP_UPDATE_GOALS_TARGET } from '../../../enums/api.enum'
-import api from '../../../managers/api.manager'
+import { getGoals } from '../../../services/api/goals'
 import { TargetDataType } from '../../../types/goals-api-data.type'
-import { omitEmpty } from '../../../utils/obj'
-import { stringifyURL } from '../../../utils/query'
 
 interface useGoalsConfig {
   filter?: {
@@ -12,11 +10,40 @@ interface useGoalsConfig {
   }
 }
 
-export default function useGoals(config?: useGoalsConfig): {
+interface UseGoals {
   data: TargetDataType[] | null
-} {
-  const url = stringifyURL(EP_UPDATE_GOALS_TARGET, omitEmpty(config || {}))
-  const { data, error } = useSWR<any, any>(url, api.get)
-  const apiData = data?.data
-  return { data: error ? null : apiData?.data }
+  mutate: any
+  getGoalsTargetByType: (
+    type: string,
+    goalsData?: TargetDataType[] | null
+  ) => number | undefined
+}
+
+export default function useGoals(config?: useGoalsConfig): UseGoals {
+  // const url = stringifyURL(EP_UPDATE_GOALS_TARGET, omitEmpty(config || {}))
+  const { data, error, mutate } = useSWR<any, any>(
+    EP_UPDATE_GOALS_TARGET,
+    getGoals
+  )
+
+  const userGoals =
+    data?.data?.filter((g: any) => {
+      if (config?.filter?.account_id)
+        return g.created_by.uuid === config?.filter?.account_id
+      else return true
+    }) || null
+
+  const getGoalsTargetByType = (
+    type: string,
+    goalsData: TargetDataType[] | null = userGoals
+  ): number | undefined => {
+    const filteredGoals = goalsData?.filter((goal) => goal.type === type)
+    return filteredGoals?.[filteredGoals?.length - 1]?.goal
+  }
+
+  return {
+    data: error ? null : data?.data,
+    mutate,
+    getGoalsTargetByType
+  }
 }

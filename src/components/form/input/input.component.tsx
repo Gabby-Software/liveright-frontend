@@ -3,6 +3,7 @@ import React, {
   ChangeEvent,
   FocusEventHandler,
   forwardRef,
+  KeyboardEventHandler,
   ReactNode,
   useEffect,
   useRef
@@ -37,6 +38,8 @@ export interface InputProps {
   max?: number
   error?: string
   shouldScrollTo?: Boolean
+  onKeyPress?: KeyboardEventHandler<HTMLInputElement>
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -63,7 +66,9 @@ const Input = forwardRef<any, InputProps>(
       labelComponent,
       max,
       error,
-      shouldScrollTo
+      shouldScrollTo,
+      onKeyPress,
+      onKeyDown
     },
     ref
   ) => {
@@ -118,6 +123,8 @@ const Input = forwardRef<any, InputProps>(
           disabled={disabled}
           onBlur={onBlur}
           maxLength={max}
+          onKeyPress={onKeyPress}
+          onKeyDown={onKeyDown}
         />
         {name && <FormError name={name} className="field-error" />}
         {error && <Error name={error} />}

@@ -11,7 +11,16 @@
     "other": "Other Revenue",
     "pt-sessions": "PT Sessions",
     "pt-sessions-revenue": "PT Sessions Revenue",
-    "revenue": "Monthly Revenue"
+    "revenue": "Monthly Revenue",
+    "projected-monthly-income": "Projected Monthly Income",
+    "target-monthly-income": "Target Monthly Income",
+    "list-revenue": "List Revenue",
+    "sales-completed": "Sales Completed",
+    "average-rate": "Average Rate or Commission per sale",
+    "monthly-booking": "Bookings for Month",
+    "projected-income": "Projected Income for this Month",
+    "target-income": "Target Income for this Month ",
+    "new-sales": "New Sales Needed"
   },
   "payout": {
     "title": "Payout History",

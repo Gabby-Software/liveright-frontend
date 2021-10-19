@@ -74,7 +74,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
           id={`add-item-tax-${i}`}
           format={formatter().number().min(0).max(100)}
           name={`items.${i}.tax_rate`}
-          label={t('invoices:is-taxed')}
+          label={t('invoices:vat-percentage')}
           labelComponent={
             <Checkbox
               checked={item.is_taxable}
@@ -83,6 +83,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
               }
             />
           }
+          suffix={'%'}
           value={item.tax_rate}
           onChange={(e) =>
             form.setFieldValue(`items.${i}.tax_rate`, e.target.value)
@@ -118,6 +119,7 @@ const CreateInvoiceItem = ({ form, helper, i, item, credits }: Props) => {
             name={`items.${i}.discount_percent`}
             label={t('invoices:create.discount')}
             value={item.discount_percent}
+            suffix={'%'}
             onChange={(e) =>
               form.setFieldValue(`items.${i}.discount_percent`, e.target.value)
             }
