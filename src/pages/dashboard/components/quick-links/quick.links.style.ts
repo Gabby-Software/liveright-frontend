@@ -4,6 +4,7 @@ export const Styles = styled.ul`
   display: flex;
   gap: 20px;
   padding: 0;
+  margin-bottom: 38px;
 `
 
 export const Link = styled.li`
