@@ -12,7 +12,7 @@ interface useGoalsConfig {
 
 interface UseGoals {
   data: TargetDataType[] | null
-  mutate: any  
+  mutate: any
   getGoalsTargetByType: (
     type: string,
     goalsData?: TargetDataType[] | null
