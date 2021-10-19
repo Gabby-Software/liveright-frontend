@@ -98,8 +98,5 @@ export { ReactComponent as SuprailiacIcon } from './progress/Suprailiac.svg'
 export { ReactComponent as TricepsIcon } from './progress/trisep.svg'
 export { ReactComponent as Weight2Icon } from './progress/weight.svg'
 export { ReactComponent as GroupIcon } from './group.svg'
-<<<<<<< HEAD
 export { ReactComponent as CheckIcon } from './check.svg'
-=======
 export { ReactComponent as FoodIcon } from './food-v2.svg'
->>>>>>> acdb6fcce4f1078113563e9ba627b0543ce15464
