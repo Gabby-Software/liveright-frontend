@@ -24,6 +24,7 @@ export const ToolbarStyles = styled.div`
       font-size: 1.125rem;
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
+      margin: 0 0.5rem;
     }
 
     &__tabs {
@@ -55,6 +56,17 @@ export const ToolbarStyles = styled.div`
         width: 20px;
         height: 20px;
         margin-top: 0.5rem;
+      }
+    }
+
+    &__cell {
+      display: flex;
+      align-items: center;
+    }
+
+    &__next {
+      & svg {
+        transform: rotate(180deg);
       }
     }
   }

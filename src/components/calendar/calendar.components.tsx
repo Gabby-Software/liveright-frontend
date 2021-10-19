@@ -1,6 +1,7 @@
 import { ToolbarProps } from 'react-big-calendar'
 
-import { SearchIcon } from '../../assets/media/icons'
+import { CaretLeftIcon, SearchIcon } from '../../assets/media/icons'
+import IconButton from '../buttons/icon-button/icon-button.component'
 import Input from '../form/input/input.component'
 import Tabs from '../tabs/tabs.component'
 import { ToolbarStyles } from './calendar.styles'
@@ -24,8 +25,16 @@ export function Toolbar(props: ToolbarProps) {
     <ToolbarStyles>
       <Tabs className="calendar-toolbar__tabs" tabs={TABS} />
 
-      <div>
+      <div className="calendar-toolbar__cell">
+        <IconButton size="sm" className="calendar-toolbar__prev">
+          <CaretLeftIcon />
+        </IconButton>
+
         <p className="calendar-toolbar__label">{props.label}</p>
+
+        <IconButton size="sm" className="calendar-toolbar__next">
+          <CaretLeftIcon />
+        </IconButton>
       </div>
 
       <Input
