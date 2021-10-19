@@ -1,6 +1,6 @@
 import { Skeleton } from 'antd'
 import get from 'lodash/get'
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import { SortGroupIcon } from '../../assets/media/icons'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
@@ -20,6 +20,7 @@ interface Props<G> {
   error?: string
   actionWidth?: string
   round?: string
+  customLastRow?: ReactNode
 }
 const DataTable = ({
   labels,
@@ -83,7 +84,6 @@ const DataTable = ({
             </tr>
           ))
         ) : null}
-
         {children}
       </tbody>
     </Styles>

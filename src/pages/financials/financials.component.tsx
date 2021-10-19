@@ -24,9 +24,9 @@ const FinancialsOverview = lazy(
 const FinancialsReceivables = lazy(
   () => import('./tabs/financials-receivables/financials-receivables.component')
 )
-const FinancialsGoals = lazy(
-  () => import('./tabs/financials-goals/financials-goals.component')
-)
+// const FinancialsGoals = lazy(
+//   () => import('./tabs/financials-goals/financials-goals.component')
+// )
 
 const FinancialGetPaid = lazy(
   () => import('./tabs/financials-getPaid/financials-getPaid.component')
@@ -66,11 +66,11 @@ const Financials = ({}: Props) => {
               {t('invoices:manage-payment-methods')}
             </Button>
           )}
-          {location.pathname.includes(Routes.FINANCIALS_GOALS) && (
+          {/* {location.pathname.includes(Routes.FINANCIALS_GOALS) && (
             <Button variant="secondary" size="md" to={Routes.EDIT_GOALS}>
               {t('financials:overview.edit-goal')}
             </Button>
-          )}
+          )} */}
           {location.pathname.includes(Routes.FINANCIALS_GET_PAID) && (
             <Button to={Routes.CREATE_INVOICE}>{t('invoices:add')}</Button>
           )}
@@ -95,7 +95,7 @@ const Financials = ({}: Props) => {
           path={Routes.FINANCIALS_PAYABLES}
           component={FinancialsPayables}
         />
-        <Route path={Routes.FINANCIALS_GOALS} component={FinancialsGoals} />
+        {/* <Route path={Routes.FINANCIALS_GOALS} component={FinancialsGoals} /> */}
         <Route path={Routes.FINANCIALS_GET_PAID} component={FinancialGetPaid} />
       </React.Suspense>
     </Styles>

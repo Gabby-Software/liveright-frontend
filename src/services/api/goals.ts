@@ -6,3 +6,8 @@ export async function updateGoalsTarget(data: GoalsApiDataType) {
   const response = await api.post(EP_UPDATE_GOALS_TARGET, data)
   return response.data
 }
+
+export async function getGoals(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
