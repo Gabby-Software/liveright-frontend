@@ -44,7 +44,7 @@ const ProgressCardList = () => {
       <div className="sessions__progress">
         <ProgressCard
           title={t('revenue')}
-          current={statistic.total || 0}
+          current={Math.ceil(statistic.total || 0)}
           target={Math.ceil(
             (getGoalsTargetByType('total_monthly_revenue') || 0) *
               (RANGE_FACTORS as any)[range]

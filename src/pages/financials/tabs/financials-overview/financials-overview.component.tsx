@@ -28,13 +28,13 @@ const FinancialsOverview = ({}: Props) => {
     <>
       <FinancialsOverviewLabel
         label={t('financials:overview.projected-monthly-income')}
-        value={asMoney(monthlyRevenue || 0)}
+        value={asMoney(Math.ceil(monthlyRevenue || 0))}
         currency={'AED'}
       />
       <FinancialsOverviewLabel
         label={t('financials:overview.target-monthly-income')}
-        value={asMoney(monthlyTarget || 0)}
-        note={asMoney(monthlyRevenue - monthlyTarget)}
+        value={asMoney(Math.ceil(monthlyTarget || 0))}
+        note={asMoney(Math.ceil(monthlyRevenue - monthlyTarget))}
         currency={'AED'}
         green={monthlyTarget <= monthlyRevenue}
       />

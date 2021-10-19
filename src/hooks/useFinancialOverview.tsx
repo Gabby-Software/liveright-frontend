@@ -49,7 +49,7 @@ export const useFinancialOverview = (): UseFinancialOverview => {
       toast.show({ type: 'success', msg: t('alerts:goal-update-success') })
       goalsMutate()
     } catch (e: any) {
-      toast.show({ type: 'error', msg: e.message })
+      toast.show({ type: 'error', msg: e.response?.data?.message })
     }
   }
 
