@@ -1,26 +1,20 @@
-import React, { useContext } from 'react'
+import Button from '../../components/buttons/button/button.component'
+import Calendar from '../../components/calendar/calendar.component'
+import { Title } from '../../components/typography'
+import { Styles } from './calendar.styles'
 
-import CalendarFooter from '../../components/calendar/calendar-footer/calendar-footer.component'
-import { calendarView } from '../../enums/calendar-views.enum'
-import CalendarProvider, { CalendarContext } from './calendar.context'
-import Styles from './calendar.styles'
-import CalendarHeading from './calendar-heading/calendar-heading.component'
-import CalendarMonth from './calendar-month/calendar-month.component'
-import CalendarWeek from './calendar-week/calendar-week.component'
-
-const Calendar = () => {
-  const { view } = useContext(CalendarContext)
+export default function CalendarPage() {
   return (
     <Styles>
-      <CalendarHeading />
-      {view === calendarView.MONTH ? <CalendarMonth /> : <CalendarWeek />}
-      <CalendarFooter />
+      <div className="calendar__title-container">
+        <Title>My Calendar</Title>
+
+        <Button>Add Activity</Button>
+      </div>
+
+      <div>
+        <Calendar />
+      </div>
     </Styles>
   )
 }
-
-export default () => (
-  <CalendarProvider>
-    <Calendar />
-  </CalendarProvider>
-)
