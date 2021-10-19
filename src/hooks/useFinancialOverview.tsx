@@ -39,7 +39,6 @@ export const useFinancialOverview = (): UseFinancialOverview => {
 
   const onUpdateGoals = async (value: string, type: string) => {
     const targets: TargetDataType[] = []
-
     targets.push({
       type,
       value_type: 'number',
