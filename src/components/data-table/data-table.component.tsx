@@ -20,6 +20,7 @@ interface Props<G> {
   error?: string
   actionWidth?: string
   round?: string
+  showSort?: boolean
 }
 const DataTable = ({
   labels,
@@ -33,7 +34,8 @@ const DataTable = ({
   loading,
   error,
   actionWidth,
-  round
+  round,
+  showSort = true
 }: Props<any>) => {
   const { t } = useTranslation()
   return (
@@ -47,7 +49,7 @@ const DataTable = ({
           <th key={label + index.toString()} className={'data-table__th'}>
             <div className="data-table__th-container">
               {t(label)}
-              <SortGroupIcon />
+              {showSort && <SortGroupIcon />}
             </div>
           </th>
         ))}

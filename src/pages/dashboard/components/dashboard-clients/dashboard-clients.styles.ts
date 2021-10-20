@@ -6,4 +6,5 @@ export const Styles = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 40px rgba(63, 201, 173, 0.2);
   border-radius: 10px;
+  padding: 30px;
 `
