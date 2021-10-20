@@ -73,8 +73,7 @@ const OverviewTable = (props: Props) => {
         </div>
       }
       onSave={(value: any) => {
-        console.log(`Saving '${value}'`)
-        onUpdateGoals(value, type)
+        type && onUpdateGoals(value, type)
       }}
       renderCheckBtn
     />

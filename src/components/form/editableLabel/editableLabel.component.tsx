@@ -33,24 +33,32 @@ const EditableLabel = ({
     onSave(inputValue)
   }
 
+  const onCancel = () => {
+    setEdit(false)
+    setInputValue(label)
+  }
+
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onSave(inputValue)
-      setEdit(false)
+      onSaveHandler()
     } else if (e.key === 'Escape') {
-      setInputValue(label)
-      setEdit(false)
+      onCancel()
+    }
+  }
+
+  const onBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+      onCancel()
     }
   }
 
   const editContent = (
-    <>
+    <div tabIndex={0} onBlur={onBlur}>
       <Input
         className="editable-input"
         id="editable-input"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        onBlur={onSaveHandler}
         onKeyDown={onKeyPress}
         ref={inputRef}
       />
@@ -59,7 +67,7 @@ const EditableLabel = ({
           <CheckIcon />
         </Button>
       )}
-    </>
+    </div>
   )
 
   const labelContent = (

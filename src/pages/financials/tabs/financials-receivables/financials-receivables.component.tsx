@@ -4,6 +4,7 @@ import {
   statisticRange,
   statisticRangeOptions
 } from '../../../../enums/financials.enum'
+import useGoals from '../../../../hooks/api/goals/useGoals'
 import useInvoices from '../../../../hooks/api/invoices/useInvoices'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -17,11 +18,17 @@ import Styles from './financials-receivables.styles'
 
 type Props = {}
 
+const RANGE_FACTORS = {
+  week: 0.25,
+  month: 1,
+  year: 12
+}
+
 const FinancialsReceivables = ({}: Props) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const { progressCount, statistic, onRange } = useStatistic()
-
+  const { progressCount, statistic, range, onRange } = useStatistic()
+  const { getGoalsTargetByType } = useGoals()
   const { invoices, meta, ...actions } = useInvoices()
 
   return (
@@ -49,7 +56,14 @@ const FinancialsReceivables = ({}: Props) => {
         </div>
       </div>
 
-      <FinancialsReceivablesTotals countData={progressCount} data={statistic} />
+      <FinancialsReceivablesTotals
+        target={
+          (getGoalsTargetByType('total_monthly_revenue') || 0) *
+          (RANGE_FACTORS as any)[range]
+        }
+        countData={progressCount}
+        data={statistic}
+      />
 
       <div className="f-receivables__subtitle-container">
         <h2 className="f-receivables__subtitle">
