@@ -2,7 +2,7 @@ import FinancialsOverviewLabel from '../../../financials/tabs/financials-overvie
 import Select from '../../../../components/form/select/select.component'
 import LineChart from '../../../../components/charts/line-chart/line-chart.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import { RevenueTable } from './dashboard-revenue-table.component'
+import { RevenueTable } from '../dashboard-wrapper-table/dashboard-wrapper-table.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -14,6 +14,20 @@ import {
 } from '../../../../enums/financials.enum'
 
 import { Styles } from './dashboard-revenue.styles'
+
+const MOCK_DATA = [
+  { from: 'Sessions', actual: '3,000 AED', target: '0 AED (+100%)' },
+  { from: 'Coaching', actual: '3,000 AED', target: '0 AED (+100%)' },
+  {
+    from: 'Consultation',
+    actual: '3,000 AED',
+    target: '0 AED (+100%)'
+  },
+  { from: 'Other', actual: '3,000 AED', target: '0 AED (+100%)' }
+]
+
+const KEYS: string[] = ['from', 'actual', 'target']
+const LABELS: string[] = ['clients:from', 'profile:actual', 'profile:target']
 
 export const DashboardRevenue = () => {
   const { t } = useTranslation()
@@ -66,7 +80,7 @@ export const DashboardRevenue = () => {
         xDataKey="date"
         dataKeys={['value']}
       />
-      <RevenueTable />
+      <RevenueTable labels={LABELS} keys={KEYS} data={MOCK_DATA} />
     </Styles>
   )
 }

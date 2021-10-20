@@ -81,17 +81,3 @@ export const Styles = styled.div`
     margin-bottom: 50px;
   }
 `
-
-export const Table = styled.div`
-  & table thead {
-    .data-table__th {
-      padding: 15px 20px 15px 20px;
-    }
-    th:first-child {
-      border-radius: 10px 0 0 10px;
-    }
-    th:last-child {
-      border-radius: 0 10px 10px 0;
-    }
-  }
-`
