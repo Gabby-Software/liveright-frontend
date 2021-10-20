@@ -16,6 +16,16 @@ export const Table = styled.div`
     .data-table__tr {
       td {
         padding: 15px 20px 15px 20px;
+        font-size: 18px;
+        line-height: 26px;
+        color: #5e5e5e;
+
+        .icons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+        }
       }
       td:first-child {
         border-radius: 10px 0 0 10px;

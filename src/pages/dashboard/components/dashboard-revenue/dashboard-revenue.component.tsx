@@ -1,8 +1,9 @@
 import FinancialsOverviewLabel from '../../../financials/tabs/financials-overview/components/financials-overview-label/financials-overview-label.component'
 import Select from '../../../../components/form/select/select.component'
 import LineChart from '../../../../components/charts/line-chart/line-chart.component'
+import Button from '../../../../components/buttons/button/button.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import { RevenueTable } from '../dashboard-wrapper-table/dashboard-wrapper-table.component'
+import { TableWrapper } from '../table-wrapper/table-wrapper.component'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -42,9 +43,9 @@ export const DashboardRevenue = () => {
         <h2 className={'f-overview__graph__title'}>
           {t('financials:overview.title')}
         </h2>
-        <button className="dashboard-revenue__button" type="button">
+        <Button className="dashboard-revenue__button" type="button">
           Edit Goals
-        </button>
+        </Button>
       </div>
       <div className="dashboard-revenue__cards">
         <FinancialsOverviewLabel
@@ -80,7 +81,7 @@ export const DashboardRevenue = () => {
         xDataKey="date"
         dataKeys={['value']}
       />
-      <RevenueTable labels={LABELS} keys={KEYS} data={MOCK_DATA} />
+      <TableWrapper labels={LABELS} keys={KEYS} data={MOCK_DATA} />
     </Styles>
   )
 }

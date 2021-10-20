@@ -1,13 +1,21 @@
 import DataTable from '../../../../components/data-table/data-table.component'
-import { Table } from './dashboard-wrapper-table.styles'
+import { Table } from './table-wrapper.styles'
 
 interface IProps {
   labels: string[]
   keys: string[]
-  data: { from: string; actual: string; target: string }[]
+  data: {
+    from?: string
+    actual?: string
+    target?: string
+    name?: string
+    phone_number?: string
+    sessions?: string
+    options?: JSX.Element
+  }[]
 }
 
-export const RevenueTable = ({ labels, keys, data }: IProps) => {
+export const TableWrapper = ({ labels, keys, data }: IProps) => {
   return (
     <Table>
       <DataTable

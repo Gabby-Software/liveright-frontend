@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getShadow } from '../../../../pipes/theme-shadow.pipe'
 
 export const Styles = styled.div`
   grid-area: 1 / 2 / 3 / 3;
   width: 100%;
   background: #ffffff;
-  box-shadow: 0px 0px 40px rgba(63, 201, 173, 0.2);
+  box-shadow: ${getShadow('secondary')};
+  // secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
+
   border-radius: 10px;
   padding: 30px;
 
@@ -16,10 +19,9 @@ export const Styles = styled.div`
     margin-bottom: 30px;
 
     &__button {
-      display: block;
       border: none;
+      padding: 0;
       background: transparent;
-      font-family: Circular Std;
       font-size: 18px;
       line-height: 26px;
 
