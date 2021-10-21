@@ -1,98 +1,67 @@
+import { toast } from '../components/toast/toast.component'
+import { useTranslation } from '../modules/i18n/i18n.hook'
+import { updateGoalsTarget } from '../services/api/goals'
+import { FinancialsSummaryType } from '../types/financials'
 import { TargetDataType } from '../types/goals-api-data.type'
+import { getOverviewTableData } from '../utils/api/financials'
 import useGoals from './api/goals/useGoals'
 import useStatistic from './api/stat/useStatistic'
 import { useAuth } from './auth.hook'
 
-export const useFinancialOverview = () => {
-  const { statistic: monthlyIncomes, progressCount } = useStatistic({
+interface UseFinancialOverview {
+  monthlyTarget: number
+  monthlyRevenue: number
+  tableData: FinancialsSummaryType[]
+  onUpdateGoals: (value: string, type: string) => void
+}
+
+export const useFinancialOverview = (): UseFinancialOverview => {
+  const { t } = useTranslation()
+  const {
+    statistic: monthlyIncomes,
+    count: sessionCount,
+    progressCount
+  } = useStatistic({
     range: 'month'
   })
   const { uuid } = useAuth()
-  const { data: goals } = useGoals()
-  const userGoals =
-    goals?.filter((g: any) => g.created_by.uuid === uuid) || null
+  const { mutate: goalsMutate, getGoalsTargetByType } = useGoals({
+    filter: { account_id: uuid }
+  })
 
-  const getTargetMonthlyIncome = (
-    goalsData: TargetDataType[] | null = userGoals
-  ) => {
-    const types = ['pt_session', 'consultation', 'coaching', 'other']
-    const filteredGoals = goalsData?.filter((g) => types.includes(g.type))
-    return filteredGoals?.reduce((acc, g) => acc + g.goal, 0)
+  // const getTargetMonthlyIncome = (
+  //   goalsData: TargetDataType[] | null = userGoals
+  // ) => {
+  //   const types = ['pt_session', 'consultation', 'coaching', 'other']
+  //   const filteredGoals = goalsData?.filter((g) => types.includes(g.type))
+  //   return filteredGoals?.reduce((acc, g) => acc + g.goal, 0)
+  // }
+
+  const onUpdateGoals = async (value: string, type: string) => {
+    const targets: TargetDataType[] = []
+    targets.push({
+      type,
+      value_type: 'number',
+      goal: Number(value)
+    })
+    try {
+      await updateGoalsTarget({ targets })
+      toast.show({ type: 'success', msg: t('alerts:goal-update-success') })
+      goalsMutate()
+    } catch (e: any) {
+      toast.show({ type: 'error', msg: e.response?.data?.message })
+    }
   }
 
-  const getGoalsTargetByType = (
-    type: string,
-    goalsData: TargetDataType[] | null = userGoals
-  ): number | undefined => {
-    const filteredGoals = goalsData?.filter((goal) => goal.type === type)
-    return filteredGoals?.[filteredGoals?.length - 1]?.goal
+  return {
+    monthlyTarget: getGoalsTargetByType('total_monthly_revenue') || 0,
+    monthlyRevenue: monthlyIncomes.total || 0,
+    onUpdateGoals,
+    tableData: getOverviewTableData(
+      monthlyIncomes,
+      progressCount,
+      sessionCount,
+      getGoalsTargetByType
+    )
   }
-
-  const data = {
-    monthlyTarget: getTargetMonthlyIncome(),
-    monthlyRevenue: monthlyIncomes.total,
-    coaching: [
-      {
-        target_name: 'sessions',
-        target: getGoalsTargetByType(`coaching_quantity`),
-        current: progressCount.coaching_sessions
-      },
-      {
-        target_name: 'revenues',
-        target: getGoalsTargetByType('coaching'),
-        current: monthlyIncomes.coaching_sessions
-      },
-      {
-        target_name: 'average',
-        target: getGoalsTargetByType('coaching_average'),
-        current:
-          monthlyIncomes.coaching_sessions / progressCount.coaching_sessions
-      }
-    ],
-    consultations: [
-      {
-        target_name: 'sessions',
-        target: getGoalsTargetByType(`consultation_quantity`),
-        current: progressCount.consultations_sessions
-      },
-      {
-        target_name: 'revenues',
-        target: getGoalsTargetByType('consultation'),
-        current: monthlyIncomes.consultations_sessions
-      },
-      {
-        target_name: 'average',
-        target: getGoalsTargetByType('consultation_average'),
-        current:
-          monthlyIncomes.consultations_sessions /
-          progressCount.consultations_sessions
-      }
-    ],
-    pt: [
-      {
-        target_name: 'sessions',
-        target: getGoalsTargetByType(`pt_session_quantity`),
-        current: progressCount.pt_sessions
-      },
-      {
-        target_name: 'revenues',
-        target: getGoalsTargetByType('pt_session'),
-        current: monthlyIncomes.pt_sessions
-      },
-      {
-        target_name: 'average',
-        target: getGoalsTargetByType('pt_session_average'),
-        current: monthlyIncomes.pt_sessions / progressCount.pt_sessions
-      }
-    ],
-    other: [
-      {
-        target_name: 'revenues',
-        target: getGoalsTargetByType('other'),
-        current: monthlyIncomes.other
-      }
-    ]
-  }
-
-  return data
 }

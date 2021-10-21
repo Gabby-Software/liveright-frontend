@@ -4,8 +4,10 @@ import {
   statisticRange,
   statisticRangeOptions
 } from '../../../../enums/financials.enum'
+import useGoals from '../../../../hooks/api/goals/useGoals'
 import useInvoices from '../../../../hooks/api/invoices/useInvoices'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import InvoicesAtention from '../../../invoices/components/invoices-atention/invoices-atention.component'
@@ -17,12 +19,23 @@ import Styles from './financials-receivables.styles'
 
 type Props = {}
 
+const RANGE_FACTORS = {
+  week: 0.25,
+  month: 1,
+  year: 12
+}
+
 const FinancialsReceivables = ({}: Props) => {
   const isMobile = useIsMobile()
+  const auth = useAuth()
   const { t } = useTranslation()
-  const { progressCount, statistic, onRange } = useStatistic()
-
-  const { invoices, meta, ...actions } = useInvoices()
+  const { progressCount, statistic, range, onRange } = useStatistic()
+  const { getGoalsTargetByType } = useGoals()
+  const { invoices, meta, ...actions } = useInvoices({
+    initialFilters: {
+      invoice_from: auth.id
+    }
+  })
 
   return (
     <Styles>
@@ -49,7 +62,14 @@ const FinancialsReceivables = ({}: Props) => {
         </div>
       </div>
 
-      <FinancialsReceivablesTotals countData={progressCount} data={statistic} />
+      <FinancialsReceivablesTotals
+        target={
+          (getGoalsTargetByType('total_monthly_revenue') || 0) *
+          (RANGE_FACTORS as any)[range]
+        }
+        countData={progressCount}
+        data={statistic}
+      />
 
       <div className="f-receivables__subtitle-container">
         <h2 className="f-receivables__subtitle">

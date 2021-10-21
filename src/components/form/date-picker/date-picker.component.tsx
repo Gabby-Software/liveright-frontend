@@ -18,9 +18,11 @@ interface DatePickerProps {
   disabledFuture?: boolean
   disabledPast?: boolean
   error?: string
+  format?: string
   name?: string
   disabled?: boolean
   defaultPickerValue?: any
+  picker?: 'date' | 'week' | 'month' | 'quarter' | 'year'
 }
 
 export default function DatePicker({
@@ -36,7 +38,9 @@ export default function DatePicker({
   name,
   error,
   disabled,
-  defaultPickerValue
+  defaultPickerValue,
+  format,
+  picker
 }: DatePickerProps) {
   return (
     <Styles className={className} $disabled={disabled}>
@@ -56,6 +60,8 @@ export default function DatePicker({
         }
         disabled={disabled}
         defaultPickerValue={defaultPickerValue}
+        format={format}
+        picker={picker}
       />
       {name && <FormError name={name} className="field-error" />}
       {error && <Error name={error} />}

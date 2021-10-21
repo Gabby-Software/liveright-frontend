@@ -88,7 +88,8 @@ const CreateInvoiceMobileItemForm: FC<
           id="create-invoice-tax"
           format={formatter().number().min(0).max(100)}
           name={`tax_rate`}
-          label={t('invoices:create.tax')}
+          label={t('invoices:vat-percentage')}
+          suffix={'%'}
           value={tax_rate}
           onChange={(e) => onChange('tax_rate', e.target.value)}
         />
@@ -98,6 +99,7 @@ const CreateInvoiceMobileItemForm: FC<
           format={formatter().number().min(0).max(100)}
           name={`discount_percent`}
           label={t('invoices:create.discount')}
+          suffix={'%'}
           value={discount_percent}
           onChange={(e) => onChange('discount_percent', e.target.value)}
         />

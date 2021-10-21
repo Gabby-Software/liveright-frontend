@@ -12,8 +12,9 @@ import {
   statisticRange,
   statisticRangeOptions
 } from '../../../../enums/financials.enum'
+import useGoals from '../../../../hooks/api/goals/useGoals'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
-import { useFinancialOverview } from '../../../../hooks/useFinancialOverview'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import ProgressCard from '../progress-card/progress-card.component'
 
@@ -26,8 +27,8 @@ const RANGE_FACTORS = {
 const ProgressCardList = () => {
   const { t } = useTranslation()
   const { statistic, progressCount, count, onRange, range } = useStatistic()
-  const { monthlyTarget, coaching, consultations, pt, other } =
-    useFinancialOverview()
+  const { uuid } = useAuth()
+  const { getGoalsTargetByType } = useGoals({ filter: { account_id: uuid } })
 
   return (
     <div>
@@ -43,9 +44,10 @@ const ProgressCardList = () => {
       <div className="sessions__progress">
         <ProgressCard
           title={t('revenue')}
-          current={statistic.total || 0}
+          current={Math.ceil(statistic.total || 0)}
           target={Math.ceil(
-            (monthlyTarget || 0) * (RANGE_FACTORS as any)[range]
+            (getGoalsTargetByType('total_monthly_revenue') || 0) *
+              (RANGE_FACTORS as any)[range]
           )}
           icon={<RevenueSolidIcon />}
           money
@@ -55,7 +57,8 @@ const ProgressCardList = () => {
           title={t('sessions:ptSessions')}
           current={count.pt}
           target={Math.ceil(
-            (pt[0].target || 0) * (RANGE_FACTORS as any)[range]
+            (getGoalsTargetByType('pt_session_quantity') || 0) *
+              (RANGE_FACTORS as any)[range]
           )}
           icon={<GroupSolidIcon />}
           earn={statistic.pt_sessions}
@@ -64,7 +67,8 @@ const ProgressCardList = () => {
           title={t('sessions:coaching')}
           current={progressCount.coaching_sessions}
           target={Math.ceil(
-            (coaching[0].target || 0) * (RANGE_FACTORS as any)[range]
+            (getGoalsTargetByType('coaching_quantity') || 0) *
+              (RANGE_FACTORS as any)[range]
           )}
           icon={<ClientSolidIcon />}
           earn={statistic.coaching_sessions}
@@ -73,7 +77,8 @@ const ProgressCardList = () => {
           title={t('sessions:consultation')}
           current={progressCount.consultations_sessions}
           target={Math.ceil(
-            (consultations[0].target || 0) * (RANGE_FACTORS as any)[range]
+            (getGoalsTargetByType('consultation_quantity') || 0) *
+              (RANGE_FACTORS as any)[range]
           )}
           icon={<PhoneSolidIcon />}
           earn={statistic.consultations_sessions}
@@ -82,7 +87,7 @@ const ProgressCardList = () => {
           title={t('sessions:other')}
           current={statistic.other}
           target={Math.ceil(
-            (other[0].target || 0) * (RANGE_FACTORS as any)[range]
+            (getGoalsTargetByType('other') || 0) * (RANGE_FACTORS as any)[range]
           )}
           icon={<OptionSolidIcon />}
           earn={statistic.other}

@@ -13,8 +13,8 @@ import useInvoice, { UseInvoice } from './useInvoice'
 export interface InvoicesFilters {
   search?: string
   status?: string
-  invoice_from?: string
-  invoice_to?: string
+  invoice_from?: string | number
+  invoice_to?: string | number
 }
 
 interface InvoicesQuery {

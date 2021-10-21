@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { FilterIcon, SearchIcon } from '../../../../assets/media/icons'
 import {
@@ -9,54 +9,55 @@ import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.com
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
+import IssuerSelect from '../../../../components/form/issuer-select/issuer-select.component'
 import Select from '../../../../components/form/select/select.component'
 import userTypes from '../../../../enums/user-types.enum'
+import { InvoicesFilters } from '../../../../hooks/api/invoices/useInvoices'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { UseFilters } from '../../../../hooks/ui/useFilters'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
-import { useInvoices } from '../../invoices.context'
+import { OptionType } from '../../../../types/option.type'
 import { statuses } from '../../invoices.data'
-import FormSelectIssuer from '../form-select-issuer/form-select-issuer.component'
 import { DrawerContent, Styles } from './invoice-filters.styles'
 
-const InvoiceFilters = () => {
+interface InvoiceFiltersProps
+  extends Pick<UseFilters<InvoicesFilters>, 'onFilter' | 'filters'> {}
+
+export default function InvoiceFilters({
+  onFilter,
+  filters
+}: InvoiceFiltersProps) {
   const { t } = useTranslation()
   const { type } = useAuth()
-  const [search, setSearch] = useState('')
-  const [status, setStatus] = useState<any>()
-  const [invoice_from, setInvoice_from] = useState<any>()
-  const { update } = useInvoices()
   const isMobile = useIsMobile()
   const [filtersDrawer, setFiltersDrawer] = useState(false)
-
-  const fetchInvoices = () => {
-    update(1, {
-      search,
-      status: status?.value,
-      invoice_from: invoice_from?.value
-    })
-  }
-
-  useEffect(fetchInvoices, [search, status, invoice_from])
+  const [status, setStatus] = useState<OptionType | undefined>(undefined)
+  const [issuer, setIssuer] = useState<OptionType | undefined>(undefined)
 
   const statusSelect = (
     <Select
       id="invoice-status"
-      value={status}
+      value={filters.status}
       placeholder={t('invoices:status')}
       options={[{ label: 'All statuses', value: '' }, ...statuses]}
-      onChange={(e, option) => setStatus(option)}
+      onChange={(e, option) => {
+        onFilter('status', e)
+        setStatus(option)
+      }}
       className="invoice-filters__status"
     />
   )
 
   const issuerSelect = (
-    <FormSelectIssuer
+    <IssuerSelect
       id="issuer"
-      value={invoice_from}
-      name={'invoice_from'}
+      value={filters.invoice_from}
       placeholder={t('invoices:issuer')}
-      onUpdate={(e, option) => setInvoice_from(option)}
+      onChange={(e, option) => {
+        onFilter('invoice_from', e)
+        setIssuer(option)
+      }}
       className="invoice-filters__issuer"
     />
   )
@@ -67,11 +68,10 @@ const InvoiceFilters = () => {
         <Input
           id="invoice-search"
           prefix={<SearchIcon />}
-          value={search}
           placeholder={t('search')}
-          onChange={(e) => setSearch(e.target.value)}
           className="invoice-filters__search"
         />
+
         {isMobile ? (
           <>
             <IconButton
@@ -89,7 +89,7 @@ const InvoiceFilters = () => {
         )}
       </Styles>
 
-      {isMobile && (status || invoice_from) && (
+      {isMobile && (status || issuer) && (
         <ActiveFilters>
           {status && (
             <ActiveFilterCard
@@ -97,15 +97,17 @@ const InvoiceFilters = () => {
               value={status.label}
               onDelete={() => {
                 setStatus(undefined)
+                onFilter('status', undefined)
               }}
             />
           )}
-          {invoice_from && (
+          {issuer && (
             <ActiveFilterCard
               label="Issuer"
-              value={invoice_from.label}
+              value={issuer.label}
               onDelete={() => {
-                setInvoice_from(undefined)
+                setIssuer(undefined)
+                onFilter('invoice_from', undefined)
               }}
             />
           )}
@@ -131,5 +133,3 @@ const InvoiceFilters = () => {
     </>
   )
 }
-
-export default InvoiceFilters

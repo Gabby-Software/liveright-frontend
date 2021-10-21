@@ -8,9 +8,10 @@ import Styles from './financials-receivables-totals.styles'
 type Props = {
   countData: any
   data: any
+  target: number
 }
 
-const FinancialsReceivablesTotals = ({ countData, data }: Props) => {
+const FinancialsReceivablesTotals = ({ countData, data, target }: Props) => {
   return (
     <Styles>
       <FinancialsReceivablesTotal
@@ -30,8 +31,12 @@ const FinancialsReceivablesTotals = ({ countData, data }: Props) => {
       />
       <FinancialsReceivablesTotal
         label="Left to Target"
-        note="off 0"
-        value="0"
+        note={
+          target > data.total
+            ? `off ${asMoney(Math.ceil(target - data.total))}`
+            : '-'
+        }
+        value={asMoney(Math.ceil(target))}
       />
     </Styles>
   )
