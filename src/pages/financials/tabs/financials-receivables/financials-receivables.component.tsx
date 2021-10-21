@@ -7,6 +7,7 @@ import {
 import useGoals from '../../../../hooks/api/goals/useGoals'
 import useInvoices from '../../../../hooks/api/invoices/useInvoices'
 import useStatistic from '../../../../hooks/api/stat/useStatistic'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import InvoicesAtention from '../../../invoices/components/invoices-atention/invoices-atention.component'
@@ -26,10 +27,15 @@ const RANGE_FACTORS = {
 
 const FinancialsReceivables = ({}: Props) => {
   const isMobile = useIsMobile()
+  const auth = useAuth()
   const { t } = useTranslation()
   const { progressCount, statistic, range, onRange } = useStatistic()
   const { getGoalsTargetByType } = useGoals()
-  const { invoices, meta, ...actions } = useInvoices()
+  const { invoices, meta, ...actions } = useInvoices({
+    initialFilters: {
+      invoice_from: auth.id
+    }
+  })
 
   return (
     <Styles>

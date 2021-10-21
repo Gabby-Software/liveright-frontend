@@ -7,6 +7,7 @@ import {
   LoadingPlaceholder
 } from '../../../../components/placeholders'
 import useInvoices from '../../../../hooks/api/invoices/useInvoices'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { InvoiceType } from '../../../../types/invoice.type'
 import InvoiceCard from '../invoice-card/invoice-card.component'
 import Styles from './invoices-atention.styles'
@@ -14,9 +15,12 @@ import Styles from './invoices-atention.styles'
 interface InvoicesAtentionProps {}
 
 const InvoicesAtention = ({}: InvoicesAtentionProps) => {
+  const auth = useAuth()
+
   const { invoices, onRemind, isLoading } = useInvoices({
     initialFilters: {
-      status: 'due_soon,overdue'
+      status: 'due_soon,overdue',
+      invoice_from: auth.id
     },
     initialInclude: 'invoiceTo'
   })
