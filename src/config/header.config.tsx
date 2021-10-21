@@ -12,7 +12,7 @@ import NotificationIcon from '../components/notification-icon/notification-icon.
 import { Routes } from '../enums/routes.enum'
 import { HeaderItemType, HeaderItemTypes } from '../types/route.type'
 
-export const DEFAULT_TITLE = 'LiveRight'
+export const DEFAULT_TITLE = 'Hello, Alex Ribort'
 const headers: { [key: string]: HeaderItemType[] } = {
   default: [
     { type: HeaderItemTypes.IMAGE, href: Routes.CHAT, Icon: ChatIcon },

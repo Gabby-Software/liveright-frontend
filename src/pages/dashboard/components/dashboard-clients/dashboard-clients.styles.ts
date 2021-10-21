@@ -33,7 +33,7 @@ export const Styles = styled.div`
       text-align: right;
       text-decoration-line: underline;
 
-      color: ${getColorCarry('secondary')};
+      color: ${getColorCarry('blue_70')};
       cursor: pointer;
     }
 
@@ -54,11 +54,11 @@ export const Styles = styled.div`
     text-align: right;
     text-decoration-line: underline;
 
-    color: ${getColorCarry('secondary')};
+    color: ${getColorCarry('blue_70')};
     cursor: pointer;
 
     & svg {
-      stroke: ${getColorCarry('secondary')};
+      stroke: ${getColorCarry('blue_70')};
     }
   }
 `

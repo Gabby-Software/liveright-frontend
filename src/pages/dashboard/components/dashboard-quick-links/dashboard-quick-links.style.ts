@@ -17,23 +17,25 @@ export const Link = styled.li`
   border-radius: 22px;
   padding-top: 28px;
   padding-bottom: 31px;
+  transition: ${(p) => p.theme.vars.defaults.transition};
   p {
     font-family: Circular Std;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
     color: #10243d;
+    transition: ${(p) => p.theme.vars.defaults.transition};
   }
-  .wrapper-icon {
+  .icon-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80px;
     height: 80px;
     background: #d3f5ee;
-    // opacity: 0.1;
     border-radius: 25px;
     margin-bottom: 28px;
+    transition: ${(p) => p.theme.vars.defaults.transition};
 
     .icon {
       display: flex;
@@ -46,6 +48,7 @@ export const Link = styled.li`
 
         path {
           stroke: #72a69b;
+          transition: ${(p) => p.theme.vars.defaults.transition};
         }
       }
     }
@@ -57,7 +60,7 @@ export const Link = styled.li`
     p {
       color: #ffffff;
     }
-    .wrapper-icon {
+    .icon-wrapper {
       background: #216a72;
 
       .icon svg path {

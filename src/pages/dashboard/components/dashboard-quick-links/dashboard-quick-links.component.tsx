@@ -6,7 +6,7 @@ import {
   WorkoutIconV2,
   AddDocumentIcon
 } from '../../../../assets/media/icons/index'
-import { Styles, Link } from './quick.links.style'
+import { Styles, Link } from './dashboard-quick-links.style'
 
 export interface ILink {
   label: string
@@ -25,7 +25,7 @@ const links: ILink[] = [
 export const LinkIcon = ({ label, icon }: ILink) => {
   return (
     <Link>
-      <div className="wrapper-icon">
+      <div className="icon-wrapper">
         <div className="icon">{icon}</div>
       </div>
       <p>{label}</p>

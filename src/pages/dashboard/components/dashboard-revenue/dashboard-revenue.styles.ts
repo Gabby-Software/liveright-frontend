@@ -7,7 +7,6 @@ export const Styles = styled.div`
   width: 100%;
   background: #ffffff;
   box-shadow: ${getShadow('secondary')};
-  // secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
 
   border-radius: 10px;
   padding: 30px;
@@ -28,7 +27,7 @@ export const Styles = styled.div`
       text-align: right;
       text-decoration-line: underline;
 
-      color: ${getColorCarry('secondary')};
+      color: ${getColorCarry('blue_70')};
       cursor: pointer;
     }
 
@@ -71,7 +70,7 @@ export const Styles = styled.div`
       font-family: Circular Std;
       font-size: 14px;
       line-height: 20px;
-      color: #2e2f31;
+      color: ${getColorCarry('primaryDark_v2')};
       white-space: nowrap;
 
       label {
