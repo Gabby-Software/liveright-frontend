@@ -7,6 +7,7 @@ export const Styles = styled.div`
   width: 100%;
   background: #ffffff;
   box-shadow: ${getShadow('secondary')};
+  // secondary: '0px 0px 40px rgba(230, 45, 71, 0.03)'
 
   border-radius: 10px;
   padding: 30px;
@@ -54,9 +55,15 @@ export const Styles = styled.div`
       border-radius: 12px;
       padding: 24px 24px 32px 24px;
 
+      .f-overview-label__content .f-overview-label__value {
+        color: ${getColorCarry('primaryDark_v2')};
+      }
+
       .f-overview-label__title {
         margin: 0 auto;
         margin-bottom: 16px;
+        color: ${getColorCarry('secondary')};
+
         &:before {
           display: none;
         }
@@ -70,7 +77,7 @@ export const Styles = styled.div`
       font-family: Circular Std;
       font-size: 14px;
       line-height: 20px;
-      color: ${getColorCarry('primaryDark_v2')};
+      color: #2e2f31;
       white-space: nowrap;
 
       label {
