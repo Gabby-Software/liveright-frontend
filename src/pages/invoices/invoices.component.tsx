@@ -2,6 +2,8 @@ import React from 'react'
 
 import Card from '../../components/cards/card/card.component'
 import { onlyClient } from '../../guards/client.guard'
+import useInvoices from '../../hooks/api/invoices/useInvoices'
+import { useAuth } from '../../hooks/auth.hook'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
@@ -20,6 +22,14 @@ interface InvoicesProps {
 const Invoices = ({ asPage = true, trainerFinancials }: InvoicesProps) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
+  const auth = useAuth()
+
+  const { invoices, meta, onPage, filters, onFilter } = useInvoices({
+    initialFilters: {
+      invoice_to: auth.id
+    },
+    initialInclude: 'invoiceFrom'
+  })
 
   const content = (
     <Styles>
@@ -31,13 +41,18 @@ const Invoices = ({ asPage = true, trainerFinancials }: InvoicesProps) => {
 
       {isMobile ? (
         <>
-          <InvoiceFilters />
-          <InvoicesList trainerFinancials={trainerFinancials} />
+          <InvoiceFilters filters={filters} onFilter={onFilter} />
+          <InvoicesList
+            trainerFinancials={trainerFinancials}
+            invoices={invoices}
+            meta={meta}
+            onPage={onPage}
+          />
         </>
       ) : (
         <Card>
-          <InvoiceFilters />
-          <InvoicesTable />
+          <InvoiceFilters filters={filters} onFilter={onFilter} />
+          <InvoicesTable invoices={invoices} meta={meta} onPage={onPage} />
         </Card>
       )}
     </Styles>

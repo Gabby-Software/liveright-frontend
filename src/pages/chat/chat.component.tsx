@@ -19,19 +19,24 @@ const Chat = () => {
   const isMobile = useIsMobile()
   const { rooms } = useChats()
   const { room } = useParams<{ room?: string }>()
-  const { noTrainer } = useTrainerAccount()
+  const trainer = useTrainerAccount()
 
-  if (noTrainer) {
+  if (trainer.noTrainer) {
     return <Redirect to={Routes.HOME} />
   }
 
   if (type !== userTypes.CLIENT && room && !rooms[room])
     return <Redirect to={Routes.CHAT} />
   if (type === userTypes.CLIENT && !room) {
-    const trainerRoom = Object.keys(rooms)[0]
-    if (rooms[trainerRoom])
+    const trainerRoom = Object.keys(rooms)?.find(
+      (key) => rooms[key]?.room?.user_uuid === trainer.user?.uuid
+    )
+
+    if (trainerRoom && rooms[trainerRoom]) {
       return <Redirect to={Routes.CHAT + `/${trainerRoom}`} />
-    else return null
+    } else {
+      return null
+    }
   }
 
   if (isMobile) {
