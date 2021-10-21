@@ -34,8 +34,7 @@ export default function AddClientForms({
             phone_number: Yup.string().phone(),
             birthday: Yup.date().max(moment().startOf('day').toDate()),
             postal_code: Yup.string().zip().nullable(),
-            email: Yup.string().required().email().trim(),
-            message: Yup.string().required()
+            email: Yup.string().required().email().trim()
           })}
         >
           <Form
