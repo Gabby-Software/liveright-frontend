@@ -56,7 +56,7 @@ const Financials = ({}: Props) => {
     <Styles>
       {!isMobile && (
         <div className="financials__title-container">
-          <h1 className="financials__title">{t('invoices:title')}</h1>
+          <h1 className="financials__title">{t('financials:title')}</h1>
 
           {location.pathname.includes(Routes.FINANCIALS_RECEIVABLES) && (
             <Button to={Routes.CREATE_INVOICE}>{t('invoices:add')}</Button>

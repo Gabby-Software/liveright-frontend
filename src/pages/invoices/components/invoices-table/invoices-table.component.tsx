@@ -1,5 +1,3 @@
-import React, { useRef } from 'react'
-
 import {
   DownloadIcon,
   FilePdfIcon,
@@ -12,66 +10,48 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { invoiceStatuses } from '../../../../enums/invoice-statuses'
 import { paymentMethods } from '../../../../enums/payment-method.enum'
-import userTypes from '../../../../enums/user-types.enum'
+import { UseInvoices } from '../../../../hooks/api/invoices/useInvoices'
 import { useAuth } from '../../../../hooks/auth.hook'
+import { UsePagination } from '../../../../hooks/ui/usePagination'
 import fileManager from '../../../../managers/file.manager'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { date } from '../../../../pipes/date.pipe'
 import { invoices, payments } from '../../../../pipes/payments.pipe'
 import { InvoiceType } from '../../../../types/invoice.type'
-import { useInvoices } from '../../invoices.context'
+import { isClient } from '../../../../utils/api/auth'
 import Styles from './invoices-table.styles'
 
-const InvoicesTable = () => {
+const labels = [
+  'invoices:invoice-number',
+  'invoices:invoice-date',
+  'invoices:issued-by',
+  'invoices:price',
+  'invoices:status',
+  'invoices:options'
+]
+const keys = ['invoice_number', 'due_on', 'name', 'total', 'status', 'options']
+
+interface InvoicesTableProps
+  extends Pick<UseInvoices, 'invoices' | 'meta'>,
+    Pick<UsePagination, 'onPage'> {}
+
+export default function InvoicesTable({
+  invoices: data,
+  meta,
+  onPage
+}: InvoicesTableProps) {
   const { type } = useAuth()
-  const head = useRef<HTMLDivElement>(null)
   const { t } = useTranslation()
-  const {
-    current: { meta, data },
-    filters,
-    error,
-    loading,
-    update
-  } = useInvoices()
-
-  const updatePage = (p: number) => {
-    update(p, filters).then(() => {
-      if (!head.current) return
-      window.scrollTo({
-        top: window.scrollY + head.current.getBoundingClientRect().top,
-        behavior: 'smooth'
-      })
-    })
-  }
-
-  const labels = [
-    'invoices:invoice-number',
-    'invoices:invoice-date',
-    'invoices:issued-by',
-    'invoices:price',
-    'invoices:status',
-    'invoices:options'
-  ]
-  const keys = [
-    'invoice_number',
-    'due_on',
-    'name',
-    'total',
-    'status',
-    'options'
-  ]
 
   const invoiceUser = (t: InvoiceType) =>
-    type === userTypes.CLIENT ? t.invoice_from?.user : t.invoice_to?.user
+    isClient(type) ? t.invoice_from?.user : t.invoice_to?.user
 
   return (
-    <Styles ref={head}>
+    <Styles>
       <DataTable
         labels={labels}
         keys={keys}
         data={data}
-        error={error || (!loading && !data.length) ? t('invoices:no-data') : ''}
-        loading={loading}
         className="invoice-table__table"
         render={{
           invoice_number: (t) => `#${t.invoice_number}`,
@@ -133,12 +113,10 @@ const InvoicesTable = () => {
       <div className="invoice-table__pagination">
         <DataPagination
           page={meta.current_page}
-          setPage={updatePage}
           total={meta.total}
+          setPage={onPage}
         />
       </div>
     </Styles>
   )
 }
-
-export default InvoicesTable

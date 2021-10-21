@@ -24,7 +24,18 @@ const Notification = ({
   const { t } = useTranslation()
   const { Icon, color } = notificationIcon(type)
   // const EyeIcon = notificationSeen(!!read_at)
-  const { url, slug } = notificationUrl(type, data, auth.type)
+  const { url, slug, native } = notificationUrl(type, data, auth.type)
+
+  const urlBtn = (
+    <Button
+      variant="secondary"
+      size="sm"
+      className="notification__action"
+      to={native ? undefined : url}
+    >
+      {t('notifications:go-to', { type: slug })}
+    </Button>
+  )
 
   return (
     <PopOnScroll offset={70}>
@@ -46,14 +57,7 @@ const Notification = ({
           </IconButton>
         ) : (
           <>
-            <Button
-              variant="secondary"
-              size="sm"
-              to={url}
-              className="notification__action"
-            >
-              {t('notifications:go-to', { type: slug })}
-            </Button>
+            {native ? <a href={url}>{urlBtn}</a> : urlBtn}
 
             <ShowIcon />
           </>

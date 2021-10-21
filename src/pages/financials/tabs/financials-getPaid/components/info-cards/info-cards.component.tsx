@@ -1,9 +1,8 @@
 import React from 'react'
-import { useSWRConfig } from 'swr'
 
 import Button from '../../../../../../components/buttons/button/button.component'
-import { EP_PAYOUT_TRANSACTIONS } from '../../../../../../enums/api.enum'
 import usePayoutBalance from '../../../../../../hooks/api/payments/usePayoutBalance'
+import usePayoutTransactions from '../../../../../../hooks/api/payments/usePayoutTransactions'
 import useTotalRecieved from '../../../../../../hooks/api/payments/useTotalRecieved'
 import { useAuth } from '../../../../../../hooks/auth.hook'
 import TotalInfoCard from '../total-info-card/total-info-card.component'
@@ -12,7 +11,6 @@ import Styles from './info-cards.styles'
 
 const InfoCards = () => {
   const { first_name, last_name, avatar } = useAuth()
-  const { mutate } = useSWRConfig()
   const {
     balance,
     pendingBalance,
@@ -28,6 +26,8 @@ const InfoCards = () => {
     mutate: totalRecievedMutate
   } = useTotalRecieved()
 
+  const { mutate: transactionMutate } = usePayoutTransactions()
+
   const user = {
     firstName: first_name,
     lastName: last_name,
@@ -37,8 +37,8 @@ const InfoCards = () => {
   const payoutHandler = () => {
     onCreatePayout()
     totalRecievedMutate()
-    // transactionsMutate()
-    mutate(EP_PAYOUT_TRANSACTIONS)
+    transactionMutate()
+    // mutate(EP_PAYOUT_TRANSACTIONS)
   }
 
   return (
