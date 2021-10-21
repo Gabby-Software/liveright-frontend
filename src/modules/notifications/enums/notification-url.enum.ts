@@ -4,15 +4,24 @@ import { invoices } from '../../../pipes/payments.pipe'
 import { AccessOptionType } from '../../../types/access-option.type'
 import { notificationsTypes } from './notification-types.enum'
 
-const EMPTY_RESPONSE = {
+interface NotificationUrlResponse {
+  url: string
+  slug: string
+  native?: boolean
+}
+
+const EMPTY_RESPONSE: NotificationUrlResponse = {
   url: '',
   slug: ''
 }
-export const notificationUrl: (
+
+type NotificationUrl = (
   message: string,
   data: Record<string, any>,
   userType?: AccessOptionType
-) => { slug: string; url: string } = (message, data, userType) => {
+) => NotificationUrlResponse
+
+export const notificationUrl: NotificationUrl = (message, data, userType) => {
   switch (message) {
     case notificationsTypes.INVITATION_ACCEPT:
       return {
@@ -32,7 +41,8 @@ export const notificationUrl: (
     case notificationsTypes.INVOICE_STATUS_CHANGED:
       return {
         url: invoices(data.invoice_id),
-        slug: 'invoice'
+        slug: 'invoice',
+        native: true
       }
     case notificationsTypes.SESSION_DELETED:
       return {
