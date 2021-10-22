@@ -7,17 +7,21 @@ export const Styles = styled.ul`
   margin-bottom: 38px;
 `
 
-export const Link = styled.li`
+export const LinkItem = styled.li`
   background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: calc(100% / 6);
   border-radius: 22px;
-  padding-top: 28px;
-  padding-bottom: 31px;
+  list-style:none;
   transition: ${(p) => p.theme.vars.defaults.transition};
+
+  .link {
+    display: block;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    padding-top: 28px;
+    padding-bottom: 31px;
+  }
   p {
     font-family: Circular Std;
     font-size: 14px;
@@ -26,7 +30,8 @@ export const Link = styled.li`
     color: #10243d;
     transition: ${(p) => p.theme.vars.defaults.transition};
   }
-  .icon-wrapper {
+  & .link .li-icon-wrapper {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,6 +40,8 @@ export const Link = styled.li`
     background: #d3f5ee;
     border-radius: 25px;
     margin-bottom: 28px;
+    margin-right: auto ;
+    margin-left: auto;
     transition: ${(p) => p.theme.vars.defaults.transition};
 
     .icon {
@@ -53,18 +60,24 @@ export const Link = styled.li`
       }
     }
   }
-  &: hover {
+  &:hover {
     cursor: pointer;
     background: #125a62;
 
     p {
       color: #ffffff;
     }
-    .icon-wrapper {
+    .link .li-icon-wrapper {
       background: #216a72;
 
       .icon svg path {
         stroke: #ffffff;
+      }
+    }
+    &: last-child {
+      .link .li-icon-wrapper {
+      .icon svg path {
+        fill: #ffffff;
       }
     }
   }

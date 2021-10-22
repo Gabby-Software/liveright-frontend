@@ -13,6 +13,7 @@ const Dashboard = () => {
   const isMobile = useIsMobile()
   const { first_name, last_name } = useAuth()
   useTitle(`Hello, ${first_name} ${last_name}`)
+
   const content = (
     <Styles>
       <QuickLinks />

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   AddGroupIcon,
   PlanIcon,
@@ -6,30 +7,50 @@ import {
   WorkoutIconV2,
   AddDocumentIcon
 } from '../../../../assets/media/icons/index'
-import { Styles, Link } from './dashboard-quick-links.style'
+import { Routes } from '../../../../enums/routes.enum'
+import { Styles, LinkItem } from './dashboard-quick-links.style'
 
 export interface ILink {
   label: string
   icon: JSX.Element
+  path: string
 }
 
 const links: ILink[] = [
-  { label: 'Add Client', icon: <AddGroupIcon /> },
-  { label: 'Training Plans', icon: <PlanIcon /> },
-  { label: 'Schedule Session', icon: <CalendarIcon /> },
-  { label: 'Issue Invoice', icon: <InvoiceIcon /> },
-  { label: 'Latest Activity', icon: <WorkoutIconV2 /> },
-  { label: 'Add Event', icon: <AddDocumentIcon /> }
+  {
+    label: 'Add Client',
+    icon: <AddGroupIcon />,
+    path: Routes.CLIENTS + '?show_modal=true'
+  },
+  { label: 'Training Plans', icon: <PlanIcon />, path: Routes.PLANS },
+  {
+    label: 'Schedule Session',
+    icon: <CalendarIcon />,
+    path: Routes.SESSIONS + '?show_modal=true'
+  },
+  {
+    label: 'Issue Invoice',
+    icon: <InvoiceIcon />,
+    path: Routes.CREATE_INVOICE
+  },
+  {
+    label: 'Latest Activity',
+    icon: <WorkoutIconV2 />,
+    path: Routes.NOTIFICATIONS
+  },
+  { label: 'Add Event', icon: <AddDocumentIcon />, path: Routes.CALENDAR }
 ]
 
-export const LinkIcon = ({ label, icon }: ILink) => {
+export const LinkIcon = ({ label, icon, path }: ILink) => {
   return (
-    <Link>
-      <div className="icon-wrapper">
-        <div className="icon">{icon}</div>
-      </div>
-      <p>{label}</p>
-    </Link>
+    <LinkItem>
+      <Link className="link" to={path}>
+        <div className="li-icon-wrapper">
+          <div className="icon">{icon}</div>
+        </div>
+        <p>{label}</p>
+      </Link>
+    </LinkItem>
   )
 }
 
@@ -37,7 +58,12 @@ export const QuickLinks = () => {
   return (
     <Styles>
       {links.map((item) => (
-        <LinkIcon key={item.label} label={item.label} icon={item.icon} />
+        <LinkIcon
+          key={item.label}
+          label={item.label}
+          icon={item.icon}
+          path={item.path}
+        />
       ))}
     </Styles>
   )

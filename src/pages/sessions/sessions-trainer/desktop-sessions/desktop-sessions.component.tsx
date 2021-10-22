@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ICalendarLink from 'react-icalendar-link'
 
 import {
@@ -24,6 +24,7 @@ import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
 import { useDesktopLayoutConfig } from '../../../../layouts/desktop-layout/desktop-layout.config'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { SessionStatus, SessionType } from '../../../../types/session.type'
+import { parseQuery } from '../../../../utils/query'
 import ProgressCardList from '../../components/progress-card-list/progress-card-list'
 import ScheduleCard from '../../components/schedule-card/schedule-card.component'
 import SessionsTable from '../../components/sessions-table/sessions-table.component'
@@ -54,6 +55,13 @@ export default function DesktopSessions({
   useDesktopLayoutConfig({
     className: 'sessions__layout'
   })
+
+  useEffect(() => {
+    const { show_modal } = parseQuery(location.search)
+    if (show_modal) {
+      setAddOpen(true)
+    }
+  }, [])
 
   const renderUpcomingItemOptions = (item: SessionType) => {
     return (

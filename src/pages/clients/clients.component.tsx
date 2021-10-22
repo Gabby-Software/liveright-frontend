@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { parseQuery } from '../../utils/query'
 
 import {
   ExerciseIconV2,
@@ -91,6 +92,13 @@ function Clients() {
   const [activeTab, setActiveTab] = useState('clients')
   const [addDialog, setAddDialog] = useState(false)
   const [step, setStep] = useState(clientFormSteps.EMAIL)
+
+  useEffect(() => {
+    const { show_modal } = parseQuery(location.search)
+    if (show_modal) {
+      setAddDialog(true)
+    }
+  }, [])
 
   const { clients, isLoading, meta, onSearch, onPage, mutate } =
     useClientsPaginate({
