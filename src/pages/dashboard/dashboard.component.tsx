@@ -6,10 +6,13 @@ import { DashboardLatest } from './components/dashboard-latest/dashboard-latest.
 import { DashboardRevenue } from './components/dashboard-revenue/dashboard-revenue.component'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import Styles, { ContainerGrid } from './dashboard.styles'
+import { useTitle } from '../../hooks/title.hook'
+import { useAuth } from '../../hooks/auth.hook'
 
 const Dashboard = () => {
   const isMobile = useIsMobile()
-
+  const { first_name, last_name } = useAuth()
+  useTitle(`Hello, ${first_name} ${last_name}`)
   const content = (
     <Styles>
       <QuickLinks />
