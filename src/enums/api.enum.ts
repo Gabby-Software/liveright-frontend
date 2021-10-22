@@ -64,3 +64,4 @@ export const EP_STRIPE_CREATE_PAYOUT = ALLRIGHT_BASE + '/stripe/connect/payouts'
 export const EP_PAYOUT_TRANSACTIONS =
   ALLRIGHT_BASE + '/stripe/connect/balance-transactions'
 export const EP_UPDATE_GOALS_TARGET = LIVERIGHT_BASE + '/goal-targets'
+export const EP_CALENDAR = LIVERIGHT_BASE + '/calendar'
