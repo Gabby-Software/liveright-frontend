@@ -1,26 +1,59 @@
 import moment from 'moment'
+import { useState } from 'react'
 import {
   Calendar as BigCalendar,
-  CalendarProps as BigCalendarProps,
+  CalendarProps,
+  Components,
   DateRange,
-  momentLocalizer, View
+  momentLocalizer,
+  View
 } from 'react-big-calendar'
 
-import { TIME_RENDER_FORMAT } from '../../utils/date'
+import useCalendar from '../../hooks/api/calendar/useCalendar'
+import { formatWeekActivities, parseActivities } from '../../utils/api/calendar'
+import { DATE_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
 import { DateCellWrapper, Toolbar, WeekHeader } from './calendar.components'
 import { Styles } from './calendar.styles'
-import { useState } from 'react'
 
 const localizer = momentLocalizer(moment)
 
-interface CalendarProps {}
-
 export default function Calendar() {
   const [view, onView] = useState<View>('month')
+  const { activities } = useCalendar()
+
+  const parsedActivities = parseActivities(activities)
+
+  let WeekProps: Partial<CalendarProps> | null = null
+  let MonthComponentProps: Components | null = null
+
+  if (view === 'week' || view === 'day') {
+    WeekProps = {
+      events: formatWeekActivities(parsedActivities)
+    }
+  }
+
+  if (view === 'month') {
+    MonthComponentProps = {
+      dateCellWrapper: (props: any) => {
+        const now = moment()
+        const date = moment(props.value)
+        const currActivities = parsedActivities.filter(
+          (activity) => activity.date === date.format(DATE_FORMAT)
+        )
+        return (
+          <DateCellWrapper
+            activities={currActivities}
+            isNow={now.format(DATE_FORMAT) === date.format(DATE_FORMAT)}
+          />
+        )
+      }
+    }
+  }
+
   return (
     <Styles>
       <BigCalendar
-        className="big-calendar"
+        className={`big-calendar ${view === 'day' ? 'big-calendar_day' : ''}`}
         localizer={localizer}
         view={view}
         components={{
@@ -28,26 +61,17 @@ export default function Calendar() {
           week: {
             header: WeekHeader
           },
-          ...(view === 'month' && {
-            dateCellWrapper: DateCellWrapper
-          })
+          day: {
+            header: WeekHeader
+          },
+          ...(MonthComponentProps && MonthComponentProps)
         }}
         formats={{
           weekdayFormat: 'dddd',
           timeGutterFormat: TIME_RENDER_FORMAT,
           eventTimeRangeFormat
         }}
-        events={
-          view !== 'month'
-            ? [
-                {
-                  start: moment().toDate(),
-                  end: moment().add(2, 'hours').toDate(),
-                  title: '123'
-                }
-              ]
-            : undefined
-        }
+        {...(WeekProps && WeekProps)}
       />
     </Styles>
   )

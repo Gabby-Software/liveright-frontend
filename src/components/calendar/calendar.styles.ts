@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 import Card from '../cards/card/card.component'
@@ -26,6 +26,11 @@ export const Styles = styled(Card)`
 
     & .rbc-month-row {
       position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border-bottom: 1px solid ${getColorCarry('neutral_30')};
+      height: auto;
+      min-height: 6vw;
 
       &:nth-child(2) {
         & .rbc-row-content .rbc-row {
@@ -34,14 +39,15 @@ export const Styles = styled(Card)`
       }
 
       &:last-child {
-        & .rbc-row-content .rbc-row {
-          border-bottom-left-radius: 10px;
-          border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
 
-          & .rbc-date-cell {
+        & .rbc-row-bg {
+          & .date-cell-wrapper {
             &:first-child {
               border-bottom-left-radius: 9px;
             }
+
             &:last-child {
               border-bottom-right-radius: 9px;
             }
@@ -50,21 +56,24 @@ export const Styles = styled(Card)`
       }
 
       & .rbc-row-bg {
-        position: absolute;
-        bottom: 0;
+        grid-row: 2;
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns:
+          minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%)
+          minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%);
       }
 
       & .rbc-row-content {
         & .rbc-row {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-          border-bottom: 1px solid ${getColorCarry('neutral_30')};
+          grid-template-columns:
+            minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%)
+            minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%);
+          height: 100%;
 
           & .rbc-date-cell {
-            aspect-ratio: 16 / 9;
+            height: 100%;
             border-right: 1px solid ${getColorCarry('neutral_30')};
             padding: 0.5rem;
             display: flex;
@@ -96,6 +105,7 @@ export const Styles = styled(Card)`
             &.rbc-now {
               border: 1px solid ${getColorCarry('primary_v2')};
               margin: -1px 0 -1px -1px;
+              border-bottom: 0;
 
               & a {
                 background-color: ${getColorCarry('primary_v2')};
@@ -111,6 +121,7 @@ export const Styles = styled(Card)`
     & .rbc-time-header {
       display: grid;
       grid-template-columns: 85px 1fr;
+      padding-bottom: 1rem;
 
       & .rbc-time-header-content {
         & .rbc-time-header-cell {
@@ -128,16 +139,6 @@ export const Styles = styled(Card)`
             white-space: pre-wrap;
             text-align: center;
             position: relative;
-
-            &::before {
-              content: '';
-              position: absolute;
-              left: -1px;
-              bottom: 0;
-              width: 1px;
-              height: 20px;
-              background-color: ${getColorCarry('neutral_30')};
-            }
 
             & a {
               color: inherit;
@@ -197,11 +198,23 @@ export const Styles = styled(Card)`
       position: relative;
 
       & .rbc-timeslot-group {
-        aspect-ratio: 16 / 9;
+        height: auto;
+        min-height: 6vw;
         border-bottom: 1px solid ${getColorCarry('neutral_30')};
 
         &:first-child {
           border-top: 1px solid ${getColorCarry('neutral_30')};
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 1px;
+            background-color: ${getColorCarry('neutral_30')};
+            top: -20px;
+            left: -1px;
+          }
         }
       }
 
@@ -228,6 +241,13 @@ export const Styles = styled(Card)`
           padding: 0.625rem 1.25rem;
           font-size: 0.875rem;
           font-weight: 500;
+
+          & .rbc-event-content {
+            overflow: hidden;
+            display: -webkit-box;
+            -moz-box-orient: vertical;
+            -webkit-line-clamp: 1;
+          }
         }
       }
     }
@@ -235,6 +255,20 @@ export const Styles = styled(Card)`
     & .rbc-time-content {
       display: grid;
       grid-template-columns: 85px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    &_day {
+      & .rbc-time-content {
+        grid-template-columns: 85px 1fr;
+      }
+
+      & .rbc-time-header {
+        & .rbc-time-header-content {
+          & .rbc-time-header-cell {
+            grid-template-columns: 1fr;
+          }
+        }
+      }
     }
   }
 `
@@ -303,8 +337,65 @@ export const ToolbarStyles = styled.div`
   }
 `
 
-export const DateCellWrapperStyles = styled.div`
+export const DateCellWrapperStyles = styled.div<any>`
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-right: 1px solid ${getColorCarry('neutral_30')};
+
+  &:first-child {
+    border-left: 1px solid ${getColorCarry('neutral_30')};
+  }
+
+  ${(props) =>
+    props.$now &&
+    css`
+      border: 1px solid ${getColorCarry('primary_v2')};
+      margin: -1px 0 -1px -1px;
+      border-top: 0;
+      position: relative;
+      z-index: 1;
+    `}
+
+  .date-cell-wrapper {
+    &__event {
+      font-size: 0.75rem;
+      font-weight: 400;
+      position: relative;
+      padding-left: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+
+      &::before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-radius: 9999px;
+        position: absolute;
+        left: 0;
+        background-color: ${getColorCarry('green_20')};
+      }
+
+      &[data-event-type='invoices'] {
+        &::before {
+          background-color: ${getColorCarry('blue_40')};
+        }
+      }
+      &[data-event-type='sessions'] {
+        &::before {
+          background-color: ${getColorCarry('red_40')};
+        }
+      }
+
+      &-time {
+        color: ${getColorCarry('neutral_70')};
+        margin-left: 0.25rem;
+      }
+    }
+  }
 `
 
 export const WeekHeaderStyles = styled.div`

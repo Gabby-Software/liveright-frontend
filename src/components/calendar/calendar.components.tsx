@@ -2,7 +2,10 @@ import moment from 'moment'
 import { HeaderProps, ToolbarProps, View } from 'react-big-calendar'
 
 import { CaretLeftIcon, SearchIcon } from '../../assets/media/icons'
+import { getEventTitle } from '../../utils/api/calendar'
+import { TIME_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
 import IconButton from '../buttons/icon-button/icon-button.component'
+import Ellipsis from '../ellipsis/ellipsis.component'
 import Input from '../form/input/input.component'
 import Tabs from '../tabs/tabs.component'
 import {
@@ -20,6 +23,11 @@ const TABS = [
   {
     label: 'Weekly',
     key: 'week',
+    renderContent: () => <></>
+  },
+  {
+    label: 'Day',
+    key: 'day',
     renderContent: () => <></>
   }
 ]
@@ -72,8 +80,33 @@ export function Toolbar({
   )
 }
 
-export function DateCellWrapper() {
-  return <DateCellWrapperStyles />
+interface DateCellWrapperProps {
+  activities: any[]
+  isNow: boolean
+}
+
+export function DateCellWrapper({ activities, isNow }: DateCellWrapperProps) {
+  return (
+    <DateCellWrapperStyles $now={isNow} className="date-cell-wrapper">
+      {activities.map((row) => {
+        const label = getEventTitle(row)
+        return (
+          <p
+            key={row._id}
+            className="date-cell-wrapper__event"
+            data-event-type={row.resource_type}
+          >
+            <Ellipsis>{label}</Ellipsis>
+            {row.time && (
+              <span className="date-cell-wrapper__event-time">
+                {moment(row.time, TIME_FORMAT).format(TIME_RENDER_FORMAT)}
+              </span>
+            )}
+          </p>
+        )
+      })}
+    </DateCellWrapperStyles>
+  )
 }
 
 export function WeekHeader(props: HeaderProps) {
