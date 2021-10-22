@@ -1,59 +1,27 @@
-// import Clients from '../../../clients/clients.component'
+import { Link } from 'react-router-dom'
 import Button from '../../../../components/buttons/button/button.component'
 import { TableWrapper } from '../table-wrapper/table-wrapper.component'
-import {
-  SearchIcon,
-  OptionsIcon,
-  ClientCheckedIcon,
-  ClientIcon
-} from '../../../../assets/media/icons'
+import { SearchIcon, ClientCheckedIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
-import Select from '../../../../components/form/select/select.component'
+// import Select from '../../../../components/form/select/select.component'
 import { Styles } from './dashboard-clients.styles'
+import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
+import { Routes } from '../../../../enums/routes.enum'
 
-const options = (
-  <div className="icons">
-    <ClientIcon />
-    <OptionsIcon />
-  </div>
-)
-
-const MOCK_DATA = [
-  {
-    name: 'John Travolta',
-    phone_number: '+33 3218 41421',
-    sessions: '4',
-    options
-  },
-  {
-    name: 'John Travolta',
-    phone_number: '+33 3218 41421',
-    sessions: '4',
-    options
-  },
-  {
-    name: 'John Travolta',
-    phone_number: '+33 3218 41421',
-    sessions: '4',
-    options
-  },
-  {
-    name: 'John Travolta',
-    phone_number: '+33 3218 41421',
-    sessions: '4',
-    options
-  }
-]
-
-const KEYS: string[] = ['name', 'phone_number', 'sessions', 'options']
+const KEYS: string[] = ['name', 'email', 'phone_number', 'sessions', 'actions']
 const LABELS: string[] = [
-  'clients:Client',
-  'profile:Phone Number',
-  'profile:Sessions',
-  'profile:Options'
+  'clients:client-name',
+  'profile:email',
+  'profile:phone',
+  'profile:sessions',
+  'profile:Actions'
 ]
 
 export const DashboardClients = () => {
+  const { clients, isLoading, meta, onSearch, onPage, mutate } =
+    useClientsPaginate({
+      status: 'active'
+    })
   return (
     <Styles>
       <div className="wrapper">
@@ -66,19 +34,22 @@ export const DashboardClients = () => {
           placeholder="Search"
           prefix={<SearchIcon />}
           className="wrapper-search"
+          onChange={(e) => onSearch(e.target.value)}
         />
-        <Select
+        {/* <Select
           id="clients-status"
           options={[]}
           placeholder="Filter By Client"
           className="wrapper-select"
-        />
+        /> */}
       </div>
-      <TableWrapper labels={LABELS} keys={KEYS} data={MOCK_DATA} />
+      <TableWrapper labels={LABELS} keys={KEYS} data={clients} />
 
       <Button className="open-all-button">
-        <ClientCheckedIcon />
-        Open All
+        <Link to={Routes.CLIENTS}>
+          <ClientCheckedIcon />
+          Open All
+        </Link>
       </Button>
     </Styles>
   )

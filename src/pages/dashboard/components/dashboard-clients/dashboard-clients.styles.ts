@@ -46,16 +46,21 @@ export const Styles = styled.div`
     }
   }
   .open-all-button {
+    text-align: baseline;
     border: none;
     padding: 0;
     background: transparent;
     font-size: 14px;
     line-height: 18px;
-    text-align: right;
     text-decoration-line: underline;
 
     color: ${getColorCarry('blue_70')};
     cursor: pointer;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     & svg {
       stroke: ${getColorCarry('blue_70')};

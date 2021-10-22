@@ -1,9 +1,13 @@
 import styled from 'styled-components'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Table = styled.div`
   & table thead {
     .data-table__th {
       padding: 15px 20px 15px 20px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
     }
     th:first-child {
       border-radius: 10px 0 0 10px;
@@ -19,12 +23,34 @@ export const Table = styled.div`
         font-size: 18px;
         line-height: 26px;
         color: #5e5e5e;
+        font-size: 14px;
+        line-height: 20px;
 
         .icons {
           display: flex;
           justify-content: center;
           align-items: center;
           gap: 20px;
+        }
+        .table-actions {
+          display: flex;
+
+          & svg {
+            width: 25px;
+            height: 25px;
+          }
+          & :nth-child(1) svg {
+            color: ${getColorCarry('blue_80')};
+          }
+          & :nth-child(2) svg {
+            color: ${getColorCarry('red_80')};
+          }
+          & :nth-child(3) svg {
+            color: ${getColorCarry('orange_60')};
+          }
+          & :nth-child(4) svg {
+            color: ${getColorCarry('primaryDark_v2')};
+          }
         }
       }
       td:first-child {
