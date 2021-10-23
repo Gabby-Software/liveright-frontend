@@ -77,8 +77,7 @@ export const routes: RouteType[] = [
     header: {
       items: [],
       title: null
-    },
-    footer: footerTypes.NONE
+    }
   },
   {
     title: 'Liveright 2',

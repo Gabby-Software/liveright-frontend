@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 
+import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 import Card from '../cards/card/card.component'
 
@@ -7,7 +8,16 @@ export const Styles = styled(Card)`
   box-shadow: 0 0 40px rgba(230, 45, 71, 0.03);
   padding: 0;
 
+  @media ${mediaQueries.TABLET} {
+    background-color: transparent;
+  }
+
   .big-calendar {
+    @media ${mediaQueries.TABLET} {
+      width: auto;
+      margin: 0 -1.25rem;
+    }
+
     // month
     & .rbc-month-header {
       display: grid;
@@ -15,12 +25,20 @@ export const Styles = styled(Card)`
       border-left: 1px solid ${getColorCarry('neutral_30')};
       border-right: 1px solid ${getColorCarry('neutral_30')};
 
+      @media ${mediaQueries.TABLET} {
+        border-top: 1px solid ${getColorCarry('neutral_30')};
+      }
+
       & .rbc-header {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1.875rem 0;
         font-size: 0.875rem;
+
+        @media ${mediaQueries.TABLET} {
+          padding: 1.25rem 0;
+        }
       }
     }
 
@@ -31,6 +49,10 @@ export const Styles = styled(Card)`
       border-bottom: 1px solid ${getColorCarry('neutral_30')};
       height: auto;
       min-height: 6vw;
+
+      @media ${mediaQueries.TABLET} {
+        min-height: 80px;
+      }
 
       &:nth-child(2) {
         & .rbc-row-content .rbc-row {
@@ -60,16 +82,17 @@ export const Styles = styled(Card)`
         width: 100%;
         display: grid;
         grid-template-columns:
-          minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%)
-          minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%);
+          minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
+          minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%);
       }
 
       & .rbc-row-content {
         & .rbc-row {
           display: grid;
           grid-template-columns:
-            minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%)
-            minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%) minmax(auto, 14.25%);
+            minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
+            minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
+            minmax(14.25%, 14.25%);
           height: 100%;
 
           & .rbc-date-cell {
@@ -122,6 +145,10 @@ export const Styles = styled(Card)`
       display: grid;
       grid-template-columns: 85px 1fr;
       padding-bottom: 1rem;
+
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: 60px 1fr;
+      }
 
       & .rbc-time-header-content {
         & .rbc-time-header-cell {
@@ -183,6 +210,10 @@ export const Styles = styled(Card)`
           top: -25px;
           right: 20px;
           color: ${getColorCarry('secondary2_v2')};
+
+          @media ${mediaQueries.TABLET} {
+            right: 10px;
+          }
         }
 
         &:first-child {
@@ -201,6 +232,10 @@ export const Styles = styled(Card)`
         height: auto;
         min-height: 6vw;
         border-bottom: 1px solid ${getColorCarry('neutral_30')};
+
+        @media ${mediaQueries.TABLET} {
+          min-height: 75px;
+        }
 
         &:first-child {
           border-top: 1px solid ${getColorCarry('neutral_30')};
@@ -241,6 +276,14 @@ export const Styles = styled(Card)`
           padding: 0.625rem 1.25rem;
           font-size: 0.875rem;
           font-weight: 500;
+          overflow: hidden;
+
+          @media ${mediaQueries.TABLET} {
+            font-size: 0.5rem;
+            padding: 0.25rem;
+            left: 4px !important;
+            width: calc(100% - 8px) !important;
+          }
 
           & .rbc-event-content {
             overflow: hidden;
@@ -255,6 +298,10 @@ export const Styles = styled(Card)`
     & .rbc-time-content {
       display: grid;
       grid-template-columns: 85px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      }
     }
 
     &_day {
@@ -269,6 +316,71 @@ export const Styles = styled(Card)`
           }
         }
       }
+    }
+  }
+`
+
+export const ToolbarMobileStyles = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -4rem;
+
+  @media ${mediaQueries.TABLET} {
+    padding: 0 1.25rem;
+  }
+
+  .calendar-toolbar {
+    &__tabs {
+      width: 100%;
+      margin-bottom: 1rem;
+      border-bottom: 0;
+
+      & .ant-tabs-nav {
+        margin-bottom: 0;
+        box-shadow: 0 0 40px rgba(230, 45, 71, 0.03);
+
+        &::before {
+          display: none;
+        }
+      }
+
+      & .ant-tabs-ink-bar {
+        display: none;
+      }
+
+      & .ant-tabs-tab {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+      }
+
+      & .ant-tabs-content-holder {
+        display: none;
+      }
+    }
+  }
+`
+
+export const ToolbarNav = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media ${mediaQueries.TABLET} {
+    margin-bottom: 1rem;
+  }
+
+  .toolbar-nav {
+    &__next {
+      & svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    &__label {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark_v2')};
+      margin: 0 0.5rem;
     }
   }
 `
@@ -343,6 +455,7 @@ export const DateCellWrapperStyles = styled.div<any>`
   flex-direction: column;
   justify-content: flex-end;
   border-right: 1px solid ${getColorCarry('neutral_30')};
+  overflow: hidden;
 
   &:first-child {
     border-left: 1px solid ${getColorCarry('neutral_30')};
@@ -369,6 +482,11 @@ export const DateCellWrapperStyles = styled.div<any>`
       justify-content: space-between;
       margin-bottom: 0.25rem;
 
+      @media ${mediaQueries.TABLET} {
+        font-size: 0.5rem;
+        padding-left: 0.75rem;
+      }
+
       &::before {
         content: '';
         width: 12px;
@@ -377,6 +495,11 @@ export const DateCellWrapperStyles = styled.div<any>`
         position: absolute;
         left: 0;
         background-color: ${getColorCarry('green_20')};
+
+        @media ${mediaQueries.TABLET} {
+          width: 8px;
+          height: 8px;
+        }
       }
 
       &[data-event-type='invoices'] {
