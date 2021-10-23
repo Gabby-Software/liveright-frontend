@@ -10,6 +10,7 @@ import {
 } from 'react-big-calendar'
 
 import useCalendar from '../../hooks/api/calendar/useCalendar'
+import { useIsMobile } from '../../hooks/is-mobile.hook'
 import { formatWeekActivities, parseActivities } from '../../utils/api/calendar'
 import { DATE_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
 import { DateCellWrapper, Toolbar, WeekHeader } from './calendar.components'
@@ -20,6 +21,7 @@ const localizer = momentLocalizer(moment)
 export default function Calendar() {
   const [view, onView] = useState<View>('month')
   const { activities } = useCalendar()
+  const isMobile = useIsMobile()
 
   const parsedActivities = parseActivities(activities)
 
@@ -67,7 +69,7 @@ export default function Calendar() {
           ...(MonthComponentProps && MonthComponentProps)
         }}
         formats={{
-          weekdayFormat: 'dddd',
+          weekdayFormat: isMobile ? 'ddd' : 'dddd',
           timeGutterFormat: TIME_RENDER_FORMAT,
           eventTimeRangeFormat
         }}

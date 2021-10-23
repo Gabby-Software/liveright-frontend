@@ -2,6 +2,7 @@ import moment from 'moment'
 import { HeaderProps, ToolbarProps, View } from 'react-big-calendar'
 
 import { CaretLeftIcon, SearchIcon } from '../../assets/media/icons'
+import { useIsMobile } from '../../hooks/is-mobile.hook'
 import { getEventTitle } from '../../utils/api/calendar'
 import { TIME_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
 import IconButton from '../buttons/icon-button/icon-button.component'
@@ -10,18 +11,20 @@ import Input from '../form/input/input.component'
 import Tabs from '../tabs/tabs.component'
 import {
   DateCellWrapperStyles,
+  ToolbarMobileStyles,
+  ToolbarNav,
   ToolbarStyles,
   WeekHeaderStyles
 } from './calendar.styles'
 
 const TABS = [
   {
-    label: 'Monthly',
+    label: 'Month',
     key: 'month',
     renderContent: () => <></>
   },
   {
-    label: 'Weekly',
+    label: 'Week',
     key: 'week',
     renderContent: () => <></>
   },
@@ -40,6 +43,46 @@ export function Toolbar({
   onView,
   view
 }: CustomToolbarProps) {
+  const isMobile = useIsMobile()
+
+  const nav = (
+    <ToolbarNav>
+      <IconButton
+        size="sm"
+        className="toolbar-nav__prev"
+        onClick={() => onNavigate('PREV')}
+      >
+        <CaretLeftIcon />
+      </IconButton>
+
+      <p className="toolbar-nav__label">{label}</p>
+
+      <IconButton
+        size="sm"
+        className="toolbar-nav__next"
+        onClick={() => onNavigate('NEXT')}
+      >
+        <CaretLeftIcon />
+      </IconButton>
+    </ToolbarNav>
+  )
+
+  if (isMobile) {
+    return (
+      <ToolbarMobileStyles>
+        <Tabs
+          className="calendar-toolbar__tabs"
+          tabs={TABS}
+          activeKey={view}
+          onChange={(key) => onView(key as View)}
+          justify="between"
+        />
+
+        <div>{nav}</div>
+      </ToolbarMobileStyles>
+    )
+  }
+
   return (
     <ToolbarStyles>
       <Tabs
@@ -49,25 +92,7 @@ export function Toolbar({
         onChange={(key) => onView(key as View)}
       />
 
-      <div className="calendar-toolbar__cell">
-        <IconButton
-          size="sm"
-          className="calendar-toolbar__prev"
-          onClick={() => onNavigate('PREV')}
-        >
-          <CaretLeftIcon />
-        </IconButton>
-
-        <p className="calendar-toolbar__label">{label}</p>
-
-        <IconButton
-          size="sm"
-          className="calendar-toolbar__next"
-          onClick={() => onNavigate('NEXT')}
-        >
-          <CaretLeftIcon />
-        </IconButton>
-      </div>
+      <div className="calendar-toolbar__cell">{nav}</div>
 
       <Input
         id="calendar-search"
@@ -111,9 +136,10 @@ export function DateCellWrapper({ activities, isNow }: DateCellWrapperProps) {
 
 export function WeekHeader(props: HeaderProps) {
   const date = moment(props.date)
+  const isMobile = useIsMobile()
   return (
     <WeekHeaderStyles>
-      <p>{date.format('ddd')}</p>
+      <p>{date.format(isMobile ? 'dd' : 'ddd')}</p>
       <p className="week-header__num">{date.format('DD')}</p>
     </WeekHeaderStyles>
   )
