@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 
@@ -10,7 +10,6 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import Card from '../../../../../../components/cards/card/card.component'
 import PhotoCard from '../../../../../../components/cards/photo-card/photo-card.component'
-import DatePicker from '../../../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../../../components/form/select/select.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import Tabs from '../../../../../../components/tabs/tabs.component'
