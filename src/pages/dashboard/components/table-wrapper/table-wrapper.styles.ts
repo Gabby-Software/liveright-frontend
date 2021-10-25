@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Table = styled.div`
@@ -22,7 +23,7 @@ export const Table = styled.div`
         padding: 15px 20px 15px 20px;
         font-size: 18px;
         line-height: 26px;
-        color: #5e5e5e;
+        color: ${getColorCarry('primaryDark_v2')};
         font-size: 14px;
         line-height: 20px;
 
@@ -31,6 +32,14 @@ export const Table = styled.div`
           justify-content: center;
           align-items: center;
           gap: 20px;
+        }
+
+        .percentage .percentage__red {
+          color: ${getColorCarry('red_80')};
+        }
+
+        .percentage .percentage__green {
+          color: ${getColorCarry('green_80')};
         }
         .table-actions {
           display: flex;

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
+
+import { ClientCheckedIcon, SearchIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
-import { TableWrapper } from '../table-wrapper/table-wrapper.component'
-import { SearchIcon, ClientCheckedIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
-// import Select from '../../../../components/form/select/select.component'
-import { Styles } from './dashboard-clients.styles'
-import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
 import { Routes } from '../../../../enums/routes.enum'
+import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
+import { TableWrapper } from '../table-wrapper/table-wrapper.component'
+import { Styles } from './dashboard-clients.styles'
 
 const KEYS: string[] = ['name', 'email', 'phone_number', 'sessions', 'actions']
 const LABELS: string[] = [
@@ -18,10 +18,9 @@ const LABELS: string[] = [
 ]
 
 export const DashboardClients = () => {
-  const { clients, isLoading, meta, onSearch, onPage, mutate } =
-    useClientsPaginate({
-      status: 'active'
-    })
+  const { clients, onSearch } = useClientsPaginate({
+    status: 'active'
+  })
   return (
     <Styles>
       <div className="wrapper">
@@ -38,14 +37,8 @@ export const DashboardClients = () => {
           className="wrapper-search"
           onChange={(e) => onSearch(e.target.value)}
         />
-        {/* <Select
-          id="clients-status"
-          options={[]}
-          placeholder="Filter By Client"
-          className="wrapper-select"
-        /> */}
       </div>
-      <TableWrapper labels={LABELS} keys={KEYS} data={clients} />
+      <TableWrapper labels={LABELS} keys={KEYS} data={clients.slice(0, 4)} />
 
       <Button className="open-all-button">
         <Link to={Routes.CLIENTS}>

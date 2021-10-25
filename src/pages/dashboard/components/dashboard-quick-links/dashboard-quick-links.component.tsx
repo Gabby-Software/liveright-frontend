@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
+
 import {
+  AddDocumentIcon,
   AddGroupIcon,
-  PlanIcon,
   CalendarIcon,
   InvoiceIcon,
-  WorkoutIconV2,
-  AddDocumentIcon
+  PlanIcon,
+  WorkoutIconV2
 } from '../../../../assets/media/icons/index'
 import { Routes } from '../../../../enums/routes.enum'
-import { Styles, LinkItem } from './dashboard-quick-links.style'
+import { LinkItem, Styles } from './dashboard-quick-links.style'
 
 export interface ILink {
   label: string

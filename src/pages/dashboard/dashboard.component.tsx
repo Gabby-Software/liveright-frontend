@@ -1,13 +1,13 @@
-import MobilePage from '../../layouts/mobile-page/mobile-page.component'
-import { QuickLinks } from './components/dashboard-quick-links/dashboard-quick-links.component'
-import { DashboardClients } from './components/dashboard-clients/dashboard-clients.component'
-import { DashboardCalendar } from './components/dashboard-calendar/dashboard-calendar.component'
-import { DashboardLatest } from './components/dashboard-latest/dashboard-latest.component'
-import { DashboardRevenue } from './components/dashboard-revenue/dashboard-revenue.component'
-import { useIsMobile } from '../../hooks/is-mobile.hook'
-import Styles, { ContainerGrid } from './dashboard.styles'
-import { useTitle } from '../../hooks/title.hook'
 import { useAuth } from '../../hooks/auth.hook'
+import { useIsMobile } from '../../hooks/is-mobile.hook'
+import { useTitle } from '../../hooks/title.hook'
+import MobilePage from '../../layouts/mobile-page/mobile-page.component'
+import { DashboardCalendar } from './components/dashboard-calendar/dashboard-calendar.component'
+import { DashboardClients } from './components/dashboard-clients/dashboard-clients.component'
+import { DashboardLatest } from './components/dashboard-latest/dashboard-latest.component'
+import { QuickLinks } from './components/dashboard-quick-links/dashboard-quick-links.component'
+import { DashboardRevenue } from './components/dashboard-revenue/dashboard-revenue.component'
+import Styles, { ContainerGrid } from './dashboard.styles'
 
 const Dashboard = () => {
   const isMobile = useIsMobile()

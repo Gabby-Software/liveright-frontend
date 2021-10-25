@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { getShadow } from '../../../../pipes/theme-shadow.pipe'
 
 export const Styles = styled.div`

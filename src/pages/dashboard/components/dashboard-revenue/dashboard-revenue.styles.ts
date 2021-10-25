@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getShadow } from '../../../../pipes/theme-shadow.pipe'
 
@@ -47,6 +48,7 @@ export const Styles = styled.div`
     align-items: center;
     gap: 18px;
     margin-bottom: 30px;
+    max-height: 126px;
 
     .f-overview-label {
       min-height: 80px;
