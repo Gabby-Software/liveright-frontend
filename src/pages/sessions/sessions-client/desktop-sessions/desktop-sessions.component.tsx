@@ -15,6 +15,7 @@ import SessionAddModal from '../../../../components/sessions/session-add-modal/s
 import SessionRescheduleModal from '../../../../components/sessions/session-reschedule-modal/session-reschedule-modal.component'
 import PageSubtitle from '../../../../components/titles/page-subtitle.styles'
 import PageTitle from '../../../../components/titles/page-title.styles'
+import { toast } from '../../../../components/toast/toast.component'
 import { sessionTypeOptions } from '../../../../enums/session-filters.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
@@ -45,7 +46,7 @@ export default function DesktopSessions({
 
   const { credits, isLoading } = useCreditsWithTrainer()
 
-  const { user: trainer } = useTrainerAccount()
+  const { user: trainer, noTrainer } = useTrainerAccount()
 
   useDesktopLayoutConfig({
     className: 'sessions__layout'
@@ -90,7 +91,16 @@ export default function DesktopSessions({
                 count={credits}
                 className="sessions__title-credits"
               />
-              <Button onClick={() => setAddOpen(true)}>
+              <Button
+                onClick={() => {
+                  noTrainer
+                    ? toast.show({
+                        type: 'error',
+                        msg: `You don't have a trainer yet`
+                      })
+                    : setAddOpen(true)
+                }}
+              >
                 {t('sessions:session-request')}
               </Button>
             </div>

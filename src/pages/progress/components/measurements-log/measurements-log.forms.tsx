@@ -395,7 +395,7 @@ export function ConfirmDialog({
               history.push(redirectTo)
             }}
           >
-            Cancel
+            Continue without saving
           </Button>
           <Button
             className="measurements-dialog__btn"
@@ -405,7 +405,7 @@ export function ConfirmDialog({
               onSave()
             }}
           >
-            Save
+            Save and continue
           </Button>
         </div>
       </Card>
