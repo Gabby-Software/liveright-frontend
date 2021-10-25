@@ -46,14 +46,16 @@ const DataTable = ({
       actionWidth={actionWidth}
     >
       <thead className={'data-table__head'}>
-        {labels.map((label, index) => (
-          <th key={label + index.toString()} className={'data-table__th'}>
-            <div className="data-table__th-container">
-              {t(label)}
-              {showSort && <SortGroupIcon />}
-            </div>
-          </th>
-        ))}
+        <tr>
+          {labels.map((label, index) => (
+            <th key={label + index.toString()} className={'data-table__th'}>
+              <div className="data-table__th-container">
+                {t(label)}
+                {showSort && <SortGroupIcon />}
+              </div>
+            </th>
+          ))}
+        </tr>
       </thead>
 
       <tbody className={'data-table__body'}>
