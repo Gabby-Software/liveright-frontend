@@ -4,6 +4,7 @@ import { EP_GET_INVOICES } from '../../../enums/api.enum'
 import { getInvoices } from '../../../services/api/invoices'
 import { InvoiceType } from '../../../types/invoice.type'
 import { stringifyURL } from '../../../utils/query'
+import { useAuth } from '../../auth.hook'
 
 interface useTotalRecieved {
   totalRecieved: number
@@ -13,10 +14,13 @@ interface useTotalRecieved {
 }
 
 export default function useTotalRecieved(): useTotalRecieved {
+  const auth = useAuth()
+
   const filters = {
     filter: {
       status: 'paid',
-      payment_method: 'credit_card'
+      payment_method: 'credit_card',
+      invoice_from: auth.id
     }
   }
   const url = stringifyURL(EP_GET_INVOICES, filters)

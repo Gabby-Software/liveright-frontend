@@ -72,10 +72,12 @@ export const routes: RouteType[] = [
     title: 'Calendar',
     url: Routes.CALENDAR,
     Component: lazy(() => import('../pages/calendar/calendar.component')),
+    version: 2,
+    mobileLayout: false,
     header: {
-      items: headers.default
-    },
-    footer: footerTypes.NONE
+      items: [],
+      title: null
+    }
   },
   {
     title: 'Liveright 2',

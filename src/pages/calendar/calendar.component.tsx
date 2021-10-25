@@ -1,26 +1,38 @@
-import React, { useContext } from 'react'
+import Button from '../../components/buttons/button/button.component'
+import Calendar from '../../components/calendar/calendar.component'
+import { Title } from '../../components/typography'
+import { useIsMobile } from '../../hooks/is-mobile.hook'
+import MobilePage from '../../layouts/mobile-page/mobile-page.component'
+import { Styles } from './calendar.styles'
 
-import CalendarFooter from '../../components/calendar/calendar-footer/calendar-footer.component'
-import { calendarView } from '../../enums/calendar-views.enum'
-import CalendarProvider, { CalendarContext } from './calendar.context'
-import Styles from './calendar.styles'
-import CalendarHeading from './calendar-heading/calendar-heading.component'
-import CalendarMonth from './calendar-month/calendar-month.component'
-import CalendarWeek from './calendar-week/calendar-week.component'
-
-const Calendar = () => {
-  const { view } = useContext(CalendarContext)
-  return (
+export default function CalendarPage() {
+  const isMobile = useIsMobile()
+  const content = (
     <Styles>
-      <CalendarHeading />
-      {view === calendarView.MONTH ? <CalendarMonth /> : <CalendarWeek />}
-      <CalendarFooter />
+      {!isMobile && (
+        <div className="calendar__title-container">
+          <Title>My Calendar</Title>
+
+          <Button>Add Activity</Button>
+        </div>
+      )}
+
+      <div>
+        <Calendar />
+      </div>
     </Styles>
   )
-}
 
-export default () => (
-  <CalendarProvider>
-    <Calendar />
-  </CalendarProvider>
-)
+  return isMobile ? (
+    <MobilePage
+      title="My Calendar"
+      actionComponent={<Button>Add Activity</Button>}
+      color="secondary"
+      headerSpacing={14}
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
+  )
+}
