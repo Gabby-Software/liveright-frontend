@@ -20,6 +20,7 @@ interface Props<G> {
   error?: string
   actionWidth?: string
   round?: string
+  showSort?: boolean
   customLastRow?: ReactNode
 }
 const DataTable = ({
@@ -34,7 +35,8 @@ const DataTable = ({
   loading,
   error,
   actionWidth,
-  round
+  round,
+  showSort = true
 }: Props<any>) => {
   const { t } = useTranslation()
   return (
@@ -44,14 +46,16 @@ const DataTable = ({
       actionWidth={actionWidth}
     >
       <thead className={'data-table__head'}>
-        {labels.map((label, index) => (
-          <th key={label + index.toString()} className={'data-table__th'}>
-            <div className="data-table__th-container">
-              {t(label)}
-              <SortGroupIcon />
-            </div>
-          </th>
-        ))}
+        <tr>
+          {labels.map((label, index) => (
+            <th key={label + index.toString()} className={'data-table__th'}>
+              <div className="data-table__th-container">
+                {t(label)}
+                {showSort && <SortGroupIcon />}
+              </div>
+            </th>
+          ))}
+        </tr>
       </thead>
 
       <tbody className={'data-table__body'}>
