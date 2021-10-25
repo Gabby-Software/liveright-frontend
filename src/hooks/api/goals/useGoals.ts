@@ -17,6 +17,7 @@ interface UseGoals {
     type: string,
     goalsData?: TargetDataType[] | null
   ) => number | undefined
+  getTargetMonthlyIncome: (target: string[]) => number
 }
 
 export default function useGoals(config?: useGoalsConfig): UseGoals {
@@ -41,9 +42,14 @@ export default function useGoals(config?: useGoalsConfig): UseGoals {
     return filteredGoals?.[filteredGoals?.length - 1]?.goal
   }
 
+  const getTargetMonthlyIncome = (targets: string[]) => {
+    return targets.reduce((acc, t) => acc + (getGoalsTargetByType(t) || 0), 0)
+  }
+
   return {
     data: error ? null : data?.data,
     mutate,
-    getGoalsTargetByType
+    getGoalsTargetByType,
+    getTargetMonthlyIncome
   }
 }
