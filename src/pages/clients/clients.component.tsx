@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { parseQuery } from '../../utils/query'
 
 import {
   ExerciseIconV2,
@@ -33,6 +32,7 @@ import { useIsMobile } from '../../hooks/is-mobile.hook'
 import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
+import { parseQuery } from '../../utils/query'
 import { DrawerContent, Styles } from './clients.styles'
 
 const LABELS: string[] = [
