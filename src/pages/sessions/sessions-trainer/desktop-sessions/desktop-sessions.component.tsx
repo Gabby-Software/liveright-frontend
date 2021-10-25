@@ -57,8 +57,8 @@ export default function DesktopSessions({
   })
 
   useEffect(() => {
-    const { show_modal } = parseQuery(location.search)
-    if (show_modal) {
+    const { show_drawer } = parseQuery(location.search)
+    if (show_drawer) {
       setAddOpen(true)
     }
   }, [])

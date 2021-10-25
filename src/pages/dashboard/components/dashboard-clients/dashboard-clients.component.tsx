@@ -26,7 +26,9 @@ export const DashboardClients = () => {
     <Styles>
       <div className="wrapper">
         <h2 className="wrapper-title">Your Clients</h2>
-        <Button className="wrapper-button">Add New</Button>
+        <Button className="wrapper-button">
+          <Link to={Routes.CLIENTS + '?show_drawer=true'}>Add New</Link>
+        </Button>
       </div>
       <div className="wrapper">
         <Input

@@ -94,8 +94,8 @@ function Clients() {
   const [step, setStep] = useState(clientFormSteps.EMAIL)
 
   useEffect(() => {
-    const { show_modal } = parseQuery(location.search)
-    if (show_modal) {
+    const { show_drawer } = parseQuery(location.search)
+    if (show_drawer) {
       setAddDialog(true)
     }
   }, [])

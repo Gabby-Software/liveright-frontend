@@ -20,13 +20,13 @@ const links: ILink[] = [
   {
     label: 'Add Client',
     icon: <AddGroupIcon />,
-    path: Routes.CLIENTS + '?show_modal=true'
+    path: Routes.CLIENTS + '?show_drawer=true'
   },
   { label: 'Training Plans', icon: <PlanIcon />, path: Routes.PLANS },
   {
     label: 'Schedule Session',
     icon: <CalendarIcon />,
-    path: Routes.SESSIONS + '?show_modal=true'
+    path: Routes.SESSIONS + '?show_drawer=true'
   },
   {
     label: 'Issue Invoice',
