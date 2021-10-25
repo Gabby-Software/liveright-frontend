@@ -8,6 +8,8 @@ import {
 import Button from '../../../../components/buttons/button/button.component'
 import CreditsButton from '../../../../components/buttons/credits-button/credits-button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import { toast } from '../../../../components/toast/toast.component'
+import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import useCreditsWithTrainer from '../../../../hooks/api/credits/useCreditsWithTrainer'
 import { UseSession } from '../../../../hooks/api/sessions/useSession'
 import { UseSessions } from '../../../../hooks/api/sessions/useSessions'
@@ -29,6 +31,7 @@ export default function MobileSessions({
 }: MobileSessionsProps) {
   const { t } = useTranslation()
   const { credits, isLoading } = useCreditsWithTrainer()
+  const { noTrainer } = useTrainerAccount()
 
   const renderItemOptions = (item: SessionType) => {
     return (
@@ -55,7 +58,20 @@ export default function MobileSessions({
       <MobilePage
         title={t('sessions:title')}
         actionComponent={
-          <Button to="/sessions/request">{t('sessions:request')}</Button>
+          noTrainer ? (
+            <Button
+              onClick={() => {
+                toast.show({
+                  type: 'error',
+                  msg: `You don't have a trainer yet`
+                })
+              }}
+            >
+              {t('sessions:request')}
+            </Button>
+          ) : (
+            <Button to="/sessions/request">{t('sessions:request')}</Button>
+          )
         }
         headerComponent={
           <HeaderComponent>
