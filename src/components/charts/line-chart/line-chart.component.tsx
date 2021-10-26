@@ -59,7 +59,7 @@ export default function LineChart({
         <YAxis
           axisLine={false}
           tickLine={false}
-          dx={-15}
+          dx={0}
           tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
           tickFormatter={yTickFormatter}
           yAxisId={yAxisId}

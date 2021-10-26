@@ -26,7 +26,7 @@ export default styled.div`
       margin-left: 20px;
     }
 
-    tr:last-child {
+    & > tbody > tr:last-child {
       background-color: #fcf5e6;
       margin-bottom: 10px;
 

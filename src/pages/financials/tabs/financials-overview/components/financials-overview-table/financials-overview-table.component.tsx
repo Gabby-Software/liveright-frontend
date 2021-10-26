@@ -123,16 +123,11 @@ const OverviewTable = (props: Props) => {
           <td className={'data-table__td'}></td>
           <td className={'data-table__td'}></td>
           <td className={'data-table__td'}></td>
-          <td className={'data-table__td'}>{`${Math.ceil(
-            totals.projectedIncome
-          )} AED`}</td>
           <td className={'data-table__td'}>
-            {renderTargetIncome(
-              totals.revenue,
-              totals.type,
-              totals.targetIncome,
-              totals.projectedIncome
-            )}
+            {`${Math.ceil(totals.projectedIncome)} AED`}
+          </td>
+          <td className={'data-table__td'}>
+            {`${Math.ceil(totals.targetIncome)} AED`}
           </td>
           <td className={'data-table__td'}></td>
         </tr>
