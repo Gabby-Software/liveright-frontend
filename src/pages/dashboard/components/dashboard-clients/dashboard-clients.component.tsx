@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 
-import { ClientCheckedIcon, SearchIcon } from '../../../../assets/media/icons'
+import { GroupDashboardIcon, SearchIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Input from '../../../../components/form/input/input.component'
 import { Routes } from '../../../../enums/routes.enum'
 import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
+import { DashboardButton } from '../dashboard-button/dashboard-button.component'
 import { TableWrapper } from '../table-wrapper/table-wrapper.component'
 import { Styles } from './dashboard-clients.styles'
 
@@ -26,7 +27,7 @@ export const DashboardClients = () => {
       <div className="wrapper">
         <h2 className="wrapper-title">Your Clients</h2>
         <Button className="wrapper-button">
-          <Link to={Routes.CLIENTS + '?show_drawer=true'}>Add New</Link>
+          <Link to={Routes.CLIENTS + '?show_drawer=true'}>+ Add New</Link>
         </Button>
       </div>
       <div className="wrapper">
@@ -40,12 +41,12 @@ export const DashboardClients = () => {
       </div>
       <TableWrapper labels={LABELS} keys={KEYS} data={clients.slice(0, 4)} />
 
-      <Button className="open-all-button">
+      <DashboardButton>
         <Link to={Routes.CLIENTS}>
-          <ClientCheckedIcon />
+          <GroupDashboardIcon />
           Open All
         </Link>
-      </Button>
+      </DashboardButton>
     </Styles>
   )
 }
