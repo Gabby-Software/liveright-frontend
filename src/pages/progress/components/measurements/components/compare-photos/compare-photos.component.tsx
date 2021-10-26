@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 
@@ -10,7 +10,7 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import Card from '../../../../../../components/cards/card/card.component'
 import PhotoCard from '../../../../../../components/cards/photo-card/photo-card.component'
-import DatePicker from '../../../../../../components/form/date-picker/date-picker.component'
+import Select from '../../../../../../components/form/select/select.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import Tabs from '../../../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../../../components/typography'
@@ -73,30 +73,27 @@ export default function ComparePhotos() {
   const from = measurementFrom.measurements[0] || {}
   const to = measurementTo.measurements[0] || {}
 
-  const isDisable = (date: Moment) =>
-    !datesArray.includes(date.format(DATE_FORMAT))
-
   return (
     <Styles>
       <div>
         <Subtitle>Compare Photos</Subtitle>
 
         <div className="compare-photos__container">
-          <DatePicker
+          <Select
             id="measurements-compare-from"
             placeholder="Compare"
             className="compare-photos__field"
+            options={datesArray.map((date) => ({ value: date, label: date }))}
             value={measurementFrom.filters.date}
-            onChange={(e, date) => measurementFrom.onFilters('date', date)}
-            disabledDate={isDisable}
+            onChange={(value) => measurementFrom.onFilters('date', value)}
           />
-          <DatePicker
+          <Select
             id="measurements-compare-to"
             placeholder="With"
             className="compare-photos__field"
+            options={datesArray.map((date) => ({ value: date, label: date }))}
             value={measurementTo.filters.date}
             onChange={(e, date) => measurementTo.onFilters('date', date)}
-            disabledDate={isDisable}
           />
           <Button variant="secondary" className="compare-photos__button">
             Compare
