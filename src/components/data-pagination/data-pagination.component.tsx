@@ -8,6 +8,7 @@ type Props = {
   setPage: (page: number) => void
   total: number
   justify?: 'start' | 'center' | 'end' | 'between'
+  perPage?: number
 }
 
 const DataPagination: FC<Props> = ({
@@ -15,6 +16,7 @@ const DataPagination: FC<Props> = ({
   setPage,
   total,
   justify,
+  perPage,
   children
 }) => {
   return (
@@ -26,6 +28,7 @@ const DataPagination: FC<Props> = ({
         defaultCurrent={1}
         showLessItems
         total={total}
+        pageSize={perPage || 10}
         onChange={setPage}
         showSizeChanger={false}
         itemRender={itemRender}
