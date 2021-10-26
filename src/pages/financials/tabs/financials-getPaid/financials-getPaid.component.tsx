@@ -9,14 +9,13 @@ import StripeConnect from './components/stripe-connect/stripe-connect.component'
 import Styles from './financials-getPaid.styles'
 
 const GetPaid = () => {
-  const { account } = usePaymentAccount()
+  const { isAccountCompleted } = usePaymentAccount()
   const { transactions, transactionLoading, meta, onPage, onFilter, filters } =
     usePayoutTransactions()
 
-  const stripeExistsAndComp = account.id && account.details_submitted
   return (
     <Styles>
-      {stripeExistsAndComp && (
+      {isAccountCompleted && (
         <>
           <InfoCards />
           <GetPaidTable

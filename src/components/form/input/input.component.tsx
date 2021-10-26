@@ -9,8 +9,10 @@ import React, {
   useRef
 } from 'react'
 
+import { HelpIcon } from '../../../assets/media/icons'
 import { Formatter } from '../../../managers/formatter.manager'
 import FormError from '../../forms/form-error/form-error.component'
+import Tooltip from '../../tooltip/tooltip.component'
 import Error from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './input.styles'
@@ -19,6 +21,7 @@ export interface InputProps {
   id: string
   type?: 'text' | 'password'
   label?: string
+  tooltip?: string
   placeholder?: string
   size?: 'sm'
   suffix?: ReactNode
@@ -47,6 +50,7 @@ const Input = forwardRef<any, InputProps>(
     {
       id,
       label,
+      tooltip,
       type = 'text',
       placeholder,
       size,
@@ -105,6 +109,12 @@ const Input = forwardRef<any, InputProps>(
             {labelComponent}
 
             {label}
+
+            {tooltip && (
+              <Tooltip title={tooltip}>
+                <HelpIcon />
+              </Tooltip>
+            )}
           </Label>
         )}
         <AntdInput
