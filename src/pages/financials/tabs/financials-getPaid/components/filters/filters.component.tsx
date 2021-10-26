@@ -16,10 +16,10 @@ const GetPaidFilters = ({ onFilter, filters }: Props) => {
   const typeSelect = (
     <Select
       id="payout-type"
-      value={filters.type || 'all'}
+      value={filters.type || ''}
       placeholder={t('financials:payout.type')}
       options={payoutTypeFilterOptions}
-      onChange={(e) => onFilter(e === 'all' ? {} : { type: e })}
+      onChange={(e: string) => onFilter(e === '' ? {} : { type: e })}
       className="invoice-filters__status"
     />
   )

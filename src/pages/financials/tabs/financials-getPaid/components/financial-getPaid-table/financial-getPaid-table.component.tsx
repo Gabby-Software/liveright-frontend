@@ -9,8 +9,8 @@ import {
   LoadingPlaceholder
 } from '../../../../../../components/placeholders'
 import UserBadge from '../../../../../../components/user-badge/user-badge.component'
-import { useAuth } from '../../../../../../hooks/auth.hook'
 import { useTranslation } from '../../../../../../modules/i18n/i18n.hook'
+import { invoices } from '../../../../../../pipes/payments.pipe'
 import { PaginationMetaType } from '../../../../../../types/pagination-meta.type'
 import {
   PayoutFilters,
@@ -41,7 +41,6 @@ const GetPaidTable = (props: Props) => {
     onFilter,
     filters
   } = props
-  const { first_name, last_name, avatar } = useAuth()
   const { t } = useTranslation()
 
   const { labels, keys } = useMemo(() => {
@@ -49,14 +48,10 @@ const GetPaidTable = (props: Props) => {
       'financials:payout.username',
       'financials:payout.eventType',
       'financials:payout.amount',
-      'financials:payout.date'
+      'financials:payout.date',
+      'financials:payout.options'
     ]
-    const keys = ['username', 'eventType', 'amount', 'date']
-
-    if (renderOptions) {
-      labels.push('financials:payout.options')
-      keys.push('options')
-    }
+    const keys = ['username', 'eventType', 'amount', 'date', 'options']
 
     return { labels, keys }
   }, [renderOptions])
@@ -72,14 +67,8 @@ const GetPaidTable = (props: Props) => {
         data={data}
         className="payoutTable__table"
         render={{
-          username: () => {
-            return (
-              <UserBadge
-                avatar={avatar?.url}
-                firstName={first_name}
-                lastName={last_name}
-              />
-            )
+          username: ({ user: { firstName, lastName } }: PayoutTransaction) => {
+            return <UserBadge firstName={firstName} lastName={lastName} />
           },
           eventType: ({ type }: PayoutTransaction) => {
             return type[0].toUpperCase() + type.substr(1)
@@ -89,10 +78,14 @@ const GetPaidTable = (props: Props) => {
           },
           date: ({ date }: PayoutTransaction) => {
             // date are given in seconds. Need to convert in ms before use.
-            return moment(date * 1000).format('YYYY-MM-DD')
+            return moment(date).format('YYYY-MM-DD')
           },
-          options: (item) =>
-            renderOptions ? renderOptions(item) : React.Fragment
+          options: (item: PayoutTransaction) =>
+            renderOptions ? (
+              renderOptions(item)
+            ) : (
+              <a href={invoices(item.invoiceId)}>View Invoice</a>
+            )
         }}
       />
 
@@ -106,6 +99,7 @@ const GetPaidTable = (props: Props) => {
         page={meta.current_page}
         setPage={onPage}
         total={meta.total}
+        perPage={meta.per_page}
       />
     </Card>
   )

@@ -20,6 +20,7 @@ const UserDetailsCard = ({ avatar, firstName, lastName }: IProps) => {
         avatar={avatar?.url}
         firstName={firstName}
         lastName={lastName}
+        className="card__avatar"
       />
       <p className="card__name">
         {firstName} {lastName}

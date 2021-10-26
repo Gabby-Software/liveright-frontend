@@ -17,6 +17,13 @@ export default styled(Card)`
         line-height: 22px;
         color: #FFFFFF;
         margin: 10px 0;
+        text-align: center;
+      }
+
+      &__avatar {
+        & > .user-badge__preview {
+          margin-right: 0;
+        }
       }
 
       &__joinedAt {
