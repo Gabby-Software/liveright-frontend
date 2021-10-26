@@ -8,13 +8,14 @@ import { ReactComponent as RevenueIcon } from '../../../../assets/media/icons/re
 import BlueLink from '../../../../components/blue-link/blue-link.component'
 import Card from '../../../../components/card/card.style'
 import UserBadge from '../../../../components/user-badge/user-badge.component'
-import { EP_GET_INVOICES, EP_GET_SESSIONS } from '../../../../enums/api.enum'
+import { EP_GET_SESSIONS } from '../../../../enums/api.enum'
 import { Routes } from '../../../../enums/routes.enum'
 import useTrainerAccount from '../../../../hooks/api/accounts/useTrainerAccount'
 import useChatOnline from '../../../../hooks/api/chat/useChatOnline'
+import useInvoices from '../../../../hooks/api/invoices/useInvoices'
+import { useAuth } from '../../../../hooks/auth.hook'
 import api from '../../../../managers/api.manager'
 import { useChats } from '../../../../modules/chat/contexts/chats.context'
-import { InvoiceType } from '../../../../types/invoice.type'
 import { SessionType } from '../../../../types/session.type'
 import Styles, { DataItem } from './chat-trainer.styles'
 
@@ -23,6 +24,7 @@ const ChatTrainer: FC = () => {
   const { isOnline } = useChatOnline()
   const { rooms } = useChats()
   const params = useParams<any>()
+  const auth = useAuth()
 
   const room = rooms[params.room]
 
@@ -30,10 +32,13 @@ const ChatTrainer: FC = () => {
     EP_GET_SESSIONS + '?filter[status]=upcoming',
     (url) => api.get(url).then((res) => res.data.data)
   )
-  const { data: invoices } = useSWR<InvoiceType[]>(
-    EP_GET_INVOICES + '?filter[status]=outstanding,due_soon,overdue',
-    (url) => api.get(url).then((res) => res.data.data)
-  )
+
+  const { invoices } = useInvoices({
+    initialFilters: {
+      status: 'outstanding,due_soon,overdue',
+      invoice_to: auth.id
+    }
+  })
 
   return (
     <Styles>
