@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Table = styled.div`
+  margin-bottom: 25px;
   & table thead {
     .data-table__th {
       padding: 15px 20px 15px 20px;

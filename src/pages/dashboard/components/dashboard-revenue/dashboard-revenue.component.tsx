@@ -29,6 +29,7 @@ export const DashboardRevenue = () => {
   const isMobile = useIsMobile()
 
   const chartData = formatChartData(chart, range)
+  const revenues = tableData.filter((item) => item.type)
 
   return (
     <Styles>
@@ -76,7 +77,7 @@ export const DashboardRevenue = () => {
         xDataKey="date"
         dataKeys={['value']}
       />
-      <TableWrapper labels={LABELS} keys={KEYS} data={tableData} />
+      <TableWrapper labels={LABELS} keys={KEYS} data={revenues} />
     </Styles>
   )
 }

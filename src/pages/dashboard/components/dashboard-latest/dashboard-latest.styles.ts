@@ -23,18 +23,6 @@ export const Styles = styled.div`
       line-height: 32px;
       color: ${getColorCarry('primaryDark_v2')};
     }
-
-    &-button {
-      border: none;
-      padding: 0;
-      background: transparent;
-      font-size: 18px;
-      line-height: 26px;
-      text-decoration-line: underline;
-
-      color: ${getColorCarry('blue_70')};
-      cursor: pointer;
-    }
   }
 
   .latest__tabs {
@@ -51,13 +39,14 @@ export const Styles = styled.div`
     margin: 0;
     padding: 0;
     list-style: none;
+    margin-bottom: 25px;
 
-    .item:nth-child(2n) {
+    .item:nth-child(2n + 1) {
       border-radius: 10px;
       background: ${getColorCarry('background')};
     }
 
-    .item {
+    .item a {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -86,8 +75,30 @@ export const Styles = styled.div`
         line-height: 26px;
       }
 
-      &__icon {
-        stroke: ${getColorCarry('blue_70')};
+      .item__icon {
+        // display: flex;
+        // justify-content: space-between;
+        // align-items: center;
+
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+
+        &-checked {
+          background: rgba(63, 201, 173, 0.1);
+        }
+        &-unchecked {
+          background: #ededed;
+        }
+
+        .checked {
+          stroke: #3fc9ad;
+          margin: auto;
+        }
+        .unchecked {
+          margin: auto;
+          stroke: #c2c2c2;
+        }
       }
 
       div .notification__icon {
