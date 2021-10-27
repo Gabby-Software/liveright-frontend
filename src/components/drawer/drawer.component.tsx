@@ -8,6 +8,7 @@ interface DrawerProps {
   title: string
   onClose: () => void
   open: boolean
+  destroyOnClose?: boolean
 }
 
 export default function Drawer({
@@ -15,7 +16,8 @@ export default function Drawer({
   children,
   title,
   onClose,
-  open
+  open,
+  destroyOnClose
 }: PropsWithChildren<DrawerProps>) {
   return (
     <DrawerStyles
@@ -24,6 +26,7 @@ export default function Drawer({
       onClose={onClose}
       closeIcon={<CrossIcon />}
       width={width}
+      destroyOnClose={destroyOnClose}
     >
       {children}
     </DrawerStyles>

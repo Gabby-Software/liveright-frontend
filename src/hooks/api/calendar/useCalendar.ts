@@ -9,7 +9,7 @@ interface UseCalendar {
 }
 
 export default function useCalendar(): UseCalendar {
-  const { data, error } = useSWR(EP_CALENDAR, getCalendar)
+  const { data, error } = useSWR(EP_CALENDAR + '?per_page=9999', getCalendar)
 
   const isLoading = !data && !error
   const activities = data || []

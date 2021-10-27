@@ -203,6 +203,11 @@ export const Styles = styled(Card)`
               overflow: hidden;
               color: #fff;
               margin: 0 10px;
+
+              &.big-calendar__event-event {
+                height: auto !important;
+                background-color: ${getColorCarry('green_20')};
+              }
             }
           }
         }
@@ -351,6 +356,8 @@ export const Styles = styled(Card)`
           font-size: 0.875rem;
           font-weight: 500;
           overflow: hidden;
+          opacity: 0.75;
+          z-index: 2;
 
           @media ${mediaQueries.TABLET} {
             font-size: 0.5rem;
@@ -364,6 +371,12 @@ export const Styles = styled(Card)`
             display: -webkit-box;
             -moz-box-orient: vertical;
             -webkit-line-clamp: 1;
+          }
+
+          &.big-calendar__event-event {
+            height: auto !important;
+            background-color: ${getColorCarry('green_80')};
+            z-index: 1;
           }
         }
       }

@@ -30,6 +30,8 @@ export function getEventTitle(e: any) {
   return (
     (e.resource_type === 'sessions'
       ? e.resource.type
+      : e.resource_type === 'events'
+      ? e.resource.name
       : EVENT_LABELS[e.resource_type]) || 'Event'
   )
 }
@@ -48,6 +50,13 @@ export function getEventTime(e: any) {
       start: date.toDate(),
       end: date.toDate()
     }
+  } else if (e.resource_type === 'events') {
+    const start = moment(`${e.date} ${e.time}`, `${DATE_FORMAT} HH:mm:ss`)
+    const end = moment(start).add(moment.duration(e.resource.duration))
+    return {
+      start: start.toDate(),
+      end: end.toDate()
+    }
   }
   return null
 }
@@ -62,14 +71,23 @@ export function formatWeekActivities(data: any[]) {
         res.push({
           title: getEventTitle(row),
           start: time?.start,
-          end: time?.end
+          end: time?.end,
+          resource: 'session'
         })
       } else if (row.resource_type === 'invoices') {
         res.push({
           title: 'Invoice Due Date',
           allDay: true,
           start: time?.start,
-          end: time?.end
+          end: time?.end,
+          resource: 'invoice'
+        })
+      } else if (row.resource_type === 'events') {
+        res.push({
+          title: getEventTitle(row),
+          start: time?.start,
+          end: time?.end,
+          resource: 'event'
         })
       }
     })
@@ -79,4 +97,21 @@ export function formatWeekActivities(data: any[]) {
     console.error(e)
     return []
   }
+}
+
+export function formatEventValues(
+  values: any,
+  accountId: number,
+  accountType: string
+) {
+  const formData: any = {}
+
+  formData['account_id'] = accountId
+  formData['access'] = accountType
+
+  Object.keys(values).forEach((key) => {
+    formData[key] = values[key]
+  })
+
+  return formData
 }
