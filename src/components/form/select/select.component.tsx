@@ -1,11 +1,12 @@
 import { FocusEventHandler, ReactNode, useState } from 'react'
 import ReactSelect, { MenuPosition } from 'react-select'
 
-import { CaretDownIcon } from '../../../assets/media/icons'
+import { CaretDownIcon, HelpIcon } from '../../../assets/media/icons'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { OptionType } from '../../../types/option.type'
 import FormError from '../../forms/form-error/form-error.component'
 import SmallModal from '../../small-modal/small-modal.component'
+import Tooltip from '../../tooltip/tooltip.component'
 import Input from '../input/input.component'
 import Label from '../label/label.component'
 import { DropdownIndicator, Styles } from './select.styles'
@@ -13,6 +14,7 @@ import { DropdownIndicator, Styles } from './select.styles'
 export interface SelectProps {
   id: string
   label?: string
+  tooltip?: string
   placeholder?: string
   size?: 'sm'
   options: OptionType[]
@@ -35,6 +37,7 @@ export interface SelectProps {
 export default function Select({
   id,
   label,
+  tooltip,
   placeholder,
   size,
   options,
@@ -85,6 +88,7 @@ export default function Select({
           className={className}
           name={name}
           onBlur={onBlur}
+          tooltip={tooltip}
         />
         <SmallModal
           visible={modal}
@@ -102,7 +106,18 @@ export default function Select({
 
   return (
     <Styles $size={size} className={className}>
-      {label && <Label htmlFor={id}>{label}</Label>}
+      {label && (
+        <Label htmlFor={id}>
+          {label}
+
+          {tooltip && (
+            <Tooltip title={tooltip}>
+              <HelpIcon />
+            </Tooltip>
+          )}
+        </Label>
+      )}
+
       <div className="select__container">
         {!!prefix && <span className="select__prefix">{prefix}</span>}
         <ReactSelect

@@ -73,6 +73,9 @@ export default function Calendar() {
           timeGutterFormat: TIME_RENDER_FORMAT,
           eventTimeRangeFormat
         }}
+        eventPropGetter={(event) => ({
+          className: `big-calendar__event-${event.resource}`
+        })}
         {...(WeekProps && WeekProps)}
       />
     </Styles>

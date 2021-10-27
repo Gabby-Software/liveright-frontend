@@ -3,7 +3,7 @@ import moment from 'moment'
 import { DATE_FORMAT, TIME_FORMAT } from '../date'
 
 export const EVENT_LABELS: any = {
-  invoices: 'Invoice',
+  invoices: 'Invoice Due Date',
   sessions: 'PT Session'
 }
 
@@ -30,6 +30,8 @@ export function getEventTitle(e: any) {
   return (
     (e.resource_type === 'sessions'
       ? e.resource.type
+      : e.resource_type === 'events'
+      ? e.resource.name
       : EVENT_LABELS[e.resource_type]) || 'Event'
   )
 }
@@ -37,6 +39,19 @@ export function getEventTitle(e: any) {
 export function getEventTime(e: any) {
   if (e.resource_type === 'sessions') {
     const start = moment(`${e.date} ${e.time}`, `${DATE_FORMAT} ${TIME_FORMAT}`)
+    const end = moment(start).add(moment.duration(e.resource.duration))
+    return {
+      start: start.toDate(),
+      end: end.toDate()
+    }
+  } else if (e.resource_type === 'invoices') {
+    const date = moment(e.date, DATE_FORMAT)
+    return {
+      start: date.toDate(),
+      end: date.toDate()
+    }
+  } else if (e.resource_type === 'events') {
+    const start = moment(`${e.date} ${e.time}`, `${DATE_FORMAT} HH:mm:ss`)
     const end = moment(start).add(moment.duration(e.resource.duration))
     return {
       start: start.toDate(),
@@ -51,12 +66,28 @@ export function formatWeekActivities(data: any[]) {
     const res: any[] = []
 
     data.forEach((row) => {
+      const time = getEventTime(row)
       if (row.resource_type === 'sessions' && row.resource.duration) {
-        const time = getEventTime(row)
         res.push({
           title: getEventTitle(row),
           start: time?.start,
-          end: time?.end
+          end: time?.end,
+          resource: 'session'
+        })
+      } else if (row.resource_type === 'invoices') {
+        res.push({
+          title: 'Invoice Due Date',
+          allDay: true,
+          start: time?.start,
+          end: time?.end,
+          resource: 'invoice'
+        })
+      } else if (row.resource_type === 'events') {
+        res.push({
+          title: getEventTitle(row),
+          start: time?.start,
+          end: time?.end,
+          resource: 'event'
         })
       }
     })
@@ -66,4 +97,21 @@ export function formatWeekActivities(data: any[]) {
     console.error(e)
     return []
   }
+}
+
+export function formatEventValues(
+  values: any,
+  accountId: number,
+  accountType: string
+) {
+  const formData: any = {}
+
+  formData['account_id'] = accountId
+  formData['access'] = accountType
+
+  Object.keys(values).forEach((key) => {
+    formData[key] = values[key]
+  })
+
+  return formData
 }
