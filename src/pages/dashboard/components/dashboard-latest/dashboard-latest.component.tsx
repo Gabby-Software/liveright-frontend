@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { CheckedIcon } from '../../../../assets/media/icons'
-import Button from '../../../../components/buttons/button/button.component'
+import {
+  CheckDashboardIcon,
+  DoubleCheckDashboardIcon,
+  NotificationDashboardIcon
+} from '../../../../assets/media/icons'
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Routes } from '../../../../enums/routes.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { notificationIcon } from '../../../../modules/notifications/enums/notification-icon.enum'
+import { notificationUrl } from '../../../../modules/notifications/enums/notification-url.enum'
 import { useNotifications } from '../../../../modules/notifications/hooks/notifications.hook'
 import notificationManager, {
   NotificationsManager
@@ -17,10 +21,11 @@ import {
   ACTION_GET_UNREAD_NOTIFICATIONS_COUNT_SUCCESS
 } from '../../../../store/action-types'
 import { NotificationType } from '../../../../types/notifications.type'
+import { DashboardButton } from '../dashboard-button/dashboard-button.component'
 import { Styles } from './dashboard-latest.styles'
 
 interface ListProps {
-  data: NotificationType[]
+  notifications: NotificationType[]
 }
 const ColorIcon = ({ type }: { type: string }) => {
   const { Icon, color } = notificationIcon(type)
@@ -30,28 +35,51 @@ const ColorIcon = ({ type }: { type: string }) => {
     </div>
   )
 }
-const List = ({ data }: ListProps) => {
-  if (data.length === 0) {
+const ListItem = ({ notification }: { notification: NotificationType }) => {
+  const auth = useAuth()
+  const { url } = notificationUrl(
+    notification.type,
+    notification.data,
+    auth.type
+  )
+  return (
+    <li className="item">
+      <a href={url} target="blanc">
+        <div>
+          <ColorIcon type={notification.type} />
+          <p className="item__description">{notification.data.message}</p>
+        </div>
+        <div
+          className={`item__icon ${
+            notification.read_at ? 'item__icon-checked' : 'item__icon-unchecked'
+          }`}
+        >
+          {notification.read_at ? (
+            <DoubleCheckDashboardIcon className="checked" />
+          ) : (
+            <CheckDashboardIcon className="unchecked" />
+          )}
+        </div>
+      </a>
+    </li>
+  )
+}
+const List = ({ notifications }: ListProps) => {
+  if (notifications.length === 0) {
     return null
   }
 
   return (
     <ul className="list">
-      {data.slice(0, 5).map((item) => (
-        <li className="item" key={item.id}>
-          <div>
-            <ColorIcon type={item.type} />
-            <p className="item__description">{item.data.message}</p>
-          </div>
-          {item.read_at && <CheckedIcon className="item__icon" />}
-        </li>
+      {notifications.slice(0, 5).map((item) => (
+        <ListItem notification={item} key={item.id} />
       ))}
     </ul>
   )
 }
 
 export const DashboardLatest = () => {
-  const [activeTab, setActiveTab] = useState('diet')
+  const [activeTab, setActiveTab] = useState('payment')
   const {
     notifications: { data: notifications }
   } = useNotifications()
@@ -79,14 +107,14 @@ export const DashboardLatest = () => {
     return () => notificationManager.unsubscribe(id)
   }, [uuid])
 
-  const dietData: NotificationType[] = []
-  const trainingData: NotificationType[] = notifications.filter(
+  const dietNotifications: NotificationType[] = []
+  const trainingNotifications: NotificationType[] = notifications.filter(
     (item) => item.type === 'client_requested_session'
   )
-  const paymentData: NotificationType[] = notifications.filter(
+  const paymentNotifications: NotificationType[] = notifications.filter(
     (item) => item.type === 'invoice_status_changed_notification'
   )
-  const inactivityData: NotificationType[] = notifications.filter(
+  const inactivityNotifications: NotificationType[] = notifications.filter(
     (item) =>
       item.type === 'invitation_accepted_notification' ||
       item.type === 'invitation_rejected_notification' ||
@@ -95,33 +123,30 @@ export const DashboardLatest = () => {
 
   const TABS = [
     {
-      label: 'Diet',
-      key: 'diet',
-      renderContent: () => <List data={dietData} />
+      label: 'Payment',
+      key: 'payment',
+      renderContent: () => <List notifications={paymentNotifications} />
     },
     {
       label: 'Training',
       key: 'training',
-      renderContent: () => <List data={trainingData} />
-    },
-    {
-      label: 'Payment',
-      key: 'payment',
-      renderContent: () => <List data={paymentData} />
+      renderContent: () => <List notifications={trainingNotifications} />
     },
     {
       label: 'Inactivity',
       key: 'inactivity',
-      renderContent: () => <List data={inactivityData} />
+      renderContent: () => <List notifications={inactivityNotifications} />
+    },
+    {
+      label: 'Diet',
+      key: 'diet',
+      renderContent: () => <List notifications={dietNotifications} />
     }
   ]
   return (
     <Styles>
       <div className="wrapper">
         <h2 className="wrapper-title">The Latest</h2>
-        <Button className="wrapper-button">
-          <Link to={Routes.NOTIFICATIONS}>View Notifications</Link>
-        </Button>
       </div>
       <Tabs
         activeKey={activeTab}
@@ -130,6 +155,12 @@ export const DashboardLatest = () => {
         className={'latest__tabs'}
         // justify={isMobile ? 'between' : undefined}
       />
+      <DashboardButton>
+        <Link to={Routes.NOTIFICATIONS}>
+          <NotificationDashboardIcon />
+          View Notifications
+        </Link>
+      </DashboardButton>
     </Styles>
   )
 }

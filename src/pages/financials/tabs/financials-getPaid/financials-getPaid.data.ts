@@ -1,7 +1,7 @@
 import { OptionType } from '../../../../types/option.type'
 
 export const payoutTypeFilterOptions: OptionType[] = [
-  { label: 'All', value: 'all' },
+  { label: 'All', value: '' },
   { label: 'Payout', value: 'payout' },
-  { label: 'Payment', value: 'payment' }
+  { label: 'Income', value: 'income' }
 ]

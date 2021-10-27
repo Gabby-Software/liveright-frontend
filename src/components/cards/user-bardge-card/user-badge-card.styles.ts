@@ -5,7 +5,7 @@ import Card from '../../card/card.style'
 
 export default styled(Card)`
   padding: 1rem;
-  background-color: ${getColorCarry('background')};
+  background-color: transparent;
   display: flex;
   flex-direction: row;
   width: 100%;

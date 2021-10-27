@@ -24,11 +24,6 @@ export const Styles = styled.div`
       padding: 0;
       background: transparent;
       font-size: 18px;
-      line-height: 26px;
-
-      text-align: right;
-      text-decoration-line: underline;
-
       color: ${getColorCarry('blue_70')};
       cursor: pointer;
     }

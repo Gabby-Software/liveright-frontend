@@ -30,7 +30,7 @@ const FinancialsReceivables = ({}: Props) => {
   const auth = useAuth()
   const { t } = useTranslation()
   const { progressCount, statistic, range, onRange } = useStatistic()
-  const { getGoalsTargetByType } = useGoals()
+  const { getTargetMonthlyIncome } = useGoals()
   const { invoices, meta, ...actions } = useInvoices({
     initialFilters: {
       invoice_from: auth.id
@@ -64,7 +64,7 @@ const FinancialsReceivables = ({}: Props) => {
 
       <FinancialsReceivablesTotals
         target={
-          (getGoalsTargetByType('total_monthly_revenue') || 0) *
+          getTargetMonthlyIncome(['pt_session', 'coaching', 'consultation']) *
           (RANGE_FACTORS as any)[range]
         }
         countData={progressCount}
