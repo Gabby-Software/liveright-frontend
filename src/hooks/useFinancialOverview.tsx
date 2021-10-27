@@ -25,17 +25,13 @@ export const useFinancialOverview = (): UseFinancialOverview => {
     range: 'month'
   })
   const { uuid } = useAuth()
-  const { mutate: goalsMutate, getGoalsTargetByType } = useGoals({
+  const {
+    mutate: goalsMutate,
+    getGoalsTargetByType,
+    getTargetMonthlyIncome
+  } = useGoals({
     filter: { account_id: uuid }
   })
-
-  // const getTargetMonthlyIncome = (
-  //   goalsData: TargetDataType[] | null = userGoals
-  // ) => {
-  //   const types = ['pt_session', 'consultation', 'coaching', 'other']
-  //   const filteredGoals = goalsData?.filter((g) => types.includes(g.type))
-  //   return filteredGoals?.reduce((acc, g) => acc + g.goal, 0)
-  // }
 
   const onUpdateGoals = async (value: string, type: string) => {
     const targets: TargetDataType[] = []
@@ -53,11 +49,18 @@ export const useFinancialOverview = (): UseFinancialOverview => {
     }
   }
 
+  const monthlyTarget = getTargetMonthlyIncome([
+    'pt_session',
+    'coaching',
+    'consultation'
+  ])
+
   return {
-    monthlyTarget: getGoalsTargetByType('total_monthly_revenue') || 0,
+    monthlyTarget,
     monthlyRevenue: monthlyIncomes.total || 0,
     onUpdateGoals,
     tableData: getOverviewTableData(
+      monthlyTarget,
       monthlyIncomes,
       progressCount,
       sessionCount,

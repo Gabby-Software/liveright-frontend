@@ -21,7 +21,8 @@ export default function useTotalRecieved(): useTotalRecieved {
       status: 'paid',
       payment_method: 'credit_card',
       invoice_from: auth.id
-    }
+    },
+    per_page: 10000000
   }
   const url = stringifyURL(EP_GET_INVOICES, filters)
   const { data, mutate } = useSWR(url, getInvoices)

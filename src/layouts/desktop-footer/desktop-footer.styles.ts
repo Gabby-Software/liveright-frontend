@@ -9,7 +9,6 @@ export const FooterInvisible = styled.div<any>`
   bottom: 0;
   height: 89px;
   background-color: #fff;
-  border-top: 1px solid ${getColorCarry('secondary2')};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,9 +57,9 @@ export const FooterVisible = styled.div`
   width: 220px;
   position: fixed;
   bottom: 0;
-  background-color: #fff;
-  border-top: 1px solid ${getColorCarry('secondary2')};
+  border-top: 1px solid #22545a;
   border-right: 1px solid ${getColorCarry('secondary2')};
+  background-color: #fff;
   z-index: 113;
 
   @media only print {
@@ -70,22 +69,64 @@ export const FooterVisible = styled.div`
   .footer {
     &__user-card {
       border-radius: 0;
-      background: #fff;
       height: 88px;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+
+      & .user-badge-card__title {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+      }
 
       & .user-badge-card__subtitle {
         font-size: 0.75rem;
       }
 
       & .user-badge-card__content {
+        color: #ffffff;
       }
 
       & svg {
+        stroke: black;
         transform: translateY(-0.5rem);
       }
     }
   }
+`
+
+export const TrainerFooterInvisible = styled(FooterInvisible)<any>`
+  box-shadow: 0px -5px 40px rgba(63, 201, 173, 0.2);
+
+  .footer {
+    &__action {
+      border: 1px solid #2ba8b6;
+      box-sizing: border-box;
+      border-radius: 10px;
+      color: #2ba8b6;
+      svg {
+        margin-right: 16px;
+      }
+
+      &_primary {
+        color: ${getColorCarry('white')};
+        background: #2ba8b6;
+      }
+    }
+  }
+`
+export const TrainerFooterVisible = styled(FooterVisible)<any>`
+    background: #00363c;
+  .footer {
+    &__user-card {
+      & .user-badge-card__title {
+        color: #ffffff;
+      }
+       & .user-badge-card__subtitle {
+        color: #b7dbdf;
+      }
+       & svg {
+        stroke: #ffffff;;
+      }
 `

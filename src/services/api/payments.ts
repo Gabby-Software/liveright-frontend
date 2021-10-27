@@ -64,7 +64,7 @@ export async function createPayout(
 
 export async function getPayoutTransactions(url: string) {
   const response = await api.get(url)
-  return response.data.data
+  return response.data
 }
 
 export async function unlinkStripeAccount() {

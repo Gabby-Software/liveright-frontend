@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import usePaymentAccount from '../../../../hooks/api/payments/usePaymentAccount'
 import usePayoutTransactions from '../../../../hooks/api/payments/usePayoutTransactions'
@@ -25,9 +24,6 @@ const GetPaid = () => {
             filters={filters}
             onFilter={onFilter}
             loading={transactionLoading}
-            renderOptions={(data) => (
-              <Link to={`#${data.id}`}>View Invoice</Link>
-            )}
             withFilter
           />
         </>

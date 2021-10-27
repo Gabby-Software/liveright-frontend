@@ -23,9 +23,12 @@ interface usePayoutTransactions {
 
 export default function usePayoutTransactions(): usePayoutTransactions {
   const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState({ all: 1 })
 
-  const url = stringifyURL(EP_PAYOUT_TRANSACTIONS, omitEmpty(filters))
+  const url = stringifyURL(
+    EP_PAYOUT_TRANSACTIONS,
+    omitEmpty({ ...filters, page })
+  )
   const { data, error, mutate } = useSWR(url, getPayoutTransactions)
 
   const onPage = (page: number) => {
@@ -33,26 +36,27 @@ export default function usePayoutTransactions(): usePayoutTransactions {
   }
 
   const onFilter = (filters: PayoutFilters) => {
-    setFilters(filters)
+    setFilters({ ...filters, all: 1 })
   }
 
-  console.log(data)
-  const transactionLoading = !data && !error
+  const transactionLoading = !data?.data && !error
   const transactions =
-    data?.slice(page - 1, 10).map((d: any) => ({
+    data?.data.map((d: any) => ({
       amount: d.amount,
       type: d.type,
-      date: d.created,
-      currency: d.currency
+      date: d.ledger_time,
+      currency: d.currency_code,
+      invoiceId: d.invoice_id,
+      user: {
+        firstName: d.user.first_name,
+        lastName: d.user.last_name
+      }
     })) || []
-
-  console.log(transactions)
-  console.log(data)
 
   const meta: PaginationMetaType = {
     current_page: page,
-    per_page: 10,
-    total: data?.length || 0
+    per_page: data?.meta.per_page || 15,
+    total: data?.meta.total || 0
   }
 
   return {
