@@ -12,6 +12,7 @@ import {
   DateCellWrapperStyles,
   ToolbarMobileStyles,
   ToolbarNav,
+  ToolbarSecondaryStyles,
   ToolbarStyles,
   WeekHeaderStyles
 } from './calendar.styles'
@@ -93,6 +94,36 @@ export function Toolbar({
 
       <div className="calendar-toolbar__cell">{nav}</div>
     </ToolbarStyles>
+  )
+}
+
+export function ToolbarSecondary({ label, date, onNavigate }: ToolbarProps) {
+  const isToday = moment(date).isSame(moment(), 'days')
+  return (
+    <ToolbarSecondaryStyles>
+      <p className="toolbar-secondary__title">
+        {isToday && <span>Today, </span>}
+        {label}
+      </p>
+
+      <div className="toolbar-secondary__buttons">
+        <IconButton
+          size="sm"
+          className="toolbar-secondary__next"
+          onClick={() => onNavigate('PREV')}
+        >
+          <CaretLeftIcon />
+        </IconButton>
+
+        <IconButton
+          size="sm"
+          className="toolbar-secondary__prev"
+          onClick={() => onNavigate('NEXT')}
+        >
+          <CaretLeftIcon />
+        </IconButton>
+      </div>
+    </ToolbarSecondaryStyles>
   )
 }
 

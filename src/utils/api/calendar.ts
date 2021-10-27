@@ -72,7 +72,10 @@ export function formatWeekActivities(data: any[]) {
           title: getEventTitle(row),
           start: time?.start,
           end: time?.end,
-          resource: 'session'
+          resource: {
+            type: 'session',
+            session: row.resource
+          }
         })
       } else if (row.resource_type === 'invoices') {
         res.push({
@@ -80,14 +83,18 @@ export function formatWeekActivities(data: any[]) {
           allDay: true,
           start: time?.start,
           end: time?.end,
-          resource: 'invoice'
+          resource: {
+            type: 'invoice'
+          }
         })
       } else if (row.resource_type === 'events') {
         res.push({
           title: getEventTitle(row),
           start: time?.start,
           end: time?.end,
-          resource: 'event'
+          resource: {
+            type: 'event'
+          }
         })
       }
     })

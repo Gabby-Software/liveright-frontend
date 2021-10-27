@@ -4,8 +4,9 @@ import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 import Card from '../cards/card/card.component'
 
-export const Styles = styled(Card)`
-  box-shadow: 0 0 40px rgba(230, 45, 71, 0.03);
+export const Styles = styled(Card)<any>`
+  box-shadow: ${(props) =>
+    props.$shadow ? '0 0 40px rgba(230, 45, 71, 0.03)' : ''};
   padding: 0;
 
   @media ${mediaQueries.TABLET} {
@@ -532,6 +533,38 @@ export const ToolbarStyles = styled.div`
     }
 
     &__next {
+      & svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+`
+
+export const ToolbarSecondaryStyles = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid ${getColorCarry('neutral_30')};
+  margin-bottom: 1.25rem;
+
+  .toolbar-secondary {
+    &__title {
+      font-size: 0.875rem;
+      color: ${getColorCarry('secondary2_v2')};
+
+      & span {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: ${getColorCarry('primaryDark_v2')};
+      }
+    }
+
+    &__buttons {
+      display: flex;
+    }
+
+    &__prev {
       & svg {
         transform: rotate(180deg);
       }

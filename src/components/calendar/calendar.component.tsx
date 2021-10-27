@@ -2,7 +2,7 @@ import moment from 'moment'
 import { useState } from 'react'
 import {
   Calendar as BigCalendar,
-  CalendarProps,
+  CalendarProps as BigCalendarProps,
   Components,
   DateRange,
   momentLocalizer,
@@ -13,19 +13,34 @@ import useCalendar from '../../hooks/api/calendar/useCalendar'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import { formatWeekActivities, parseActivities } from '../../utils/api/calendar'
 import { DATE_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
-import { DateCellWrapper, Toolbar, WeekHeader } from './calendar.components'
+import {
+  DateCellWrapper,
+  Toolbar,
+  ToolbarSecondary,
+  WeekHeader
+} from './calendar.components'
 import { Styles } from './calendar.styles'
 
 const localizer = momentLocalizer(moment)
 
-export default function Calendar() {
-  const [view, onView] = useState<View>('month')
+interface CalendarProps {
+  view?: View
+  toolbar?: 'primary' | 'secondary' | false
+  className?: string
+}
+
+export default function Calendar({
+  view: initView = 'month',
+  toolbar = 'primary',
+  className
+}: CalendarProps) {
+  const [view, onView] = useState<View>(initView)
   const { activities } = useCalendar()
   const isMobile = useIsMobile()
 
   const parsedActivities = parseActivities(activities)
 
-  let WeekProps: Partial<CalendarProps> | null = null
+  let WeekProps: Partial<BigCalendarProps> | null = null
   let MonthComponentProps: Components | null = null
 
   if (view === 'week' || view === 'day') {
@@ -55,11 +70,20 @@ export default function Calendar() {
   return (
     <Styles>
       <BigCalendar
-        className={`big-calendar ${view === 'day' ? 'big-calendar_day' : ''}`}
+        className={`big-calendar ${view === 'day' ? 'big-calendar_day' : ''} ${
+          className || ''
+        }`}
         localizer={localizer}
         view={view}
         components={{
-          toolbar: (props) => <Toolbar {...props} onView={onView} />,
+          toolbar: (props) =>
+            toolbar === 'primary' ? (
+              <Toolbar {...props} onView={onView} />
+            ) : toolbar === 'secondary' ? (
+              <ToolbarSecondary {...props} />
+            ) : (
+              <div />
+            ),
           week: {
             header: WeekHeader
           },
@@ -74,7 +98,7 @@ export default function Calendar() {
           eventTimeRangeFormat
         }}
         eventPropGetter={(event) => ({
-          className: `big-calendar__event-${event.resource}`
+          className: `big-calendar__event-${event.resource?.type}`
         })}
         {...(WeekProps && WeekProps)}
       />
