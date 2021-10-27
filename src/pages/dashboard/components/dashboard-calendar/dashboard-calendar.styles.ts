@@ -22,6 +22,11 @@ export const Styles = styled(Card)`
       }
     }
 
+    &__link {
+      color: ${getColorCarry('link')};
+      font-size: 1rem;
+    }
+
     &__title-container {
       display: flex;
       align-items: center;

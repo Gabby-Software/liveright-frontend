@@ -13,7 +13,12 @@ export const DashboardCalendar = () => {
       <div className="dashboard-calendar__title-container">
         <Subtitle>Your Calender</Subtitle>
 
-        <Link to="/sessions">Schedule Sessions</Link>
+        <Link
+          to={Routes.SESSIONS + '?add=1'}
+          className="dashboard-calendar__link"
+        >
+          Schedule Sessions
+        </Link>
       </div>
 
       <div className="dashboard-calendar__calendar-container">
