@@ -7,9 +7,9 @@ export const statisticRange = {
 }
 
 export const statisticRangeOptions: OptionType[] = [
-  { label: 'This Week', value: statisticRange.WEEK },
-  { label: 'This Month', value: statisticRange.MONTH },
-  { label: 'This Year', value: statisticRange.YEAR }
+  { label: 'Weekly', value: statisticRange.WEEK },
+  { label: 'Monthly', value: statisticRange.MONTH },
+  { label: 'Yearly', value: statisticRange.YEAR }
 ]
 
 export const chartRangeOptions: OptionType[] = [

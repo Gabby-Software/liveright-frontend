@@ -7,7 +7,7 @@ import { DashboardClients } from './components/dashboard-clients/dashboard-clien
 import { DashboardLatest } from './components/dashboard-latest/dashboard-latest.component'
 import { QuickLinks } from './components/dashboard-quick-links/dashboard-quick-links.component'
 import { DashboardRevenue } from './components/dashboard-revenue/dashboard-revenue.component'
-import Styles, { ContainerGrid } from './dashboard.styles'
+import Styles, { Container, ContainerGrid } from './dashboard.styles'
 
 const Dashboard = () => {
   const isMobile = useIsMobile()
@@ -27,7 +27,11 @@ const Dashboard = () => {
   )
 
   return isMobile ? (
-    <MobilePage title="Dashboard" headerNavChat>
+    <MobilePage
+      title={`Hello, ${first_name} ${last_name}`}
+      headerComponent={<Container />}
+      headerNavChat
+    >
       {content}
     </MobilePage>
   ) : (

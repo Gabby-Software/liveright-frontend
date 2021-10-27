@@ -1,13 +1,20 @@
 import { Link } from 'react-router-dom'
 
-import { GroupDashboardIcon, SearchIcon } from '../../../../assets/media/icons'
+import {
+  GroupDashboardIcon,
+  SearchIcon,
+  OptionSolidIcon,
+  ProfileCheckTrainerIcon,
+  PhoneSolidIcon
+} from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Input from '../../../../components/form/input/input.component'
 import { Routes } from '../../../../enums/routes.enum'
 import useClientsPaginate from '../../../../hooks/api/clients/useClientsPaginate'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { DashboardButton } from '../dashboard-button/dashboard-button.component'
 import { TableWrapper } from '../table-wrapper/table-wrapper.component'
-import { Styles } from './dashboard-clients.styles'
+import { List, Styles } from './dashboard-clients.styles'
 
 const KEYS: string[] = ['name', 'email', 'phone_number', 'sessions', 'actions']
 const LABELS: string[] = [
@@ -22,6 +29,11 @@ export const DashboardClients = () => {
   const { clients, onSearch } = useClientsPaginate({
     status: 'active'
   })
+
+  const isMobile = useIsMobile()
+  // if (isMobile) {
+  //   return <div>Mobile</div>
+  // }
   return (
     <Styles>
       <div className="wrapper">
@@ -39,7 +51,11 @@ export const DashboardClients = () => {
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
-      <TableWrapper labels={LABELS} keys={KEYS} data={clients.slice(0, 4)} />
+      {isMobile ? (
+        <ClientsList clients={clients.slice(0, 4)} />
+      ) : (
+        <TableWrapper labels={LABELS} keys={KEYS} data={clients.slice(0, 4)} />
+      )}
 
       <DashboardButton>
         <Link to={Routes.CLIENTS}>
@@ -48,5 +64,32 @@ export const DashboardClients = () => {
         </Link>
       </DashboardButton>
     </Styles>
+  )
+}
+
+function ClientsList({ clients }: { clients: any[] }) {
+  return (
+    <List>
+      {clients.map((item) => (
+        <li key={item.id} className="item">
+          <div className="item-wrapper">
+            <p className="item-wrapper__name">{`${item.first_name} ${item.last_name}`}</p>
+            <div className="item-wrapper__property">
+              <p className="item-wrapper__property-number">
+                <PhoneSolidIcon />
+                {item.phone_number ? item.phone_number : '+33 3333 33333'}
+              </p>
+              <p className="item-wrapper__property-sessions">
+                <ProfileCheckTrainerIcon />
+                {`${item.extras.credits} Sessions`}
+              </p>
+            </div>
+          </div>
+          <div className="item-wrapper__icon">
+            <OptionSolidIcon />
+          </div>
+        </li>
+      ))}
+    </List>
   )
 }

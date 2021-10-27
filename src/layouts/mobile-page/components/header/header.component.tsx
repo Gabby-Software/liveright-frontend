@@ -47,7 +47,7 @@ export default function Header({
                   avatarOnly
                 />
               )}
-              <h5 className="mobile-page-header__title">LiveRight</h5>
+              <h5 className="mobile-page-header__title">CoachRight</h5>
             </>
           )}
         </div>
