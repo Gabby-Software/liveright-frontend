@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { colors } from '../../../../assets/styles/_variables'
 import Button from '../../../../components/buttons/button/button.component'
 import LineChart from '../../../../components/charts/line-chart/line-chart.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
@@ -24,11 +26,14 @@ const LABELS: string[] = ['financials:From', 'profile:Actual', 'profile:Target']
 
 export const DashboardRevenue = () => {
   const { t } = useTranslation()
-  const { chart, onRange, range } = useStatistic()
+  const { chart, onRange, range } = useStatistic({
+    range: statisticRange.YEAR
+  })
+  const [showTarget, setShowTarget] = useState(false)
   const { monthlyRevenue, monthlyTarget, tableData } = useFinancialOverview()
   const isMobile = useIsMobile()
 
-  const chartData = formatChartData(chart, range)
+  const chartData = formatChartData(chart, range, monthlyTarget, showTarget)
   const revenues = tableData.filter((item) => item.type)
 
   return (
@@ -58,7 +63,10 @@ export const DashboardRevenue = () => {
       <div className="dashboard-revenue">
         <div className="dashboard-revenue__checkbox">
           <label className="dashboard-revenue__checkbox-label">
-            <Checkbox />
+            <Checkbox
+              value={showTarget}
+              onChange={() => setShowTarget(!showTarget)}
+            />
             Show Target
           </label>
         </div>
@@ -67,7 +75,7 @@ export const DashboardRevenue = () => {
             id="financials-overview-period"
             options={statisticRangeOptions}
             onChange={onRange}
-            defaultValue={statisticRange.WEEK}
+            defaultValue={range}
           />
         </div>
       </div>
@@ -75,7 +83,8 @@ export const DashboardRevenue = () => {
         height={isMobile ? 210 : 300}
         data={chartData}
         xDataKey="date"
-        dataKeys={['value']}
+        dataKeys={showTarget ? ['value', 'target'] : ['value']}
+        dataStroke={[colors.green_80, colors.yellow_80]}
       />
       <TableWrapper labels={LABELS} keys={KEYS} data={revenues} />
     </Styles>
