@@ -63,12 +63,12 @@ export const PLink = styled(Link)`
 export const PExtLink = styled.a`
   font-size: 20px;
   font-weight: 700;
-  color: ${(p) => p.theme.vars.colors.primary};
+  color: ${(p) => p.theme.vars.colors.primary_v2};
   text-decoration: none;
   display: flex;
   align-items: center;
   &:hover {
-    color: ${(p) => p.theme.vars.colors.primary};
+    color: ${(p) => p.theme.vars.colors.primary_v2};
   }
   svg {
     margin-right: 12px;

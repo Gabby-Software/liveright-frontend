@@ -30,7 +30,7 @@ export default styled.div`
       counter-reset: create-section;
     }
     &__action {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       font-weight: 500;
       margin: 0 0 24px 0;
     }

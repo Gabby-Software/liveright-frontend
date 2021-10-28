@@ -66,11 +66,11 @@ export default styled(WhiteCard)<any>`
       }
 
       &:hover {
-        color: ${getColorCarry('blue_70')};
+        color: ${getColorCarry('link')};
       }
 
       &__active {
-        color: ${getColorCarry('blue_70')};
+        color: ${getColorCarry('link')};
         font-weight: 700;
       }
 
@@ -92,7 +92,7 @@ export default styled(WhiteCard)<any>`
       display: ${(props) => (props.$indicator ? 'block' : 'none')};
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: absolute;
-      background-color: ${getColorCarry('blue_70')};
+      background-color: ${getColorCarry('link')};
       height: 2px;
       width: calc(var(--w));
       left: calc(var(--l));

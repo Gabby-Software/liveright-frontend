@@ -38,7 +38,7 @@ export default styled.div<{ row?: boolean }>`
     height: 75px;
 
     span:nth-child(2) {
-      color: ${({ theme }) => theme.vars.colors.primary};
+      color: ${({ theme }) => theme.vars.colors.primary_v2};
     }
   }
 

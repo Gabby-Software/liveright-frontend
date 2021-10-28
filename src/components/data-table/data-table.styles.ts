@@ -63,7 +63,7 @@ export default styled.table<{
       color: ${getColorCarry('primaryDark_v2')};
 
       .clients__name {
-        color: ${getColorCarry('blue_70')};
+        color: ${getColorCarry('link')};
         font-size: 0.875rem;
         font-weight: normal;
         line-height: 1.25rem;

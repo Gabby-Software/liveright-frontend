@@ -24,7 +24,7 @@ export const Styles = styled.div`
       padding: 0;
       background: transparent;
       font-size: 18px;
-      color: ${getColorCarry('blue_70')};
+      color: ${getColorCarry('link')};
       cursor: pointer;
     }
 

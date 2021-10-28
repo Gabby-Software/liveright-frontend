@@ -91,9 +91,9 @@ export const DesktopStyles = styled.div`
   }
   .select_input__error {
     .ant-select {
-      border-color: ${(p) => p.theme.vars.colors.primary};
+      border-color: ${(p) => p.theme.vars.colors.primary_v2};
       svg {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
       }
     }
   }
