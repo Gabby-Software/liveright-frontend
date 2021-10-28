@@ -13,7 +13,7 @@ export const HeaderV2 = styled.header`
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       color: white;
       font-size: 12px;
       font-weight: 500;
@@ -39,7 +39,7 @@ export const HeaderV2 = styled.header`
         width: 38px;
         height: 38px;
         border-radius: 50%;
-        background-color: ${(p) => p.theme.vars.colors.primary};
+        background-color: ${(p) => p.theme.vars.colors.primary_v2};
         color: white;
         font-size: 12px;
         font-weight: 500;
@@ -53,7 +53,7 @@ export const HeaderV2 = styled.header`
         margin-right: 24px;
       }
       &__active {
-        // color: ${(p) => p.theme.vars.colors.primary};
+        // color: ${(p) => p.theme.vars.colors.primary_v2};
       }
       &__first:not(:last-child) {
         order: -1;
@@ -89,7 +89,7 @@ export default styled.header`
       width: 32px;
       height: 32px;
       border-radius: 40%;
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       color: white;
       font-size: 12px;
       font-weight: 500;
@@ -119,7 +119,7 @@ export default styled.header`
         width: 32px;
         height: 32px;
         border-radius: 40%;
-        background-color: ${(p) => p.theme.vars.colors.primary};
+        background-color: ${(p) => p.theme.vars.colors.primary_v2};
         color: white;
         font-size: 12px;
         font-weight: 500;
@@ -133,7 +133,7 @@ export default styled.header`
         margin-right: 34px;
       }
       &__active {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
       }
       svg {
         height: 24px;

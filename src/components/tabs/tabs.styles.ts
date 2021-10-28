@@ -23,7 +23,7 @@ export const Styles = styled(Tabs)<any>`
     line-height: 1.125rem;
 
     &:hover {
-      color: ${getColorCarry('blue_70')};
+      color: ${getColorCarry('link')};
     }
     svg {
       width: 24px;
@@ -35,7 +35,7 @@ export const Styles = styled(Tabs)<any>`
   & .ant-tabs-tab-active .ant-tabs-tab-btn {
     text-shadow: none;
     font-weight: 700;
-    color: ${getColorCarry('blue_70')};
+    color: ${getColorCarry('link')};
   }
 
   & .ant-tabs-tab-btn {
@@ -43,7 +43,14 @@ export const Styles = styled(Tabs)<any>`
   }
 
   & .ant-tabs-ink-bar {
-    background-color: ${getColorCarry('blue_70')};
+    background-color: ${getColorCarry('link')};
+  }
+
+  & .ant-tabs-tab-btn:focus,
+  & .ant-tabs-tab-remove:focus,
+  & .ant-tabs-tab-btn:active,
+  & .ant-tabs-tab-remove:active {
+    color: ${getColorCarry('link')};
   }
 
   @media ${mediaQueries.TABLET} {

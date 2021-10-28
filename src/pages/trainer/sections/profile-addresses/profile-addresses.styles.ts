@@ -6,7 +6,7 @@ export default styled.div`
   }
   .profile-addr {
     &__add {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       font-size: 10px;
       font-weight: 500;
       text-decoration: underline;

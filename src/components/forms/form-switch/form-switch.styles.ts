@@ -13,7 +13,7 @@ export default styled.div`
       border-radius: ${(p) => p.theme.vars.sizes.borderRadius};
     }
     &__activon {
-      background-color: ${(props) => props.theme.vars.colors.primary};
+      background-color: ${(props) => props.theme.vars.colors.primary_v2};
       position: absolute;
       border-radius: ${(p) => p.theme.vars.sizes.borderRadius};
       top: 0;

@@ -20,7 +20,7 @@ export default styled.div`
       transition: ${(p) => p.theme.vars.defaults.transition};
       margin: 0 15px;
       &__active {
-        background-color: ${(p) => p.theme.vars.colors.primary};
+        background-color: ${(p) => p.theme.vars.colors.primary_v2};
       }
     }
     &__step {

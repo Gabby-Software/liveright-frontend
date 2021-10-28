@@ -9,7 +9,7 @@ export default styled.div`
   }
   .add-invoice {
     &__action {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       font-weight: 500;
       margin: 0 0 24px 0;
     }

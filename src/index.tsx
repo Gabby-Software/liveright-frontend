@@ -6,11 +6,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
 import { SWRConfig } from 'swr'
 
 import App from './App'
-import theme from './assets/styles'
+import ThemeProvider from './components/theme-provider/theme-provider.component'
 import { ChatsProvider } from './modules/chat/contexts/chats.context'
 import { I18nProvider } from './modules/i18n/i18n.context'
 import reportWebVitals from './reportWebVitals'
@@ -29,7 +28,7 @@ ReactDOM.render(
     <SWRConfig value={swrConfig}>
       <Provider store={store}>
         <I18nProvider>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider>
             <BrowserRouter>
               <ChatsProvider>
                 <App />

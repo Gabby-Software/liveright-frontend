@@ -24,7 +24,7 @@ export default styled.form`
       border-radius: 8px;
     }
     &__mic {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       width: 24px;
       height: 24px;
       margin-right: 16px;

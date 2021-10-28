@@ -24,7 +24,7 @@ const vars = {
     white: '#FFFFFF',
 
     // V2
-    primary_v2: '#EF1733',
+    primary_v2: '#3FC9AD',
     background_v2: '#F1F4F7',
     primaryDark_v2: '#2E2F31',
     primaryDark2_v2: '#404040',
@@ -38,7 +38,7 @@ const vars = {
     secondary7_v2: '#A7B8D2',
     secondary8_v2: '#D0D9E8',
     inputBorder_v2: '#E0E0E0',
-    link: '#2E81ED',
+    link: '#E49A0A',
     link_lighten: '#82B8FA',
     link_darken: '#2871d0',
     link_bg: '#EBF4FF',
@@ -104,6 +104,16 @@ const vars = {
   }
 }
 
+export const clientVars = {
+  ...vars,
+  colors: {
+    ...vars.colors,
+    primary_v2: '#EF1733',
+    link: '#2E81ED'
+  }
+}
+
 export const colors = vars.colors
 export type VarsType = typeof vars
+
 export default vars

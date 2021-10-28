@@ -20,7 +20,7 @@ export default styled.div`
       color: ${(p) => p.theme.vars.colors.primaryDark};
       margin-bottom: 24px;
       span {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
       }
     }
   }
