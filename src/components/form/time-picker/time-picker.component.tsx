@@ -19,9 +19,10 @@ interface TimePickerProps {
   onChange?: (date: Moment | null, dateStr: string) => void
   name?: string
   error?: string
+  format?: string
 }
 
-const format = 'H:mm'
+const FORMAT = 'H:mm'
 
 export default function TimePicker({
   id,
@@ -32,7 +33,8 @@ export default function TimePicker({
   onChange,
   disabledUntilNow,
   name,
-  error
+  error,
+  format
 }: TimePickerProps) {
   return (
     <Styles className={className}>
@@ -42,7 +44,7 @@ export default function TimePicker({
         disabled={disabled}
         value={value ? moment(value, format) : null}
         onChange={onChange}
-        format={format}
+        format={format || FORMAT}
         disabledHours={() => {
           return getDisabledHours(disabledUntilNow || false)
         }}

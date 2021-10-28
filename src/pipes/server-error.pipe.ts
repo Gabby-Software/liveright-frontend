@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function */
 import { AxiosError } from 'axios'
 
 import logger from '../managers/logger.manager'

@@ -20,9 +20,13 @@ import ClientSelect from '../../../components/form/client-select/client-select.c
 import DatePicker from '../../../components/form/date-picker/date-picker.component'
 import Select from '../../../components/form/select/select.component'
 import Textarea from '../../../components/form/textarea/textarea.component'
-import { paymentMethodsOptions } from '../../../enums/payment-method.enum'
+import {
+  paymentMethods,
+  paymentMethodsOptions
+} from '../../../enums/payment-method.enum'
 import { Routes } from '../../../enums/routes.enum'
 import useClients from '../../../hooks/api/clients/useClients'
+import usePaymentAccount from '../../../hooks/api/payments/usePaymentAccount'
 import { handleError } from '../../../managers/api.manager'
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import { invoices } from '../../../pipes/payments.pipe'
@@ -49,6 +53,7 @@ const CreateInvoiceDesktop = ({}: Props) => {
   const { meta } = useSelector((state: RootState) => state.invoices)
   const location = useLocation()
   const history = useHistory()
+  const { isAccountCompleted } = usePaymentAccount()
 
   const initialFormValues = useMemo(() => {
     const params = new URLSearchParams(location.search)
@@ -188,7 +193,14 @@ const CreateInvoiceDesktop = ({}: Props) => {
                         id="invoice-pm"
                         label={t('invoices:preferred-pm')}
                         name={'invoice.payment_method'}
-                        options={paymentMethodsOptions}
+                        tooltip="If you want to have your invoices paid via credit card – you must associate stripe connect"
+                        options={
+                          isAccountCompleted
+                            ? paymentMethodsOptions
+                            : paymentMethodsOptions.filter(
+                                (o) => o.value !== paymentMethods.CREDIT_CARD
+                              )
+                        }
                         onChange={(e) =>
                           formik.setFieldValue('invoice.payment_method', e)
                         }
