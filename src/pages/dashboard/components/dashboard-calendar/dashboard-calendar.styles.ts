@@ -84,5 +84,5 @@ export const Styles = styled(Card)`
         }
       }
     }
-
+  }
 `
