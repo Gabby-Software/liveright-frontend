@@ -45,7 +45,11 @@ const FinancialsOverview = ({}: Props) => {
     <Styles>
       {<div className="f-overview__cards">{cards}</div>}
       <OverviewTable data={tableData} onUpdateGoals={onUpdateGoals} />
-      <FinancialsOverviewGraph onRange={onRange} chartData={chartData} />
+      <FinancialsOverviewGraph
+        onRange={onRange}
+        range={range}
+        chartData={chartData}
+      />
       <div className="divider"></div>
       <GoalsSuggestions />
       {isMobile && (

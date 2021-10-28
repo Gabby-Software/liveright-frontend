@@ -76,6 +76,7 @@ export const DashboardRevenue = () => {
         data={chartData}
         xDataKey="date"
         dataKeys={['value']}
+        range={range}
       />
       <TableWrapper labels={LABELS} keys={KEYS} data={revenues} />
     </Styles>

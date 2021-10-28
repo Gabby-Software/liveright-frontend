@@ -4,6 +4,7 @@ import { mediaQueries } from '../../enums/screen-sizes.enum'
 
 export default styled.div`
   @media ${mediaQueries.MOBILE} {
+    margin-bottom: -100px;
     position: relative;
     top: -85px;
   }
@@ -19,6 +20,7 @@ export const ContainerGrid = styled.div`
 
   @media ${mediaQueries.MOBILE} {
     display: block;
+    padding-bottom: 0;
   }
 `
 export const Container = styled.div`

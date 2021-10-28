@@ -77,10 +77,8 @@ export const Styles = styled.div`
   .dashboard-revenue__cards {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 18px;
     margin-bottom: 30px;
-    max-height: 126px;
 
     @media ${mediaQueries.MOBILE} {
       display: block;
@@ -159,5 +157,8 @@ export const Styles = styled.div`
         width: 300px;
       }
     }
+  }
+  & .no-data {
+    margin-bottom: 50px;
   }
 `

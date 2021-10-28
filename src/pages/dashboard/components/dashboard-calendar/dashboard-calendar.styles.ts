@@ -1,10 +1,16 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
   grid-area: 1 / 1 / 2 / 2;
+
+  @media ${mediaQueries.MOBILE} {
+    margin-bottom: 24px;
+  }
+
   .dashboard-calendar {
     &__btn {
       font-weight: 400;

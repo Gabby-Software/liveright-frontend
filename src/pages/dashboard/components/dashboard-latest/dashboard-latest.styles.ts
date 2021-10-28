@@ -11,8 +11,12 @@ export const Styles = styled.div`
   box-shadow: ${getShadow('secondary')};
   border-radius: 10px;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
   @media ${mediaQueries.MOBILE} {
     padding: 24px 20px;
+    width: 334px;
+    height: 524px;
     margin-bottom: 24px;
   }
 
@@ -130,5 +134,8 @@ export const Styles = styled.div`
         }
       }
     }
+  }
+  button {
+    margin-top: auto;
   }
 `
