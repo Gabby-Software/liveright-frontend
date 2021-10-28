@@ -1,6 +1,6 @@
 import extend from './_extends'
 import mixin from './_mixins'
-import vars from './_variables'
+import vars, { clientVars } from './_variables'
 
-const theme = { vars, mixin, extend }
-export default theme
+export const theme = { vars, mixin, extend }
+export const clientTheme = { vars: clientVars, mixin, extend }

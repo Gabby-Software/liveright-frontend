@@ -104,6 +104,16 @@ const vars = {
   }
 }
 
+export const clientVars = {
+  ...vars,
+  colors: {
+    ...vars.colors,
+    primary_v2: '#EF1733',
+    link: '#2E81ED'
+  }
+}
+
 export const colors = vars.colors
 export type VarsType = typeof vars
+
 export default vars
