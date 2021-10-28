@@ -5,7 +5,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.ul`
   display: flex;
-  gap: 40px;
+  gap: 20px;
   padding: 0;
   margin-bottom: 38px;
 
