@@ -1,13 +1,15 @@
 import React, { ReactElement, useMemo } from 'react'
 
-import { EditIcon } from '../../../../../../assets/media/icons'
 import DataTable from '../../../../../../components/data-table/data-table.component'
-import EditableLabel from '../../../../../../components/form/editableLabel/editableLabel.component'
 import {
   EmptyPlaceholder,
   LoadingPlaceholder
 } from '../../../../../../components/placeholders'
 import { FinancialsSummaryType } from '../../../../../../types/financials'
+import {
+  getNewSalesNeeded,
+  renderTargetIncome
+} from '../../financials-overview.utils'
 import Styles from './financials-overview-table.styles'
 
 interface Props {
@@ -50,44 +52,6 @@ const OverviewTable = (props: Props) => {
 
   const totals = data?.[data.length - 1]
 
-  const renderTargetIncome = (
-    revenue: string,
-    type: string,
-    targetIncome: number,
-    projectedIncome: number
-  ) => (
-    <EditableLabel
-      label={Math.ceil(targetIncome).toString()}
-      renderValue={
-        <div>
-          <span
-            className={
-              (revenue !== 'Total' &&
-                (targetIncome > projectedIncome ? 'red' : 'green')) ||
-              ''
-            }
-          >
-            {Math.ceil(targetIncome)} AED
-          </span>
-          <EditIcon className="edit-icon" />
-        </div>
-      }
-      onSave={(value: any) => {
-        type && onUpdateGoals(value, type)
-      }}
-      renderCheckBtn
-    />
-  )
-
-  const getNewSalesNeeded = (
-    targetIncome: number,
-    projectedIncome: number,
-    avgRate: number
-  ) =>
-    avgRate && targetIncome > projectedIncome
-      ? Math.ceil((targetIncome - projectedIncome) / avgRate)
-      : '-'
-
   return (
     <Styles>
       <DataTable
@@ -109,7 +73,13 @@ const OverviewTable = (props: Props) => {
             targetIncome,
             projectedIncome
           }: FinancialsSummaryType) =>
-            renderTargetIncome(revenue, type, targetIncome, projectedIncome),
+            renderTargetIncome(
+              revenue,
+              type,
+              targetIncome,
+              projectedIncome,
+              onUpdateGoals
+            ),
           newSales: ({
             targetIncome,
             projectedIncome,
