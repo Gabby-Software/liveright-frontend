@@ -42,6 +42,9 @@ export const Table = styled.div`
           text-align: center;
         }
       }
+      .data-table__td a {
+        color: ${getColorCarry('link')};
+      }
 
       td {
         padding: 15px 20px 15px 20px;
