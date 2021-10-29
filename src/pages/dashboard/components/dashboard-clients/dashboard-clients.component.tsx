@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 
 import {
   GroupDashboardIcon,
-  SearchIcon,
   OptionSolidIcon,
+  PhoneSolidIcon,
   ProfileCheckTrainerIcon,
-  PhoneSolidIcon
+  SearchIcon
 } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Input from '../../../../components/form/input/input.component'
