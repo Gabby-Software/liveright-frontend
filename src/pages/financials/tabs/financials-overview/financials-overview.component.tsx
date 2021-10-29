@@ -50,7 +50,11 @@ const FinancialsOverview = ({}: Props) => {
       ) : (
         <OverviewTable data={tableData} onUpdateGoals={onUpdateGoals} />
       )}
-      <FinancialsOverviewGraph onRange={onRange} chartData={chartData} />
+      <FinancialsOverviewGraph
+        onRange={onRange}
+        range={range}
+        chartData={chartData}
+      />
       {isMobile && (
         <Button variant="secondary" className="f-overview__view-btn">
           {t('financials:view-graph')}

@@ -86,8 +86,8 @@ function TableLink({ data }: { data: any }) {
 }
 
 function TableTarget({
-  targetIncome,
-  projectedIncome
+  targetIncome = 0,
+  projectedIncome = 0
 }: {
   targetIncome: number
   projectedIncome: number

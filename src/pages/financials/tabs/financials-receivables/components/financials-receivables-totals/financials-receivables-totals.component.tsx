@@ -31,12 +31,16 @@ const FinancialsReceivablesTotals = ({ countData, data, target }: Props) => {
       />
       <FinancialsReceivablesTotal
         label="Left to Target"
-        note={
-          target > data.total
-            ? `off ${asMoney(Math.ceil(target - data.total))}`
-            : '-'
+        // note={
+        //   target > data.total
+        //     ? `off ${asMoney(Math.ceil(target - data.total))}`
+        //     : '-'
+        // }
+        note={`off ${asMoney(Math.ceil(target))}`}
+        // value={asMoney(Math.ceil(target))}
+        value={
+          target > data.total ? asMoney(Math.ceil(target - data.total)) : '-'
         }
-        value={asMoney(Math.ceil(target))}
       />
     </Styles>
   )

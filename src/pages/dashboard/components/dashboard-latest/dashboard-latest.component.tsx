@@ -71,7 +71,7 @@ const List = ({ notifications }: ListProps) => {
 
   return (
     <ul className="list">
-      {notifications.slice(0, 5).map((item) => (
+      {notifications.slice(0, 4).map((item) => (
         <ListItem notification={item} key={item.id} />
       ))}
     </ul>

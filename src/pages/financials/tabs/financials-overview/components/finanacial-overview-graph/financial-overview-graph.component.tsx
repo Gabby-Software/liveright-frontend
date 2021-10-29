@@ -13,9 +13,10 @@ import Styles from './financial-overview-graph.style'
 interface IProps {
   onRange: (range: string) => void
   chartData: any[]
+  range: string
 }
 
-const FinancialsOverviewGraph = ({ onRange, chartData }: IProps) => {
+const FinancialsOverviewGraph = ({ onRange, chartData, range }: IProps) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
 
@@ -38,6 +39,7 @@ const FinancialsOverviewGraph = ({ onRange, chartData }: IProps) => {
           data={chartData}
           xDataKey="date"
           dataKeys={['value']}
+          range={range}
         />
       </div>
     </Styles>
