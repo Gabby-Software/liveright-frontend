@@ -116,10 +116,27 @@ const FORMATS: Record<string, any> = {
 
 export function formatChartData(
   data: Record<string, number>,
-  range: string
+  range: string,
+  targetValue: number,
+  hasTarget: boolean
 ): any[] {
+  const target = getTargetValue(targetValue, range)
   return Object.keys(data).map((key) => ({
     value: data[key],
+    target: hasTarget ? target : undefined,
     date: moment(key, DATE_FORMAT).format(FORMATS[RANGE_FREQ[range]])
   }))
+}
+
+function getTargetValue(value: number, range: string) {
+  switch (range) {
+    case 'week':
+      return value / 4
+    case 'month':
+      return value
+    case 'year':
+      return value * 12
+    default:
+      return value
+  }
 }

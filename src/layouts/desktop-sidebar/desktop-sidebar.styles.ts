@@ -22,7 +22,6 @@ export const ClientsStyles = styled.aside`
   &::-webkit-scrollbar {
     display: none;
   }
-}
 
   @media only print {
     display: none;
@@ -32,7 +31,7 @@ export const ClientsStyles = styled.aside`
     &__trainer {
       margin-bottom: 2rem;
     }
-    
+
     &__logo {
       display: flex;
       justify-content: center;
@@ -98,8 +97,11 @@ export const ClientsStyles = styled.aside`
         color: #fff;
       }
     }
+  }
 `
 export const TrainerStyles = styled.aside`
+  background: linear-gradient(#196a73, #00363c);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -119,7 +121,6 @@ export const TrainerStyles = styled.aside`
   &::-webkit-scrollbar {
     display: none;
   }
-}
 
   @media only print {
     display: none;
@@ -129,7 +130,7 @@ export const TrainerStyles = styled.aside`
     &__trainer {
       margin-bottom: 2rem;
     }
-    
+
     &__logo {
       display: flex;
       justify-content: center;
@@ -169,7 +170,6 @@ export const TrainerStyles = styled.aside`
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: relative;
 
-
       &-icon__wrapper {
         width: 42px;
         height: 42px;
@@ -179,39 +179,37 @@ export const TrainerStyles = styled.aside`
         margin-right: 0.5rem;
 
         svg {
-        width: 22px;
-        height: 22px;
-        fill:rgba(255, 255, 255, 0.7);
-      }
+          width: 22px;
+          height: 22px;
+          fill: rgba(255, 255, 255, 0.7);
+        }
       }
 
       &_active {
-          font-weight: 700;
-          color: #fff;
-        .sidebar__item-icon__wrapper{
-          background: #3FC9AD;
+        font-weight: 700;
+        color: #fff;
+        .sidebar__item-icon__wrapper {
+          background: #3fc9ad;
           border-radius: 10px;
         }
-        & svg{
+        & svg {
           fill: #fff;
         }
       }
 
       &:hover {
-        .sidebar__item-icon__wrapper{
-          background: #3FC9AD;
+        .sidebar__item-icon__wrapper {
+          background: #3fc9ad;
           border-radius: 10px;
         }
         font-weight: 700;
         color: #fff;
         .sidebar__item-icon__wrapper {
-        svg {
-        fill:#fff;
-         }
+          svg {
+            fill: #fff;
+          }
         }
       }
     }
-`
-export const Container = styled.div`
-  background: linear-gradient(#196a73, #00363c);
+  }
 `

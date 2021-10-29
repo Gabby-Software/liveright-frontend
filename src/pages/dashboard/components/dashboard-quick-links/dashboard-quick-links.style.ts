@@ -38,8 +38,8 @@ export const LinkItem = styled.li`
 
   .link {
     display: block;
-    padding-top: 28px;
-    padding-bottom: 31px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     @media ${mediaQueries.MOBILE} {
       padding: 0;
     }
@@ -109,6 +109,14 @@ export const LinkItem = styled.li`
 
       .icon svg path {
         stroke: #ffffff;
+      }
+    }
+
+    &:last-child {
+      .link .li-icon-wrapper {
+        .icon svg path {
+          fill: #ffffff;
+        }
       }
     }
   }

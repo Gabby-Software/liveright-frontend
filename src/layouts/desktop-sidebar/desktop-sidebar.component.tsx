@@ -38,11 +38,7 @@ import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { classes } from '../../pipes/classes.pipe'
 import DesktopFooter from '../desktop-footer/desktop-footer.component'
-import {
-  ClientsStyles,
-  Container,
-  TrainerStyles
-} from './desktop-sidebar.styles'
+import { ClientsStyles, TrainerStyles } from './desktop-sidebar.styles'
 
 type MenuItemType = {
   name: string
@@ -226,7 +222,7 @@ function TrainerDesktopSidebar({ isOpen }: { isOpen: boolean }) {
   const { type } = useAuth()
   const { pathname } = useLocation()
   return (
-    <Container>
+    <>
       <TrainerStyles className={classes('sidebar', isOpen && 'sidebar__open')}>
         <div>
           <div className="sidebar__logo">
@@ -269,6 +265,6 @@ function TrainerDesktopSidebar({ isOpen }: { isOpen: boolean }) {
         </div>
       </TrainerStyles>
       <DesktopFooter />
-    </Container>
+    </>
   )
 }

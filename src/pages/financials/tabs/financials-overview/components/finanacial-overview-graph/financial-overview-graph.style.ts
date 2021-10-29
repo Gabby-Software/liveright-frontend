@@ -41,6 +41,31 @@ export default styled(Card)`
         flex-direction: row;
         justify-content: space-between;
 
+        &-wrapper {
+          display: flex;
+          align-items: center;
+
+          .f-overview__graph__checkbox {
+              display: flex;
+              align-items: center;
+              margin-left: 76px;
+               @media ${mediaQueries.MOBILE} {
+                  margin-left:15px;
+                }
+              &-label {
+              font-family: Circular Std;
+              font-size: 14px;
+              line-height: 20px;
+              color: #2e2f31;
+              white-space: nowrap;
+              
+              label {
+                margin-right: 14px;
+              }
+              }
+            }
+          }
+        }
         h2 {
           font-size: 1.125rem;
           font-weight: 700;
