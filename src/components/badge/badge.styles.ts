@@ -12,7 +12,7 @@ export default styled.div`
   cursor: pointer;
   &.badge {
     &__primary {
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       color: white;
       border-color: white;
     }

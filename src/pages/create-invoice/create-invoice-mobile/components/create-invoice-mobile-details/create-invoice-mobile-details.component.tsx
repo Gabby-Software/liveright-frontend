@@ -7,7 +7,11 @@ import Card from '../../../../../components/cards/card/card.component'
 import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
 import Select from '../../../../../components/form/select/select.component'
 import FormRow from '../../../../../components/forms/form-row/form-row.component'
-import { paymentMethodsOptions } from '../../../../../enums/payment-method.enum'
+import {
+  paymentMethods,
+  paymentMethodsOptions
+} from '../../../../../enums/payment-method.enum'
+import usePaymentAccount from '../../../../../hooks/api/payments/usePaymentAccount'
 import CreateInvoiceSection from '../../../components/create-invoice-section/create-invoice-section.component'
 import { useInvoiceForm } from '../../../create-invoice.context'
 import {
@@ -22,6 +26,7 @@ type Props = {}
 
 const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
   const { values, setValues, setStep } = useInvoiceForm()
+  const { isAccountCompleted } = usePaymentAccount()
 
   const handleSubmit = (
     formValues: InvoiceFormType,
@@ -82,7 +87,14 @@ const CreateInvoiceMobileDetails: FC<Props> = ({}) => {
                     className="add-invoice__form-item"
                     label={'Payment Method'}
                     name={'invoice.payment_method'}
-                    options={paymentMethodsOptions}
+                    options={
+                      isAccountCompleted
+                        ? paymentMethodsOptions
+                        : paymentMethodsOptions.filter(
+                            (o) => o.value !== paymentMethods.CREDIT_CARD
+                          )
+                    }
+                    tooltip="If you want to have your invoices paid via credit card – you must associate stripe connect"
                     value={values.invoice.payment_method}
                     onChange={(e) => setFieldValue('invoice.payment_method', e)}
                   />

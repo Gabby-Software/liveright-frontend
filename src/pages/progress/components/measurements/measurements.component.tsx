@@ -112,10 +112,10 @@ export default function Measurements() {
       }
     })
 
-  const logTo = (date?: string) =>
+  const logTo = (logId?: string) =>
     isClient(auth.type)
-      ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, { date })
-      : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id, date })
+      ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, { logId })
+      : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id, logId })
 
   const keys = getKeys(activeTab)
 
@@ -157,7 +157,7 @@ export default function Measurements() {
                 render={{
                   ...VALUE_GETTER,
                   date: (data) => (
-                    <Link to={logTo(data.date)}>
+                    <Link to={logTo(data.id)}>
                       <span className="measurements__table-edit">
                         {data.date || '-'}
                         <EditIcon />

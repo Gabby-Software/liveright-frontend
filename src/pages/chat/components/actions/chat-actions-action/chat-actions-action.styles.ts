@@ -5,7 +5,7 @@ import { darken } from '../../../../../assets/styles/_media'
 export default styled.div`
   background-color: ${(p) =>
     p.color === 'primary'
-      ? p.theme.vars.colors.primary
+      ? p.theme.vars.colors.primary_v2
       : p.theme.vars.colors.background_v2};
   color: ${(p) =>
     p.color === 'primary' ? 'white' : p.theme.vars.colors.dark_v2};
@@ -33,7 +33,7 @@ export default styled.div`
       &:hover {
         background-color: ${(p) =>
           p.color === 'primary'
-            ? p.theme.vars.colors.primary
+            ? p.theme.vars.colors.primary_v2
             : p.theme.vars.colors.background_v2};
       }
       svg {

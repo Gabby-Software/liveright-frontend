@@ -1,18 +1,18 @@
 import moment from 'moment'
 import { HeaderProps, ToolbarProps, View } from 'react-big-calendar'
 
-import { CaretLeftIcon, SearchIcon } from '../../assets/media/icons'
+import { CaretLeftIcon } from '../../assets/media/icons'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
 import { getEventTitle } from '../../utils/api/calendar'
 import { TIME_FORMAT, TIME_RENDER_FORMAT } from '../../utils/date'
 import IconButton from '../buttons/icon-button/icon-button.component'
 import Ellipsis from '../ellipsis/ellipsis.component'
-import Input from '../form/input/input.component'
 import Tabs from '../tabs/tabs.component'
 import {
   DateCellWrapperStyles,
   ToolbarMobileStyles,
   ToolbarNav,
+  ToolbarSecondaryStyles,
   ToolbarStyles,
   WeekHeaderStyles
 } from './calendar.styles'
@@ -93,15 +93,37 @@ export function Toolbar({
       />
 
       <div className="calendar-toolbar__cell">{nav}</div>
-
-      <Input
-        id="calendar-search"
-        size="sm"
-        suffix={<SearchIcon />}
-        placeholder="What are you looking for?"
-        className="calendar-toolbar__search"
-      />
     </ToolbarStyles>
+  )
+}
+
+export function ToolbarSecondary({ label, date, onNavigate }: ToolbarProps) {
+  const isToday = moment(date).isSame(moment(), 'days')
+  return (
+    <ToolbarSecondaryStyles>
+      <p className="toolbar-secondary__title">
+        {isToday && <span>Today, </span>}
+        {label}
+      </p>
+
+      <div className="toolbar-secondary__buttons">
+        <IconButton
+          size="sm"
+          className="toolbar-secondary__next"
+          onClick={() => onNavigate('PREV')}
+        >
+          <CaretLeftIcon />
+        </IconButton>
+
+        <IconButton
+          size="sm"
+          className="toolbar-secondary__prev"
+          onClick={() => onNavigate('NEXT')}
+        >
+          <CaretLeftIcon />
+        </IconButton>
+      </div>
+    </ToolbarSecondaryStyles>
   )
 }
 

@@ -21,6 +21,7 @@ interface UsePaymentAccount {
   isCreateLinkLoading: boolean
   isDashboardLinkLoading: boolean
   isUnlinkStripeLoading: boolean
+  isAccountCompleted: boolean
 }
 
 export default function usePaymentAccount(): UsePaymentAccount {
@@ -89,6 +90,8 @@ export default function usePaymentAccount(): UsePaymentAccount {
   const account = data || {}
   const isLoading = !data && !error
 
+  const isAccountCompleted = account.id && account.details_submitted
+
   return {
     account,
     isLoading,
@@ -99,6 +102,7 @@ export default function usePaymentAccount(): UsePaymentAccount {
     isCreateLinkLoading,
     isCreateAccountLoading,
     isDashboardLinkLoading,
-    isUnlinkStripeLoading
+    isUnlinkStripeLoading,
+    isAccountCompleted
   }
 }

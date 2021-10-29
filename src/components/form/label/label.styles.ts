@@ -13,6 +13,10 @@ export default styled.label`
 
   & svg {
     margin-right: 0.5rem;
+
+    &:last-child {
+      margin-left: 0.25rem;
+    }
   }
 
   & .ant-checkbox-wrapper {

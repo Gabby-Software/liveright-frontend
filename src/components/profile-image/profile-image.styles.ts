@@ -11,7 +11,7 @@ export default styled.div`
       height: 114px;
       font-size: 36px;
       font-weight: 600;
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       color: white;
       @media all and (max-width: ${(p) => p.theme.vars.media.tablet}px) {
         ${(p) => p.theme.mixin.circleImage('86px')}

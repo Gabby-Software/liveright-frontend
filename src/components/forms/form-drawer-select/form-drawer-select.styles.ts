@@ -22,8 +22,8 @@ export default styled.div`
         margin-right: 0;
       }
       &__active {
-        border: 1px solid ${(p) => p.theme.vars.colors.primary};
-        background-color: ${(p) => p.theme.vars.colors.primary};
+        border: 1px solid ${(p) => p.theme.vars.colors.primary_v2};
+        background-color: ${(p) => p.theme.vars.colors.primary_v2};
         color: white;
       }
     }

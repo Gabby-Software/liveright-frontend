@@ -47,6 +47,7 @@ export default function ComparePhotos() {
     columns: 'date',
     per_page: 0,
     filter: {
+      account_id: params.id,
       has_photos: true
     }
   })

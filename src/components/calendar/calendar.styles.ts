@@ -4,8 +4,9 @@ import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 import Card from '../cards/card/card.component'
 
-export const Styles = styled(Card)`
-  box-shadow: 0 0 40px rgba(230, 45, 71, 0.03);
+export const Styles = styled(Card)<any>`
+  box-shadow: ${(props) =>
+    props.$shadow ? '0 0 40px rgba(230, 45, 71, 0.03)' : ''};
   padding: 0;
 
   @media ${mediaQueries.TABLET} {
@@ -82,17 +83,30 @@ export const Styles = styled(Card)`
         width: 100%;
         display: grid;
         grid-template-columns:
-          minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
-          minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%);
+          minmax(14.285%, 14.285%) minmax(14.285%, 14.285%) minmax(
+            14.285%,
+            14.285%
+          )
+          minmax(14.285%, 14.285%) minmax(14.285%, 14.285%) minmax(
+            14.285%,
+            14.285%
+          )
+          minmax(14.285%, 14.285%);
       }
 
       & .rbc-row-content {
         & .rbc-row {
           display: grid;
           grid-template-columns:
-            minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
-            minmax(14.25%, 14.25%) minmax(14.25%, 14.25%) minmax(14.25%, 14.25%)
-            minmax(14.25%, 14.25%);
+            minmax(14.285%, 14.285%) minmax(14.285%, 14.285%) minmax(
+              14.285%,
+              14.285%
+            )
+            minmax(14.285%, 14.285%) minmax(14.285%, 14.285%) minmax(
+              14.285%,
+              14.285%
+            )
+            minmax(14.285%, 14.285%);
           height: 100%;
 
           & .rbc-date-cell {
@@ -148,6 +162,56 @@ export const Styles = styled(Card)`
 
       @media ${mediaQueries.TABLET} {
         grid-template-columns: 60px 1fr;
+      }
+
+      & .rbc-allday-cell {
+        position: relative;
+
+        & .rbc-row-bg {
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+          & .rbc-day-bg {
+            border-right: 1px solid ${getColorCarry('neutral_30')};
+
+            &:first-child {
+              border-left: 1px solid ${getColorCarry('neutral_30')};
+              margin-left: -1px;
+            }
+          }
+        }
+
+        & .rbc-row-content {
+          & .rbc-row {
+            display: flex;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+
+            & .rbc-event {
+              background-color: ${getColorCarry('blue_40')};
+              border-radius: 10px;
+              padding: 0.625rem 1.25rem;
+              font-size: 0.875rem;
+              font-weight: 500;
+              overflow: hidden;
+              color: #fff;
+              margin: 0 10px;
+
+              &.big-calendar__event-event {
+                height: auto !important;
+                background-color: ${getColorCarry('green_20')};
+              }
+            }
+          }
+        }
       }
 
       & .rbc-time-header-content {
@@ -253,6 +317,22 @@ export const Styles = styled(Card)`
         }
       }
 
+      &:last-child {
+        & .rbc-timeslot-group {
+          &:first-child {
+            &::after {
+              content: '';
+              position: absolute;
+              height: 20px;
+              width: 1px;
+              background-color: ${getColorCarry('neutral_30')};
+              top: -20px;
+              right: -1px;
+            }
+          }
+        }
+      }
+
       & .rbc-current-time-indicator {
         position: absolute;
         width: 100%;
@@ -277,6 +357,8 @@ export const Styles = styled(Card)`
           font-size: 0.875rem;
           font-weight: 500;
           overflow: hidden;
+          opacity: 0.75;
+          z-index: 2;
 
           @media ${mediaQueries.TABLET} {
             font-size: 0.5rem;
@@ -290,6 +372,12 @@ export const Styles = styled(Card)`
             display: -webkit-box;
             -moz-box-orient: vertical;
             -webkit-line-clamp: 1;
+          }
+
+          &.big-calendar__event-event {
+            height: auto !important;
+            background-color: ${getColorCarry('green_80')};
+            z-index: 1;
           }
         }
       }
@@ -388,13 +476,14 @@ export const ToolbarNav = styled.div`
 export const ToolbarStyles = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 60px;
   background-color: ${getColorCarry('neutral_10')};
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom: 1px solid ${getColorCarry('neutral_30')};
   padding: 0 1rem;
+  position: relative;
 
   .calendar-toolbar {
     &__label {
@@ -406,6 +495,8 @@ export const ToolbarStyles = styled.div`
 
     &__tabs {
       margin-left: -1rem;
+      position: absolute;
+      left: 0;
 
       &.ant-tabs {
         height: 100%;
@@ -442,6 +533,38 @@ export const ToolbarStyles = styled.div`
     }
 
     &__next {
+      & svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+`
+
+export const ToolbarSecondaryStyles = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid ${getColorCarry('neutral_30')};
+  margin-bottom: 1.25rem;
+
+  .toolbar-secondary {
+    &__title {
+      font-size: 0.875rem;
+      color: ${getColorCarry('secondary2_v2')};
+
+      & span {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: ${getColorCarry('primaryDark_v2')};
+      }
+    }
+
+    &__buttons {
+      display: flex;
+    }
+
+    &__prev {
       & svg {
         transform: rotate(180deg);
       }
