@@ -126,3 +126,4 @@ export { ReactComponent as NotificationDashboardIcon } from './notification-dash
 export { ReactComponent as GroupDashboardIcon } from './group-dashboard.svg'
 export { ReactComponent as CheckDashboardIcon } from './check-dashboard.svg'
 export { ReactComponent as DoubleCheckDashboardIcon } from './double-check-dashboard.svg'
+export { ReactComponent as SadEmojiIcon } from './frown.svg'

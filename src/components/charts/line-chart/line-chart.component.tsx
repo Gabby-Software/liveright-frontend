@@ -7,12 +7,30 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
+import styled from 'styled-components'
 
+import { SadEmojiIcon } from '../../../assets/media/icons'
 import { colors } from '../../../assets/styles/_variables'
+import { NoData } from '../../no-data/no-data.component'
+
+const BlankContainer = styled.div`
+  svg {
+    display: block;
+    margin: 0 auto;
+    stroke: #c2c2c2;
+    margin-bottom: 20px;
+  }
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    color: #5e5e5e;
+  }
+`
 
 interface LineChartProps {
   height?: number | string
   data: any[]
+  range?: string
   xDataKey: string
   dataKeys: string[]
   dataStroke?: string[]
@@ -29,6 +47,7 @@ interface LineChartProps {
 
 export default function LineChart({
   height = 300,
+  range,
   data,
   xDataKey,
   dataKeys,
@@ -40,6 +59,17 @@ export default function LineChart({
   yAxisId,
   secondaryY
 }: LineChartProps) {
+  if (data.length === 0) {
+    return (
+      <NoData height={height}>
+        <BlankContainer>
+          <SadEmojiIcon />
+          <p>{`No earnings this ${range || ''}`}</p>
+        </BlankContainer>
+      </NoData>
+    )
+  }
+
   return (
     <ResponsiveContainer width="100%" height={height}>
       <ReLineChart data={data} margin={{ top: 10, bottom: 10 }}>

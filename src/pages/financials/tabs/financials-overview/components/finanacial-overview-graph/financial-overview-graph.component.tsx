@@ -59,6 +59,7 @@ const FinancialsOverviewGraph = ({
           xDataKey="date"
           dataKeys={showTarget ? ['value', 'target'] : ['value']}
           dataStroke={[colors.green_80, colors.yellow_80]}
+          range={range}
         />
       </div>
     </Styles>

@@ -107,6 +107,7 @@ export const TrainerFooterInvisible = styled(FooterInvisible)<any>`
       color: #2ba8b6;
       svg {
         margin-right: 16px;
+        stroke: #2ba8b6;
       }
 
       &_primary {

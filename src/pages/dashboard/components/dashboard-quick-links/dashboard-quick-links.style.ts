@@ -1,10 +1,26 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+
 export const Styles = styled.ul`
   display: flex;
   gap: 20px;
   padding: 0;
   margin-bottom: 38px;
+
+  @media ${mediaQueries.MOBILE} {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+    background: ${getColorCarry('white')};
+    border-radius: 12px;
+    gap: 0;
+    row-gap: 25px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
 `
 
 export const LinkItem = styled.li`
@@ -14,18 +30,32 @@ export const LinkItem = styled.li`
   list-style: none;
   transition: ${(p) => p.theme.vars.defaults.transition};
 
+  @media ${mediaQueries.MOBILE} {
+    background: transparent;
+    width: calc(100% / 3);
+    border-radius: 0;
+  }
+
   .link {
     display: block;
     padding-top: 16px;
     padding-bottom: 16px;
+    @media ${mediaQueries.MOBILE} {
+      padding: 0;
+    }
   }
   p {
     font-family: Circular Std;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
-    color: #10243d;
+    color: ${getColorCarry('primaryDark')};
     transition: ${(p) => p.theme.vars.defaults.transition};
+
+    @media ${mediaQueries.MOBILE} {
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
   & .link .li-icon-wrapper {
     display: flex;
@@ -40,6 +70,13 @@ export const LinkItem = styled.li`
     margin-left: auto;
     transition: ${(p) => p.theme.vars.defaults.transition};
 
+    @media ${mediaQueries.MOBILE} {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
     .icon {
       display: flex;
       justify-content: center;
@@ -48,6 +85,10 @@ export const LinkItem = styled.li`
       svg {
         width: 38px;
         height: 38px;
+        @media ${mediaQueries.MOBILE} {
+          width: 28px;
+          height: 28px;
+        }
 
         path {
           stroke: #72a69b;
@@ -70,6 +111,7 @@ export const LinkItem = styled.li`
         stroke: #ffffff;
       }
     }
+
     &:last-child {
       .link .li-icon-wrapper {
         .icon svg path {

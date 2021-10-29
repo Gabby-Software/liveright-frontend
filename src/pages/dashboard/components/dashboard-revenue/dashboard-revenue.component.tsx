@@ -39,7 +39,7 @@ export const DashboardRevenue = () => {
   return (
     <Styles>
       <div className="dashboard-revenue">
-        <h2 className={'f-overview__graph__title'}>
+        <h2 className={'dashboard-revenue__title'}>
           {t('financials:overview.title')}
         </h2>
         <Button className="dashboard-revenue__button" type="button">
@@ -60,7 +60,7 @@ export const DashboardRevenue = () => {
           green={monthlyTarget <= monthlyRevenue}
         />
       </div>
-      <div className="dashboard-revenue">
+      <div className="dashboard-revenue__chart-controller ">
         <div className="dashboard-revenue__checkbox">
           <label className="dashboard-revenue__checkbox-label">
             <Checkbox
@@ -85,6 +85,7 @@ export const DashboardRevenue = () => {
         xDataKey="date"
         dataKeys={showTarget ? ['value', 'target'] : ['value']}
         dataStroke={[colors.green_80, colors.yellow_80]}
+        range={range}
       />
       <TableWrapper labels={LABELS} keys={KEYS} data={revenues} />
     </Styles>

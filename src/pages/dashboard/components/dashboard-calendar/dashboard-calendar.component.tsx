@@ -11,7 +11,7 @@ export const DashboardCalendar = () => {
   return (
     <Styles>
       <div className="dashboard-calendar__title-container">
-        <Subtitle>Your Calender</Subtitle>
+        <Subtitle>Your Calendar</Subtitle>
 
         <Link
           to={Routes.SESSIONS + '?add=1'}

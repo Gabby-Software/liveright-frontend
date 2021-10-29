@@ -47,6 +47,7 @@ const FinancialsOverview = ({}: Props) => {
         <OverviewTable data={tableData} onUpdateGoals={onUpdateGoals} />
       )}
       <FinancialsOverviewGraph monthlyTarget={monthlyTarget} />
+
       {isMobile && (
         <Button variant="secondary" className="f-overview__view-btn">
           {t('financials:view-graph')}

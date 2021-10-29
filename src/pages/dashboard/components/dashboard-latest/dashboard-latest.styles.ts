@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getShadow } from '../../../../pipes/theme-shadow.pipe'
 
@@ -10,6 +11,14 @@ export const Styles = styled.div`
   box-shadow: ${getShadow('secondary')};
   border-radius: 10px;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  @media ${mediaQueries.MOBILE} {
+    padding: 24px 20px;
+    width: 334px;
+    height: 524px;
+    margin-bottom: 24px;
+  }
 
   .wrapper {
     display: flex;
@@ -18,10 +27,13 @@ export const Styles = styled.div`
     margin-bottom: 30px;
 
     &-title {
-      font-weight: bold;
+      font-weight: 700;
       font-size: 22px;
       line-height: 32px;
       color: ${getColorCarry('primaryDark_v2')};
+      @media ${mediaQueries.MOBILE} {
+        font-size: 18px;
+      }
     }
   }
 
@@ -44,6 +56,9 @@ export const Styles = styled.div`
     .item:nth-child(2n + 1) {
       border-radius: 10px;
       background: ${getColorCarry('background')};
+      @media ${mediaQueries.MOBILE} {
+        background: transparent;
+      }
     }
 
     .item a {
@@ -52,34 +67,26 @@ export const Styles = styled.div`
       align-items: center;
       padding: 13px 20px;
       border-radius: 10px;
+      color: ${getColorCarry('primaryDark')};
 
+      @media ${mediaQueries.MOBILE} {
+        padding: 13px 0;
+      }
       div {
         display: flex;
-        justify-content: space-between;
         align-items: center;
       }
 
-      div .item__avatar {
-        margin-right: 10px;
-        border-radius: 50%;
-      }
-
-      div .item__name {
-        font-weight: 500;
+      .item__description {
         font-size: 18px;
-        line-height: 26px;
-      }
-
-      &__description {
-        font-size: 18px;
-        line-height: 26px;
+        line-height: 20px;
+        @media ${mediaQueries.MOBILE} {
+          font-size: 14px;
+          max-width: 185px;
+        }
       }
 
       .item__icon {
-        // display: flex;
-        // justify-content: space-between;
-        // align-items: center;
-
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -111,7 +118,7 @@ export const Styles = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 13px;
+        margin-right: 10px;
 
         background-color: ${getColorCarry('secondary2_v2')};
         &__info {
@@ -127,5 +134,8 @@ export const Styles = styled.div`
         }
       }
     }
+  }
+  button {
+    margin-top: auto;
   }
 `
