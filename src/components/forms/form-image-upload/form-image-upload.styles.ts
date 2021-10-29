@@ -11,7 +11,7 @@ export default styled.div`
     }
     &__label {
       cursor: pointer;
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       font-weight: 600;
       font-size: 14px;
       width: fit-content;

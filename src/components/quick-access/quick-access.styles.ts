@@ -17,7 +17,7 @@ export const Thumb = styled.div<{ open: boolean }>`
   box-shadow: ${({ open }) =>
     open ? '0 0 0 #bdcedf' : '0px 4px 20px #bdcedf'};
   cursor: pointer;
-  background-color: ${({ theme }) => theme.vars.colors.primary};
+  background-color: ${({ theme }) => theme.vars.colors.primary_v2};
   color: white;
   svg {
     height: 36px;

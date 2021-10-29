@@ -8,6 +8,7 @@ import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { asMoney } from '../../../../pipes/as-money.pipe'
 import { formatChartData } from '../../../../utils/api/stat'
 import FinancialsOverviewGraph from './components/finanacial-overview-graph/financial-overview-graph.component'
+import OverviewDetails from './components/financials-overview-details/financials-overview-details.component'
 import FinancialsOverviewLabel from './components/financials-overview-label/financials-overview-label.component'
 import OverviewTable from './components/financials-overview-table/financials-overview-table.component'
 import GoalsSuggestions from './components/goals-sugggestions/goals-suggestions.component'
@@ -44,19 +45,23 @@ const FinancialsOverview = ({}: Props) => {
   return (
     <Styles>
       {<div className="f-overview__cards">{cards}</div>}
-      <OverviewTable data={tableData} onUpdateGoals={onUpdateGoals} />
+      {isMobile ? (
+        <OverviewDetails data={tableData} onUpdateGoals={onUpdateGoals} />
+      ) : (
+        <OverviewTable data={tableData} onUpdateGoals={onUpdateGoals} />
+      )}
       <FinancialsOverviewGraph
         onRange={onRange}
         range={range}
         chartData={chartData}
       />
-      <div className="divider"></div>
-      <GoalsSuggestions />
       {isMobile && (
         <Button variant="secondary" className="f-overview__view-btn">
           {t('financials:view-graph')}
         </Button>
       )}
+      <div className="divider"></div>
+      <GoalsSuggestions />
     </Styles>
   )
 }

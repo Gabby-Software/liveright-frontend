@@ -16,7 +16,7 @@ export default styled.div`
       color: ${(p) => p.theme.vars.colors.primaryDark};
     }
     &__total {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
     }
   }
 `

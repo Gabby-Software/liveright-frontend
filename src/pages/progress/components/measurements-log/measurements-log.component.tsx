@@ -14,6 +14,7 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import Tabs from '../../../../components/tabs/tabs.component'
 import { Subtitle } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useMeasurement from '../../../../hooks/api/progress/useMeasurement'
 import useMeasurements from '../../../../hooks/api/progress/useMeasurements'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -126,8 +127,8 @@ export default function MeasurementsLog() {
     }
   })
 
-  const { onAdd, measurements } = useMeasurements({
-    skip: !params.date,
+  const { onAdd } = useMeasurements({
+    skip: true,
     filter: {
       date: params.date,
       account_id: params.id
@@ -135,7 +136,7 @@ export default function MeasurementsLog() {
     per_page: 1
   })
 
-  const data = measurements[0] || {}
+  const { measurement } = useMeasurement({ id: params.logId })
 
   const methods = useForm(formConfig)
 
@@ -149,11 +150,14 @@ export default function MeasurementsLog() {
   const logType: string = values[0]
   const images: any = values[1]
 
-  const dataKey = JSON.stringify(data)
+  const dataKey = JSON.stringify(measurement)
 
   useEffect(() => {
-    if (data.id) {
-      const formValues: any = deepmerge(defaultValues, dataToFormValues(data))
+    if (measurement.id) {
+      const formValues: any = deepmerge(
+        defaultValues,
+        dataToFormValues(measurement)
+      )
       updateValuesRef.current?.(formValues)
 
       Object.keys(formValues).forEach((key) =>
@@ -170,22 +174,19 @@ export default function MeasurementsLog() {
         setPhoto(false)
       }
     } else {
-      const values = {
-        ...defaultValues,
-        date: params.date || ''
-      }
+      const values = defaultValues
       setPhoto(false)
       updateValuesRef.current?.(values)
       methods.reset(values)
     }
-  }, [dataKey, params.date])
+  }, [dataKey, measurement.id])
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
     : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
 
   const onSave = (values: any) => {
-    onAdd(values, data.id, () => {
+    onAdd(values, measurement.id, () => {
       history.push(redirectTo || backTo)
     })
   }
@@ -217,7 +218,7 @@ export default function MeasurementsLog() {
         <div>
           <LogDateCard>
             <Controller
-              render={({ field: { value } }) => (
+              render={({ field: { name, value } }) => (
                 <DatePicker
                   id="log-measurements-date"
                   label="Logging Date"
@@ -225,18 +226,17 @@ export default function MeasurementsLog() {
                   disabledFuture
                   error={errors.date?.message}
                   onChange={(e, date) => {
-                    // methods.setValue(name, date)
-                    // onFilters('date', date)
-                    history.push(
-                      isClient(type)
-                        ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, {
-                            date
-                          })
-                        : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, {
-                            id: params.id,
-                            date
-                          })
-                    )
+                    methods.setValue(name, date)
+                    // history.push(
+                    //   isClient(type)
+                    //     ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, {
+                    //         date
+                    //       })
+                    //     : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, {
+                    //         id: params.id,
+                    //         date
+                    //       })
+                    // )
                   }}
                 />
               )}

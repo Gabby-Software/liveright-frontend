@@ -10,7 +10,7 @@ export default styled.div`
       text-align: right;
       color: ${(p) => p.theme.vars.colors.primaryDark};
       &__value {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
         padding-left: 12px;
       }
     }

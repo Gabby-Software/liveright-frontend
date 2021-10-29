@@ -19,7 +19,7 @@ export default styled(Card)`
     &__cta {
       font-size: 16px;
       border-radius: 10px;
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       color: white;
       padding: 11px 25px;
       transition: ${(p) => p.theme.vars.defaults.transition};

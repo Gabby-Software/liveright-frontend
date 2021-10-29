@@ -4,11 +4,6 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export default styled.div`
-  @media ${mediaQueries.TABLET} {
-    padding-bottom: 0;
-    padding-top: 2.5rem;
-  }
-
   .divider {
     border: 1px solid ${getColorCarry('neutral_50')};
     margin: 15px 0;
@@ -24,6 +19,10 @@ export default styled.div`
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-top: 1.25rem;
+
+      @media ${mediaQueries.MOBILE} {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__range {
