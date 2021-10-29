@@ -8,7 +8,7 @@ export default styled.div`
     font-size: 18px;
     color:${(p) => p.theme.vars.colors.primaryDark};
     a {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
         transition: ${(p) => p.theme.vars.defaults.transition};
         text-decoration:none;
         font-weight: 600;

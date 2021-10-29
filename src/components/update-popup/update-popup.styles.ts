@@ -22,7 +22,7 @@ export default styled.div`
     }
     &__desc {
       ${(p) => p.theme.extend.h3}
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       cursor: pointer;
     }
   }

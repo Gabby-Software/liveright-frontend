@@ -27,7 +27,7 @@ export default styled.div`
         font-weight: bold;
         font-size: 14px;
         line-height: 20px;
-        color: ${getColorCarry('blue_70')};
+        color: ${getColorCarry('link')};
       }
     }
   }

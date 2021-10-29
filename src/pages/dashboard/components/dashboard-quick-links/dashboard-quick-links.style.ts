@@ -11,16 +11,13 @@ export const LinkItem = styled.li`
   background: #ffffff;
   width: calc(100% / 6);
   border-radius: 22px;
-  list-style:none;
+  list-style: none;
   transition: ${(p) => p.theme.vars.defaults.transition};
 
   .link {
     display: block;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    padding-top: 28px;
-    padding-bottom: 31px;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
   p {
     font-family: Circular Std;
@@ -31,7 +28,6 @@ export const LinkItem = styled.li`
     transition: ${(p) => p.theme.vars.defaults.transition};
   }
   & .link .li-icon-wrapper {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,7 +36,7 @@ export const LinkItem = styled.li`
     background: #d3f5ee;
     border-radius: 25px;
     margin-bottom: 28px;
-    margin-right: auto ;
+    margin-right: auto;
     margin-left: auto;
     transition: ${(p) => p.theme.vars.defaults.transition};
 
@@ -74,10 +70,11 @@ export const LinkItem = styled.li`
         stroke: #ffffff;
       }
     }
-    &: last-child {
+    &:last-child {
       .link .li-icon-wrapper {
-      .icon svg path {
-        fill: #ffffff;
+        .icon svg path {
+          fill: #ffffff;
+        }
       }
     }
   }

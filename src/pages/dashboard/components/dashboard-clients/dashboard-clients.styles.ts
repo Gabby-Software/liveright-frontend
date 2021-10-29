@@ -30,7 +30,7 @@ export const Styles = styled.div`
       background: transparent;
       font-size: 18px;
 
-      color: ${getColorCarry('blue_70')};
+      color: ${getColorCarry('link')};
       cursor: pointer;
     }
 

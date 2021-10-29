@@ -10,7 +10,7 @@ export default styled.div`
       color: ${(p) => p.theme.vars.colors.primaryDark};
     }
     &__price {
-      color: ${(p) => p.theme.vars.colors.primary};
+      color: ${(p) => p.theme.vars.colors.primary_v2};
       margin-left: auto;
     }
     &__body {

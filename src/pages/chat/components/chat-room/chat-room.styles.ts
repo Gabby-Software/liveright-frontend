@@ -23,7 +23,7 @@ export default styled(Link)`
       }
       .chat-room {
         &__date {
-          color: ${(p) => p.theme.vars.colors.primary};
+          color: ${(p) => p.theme.vars.colors.primary_v2};
         }
       }
     }
@@ -69,7 +69,7 @@ export default styled(Link)`
     &__unreads {
       ${(p) => p.theme.mixin.circleImage('21px')}
       ${(p) => p.theme.extend.flexCenter}
-      background-color: ${(p) => p.theme.vars.colors.primary};
+      background-color: ${(p) => p.theme.vars.colors.primary_v2};
       line-height: 0;
       color: white;
       flex-shrink: 0;

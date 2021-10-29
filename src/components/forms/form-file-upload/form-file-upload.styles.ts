@@ -39,7 +39,7 @@ width: 247px;
         padding-right 8px;
     }
     &__delete {
-        color: ${(p) => p.theme.vars.colors.primary};
+        color: ${(p) => p.theme.vars.colors.primary_v2};
         font-weight: 500;
         font-size: 12px;
         cursor: pointer;

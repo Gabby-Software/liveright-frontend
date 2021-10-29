@@ -11,9 +11,9 @@ export default styled(Button)`
   font-family: ${(p) => p.theme.vars.defaults.font};
   box-shadow: 0px 4px 8px 1px rgba(242, 96, 96, 0.15);
   &.ant-btn-primary {
-    background-color: ${(p) => p.theme.vars.colors.primary};
+    background-color: ${(p) => p.theme.vars.colors.primary_v2};
     color: white;
-    border-color: ${(p) => p.theme.vars.colors.primary};
+    border-color: ${(p) => p.theme.vars.colors.primary_v2};
     &:hover {
       border-color: ${(p) => p.theme.vars.colors.primaryLight};
       background-color: ${(p) => p.theme.vars.colors.primaryLight};
@@ -42,7 +42,7 @@ export default styled(Button)`
     border-color: transparent;
     background: transparent;
     box-shadow: none;
-    color: ${(p) => p.theme.vars.colors.primary};
+    color: ${(p) => p.theme.vars.colors.primary_v2};
     &:hover {
       color: ${(p) => p.theme.vars.colors.primaryLight};
     }

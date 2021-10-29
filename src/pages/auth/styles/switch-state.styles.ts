@@ -14,7 +14,7 @@ export default styled.p`
     text-align: right;
   }
   a {
-    color: ${(p) => p.theme.vars.colors.primary};
+    color: ${(p) => p.theme.vars.colors.primary_v2};
     font-weight: 700;
   }
 `
