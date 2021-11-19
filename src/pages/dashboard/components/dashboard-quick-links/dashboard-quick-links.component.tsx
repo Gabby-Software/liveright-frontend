@@ -23,7 +23,7 @@ const links: ILink[] = [
     icon: <AddGroupIcon />,
     path: Routes.CLIENTS + '?show_drawer=true'
   },
-  { label: 'Training Plans', icon: <PlanIcon />, path: Routes.PLANS },
+  { label: 'Training Plans', icon: <PlanIcon />, path: Routes.ACTIVITIES },
   {
     label: 'Schedule Session',
     icon: <CalendarIcon />,

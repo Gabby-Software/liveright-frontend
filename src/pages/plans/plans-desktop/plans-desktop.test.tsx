@@ -1,4 +1,0 @@
-test('PlansDesktop initial test', () => {
-  expect(true).toBeTruthy()
-})
-export {}

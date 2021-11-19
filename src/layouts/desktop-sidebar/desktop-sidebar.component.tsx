@@ -51,7 +51,7 @@ type MenuItemType = {
 
 const clientMenuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeIcon },
-  { name: 'plans', url: Routes.PLANS, Icon: PlanIcon },
+  { name: 'plans', url: Routes.ACTIVITIES, Icon: PlanIcon },
   {
     name: 'progress',
     url: Routes.PROGRESS_CLIENTS,
@@ -93,7 +93,7 @@ const clientMenuItems: MenuItemType[] = [
 
 const trainerMenuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeTrainerIcon },
-  { name: 'plans', url: Routes.PLANS, Icon: DocumentTrainerIcon },
+  { name: 'plans', url: Routes.ACTIVITIES, Icon: DocumentTrainerIcon },
   {
     name: 'progress',
     url: Routes.PROGRESS_CLIENTS,

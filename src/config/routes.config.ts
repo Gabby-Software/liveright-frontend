@@ -420,12 +420,40 @@ export const routes: RouteType[] = [
     }
   },
   {
-    title: 'Plans',
-    url: Routes.PLANS,
-    Component: lazy(() => import('../pages/plans/plans.component')),
+    title: 'Training Plans',
+    url: Routes.ACTIVITIES_TP,
+    Component: lazy(
+      () => import('../pages/activities/training-plan/plans/plans.component')
+    ),
+    version: 2,
+    mobileLayout: false,
     header: {
-      title: 'Plans',
-      items: headers.default
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Plan',
+    url: Routes.ACTIVITIES_TP_ID,
+    Component: lazy(
+      () => import('../pages/activities/training-plan/plan/plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Activities',
+    url: Routes.ACTIVITIES,
+    Component: lazy(() => import('../pages/activities/activities.components')),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
     }
   },
   {

@@ -52,6 +52,7 @@ const vars = {
     blue_70: '#1268E4',
     blue_80: '#0053D7',
     neutral_10: '#FAFAFA',
+    neutral_20: '#F1F4F7',
     neutral_30: '#EDEDED',
     neutral_50: '#C2C2C2',
     neutral_70: '#757575',

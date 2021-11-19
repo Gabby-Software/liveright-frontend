@@ -58,7 +58,7 @@ const MobileFooterContent = () => {
         Icon: PlanIcon,
         title: 'plans',
         className: 'mobile-footer__item',
-        url: Routes.PLANS
+        url: Routes.ACTIVITIES
       },
       {
         Icon: FlashIcon,

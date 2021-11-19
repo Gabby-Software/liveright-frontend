@@ -1,0 +1,5 @@
+export { ReactComponent as FoodIcon } from './food.svg'
+export { ReactComponent as UnionIcon } from './union.svg'
+export { ReactComponent as CounterMinusIcon } from './counter-minus.svg'
+export { ReactComponent as CounterPlusIcon } from './counter-plus.svg'
+export { ReactComponent as DragIcon } from './drag.svg'

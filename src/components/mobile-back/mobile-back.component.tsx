@@ -29,6 +29,7 @@ interface MobileBackProps {
   to?: string
   alias?: string
   component?: ReactNode
+  className?: string
 }
 
 export default function MobileBack(props: MobileBackProps) {
@@ -46,7 +47,7 @@ export default function MobileBack(props: MobileBackProps) {
   }
 
   return (
-    <Styles>
+    <Styles className={props.className}>
       <div>
         <Link to={to || page?.back?.url || ''} className="mobile-back__link">
           <CaretLeftIcon />
