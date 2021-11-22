@@ -23,6 +23,7 @@ export const Routes = {
   ACTIVITIES: '/activities',
   ACTIVITIES_TP: '/activities/training-plans',
   ACTIVITIES_TP_ID: '/activities/training-plans/:id',
+  ACTIVITIES_CURR_PLAN: '/activities/current-plan',
   MEALS: '/meals',
   SPLITS: '/plans/training-splits',
   DIETS: '/plans/diet-plans',
