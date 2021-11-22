@@ -7,6 +7,7 @@ type UIProps = {
   label?: string
   value: boolean
   onUpdate: (val: boolean) => void
+  className?: string
 }
 
 type Props = {
@@ -15,7 +16,12 @@ type Props = {
   onUpdate: (name: string, value: boolean) => void
 }
 
-export const FormToggleUI = ({ label, value, onUpdate }: UIProps) => {
+export const FormToggleUI = ({
+  label,
+  value,
+  onUpdate,
+  className
+}: UIProps) => {
   const [innerValue, setInnerValue] = useState(value)
 
   const handleChange = () => {
@@ -30,7 +36,7 @@ export const FormToggleUI = ({ label, value, onUpdate }: UIProps) => {
   }, [value])
 
   return (
-    <Styles onClick={handleChange}>
+    <Styles onClick={handleChange} className={className}>
       {label ? <span className={'toggle__label'}>{label}</span> : null}
       <div
         className={classes(

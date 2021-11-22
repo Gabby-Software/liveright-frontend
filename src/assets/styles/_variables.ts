@@ -75,6 +75,7 @@ const vars = {
     yellow_80: '#EDD92E',
     orange_100: '#FF6B2C',
     orange_60: '#ED9C30',
+    orange_50: '#F5C957',
     orange_20: '#FEEED6'
   },
   sizes: {
