@@ -51,7 +51,7 @@ export default styled.label`
           left: calc(100% - 18px);
         }
         &:hover {
-          background-color: ${getColorCarry('primaryDarken')};
+          background-color: ${getColorCarry('primary_v2')};
         }
       }
     }

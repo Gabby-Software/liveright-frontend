@@ -13,11 +13,22 @@ export const Styles = styled(Card)`
       color: ${getColorCarry('primaryDark_v2')};
     }
 
+    &__subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${getColorCarry('neutral_70')};
+    }
+
     &__header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
       margin-bottom: 2rem;
+
+      &-title-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
       &-icon {
         color: ${getColorCarry('secondary2_v2')};

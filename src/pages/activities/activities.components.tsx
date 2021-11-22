@@ -7,6 +7,7 @@ export default function Activities() {
     <Styles>
       <Button to={Routes.ACTIVITIES_TP}>Training Plans</Button>
       <Button to={Routes.ACTIVITIES_CURR_PLAN}>My Current Plan</Button>
+      <Button to={Routes.ACTIVITIES_TS}>Training Splits</Button>
     </Styles>
   )
 }
