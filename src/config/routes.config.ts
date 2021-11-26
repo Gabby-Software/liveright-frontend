@@ -472,6 +472,32 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Diet Plans',
+    url: Routes.ACTIVITIES_DP,
+    Component: lazy(
+      () => import('../pages/activities/diet-plan/plans/plans.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Diet Plan',
+    url: Routes.ACTIVITIES_DP_ID,
+    Component: lazy(
+      () => import('../pages/activities/diet-plan/plan/plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Activities',
     url: Routes.ACTIVITIES,
     Component: lazy(() => import('../pages/activities/activities.components')),

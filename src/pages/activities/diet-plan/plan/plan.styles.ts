@@ -5,7 +5,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 export const Styles = styled.div`
   padding: 2rem 0;
 
-  .training-plan {
+  .DietPlan {
     &__header {
       display: flex;
       align-items: center;
@@ -40,36 +40,31 @@ export const Styles = styled.div`
       }
     }
 
-    &__divider {
-      width: 100%;
-      height: 1px;
-      background-color: ${getColorCarry('inputBorder_v2')};
-      margin-bottom: 1.25rem;
-    }
-
-    &__badges {
-      display: flex;
-      margin-bottom: 1.875rem;
-    }
-
-    &__badge {
-      margin-right: 3rem;
-
-      &-title {
-        margin-bottom: 0.25rem;
-        font-size: 0.875rem;
-        color: ${getColorCarry('secondary2_v2')};
-      }
-
-      &-text {
-        min-height: 36px;
-      }
-    }
-
     &__cards {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1.25rem;
+    }
+
+    &__info {
+      background-color: ${getColorCarry('neutral_20')};
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      &-title {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: ${getColorCarry('neutral_70')};
+      }
+
+      &-text {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: ${getColorCarry('neutral_100')};
+      }
     }
   }
 `

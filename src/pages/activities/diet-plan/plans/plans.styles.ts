@@ -1,14 +1,11 @@
 import styled from 'styled-components'
 
-import Card from '../../../../components/cards/card/card.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 2rem 0;
-`
 
-export const StylesContent = styled(Card)`
-  .training-plans {
+  .DietPlans {
     &__back {
       padding: 0;
       margin-bottom: 1.5rem;
@@ -37,7 +34,6 @@ export const StylesContent = styled(Card)`
       &-link {
         color: ${getColorCarry('link')};
       }
-
       &-status {
         max-width: 130px;
       }

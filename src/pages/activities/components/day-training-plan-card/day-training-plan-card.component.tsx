@@ -1,7 +1,6 @@
-import { AddIcon } from '../../../../assets/media/icons'
 import { FoodIcon } from '../../../../assets/media/icons/activities'
-import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import DayCard from '../day-card/day-card.component'
+import DayCardListItem from '../day-card-list-item/day-card-list-item.component'
 import { Styles } from './day-training-plan-card.styles'
 
 export default function DayTrainingPlanCard() {
@@ -22,27 +21,9 @@ export default function DayTrainingPlanCard() {
               <p className="day-tp-card__workout-title">Workout 1</p>
 
               <div>
-                <p className="day-tp-card__workout-exercise">
-                  <span>Pushups</span>
-
-                  <IconButton size="sm">
-                    <AddIcon />
-                  </IconButton>
-                </p>
-                <p className="day-tp-card__workout-exercise">
-                  <span>Squats</span>
-
-                  <IconButton size="sm">
-                    <AddIcon />
-                  </IconButton>
-                </p>
-                <p className="day-tp-card__workout-exercise">
-                  <span>Situps</span>
-
-                  <IconButton size="sm">
-                    <AddIcon />
-                  </IconButton>
-                </p>
+                <DayCardListItem title="Pushups" />
+                <DayCardListItem title="Squats" />
+                <DayCardListItem title="Situps" />
               </div>
             </div>
           </div>

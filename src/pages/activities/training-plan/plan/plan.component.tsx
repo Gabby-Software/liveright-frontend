@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
-import { InfoIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import EditPlan from '../edit-plan/edit-plan.component'
 import { Styles } from './plan.styles'
@@ -54,19 +54,7 @@ export default function TrainingPlan() {
           </div>
         </div>
 
-        <div className="training-plan__alert">
-          <div className="training-plan__alert-icon">
-            <InfoIcon />
-          </div>
-
-          <div className="training-plan__alert-body">
-            <p className="training-plan__alert-text">
-              This training plan is currently used on a training split. If you
-              make changes, these will reflect on your training split.
-            </p>
-            <button className="training-plan__alert-action">Unlink</button>
-          </div>
-        </div>
+        <Alert />
 
         <div className="training-plan__divider" />
 

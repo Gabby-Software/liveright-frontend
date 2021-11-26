@@ -3,8 +3,7 @@ import {
   DragDropContext,
   Draggable,
   Droppable,
-  DropResult,
-  OnDragEndResponder
+  DropResult
 } from 'react-beautiful-dnd'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'

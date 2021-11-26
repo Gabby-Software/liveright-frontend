@@ -21,6 +21,8 @@ export const Routes = {
   ADD_NEW_CLIENT: '/add-new-client',
   SESSIONS: '/sessions',
   ACTIVITIES: '/activities',
+  ACTIVITIES_DP: '/activities/diet-plans',
+  ACTIVITIES_DP_ID: '/activities/diet-plans/:id',
   ACTIVITIES_TP: '/activities/training-plans',
   ACTIVITIES_TP_ID: '/activities/training-plans/:id',
   ACTIVITIES_CURR_PLAN: '/activities/current-plan',

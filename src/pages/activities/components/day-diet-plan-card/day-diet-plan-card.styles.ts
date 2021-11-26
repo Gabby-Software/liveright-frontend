@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
-  .day-tp-card {
+  .DayDietPlanCard {
     &__name {
       font-size: 1.125rem;
       font-weight: 700;
@@ -25,19 +25,6 @@ export const Styles = styled.div`
         justify-content: center;
         align-items: center;
         color: #fff;
-      }
-    }
-
-    &__content {
-      padding-left: calc(34px + 1rem);
-    }
-
-    &__workout {
-      &-title {
-        font-size: 0.875rem;
-        font-weight: 700;
-        color: ${getColorCarry('primaryDark_v2')};
-        margin-bottom: 0.25rem;
       }
     }
   }

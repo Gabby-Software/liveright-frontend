@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
+import Card from '../../../../components/cards/card/card.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
@@ -9,9 +10,9 @@ import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import { Styles, StylesContent } from './plans.styles'
+import { Styles } from './plans.styles'
 
-const LABELS = ['Plan name', 'Client', 'Days', 'Start', 'End', 'Status']
+const LABELS = ['Diet Plan Name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
 const DATA = [
@@ -30,40 +31,52 @@ const DATA = [
     start: '04/10/2021',
     end: '04/10/2021',
     status: 'Active'
+  },
+  {
+    name: 'Reduce Bodyweight',
+    client: 'John Travolta',
+    days: '7',
+    start: '04/10/2021',
+    end: '04/10/2021',
+    status: 'Draft'
+  },
+  {
+    name: 'Reduce Bodyweight',
+    client: 'John Travolta',
+    days: '7',
+    start: '04/10/2021',
+    end: '04/10/2021',
+    status: 'Scheduled'
   }
 ]
 
-export default function TrainingPlans() {
+export default function DietPlans() {
   return (
     <Styles>
-      <StylesContent>
-        <MobileBack
-          to="/"
-          alias="current-plan"
-          className="training-plans__back"
-        />
+      <Card>
+        <MobileBack to="/" alias="current-plan" className="DietPlans__back" />
 
-        <div className="training-plans__title-container">
-          <Title>Training Plans</Title>
+        <div className="DietPlans__title-container">
+          <Title>Diet Plans</Title>
 
           <div>
             <Button>Create New Plan</Button>
           </div>
         </div>
 
-        <div className="training-plans__filters">
+        <div className="DietPlans__filters">
           <ClientSelect
-            id="training-plans-client"
+            id="DietPlans-client"
             onChange={() => {}}
             placeholder="All Client"
-            className="training-plans__select"
+            className="DietPlans__select"
           />
 
           <Select
-            id="training-plans-statuses"
+            id="DietPlans-statuses"
             options={[]}
             placeholder="All Status"
-            className="training-plans__select"
+            className="DietPlans__select"
           />
         </div>
 
@@ -76,8 +89,8 @@ export default function TrainingPlans() {
             render={{
               name: (row) => (
                 <Link
-                  to={`${Routes.ACTIVITIES_TP}/${row.id}`}
-                  className="training-plans__table-link"
+                  to={`${Routes.ACTIVITIES_DP}/${row.id}`}
+                  className="DietPlans__table-link"
                 >
                   <span>{row.name}</span>
                 </Link>
@@ -85,7 +98,7 @@ export default function TrainingPlans() {
               status: (row) => (
                 <StatusBadge
                   status={row.status.toLowerCase()}
-                  className="training-plans__table-status"
+                  className="DietPlans__table-status"
                 >
                   {row.status}
                 </StatusBadge>
@@ -95,7 +108,7 @@ export default function TrainingPlans() {
 
           {!DATA.length && <EmptyPlaceholder spacing />}
         </div>
-      </StylesContent>
+      </Card>
     </Styles>
   )
 }
