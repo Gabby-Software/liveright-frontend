@@ -49,24 +49,24 @@ export const Styles = styled(Card)`
         }
       }
     }
+  }
+`
 
-    &__subtitle {
-      width: 100%;
-      position: relative;
-      display: flex;
-      align-items: center;
-      font-size: 1rem;
-      font-weight: 700;
-      color: ${getColorCarry('primaryDark_v2')};
-      margin-bottom: 1.25rem;
+export const WorkoutSubtitle = styled.p`
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: ${getColorCarry('primaryDark_v2')};
+  margin-bottom: 1.25rem;
 
-      &::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background-color: ${getColorCarry('inputBorder_v2')};
-        margin-left: 1.25rem;
-      }
-    }
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: ${getColorCarry('inputBorder_v2')};
+    margin-left: 1.25rem;
   }
 `

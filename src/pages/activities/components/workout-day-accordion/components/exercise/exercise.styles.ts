@@ -1,16 +1,20 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
-export const Styles = styled.div`
+export const Styles = styled.div<any>`
   display: grid;
   grid-template-columns: 46px 2fr 1fr 1fr 1fr 1fr 3fr 46px;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  padding: 0.5rem 0 0.75rem 0;
+  background-color: ${getColorCarry('neutral_20')};
+  border-radius: 15px;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+  ${(props) =>
+    props.$isDragging &&
+    css`
+      border: 1px dashed ${getColorCarry('orange_60')};
+    `};
 
   .Exercise {
     &__delete {
