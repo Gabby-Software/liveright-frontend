@@ -1,6 +1,9 @@
 import { PropsWithChildren, useState } from 'react'
 
-import { CaretDownIcon } from '../../../../assets/media/icons'
+import {
+  CaretDownIcon,
+  DeleteOutlinedIcon
+} from '../../../../assets/media/icons'
 import { FoodIcon } from '../../../../assets/media/icons/activities'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import { Styles } from './day-accordion.styles'
@@ -25,12 +28,19 @@ export default function DayAccordion({
           <p className="DayAccordion__summary-title">{title}</p>
         </div>
 
-        <IconButton
-          className="DayAccordion__summary-btn"
-          onClick={() => setOpen(!open)}
-        >
-          <CaretDownIcon />
-        </IconButton>
+        <div className="DayAccordion__actions">
+          {open && (
+            <IconButton className="DayAccordion__delete-btn">
+              <DeleteOutlinedIcon />
+            </IconButton>
+          )}
+          <IconButton
+            className="DayAccordion__summary-btn"
+            onClick={() => setOpen(!open)}
+          >
+            <CaretDownIcon />
+          </IconButton>
+        </div>
       </div>
 
       {open && <div className="DayAccordion__content">{children}</div>}

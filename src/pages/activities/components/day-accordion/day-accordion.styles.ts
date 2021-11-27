@@ -53,6 +53,20 @@ export const Styles = styled(Card)<any>`
       }
     }
 
+    &__actions {
+      display: flex;
+      align-items: center;
+    }
+
+    &__delete-btn {
+      width: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: ${getColorCarry('red')};
+      margin-right: 0.5rem;
+    }
+
     &__content {
       padding: 0 1.875rem 1.5rem 1.875rem;
     }
