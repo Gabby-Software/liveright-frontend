@@ -44,7 +44,7 @@ export const Styles = styled.div`
         align-items: center;
       }
     }
-    
+
     &__make-active-btn {
       margin-left: 1.25rem;
     }

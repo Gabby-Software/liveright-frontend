@@ -10,7 +10,7 @@ import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import { Styles } from './plans.styles'
+import { Styles } from '../../styles/plans-table.styles'
 
 const LABELS = ['Diet Plan Name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
@@ -54,9 +54,9 @@ export default function DietPlans() {
   return (
     <Styles>
       <Card>
-        <MobileBack to="/" alias="current-plan" className="DietPlans__back" />
+        <MobileBack to="/" alias="current-plan" className="PlansTable__back" />
 
-        <div className="DietPlans__title-container">
+        <div className="PlansTable__title-container">
           <Title>Diet Plans</Title>
 
           <div>
@@ -64,19 +64,19 @@ export default function DietPlans() {
           </div>
         </div>
 
-        <div className="DietPlans__filters">
+        <div className="PlansTable__filters">
           <ClientSelect
             id="DietPlans-client"
             onChange={() => {}}
             placeholder="All Client"
-            className="DietPlans__select"
+            className="PlansTable__select"
           />
 
           <Select
             id="DietPlans-statuses"
             options={[]}
             placeholder="All Status"
-            className="DietPlans__select"
+            className="PlansTable__select"
           />
         </div>
 
@@ -90,7 +90,7 @@ export default function DietPlans() {
               name: (row) => (
                 <Link
                   to={`${Routes.ACTIVITIES_DP}/${row.id}`}
-                  className="DietPlans__table-link"
+                  className="PlansTable__table-link"
                 >
                   <span>{row.name}</span>
                 </Link>
@@ -98,7 +98,7 @@ export default function DietPlans() {
               status: (row) => (
                 <StatusBadge
                   status={row.status.toLowerCase()}
-                  className="DietPlans__table-status"
+                  className="PlansTable__table-status"
                 >
                   {row.status}
                 </StatusBadge>

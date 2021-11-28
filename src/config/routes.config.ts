@@ -446,6 +446,19 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_ID,
+    Component: lazy(
+      () => import('../pages/activities/training-split/split/split.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Training Plans',
     url: Routes.ACTIVITIES_TP,
     Component: lazy(

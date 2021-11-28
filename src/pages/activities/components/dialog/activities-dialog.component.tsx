@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 
 import { CrossIcon } from '../../../../assets/media/icons'
-import Button from '../../../../components/buttons/button/button.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Alert from '../alert/alert.component'
 import { ActivitiesDialogStyles, Styles } from './activities-dialog.styles'
