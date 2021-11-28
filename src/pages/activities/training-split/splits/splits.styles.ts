@@ -46,6 +46,15 @@ export const Styles = styled.div`
       &-control {
         width: 225px;
       }
+
+      &-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      &-make-active-btn {
+        margin-left: 1.25rem;
+      }
     }
 
     &__info {

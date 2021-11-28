@@ -1,20 +1,19 @@
 import { InfoIcon } from '../../../../assets/media/icons'
 import { Styles } from './alert.styles'
 
-export default function Alert() {
+interface AlertProps {
+  className?: string
+  content: string
+}
+
+export default function Alert({ className, content }: AlertProps) {
   return (
-    <Styles>
+    <Styles className={className}>
       <div className="Alert__icon">
         <InfoIcon />
       </div>
 
-      <div className="Alert__body">
-        <p className="Alert__text">
-          This training plan is currently used on a training split. If you make
-          changes, these will reflect on your training split.
-        </p>
-        <button className="Alert__action">Unlink</button>
-      </div>
+      <div className="Alert__body">{content}</div>
     </Styles>
   )
 }

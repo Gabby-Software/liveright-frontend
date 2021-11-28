@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const Styles = styled.div`
   display: flex;
-  align-items: center;
   background-color: rgba(228, 154, 10, 0.05);
   border: 1px solid #e49a0a;
   padding: 1.25rem 1.875rem;
@@ -13,12 +12,15 @@ export const Styles = styled.div`
   .Alert {
     &__body {
       display: flex;
-      align-items: center;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
     }
 
     &__icon {
       width: 34px;
       height: 34px;
+      min-width: 34px;
+      min-height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
