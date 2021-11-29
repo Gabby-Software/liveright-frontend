@@ -38,43 +38,15 @@ export const Styles = styled.div`
       &-select {
         width: 225px;
       }
+
+      &-actions {
+        display: flex;
+        align-items: center;
+      }
     }
 
-    &__alert {
-      display: flex;
-      align-items: center;
-      background-color: rgba(228, 154, 10, 0.05);
-      border: 1px solid #e49a0a;
-      padding: 1.25rem 1.875rem;
-      border-radius: 10px;
-      color: #10243d;
-      margin-bottom: 1.25rem;
-
-      &-body {
-        display: flex;
-        align-items: center;
-      }
-
-      &-icon {
-        width: 34px;
-        height: 34px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #e49a0a;
-        border-radius: 9999px;
-        color: #fff;
-        margin-right: 1.25rem;
-      }
-
-      &-action {
-        background-color: transparent;
-        border: 0;
-        text-decoration: underline;
-        color: #e49a0a;
-        cursor: pointer;
-        margin: 0 0.25rem;
-      }
+    &__make-active-btn {
+      margin-left: 1.25rem;
     }
 
     &__divider {

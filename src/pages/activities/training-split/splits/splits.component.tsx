@@ -1,141 +1,104 @@
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import DataTable from '../../../../components/data-table/data-table.component'
+import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
-import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+import MobileBack from '../../../../components/mobile-back/mobile-back.component'
+import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
-import { Subtitle, Title } from '../../../../components/typography'
-import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
-import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
-import { Styles } from './splits.styles'
+import { Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
+import { Styles } from '../../styles/plans-table.styles'
+
+const LABELS = [
+  'Split Name',
+  'Diet Plan',
+  'Training Plan',
+  'Client',
+  'Days',
+  'Status'
+]
+const KEYS = ['name', 'diet_plan', 'training_plan', 'client', 'days', 'status']
+
+const DATA = [
+  {
+    name: '10 Days of Wonder',
+    client: 'John Travolta',
+    days: '5',
+    diet_plan: 'Lose Weight Now',
+    training_plan: 'Train Had Intensity',
+    status: 'Inactive'
+  },
+  {
+    name: 'Reduce Bodyweight',
+    client: 'John Travolta',
+    days: '5',
+    diet_plan: 'Lose Weight Now',
+    training_plan: 'Train Had Intensity',
+    status: 'Active'
+  }
+]
 
 export default function TrainingSplits() {
-  const [scheduleView, setScheduleView] = useState(false)
   return (
     <Styles>
       <Card>
-        <div className="TrainingSplits__title-container">
-          <Title>Current Training Split</Title>
+        <MobileBack to="/" alias="current-plan" className="PlansTable__back" />
 
-          <div className="TrainingSplits__title-buttons">
-            <Button
-              variant="secondary"
-              className="TrainingSplits__title-button"
-            >
-              See Other Splits
-            </Button>
-            <Button className="TrainingSplits__title-button">
-              Edit Training Split
-            </Button>
-          </div>
-        </div>
-
-        <div className="TrainingSplits__divider" />
-
-        <div className="TrainingSplits__filters-container">
-          <Subtitle>Reduce Bodyweight</Subtitle>
+        <div className="PlansTable__title-container">
+          <Title>Training Splits</Title>
 
           <div>
-            <Select
-              className="TrainingSplits__filters-control"
-              id="TrainingSplits-version"
-              options={[]}
-              value={{
-                label: 'Latest Version',
-                value: 'Latest Version'
-              }}
-            />
+            <Button>Create New Split</Button>
           </div>
         </div>
 
-        <Card className="TrainingSplits__info-container">
-          <div className="TrainingSplits__info-columns">
-            <div className="TrainingSplits__info-column">
-              <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
-              <p className="TrainingSplits__info-value">Dietplan Balance</p>
-            </div>
-            <div className="TrainingSplits__info-column">
-              <p className="TrainingSplits__info-title">Chosen Training Plan</p>
-              <p className="TrainingSplits__info-value">
-                High Intensity Training
-              </p>
-            </div>
-            <div className="TrainingSplits__info-column">
-              <p className="TrainingSplits__info-title">Number of Days</p>
-              <p className="TrainingSplits__info-value">7 days</p>
-            </div>
-            <div className="TrainingSplits__info-column">
-              <p className="TrainingSplits__info-title">Started on</p>
-              <p className="TrainingSplits__info-value">04/10/2021</p>
-            </div>
-            <div className="TrainingSplits__info-column">
-              <p className="TrainingSplits__info-title">Ends on</p>
-              <p className="TrainingSplits__info-value">04/11/2021</p>
-            </div>
+        <div className="PlansTable__filters">
+          <ClientSelect
+            id="DietPlans-client"
+            onChange={() => {}}
+            placeholder="All Client"
+            className="PlansTable__select"
+          />
 
-            <StatusBadge status="active">Active</StatusBadge>
-          </div>
+          <Select
+            id="DietPlans-statuses"
+            options={[]}
+            placeholder="All Status"
+            className="PlansTable__select"
+          />
+        </div>
 
-          <div className="TrainingSplits__info-toggle-container">
-            <FormToggleUI
-              value={scheduleView}
-              onUpdate={() => setScheduleView(!scheduleView)}
-              className="TrainingSplits__info-toggle"
-            />
-            <p>See with schedule view</p>
-          </div>
-        </Card>
+        <div>
+          <DataTable
+            labels={LABELS}
+            data={DATA}
+            keys={KEYS}
+            round="10px"
+            render={{
+              name: (row) => (
+                <Link
+                  to={`${Routes.ACTIVITIES_TS}/${row.id}`}
+                  className="PlansTable__table-link"
+                >
+                  <span>{row.name}</span>
+                </Link>
+              ),
+              status: (row) => (
+                <StatusBadge
+                  status={row.status.toLowerCase()}
+                  className="PlansTable__table-status"
+                >
+                  {row.status}
+                </StatusBadge>
+              )
+            }}
+          />
 
-        {!scheduleView ? (
-          <div className="TrainingSplits__cards">
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingSplitCard />
-            </div>
-          </div>
-        ) : (
-          <div className="TrainingSplits__cards">
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TrainingSplits__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-          </div>
-        )}
+          {!DATA.length && <EmptyPlaceholder spacing />}
+        </div>
       </Card>
     </Styles>
   )

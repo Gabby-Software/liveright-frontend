@@ -446,6 +446,19 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_ID,
+    Component: lazy(
+      () => import('../pages/activities/training-split/split/split.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Training Plans',
     url: Routes.ACTIVITIES_TP,
     Component: lazy(
@@ -463,6 +476,32 @@ export const routes: RouteType[] = [
     url: Routes.ACTIVITIES_TP_ID,
     Component: lazy(
       () => import('../pages/activities/training-plan/plan/plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Diet Plans',
+    url: Routes.ACTIVITIES_DP,
+    Component: lazy(
+      () => import('../pages/activities/diet-plan/plans/plans.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Diet Plan',
+    url: Routes.ACTIVITIES_DP_ID,
+    Component: lazy(
+      () => import('../pages/activities/diet-plan/plan/plan.component')
     ),
     version: 2,
     mobileLayout: false,

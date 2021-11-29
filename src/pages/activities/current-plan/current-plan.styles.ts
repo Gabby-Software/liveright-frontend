@@ -85,7 +85,7 @@ export const Styles = styled.div`
       font-weight: 400;
       color: ${getColorCarry('neutral_70')};
     }
-    
+
     &__overview-title {
       margin-bottom: 1.875rem;
     }

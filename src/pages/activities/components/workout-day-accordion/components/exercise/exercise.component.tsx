@@ -5,11 +5,23 @@ import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
 import { Styles } from './exercise.styles'
 
-export default function Exercise() {
+interface ExerciseProps {
+  dragHandleProps: any
+  isDragging: boolean
+  innerRef?: any
+  draggableProps: any
+}
+
+export default function Exercise({
+  dragHandleProps,
+  isDragging,
+  innerRef,
+  draggableProps
+}: ExerciseProps) {
   return (
-    <Styles>
+    <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
       <div className="Exercise__drag">
-        <button className="Exercise__drag-btn">
+        <button className="Exercise__drag-btn" {...dragHandleProps}>
           <DragIcon />
         </button>
       </div>

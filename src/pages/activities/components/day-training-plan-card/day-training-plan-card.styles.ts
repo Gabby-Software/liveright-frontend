@@ -39,15 +39,6 @@ export const Styles = styled.div`
         color: ${getColorCarry('primaryDark_v2')};
         margin-bottom: 0.25rem;
       }
-
-      &-exercise {
-        padding: 0.125rem 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: ${getColorCarry('secondary2_v2')};
-        font-size: 0.875rem;
-      }
     }
   }
 `

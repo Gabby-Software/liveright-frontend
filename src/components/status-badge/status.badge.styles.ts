@@ -23,10 +23,12 @@ function getBgColor(props: any): string {
     case 'due-soon':
     case 'due_soon':
       return getColor(props, 'orange_20')
+    case 'scheduled':
     case 'outstanding':
       return getColor(props, 'blue_20')
     case 'overdue':
     case 'cancelled':
+    case 'inactive':
       return getColor(props, 'red_10')
     case 'paid':
     case 'issued':
@@ -45,9 +47,11 @@ function getTextColor(props: any): string {
     case 'due_soon':
       return getColor(props, 'orange_100')
     case 'outstanding':
+    case 'scheduled':
       return getColor(props, 'blue_80')
     case 'overdue':
     case 'cancelled':
+    case 'inactive':
       return getColor(props, 'red')
     case 'paid':
     case 'issued':

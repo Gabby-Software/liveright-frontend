@@ -8,6 +8,7 @@ interface DialogProps {
   onClose?: () => void
   open: boolean
   className?: string
+  closeIcon?: any
 }
 
 export default function Dialog({
@@ -15,14 +16,15 @@ export default function Dialog({
   open,
   onClose,
   children,
-  className
+  className,
+  closeIcon
 }: PropsWithChildren<DialogProps>) {
   return (
     <DialogStyles
       title={title}
       visible={open}
       footer={false}
-      closeIcon={<CrossIcon />}
+      closeIcon={closeIcon === false ? () => null : <CrossIcon />}
       onCancel={onClose}
       width="100%"
       centered

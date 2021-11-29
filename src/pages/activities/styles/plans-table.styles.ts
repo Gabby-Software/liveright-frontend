@@ -1,14 +1,11 @@
 import styled from 'styled-components'
 
-import Card from '../../../../components/cards/card/card.component'
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 2rem 0;
-`
 
-export const StylesContent = styled(Card)`
-  .training-plans {
+  .PlansTable {
     &__back {
       padding: 0;
       margin-bottom: 1.5rem;
@@ -37,14 +34,8 @@ export const StylesContent = styled(Card)`
       &-link {
         color: ${getColorCarry('link')};
       }
-
       &-status {
-        &[data-status='active'] {
-          color: ${getColorCarry('primary_v2')};
-        }
-        &[data-status='inactive'] {
-          color: ${getColorCarry('red')};
-        }
+        max-width: 130px;
       }
     }
   }
