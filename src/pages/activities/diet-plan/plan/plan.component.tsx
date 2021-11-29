@@ -1,15 +1,18 @@
 import { useState } from 'react'
 
+import { FoodIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import Alert from '../../components/alert/alert.component'
 import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import EditDietPlan from '../edit-plan/edit-plan.component'
-import EmptyPlan from '../empty-plan/empty-plan.component'
 import { Styles } from './plan.styles'
 
 const IS_EMPTY = false
@@ -17,16 +20,18 @@ const IS_EMPTY = false
 export default function DietPlan() {
   const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const isMobile = useIsMobile()
 
-  if (IS_EMPTY) {
-    return <EmptyPlan />
-  }
-
-  if (edit) {
-    return <EditDietPlan onClose={() => setEdit(false)} />
-  }
-
-  return (
+  const content = IS_EMPTY ? (
+    <EmptyPlan
+      title="Current Diet Plan"
+      text="There is no diet plan yet..."
+      Icon={FoodIcon}
+      action={<Button>Create Edit Plan</Button>}
+    />
+  ) : edit ? (
+    <EditDietPlan onClose={() => setEdit(false)} />
+  ) : (
     <>
       <Styles>
         <Card>
@@ -101,5 +106,11 @@ export default function DietPlan() {
         onClose={() => setMakeActiveDialog(false)}
       />
     </>
+  )
+
+  return isMobile ? (
+    <MobilePage title="Current Diet Plan">{content}</MobilePage>
+  ) : (
+    content
   )
 }

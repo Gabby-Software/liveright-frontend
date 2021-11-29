@@ -10,6 +10,9 @@ import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 
 const LABELS = ['Plan name', 'Client', 'Days', 'Start', 'End', 'Status']
@@ -35,18 +38,28 @@ const DATA = [
 ]
 
 export default function TrainingPlans() {
-  return (
+  const isMobile = useIsMobile()
+
+  const content = (
     <Styles>
-      <Card>
-        <MobileBack to="/" alias="current-plan" className="PlansTable__back" />
+      <Card className="PlansTable__card">
+        {!isMobile && (
+          <>
+            <MobileBack
+              to="/"
+              alias="current-plan"
+              className="PlansTable__back"
+            />
 
-        <div className="PlansTable__title-container">
-          <Title>Training Plans</Title>
+            <div className="PlansTable__title-container">
+              <Title>Training Plans</Title>
 
-          <div>
-            <Button>Create New Plan</Button>
-          </div>
-        </div>
+              <div>
+                <Button>Create New Plan</Button>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="PlansTable__filters">
           <ClientSelect
@@ -65,34 +78,53 @@ export default function TrainingPlans() {
         </div>
 
         <div>
-          <DataTable
-            labels={LABELS}
-            data={DATA}
-            keys={KEYS}
-            round="10px"
-            render={{
-              name: (row) => (
-                <Link
-                  to={`${Routes.ACTIVITIES_TP}/${row.id}`}
-                  className="PlansTable__table-link"
-                >
-                  <span>{row.name}</span>
-                </Link>
-              ),
-              status: (row) => (
-                <StatusBadge
-                  status={row.status.toLowerCase()}
-                  className="PlansTable__table-status"
-                >
-                  {row.status}
-                </StatusBadge>
-              )
-            }}
-          />
+          {isMobile ? (
+            <>
+              {DATA.map((row, index) => (
+                <PlanCard key={index} plan={row} />
+              ))}
+            </>
+          ) : (
+            <DataTable
+              labels={LABELS}
+              data={DATA}
+              keys={KEYS}
+              round="10px"
+              render={{
+                name: (row) => (
+                  <Link
+                    to={`${Routes.ACTIVITIES_TP}/${row.id}`}
+                    className="PlansTable__table-link"
+                  >
+                    <span>{row.name}</span>
+                  </Link>
+                ),
+                status: (row) => (
+                  <StatusBadge
+                    status={row.status.toLowerCase()}
+                    className="PlansTable__table-status"
+                  >
+                    {row.status}
+                  </StatusBadge>
+                )
+              }}
+            />
+          )}
 
           {!DATA.length && <EmptyPlaceholder spacing />}
         </div>
       </Card>
     </Styles>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Training Plans"
+      actionComponent={<Button>Create Plan</Button>}
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }

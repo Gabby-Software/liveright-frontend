@@ -1,25 +1,37 @@
 import { useState } from 'react'
 
+import { WorkoutIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import EditPlan from '../edit-plan/edit-plan.component'
 import { Styles } from './plan.styles'
+
+const IS_EMPTY = false
 
 export default function TrainingPlan() {
   const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const isMobile = useIsMobile()
 
-  if (edit) {
-    return <EditPlan onClose={() => setEdit(false)} />
-  }
-
-  return (
+  const content = IS_EMPTY ? (
+    <EmptyPlan
+      title="Current Training Plan"
+      text="There is no training plan yet..."
+      Icon={WorkoutIcon}
+      action={<Button>Create Training Plan</Button>}
+    />
+  ) : edit ? (
+    <EditPlan onClose={() => setEdit(false)} />
+  ) : (
     <>
       <Styles>
         <Card>
@@ -97,5 +109,11 @@ export default function TrainingPlan() {
         onClose={() => setMakeActiveDialog(false)}
       />
     </>
+  )
+
+  return isMobile ? (
+    <MobilePage title="Current Training Plan">{content}</MobilePage>
+  ) : (
+    content
   )
 }
