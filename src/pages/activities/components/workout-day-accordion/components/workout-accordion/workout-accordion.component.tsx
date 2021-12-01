@@ -1,49 +1,19 @@
-import { useState } from 'react'
-
-import {
-  AddIcon,
-  CaretDownIcon,
-  DeleteOutlinedIcon,
-  SearchIcon
-} from '../../../../../../assets/media/icons'
+import { AddIcon, SearchIcon } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
-import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'
 import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './workout-accordion.styles'
 
 export default function WorkoutAccordion() {
-  const [open, setOpen] = useState(false)
   return (
-    <Styles $open={open}>
-      <div className="WorkoutAccordion__summary">
-        <p className="WorkoutAccordion__summary-title">Workouts 1</p>
-
-        <div className="WorkoutAccordion__summary-actions">
-          {open && (
-            <IconButton
-              size="sm"
-              className="WorkoutAccordion__summary-remove-btn"
-            >
-              <DeleteOutlinedIcon />
-            </IconButton>
-          )}
-
-          <IconButton
-            size="sm"
-            className="WorkoutAccordion__summary-caret"
-            onClick={() => setOpen(!open)}
-          >
-            <CaretDownIcon />
-          </IconButton>
-        </div>
-      </div>
-
-      {open && (
-        <div className="WorkoutAccordion__content">
+    <ItemAccordion
+      title="Workouts 1"
+      content={
+        <Styles>
           <div className="WorkoutAccordion__controls">
             <Input
               id="WorkoutAccordion__name-workout"
@@ -105,8 +75,8 @@ export default function WorkoutAccordion() {
               Add Superset
             </Button>
           </div>
-        </div>
-      )}
-    </Styles>
+        </Styles>
+      }
+    />
   )
 }
