@@ -153,12 +153,18 @@ export const Styles = styled.div`
     }
 
     &__info {
-      background-color: ${getColorCarry('neutral_20')};
+      background-color: ${getColorCarry('neutral_10')};
       margin-bottom: 1.25rem;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
+      @media ${mediaQueries.TABLET} {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+        margin-bottom: 0;
+      }
 
       &-title {
         font-size: 0.875rem;
@@ -170,6 +176,12 @@ export const Styles = styled.div`
         font-size: 0.875rem;
         font-weight: 400;
         color: ${getColorCarry('neutral_100')};
+      }
+
+      &-badge {
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 1rem;
+        }
       }
     }
   }

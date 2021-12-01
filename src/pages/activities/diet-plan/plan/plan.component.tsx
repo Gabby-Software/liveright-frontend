@@ -18,9 +18,13 @@ import EditDietPlan from '../edit-plan/edit-plan.component'
 const IS_EMPTY = false
 
 export default function DietPlan() {
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(true)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
+
+  if (edit) {
+    return <EditDietPlan onClose={() => setEdit(false)} />
+  }
 
   const content = IS_EMPTY ? (
     <EmptyPlan
@@ -29,32 +33,44 @@ export default function DietPlan() {
       Icon={FoodIcon}
       action={<Button>Create Edit Plan</Button>}
     />
-  ) : edit ? (
-    <EditDietPlan onClose={() => setEdit(false)} />
   ) : (
     <>
       <Styles>
-        <Card>
-          <div className="PlanPage__header">
-            <Title>Current Diet Plan</Title>
+        <Card className="PlanPage__card">
+          {!isMobile && (
+            <div className="PlanPage__header">
+              <Title>Current Diet Plan</Title>
 
-            <div className="PlanPage__header-actions">
-              <Button variant="secondary" className="PlanPage__header-btn">
-                See Other Plans
-              </Button>
-              <Button
-                className="PlanPage__header-btn"
-                onClick={() => setEdit(true)}
-              >
-                Edit Diet Plan
-              </Button>
+              <div className="PlanPage__header-actions">
+                <Button variant="secondary" className="PlanPage__header-btn">
+                  See Other Plans
+                </Button>
+                <Button
+                  className="PlanPage__header-btn"
+                  onClick={() => setEdit(true)}
+                >
+                  Edit Diet Plan
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="PlanPage__filters">
-            <Subtitle className="PlanPage__filters-title">
-              Balance Diet
-            </Subtitle>
+            <div className="PlanPage__filters-title-container">
+              <Subtitle className="PlanPage__filters-title">
+                Balance Diet
+              </Subtitle>
+
+              {isMobile && (
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="PlanPage__filters-archived-btn"
+                >
+                  Archived Plans
+                </Button>
+              )}
+            </div>
 
             <div className="PlanPage__filters-actions">
               <Select
@@ -67,12 +83,14 @@ export default function DietPlan() {
                 }}
               />
 
-              <Button
-                className="PlanPage__filters-make-active-btn"
-                onClick={() => setMakeActiveDialog(true)}
-              >
-                Make active
-              </Button>
+              {!isMobile && (
+                <Button
+                  className="PlanPage__filters-make-active-btn"
+                  onClick={() => setMakeActiveDialog(true)}
+                >
+                  Make active
+                </Button>
+              )}
             </div>
           </div>
 
@@ -90,15 +108,31 @@ export default function DietPlan() {
               </div>
             </div>
 
-            <StatusBadge status="active">Active</StatusBadge>
+            <StatusBadge status="active" className="PlanPage__info-badge">
+              Active
+            </StatusBadge>
           </Card>
 
-          <div className="PlanPage__cards">
-            <DayDietPlanCard />
-            <DayDietPlanCard />
-            <DayDietPlanCard />
-          </div>
+          {!isMobile && (
+            <div className="PlanPage__cards">
+              <DayDietPlanCard />
+              <DayDietPlanCard />
+              <DayDietPlanCard />
+            </div>
+          )}
         </Card>
+
+        {isMobile && (
+          <>
+            <p className="PlanPage__subtitle">List of meal days</p>
+
+            <DayDietPlanCard />
+            <DayDietPlanCard />
+            <DayDietPlanCard />
+          </>
+        )}
+
+        <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
       </Styles>
 
       <MakeActiveDialog
@@ -109,7 +143,12 @@ export default function DietPlan() {
   )
 
   return isMobile ? (
-    <MobilePage title="Current Diet Plan">{content}</MobilePage>
+    <MobilePage
+      title="Current Diet Plan"
+      actionComponent={<Button onClick={() => setEdit(true)}>Edit Plan</Button>}
+    >
+      {content}
+    </MobilePage>
   ) : (
     content
   )

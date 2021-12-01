@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
   display: flex;
@@ -11,7 +11,7 @@ export const Styles = styled.div<any>`
     border-bottom: 0;
   }
 
-  .ExerciseAccordion {
+  .SubItemAccordion {
     &__summary {
       display: flex;
       align-items: center;
@@ -71,17 +71,6 @@ export const Styles = styled.div<any>`
 
     &__content {
       padding-bottom: 1.25rem;
-
-      &-controls {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      &-name {
-        margin-bottom: 1rem;
-      }
     }
   }
 `

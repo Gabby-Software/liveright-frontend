@@ -10,6 +10,14 @@ export const Styles = styled.div`
       overflow-x: auto;
       margin: 0 -0.25rem;
       margin-bottom: 2rem;
+
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     &__name {
