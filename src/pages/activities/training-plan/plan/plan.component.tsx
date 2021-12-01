@@ -18,7 +18,7 @@ import EditPlan from '../edit-plan/edit-plan.component'
 const IS_EMPTY = false
 
 export default function TrainingPlan() {
-  const [edit, setEdit] = useState(true)
+  const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
 
@@ -129,13 +129,13 @@ export default function TrainingPlan() {
           <>
             <p className="PlanPage__subtitle">List of workout days</p>
 
-            <div>
-              <DayTrainingPlanCard />
-              <DayTrainingPlanCard />
-              <DayTrainingPlanCard />
-            </div>
+            <DayTrainingPlanCard />
+            <DayTrainingPlanCard />
+            <DayTrainingPlanCard />
           </>
         )}
+
+        <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
       </Styles>
 
       <MakeActiveDialog

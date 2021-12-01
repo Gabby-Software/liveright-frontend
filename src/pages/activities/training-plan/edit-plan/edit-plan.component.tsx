@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -55,6 +56,11 @@ export default function EditPlan({ onClose }: EditPlanProps) {
 
         <WorkoutDayAccordion />
         <WorkoutDayAccordion />
+
+        <div className="EditPlan__add-new-day">
+          <AddIcon />
+          Add Workout Day
+        </div>
       </Styles>
 
       <MakeChangesDialog
@@ -67,7 +73,9 @@ export default function EditPlan({ onClose }: EditPlanProps) {
   return isMobile ? (
     <MobilePage
       title="Edit Training Plan"
-      actionComponent={<Button>Save</Button>}
+      actionComponent={
+        <Button onClick={() => setMakeChangesDialog(true)}>Save</Button>
+      }
     >
       {content}
     </MobilePage>

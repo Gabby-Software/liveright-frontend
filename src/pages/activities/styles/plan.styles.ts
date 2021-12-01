@@ -5,6 +5,8 @@ import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
 
   @media ${mediaQueries.TABLET} {
     padding-bottom: 0;
