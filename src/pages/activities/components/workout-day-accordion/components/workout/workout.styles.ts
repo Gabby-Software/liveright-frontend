@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
 import Card from '../../../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
-  background-color: ${getColorCarry('neutral_20')};
+  background-color: ${getColorCarry('neutral_10')};
   padding: 1.5rem;
   margin-bottom: 1.25rem;
 
@@ -49,6 +50,23 @@ export const Styles = styled(Card)`
         }
       }
     }
+
+    &__exercises {
+      margin-bottom: 1.25rem;
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      padding-top: 1.25rem;
+      border-top: 1px solid ${getColorCarry('inputBorder_v2')};
+    }
+
+    &__action-btn {
+      & svg {
+        margin-right: 0.5rem;
+      }
+    }
   }
 `
 
@@ -68,5 +86,10 @@ export const WorkoutSubtitle = styled.p`
     height: 1px;
     background-color: ${getColorCarry('inputBorder_v2')};
     margin-left: 1.25rem;
+  }
+
+  @media ${mediaQueries.TABLET} {
+    font-weight: 500;
+    margin-bottom: 0;
   }
 `

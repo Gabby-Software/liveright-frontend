@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, ReactNode, useState } from 'react'
 
 import {
   CaretDownIcon,
@@ -10,20 +10,22 @@ import { Styles } from './day-accordion.styles'
 
 interface DayAccordionProps {
   title: string
+  icon: ReactNode
+  iconColor: string
 }
 
 export default function DayAccordion({
   title,
-  children
+  children,
+  iconColor,
+  icon
 }: PropsWithChildren<DayAccordionProps>) {
   const [open, setOpen] = useState(false)
   return (
-    <Styles $open={open}>
+    <Styles $open={open} $iconColor={iconColor}>
       <div className="DayAccordion__summary">
         <div className="DayAccordion__summary-title-container">
-          <div className="DayAccordion__summary-icon">
-            <FoodIcon />
-          </div>
+          <div className="DayAccordion__summary-icon">{icon}</div>
 
           <p className="DayAccordion__summary-title">{title}</p>
         </div>

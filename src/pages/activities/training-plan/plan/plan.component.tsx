@@ -12,15 +12,19 @@ import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
+import { Styles } from '../../styles/plan.styles'
 import EditPlan from '../edit-plan/edit-plan.component'
-import { Styles } from './plan.styles'
 
 const IS_EMPTY = false
 
 export default function TrainingPlan() {
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(true)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
+
+  if (edit) {
+    return <EditPlan onClose={() => setEdit(false)} />
+  }
 
   const content = IS_EMPTY ? (
     <EmptyPlan
@@ -29,36 +33,48 @@ export default function TrainingPlan() {
       Icon={WorkoutIcon}
       action={<Button>Create Training Plan</Button>}
     />
-  ) : edit ? (
-    <EditPlan onClose={() => setEdit(false)} />
   ) : (
     <>
       <Styles>
-        <Card>
-          <div className="training-plan__header">
-            <Title>Current Training Plan</Title>
+        <Card className="PlanPage__card">
+          {!isMobile && (
+            <div className="PlanPage__header">
+              <Title>Current Training Plan</Title>
 
-            <div className="training-plan__header-actions">
-              <Button variant="secondary" className="training-plan__header-btn">
-                See Other Plans
-              </Button>
-              <Button
-                className="training-plan__header-btn"
-                onClick={() => setEdit(true)}
-              >
-                Edit Training Plan
-              </Button>
+              <div className="PlanPage__header-actions">
+                <Button variant="secondary" className="PlanPage__header-btn">
+                  See Other Plans
+                </Button>
+                <Button
+                  className="PlanPage__header-btn"
+                  onClick={() => setEdit(true)}
+                >
+                  Edit Training Plan
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="training-plan__filters">
-            <Subtitle className="training-plan__filters-title">
-              High Intensity Plan
-            </Subtitle>
+          <div className="PlanPage__filters">
+            <div className="PlanPage__filters-title-container">
+              <Subtitle className="PlanPage__filters-title">
+                High Intensity Plan
+              </Subtitle>
 
-            <div className="training-plan__filters-actions">
+              {isMobile && (
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="PlanPage__filters-archived-btn"
+                >
+                  Archived Plans
+                </Button>
+              )}
+            </div>
+
+            <div className="PlanPage__filters-actions">
               <Select
-                className="training-plan__filters-select"
+                className="PlanPage__filters-select"
                 id="training-plan-version"
                 options={[]}
                 value={{
@@ -67,12 +83,14 @@ export default function TrainingPlan() {
                 }}
               />
 
-              <Button
-                className="training-plan__make-active-btn"
-                onClick={() => setMakeActiveDialog(true)}
-              >
-                Make active
-              </Button>
+              {!isMobile && (
+                <Button
+                  className="PlanPage__filters-make-active-btn"
+                  onClick={() => setMakeActiveDialog(true)}
+                >
+                  Make active
+                </Button>
+              )}
             </div>
           </div>
 
@@ -80,28 +98,44 @@ export default function TrainingPlan() {
             content={`This is your revision of your training plan set become active on 04/11/2021.`}
           />
 
-          <div className="training-plan__divider" />
+          {!isMobile && <div className="PlanPage__divider" />}
 
-          <div className="training-plan__badges">
-            <div className="training-plan__badge">
-              <p className="training-plan__badge-title">Status</p>
-              <StatusBadge status="active">Active</StatusBadge>
+          <div className="PlanPage__badges">
+            <div className="PlanPage__badge">
+              <p className="PlanPage__badge-title">Status</p>
+              <StatusBadge status="active" className="PlanPage__badge-badge">
+                Active
+              </StatusBadge>
             </div>
-            <div className="training-plan__badge">
-              <p className="training-plan__badge-title">Start and end dates</p>
-              <p className="training-plan__badge-text">
+            <div className="PlanPage__badge">
+              <p className="PlanPage__badge-title">Start and end dates</p>
+              <p className="PlanPage__badge-text">
                 The start and end dates of this training plan are tied to the
                 active Training Split
               </p>
             </div>
           </div>
 
-          <div className="training-plan__cards">
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
-          </div>
+          {!isMobile && (
+            <div className="PlanPage__cards">
+              <DayTrainingPlanCard />
+              <DayTrainingPlanCard />
+              <DayTrainingPlanCard />
+            </div>
+          )}
         </Card>
+
+        {isMobile && (
+          <>
+            <p className="PlanPage__subtitle">List of workout days</p>
+
+            <div>
+              <DayTrainingPlanCard />
+              <DayTrainingPlanCard />
+              <DayTrainingPlanCard />
+            </div>
+          </>
+        )}
       </Styles>
 
       <MakeActiveDialog
@@ -112,7 +146,12 @@ export default function TrainingPlan() {
   )
 
   return isMobile ? (
-    <MobilePage title="Current Training Plan">{content}</MobilePage>
+    <MobilePage
+      title="Current Training Plan"
+      actionComponent={<Button onClick={() => setEdit(true)}>Edit Plan</Button>}
+    >
+      {content}
+    </MobilePage>
   ) : (
     content
   )

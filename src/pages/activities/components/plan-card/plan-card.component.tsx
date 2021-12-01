@@ -3,11 +3,12 @@ import { Styles } from './plan-card.styles'
 
 interface PlanCardProps {
   plan: any
+  to: string
 }
 
-export default function PlanCard({ plan }: PlanCardProps) {
+export default function PlanCard({ plan, to }: PlanCardProps) {
   return (
-    <Styles>
+    <Styles to={to}>
       <div className="PlanCard__header">
         <div>
           <p className="PlanCard__name">{plan.name}</p>

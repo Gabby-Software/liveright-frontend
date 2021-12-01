@@ -1,11 +1,23 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Styles = styled(Card)`
+export const Styles = styled(Link)`
   color: ${getColorCarry('neutral_100')};
   margin-bottom: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 1.5rem 1.75rem;
+
+  @media ${mediaQueries.TABLET} {
+    padding: 1.5rem 1.25rem;
+  }
 
   &:last-child {
     margin-bottom: 0;

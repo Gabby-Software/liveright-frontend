@@ -6,6 +6,7 @@ import { Styles } from './day-training-schedule-card.styles'
 export default function DayTrainingScheduleCard() {
   return (
     <DayCard
+      title="Day 1"
       subtitle="Wednesday"
       content={
         <Styles>

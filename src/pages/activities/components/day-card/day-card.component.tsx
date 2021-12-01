@@ -7,14 +7,15 @@ import { Styles } from './day-card.styles'
 interface DayCardProps {
   content: ReactNode
   subtitle?: string
+  title: string
 }
 
-export default function DayCard({ content, subtitle }: DayCardProps) {
+export default function DayCard({ title, content, subtitle }: DayCardProps) {
   return (
     <Styles>
       <div className="day-card__header">
         <div className="day-card__header-title-container">
-          <p className="day-card__title">Day 1</p>
+          <p className="day-card__title">{title}</p>
 
           <IconButton size="sm" className="day-card__header-icon">
             <UnionIcon />

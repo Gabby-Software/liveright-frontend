@@ -1,29 +1,56 @@
-import { FoodIcon } from '../../../../assets/media/icons/activities'
 import DayCard from '../day-card/day-card.component'
+import DayCardAccordion from '../day-card-accordion/day-card-accordion.component'
 import DayCardListItem from '../day-card-list-item/day-card-list-item.component'
 import { Styles } from './day-training-plan-card.styles'
+
+const CONTENT = [
+  {
+    content: [
+      {
+        title: 'Pushups',
+        subtitle: '4 sets of 10 Reps with 2 min break'
+      }
+    ]
+  },
+  {
+    content: [
+      {
+        title: 'Pushups',
+        subtitle: '4 sets of 10 Reps with 2 min break'
+      }
+    ]
+  },
+  {
+    content: [
+      {
+        title: '1A - Pushups',
+        subtitle: '4 sets of 10 Reps with 2 min break'
+      },
+      {
+        title: '1B - Pushups',
+        subtitle: '4 sets of 10 Reps with 2 min break'
+      }
+    ]
+  }
+]
 
 export default function DayTrainingPlanCard() {
   return (
     <DayCard
+      title="High Intensity Workouts"
       content={
         <Styles>
-          <div className="day-tp-card__name-container">
-            <div className="day-tp-card__name-icon">
-              <FoodIcon />
-            </div>
-
-            <p className="day-tp-card__name">High Intensity Workouts</p>
-          </div>
-
           <div className="day-tp-card__content">
             <div className="day-tp-card__workout">
-              <p className="day-tp-card__workout-title">Workout 1</p>
-
               <div>
-                <DayCardListItem title="Pushups" />
-                <DayCardListItem title="Squats" />
-                <DayCardListItem title="Situps" />
+                {[1, 2, 3].map((row) => (
+                  <DayCardAccordion
+                    key={row}
+                    title="Workout One"
+                    count="3"
+                    content={CONTENT}
+                  />
+                ))}
               </div>
             </div>
           </div>

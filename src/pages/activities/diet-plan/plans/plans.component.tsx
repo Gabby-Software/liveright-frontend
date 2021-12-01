@@ -12,6 +12,7 @@ import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 
@@ -20,6 +21,7 @@ const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
 const DATA = [
   {
+    id: 1,
     name: '10 Days of Wonder',
     client: 'John Travolta',
     days: '5',
@@ -28,6 +30,7 @@ const DATA = [
     status: 'Inactive'
   },
   {
+    id: 2,
     name: 'Reduce Bodyweight',
     client: 'John Travolta',
     days: '7',
@@ -36,6 +39,7 @@ const DATA = [
     status: 'Active'
   },
   {
+    id: 3,
     name: 'Reduce Bodyweight',
     client: 'John Travolta',
     days: '7',
@@ -44,6 +48,7 @@ const DATA = [
     status: 'Draft'
   },
   {
+    id: 4,
     name: 'Reduce Bodyweight',
     client: 'John Travolta',
     days: '7',
@@ -97,7 +102,11 @@ export default function DietPlans() {
           {isMobile ? (
             <>
               {DATA.map((row, index) => (
-                <PlanCard plan={row} key={index} />
+                <PlanCard
+                  plan={row}
+                  key={index}
+                  to={getRoute(Routes.ACTIVITIES_DP_ID, { id: row.id })}
+                />
               ))}
             </>
           ) : (

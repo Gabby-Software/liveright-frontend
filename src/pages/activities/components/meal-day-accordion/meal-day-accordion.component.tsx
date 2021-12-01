@@ -1,5 +1,6 @@
-import { AddIcon } from '../../../../assets/media/icons'
+import { AddIcon, FoodIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import Macronutrient from '../macronutrient/macronutrient.component'
 import Meal from './components/meal/meal.component'
@@ -7,7 +8,11 @@ import { Styles } from './meal-day-accordion.styles'
 
 export default function MealDayAccordion() {
   return (
-    <DayAccordion title="Day 1 - Low Carbs Day">
+    <DayAccordion
+      title="Day 1 - Low Carbs Day"
+      icon={<FoodIcon />}
+      iconColor={getColorCarry('primary_v2')}
+    >
       <Styles>
         <div className="MealDayAccordion__name-container">
           <Input

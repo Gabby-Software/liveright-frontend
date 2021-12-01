@@ -7,7 +7,7 @@ export const Styles = styled.div<any>`
   grid-template-columns: 46px 2fr 1fr 1fr 1fr 1fr 3fr 46px;
   gap: 1rem;
   padding: 0.5rem 0 0.75rem 0;
-  background-color: ${getColorCarry('neutral_20')};
+  background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
 
   ${(props) =>

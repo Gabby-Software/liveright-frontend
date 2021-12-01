@@ -12,6 +12,7 @@ import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 
@@ -27,6 +28,7 @@ const KEYS = ['name', 'diet_plan', 'training_plan', 'client', 'days', 'status']
 
 const DATA = [
   {
+    id: 1,
     name: '10 Days of Wonder',
     client: 'John Travolta',
     days: '5',
@@ -35,6 +37,7 @@ const DATA = [
     status: 'Inactive'
   },
   {
+    id: 2,
     name: 'Reduce Bodyweight',
     client: 'John Travolta',
     days: '5',
@@ -88,7 +91,11 @@ export default function TrainingSplits() {
           {isMobile ? (
             <>
               {DATA.map((row, index) => (
-                <PlanCard plan={row} key={index} />
+                <PlanCard
+                  plan={row}
+                  key={index}
+                  to={getRoute(Routes.ACTIVITIES_TS_ID, { id: row.id })}
+                />
               ))}
             </>
           ) : (
