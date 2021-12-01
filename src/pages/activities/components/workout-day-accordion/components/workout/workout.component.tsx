@@ -6,7 +6,11 @@ import {
   DropResult
 } from 'react-beautiful-dnd'
 
-import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
+import {
+  AddIcon,
+  DeleteOutlinedIcon
+} from '../../../../../../assets/media/icons'
+import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
@@ -72,46 +76,60 @@ export default function Workout() {
 
       <WorkoutSubtitle>Exercises</WorkoutSubtitle>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={`droppable-${dropId}`}>
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {exercises.map((row, index) => {
-                return (
-                  <Draggable
-                    key={row.id}
-                    draggableId={`${row.id}`}
-                    index={index}
-                    isDragDisabled={row.type === 'superset'}
-                  >
-                    {(provided, snapshot) =>
-                      row.type === 'superset' ? (
-                        <Superset
-                          key={row.id}
-                          exercises={row.exercises}
-                          dragHandleProps={provided.dragHandleProps}
-                          draggableProps={provided.draggableProps}
-                          isDragging={snapshot.isDragging}
-                          innerRef={provided.innerRef}
-                        />
-                      ) : (
-                        <Exercise
-                          key={row.id}
-                          dragHandleProps={provided.dragHandleProps}
-                          draggableProps={provided.draggableProps}
-                          innerRef={provided.innerRef}
-                          isDragging={snapshot.isDragging}
-                        />
-                      )
-                    }
-                  </Draggable>
-                )
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className="Workout__exercises">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId={`droppable-${dropId}`}>
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {exercises.map((row, index) => {
+                  return (
+                    <Draggable
+                      key={row.id}
+                      draggableId={`${row.id}`}
+                      index={index}
+                      isDragDisabled={row.type === 'superset'}
+                    >
+                      {(provided, snapshot) =>
+                        row.type === 'superset' ? (
+                          <Superset
+                            key={row.id}
+                            exercises={row.exercises}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            isDragging={snapshot.isDragging}
+                            innerRef={provided.innerRef}
+                          />
+                        ) : (
+                          <Exercise
+                            key={row.id}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                          />
+                        )
+                      }
+                    </Draggable>
+                  )
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+
+      <div className="Workout__actions">
+        <Button variant="text" size="sm" className="Workout__action-btn">
+          <AddIcon />
+          Add Exercise
+        </Button>
+
+        <Button variant="text" size="sm" className="Workout__action-btn">
+          <AddIcon />
+          Add Superset
+        </Button>
+      </div>
     </Styles>
   )
 }

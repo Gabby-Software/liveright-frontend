@@ -4,7 +4,7 @@ import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
   border-radius: 15px;
-  background-color: ${getColorCarry('neutral_20')};
+  background-color: ${getColorCarry('neutral_10')};
 
   .Superset {
     &__exercises {

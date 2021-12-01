@@ -1,16 +1,30 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
   border: 1px solid ${getColorCarry('inputBorder_v2')};
 
+  @media ${mediaQueries.TABLET} {
+    border: 0;
+    margin-bottom: 1.25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   .day-card {
     &__title {
-      font-size: 1.375rem;
+      font-size: 1.125rem;
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 0.875rem;
+      }
     }
 
     &__subtitle {

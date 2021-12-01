@@ -8,7 +8,7 @@ export const Styles = styled(Card)<any>`
   margin-bottom: 1.25rem;
 
   &:last-child {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0;
   }
 
   .WorkoutDayAccordion {
@@ -21,6 +21,20 @@ export const Styles = styled(Card)<any>`
       color: ${getColorCarry('neutral_70')};
       margin-bottom: 1rem;
       font-weight: 500;
+    }
+
+    &__add-workout {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      color: ${getColorCarry('link')};
+      border: 1px dashed ${getColorCarry('link')};
+      border-radius: 10px;
+      cursor: pointer;
+
+      & svg {
+        margin-right: 0.5rem;
+      }
     }
   }
 `

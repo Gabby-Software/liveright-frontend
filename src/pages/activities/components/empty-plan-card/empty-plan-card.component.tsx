@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import { Styles } from './empty-plan-card.styles'
 
-interface EmptyPlanCardProps {
+export interface EmptyPlanCardProps {
   Icon: any
   text: string
   action: ReactNode

@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+
 export const Styles = styled.div`
   display: flex;
   background-color: rgba(228, 154, 10, 0.05);
@@ -8,6 +10,10 @@ export const Styles = styled.div`
   border-radius: 10px;
   color: #10243d;
   margin-bottom: 1.25rem;
+
+  @media ${mediaQueries.TABLET} {
+    flex-direction: column;
+  }
 
   .Alert {
     &__body {
@@ -28,6 +34,10 @@ export const Styles = styled.div`
       border-radius: 9999px;
       color: #fff;
       margin-right: 1.25rem;
+
+      @media ${mediaQueries.TABLET} {
+        margin-bottom: 0.75rem;
+      }
     }
 
     &__action {

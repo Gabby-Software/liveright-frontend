@@ -6,6 +6,7 @@ import { Styles } from './day-diet-plan-card.styles'
 export default function DayDietPlanCard() {
   return (
     <DayCard
+      title="Day 1"
       content={
         <Styles>
           <div className="DayDietPlanCard__name-container">

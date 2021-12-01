@@ -14,6 +14,7 @@ import { ListItemStyles, Styles } from './day-training-split-card.styles'
 export default function DayTrainingSplitCard() {
   return (
     <DayCard
+      title="Day 1"
       subtitle="Wednesday"
       content={
         <Styles>

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)<any>`
@@ -18,22 +19,37 @@ export const Styles = styled(Card)<any>`
       align-items: center;
       justify-content: space-between;
 
+      @media ${mediaQueries.TABLET} {
+        padding: 1rem;
+      }
+
       &-icon {
         width: 34px;
         height: 34px;
+        min-width: 34px;
+        min-height: 34px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 9999px;
-        background-color: ${getColorCarry('primary_v2')};
+        background-color: ${(props: any) => props.$iconColor};
         margin-right: 1rem;
         color: #fff;
+
+        & svg {
+          width: 20px;
+          height: 20px;
+        }
       }
 
       &-title {
         font-size: 1.175rem;
         font-weight: 700;
         color: ${getColorCarry('primaryDark_v2')};
+
+        @media ${mediaQueries.TABLET} {
+          font-size: 0.875rem;
+        }
 
         &-container {
           display: flex;
@@ -69,6 +85,10 @@ export const Styles = styled(Card)<any>`
 
     &__content {
       padding: 0 1.875rem 1.5rem 1.875rem;
+
+      @media ${mediaQueries.TABLET} {
+        padding: 1rem;
+      }
     }
   }
 `

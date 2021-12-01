@@ -1,12 +1,21 @@
 import { Modal } from 'antd'
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const ActivitiesDialogStyles = styled(Modal)`
   &.ant-modal {
     width: 100%;
     max-width: 830px;
+
+    @media ${mediaQueries.TABLET} {
+      max-height: calc(100vh - 2.5rem);
+      overflow-y: auto;
+      padding-bottom: 0;
+      margin: 1.25rem 0;
+      border-radius: 15px;
+    }
   }
 
   & .ant-modal-body {
@@ -40,6 +49,12 @@ export const Styles = styled.div`
       font-size: 1.125rem;
       font-weight: 700;
       margin-bottom: 2.5rem;
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 0.875rem;
+        color: ${getColorCarry('neutral_70')};
+        margin-bottom: 2rem;
+      }
     }
 
     &__description {
@@ -53,6 +68,11 @@ export const Styles = styled.div`
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 2rem;
+
+      @media ${mediaQueries.TABLET} {
+        font-size: 1.375rem;
+        margin-bottom: 1.5rem;
+      }
     }
 
     &__divider {
@@ -60,6 +80,10 @@ export const Styles = styled.div`
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
       margin-bottom: 2rem;
+
+      @media ${mediaQueries.TABLET} {
+        margin-bottom: 1rem;
+      }
     }
 
     &__control {
@@ -67,6 +91,10 @@ export const Styles = styled.div`
 
       & label {
         margin-bottom: 1.25rem;
+
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 0.5rem;
+        }
       }
 
       & .ant-picker {
@@ -82,8 +110,21 @@ export const Styles = styled.div`
       display: flex;
       align-items: center;
 
+      @media ${mediaQueries.TABLET} {
+        flex-direction: column;
+      }
+
       & button {
         margin-right: 1.25rem;
+
+        @media ${mediaQueries.TABLET} {
+          width: 100%;
+          margin-bottom: 1rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
       }
     }
   }

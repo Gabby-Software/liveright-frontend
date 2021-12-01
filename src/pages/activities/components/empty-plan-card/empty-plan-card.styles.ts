@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
@@ -9,6 +10,10 @@ export const Styles = styled(Card)`
   align-items: center;
   justify-content: center;
   padding: 6rem 1rem;
+
+  @media ${mediaQueries.TABLET} {
+    background-color: #fff;
+  }
 
   .EmptyPlanCard {
     &__icon {
