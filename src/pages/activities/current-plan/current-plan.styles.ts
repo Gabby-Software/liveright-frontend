@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -54,6 +55,27 @@ export const Styles = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 1.25rem;
+
+        @media ${mediaQueries.TABLET} {
+          flex-direction: column;
+          align-items: unset;
+        }
+      }
+
+      &-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &-title {
+          font-size: 1rem;
+          font-weight: 500;
+        }
+
+        &-subtitle {
+          font-size: 0.875rem;
+          color: ${getColorCarry('neutral_70')};
+        }
       }
     }
 
