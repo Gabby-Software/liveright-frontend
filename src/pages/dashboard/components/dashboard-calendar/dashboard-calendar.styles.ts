@@ -46,6 +46,10 @@ export const Styles = styled(Card)`
         overflow-y: scroll;
         margin: 0 -1.75rem;
         padding: 0 1.75rem;
+
+        @media ${mediaQueries.TABLET} {
+          margin: 0 -2.25rem;
+        }
       }
 
       & .rbc-row.rbc-time-header-cell.rbc-time-header-cell-single-day {

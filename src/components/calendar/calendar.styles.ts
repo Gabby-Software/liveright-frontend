@@ -16,7 +16,6 @@ export const Styles = styled(Card)<any>`
   .big-calendar {
     @media ${mediaQueries.TABLET} {
       width: auto;
-      margin: 0 -1.25rem;
     }
 
     // month
@@ -566,7 +565,7 @@ export const ToolbarSecondaryStyles = styled.div`
 
     &__prev {
       & svg {
-        transform: rotate(180deg) translateY(-1px);
+        transform: rotate(180deg);
       }
     }
   }

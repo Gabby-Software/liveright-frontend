@@ -99,7 +99,9 @@ function TableTarget({
       <span>{targetIncome ? `${Math.ceil(targetIncome)} AED` : '-'}</span>
       {!isNaN(percentage) && (
         <span
-          className={(isNegative ? 'percentage__red' : 'percentage__green') || ''}
+          className={
+            (isNegative ? 'percentage__red' : 'percentage__green') || ''
+          }
         >
           {targetIncome ? ` (${percentage < 0 ? '' : '+'}${percentage}%)` : ''}
         </span>
