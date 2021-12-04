@@ -14,6 +14,7 @@ export const Styles = styled.div`
 
   @media ${mediaQueries.MOBILE} {
     padding: 21px 20px;
+    margin-bottom: 24px;
   }
 
   .dashboard-revenue {
