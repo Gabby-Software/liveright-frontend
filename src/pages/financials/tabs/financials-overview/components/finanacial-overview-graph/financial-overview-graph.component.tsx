@@ -48,6 +48,7 @@ const FinancialsOverviewGraph = ({
             id="financials-overview-period"
             options={statisticRangeOptions}
             onChange={onRange}
+            value={range}
             defaultValue={statisticRange.MONTH}
           />
         </div>

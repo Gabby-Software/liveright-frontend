@@ -10,7 +10,7 @@ export default styled(Card)<any>`
 
   .f-overview-label {
     &__title {
-      color: #000;
+      color: ${getColorCarry('white')};
       opacity: 0.8;
       font-size: 1rem;
       font-weight: 400;
