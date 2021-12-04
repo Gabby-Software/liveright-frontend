@@ -566,7 +566,7 @@ export const ToolbarSecondaryStyles = styled.div`
 
     &__prev {
       & svg {
-        transform: rotate(180deg);
+        transform: rotate(180deg) translateY(-1px);
       }
     }
   }
