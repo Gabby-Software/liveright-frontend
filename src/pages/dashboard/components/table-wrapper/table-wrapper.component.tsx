@@ -72,7 +72,7 @@ export const TableWrapper = ({ labels, keys, data }: IProps) => {
   )
 }
 function getPercentage(target: number, actual: number) {
-  const difference = target - actual
+  const difference = actual - target
   const percentage = (difference / target) * 100
   return Math.round(percentage)
 }
@@ -93,15 +93,17 @@ function TableTarget({
   projectedIncome: number
 }) {
   const percentage = getPercentage(targetIncome, projectedIncome)
-  const isNegative = getPercentage(targetIncome, projectedIncome) < 0
+  const isNegative = percentage < 0
   return (
     <div className="percentage">
       <span>{targetIncome ? `${Math.ceil(targetIncome)} AED` : '-'}</span>
-      <span
-        className={(isNegative ? 'percentage__red' : 'percentage__green') || ''}
-      >
-        {targetIncome ? ` (${isNegative ? '' : '+'}${percentage}%)` : ''}
-      </span>
+      {!isNaN(percentage) && (
+        <span
+          className={(isNegative ? 'percentage__red' : 'percentage__green') || ''}
+        >
+          {targetIncome ? ` (${percentage < 0 ? '' : '+'}${percentage}%)` : ''}
+        </span>
+      )}
     </div>
   )
 }
