@@ -21,9 +21,6 @@ export const Styles = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    @media ${mediaQueries.MOBILE} {
-      padding: 0 20px;
-    }
     &__title {
       font-size: 22px;
       @media ${mediaQueries.MOBILE} {
@@ -51,9 +48,6 @@ export const Styles = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    @media ${mediaQueries.MOBILE} {
-      padding: 0 20px;
-    }
 
     @media ${mediaQueries.MOBILE} {
       margin-top: 75px;
@@ -82,7 +76,6 @@ export const Styles = styled.div`
 
     @media ${mediaQueries.MOBILE} {
       display: block;
-      padding: 0 20px;
     }
 
     .f-overview-label {
@@ -160,7 +153,7 @@ export const Styles = styled.div`
     margin-bottom: 50px;
     svg {
       @media ${mediaQueries.MOBILE} {
-        width: 300px;
+        width: 100%;
       }
     }
   }

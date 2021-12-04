@@ -72,7 +72,7 @@ export default function LineChart({
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <ReLineChart data={data} margin={{ top: 10, bottom: 10 }}>
+      <ReLineChart data={data} margin={{ left: -20, top: 10, bottom: 10 }}>
         <CartesianGrid
           vertical={false}
           horizontal={<line strokeWidth={0.5} />}
@@ -80,7 +80,7 @@ export default function LineChart({
         <XAxis
           axisLine={false}
           tickLine={false}
-          padding={{ left: 30, right: 30 }}
+          padding={{ left: 10, right: 10 }}
           dy={15}
           height={40}
           tick={{ fill: colors.primaryDark_v2, fontSize: '0.75rem' }}
