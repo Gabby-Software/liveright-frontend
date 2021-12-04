@@ -4,7 +4,6 @@ import {
   CaretDownIcon,
   DeleteOutlinedIcon
 } from '../../../../assets/media/icons'
-import { FoodIcon } from '../../../../assets/media/icons/activities'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import { Styles } from './day-accordion.styles'
 

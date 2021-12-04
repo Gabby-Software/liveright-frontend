@@ -1,6 +1,5 @@
 import DayCard from '../day-card/day-card.component'
 import DayCardAccordion from '../day-card-accordion/day-card-accordion.component'
-import DayCardListItem from '../day-card-list-item/day-card-list-item.component'
 import { Styles } from './day-training-plan-card.styles'
 
 const CONTENT = [
