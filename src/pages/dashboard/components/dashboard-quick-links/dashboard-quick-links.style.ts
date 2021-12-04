@@ -33,16 +33,13 @@ export const LinkItem = styled.li`
   @media ${mediaQueries.MOBILE} {
     background: transparent;
     width: calc(100% / 3);
-    border-radius: 0;
+    border-radius: 14px;
   }
 
   .link {
     display: block;
     padding-top: 16px;
     padding-bottom: 16px;
-    @media ${mediaQueries.MOBILE} {
-      padding: 0;
-    }
   }
   p {
     font-family: Circular Std;
