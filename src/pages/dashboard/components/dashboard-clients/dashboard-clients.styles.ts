@@ -48,7 +48,7 @@ export const Styles = styled.div`
     }
 
     &-search {
-      max-width: 400px;
+      max-width: 480px;
     }
   }
 `
@@ -70,6 +70,7 @@ export const List = styled.ul`
         font-size: 14px;
         line-height: 20px;
         color: #10243d;
+        margin-bottom: 8px;
       }
 
       &__property {
@@ -112,7 +113,6 @@ export const List = styled.ul`
       align-items: center;
       border-radius: 50%;
       background: rgba(135, 148, 165, 0.1);
-      margin: auto;
     }
   }
 `
