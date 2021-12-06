@@ -18,7 +18,7 @@ export default styled(Card)`
     }
 
     &__range {
-      width: 200px;
+      width: 144px;
 
       @media ${mediaQueries.TABLET} {
         max-width: 100%;
@@ -40,18 +40,25 @@ export default styled(Card)`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: flex-end;
 
         &-wrapper {
           display: flex;
           align-items: center;
 
+          @media ${mediaQueries.TABLET} {
+            flex-direction: column;
+            align-items: start;
+          }
+
           .f-overview__graph__checkbox {
               display: flex;
               align-items: center;
               margin-left: 76px;
-               @media ${mediaQueries.MOBILE} {
-                  margin-left:15px;
-                }
+              @media ${mediaQueries.TABLET} {
+                margin-left: 0;
+                margin-top: 8px;
+              }
               &-label {
               font-family: Circular Std;
               font-size: 14px;

@@ -6,11 +6,11 @@ import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 export default styled(Card)<any>`
   align-items: center;
   background-color: ${getColorCarry('primaryDark_v2')};
-  padding: 1.125rem 1rem;
+  padding: 1.5rem 1.625rem;
 
   .f-overview-label {
     &__title {
-      color: #fff;
+      color: ${getColorCarry('white')};
       opacity: 0.8;
       font-size: 1rem;
       font-weight: 400;
@@ -34,7 +34,6 @@ export default styled(Card)<any>`
     }
 
     &__currency {
-      font-size: 0.875rem;
       font-weight: 400;
       margin-left: 5px;
     }

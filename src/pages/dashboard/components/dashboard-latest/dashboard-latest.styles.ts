@@ -15,7 +15,6 @@ export const Styles = styled.div`
   flex-direction: column;
   @media ${mediaQueries.MOBILE} {
     padding: 24px 20px;
-    width: 334px;
     height: 524px;
     margin-bottom: 24px;
   }

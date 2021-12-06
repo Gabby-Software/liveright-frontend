@@ -23,14 +23,18 @@ export default styled.div`
 
   .content {
     & > .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-      font-weight: 450;
+      font-weight: 500;
       font-size: 16px;
       line-height: 24px;
       border-bottom: 1px solid ${getColorCarry('neutral_30')};
-      margin: 0 10px;
+      margin: 0 24px;
+      padding: 32px 24px 32px 0;
 
-      & .ant-collapse-arrow svg {
-        transform: rotate(180deg);
+      & .ant-collapse-arrow {
+        right: 4px;
+        & svg {
+          transform: rotate(180deg);
+        }
       }
     }
 
@@ -43,19 +47,20 @@ export default styled.div`
 
     & > .ant-collapse > .ant-collapse-item > .ant-collapse-content {
       background-color: #fafafa;
+
+      & > .ant-collapse-content-box {
+        padding: 12px 24px;
+      }
     }
 
     & .tabularData {
       width: 100%;
       font-size: 14px;
-      line-height: 20px;
+      line-height: 40px;
       padding: 10px;
 
-      tr {
-        padding: 8px 0;
-      }
-
       & .value {
+        padding-right: 4px;
         text-align: right;
         color: ${getColorCarry('neutral_70')};
 

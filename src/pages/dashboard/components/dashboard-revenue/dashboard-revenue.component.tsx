@@ -50,14 +50,14 @@ export const DashboardRevenue = () => {
         <FinancialsOverviewLabel
           label={t('financials:overview.projected-monthly-income')}
           value={asMoney(Math.ceil(monthlyRevenue || 0))}
+          note={asMoney(Math.ceil(monthlyRevenue - monthlyTarget))}
+          green={monthlyTarget <= monthlyRevenue}
           currency={'AED'}
         />
         <FinancialsOverviewLabel
           label={t('financials:overview.target-monthly-income')}
           value={asMoney(Math.ceil(monthlyTarget || 0))}
-          note={asMoney(Math.ceil(monthlyRevenue - monthlyTarget))}
           currency={'AED'}
-          green={monthlyTarget <= monthlyRevenue}
         />
       </div>
       <div className="dashboard-revenue__chart-controller ">

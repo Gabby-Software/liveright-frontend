@@ -82,7 +82,7 @@ export default function Select({
           prefix={prefix}
           disabled={disabled}
           suffix={<CaretDownIcon />}
-          value={innerDefaultValue?.label || innerValue?.label}
+          value={innerValue?.label || innerDefaultValue?.label}
           onClick={() => setModal(true)}
           onFocus={(e) => e.target.blur()}
           className={className}

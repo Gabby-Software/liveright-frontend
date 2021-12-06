@@ -16,7 +16,6 @@ export const Styles = styled(Card)<any>`
   .big-calendar {
     @media ${mediaQueries.TABLET} {
       width: auto;
-      margin: 0 -1.25rem;
     }
 
     // month

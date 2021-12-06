@@ -4,7 +4,6 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   .day-tp-card {
-
     &__content {
       //padding-left: calc(34px + 1rem);
     }

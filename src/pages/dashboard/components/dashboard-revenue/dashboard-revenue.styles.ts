@@ -10,10 +10,10 @@ export const Styles = styled.div`
   background: ${getColorCarry('white')};
   box-shadow: ${getShadow('secondary')};
   border-radius: 10px;
-  padding: 30px;
+  padding: 24px 34px;
 
   @media ${mediaQueries.MOBILE} {
-    padding: 20px 0;
+    padding: 21px 20px;
     margin-bottom: 24px;
   }
 
@@ -22,10 +22,8 @@ export const Styles = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    @media ${mediaQueries.MOBILE} {
-      padding: 0 20px;
-    }
     &__title {
+      font-size: 22px;
       @media ${mediaQueries.MOBILE} {
         font-size: 18px;
       }
@@ -35,7 +33,7 @@ export const Styles = styled.div`
       border: none;
       padding: 0;
       background: transparent;
-      font-size: 18px;
+      font-size: 16px;
       color: ${getColorCarry('link')};
       cursor: pointer;
 
@@ -51,9 +49,6 @@ export const Styles = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    @media ${mediaQueries.MOBILE} {
-      padding: 0 20px;
-    }
 
     @media ${mediaQueries.MOBILE} {
       margin-top: 75px;
@@ -82,7 +77,6 @@ export const Styles = styled.div`
 
     @media ${mediaQueries.MOBILE} {
       display: block;
-      padding: 0 20px;
     }
 
     .f-overview-label {
@@ -90,7 +84,8 @@ export const Styles = styled.div`
       margin: 0;
       background: ${getColorCarry('background')};
       border-radius: 12px;
-      padding: 24px 24px 32px 24px;
+      padding: 24px 26px;
+      display: block;
 
       @media ${mediaQueries.MOBILE} {
         min-height: auto;
@@ -100,28 +95,34 @@ export const Styles = styled.div`
         background: ${getColorCarry('white')};
       }
       .f-overview-label__content {
-        @media ${mediaQueries.MOBILE} {
-          margin-right: auto;
-        }
-      }
-      .f-overview-label__content .f-overview-label__value {
-        color: ${getColorCarry('primaryDark_v2')};
-        @media ${mediaQueries.MOBILE} {
-          font-weight: bold;
+        display: flex;
+        align-items: center;
+
+        .f-overview-label__value {
+          color: ${getColorCarry('primaryDark_v2')};
           font-size: 18px;
-          line-height: 26px;
-          margin-right: auto;
+          font-weight: 700;
+          @media ${mediaQueries.MOBILE} {
+            font-weight: bold;
+          }
+        }
+
+        .f-overview-label__note {
+          font-size: 14px;
+          font-weight: 700;
+          @media ${mediaQueries.MOBILE} {
+            font-weight: bold;
+          }
         }
       }
 
       .f-overview-label__title {
+        font-size: 14px;
         margin: 0 auto;
-        margin-bottom: 16px;
+        margin-bottom: 1.125rem;
         color: ${getColorCarry('secondary')};
 
         @media ${mediaQueries.MOBILE} {
-          font-size: 14px;
-          line-height: 20px;
           margin: 0;
           margin-right: auto;
         }
@@ -138,7 +139,6 @@ export const Styles = styled.div`
     align-items: center;
     &-label {
       font-size: 14px;
-      line-height: 20px;
       color: #2e2f31;
       white-space: nowrap;
 
@@ -154,7 +154,7 @@ export const Styles = styled.div`
     margin-bottom: 50px;
     svg {
       @media ${mediaQueries.MOBILE} {
-        width: 300px;
+        width: 100%;
       }
     }
   }

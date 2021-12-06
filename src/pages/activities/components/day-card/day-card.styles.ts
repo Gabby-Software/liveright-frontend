@@ -32,7 +32,7 @@ export const Styles = styled(Card)`
       font-weight: 400;
       color: ${getColorCarry('neutral_70')};
     }
-    
+
     &__header {
       display: flex;
       flex-direction: column;
