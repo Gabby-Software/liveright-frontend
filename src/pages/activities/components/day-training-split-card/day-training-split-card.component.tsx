@@ -8,14 +8,17 @@ import {
 } from '../../../../assets/media/icons/activities'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-import DayCard from '../day-card/day-card.component'
+import DayCard, { DayCardProps } from '../day-card/day-card.component'
 import { ListItemStyles, Styles } from './day-training-split-card.styles'
 
-export default function DayTrainingSplitCard() {
+export default function DayTrainingSplitCard(
+  props: Pick<DayCardProps, 'onExpand'>
+) {
   return (
     <DayCard
       title="Day 1"
       subtitle="Wednesday"
+      onExpand={props.onExpand}
       content={
         <Styles>
           <ListItem
