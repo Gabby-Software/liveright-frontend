@@ -23,11 +23,8 @@ import Superset from '../superset/superset.component'
 import { Styles, WorkoutSubtitle } from './workout.styles'
 
 const EXERCISES = [
-  { id: 1 },
   { id: 2 },
-  { id: 3, type: 'superset', exercises: [{ id: 1 }, { id: 2 }] },
-  { id: 4 },
-  { id: 5 }
+  { id: 3, type: 'superset', exercises: [{ id: 1 }, { id: 2 }] }
 ]
 
 export default function Workout() {

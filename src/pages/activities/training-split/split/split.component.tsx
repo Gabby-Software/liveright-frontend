@@ -9,11 +9,24 @@ import { Subtitle, Title } from '../../../../components/typography'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import AddTrainingSplit from '../add-split/add-split.component'
+import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
+  const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const [day, setDay] = useState<null | number>(null)
+
+  if (edit) {
+    return <AddTrainingSplit />
+  }
+
+  if (day) {
+    return <TrainingSplitDayView onClose={() => setDay(null)} />
+  }
+
   return (
     <>
       <Styles>
@@ -28,7 +41,10 @@ export default function TrainingSplit() {
               >
                 See Other Splits
               </Button>
-              <Button className="TrainingSplits__title-button">
+              <Button
+                className="TrainingSplits__title-button"
+                onClick={() => setEdit(true)}
+              >
                 Edit Training Split
               </Button>
             </div>
@@ -101,51 +117,19 @@ export default function TrainingSplit() {
 
           {!scheduleView ? (
             <div className="TrainingSplits__cards">
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
+              {[1, 2, 3, 4, 5, 6, 7].map((row) => (
+                <div className="TrainingSplits__card-container" key={row}>
+                  <DayTrainingSplitCard onExpand={() => setDay(row)} />
+                </div>
+              ))}
             </div>
           ) : (
             <div className="TrainingSplits__cards">
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
+              {[1, 2, 3, 4, 5, 6, 7].map((row) => (
+                <div className="TrainingSplits__card-container" key={row}>
+                  <DayTrainingScheduleCard />
+                </div>
+              ))}
             </div>
           )}
         </Card>
