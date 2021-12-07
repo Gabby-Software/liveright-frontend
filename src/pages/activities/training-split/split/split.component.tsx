@@ -152,8 +152,34 @@ export default function TrainingSplit() {
       </Styles>
 
       <MakeActiveDialog
+        yes="Confirm Chnages"
+        cancel="Never mind"
         open={makeActiveDialog}
         onClose={() => setMakeActiveDialog(false)}
+        old
+        date={{
+          label: (
+            <span>
+              Right now it is&nbsp;
+              <span style={{ color: 'red' }}>Not Scheduled!</span>
+              <br />
+              You can find it under &quot;Training Splits&quot; and make it
+              &nbsp;active at any point or schedule it to become active
+              &nbsp;later late.
+            </span>
+          ),
+          value: ''
+        }}
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
       />
     </>
   )

@@ -19,7 +19,7 @@ const FormTextarea = ({ name, label, onUpdate }: Props) => {
     e: ChangeEvent<HTMLTextAreaElement>,
     form: FormikProps<any>
   ) => {
-    form.setFieldValue(name, (e?.target).value)
+    form.setFieldValue(name, e.target.value)
     onUpdate && onUpdate(name, e.target.value)
     e.target.style.height = ''
     const height = e.target.scrollHeight + 2
