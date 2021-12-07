@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
@@ -11,9 +13,11 @@ import { FormToggleUI } from '../../../../components/forms/form-toggle/form-togg
 import { Subtitle, Title } from '../../../../components/typography'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edit-card.component'
+import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import { Styles } from './add-split.styles'
 
 export default function AddTrainingSplit() {
+  const [dayView, setDayView] = useState(false)
   return (
     <Styles>
       <Card className="AddTrainingSplit__card">
@@ -91,8 +95,8 @@ export default function AddTrainingSplit() {
             <p className="AddTrainingSplit__cards-toggle-label">All Day View</p>
             <FormToggleUI
               className="AddTrainingSplit__cards-toggle"
-              value={false}
-              onUpdate={() => {}}
+              value={dayView}
+              onUpdate={() => setDayView(!dayView)}
             />
             <p className="AddTrainingSplit__cards-toggle-label">
               Focused Day View
@@ -100,22 +104,28 @@ export default function AddTrainingSplit() {
           </div>
         </div>
 
-        <div className="AddTrainingSplit__cards">
-          <DaySplitEditCard />
-          <DaySplitEditCard />
+        {dayView ? (
+          <DaySplitEditFocusView />
+        ) : (
+          <>
+            <div className="AddTrainingSplit__cards">
+              <DaySplitEditCard />
+              <DaySplitEditCard />
 
-          <div className="AddTrainingSplit__card-add">
-            <AddIcon />
-            Add More Days
-          </div>
-        </div>
+              <div className="AddTrainingSplit__card-add">
+                <AddIcon />
+                Add More Days
+              </div>
+            </div>
 
-        <div className="AddTrainingSplit__cards-checkbox-container">
-          <Checkbox className="AddTrainingSplit__cards-checkbox" />
-          <Label className="AddTrainingSplit__cards-checkbox-label">
-            Save as re-usable template
-          </Label>
-        </div>
+            <div className="AddTrainingSplit__cards-checkbox-container">
+              <Checkbox className="AddTrainingSplit__cards-checkbox" />
+              <Label className="AddTrainingSplit__cards-checkbox-label">
+                Save as re-usable template
+              </Label>
+            </div>
+          </>
+        )}
       </Card>
     </Styles>
   )

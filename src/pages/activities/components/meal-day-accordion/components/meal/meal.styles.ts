@@ -4,7 +4,7 @@ import Card from '../../../../../../components/cards/card/card.component'
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
-  background-color: ${getColorCarry('neutral_20')};
+  background-color: ${getColorCarry('neutral_10')};
   padding: 1.5rem;
   margin-bottom: 1.25rem;
 

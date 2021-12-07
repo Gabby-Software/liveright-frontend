@@ -1,15 +1,12 @@
-import { AddIcon, FoodIcon } from '../../../../assets/media/icons'
+import { FoodIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
-import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import Macronutrient from '../macronutrient/macronutrient.component'
-import Meal from './components/meal/meal.component'
-import MealAccordion from './components/meal-accordion/meal-accordion.component'
+import MealDayForm from '../meal-day-form/meal-day-form.component'
 import { Styles } from './meal-day-accordion.styles'
 
 export default function MealDayAccordion() {
-  const isMobile = useIsMobile()
   return (
     <DayAccordion
       title="Day 1 - Low Carbs Day"
@@ -43,14 +40,7 @@ export default function MealDayAccordion() {
           List meals of this diet plan
         </p>
 
-        {[1, 2].map((row) =>
-          isMobile ? <MealAccordion key={row} /> : <Meal key={row} />
-        )}
-
-        <div className="MealDayAccordion__add-meal">
-          <AddIcon />
-          Add Another Meal
-        </div>
+        <MealDayForm />
       </Styles>
     </DayAccordion>
   )

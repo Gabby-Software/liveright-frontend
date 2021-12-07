@@ -33,19 +33,5 @@ export const Styles = styled.div`
       margin-bottom: 1rem;
       font-weight: 500;
     }
-
-    &__add-meal {
-      display: flex;
-      align-items: center;
-      padding: 1.25rem;
-      border: 1px dashed ${getColorCarry('inputBorder_v2')};
-      color: ${getColorCarry('link')};
-      border-radius: 15px;
-      cursor: pointer;
-
-      & svg {
-        width: 16px;
-      }
-    }
   }
 `
