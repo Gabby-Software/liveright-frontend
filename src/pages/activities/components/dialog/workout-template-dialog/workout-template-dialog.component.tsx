@@ -4,7 +4,7 @@ import ClientSelect from '../../../../../components/form/client-select/client-se
 import { VoidAction } from '../../../../../types/actions.type'
 import ActivitiesDialog, {
   ActivitiesDialogProps,
-  DateProps,
+  DateProps
 } from '../activities-dialog.component'
 
 type WorkoutTemplateDialogProps = {
@@ -20,7 +20,9 @@ type WorkoutTemplateDialogProps = {
   alert: string
 } & Pick<ActivitiesDialogProps, 'onClose' | 'open'>
 
-export default function WorkoutTemplateDialog(props: WorkoutTemplateDialogProps) {
+export default function WorkoutTemplateDialog(
+  props: WorkoutTemplateDialogProps
+) {
   const { yes, cancel, onYes, onCancel, body, ...others } = props
 
   const onClient = (e: any, option: any) => {
@@ -56,7 +58,7 @@ export default function WorkoutTemplateDialog(props: WorkoutTemplateDialogProps)
 }
 
 WorkoutTemplateDialog.defaultProps = {
-  onYes: () => { },
-  onCancel: () => { },
+  onYes: () => {},
+  onCancel: () => {},
   old: false
 }

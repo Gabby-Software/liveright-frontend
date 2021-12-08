@@ -50,7 +50,7 @@ export default function TemplatesTable(props: TemplatesTableProps) {
             options: (row) => (
               <Link
                 to={`${baseLink}/${row.id}`}
-                className="TemplateTable__table-link"
+                className="TemplateTable__link"
               >
                 View
               </Link>

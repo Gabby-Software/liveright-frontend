@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
+
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
-import Select, { SelectProps } from '../../../../components/form/select/select.component'
+import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
+import Select, {
+  SelectProps
+} from '../../../../components/form/select/select.component'
 import { Option } from '../../../../components/form/select/select.options'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
-import { GeneralTable } from '../components/general-table/general-table.component'
 import { Styles } from '../../styles/plan.styles'
-import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
+import { GeneralTable } from '../components/general-table/general-table.component'
 
 const labels = [
   'Excercise',
@@ -47,15 +50,15 @@ export default function Workout() {
   const [option, setOption] = useState('existing')
   const [tpOption, setTpOption] = useState('123')
   const [dwOption, setDwOption] = useState('123')
-  const onDelete = () => { }
+  const onDelete = () => {}
 
   const tpOptions = [
     { label: 'Lose Weight', value: '123' },
-    { label: 'Wonder', value: '124' },
+    { label: 'Wonder', value: '124' }
   ]
   const dwOptions = [
     { label: 'High Intensity Training', value: '123' },
-    { label: 'Low Intensity Training', value: '124' },
+    { label: 'Low Intensity Training', value: '124' }
   ]
   return (
     <ActivityLayout>
@@ -107,21 +110,35 @@ export default function Workout() {
         name="Use workout template"
         title="High Intensity Workout"
         description="You’re about to use the following workout template"
-        body={(
+        body={
           <div style={{ marginBottom: '1.5rem' }}>
-            <div className='options-todo'>
+            <div className="options-todo">
               <p>What do you wish to do?</p>
               <RadioGroup
-                align='vertical'
+                align="vertical"
                 options={[
-                  { label: 'Add to existing training plan day', value: 'existing', disabled: false },
-                  { label: 'Create new training plan day from this workout', value: 'new ', disabled: false },
+                  {
+                    label: 'Add to existing training plan day',
+                    value: 'existing',
+                    disabled: false
+                  },
+                  {
+                    label: 'Create new training plan day from this workout',
+                    value: 'new ',
+                    disabled: false
+                  }
                 ]}
                 value={option}
                 onChange={(e) => setOption(e.target.value)}
               />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '1.5rem'
+              }}
+            >
               <div style={{ width: '45%' }}>
                 <p>Select training plan</p>
                 <Select
@@ -142,7 +159,7 @@ export default function Workout() {
               </div>
             </div>
           </div>
-        )}
+        }
         date={{
           label: 'From when should we apply this change',
           value: ''

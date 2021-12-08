@@ -4,7 +4,7 @@ import Tabs from '../../../components/tabs/tabs.component'
 import { Title } from '../../../components/typography'
 import ActivityLayout from '../components/layout/layout.component'
 import DietPlans from './diet-plan/plans/plans.component'
-import Excercies from './excercise/plans/plans.component'
+import Exercies from './exercise/exercises.component'
 import Foods from './food/plans/plans.component'
 import Meals from './meal/plans/plans.component'
 import MealPlans from './meal-plan/plans/plans.component'
@@ -35,9 +35,9 @@ const tabs = [
     renderContent: () => <Workouts />
   },
   {
-    label: 'Excercies',
+    label: 'Exercies',
     key: 'excercise',
-    renderContent: () => <Excercies />
+    renderContent: () => <Exercies />
   },
   {
     label: 'Meal Plans',

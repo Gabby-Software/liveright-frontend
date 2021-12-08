@@ -13,7 +13,6 @@ interface GeneralTableProps {
 }
 
 export const GeneralTable = (props: GeneralTableProps) => {
-
   const { keys, labels, links, data, onClick } = props
   const { t } = useTranslation()
 
@@ -23,9 +22,7 @@ export const GeneralTable = (props: GeneralTableProps) => {
         <tr>
           {labels.map((label, index) => (
             <th key={label + index.toString()} className={'general-table__th'}>
-              <div className="general-table__th-container">
-                {t(label)}
-              </div>
+              <div className="general-table__th-container">{t(label)}</div>
             </th>
           ))}
         </tr>
@@ -46,9 +43,9 @@ export const GeneralTable = (props: GeneralTableProps) => {
                   {links.includes(key) && !!item[key] ? (
                     <a
                       href={item[key]}
-                      target='_blank'
-                      className='general-table__link'
-                      rel='noreferrer'
+                      target="_blank"
+                      className="general-table__link"
+                      rel="noreferrer"
                     >
                       {item[key]}
                     </a>
@@ -56,7 +53,6 @@ export const GeneralTable = (props: GeneralTableProps) => {
                     <>{item[key] ? item[key] : 'ND'}</>
                   )}
                 </div>
-
               </td>
             ))}
           </tr>

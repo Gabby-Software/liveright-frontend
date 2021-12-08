@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 0;
@@ -24,7 +25,8 @@ export const Styles = styled.div`
       width: 320px;
     }
 
-    &__content {
+    &__link {
+      color: ${getColorCarry('link')}
     }
   }
 `
