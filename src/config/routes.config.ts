@@ -511,6 +511,35 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Templates',
+    url: Routes.ACTIVITIES_TM,
+    Component: lazy(
+      () => import('../pages/activities/templates/templates.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Templates',
+    url: Routes.ACTIVITIES_TM_TS_ID,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/templates/training-split/split/split.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Activities',
     url: Routes.ACTIVITIES,
     Component: lazy(() => import('../pages/activities/activities.components')),
