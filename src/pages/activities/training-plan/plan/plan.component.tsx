@@ -13,7 +13,7 @@ import DayTrainingPlanCard from '../../components/day-training-plan-card/day-tra
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import { Styles } from '../../styles/plan.styles'
-import EditPlan from '../edit-plan/edit-plan.component'
+import AddTrainingPlan from '../add-plan/add-plan.component'
 
 const IS_EMPTY = false
 
@@ -23,7 +23,7 @@ export default function TrainingPlan() {
   const isMobile = useIsMobile()
 
   if (edit) {
-    return <EditPlan onClose={() => setEdit(false)} />
+    return <AddTrainingPlan onClose={() => setEdit(false)} />
   }
 
   const content = IS_EMPTY ? (

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -15,6 +16,7 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
+import AddTrainingPlan from '../add-plan/add-plan.component'
 
 const LABELS = ['Plan name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
@@ -42,6 +44,11 @@ const DATA = [
 
 export default function TrainingPlans() {
   const isMobile = useIsMobile()
+  const [add, setAdd] = useState(true)
+
+  if (add) {
+    return <AddTrainingPlan onClose={() => setAdd(false)} />
+  }
 
   const content = (
     <Styles>
@@ -58,7 +65,7 @@ export default function TrainingPlans() {
               <Title>Training Plans</Title>
 
               <div>
-                <Button>Create New Plan</Button>
+                <Button onClick={() => setAdd(true)}>Create New Plan</Button>
               </div>
             </div>
           </>

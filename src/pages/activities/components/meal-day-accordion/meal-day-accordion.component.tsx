@@ -12,6 +12,7 @@ export default function MealDayAccordion() {
       title="Day 1 - Low Carbs Day"
       icon={<FoodIcon />}
       iconColor={getColorCarry('primary_v2')}
+      onRemove={() => {}}
     >
       <Styles>
         <div className="MealDayAccordion__name-container">

@@ -24,7 +24,7 @@ export const Styles = styled.div`
 
     &__controls {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 2fr 1fr 1fr;
       gap: 2rem;
 
       @media ${mediaQueries.TABLET} {
