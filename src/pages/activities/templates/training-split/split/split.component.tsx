@@ -5,6 +5,7 @@ import Button from '../../../../../components/buttons/button/button.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../../components/typography'
+import { Routes } from '../../../../../enums/routes.enum'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
@@ -22,8 +23,8 @@ export default function TrainingSplit() {
       <Styles>
         <section className="TSTemplates__topbar">
           <MobileBack
-            to="/"
-            alias="current-plan"
+            to={Routes.ACTIVITIES_TM}
+            alias="templates"
             className="TSTemplates__topbar-back"
           />
 

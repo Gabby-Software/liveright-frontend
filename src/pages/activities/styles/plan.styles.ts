@@ -45,7 +45,7 @@ export const Styles = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
 
       &-actions {
         display: flex;
@@ -118,7 +118,7 @@ export const Styles = styled.div`
       width: 100%;
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
-      margin-bottom: 1.25rem;
+      margin-bottom: 2rem;
     }
 
     &__badges {

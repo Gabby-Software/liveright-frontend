@@ -6,6 +6,7 @@ import Button from '../../../../../components/buttons/button/button.component'
 import Card from '../../../../../components/cards/card/card.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../../components/typography'
+import { Routes } from '../../../../../enums/routes.enum'
 import DayTrainingPlanCard from '../../../components/day-training-plan-card/day-training-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import EmptyPlan from '../../../components/empty-plan/empty-plan.component'
@@ -33,7 +34,11 @@ export default function TrainingPlan() {
     <ActivityLayout>
       <Styles>
         <section className="topbar">
-          <MobileBack to="/" alias="current-plan" className="topbar-back" />
+          <MobileBack
+            to={Routes.ACTIVITIES_TM}
+            alias="templates"
+            className="topbar-back"
+          />
 
           <Button variant="text" onClick={onDelete} className="topbar-delete">
             <DeleteOutlinedIcon style={{ marginRight: 8 }} />
