@@ -10,7 +10,7 @@ import Styles from './date-picker.styles'
 interface DatePickerProps {
   id: string
   placeholder?: string
-  label?: string
+  label?: string | JSX.Element
   className?: string
   value?: any
   onChange?: (date: Moment | null, dateStr: string) => void

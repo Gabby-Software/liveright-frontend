@@ -1,4 +1,3 @@
-import Button from '../../../../../components/buttons/button/button.component'
 import ActivitiesDialog, {
   ActivitiesDialogProps
 } from '../activities-dialog.component'
@@ -14,12 +13,16 @@ export default function MakeChangesDialog(
       title="High Intensity Plan"
       alert="Read this before activating plan! A new revision of your training plan will be created and it will become active. All your workout entires on your calender from this day will be updated.
 This will also make changes to your current training split to use the changes you just made."
-      actions={
-        <>
-          <Button>Looks Good, Save Changes</Button>
-          <Button variant="secondary">Cancel</Button>
-        </>
-      }
+      actions={{
+        onYes: () => {},
+        onCancel: () => {}
+      }}
+      // actions={
+      //   <>
+      //     <Button>Looks Good, Save Changes</Button>
+      //     <Button variant="secondary">Cancel</Button>
+      //   </>
+      // }
     />
   )
 }
