@@ -27,6 +27,7 @@ export interface ActivitiesDialogProps {
   name: string
   description: string | JSX.Element
   title: string | JSX.Element
+  body?: string | JSX.Element
   date?: DateProps
   alert: string
   plans?: PlanProps
@@ -45,6 +46,7 @@ export default function ActivitiesDialog({
   name,
   description,
   title,
+  body,
   date,
   alert,
   plans,
@@ -72,6 +74,7 @@ export default function ActivitiesDialog({
         <p className="ActivitiesDialog__title">{title}</p>
         <div className="ActivitiesDialog__divider" />
 
+        {body && <div className="ActivitiesDialog__body">{body}</div>}
         {date && (
           <DatePicker
             id="ActivitiesDialog-date"

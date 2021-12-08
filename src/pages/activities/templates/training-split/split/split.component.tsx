@@ -7,13 +7,13 @@ import MobileBack from '../../../../../components/mobile-back/mobile-back.compon
 import { Title } from '../../../../../components/typography'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
-import MakeActiveDialog from '../../../components/dialog/make-active-dialog/make-active-dialog.component'
+import SplitTemplateDialog from '../../../components/dialog/split-template-dialog/split-template-dialog.component'
 import ActivityLayout from '../../../components/layout/layout.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
-  const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const [showDialog, setShowDialog] = useState(false)
 
   const onDelete = () => {}
 
@@ -46,7 +46,7 @@ export default function TrainingSplit() {
             </Button>
             <Button
               className="TSTemplates__title-button"
-              onClick={() => setMakeActiveDialog(true)}
+              onClick={() => setShowDialog(true)}
             >
               Use Split Template
             </Button>
@@ -71,60 +71,26 @@ export default function TrainingSplit() {
           <p>See with schedule view</p>
         </section>
 
-        {!scheduleView ? (
-          <div className="TSTemplates__cards">
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingSplitCard />
-            </div>
-          </div>
-        ) : (
-          <div className="TSTemplates__cards">
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-            <div className="TSTemplates__card-container">
-              <DayTrainingScheduleCard />
-            </div>
-          </div>
-        )}
+        <div className="TSTemplates__cards">
+          {[0, 1, 2, 3, 4, 5, 6].map((id: number) =>
+            scheduleView ? (
+              <div className="TSTemplates__card-container" key={id}>
+                <DayTrainingScheduleCard />
+              </div>
+            ) : (
+              <div className="TSTemplates__card-container" key={id}>
+                <DayTrainingSplitCard />
+              </div>
+            )
+          )}
+        </div>
       </Styles>
 
-      <MakeActiveDialog
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+      <SplitTemplateDialog
+        yes='Confirm Changes'
+        cancel='Nevermind'
+        open={showDialog}
+        onClose={() => setShowDialog(false)}
       />
     </ActivityLayout>
   )

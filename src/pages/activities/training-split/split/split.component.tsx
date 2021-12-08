@@ -99,55 +99,19 @@ export default function TrainingSplit() {
             </div>
           </Card>
 
-          {!scheduleView ? (
-            <div className="TrainingSplits__cards">
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingSplitCard />
-              </div>
-            </div>
-          ) : (
-            <div className="TrainingSplits__cards">
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-              <div className="TrainingSplits__card-container">
-                <DayTrainingScheduleCard />
-              </div>
-            </div>
-          )}
+          <div className="TrainingSplits__cards">
+            {[0, 1, 2, 3, 4, 5, 6].map((id: number) =>
+              scheduleView ? (
+                <div className="TrainingSplits__card-container" key={id}>
+                  <DayTrainingScheduleCard />
+                </div>
+              ) : (
+                <div className="TrainingSplits__card-container" key={id}>
+                  <DayTrainingSplitCard />
+                </div>
+              )
+            )}
+          </div>
         </Card>
       </Styles>
 

@@ -93,6 +93,27 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
       }
     }
 
+    &__body {
+      & p {
+        margin: 12px 0;
+      }
+
+      & .client-select {
+        width: 200px;
+        margin-bottom: 24px;
+      }
+
+      & .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+
+        & .checkbox {
+          margin: 0 0 0 16px;
+        }
+      }
+    }
+
     &__control {
       margin-bottom: 1.875rem;
 

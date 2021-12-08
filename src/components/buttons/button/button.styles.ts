@@ -73,11 +73,9 @@ function getBorderColor(props: any): string {
     case 'secondary':
       return getColor(props, 'link')
     case 'dark':
-      return getColor(props, 'secondary1_v2')
+      return getColor(props, 'secondary2_v2')
     case 'text':
       return 'transparent'
-    case 'dark':
-      return getColor(props, 'secondary2_v2')
     default:
       return getColor(props, 'primary_v2')
   }
