@@ -570,6 +570,20 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Workout Template',
+    url: Routes.ACTIVITIES_TM_WO_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/workout/workout.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Activities',
     url: Routes.ACTIVITIES,
     Component: lazy(() => import('../pages/activities/activities.components')),

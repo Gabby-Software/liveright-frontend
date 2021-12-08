@@ -191,7 +191,7 @@ export const Styles = styled.div`
       &-text {
         font-size: 0.875rem;
         font-weight: 400;
-        color: ${getColorCarry('neutral_100')};
+        color: ${getColorCarry('neutral_70')};
       }
 
       &-badge {
@@ -199,6 +199,12 @@ export const Styles = styled.div`
           margin-bottom: 1rem;
         }
       }
+    }
+
+    &__content {
+      background: ${getColorCarry('neutral_10')};
+      padding: 1.5rem;
+      border-radius: 10px;
     }
   }
 `

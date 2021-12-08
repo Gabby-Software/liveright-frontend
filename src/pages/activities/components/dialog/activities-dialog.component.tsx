@@ -80,7 +80,7 @@ export default function ActivitiesDialog({
             id="ActivitiesDialog-date"
             label={date.label}
             value={date.value}
-            placeholder="Schedule start date"
+            placeholder="Start date"
             className="ActivitiesDialog__control"
           />
         )}

@@ -11,7 +11,7 @@ import MealPlans from './meal-plan/plans/plans.component'
 import { Styles } from './templates.styles'
 import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
-import Workouts from './workout/plans/plans.component'
+import Workouts from './workout/workouts.component'
 
 const tabs = [
   {
