@@ -524,12 +524,28 @@ export const routes: RouteType[] = [
     }
   },
   {
-    title: 'Templates',
+    title: 'Training Split Template',
     url: Routes.ACTIVITIES_TM_TS_ID,
     Component: lazy(
       () =>
         import(
           '../pages/activities/templates/training-split/split/split.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Plan Template',
+    url: Routes.ACTIVITIES_TM_TP_ID,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/templates/training-plan/plan/plan.component'
         )
     ),
     version: 2,

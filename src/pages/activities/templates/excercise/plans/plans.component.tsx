@@ -7,30 +7,23 @@ const LABELS = [
   'ID',
   'Created on',
   'Name',
-  'Days',
+  'Type',
   'Crated from client',
   'Options'
 ]
-const KEYS = ['id', 'name', 'created', 'days', 'client', 'options']
+const KEYS = ['id', 'name', 'created', 'type', 'client', 'options']
 
 const DATA = [
   {
-    id: 1,
-    name: '10 Days of Wonder',
+    id: 123,
+    name: 'Pushups',
     created: '21-01-2021',
     client: 'John Travolta',
-    days: '5'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    created: '18-10-2021',
-    client: 'Jackson',
-    days: '7'
+    type: 'Higher Body'
   }
 ]
 
-export default function TrainingSplits() {
+export default function Excercies() {
   const onSearch = (value: string) => {
     console.log(value)
   }
@@ -46,7 +39,7 @@ export default function TrainingSplits() {
       keys={KEYS}
       labels={LABELS}
       data={DATA}
-      baseLink={Routes.ACTIVITIES_TM_TS}
+      baseLink={Routes.ACTIVITIES_TM_EX}
     />
   )
 }

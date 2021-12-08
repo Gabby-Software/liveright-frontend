@@ -12,6 +12,22 @@ export const Styles = styled.div`
     padding-bottom: 0;
   }
 
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    font-size: 0.875rem;
+
+    &-back {
+      color: ${getColorCarry('link')};
+      padding: 0;
+    }
+
+    &-delete {
+      color: ${getColorCarry('red')};
+    }
+  }
+
   .PlanPage {
     &__card {
       @media ${mediaQueries.TABLET} {

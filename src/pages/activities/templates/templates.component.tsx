@@ -3,8 +3,15 @@ import React, { useState } from 'react'
 import Tabs from '../../../components/tabs/tabs.component'
 import { Title } from '../../../components/typography'
 import ActivityLayout from '../components/layout/layout.component'
+import DietPlans from './diet-plan/plans/plans.component'
+import Excercies from './excercise/plans/plans.component'
+import Foods from './food/plans/plans.component'
+import Meals from './meal/plans/plans.component'
+import MealPlans from './meal-plan/plans/plans.component'
 import { Styles } from './templates.styles'
+import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
+import Workouts from './workout/plans/plans.component'
 
 const tabs = [
   {
@@ -15,32 +22,37 @@ const tabs = [
   {
     label: 'Training Plans',
     key: 'training',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <TrainingPlans />
   },
   {
     label: 'Diet Plans',
     key: 'diet',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <DietPlans />
   },
   {
     label: 'Workouts',
     key: 'workout',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <Workouts />
   },
   {
     label: 'Excercies',
     key: 'excercise',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <Excercies />
   },
   {
     label: 'Meal Plans',
     key: 'mealplan',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <MealPlans />
+  },
+  {
+    label: 'Meals',
+    key: 'meal',
+    renderContent: () => <Meals />
   },
   {
     label: 'Food',
     key: 'food',
-    renderContent: () => <div>Hello</div>
+    renderContent: () => <Foods />
   }
 ]
 export default function Templates() {

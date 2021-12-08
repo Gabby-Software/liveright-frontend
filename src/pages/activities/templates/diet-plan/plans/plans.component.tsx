@@ -15,22 +15,15 @@ const KEYS = ['id', 'name', 'created', 'days', 'client', 'options']
 
 const DATA = [
   {
-    id: 1,
-    name: '10 Days of Wonder',
+    id: 123,
+    name: 'Diet Plan From Nov 10',
     created: '21-01-2021',
     client: 'John Travolta',
-    days: '5'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    created: '18-10-2021',
-    client: 'Jackson',
-    days: '7'
+    days: '6'
   }
 ]
 
-export default function TrainingSplits() {
+export default function DietPlans() {
   const onSearch = (value: string) => {
     console.log(value)
   }
@@ -46,7 +39,7 @@ export default function TrainingSplits() {
       keys={KEYS}
       labels={LABELS}
       data={DATA}
-      baseLink={Routes.ACTIVITIES_TM_TS}
+      baseLink={Routes.ACTIVITIES_TM_DP}
     />
   )
 }

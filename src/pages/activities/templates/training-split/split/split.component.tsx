@@ -7,7 +7,7 @@ import MobileBack from '../../../../../components/mobile-back/mobile-back.compon
 import { Title } from '../../../../../components/typography'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
-import SplitTemplateDialog from '../../../components/dialog/split-template-dialog/split-template-dialog.component'
+import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import ActivityLayout from '../../../components/layout/layout.component'
 import { Styles } from './split.styles'
 
@@ -87,8 +87,12 @@ export default function TrainingSplit() {
       </Styles>
 
       <SplitTemplateDialog
-        yes='Confirm Changes'
-        cancel='Nevermind'
+        name="Use split template"
+        title="High Pace Training"
+        description="You’re about to use the following training split template"
+        alert="This will make John Travolta’s active training split this one (High Pace Training) starting from 22/11/2021. You can make any changes to the training split after you schedule these changes. Additionally you can revert it at any point by re-activating Reduce Bodyweight as the active plan."
+        yes="Confirm Changes"
+        cancel="Nevermind"
         open={showDialog}
         onClose={() => setShowDialog(false)}
       />
