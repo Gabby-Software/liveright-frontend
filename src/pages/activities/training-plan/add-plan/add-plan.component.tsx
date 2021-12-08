@@ -13,7 +13,7 @@ import Card from '../../../../components/cards/card/card.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
-import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
@@ -48,7 +48,7 @@ export default function AddTrainingPlan({
   const isMobile = useIsMobile()
   const [makeChangesDialog, setMakeChangesDialog] = useState(false)
 
-  const trainingSplit = useTrainingSplit()
+  const trainingPlan = useTrainingPlan()
 
   const methods = useForm({
     defaultValues
@@ -61,8 +61,8 @@ export default function AddTrainingPlan({
   })
 
   const handleSubmit = (values: any) => {
-    // trainingSplit.onAdd(values)
-    console.log(values)
+    trainingPlan.onAdd(values)
+    // console.log(values)
   }
 
   const handleSave = () => {

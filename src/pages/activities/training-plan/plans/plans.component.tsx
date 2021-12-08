@@ -7,10 +7,14 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
-import { EmptyPlaceholder } from '../../../../components/placeholders'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
@@ -21,30 +25,11 @@ import AddTrainingPlan from '../add-plan/add-plan.component'
 const LABELS = ['Plan name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
-const DATA = [
-  {
-    id: 1,
-    name: '10 Days of Wonder',
-    client: 'John Travolta',
-    days: '5',
-    start: '04/10/2021',
-    end: '04/10/2021',
-    status: 'Inactive'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    client: 'John Travolta',
-    days: '7',
-    start: '04/10/2021',
-    end: '04/10/2021',
-    status: 'Active'
-  }
-]
-
 export default function TrainingPlans() {
   const isMobile = useIsMobile()
-  const [add, setAdd] = useState(true)
+  const [add, setAdd] = useState(false)
+
+  const { isLoading, trainingPlans } = useTrainingPlans()
 
   if (add) {
     return <AddTrainingPlan onClose={() => setAdd(false)} />
@@ -90,7 +75,7 @@ export default function TrainingPlans() {
         <div>
           {isMobile ? (
             <>
-              {DATA.map((row, index) => (
+              {trainingPlans.map((row, index) => (
                 <PlanCard
                   key={index}
                   plan={row}
@@ -101,7 +86,7 @@ export default function TrainingPlans() {
           ) : (
             <DataTable
               labels={LABELS}
-              data={DATA}
+              data={trainingPlans}
               keys={KEYS}
               round="10px"
               render={{
@@ -113,6 +98,10 @@ export default function TrainingPlans() {
                     <span>{row.name}</span>
                   </Link>
                 ),
+                client: () => <span>-</span>,
+                days: () => <span>-</span>,
+                start: (row) => <span>{row.scheduled_start_on || '-'}</span>,
+                end: (row) => <span>{row.scheduled_end_on || '-'}</span>,
                 status: (row) => (
                   <StatusBadge
                     status={row.status.toLowerCase()}
@@ -125,7 +114,8 @@ export default function TrainingPlans() {
             />
           )}
 
-          {!DATA.length && <EmptyPlaceholder spacing />}
+          {isLoading && <LoadingPlaceholder spacing />}
+          {!trainingPlans.length && !isLoading && <EmptyPlaceholder spacing />}
         </div>
       </Card>
     </Styles>
