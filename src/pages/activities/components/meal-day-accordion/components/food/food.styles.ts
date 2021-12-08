@@ -7,7 +7,7 @@ export const Styles = styled.div<any>`
   grid-template-columns: 46px 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 46px;
   gap: 1rem;
   padding: 0.5rem 0 0.75rem 0;
-  background-color: ${getColorCarry('neutral_20')};
+  background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
 
   ${(props) =>
@@ -15,6 +15,10 @@ export const Styles = styled.div<any>`
     css`
       border: 1px dashed ${getColorCarry('orange_60')};
     `};
+
+  & label {
+    white-space: nowrap;
+  }
 
   .Food {
     &__delete {
