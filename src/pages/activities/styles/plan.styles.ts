@@ -213,6 +213,15 @@ export const Styles = styled.div`
         display: flex;
         gap: 4px;
       }
+
+      & .food-description {
+        margin: 1.5rem 0;
+        color: ${getColorCarry('neutral_100')};
+      }
+
+      & .foods {
+        color: ${getColorCarry('neutral_70')};
+      }
     }
 
     &__content {

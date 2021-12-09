@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Routes } from '../../../../../enums/routes.enum'
-import TemplatesTable from '../../components/template-table/template-table.component'
+import { Routes } from '../../../../enums/routes.enum'
+import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']

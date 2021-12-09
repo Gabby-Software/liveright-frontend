@@ -4,7 +4,6 @@ import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Dialog from '../../../../components/dialogs/dialog/dialog.component'
-import { LabelDivider } from '../../../../components/label-divider/label-divider.styles'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
@@ -18,11 +17,7 @@ const nutrients = [
   { name: 'Fat', value: '30g' },
   { name: 'Protein', value: '300g' }
 ]
-const foods = [
-  { name: 'Chicken Brest Tender', value: '100g' },
-  { name: 'Brown Rice', value: '50g' },
-  { name: 'Red Apple', value: '150g' }
-]
+
 export default function Meal() {
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
@@ -49,13 +44,13 @@ export default function Meal() {
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
-                Edit Meal Template
+                Edit Food Template
               </Button>
               <Button
                 className="PlanPage__header-btn"
                 onClick={() => setShowConfirm(true)}
               >
-                Use Meal Template
+                Use Food Template
               </Button>
             </div>
           </section>
@@ -63,7 +58,7 @@ export default function Meal() {
           <section className="PlanPage__divider" />
 
           <section className="PlanPage__summary">
-            <p className="label">Micronutrients from this meal</p>
+            <p className="label">Micronutrients from this food</p>
             <div className="nutrients">
               {nutrients.map((item) => (
                 <Macronutrient
@@ -74,16 +69,8 @@ export default function Meal() {
               ))}
             </div>
 
-            <LabelDivider>List Food</LabelDivider>
-
-            <div className="foods">
-              {foods.map((food) => (
-                <div className="meal-food" key={food.name}>
-                  <span>{food.name}</span>
-                  &nbsp;-&nbsp;
-                  <span>{food.value}</span>
-                </div>
-              ))}
+            <div className="food-description">
+              Generic description of the food
             </div>
           </section>
         </Card>
@@ -91,11 +78,11 @@ export default function Meal() {
 
       <Dialog
         open={showConfirm}
-        title="Use meal template"
+        title="Use food template"
         onClose={() => setShowConfirm(false)}
       >
         <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          To use this meal, search for its name within any meal plan.
+          To use this food, search for its name within any meal .
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button onClick={() => setShowConfirm(false)}>Ok, got it</Button>
