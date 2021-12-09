@@ -11,6 +11,8 @@ export default function OtherWorkout() {
 
       {[1, 2].map((row) => (
         <Exercise
+          name=""
+          onRemove={() => {}}
           key={row}
           dragHandleProps={{}}
           isDragging={false}

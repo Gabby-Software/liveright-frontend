@@ -42,6 +42,8 @@ export default function Superset({
                 <Draggable key={r.id} draggableId={`${r.id}`} index={index}>
                   {(provided, snapshot) => (
                     <Exercise
+                      name=""
+                      onRemove={() => {}}
                       innerRef={provided.innerRef}
                       dragHandleProps={provided.dragHandleProps}
                       draggableProps={provided.draggableProps}

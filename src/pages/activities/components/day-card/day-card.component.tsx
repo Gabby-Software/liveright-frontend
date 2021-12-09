@@ -9,16 +9,18 @@ export interface DayCardProps {
   subtitle?: string
   title: string
   onExpand?: any
+  border?: 'both' | 'mobile' | 'desktop'
 }
 
 export default function DayCard({
   title,
   content,
   subtitle,
-  onExpand
+  onExpand,
+  border = 'desktop'
 }: DayCardProps) {
   return (
-    <Styles>
+    <Styles $border={border}>
       <div className="day-card__header">
         <div className="day-card__header-title-container">
           <p className="day-card__title">{title}</p>

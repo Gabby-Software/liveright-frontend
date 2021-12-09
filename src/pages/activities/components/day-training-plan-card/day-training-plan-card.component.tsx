@@ -33,21 +33,32 @@ const CONTENT = [
   }
 ]
 
-export default function DayTrainingPlanCard() {
+interface DayTrainingPlanCardProps {
+  day: any
+}
+
+export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
   return (
     <DayCard
-      title="High Intensity Workouts"
+      title={day.name}
       content={
         <Styles>
           <div className="day-tp-card__content">
             <div className="day-tp-card__workout">
               <div>
-                {[1, 2, 3].map((row) => (
+                {day.activities?.map((row: any) => (
                   <DayCardAccordion
-                    key={row}
-                    title="Workout One"
-                    count="3"
-                    content={CONTENT}
+                    key={row._id}
+                    title={row.name}
+                    count={row.items?.length}
+                    content={row.items?.map((row: any) => ({
+                      content: [
+                        {
+                          title: row.name,
+                          subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
+                        }
+                      ]
+                    }))}
                   />
                 ))}
               </div>

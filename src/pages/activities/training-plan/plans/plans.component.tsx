@@ -1,3 +1,5 @@
+import moment from 'moment'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -6,42 +8,35 @@ import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
-import { EmptyPlaceholder } from '../../../../components/placeholders'
+import {
+  EmptyPlaceholder,
+  LoadingPlaceholder
+} from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
+import AddTrainingPlan from '../add-plan/add-plan.component'
 
 const LABELS = ['Plan name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
-const DATA = [
-  {
-    id: 1,
-    name: '10 Days of Wonder',
-    client: 'John Travolta',
-    days: '5',
-    start: '04/10/2021',
-    end: '04/10/2021',
-    status: 'Inactive'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    client: 'John Travolta',
-    days: '7',
-    start: '04/10/2021',
-    end: '04/10/2021',
-    status: 'Active'
-  }
-]
-
 export default function TrainingPlans() {
   const isMobile = useIsMobile()
+  const [add, setAdd] = useState(false)
+
+  const { isLoading, trainingPlans } = useTrainingPlans()
+
+  if (add) {
+    return <AddTrainingPlan onClose={() => setAdd(false)} />
+  }
 
   const content = (
     <Styles>
@@ -58,7 +53,7 @@ export default function TrainingPlans() {
               <Title>Training Plans</Title>
 
               <div>
-                <Button>Create New Plan</Button>
+                <Button onClick={() => setAdd(true)}>Create New Plan</Button>
               </div>
             </div>
           </>
@@ -83,42 +78,67 @@ export default function TrainingPlans() {
         <div>
           {isMobile ? (
             <>
-              {DATA.map((row, index) => (
+              {trainingPlans.map((row, index) => (
                 <PlanCard
                   key={index}
                   plan={row}
-                  to={getRoute(Routes.ACTIVITIES_TP_ID, { id: row.id })}
+                  to={getRoute(Routes.ACTIVITIES_TP_ID, { id: row._id })}
                 />
               ))}
             </>
           ) : (
             <DataTable
               labels={LABELS}
-              data={DATA}
+              data={trainingPlans}
               keys={KEYS}
               round="10px"
               render={{
                 name: (row) => (
                   <Link
-                    to={`${Routes.ACTIVITIES_TP}/${row.id}`}
+                    to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                      id: row._id,
+                      revisionId:
+                        row.revisions?.[row.revisions?.length - 1]?._id
+                    })}
                     className="PlansTable__table-link"
                   >
                     <span>{row.name}</span>
                   </Link>
+                ),
+                client: () => <span>-</span>,
+                days: () => <span>-</span>,
+                start: (row) => (
+                  <span>
+                    {row.scheduled_start_on
+                      ? moment(new Date(row.scheduled_start_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </span>
+                ),
+                end: (row) => (
+                  <span>
+                    {row.scheduled_end_on
+                      ? moment(new Date(row.scheduled_end_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </span>
                 ),
                 status: (row) => (
                   <StatusBadge
                     status={row.status.toLowerCase()}
                     className="PlansTable__table-status"
                   >
-                    {row.status}
+                    {capitalize(row.status)}
                   </StatusBadge>
                 )
               }}
             />
           )}
 
-          {!DATA.length && <EmptyPlaceholder spacing />}
+          {isLoading && <LoadingPlaceholder spacing />}
+          {!trainingPlans.length && !isLoading && <EmptyPlaceholder spacing />}
         </div>
       </Card>
     </Styles>

@@ -62,6 +62,8 @@ export const Styles = styled(Card)<any>`
         &-subtitle {
           font-size: 0.75rem;
           color: ${getColorCarry('neutral_70')};
+          white-space: pre-wrap;
+          word-break: break-word;
         }
       }
 

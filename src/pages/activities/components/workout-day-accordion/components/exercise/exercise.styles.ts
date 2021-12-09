@@ -10,6 +10,10 @@ export const Styles = styled.div<any>`
   background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
 
+  & label {
+    white-space: nowrap;
+  }
+
   ${(props) =>
     props.$isDragging &&
     css`

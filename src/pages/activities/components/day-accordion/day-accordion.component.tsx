@@ -11,13 +11,15 @@ interface DayAccordionProps {
   title: string
   icon: ReactNode
   iconColor: string
+  onRemove: any
 }
 
 export default function DayAccordion({
   title,
   children,
   iconColor,
-  icon
+  icon,
+  onRemove
 }: PropsWithChildren<DayAccordionProps>) {
   const [open, setOpen] = useState(false)
   return (
@@ -31,7 +33,7 @@ export default function DayAccordion({
 
         <div className="DayAccordion__actions">
           {open && (
-            <IconButton className="DayAccordion__delete-btn">
+            <IconButton className="DayAccordion__delete-btn" onClick={onRemove}>
               <DeleteOutlinedIcon />
             </IconButton>
           )}

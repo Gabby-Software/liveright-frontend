@@ -34,7 +34,7 @@ export default function TimePicker({
   disabledUntilNow,
   name,
   error,
-  format
+  format = FORMAT
 }: TimePickerProps) {
   return (
     <Styles className={className}>

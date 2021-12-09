@@ -43,7 +43,7 @@ export default function DaySplitEditFocusView() {
           title="Training plan"
           color={getColorCarry('orange_50')}
           icon={<WorkoutIcon />}
-          content={<WorkoutDayForm />}
+          content={<WorkoutDayForm name="" />}
           control={
             <Select
               id="SplitDayItemCard-plan"
