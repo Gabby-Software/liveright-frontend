@@ -16,6 +16,7 @@ export default function DayTrainingSplitCard(
 ) {
   return (
     <DayCard
+      border="both"
       title="Day 1"
       subtitle="Wednesday"
       onExpand={props.onExpand}

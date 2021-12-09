@@ -1,15 +1,20 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Styles = styled(Card)`
+export const Styles = styled<any>(Card)`
   border: 1px solid ${getColorCarry('inputBorder_v2')};
 
   @media ${mediaQueries.TABLET} {
-    border: 0;
     margin-bottom: 1.25rem;
+
+    ${(props) =>
+      props.$border === 'desktop' &&
+      css`
+        border: 0;
+      `}
 
     &:last-child {
       margin-bottom: 0;

@@ -6,6 +6,8 @@ import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
@@ -18,6 +20,7 @@ export default function TrainingSplit() {
   const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const [day, setDay] = useState<null | number>(null)
+  const isMobile = useIsMobile()
 
   if (edit) {
     return <AddTrainingSplit />
@@ -27,33 +30,76 @@ export default function TrainingSplit() {
     return <TrainingSplitDayView onClose={() => setDay(null)} />
   }
 
-  return (
+  const scheduleToggle = (
+    <div className="TrainingSplits__info-toggle-container">
+      <FormToggleUI
+        value={scheduleView}
+        onUpdate={() => setScheduleView(!scheduleView)}
+        className="TrainingSplits__info-toggle"
+      />
+      <p>See with schedule view</p>
+    </div>
+  )
+
+  const cards = (
+    <>
+      {!scheduleView ? (
+        <div className="TrainingSplits__cards">
+          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
+            <div className="TrainingSplits__card-container" key={row}>
+              <DayTrainingSplitCard onExpand={() => setDay(row)} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="TrainingSplits__cards">
+          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
+            <div className="TrainingSplits__card-container" key={row}>
+              <DayTrainingScheduleCard />
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  )
+
+  const content = (
     <>
       <Styles>
-        <Card>
-          <div className="TrainingSplits__title-container">
-            <Title>Current Training Split</Title>
+        <Card className="TrainingSplits__card">
+          {!isMobile && (
+            <div className="TrainingSplits__title-container">
+              <Title>Current Training Split</Title>
 
-            <div className="TrainingSplits__title-buttons">
-              <Button
-                variant="secondary"
-                className="TrainingSplits__title-button"
-              >
-                See Other Splits
-              </Button>
-              <Button
-                className="TrainingSplits__title-button"
-                onClick={() => setEdit(true)}
-              >
-                Edit Training Split
-              </Button>
+              <div className="TrainingSplits__title-buttons">
+                <Button
+                  variant="secondary"
+                  className="TrainingSplits__title-button"
+                >
+                  See Other Splits
+                </Button>
+                <Button
+                  className="TrainingSplits__title-button"
+                  onClick={() => setEdit(true)}
+                >
+                  Edit Training Split
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="TrainingSplits__divider" />
+          {!isMobile && <div className="TrainingSplits__divider" />}
 
           <div className="TrainingSplits__filters-container">
-            <Subtitle>Reduce Bodyweight</Subtitle>
+            <div className="TrainingSplits__filters-title-container">
+              <Subtitle>Reduce Bodyweight</Subtitle>
+
+              {isMobile && (
+                <Button size="sm" variant="text">
+                  Other Splits
+                </Button>
+              )}
+            </div>
 
             <div className="TrainingSplits__filters-actions">
               <Select
@@ -66,12 +112,14 @@ export default function TrainingSplit() {
                 }}
               />
 
-              <Button
-                className="TrainingSplits__filters-make-active-btn"
-                onClick={() => setMakeActiveDialog(true)}
-              >
-                Make active
-              </Button>
+              {!isMobile && (
+                <Button
+                  className="TrainingSplits__filters-make-active-btn"
+                  onClick={() => setMakeActiveDialog(true)}
+                >
+                  Make active
+                </Button>
+              )}
             </div>
           </div>
 
@@ -102,37 +150,31 @@ export default function TrainingSplit() {
                 <p className="TrainingSplits__info-value">04/11/2021</p>
               </div>
 
-              <StatusBadge status="active">Active</StatusBadge>
+              {isMobile ? (
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Status</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status="active">Active</StatusBadge>
+                  </div>
+                </div>
+              ) : (
+                <StatusBadge status="active">Active</StatusBadge>
+              )}
             </div>
 
-            <div className="TrainingSplits__info-toggle-container">
-              <FormToggleUI
-                value={scheduleView}
-                onUpdate={() => setScheduleView(!scheduleView)}
-                className="TrainingSplits__info-toggle"
-              />
-              <p>See with schedule view</p>
-            </div>
+            {!isMobile && scheduleToggle}
           </Card>
 
-          {!scheduleView ? (
-            <div className="TrainingSplits__cards">
-              {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-                <div className="TrainingSplits__card-container" key={row}>
-                  <DayTrainingSplitCard onExpand={() => setDay(row)} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="TrainingSplits__cards">
-              {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-                <div className="TrainingSplits__card-container" key={row}>
-                  <DayTrainingScheduleCard />
-                </div>
-              ))}
-            </div>
-          )}
+          {!isMobile && cards}
         </Card>
+
+        {isMobile && (
+          <Card>
+            {scheduleToggle}
+
+            {cards}
+          </Card>
+        )}
       </Styles>
 
       <MakeActiveDialog
@@ -166,5 +208,16 @@ export default function TrainingSplit() {
         }}
       />
     </>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Current Training Split"
+      actionComponent={<Button>Edit Split</Button>}
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }
