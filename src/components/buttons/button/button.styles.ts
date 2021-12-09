@@ -61,6 +61,7 @@ function getBgColor(props: any): string {
   switch (props.$var) {
     case 'secondary':
     case 'text':
+    case 'dark':
       return 'transparent'
     default:
       return getColor(props, 'primary_v2')
@@ -71,6 +72,8 @@ function getBorderColor(props: any): string {
   switch (props.$var) {
     case 'secondary':
       return getColor(props, 'link')
+    case 'dark':
+      return getColor(props, 'secondary2_v2')
     case 'text':
       return 'transparent'
     default:
@@ -83,6 +86,8 @@ function getTextColor(props: any): string {
     case 'secondary':
     case 'text':
       return getColor(props, 'link')
+    case 'dark':
+      return getColor(props, 'primaryDark2_v2')
     default:
       return '#fff'
   }

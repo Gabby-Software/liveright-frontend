@@ -12,6 +12,22 @@ export const Styles = styled.div`
     padding-bottom: 0;
   }
 
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    font-size: 0.875rem;
+
+    &-back {
+      color: ${getColorCarry('link')};
+      padding: 0;
+    }
+
+    &-delete {
+      color: ${getColorCarry('red')};
+    }
+  }
+
   .PlanPage {
     &__card {
       @media ${mediaQueries.TABLET} {
@@ -29,7 +45,7 @@ export const Styles = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
 
       &-actions {
         display: flex;
@@ -102,7 +118,7 @@ export const Styles = styled.div`
       width: 100%;
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
-      margin-bottom: 1.25rem;
+      margin-bottom: 2rem;
     }
 
     &__badges {
@@ -175,13 +191,45 @@ export const Styles = styled.div`
       &-text {
         font-size: 0.875rem;
         font-weight: 400;
-        color: ${getColorCarry('neutral_100')};
+        color: ${getColorCarry('neutral_70')};
       }
 
       &-badge {
         @media ${mediaQueries.TABLET} {
           margin-bottom: 1rem;
         }
+      }
+    }
+
+    &__summary {
+      margin-bottom: 1.5rem;
+
+      & .label {
+        color: ${getColorCarry('neutral_70')};
+        margin: 0.5rem 0;
+      }
+
+      & .nutrients {
+        display: flex;
+        gap: 4px;
+      }
+
+      & .food-description {
+        margin: 1.5rem 0;
+        color: ${getColorCarry('neutral_100')};
+      }
+
+      & .foods {
+        color: ${getColorCarry('neutral_70')};
+      }
+    }
+
+    &__content {
+      background: ${getColorCarry('neutral_10')};
+      border-radius: 10px;
+
+      & .table {
+        padding: 1.5rem;
       }
     }
   }

@@ -18,7 +18,7 @@ import EditDietPlan from '../edit-plan/edit-plan.component'
 const IS_EMPTY = false
 
 export default function DietPlan() {
-  const [edit, setEdit] = useState(true)
+  const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
 
