@@ -1,4 +1,6 @@
+import moment from 'moment'
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { WorkoutIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
@@ -6,8 +8,11 @@ import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
@@ -21,10 +26,28 @@ export default function TrainingPlan() {
   const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
+  const params = useParams<any>()
+
+  const { trainingPlan } = useTrainingPlan({
+    id: params.id,
+    revisionId: params.revisionId
+  })
 
   if (edit) {
-    return <AddTrainingPlan onClose={() => setEdit(false)} />
+    return (
+      <AddTrainingPlan
+        editId={params.id}
+        revisionId={params.revisionId}
+        onClose={() => setEdit(false)}
+      />
+    )
   }
+
+  const startOn = trainingPlan.scheduled_start_on
+    ? moment(new Date(trainingPlan.scheduled_start_on)).format(
+        DATE_RENDER_FORMAT
+      )
+    : '-'
 
   const content = IS_EMPTY ? (
     <EmptyPlan
@@ -58,7 +81,7 @@ export default function TrainingPlan() {
           <div className="PlanPage__filters">
             <div className="PlanPage__filters-title-container">
               <Subtitle className="PlanPage__filters-title">
-                High Intensity Plan
+                {trainingPlan.name}
               </Subtitle>
 
               {isMobile && (
@@ -78,12 +101,12 @@ export default function TrainingPlan() {
                 id="training-plan-version"
                 options={[]}
                 value={{
-                  value: 'Starting 04/11/2021',
-                  label: 'Starting 04/11/2021'
+                  value: startOn,
+                  label: startOn
                 }}
               />
 
-              {!isMobile && (
+              {!isMobile && trainingPlan.status === 'inactive' && (
                 <Button
                   className="PlanPage__filters-make-active-btn"
                   onClick={() => setMakeActiveDialog(true)}
@@ -94,33 +117,52 @@ export default function TrainingPlan() {
             </div>
           </div>
 
-          <Alert
-            content={`This is your revision of your training plan set become active on 04/11/2021.`}
-          />
+          {trainingPlan.status === 'scheduled' && (
+            <Alert
+              content={`This is your revision of your training plan set become active on ${startOn}.`}
+            />
+          )}
 
           {!isMobile && <div className="PlanPage__divider" />}
 
           <div className="PlanPage__badges">
             <div className="PlanPage__badge">
               <p className="PlanPage__badge-title">Status</p>
-              <StatusBadge status="active" className="PlanPage__badge-badge">
-                Active
+              <StatusBadge
+                status={trainingPlan.status}
+                className="PlanPage__badge-badge"
+              >
+                {capitalize(trainingPlan.status)}
               </StatusBadge>
             </div>
-            <div className="PlanPage__badge">
-              <p className="PlanPage__badge-title">Start and end dates</p>
-              <p className="PlanPage__badge-text">
-                The start and end dates of this training plan are tied to the
-                active Training Split
-              </p>
-            </div>
+            {trainingPlan.status === 'active' && (
+              <div className="PlanPage__badge">
+                <p className="PlanPage__badge-title">Start and end dates</p>
+                <p className="PlanPage__badge-text">
+                  The start and end dates of this training plan are tied to the
+                  active Training Split
+                </p>
+              </div>
+            )}
+            {trainingPlan.status === 'scheduled' && (
+              <div className="PlanPage__badge">
+                <p className="PlanPage__badge-title">Starting on</p>
+                <p className="PlanPage__badge-text">
+                  {trainingPlan.scheduled_start_on
+                    ? moment(new Date(trainingPlan.scheduled_start_on)).format(
+                        DATE_RENDER_FORMAT
+                      )
+                    : '-'}
+                </p>
+              </div>
+            )}
           </div>
 
           {!isMobile && (
             <div className="PlanPage__cards">
-              <DayTrainingPlanCard />
-              <DayTrainingPlanCard />
-              <DayTrainingPlanCard />
+              {trainingPlan.days?.map((row: any) => (
+                <DayTrainingPlanCard key={row._id} day={row} />
+              ))}
             </div>
           )}
         </Card>
@@ -129,13 +171,15 @@ export default function TrainingPlan() {
           <>
             <p className="PlanPage__subtitle">List of workout days</p>
 
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
+            {trainingPlan.days.map((row: any) => (
+              <DayTrainingPlanCard day={row} key={row._id} />
+            ))}
           </>
         )}
 
-        <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
+        {isMobile && (
+          <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
+        )}
       </Styles>
 
       <MakeActiveDialog

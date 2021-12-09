@@ -18,7 +18,7 @@ export default function useTrainingPlans(): UseTrainingPlans {
   const { data, error } = useSWR(() => getKey(params), getTrainingPlans)
 
   const isLoading = !data && !error
-  const trainingPlans = data || []
+  const trainingPlans = data?.data || []
   return {
     isLoading,
     trainingPlans

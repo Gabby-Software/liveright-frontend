@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -17,6 +18,8 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
@@ -79,7 +82,7 @@ export default function TrainingPlans() {
                 <PlanCard
                   key={index}
                   plan={row}
-                  to={getRoute(Routes.ACTIVITIES_TP_ID, { id: row.id })}
+                  to={getRoute(Routes.ACTIVITIES_TP_ID, { id: row._id })}
                 />
               ))}
             </>
@@ -92,7 +95,11 @@ export default function TrainingPlans() {
               render={{
                 name: (row) => (
                   <Link
-                    to={`${Routes.ACTIVITIES_TP}/${row.id}`}
+                    to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                      id: row._id,
+                      revisionId:
+                        row.revisions?.[row.revisions?.length - 1]?._id
+                    })}
                     className="PlansTable__table-link"
                   >
                     <span>{row.name}</span>
@@ -100,14 +107,30 @@ export default function TrainingPlans() {
                 ),
                 client: () => <span>-</span>,
                 days: () => <span>-</span>,
-                start: (row) => <span>{row.scheduled_start_on || '-'}</span>,
-                end: (row) => <span>{row.scheduled_end_on || '-'}</span>,
+                start: (row) => (
+                  <span>
+                    {row.scheduled_start_on
+                      ? moment(new Date(row.scheduled_start_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </span>
+                ),
+                end: (row) => (
+                  <span>
+                    {row.scheduled_end_on
+                      ? moment(new Date(row.scheduled_end_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </span>
+                ),
                 status: (row) => (
                   <StatusBadge
                     status={row.status.toLowerCase()}
                     className="PlansTable__table-status"
                   >
-                    {row.status}
+                    {capitalize(row.status)}
                   </StatusBadge>
                 )
               }}

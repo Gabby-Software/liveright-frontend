@@ -66,9 +66,9 @@ export default function TrainingPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
-            <DayTrainingPlanCard />
+            <DayTrainingPlanCard day={{}} />
+            <DayTrainingPlanCard day={{}} />
+            <DayTrainingPlanCard day={{}} />
           </div>
         </Card>
       </Styles>

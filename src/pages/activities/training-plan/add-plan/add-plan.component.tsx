@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Controller,
   FormProvider,
@@ -22,7 +22,8 @@ import { Styles } from '../../styles/edit-plan.styles'
 
 interface AddTrainingPlanProps {
   onClose: () => void
-  editId?: number
+  editId?: string
+  revisionId?: string
 }
 
 const defaultValues = {
@@ -42,13 +43,17 @@ function createDay(dayIndex: number) {
 
 export default function AddTrainingPlan({
   onClose,
-  editId
+  editId,
+  revisionId
 }: AddTrainingPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
   const isMobile = useIsMobile()
   const [makeChangesDialog, setMakeChangesDialog] = useState(false)
 
-  const trainingPlan = useTrainingPlan()
+  const { onAdd, onEdit, trainingPlan } = useTrainingPlan({
+    id: editId,
+    revisionId
+  })
 
   const methods = useForm({
     defaultValues
@@ -60,17 +65,30 @@ export default function AddTrainingPlan({
     keyName: 'id'
   })
 
+  useEffect(() => {
+    methods.setValue('name', trainingPlan.name)
+    methods.setValue('account_id', trainingPlan.account_id)
+    methods.setValue('scheduled_start_on', trainingPlan.scheduled_start_on)
+    methods.setValue('scheduled_end_on', trainingPlan.scheduled_end_on)
+    methods.setValue('days', trainingPlan.days)
+  }, [trainingPlan._id])
+
   const handleSubmit = (values: any) => {
-    trainingPlan.onAdd(values)
+    if (editId && revisionId) {
+      onEdit(editId, revisionId, values, onClose)
+    } else {
+      onAdd(values, onClose)
+    }
     // console.log(values)
   }
 
   const handleSave = () => {
-    if (editId) {
-      setMakeChangesDialog(true)
-    } else {
-      methods.handleSubmit(handleSubmit)()
-    }
+    // if (editId) {
+    //   setMakeChangesDialog(true)
+    // } else {
+    //   methods.handleSubmit(handleSubmit)()
+    // }
+    methods.handleSubmit(handleSubmit)()
   }
 
   const handleDayAdd = () => {
