@@ -9,6 +9,7 @@ export default function Activities() {
       <Button to={Routes.ACTIVITIES_DP}>Diet Plans</Button>
       <Button to={Routes.ACTIVITIES_CURR_PLAN}>My Current Plan</Button>
       <Button to={Routes.ACTIVITIES_TS}>Training Splits</Button>
+      <Button to={Routes.ACTIVITIES_TM}>Templates</Button>
     </Styles>
   )
 }

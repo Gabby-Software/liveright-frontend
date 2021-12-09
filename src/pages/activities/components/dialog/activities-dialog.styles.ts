@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { ActionsLayout, layoutMap } from '../../../../types/actions-layout.type'
 
 export const ActivitiesDialogStyles = styled(Modal)`
   &.ant-modal {
@@ -40,7 +41,7 @@ export const ActivitiesDialogStyles = styled(Modal)`
   }
 `
 
-export const Styles = styled.div`
+export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
   position: relative;
   color: ${getColorCarry('neutral_100')};
 
@@ -73,6 +74,12 @@ export const Styles = styled.div`
         font-size: 1.375rem;
         margin-bottom: 1.5rem;
       }
+
+      &__note {
+        color: ${getColorCarry('red')};
+        font-size: 0.875rem;
+        font-weight: 400;
+      }
     }
 
     &__divider {
@@ -86,11 +93,33 @@ export const Styles = styled.div`
       }
     }
 
+    &__body {
+      & p {
+        margin: 12px 0;
+      }
+
+      & .client-select {
+        width: 200px;
+        margin-bottom: 24px;
+      }
+
+      & .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin: 24px 0;
+
+        & .checkbox {
+          margin: 0 0 0 16px;
+        }
+      }
+    }
+
     &__control {
       margin-bottom: 1.875rem;
 
       & label {
         margin-bottom: 1.25rem;
+        color: ${getColorCarry('neutral_100')};
 
         @media ${mediaQueries.TABLET} {
           margin-bottom: 0.5rem;
@@ -106,9 +135,82 @@ export const Styles = styled.div`
       margin-bottom: 1.875rem;
     }
 
+    &__plans {
+      margin-bottom: 32px;
+
+      & .plans-label {
+        padding: 16px 0;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: ${getColorCarry('neutral_70')};
+      }
+
+      & .plans-cards {
+        display: flex;
+        justify-content: space-between;
+
+        & .trainings,
+        & .meals {
+          width: 45%;
+
+          @media ${mediaQueries.MOBILE} {
+            width: 100%;
+          }
+
+          & .cover {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+
+            & .icon-wrapper {
+              width: 28px;
+              height: 28px;
+              padding: 4px;
+              border-radius: 50%;
+              margin-right: 8px;
+
+              & svg {
+                width: 20px;
+                height: 20px;
+              }
+            }
+          }
+
+          & .plan-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: ${getColorCarry('neutral_70')};
+            font-size: 0.875rem;
+            padding: 12px 16px;
+            margin: 8px 0;
+            background-color: ${getColorCarry('secondary1_v2')};
+            border-radius: 8px;
+
+            & .plan-card-edit {
+              width: 16px;
+              height: 16px;
+              cursor: pointer;
+            }
+          }
+        }
+
+        & .trainings .icon-wrapper {
+          background-color: ${getColorCarry('orange_50')};
+          color: ${getColorCarry('white')};
+        }
+
+        & .meals .icon-wrapper {
+          background-color: ${getColorCarry('primary_v2')};
+          color: ${getColorCarry('white')};
+        }
+      }
+    }
+
     &__actions {
       display: flex;
       align-items: center;
+      justify-content: ${(props) => layoutMap[props.actionsLayout]};
 
       @media ${mediaQueries.TABLET} {
         flex-direction: column;

@@ -4,7 +4,9 @@ import Macronutrient from '../macronutrient/macronutrient.component'
 import SplitDayMealCard from '../split-day-meal-card/split-day-meal-card.component'
 import SplitDayCard, { SplitDayCardProps } from './split-day-card.component'
 
-export default function SplitDayDietCard(props: Pick<SplitDayCardProps, 'scheduleTime'>) {
+export default function SplitDayDietCard(
+  props: Pick<SplitDayCardProps, 'scheduleTime'>
+) {
   return (
     <SplitDayCard
       scheduleTime={props.scheduleTime}

@@ -511,6 +511,131 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Templates',
+    url: Routes.ACTIVITIES_TM,
+    Component: lazy(
+      () => import('../pages/activities/templates/templates.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Split Template',
+    url: Routes.ACTIVITIES_TM_TS_ID,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/templates/training-split/split/split.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Plan Template',
+    url: Routes.ACTIVITIES_TM_TP_ID,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/templates/training-plan/plan/plan.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Diet Plan Template',
+    url: Routes.ACTIVITIES_TM_DP_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/diet-plan/plan/plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Workout Template',
+    url: Routes.ACTIVITIES_TM_WO_ID,
+    Component: lazy(
+      () => import('../pages/activities/templates/workout/workout.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Exercise Template',
+    url: Routes.ACTIVITIES_TM_EX_ID,
+    Component: lazy(
+      () => import('../pages/activities/templates/exercise/exercise.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Meal Plan Template',
+    url: Routes.ACTIVITIES_TM_MP_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/meal-plan/meal-plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Meal Template',
+    url: Routes.ACTIVITIES_TM_ML_ID,
+    Component: lazy(
+      () => import('../pages/activities/templates/meal/meal.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Food Template',
+    url: Routes.ACTIVITIES_TM_FO_ID,
+    Component: lazy(
+      () => import('../pages/activities/templates/food/food.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Activities',
     url: Routes.ACTIVITIES,
     Component: lazy(() => import('../pages/activities/activities.components')),
