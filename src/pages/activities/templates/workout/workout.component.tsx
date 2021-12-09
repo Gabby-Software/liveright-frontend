@@ -4,10 +4,7 @@ import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
-import Select, {
-  SelectProps
-} from '../../../../components/form/select/select.component'
-import { Option } from '../../../../components/form/select/select.options'
+import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
@@ -77,7 +74,7 @@ export default function Workout() {
         </section>
 
         <Card className="PlanPage__card">
-          <div className="PlanPage__header">
+          <section className="PlanPage__header">
             <Title>High Intensity Workout</Title>
 
             <div className="PlanPage__header-actions">
@@ -91,18 +88,20 @@ export default function Workout() {
                 Use Workout Template
               </Button>
             </div>
-          </div>
+          </section>
 
-          <div className="PlanPage__divider" />
+          <section className="PlanPage__divider" />
 
-          <div className="PlanPage__content">
-            <GeneralTable
-              labels={labels}
-              keys={keys}
-              links={links}
-              data={data}
-            />
-          </div>
+          <section className="PlanPage__content">
+            <div className="table">
+              <GeneralTable
+                labels={labels}
+                keys={keys}
+                links={links}
+                data={data}
+              />
+            </div>
+          </section>
         </Card>
       </Styles>
 
@@ -124,7 +123,7 @@ export default function Workout() {
                   },
                   {
                     label: 'Create new training plan day from this workout',
-                    value: 'new ',
+                    value: 'new',
                     disabled: false
                   }
                 ]}

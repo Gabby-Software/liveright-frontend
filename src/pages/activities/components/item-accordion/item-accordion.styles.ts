@@ -54,6 +54,12 @@ export const Styles = styled(Card)<any>`
       }
     }
 
+    &__divider {
+      margin: 0 1rem;
+      height: 1px;
+      background-color: ${getColorCarry('inputBorder_v2')};
+    }
+
     &__content {
       padding: 0 1rem 1.25rem 1rem;
     }

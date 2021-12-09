@@ -201,10 +201,27 @@ export const Styles = styled.div`
       }
     }
 
+    &__summary {
+      margin-bottom: 1.5rem;
+
+      & .label {
+        color: ${getColorCarry('neutral_70')};
+        margin: 0.5rem 0;
+      }
+
+      & .nutrients {
+        display: flex;
+        gap: 4px;
+      }
+    }
+
     &__content {
       background: ${getColorCarry('neutral_10')};
-      padding: 1.5rem;
       border-radius: 10px;
+
+      & .table {
+        padding: 1.5rem;
+      }
     }
   }
 `

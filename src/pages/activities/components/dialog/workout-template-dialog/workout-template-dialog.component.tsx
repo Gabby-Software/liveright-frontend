@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import ClientSelect from '../../../../../components/form/client-select/client-select.component'
 import { VoidAction } from '../../../../../types/actions.type'
 import ActivitiesDialog, {

@@ -3,11 +3,10 @@ import React, { useState } from 'react'
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import Dialog from '../../../../components/dialogs/dialog/dialog.component'
-import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
 import { GeneralTable } from '../components/general-table/general-table.component'
@@ -46,7 +45,7 @@ export default function Excercise() {
         </section>
 
         <Card className="PlanPage__card">
-          <div className="PlanPage__header">
+          <section className="PlanPage__header">
             <Title>Pushups</Title>
 
             <div className="PlanPage__header-actions">
@@ -60,24 +59,26 @@ export default function Excercise() {
                 Use Exercise Template
               </Button>
             </div>
-          </div>
+          </section>
 
-          <div className="PlanPage__divider" />
+          <section className="PlanPage__divider" />
 
-          <div className="PlanPage__content">
-            <GeneralTable
-              labels={labels}
-              keys={keys}
-              links={links}
-              data={data}
-            />
-          </div>
+          <section className="PlanPage__content">
+            <div className="table">
+              <GeneralTable
+                labels={labels}
+                keys={keys}
+                links={links}
+                data={data}
+              />
+            </div>
+          </section>
         </Card>
       </Styles>
 
       <Dialog
         open={showConfirm}
-        title='Use exercise template'
+        title="Use exercise template"
         onClose={() => setShowConfirm(false)}
       >
         <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>

@@ -596,6 +596,34 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Meal Plan Template',
+    url: Routes.ACTIVITIES_TM_MP_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/meal-plan/meal-plan.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Meal Template',
+    url: Routes.ACTIVITIES_TM_ML_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/meal/meal.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Activities',
     url: Routes.ACTIVITIES,
     Component: lazy(() => import('../pages/activities/activities.components')),

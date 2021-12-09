@@ -119,7 +119,7 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
 
       & label {
         margin-bottom: 1.25rem;
-        color: ${getColorCarry('neutral_70')};
+        color: ${getColorCarry('neutral_100')};
 
         @media ${mediaQueries.TABLET} {
           margin-bottom: 0.5rem;
