@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+
 export const Styles = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,12 +12,22 @@ export const Styles = styled.div`
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.25rem;
+
+      @media ${mediaQueries.TABLET} {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 2.5rem;
+      }
     }
 
     &__title {
       &-container {
         display: flex;
         align-items: center;
+
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 1rem;
+        }
       }
 
       &-arrows {

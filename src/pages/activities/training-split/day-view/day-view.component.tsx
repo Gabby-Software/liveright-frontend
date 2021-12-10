@@ -8,6 +8,7 @@ import Card from '../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { Title } from '../../../../components/typography'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import SplitDayDietCard from '../../components/split-day-card/split-day-diet-card.component'
 import SplitDayOtherCard from '../../components/split-day-card/split-day-other-card.component'
@@ -109,7 +110,16 @@ export default function TrainingSplitDayView({
   )
 
   return isMobile ? (
-    <MobilePage title="Current Training Split">{content}</MobilePage>
+    <MobilePage
+      title="Current Training Split"
+      headerTopComponent={
+        <HeaderLink onClick={onClose}>
+          Back to training split overview
+        </HeaderLink>
+      }
+    >
+      {content}
+    </MobilePage>
   ) : (
     content
   )

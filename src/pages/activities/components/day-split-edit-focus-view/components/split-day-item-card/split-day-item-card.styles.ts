@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
+
 export const Styles = styled.div<any>`
   display: flex;
   flex-direction: column;
@@ -13,6 +15,12 @@ export const Styles = styled.div<any>`
     &__head {
       display: flex;
       margin-bottom: 1.25rem;
+
+      &-content {
+        @media ${mediaQueries.TABLET} {
+          flex: 1;
+        }
+      }
 
       &-icon {
         width: 37px;
@@ -33,6 +41,10 @@ export const Styles = styled.div<any>`
 
       &-control {
         width: 250px;
+
+        @media ${mediaQueries.TABLET} {
+          width: 100%;
+        }
       }
 
       &-title {

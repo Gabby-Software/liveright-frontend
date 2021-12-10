@@ -1,11 +1,16 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
+
+  @media ${mediaQueries.TABLET} {
+    padding-bottom: 0;
+  }
 
   .AddTrainingSplit {
     &__card {
@@ -39,17 +44,34 @@ export const Styles = styled.div`
       margin-bottom: 1.5rem;
     }
 
-    &__name-controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
+    &__name {
+      &-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+
+        @media ${mediaQueries.TABLET} {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      &-control {
+        @media ${mediaQueries.TABLET} {
+          width: 100%;
+        }
+      }
     }
 
     &__info-controls {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1.25rem;
+
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__link {
@@ -69,6 +91,10 @@ export const Styles = styled.div`
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1.25rem;
+
+        @media ${mediaQueries.TABLET} {
+          grid-template-columns: 1fr;
+        }
       }
     }
 
@@ -100,11 +126,20 @@ export const Styles = styled.div`
       &-title {
         margin-bottom: 0;
 
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 1rem;
+        }
+
         &-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 1.25rem;
+
+          @media ${mediaQueries.TABLET} {
+            flex-direction: column;
+            align-items: flex-start;
+          }
         }
       }
 

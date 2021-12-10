@@ -13,6 +13,7 @@ export default function DaySplitEditCard() {
   return (
     <DayCard
       title="Day 1"
+      border="both"
       content={
         <Styles>
           <Control

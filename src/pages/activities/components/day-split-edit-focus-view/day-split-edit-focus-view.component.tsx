@@ -20,7 +20,7 @@ export default function DaySplitEditFocusView() {
     <Styles>
       <div className="DaySplitEditFocusView__head">
         <div className="DaySplitEditFocusView__title-container">
-          <Title>Day 3</Title>
+          <Title className="DaySplitEditFocusView__title">Day 3</Title>
 
           <div className="DaySplitEditFocusView__title-arrows">
             <IconButton size="sm">
