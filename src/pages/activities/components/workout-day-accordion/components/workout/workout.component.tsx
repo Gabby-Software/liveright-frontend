@@ -9,7 +9,9 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
 import {
   AddIcon,
-  DeleteOutlinedIcon
+  DeleteOutlinedIcon,
+  LockIcon,
+  UnlockIcon
 } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
@@ -25,6 +27,8 @@ import { Styles, WorkoutSubtitle } from './workout.styles'
 
 interface WorkoutProps {
   name: string
+  index: number
+  data?: any
   onRemove: any
 }
 
@@ -44,10 +48,12 @@ function createExercise() {
   }
 }
 
-export default function Workout({ name, onRemove }: WorkoutProps) {
+export default function Workout({ name, onRemove, index }: WorkoutProps) {
   const [dropId] = useState(Date.now())
+  const [locked, setLocked] = useState(false)
 
   const methods = useFormContext()
+
   const exercisesArray = useFieldArray({
     control: methods.control,
     name: `${name}.items`
@@ -60,21 +66,17 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
     exercisesArray.swap(result.source.index, (result.destination as any).index)
   }
 
+  const exArray = exercisesArray.fields.filter(
+    (item: any) => !Array.isArray(item.data)
+  )
+  const ssArray = exercisesArray.fields.filter((item: any) =>
+    Array.isArray(item.data)
+  )
+
   return (
     <Styles>
       <div className="Workout__header">
-        <Controller
-          name={`${name}.name`}
-          render={({ field: { name, value } }) => (
-            <Input
-              id="Workout-title"
-              label="Title of workout"
-              placeholder="Title"
-              value={value}
-              onChange={(e) => methods.setValue(name, e.target.value)}
-            />
-          )}
-        />
+        <div className="subtitle">{`Workout ${index + 1}`}</div>
 
         <div className="Workout__header-checkbox-cell">
           <div className="Workout__header-checkbox-container">
@@ -91,30 +93,47 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
             </IconButton>
           </div>
         </div>
+      </div>
 
-        <div className="Workout__header-schedule-container">
-          <Controller
-            name={`${name}.time`}
-            render={({ field: { name, value } }) => (
-              <TimePicker
-                id="Workout-time"
-                label="Schedule"
-                placeholder="08:00"
+      <div className="Workout__title">
+        <Controller
+          name={`${name}.name`}
+          render={({ field: { value, name } }) => {
+            return (
+              <Input
+                id="Workout-title"
+                label="Title of workout"
+                placeholder="Title"
                 value={value}
-                onChange={(e, date) => {
-                  methods.setValue(name, date)
-                }}
+                onChange={(e) => methods.setValue(name, e.target.value)}
               />
-            )}
-          />
+            )
+          }}
+        />
+      </div>
 
-          <Select
-            disabled
-            id="Workout-days"
-            options={[]}
-            value={{ label: 'Apply to all days', value: 'Apply to all days' }}
-          />
-        </div>
+      <div className="Workout__schedule-container">
+        <Controller
+          name={`${name}.time`}
+          render={({ field: { name, value } }) => (
+            <TimePicker
+              id="Workout-time"
+              label="Schedule"
+              placeholder="08:00"
+              value={value}
+              onChange={(e, date) => {
+                methods.setValue(name, date)
+              }}
+            />
+          )}
+        />
+
+        <Select
+          disabled
+          id="Workout-days"
+          options={[]}
+          value={{ label: 'Apply to all days', value: 'Apply to all days' }}
+        />
       </div>
 
       <WorkoutSubtitle>Exercises</WorkoutSubtitle>
@@ -129,39 +148,55 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                     <EmptyPlaceholder text="Add your exercises" spacing />
                   </div>
                 ) : (
-                  exercisesArray.fields.map((row: any, index) => {
-                    return (
+                  <>
+                    {exArray.map((row: any, index) => (
                       <Draggable
                         key={row.id}
                         draggableId={`${row.id}`}
                         index={index}
-                        isDragDisabled={row.type === 'superset'}
                       >
-                        {(provided, snapshot) =>
-                          row.type === 'superset' ? (
-                            <Superset
-                              key={row.id}
-                              exercises={[]}
-                              dragHandleProps={provided.dragHandleProps}
-                              draggableProps={provided.draggableProps}
-                              isDragging={snapshot.isDragging}
-                              innerRef={provided.innerRef}
-                            />
-                          ) : (
-                            <Exercise
-                              key={row.id}
-                              dragHandleProps={provided.dragHandleProps}
-                              draggableProps={provided.draggableProps}
-                              innerRef={provided.innerRef}
-                              isDragging={snapshot.isDragging}
-                              name={`${name}.items.${index}`}
-                              onRemove={() => exercisesArray.remove(index)}
-                            />
-                          )
-                        }
+                        {(provided, snapshot) => (
+                          <Exercise
+                            key={row.id}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            name={`${name}.items.${index}`}
+                            onRemove={() => exercisesArray.remove(index)}
+                          />
+                        )}
                       </Draggable>
-                    )
-                  })
+                    ))}
+
+                    <div className="Workout__template">
+                      <Checkbox />
+                      <Label className="checkbox">
+                        Save exercise as re-usable template
+                      </Label>
+                    </div>
+
+                    {ssArray.map((row: any, index) => (
+                      <Draggable
+                        key={row.id}
+                        draggableId={`${row.id}`}
+                        index={index}
+                        isDragDisabled
+                      >
+                        {(provided, snapshot) => (
+                          <Superset
+                            key={row.id}
+                            exercises={row.data}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            name={`${name}.items.${index}`}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                  </>
                 )}
                 {provided.placeholder}
               </div>
@@ -181,10 +216,36 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
           Add Exercise
         </Button>
 
-        <Button variant="text" size="sm" className="Workout__action-btn">
-          <AddIcon />
-          Add Superset
-        </Button>
+        {ssArray.length === 0 ? (
+          <Button variant="text" size="sm" className="Workout__action-btn">
+            <AddIcon />
+            Add Superset
+          </Button>
+        ) : (
+          <>
+            {locked ? (
+              <Button
+                variant="success"
+                size="sm"
+                className="Workout__action-btn"
+                onClick={() => setLocked(false)}
+              >
+                <UnlockIcon />
+                Open Superset
+              </Button>
+            ) : (
+              <Button
+                variant="danger"
+                size="sm"
+                className="Workout__action-btn"
+                onClick={() => setLocked(true)}
+              >
+                <LockIcon />
+                Close Superset
+              </Button>
+            )}
+          </>
+        )}
       </div>
     </Styles>
   )

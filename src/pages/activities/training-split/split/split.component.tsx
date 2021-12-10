@@ -6,25 +6,22 @@ import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
-import AddTrainingSplit from '../add-split/add-split.component'
+import { TS_DEMO } from '../../demo/splits'
 import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
-  const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
-
-  if (edit) {
-    return <AddTrainingSplit />
-  }
+  const data = TS_DEMO
 
   if (day) {
     return <TrainingSplitDayView onClose={() => setDay(null)} />
@@ -45,17 +42,17 @@ export default function TrainingSplit() {
     <>
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
-          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            <div className="TrainingSplits__card-container" key={row}>
-              <DayTrainingSplitCard onExpand={() => setDay(row)} />
+          {data.map((row, idx) => (
+            <div className="TrainingSplits__card-container" key={row.day}>
+              <DayTrainingSplitCard onExpand={() => setDay(idx)} data={row} />
             </div>
           ))}
         </div>
       ) : (
         <div className="TrainingSplits__cards">
-          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            <div className="TrainingSplits__card-container" key={row}>
-              <DayTrainingScheduleCard />
+          {data.map((row) => (
+            <div className="TrainingSplits__card-container" key={row.day}>
+              <DayTrainingScheduleCard data={row} />
             </div>
           ))}
         </div>
@@ -80,7 +77,7 @@ export default function TrainingSplit() {
                 </Button>
                 <Button
                   className="TrainingSplits__title-button"
-                  onClick={() => setEdit(true)}
+                  to={Routes.ACTIVITIES_TS + '/ts_1/edit'}
                 >
                   Edit Training Split
                 </Button>

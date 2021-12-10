@@ -62,6 +62,8 @@ function getBgColor(props: any): string {
     case 'secondary':
     case 'text':
     case 'dark':
+    case 'danger':
+    case 'success':
       return 'transparent'
     default:
       return getColor(props, 'primary_v2')
@@ -75,6 +77,8 @@ function getBorderColor(props: any): string {
     case 'dark':
       return getColor(props, 'secondary2_v2')
     case 'text':
+    case 'danger':
+    case 'success':
       return 'transparent'
     default:
       return getColor(props, 'primary_v2')
@@ -88,6 +92,10 @@ function getTextColor(props: any): string {
       return getColor(props, 'link')
     case 'dark':
       return getColor(props, 'primaryDark2_v2')
+    case 'danger':
+      return getColor(props, 'red')
+    case 'success':
+      return getColor(props, 'green_80')
     default:
       return '#fff'
   }

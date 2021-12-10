@@ -10,6 +10,7 @@ import DayTrainingScheduleCard from '../../../components/day-training-schedule-c
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import ActivityLayout from '../../../components/layout/layout.component'
+import { TS_DEMO } from '../../../demo/splits'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
@@ -17,6 +18,7 @@ export default function TrainingSplit() {
   const [showDialog, setShowDialog] = useState(false)
 
   const onDelete = () => {}
+  const data = TS_DEMO
 
   return (
     <ActivityLayout>
@@ -73,14 +75,14 @@ export default function TrainingSplit() {
         </section>
 
         <div className="TSTemplates__cards">
-          {[0, 1, 2, 3, 4, 5, 6].map((id: number) =>
+          {data.map((row: any) =>
             scheduleView ? (
-              <div className="TSTemplates__card-container" key={id}>
-                <DayTrainingScheduleCard />
+              <div className="TSTemplates__card-container" key={row.day}>
+                <DayTrainingScheduleCard data={row} />
               </div>
             ) : (
-              <div className="TSTemplates__card-container" key={id}>
-                <DayTrainingSplitCard />
+              <div className="TSTemplates__card-container" key={row.day}>
+                <DayTrainingSplitCard data={row} />
               </div>
             )
           )}

@@ -38,6 +38,7 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
         ) : (
           <Workout
             key={row.id}
+            index={index}
             name={`${name}.${index}`}
             onRemove={() => workoutsArray.remove(index)}
           />

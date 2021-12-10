@@ -19,7 +19,7 @@ import Styles from './input.styles'
 
 export interface InputProps {
   id: string
-  type?: 'text' | 'password'
+  type?: 'text' | 'password' | 'number'
   label?: string
   tooltip?: string
   placeholder?: string

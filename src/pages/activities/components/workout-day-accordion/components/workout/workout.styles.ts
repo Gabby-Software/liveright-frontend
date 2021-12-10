@@ -20,6 +20,10 @@ export const Styles = styled(Card)`
       gap: 1.25rem;
       margin-bottom: 1.25rem;
 
+      & .subtitle {
+        color: ${getColorCarry('neutral_100')};
+      }
+
       &-checkbox {
         &-cell {
           display: flex;
@@ -40,19 +44,38 @@ export const Styles = styled(Card)`
           color: ${getColorCarry('red')};
         }
       }
+    }
 
-      &-schedule {
-        &-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.25rem;
-          align-items: flex-end;
-        }
+    &__title {
+      max-width: 512px;
+      margin-bottom: 1rem;
+    }
+
+    &__schedule {
+      &-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2fr;
+        gap: 1.25rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
       }
     }
 
     &__exercises {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    &__template {
+      margin-left: 16px;
+      display: flex;
+      align-items: center;
+      & > :first-child {
+        margin-right: 8px;
+      }
+
+      & label {
+        margin: 0;
+      }
     }
 
     &__actions {
@@ -78,7 +101,7 @@ export const WorkoutSubtitle = styled.p`
   font-size: 1rem;
   font-weight: 700;
   color: ${getColorCarry('primaryDark_v2')};
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0;
 
   &::after {
     content: '';

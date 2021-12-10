@@ -14,6 +14,81 @@ import ActivityLayout from '../../../components/layout/layout.component'
 import { Styles } from '../../../styles/plan.styles'
 
 const IS_EMPTY = false
+const TRAIN_PLAN = {
+  name: 'High Intensity Workouts',
+  activities: [
+    {
+      _id: '1',
+      name: 'Workout One',
+      items: [
+        [
+          {
+            name: 'Pushups',
+            info: {
+              steps: 4,
+              reps: 10,
+              rest_interval: '2 min'
+            }
+          }
+        ],
+        [
+          {
+            name: 'Pushups',
+            info: {
+              steps: 4,
+              reps: 10,
+              rest_interval: '2 min'
+            }
+          }
+        ],
+        [
+          {
+            name: '1A-Pushups',
+            info: {
+              steps: 4,
+              reps: 10,
+              rest_interval: '2 min'
+            }
+          },
+          {
+            name: '1B-Pushups',
+            info: {
+              steps: 4,
+              reps: 10,
+              rest_interval: '2 min'
+            }
+          }
+        ]
+      ]
+    },
+    {
+      _id: '2',
+      name: 'Workout Two',
+      items: [
+        [
+          {
+            name: 'Pushups',
+            info: {
+              steps: 4,
+              reps: 10,
+              rest_interval: '2 min'
+            }
+          }
+        ],
+        [
+          {
+            name: 'Pushups',
+            info: {
+              steps: 3,
+              reps: 4,
+              rest_interval: '2 min'
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}
 
 export default function TrainingPlan() {
   const [showConfirm, setShowConfirm] = useState(false)
@@ -66,9 +141,9 @@ export default function TrainingPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayTrainingPlanCard day={{}} />
-            <DayTrainingPlanCard day={{}} />
-            <DayTrainingPlanCard day={{}} />
+            <DayTrainingPlanCard day={TRAIN_PLAN} />
+            <DayTrainingPlanCard day={TRAIN_PLAN} />
+            <DayTrainingPlanCard day={TRAIN_PLAN} />
           </div>
         </Card>
       </Styles>

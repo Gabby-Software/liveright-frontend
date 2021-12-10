@@ -4,7 +4,6 @@ import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../../../components/form/input/input.component'
-// import Select from '../../../../../../components/form/select/select.component'
 import { Styles } from './exercise.styles'
 
 interface ExerciseProps {

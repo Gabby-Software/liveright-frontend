@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
-import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
@@ -10,29 +9,55 @@ import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edit-card.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
+import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
-import { Styles } from './add-split.styles'
+import MealPlanEditDialog from '../../components/mealplan-edit-dialog/mealplan-edit-dialog.component'
+import WorkoutEditDialog from '../../components/workoutday-edit-dialog/workoutday-edit-dialog.component'
+import { Styles } from './edit-split.styles'
 
-export default function AddTrainingSplit() {
+interface EditTrainingSplitProps {
+  data?: any
+}
+export default function EditTrainingSplit(props: EditTrainingSplitProps) {
+  const { data } = props
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [count, setCount] = useState(data ? data.length : 0)
+
+  const [editMealPlan, setEditMealPlan] = useState(false)
+  const [editWorkout, setEditWorkout] = useState(false)
+
+  const handleMealPlan = () => {
+    setEditMealPlan(true)
+  }
+
+  const handleWorkout = () => {
+    setEditWorkout(true)
+  }
 
   return (
     <>
       <Styles>
         <Card className="AddTrainingSplit__card">
-          <GoBack className="AddTrainingSplit__back">
-            Back to Training Split Overview
-          </GoBack>
+          <MobileBack
+            alias={data ? 'training-split' : 'training-split-overview'}
+            to={Routes.ACTIVITIES_TS + (data ? '/ts_1' : '')}
+          />
 
           <div className="AddTrainingSplit__title-container">
-            <Title>Creating Training Split</Title>
+            <Title>
+              {data ? 'Editing Training Split' : 'Creating Training Split'}
+            </Title>
 
-            <Button onClick={() => setShowConfirm(true)}>Save</Button>
+            <Button onClick={() => setShowConfirm(true)}>
+              {data ? 'Save Changes' : 'Create'}
+            </Button>
           </div>
 
           <div className="AddTrainingSplit__divider" />
@@ -50,7 +75,7 @@ export default function AddTrainingSplit() {
           </div>
 
           <div className="AddTrainingSplit__info-controls">
-            <Counter />
+            <Counter value={count} onChange={(value) => setCount(value)} />
 
             <DatePicker
               id="add-split-date"
@@ -94,7 +119,7 @@ export default function AddTrainingSplit() {
         <Card className="AddTrainingSplit__card">
           <div className="AddTrainingSplit__cards-title-container">
             <Subtitle className="AddTrainingSplit__cards-title">
-              Build your split
+              {data ? 'Edit your split' : 'Build your split'}
             </Subtitle>
 
             <div className="AddTrainingSplit__cards-toggle-container">
@@ -117,8 +142,17 @@ export default function AddTrainingSplit() {
           ) : (
             <>
               <div className="AddTrainingSplit__cards">
-                <DaySplitEditCard />
-                <DaySplitEditCard />
+                {data &&
+                  data.map((day: any) => (
+                    <DayTrainingSplitCard
+                      key={day.day}
+                      data={day}
+                      edit
+                      onWorkout={handleWorkout}
+                      onMealPlan={handleMealPlan}
+                    />
+                  ))}
+                {!data && <DaySplitEditCard />}
 
                 <div className="AddTrainingSplit__card-add">
                   <AddIcon />
@@ -175,6 +209,18 @@ export default function AddTrainingSplit() {
             </ul>
           </>
         }
+      />
+
+      <WorkoutEditDialog
+        open={editWorkout}
+        onClose={() => setEditWorkout(false)}
+        data={data ? data[0]?.workoutDay : undefined}
+      />
+
+      <MealPlanEditDialog
+        open={editMealPlan}
+        onClose={() => setEditMealPlan(false)}
+        data={data ? data[0]?.mealPlanDay : undefined}
       />
     </>
   )

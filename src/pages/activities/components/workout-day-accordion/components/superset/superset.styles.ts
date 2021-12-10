@@ -10,6 +10,19 @@ export const Styles = styled.div<any>`
     &__exercises {
       padding: 0 0 1rem 0;
     }
+
+    &__template {
+      margin-left: 16px;
+      display: flex;
+      align-items: center;
+      & > :first-child {
+        margin-right: 8px;
+      }
+
+      & label {
+        margin: 0;
+      }
+    }
   }
 
   ${(props) =>

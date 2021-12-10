@@ -20,6 +20,8 @@ interface EditDietPlanProps {
 export default function EditDietPlan({ onClose }: EditDietPlanProps) {
   const [makeChangesDialog, setMakeChangesDialog] = useState(false)
   const isMobile = useIsMobile()
+  const [count, setCount] = useState(2)
+
   const content = (
     <>
       <Styles>
@@ -50,7 +52,7 @@ export default function EditDietPlan({ onClose }: EditDietPlanProps) {
               className="EditPlan__input"
             />
 
-            <Counter />
+            <Counter value={count} onChange={(value) => setCount(value)} />
           </div>
         </Card>
 

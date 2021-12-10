@@ -9,6 +9,7 @@ interface DialogProps {
   open: boolean
   className?: string
   closeIcon?: any
+  extended?: boolean
 }
 
 export default function Dialog({
@@ -17,7 +18,8 @@ export default function Dialog({
   onClose,
   children,
   className,
-  closeIcon
+  closeIcon,
+  extended
 }: PropsWithChildren<DialogProps>) {
   return (
     <DialogStyles
@@ -29,6 +31,7 @@ export default function Dialog({
       width="100%"
       centered
       className={className}
+      extended={extended}
     >
       {children}
     </DialogStyles>

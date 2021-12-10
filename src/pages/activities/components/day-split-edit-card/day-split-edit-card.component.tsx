@@ -9,10 +9,10 @@ import Select from '../../../../components/form/select/select.component'
 import DayCard from '../day-card/day-card.component'
 import { Styles } from './day-split-edit-card.styles'
 
-export default function DaySplitEditCard() {
+export default function DaySplitEditCard({ data }: { data?: any }) {
   return (
     <DayCard
-      title="Day 1"
+      title={data?.day ?? 'Day 1'}
       content={
         <Styles>
           <Control
@@ -23,7 +23,10 @@ export default function DaySplitEditCard() {
               <Select
                 id="DaySplitEditCard-training-plan"
                 placeholder="Search training plan"
-                options={[]}
+                options={[
+                  { label: 'Plan 1', value: 'plan_1' },
+                  { label: 'Plan 2', value: 'plan_2' }
+                ]}
               />
             }
           />

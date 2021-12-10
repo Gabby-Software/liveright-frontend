@@ -38,6 +38,7 @@ interface DayTrainingPlanCardProps {
 }
 
 export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
+  console.log(day)
   return (
     <DayCard
       title={day.name}
@@ -52,12 +53,17 @@ export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
                     title={row.name}
                     count={row.items?.length}
                     content={row.items?.map((row: any) => ({
-                      content: [
-                        {
-                          title: row.name,
-                          subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
-                        }
-                      ]
+                      content: Array.isArray(row)
+                        ? row.map((row: any) => ({
+                            title: row.name,
+                            subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
+                          }))
+                        : [
+                            {
+                              title: row.name,
+                              subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
+                            }
+                          ]
                     }))}
                   />
                 ))}

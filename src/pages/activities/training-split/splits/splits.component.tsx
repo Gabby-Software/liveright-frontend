@@ -65,7 +65,7 @@ export default function TrainingSplits() {
               <Title>Training Splits</Title>
 
               <div>
-                <Button>Create New Split</Button>
+                <Button to={Routes.ACTIVITIES_TS_NEW}>Create New Split</Button>
               </div>
             </div>
           </>
