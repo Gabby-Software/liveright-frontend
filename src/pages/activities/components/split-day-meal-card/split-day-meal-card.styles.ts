@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
@@ -11,6 +12,11 @@ export const Styles = styled(Card)`
   background-color: ${getColorCarry('neutral_10')};
   margin-bottom: 1rem;
 
+  @media ${mediaQueries.TABLET} {
+    display: flex;
+    flex-direction: column;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -20,6 +26,10 @@ export const Styles = styled(Card)`
       font-size: 1.125rem;
       color: ${getColorCarry('neutral_70')};
       margin-bottom: 0.5rem;
+
+      @media ${mediaQueries.TABLET} {
+        color: ${getColorCarry('neutral_100')};
+      }
     }
 
     &__subtitle {
@@ -43,6 +53,18 @@ export const Styles = styled(Card)`
 
       &:last-child {
         padding-left: 2rem;
+      }
+
+      @media ${mediaQueries.TABLET} {
+        &:first-child {
+          padding-right: 0;
+          border-right: 0;
+          margin-bottom: 0.5rem;
+        }
+
+        &:last-child {
+          padding-left: 0;
+        }
       }
     }
 
@@ -84,6 +106,15 @@ export const Styles = styled(Card)`
       flex-wrap: nowrap;
       margin: 0 -0.25rem;
       margin-bottom: 1.25rem;
+      overflow-x: auto;
+
+      -ms-overflow-style: none;
+      scrollbar-width: none; /* Firefox */
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     &__macronutrient {

@@ -7,6 +7,8 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import Card from '../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { Title } from '../../../../components/typography'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import SplitDayDietCard from '../../components/split-day-card/split-day-diet-card.component'
 import SplitDayOtherCard from '../../components/split-day-card/split-day-other-card.component'
 import SplitDayTrainingCard from '../../components/split-day-card/split-day-training-card.component'
@@ -19,21 +21,27 @@ interface TrainingSplitDayViewProps {
 export default function TrainingSplitDayView({
   onClose
 }: TrainingSplitDayViewProps) {
+  const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
-  return (
+
+  const content = (
     <Styles>
       <Card className="TrainingSplitDayView__card">
-        <GoBack spacing={4} onClick={onClose}>
-          Go Back to Training Split Overview
-        </GoBack>
+        {!isMobile && (
+          <>
+            <GoBack spacing={4} onClick={onClose}>
+              Go Back to Training Split Overview
+            </GoBack>
 
-        <div className="TrainingSplitDayView__title-container">
-          <Title>Current Training Split</Title>
+            <div className="TrainingSplitDayView__title-container">
+              <Title>Current Training Split</Title>
 
-          <Button>Edit Training Split</Button>
-        </div>
+              <Button>Edit Training Split</Button>
+            </div>
 
-        <div className="TrainingSplitDayView__divider" />
+            <div className="TrainingSplitDayView__divider" />
+          </>
+        )}
 
         <div className="TrainingSplitDayView__badges">
           <div className="TrainingSplitDayView__badge">
@@ -98,5 +106,11 @@ export default function TrainingSplitDayView({
         </div>
       </Card>
     </Styles>
+  )
+
+  return isMobile ? (
+    <MobilePage title="Current Training Split">{content}</MobilePage>
+  ) : (
+    content
   )
 }

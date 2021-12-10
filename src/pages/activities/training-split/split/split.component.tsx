@@ -19,7 +19,7 @@ export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
   const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
-  const [day, setDay] = useState<null | number>(null)
+  const [day, setDay] = useState<null | number>(1)
   const isMobile = useIsMobile()
 
   if (edit) {

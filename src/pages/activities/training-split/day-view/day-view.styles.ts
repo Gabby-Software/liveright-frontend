@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -7,6 +8,10 @@ export const Styles = styled.div`
   flex-direction: column;
   color: ${getColorCarry('neutral_100')};
   padding: 2rem 0;
+
+  @media ${mediaQueries.TABLET} {
+    padding-bottom: 0;
+  }
 
   .TrainingSplitDayView {
     &__card {
@@ -35,10 +40,20 @@ export const Styles = styled.div`
     &__badges {
       display: flex;
       align-content: center;
+
+      @media ${mediaQueries.TABLET} {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
     }
 
     &__badge {
       margin-right: 1.25rem;
+
+      @media ${mediaQueries.TABLET} {
+        margin-right: 0;
+      }
 
       &-name {
         font-size: 0.875rem;
@@ -52,6 +67,9 @@ export const Styles = styled.div`
         background-color: ${getColorCarry('neutral_10')};
         border-radius: 10px;
         font-size: 0.875rem;
+
+        @media ${mediaQueries.TABLET} {
+        }
       }
     }
 
@@ -59,6 +77,10 @@ export const Styles = styled.div`
       &-title {
         display: flex;
         align-items: center;
+
+        @media ${mediaQueries.TABLET} {
+          justify-content: space-between;
+        }
       }
 
       &-arrows {
@@ -83,11 +105,20 @@ export const Styles = styled.div`
         font-size: 1rem;
         color: ${getColorCarry('neutral_70')};
 
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 1rem;
+        }
+
         &-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 1.5rem;
+
+          @media ${mediaQueries.TABLET} {
+            align-items: flex-start;
+            flex-direction: column;
+          }
         }
       }
 
@@ -98,6 +129,12 @@ export const Styles = styled.div`
         &-label {
           margin-left: 1rem;
           font-weight: 700;
+        }
+
+        @media ${mediaQueries.TABLET} {
+          & .toggle__body {
+            margin-left: 0;
+          }
         }
       }
     }

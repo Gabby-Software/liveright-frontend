@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
@@ -17,6 +18,39 @@ export const Styles = styled(Card)`
     &__content {
       display: flex;
       align-items: center;
+    }
+
+    &__content-card {
+      @media ${mediaQueries.TABLET} {
+        border: 1px solid ${getColorCarry('inputBorder_v2')};
+        border-radius: 10px;
+        padding: 1rem;
+        width: 100%;
+      }
+
+      &-title {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+      }
+
+      &-cols {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -0.5rem;
+        width: auto;
+      }
+
+      &-col {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: ${getColorCarry('neutral_100')};
+        margin: 0.5rem;
+
+        &-name {
+          color: ${getColorCarry('neutral_70')};
+        }
+      }
     }
 
     &__table {
