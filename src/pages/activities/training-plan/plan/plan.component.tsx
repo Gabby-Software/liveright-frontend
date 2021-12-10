@@ -183,6 +183,26 @@ export default function TrainingPlan() {
       </Styles>
 
       <MakeActiveDialog
+        name="Make Active Training Plan"
+        description="You're about to make the following training plan the active one"
+        title="High Intensity Plan"
+        alert={
+          <>
+            <div className="title">Read this before activating plan!</div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created and it will
+                become active. All your workout entires on your calender from
+                this day will be updated.
+              </li>
+              <li>
+                This will also make changes to your current training split to
+                use the changes you just made.
+              </li>
+            </ul>
+          </>
+        }
+        date={{ label: 'From when should we apply this change?', value: '' }}
         open={makeActiveDialog}
         onClose={() => setMakeActiveDialog(false)}
       />

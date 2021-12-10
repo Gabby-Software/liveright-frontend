@@ -3,7 +3,7 @@ import { Styles } from './alert.styles'
 
 interface AlertProps {
   className?: string
-  content: string
+  content: string | JSX.Element
 }
 
 export default function Alert({ className, content }: AlertProps) {

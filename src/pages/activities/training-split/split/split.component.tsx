@@ -177,12 +177,61 @@ export default function TrainingSplit() {
         )}
       </Styles>
 
-      <MakeActiveDialog
-        yes="Confirm Chnages"
-        cancel="Never mind"
+      {/* other condition */}
+      {/* <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
         open={makeActiveDialog}
         onClose={() => setMakeActiveDialog(false)}
-        old
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alert={
+          <>
+            <div className="title">Read this slowly and carefully!</div>
+            <ul>
+              <li>
+                You will have a brand new training split created and made active. it will apply to all future date on you calender.
+              </li>
+              <li>
+                We’ll create a new diet and training plan and make them active. These will have the contents you just added to your training split.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
+      /> */}
+
+      {/* not scheduled  */}
+      <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, save it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03"
         date={{
           label: (
             <span>
@@ -207,6 +256,53 @@ export default function TrainingSplit() {
           ]
         }}
       />
+
+      {/* make it active */}
+      {/* <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alert={
+          <>
+            <div className="title">Read this slowly and carefully!</div>
+            <ul>
+              <li>
+                Your current Training Split <b>“My Split”</b> will be replaced with
+                this new one. You can always go back to the Training SPlit list
+                and re-activate <b>“My Split”</b>.
+              </li>
+              <li>
+                Your current active Diet Plan will be replaced with the one you
+                created or edited as part of this training split.
+              </li>
+              <li>
+                Your cuurent Traning Plan will be replaced with the one you
+                created or edited as part of this training split.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
+      /> */}
     </>
   )
 

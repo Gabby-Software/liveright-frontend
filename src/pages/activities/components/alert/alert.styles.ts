@@ -17,9 +17,18 @@ export const Styles = styled.div`
 
   .Alert {
     &__body {
-      display: flex;
       font-size: 0.875rem;
       line-height: 1.25rem;
+
+      & .title {
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+      }
+
+      & ul {
+        padding-inline-start: 16px;
+      }
     }
 
     &__icon {

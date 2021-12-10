@@ -136,8 +136,20 @@ export default function DietPlan() {
       </Styles>
 
       <MakeActiveDialog
+        name="Make Active Diet Plan"
+        description="You're about to make the following diet plan the active one"
+        title="Diet 2"
+        alert="This will make John Travolta’s active diet plan this one “Diet 2” starting from 22/11/2021. This means the training split will also be changed to reference this diet plan. You can revert it at any point by re-activating “Balanced Diet” as the active diet plan."
+        date={{ label: 'From when should we apply this change?', value: '' }}
         open={makeActiveDialog}
         onClose={() => setMakeActiveDialog(false)}
+        actions={{
+          yes: 'Confirm Changes',
+          cancel: 'Nevermind',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'left'
+        }}
       />
     </>
   )

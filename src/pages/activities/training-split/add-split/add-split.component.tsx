@@ -14,119 +14,168 @@ import { Subtitle, Title } from '../../../../components/typography'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edit-card.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
+import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
 import { Styles } from './add-split.styles'
 
 export default function AddTrainingSplit() {
   const [dayView, setDayView] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+
   return (
-    <Styles>
-      <Card className="AddTrainingSplit__card">
-        <GoBack className="AddTrainingSplit__back">
-          Back to Training Split Overview
-        </GoBack>
+    <>
+      <Styles>
+        <Card className="AddTrainingSplit__card">
+          <GoBack className="AddTrainingSplit__back">
+            Back to Training Split Overview
+          </GoBack>
 
-        <div className="AddTrainingSplit__title-container">
-          <Title>Creating Training Split</Title>
+          <div className="AddTrainingSplit__title-container">
+            <Title>Creating Training Split</Title>
 
-          <Button>Save</Button>
-        </div>
+            <Button onClick={() => setShowConfirm(true)}>Save</Button>
+          </div>
 
-        <div className="AddTrainingSplit__divider" />
+          <div className="AddTrainingSplit__divider" />
 
-        <Subtitle className="AddTrainingSplit__subtitle">General Info</Subtitle>
-
-        <div className="AddTrainingSplit__name-controls">
-          <Input
-            id="add-split-name"
-            label="Name your training split"
-            placeholder="Training Split Created 2021"
-          />
-        </div>
-
-        <div className="AddTrainingSplit__info-controls">
-          <Counter />
-
-          <DatePicker
-            id="add-split-date"
-            label="Start date"
-            placeholder="Pick start date"
-          />
-          <DatePicker
-            id="add-split-date"
-            label="End date"
-            placeholder="Pick end date"
-          />
-        </div>
-      </Card>
-
-      <Card className="AddTrainingSplit__card">
-        <Subtitle className="AddTrainingSplit__link-title">
-          Link your existing training plan and diet plan (Optional)
-        </Subtitle>
-        <p className="AddTrainingSplit__link-text">
-          Any changes you make on your diet and training plans will be reflected
-          in your training split and vice versa. Don’t want to link? No worries,
-          we’ll create a new training and diet plan for you!
-        </p>
-
-        <div className="AddTrainingSplit__link-controls">
-          <Select
-            id="add-split-Diet-plan"
-            label="Diet plan"
-            placeholder="Select diet plan"
-            options={[]}
-          />
-          <Select
-            id="add-split-Training-plan"
-            label="Training plan"
-            placeholder="Select training plan"
-            options={[]}
-          />
-        </div>
-      </Card>
-
-      <Card className="AddTrainingSplit__card">
-        <div className="AddTrainingSplit__cards-title-container">
-          <Subtitle className="AddTrainingSplit__cards-title">
-            Build your split
+          <Subtitle className="AddTrainingSplit__subtitle">
+            General Info
           </Subtitle>
 
-          <div className="AddTrainingSplit__cards-toggle-container">
-            <p className="AddTrainingSplit__cards-toggle-label">All Day View</p>
-            <FormToggleUI
-              className="AddTrainingSplit__cards-toggle"
-              value={dayView}
-              onUpdate={() => setDayView(!dayView)}
+          <div className="AddTrainingSplit__name-controls">
+            <Input
+              id="add-split-name"
+              label="Name your training split"
+              placeholder="Training Split Created 2021"
             />
-            <p className="AddTrainingSplit__cards-toggle-label">
-              Focused Day View
-            </p>
           </div>
-        </div>
 
-        {dayView ? (
-          <DaySplitEditFocusView />
-        ) : (
-          <>
-            <div className="AddTrainingSplit__cards">
-              <DaySplitEditCard />
-              <DaySplitEditCard />
+          <div className="AddTrainingSplit__info-controls">
+            <Counter />
 
-              <div className="AddTrainingSplit__card-add">
-                <AddIcon />
-                Add More Days
+            <DatePicker
+              id="add-split-date"
+              label="Start date"
+              placeholder="Pick start date"
+            />
+            <DatePicker
+              id="add-split-date"
+              label="End date"
+              placeholder="Pick end date"
+            />
+          </div>
+        </Card>
+
+        <Card className="AddTrainingSplit__card">
+          <Subtitle className="AddTrainingSplit__link-title">
+            Link your existing training plan and diet plan (Optional)
+          </Subtitle>
+          <p className="AddTrainingSplit__link-text">
+            Any changes you make on your diet and training plans will be
+            reflected in your training split and vice versa. Don’t want to link?
+            No worries, we’ll create a new training and diet plan for you!
+          </p>
+
+          <div className="AddTrainingSplit__link-controls">
+            <Select
+              id="add-split-Diet-plan"
+              label="Diet plan"
+              placeholder="Select diet plan"
+              options={[]}
+            />
+            <Select
+              id="add-split-Training-plan"
+              label="Training plan"
+              placeholder="Select training plan"
+              options={[]}
+            />
+          </div>
+        </Card>
+
+        <Card className="AddTrainingSplit__card">
+          <div className="AddTrainingSplit__cards-title-container">
+            <Subtitle className="AddTrainingSplit__cards-title">
+              Build your split
+            </Subtitle>
+
+            <div className="AddTrainingSplit__cards-toggle-container">
+              <p className="AddTrainingSplit__cards-toggle-label">
+                All Day View
+              </p>
+              <FormToggleUI
+                className="AddTrainingSplit__cards-toggle"
+                value={dayView}
+                onUpdate={() => setDayView(!dayView)}
+              />
+              <p className="AddTrainingSplit__cards-toggle-label">
+                Focused Day View
+              </p>
+            </div>
+          </div>
+
+          {dayView ? (
+            <DaySplitEditFocusView />
+          ) : (
+            <>
+              <div className="AddTrainingSplit__cards">
+                <DaySplitEditCard />
+                <DaySplitEditCard />
+
+                <div className="AddTrainingSplit__card-add">
+                  <AddIcon />
+                  Add More Days
+                </div>
               </div>
-            </div>
 
-            <div className="AddTrainingSplit__cards-checkbox-container">
-              <Checkbox className="AddTrainingSplit__cards-checkbox" />
-              <Label className="AddTrainingSplit__cards-checkbox-label">
-                Save as re-usable template
-              </Label>
-            </div>
+              <div className="AddTrainingSplit__cards-checkbox-container">
+                <Checkbox className="AddTrainingSplit__cards-checkbox" />
+                <Label className="AddTrainingSplit__cards-checkbox-label">
+                  Save as re-usable template
+                </Label>
+              </div>
+            </>
+          )}
+        </Card>
+      </Styles>
+      <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, save it',
+          cancel: 'Cancel',
+          onYes: () => setShowConfirm(false),
+          onCancel: () => setShowConfirm(false),
+          layout: 'between'
+        }}
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        name="Make Change Training Split"
+        description="You’re about to making changes to the following training split:"
+        title="Training Split Created on Nov 01"
+        date={{
+          label:
+            'Please select the date from when you want these changes to be applied:',
+          value: ''
+        }}
+        alert={
+          <>
+            <div className="title">Read this before make change!</div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created. You can,
+                at all times, go back to old revisions, such as the one you just
+                edited, and re-activate it.
+              </li>
+              <li>
+                Any changes you made to training and diet plans will be applied
+                to respective meal/training plans. A new revision will be
+                created.
+              </li>
+              <li>
+                The version you just edited will become active and applied to
+                any future dates on your calendar.
+              </li>
+            </ul>
           </>
-        )}
-      </Card>
-    </Styles>
+        }
+      />
+    </>
   )
 }
