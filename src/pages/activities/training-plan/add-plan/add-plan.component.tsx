@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import {
   Controller,
@@ -5,12 +6,14 @@ import {
   useFieldArray,
   useForm
 } from 'react-hook-form'
+import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
+import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
@@ -26,7 +29,14 @@ interface AddTrainingPlanProps {
   revisionId?: string
 }
 
-const defaultValues = {
+const validationSchema = yup.object().shape({
+  name: yup.string().required(),
+  scheduled_start_on: yup.string().required(),
+  scheduled_end_on: yup.string().required(),
+  days: yup.array().required()
+})
+
+const defaultValues: any = {
   name: '',
   account_id: null,
   scheduled_start_on: '',
@@ -50,13 +60,14 @@ export default function AddTrainingPlan({
   const isMobile = useIsMobile()
   const [makeChangesDialog, setMakeChangesDialog] = useState(false)
 
-  const { onAdd, onEdit, trainingPlan } = useTrainingPlan({
+  const { onAdd, onEdit, revision } = useTrainingPlan({
     id: editId,
     revisionId
   })
 
-  const methods = useForm({
-    defaultValues
+  const methods = useForm<any>({
+    defaultValues,
+    resolver: yupResolver(validationSchema)
   })
 
   const daysArray = useFieldArray({
@@ -66,12 +77,12 @@ export default function AddTrainingPlan({
   })
 
   useEffect(() => {
-    methods.setValue('name', trainingPlan.name)
-    methods.setValue('account_id', trainingPlan.account_id)
-    methods.setValue('scheduled_start_on', trainingPlan.scheduled_start_on)
-    methods.setValue('scheduled_end_on', trainingPlan.scheduled_end_on)
-    methods.setValue('days', trainingPlan.days)
-  }, [trainingPlan._id])
+    methods.setValue('name', revision.name)
+    methods.setValue('account_id', revision.account_id)
+    methods.setValue('scheduled_start_on', revision.scheduled_start_on)
+    methods.setValue('scheduled_end_on', revision.scheduled_end_on)
+    methods.setValue('days', revision.days)
+  }, [revision._id])
 
   const handleSubmit = (values: any) => {
     if (editId && revisionId) {
@@ -96,6 +107,8 @@ export default function AddTrainingPlan({
     daysArray.append(createDay(newDayIndex))
     setDayIndex(newDayIndex)
   }
+
+  const { errors } = methods.formState
 
   const content = (
     <>
@@ -131,6 +144,7 @@ export default function AddTrainingPlan({
                     className="EditPlan__input"
                     value={value}
                     onChange={(e) => methods.setValue(name, e.target.value)}
+                    error={errors.name}
                   />
                 )}
               />
@@ -142,8 +156,10 @@ export default function AddTrainingPlan({
                     id="add-training-plan-start"
                     placeholder="Pick start date"
                     label="Start date"
+                    className="EditPlan__input"
                     value={value}
                     onChange={(e, date) => methods.setValue(name, date)}
+                    error={errors.scheduled_start_on}
                   />
                 )}
               />
@@ -153,9 +169,11 @@ export default function AddTrainingPlan({
                   <DatePicker
                     id="add-training-plan-end"
                     placeholder="Pick end date"
+                    className="EditPlan__input"
                     label="End date"
                     value={value}
                     onChange={(e, date) => methods.setValue(name, date)}
+                    error={errors.scheduled_end_on}
                   />
                 )}
               />
@@ -175,6 +193,7 @@ export default function AddTrainingPlan({
             <AddIcon />
             Add Workout Day
           </div>
+          {errors.days && <Error standalone="Add at least one day" />}
         </Styles>
       </FormProvider>
 
@@ -188,9 +207,7 @@ export default function AddTrainingPlan({
   return isMobile ? (
     <MobilePage
       title="Edit Training Plan"
-      actionComponent={
-        <Button onClick={() => setMakeChangesDialog(true)}>Save</Button>
-      }
+      actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}
     </MobilePage>

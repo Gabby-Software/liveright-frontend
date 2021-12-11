@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { useState } from 'react'
 import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import { WorkoutIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
@@ -8,11 +9,14 @@ import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { formatRevisionLabel } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
+import { getRoute } from '../../../../utils/routes'
 import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
@@ -27,8 +31,9 @@ export default function TrainingPlan() {
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
+  const history = useHistory()
 
-  const { trainingPlan } = useTrainingPlan({
+  const { revision, trainingPlan } = useTrainingPlan({
     id: params.id,
     revisionId: params.revisionId
   })
@@ -43,10 +48,8 @@ export default function TrainingPlan() {
     )
   }
 
-  const startOn = trainingPlan.scheduled_start_on
-    ? moment(new Date(trainingPlan.scheduled_start_on)).format(
-        DATE_RENDER_FORMAT
-      )
+  const startOn = revision.scheduled_start_on
+    ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
     : '-'
 
   const content = IS_EMPTY ? (
@@ -65,7 +68,11 @@ export default function TrainingPlan() {
               <Title>Current Training Plan</Title>
 
               <div className="PlanPage__header-actions">
-                <Button variant="secondary" className="PlanPage__header-btn">
+                <Button
+                  variant="secondary"
+                  className="PlanPage__header-btn"
+                  to={Routes.ACTIVITIES_TP}
+                >
                   See Other Plans
                 </Button>
                 <Button
@@ -81,7 +88,7 @@ export default function TrainingPlan() {
           <div className="PlanPage__filters">
             <div className="PlanPage__filters-title-container">
               <Subtitle className="PlanPage__filters-title">
-                {trainingPlan.name}
+                {revision.name}
               </Subtitle>
 
               {isMobile && (
@@ -89,6 +96,7 @@ export default function TrainingPlan() {
                   variant="text"
                   size="sm"
                   className="PlanPage__filters-archived-btn"
+                  to={Routes.ACTIVITIES_TP}
                 >
                   Archived Plans
                 </Button>
@@ -99,14 +107,33 @@ export default function TrainingPlan() {
               <Select
                 className="PlanPage__filters-select"
                 id="training-plan-version"
-                options={[]}
+                options={
+                  trainingPlan.revisions?.map((r: any) => ({
+                    label: formatRevisionLabel(
+                      r.scheduled_start_on,
+                      r.scheduled_end_on
+                    ),
+                    value: r._id
+                  })) || []
+                }
                 value={{
-                  value: startOn,
-                  label: startOn
+                  value: revision._id,
+                  label: formatRevisionLabel(
+                    revision.scheduled_start_on,
+                    revision.scheduled_end_on
+                  )
+                }}
+                onChange={(e, o) => {
+                  history.push(
+                    getRoute(Routes.ACTIVITIES_TP_ID, {
+                      id: params.id,
+                      revisionId: o.value
+                    })
+                  )
                 }}
               />
 
-              {!isMobile && trainingPlan.status === 'inactive' && (
+              {!isMobile && revision.status === 'inactive' && (
                 <Button
                   className="PlanPage__filters-make-active-btn"
                   onClick={() => setMakeActiveDialog(true)}
@@ -117,7 +144,7 @@ export default function TrainingPlan() {
             </div>
           </div>
 
-          {trainingPlan.status === 'scheduled' && (
+          {revision.status === 'scheduled' && (
             <Alert
               content={`This is your revision of your training plan set become active on ${startOn}.`}
             />
@@ -129,13 +156,13 @@ export default function TrainingPlan() {
             <div className="PlanPage__badge">
               <p className="PlanPage__badge-title">Status</p>
               <StatusBadge
-                status={trainingPlan.status}
+                status={revision.status}
                 className="PlanPage__badge-badge"
               >
-                {capitalize(trainingPlan.status)}
+                {capitalize(revision.status)}
               </StatusBadge>
             </div>
-            {trainingPlan.status === 'active' && (
+            {revision.status === 'active' && (
               <div className="PlanPage__badge">
                 <p className="PlanPage__badge-title">Start and end dates</p>
                 <p className="PlanPage__badge-text">
@@ -144,12 +171,12 @@ export default function TrainingPlan() {
                 </p>
               </div>
             )}
-            {trainingPlan.status === 'scheduled' && (
+            {revision.status === 'scheduled' && (
               <div className="PlanPage__badge">
                 <p className="PlanPage__badge-title">Starting on</p>
                 <p className="PlanPage__badge-text">
-                  {trainingPlan.scheduled_start_on
-                    ? moment(new Date(trainingPlan.scheduled_start_on)).format(
+                  {revision.scheduled_start_on
+                    ? moment(new Date(revision.scheduled_start_on)).format(
                         DATE_RENDER_FORMAT
                       )
                     : '-'}
@@ -160,7 +187,7 @@ export default function TrainingPlan() {
 
           {!isMobile && (
             <div className="PlanPage__cards">
-              {trainingPlan.days?.map((row: any) => (
+              {revision.days?.map((row: any) => (
                 <DayTrainingPlanCard key={row._id} day={row} />
               ))}
             </div>
@@ -171,7 +198,7 @@ export default function TrainingPlan() {
           <>
             <p className="PlanPage__subtitle">List of workout days</p>
 
-            {trainingPlan.days.map((row: any) => (
+            {revision.days?.map((row: any) => (
               <DayTrainingPlanCard day={row} key={row._id} />
             ))}
           </>

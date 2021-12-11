@@ -1,4 +1,8 @@
+import moment from 'moment'
+
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { Styles } from './plan-card.styles'
 
 interface PlanCardProps {
@@ -13,30 +17,38 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
         <div>
           <p className="PlanCard__name">{plan.name}</p>
           <p className="PlanCard__subtitle">
-            <span>Client:</span> {plan.client}
+            <span>Client:</span> {plan.client || '-'}
           </p>
         </div>
 
         <StatusBadge status={plan.status.toLowerCase()}>
-          {plan.status}
+          {capitalize(plan.status)}
         </StatusBadge>
       </div>
 
       <div className="PlanCard__info">
         <div>
           <p className="PlanCard__row-title">Days</p>
-          <p className="PlanCard__row-value">{plan.days}</p>
+          <p className="PlanCard__row-value">{plan.days || '-'}</p>
         </div>
-        {plan.start && (
+        {plan.scheduled_start_on && (
           <div>
             <p className="PlanCard__row-title">Start</p>
-            <p className="PlanCard__row-value">{plan.start}</p>
+            <p className="PlanCard__row-value">
+              {moment(new Date(plan.scheduled_start_on)).format(
+                DATE_RENDER_FORMAT
+              )}
+            </p>
           </div>
         )}
-        {plan.end && (
+        {plan.scheduled_end_on && (
           <div>
             <p className="PlanCard__row-title">Start</p>
-            <p className="PlanCard__row-value">{plan.end}</p>
+            <p className="PlanCard__row-value">
+              {moment(new Date(plan.scheduled_end_on)).format(
+                DATE_RENDER_FORMAT
+              )}
+            </p>
           </div>
         )}
         {plan.training_plan && (

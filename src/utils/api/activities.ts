@@ -1,4 +1,13 @@
 import cloneDeep from 'lodash.clonedeep'
+import moment from 'moment'
+
+import { DATE_RENDER_FORMAT } from '../date'
+
+export function formatRevisionLabel(from: string, to: string) {
+  return `from ${moment(new Date(from)).format(DATE_RENDER_FORMAT)} to ${moment(
+    new Date(to)
+  ).format(DATE_RENDER_FORMAT)}`
+}
 
 export function formatTrainingPlanData(data: any) {
   const dataClone = cloneDeep(data)

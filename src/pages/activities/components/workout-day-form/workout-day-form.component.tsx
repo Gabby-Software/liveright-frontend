@@ -34,7 +34,11 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
     <Styles>
       {workoutsArray.fields.map((row, index) =>
         isMobile ? (
-          <WorkoutAccordion key={row.id} />
+          <WorkoutAccordion
+            key={row.id}
+            name={`${name}.${index}`}
+            onRemove={() => workoutsArray.remove(index)}
+          />
         ) : (
           <Workout
             key={row.id}

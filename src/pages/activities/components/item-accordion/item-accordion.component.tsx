@@ -10,13 +10,18 @@ import { Styles } from './item-accordion.styles'
 interface ItemAccordionProps {
   content: ReactNode
   title: string
-  remove?: boolean
+  onRemove?: boolean
   iconDesc?: string
   divider?: boolean
 }
 
-export default function ItemAccordion(props: ItemAccordionProps) {
-  const { content, title, remove, iconDesc, divider } = props
+export default function ItemAccordion({
+  content,
+  title,
+  iconDesc,
+  divider,
+  onRemove
+}: ItemAccordionProps) {
   const [open, setOpen] = useState(false)
   return (
     <Styles $open={open}>
@@ -24,8 +29,12 @@ export default function ItemAccordion(props: ItemAccordionProps) {
         <p className="ItemAccordion__summary-title">{title}</p>
 
         <div className="ItemAccordion__summary-actions">
-          {open && remove && (
-            <IconButton size="sm" className="ItemAccordion__summary-remove-btn">
+          {open && onRemove && (
+            <IconButton
+              size="sm"
+              className="ItemAccordion__summary-remove-btn"
+              onClick={onRemove}
+            >
               <DeleteOutlinedIcon />
             </IconButton>
           )}

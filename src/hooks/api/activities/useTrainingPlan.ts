@@ -6,7 +6,8 @@ import { Routes } from '../../../enums/routes.enum'
 import {
   addTrainingPlan,
   editTrainingPlan,
-  getTrainingPlan
+  getTrainingPlan,
+  getTrainingPlanRevision
 } from '../../../services/api/activities'
 import { formatTrainingPlanData } from '../../../utils/api/activities'
 import { getRoute } from '../../../utils/routes'
@@ -15,6 +16,7 @@ interface UseTrainingPlan {
   onAdd: (data: any, onSuccess: any) => void
   onEdit: (id: string, revisionId: string, data: any, onSuccess: any) => void
   isLoading: boolean
+  revision: any
   trainingPlan: any
 }
 
@@ -28,11 +30,16 @@ export default function useTrainingPlan(
 ): UseTrainingPlan {
   const history = useHistory()
 
-  const { data, error } = useSWR(
+  const revisionSwr = useSWR(
     () =>
       config.id && config.revisionId
         ? `/training-plans/${config.id}/revisions/${config.revisionId}`
         : null,
+    getTrainingPlanRevision
+  )
+
+  const planSwr = useSWR(
+    () => (config.id ? `/training-plans/${config.id}` : null),
     getTrainingPlan
   )
 
@@ -68,9 +75,8 @@ export default function useTrainingPlan(
       )
       history.push(
         getRoute(Routes.ACTIVITIES_TP_ID, {
-          id: response?._id,
-          revisionId:
-            response?.revisions?.[response?.revisions?.length - 1]?._id
+          id: config.id,
+          revisionId: response?._id
         })
       )
       toast.show({ type: 'success', msg: 'Training plan successfully updated' })
@@ -81,13 +87,15 @@ export default function useTrainingPlan(
     }
   }
 
-  const isLoading = !data && !error
-  const trainingPlan = data?.data || {}
+  const isLoading = !revisionSwr.data && !revisionSwr.error
+  const revision = revisionSwr.data?.data || {}
+  const trainingPlan = planSwr.data?.data || {}
 
   return {
     onAdd,
     onEdit,
     isLoading,
+    revision,
     trainingPlan
   }
 }
