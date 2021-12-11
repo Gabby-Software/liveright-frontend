@@ -16,11 +16,11 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
-import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
+import { InputSearch } from '../../../input-search/input-search.component'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
 import { Styles, WorkoutSubtitle } from './workout.styles'
@@ -73,6 +73,8 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     Array.isArray(item.data)
   )
 
+  const onNew = () => {}
+
   return (
     <Styles>
       <div className="Workout__header">
@@ -100,12 +102,31 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           name={`${name}.name`}
           render={({ field: { value, name } }) => {
             return (
-              <Input
+              <InputSearch
                 id="Workout-title"
                 label="Title of workout"
                 placeholder="Title"
                 value={value}
-                onChange={(e) => methods.setValue(name, e.target.value)}
+                onChange={(value) => methods.setValue(name, value)}
+                onSearch={() => {}}
+                options={[
+                  { label: value, value: value },
+                  { value: 'existing', label: 'From this training plan', color: '#0052CC', isDisabled: true },
+                  { value: 'Full Body Workout', label: 'Full Body Workout', color: '#5243AA' },
+                  { value: 'template', label: 'From templates', color: '#0052CC', isDisabled: true },
+                  { value: 'Smooth Workout', label: 'Smooth Workout', color: '#FF8B00' },
+                  { value: 'Another Workout', label: 'Another Workout', color: '#36B37E' },
+                  { value: 'Another Workout', label: (
+                    <Button
+                      variant='text'
+                      style={{ display: 'flex', alignItems: 'center', padding: 0 }}
+                      onClick={onNew}
+                    >
+                      <AddIcon />&nbsp;
+                      Create New
+                    </Button>
+                  ), color: '#36B37E' }
+                ]}
               />
             )
           }}

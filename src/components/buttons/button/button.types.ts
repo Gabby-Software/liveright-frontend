@@ -10,4 +10,5 @@ export interface ButtonProps {
   htmlType?: string
   form?: string
   linkClassName?: string
+  style?: object
 }
