@@ -83,17 +83,18 @@ export const TS_DEMO = [
         {
           name: 'Meal 1',
           foods: [
-            { name: 'Chicken Brest Tender', amount: '100g' },
-            { name: 'Brown Rice', amount: '50g' },
-            { name: 'Red Apple', amount: '150g' }
+            { id: 'food_1', name: 'Chicken Brest Tender', amount: '100g' },
+            { id: 'food_2', name: 'Brown Rice', amount: '50g' },
+            { id: 'food_31', name: 'Red Apple', amount: '150g' }
           ]
         },
         {
           name: 'Meal 2',
           foods: [
-            { name: 'Food 1', amount: '80g' },
-            { name: 'Food 2', amount: '70g' },
-            { name: 'Food 3', amount: '120g' }
+            { id: 'food_4', name: 'Food 1', amount: '80g' },
+            { id: 'food_5', name: 'Food 2', amount: '70g' },
+            { id: 'food_7', name: 'Food 4', amount: '110g' },
+            { id: 'food_6', name: 'Food 3', amount: '120g' }
           ]
         }
       ]

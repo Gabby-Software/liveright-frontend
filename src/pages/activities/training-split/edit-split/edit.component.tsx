@@ -17,8 +17,8 @@ import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edi
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
-import MealPlanEditDialog from '../../components/mealplan-edit-dialog/mealplan-edit-dialog.component'
-import WorkoutEditDialog from '../../components/workoutday-edit-dialog/workoutday-edit-dialog.component'
+import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplan-edit-dialog.component'
+import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import { Styles } from './edit-split.styles'
 
 interface EditTrainingSplitProps {

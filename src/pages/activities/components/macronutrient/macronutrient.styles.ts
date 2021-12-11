@@ -8,7 +8,7 @@ export const Styles = styled.div`
   padding: 1.25rem;
   background-color: ${getColorCarry('neutral_100')};
   border-radius: 10px;
-  min-width: 125px;
+  min-width: 6.25rem;
   margin: 0.25rem;
 
   .Macronutrient {

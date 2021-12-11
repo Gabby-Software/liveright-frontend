@@ -111,21 +111,51 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                 onSearch={() => {}}
                 options={[
                   { label: value, value: value },
-                  { value: 'existing', label: 'From this training plan', color: '#0052CC', isDisabled: true },
-                  { value: 'Full Body Workout', label: 'Full Body Workout', color: '#5243AA' },
-                  { value: 'template', label: 'From templates', color: '#0052CC', isDisabled: true },
-                  { value: 'Smooth Workout', label: 'Smooth Workout', color: '#FF8B00' },
-                  { value: 'Another Workout', label: 'Another Workout', color: '#36B37E' },
-                  { value: 'Another Workout', label: (
-                    <Button
-                      variant='text'
-                      style={{ display: 'flex', alignItems: 'center', padding: 0 }}
-                      onClick={onNew}
-                    >
-                      <AddIcon />&nbsp;
-                      Create New
-                    </Button>
-                  ), color: '#36B37E' }
+                  {
+                    value: 'existing',
+                    label: 'From this training plan',
+                    color: '#0052CC',
+                    isDisabled: true
+                  },
+                  {
+                    value: 'Full Body Workout',
+                    label: 'Full Body Workout',
+                    color: '#5243AA'
+                  },
+                  {
+                    value: 'template',
+                    label: 'From templates',
+                    color: '#0052CC',
+                    isDisabled: true
+                  },
+                  {
+                    value: 'Smooth Workout',
+                    label: 'Smooth Workout',
+                    color: '#FF8B00'
+                  },
+                  {
+                    value: 'Another Workout',
+                    label: 'Another Workout',
+                    color: '#36B37E'
+                  },
+                  {
+                    value: 'Another Workout',
+                    label: (
+                      <Button
+                        variant="text"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          padding: 0
+                        }}
+                        onClick={onNew}
+                      >
+                        <AddIcon />
+                        &nbsp; Create New
+                      </Button>
+                    ),
+                    color: '#36B37E'
+                  }
                 ]}
               />
             )
@@ -212,7 +242,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             draggableProps={provided.draggableProps}
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
-                            name={`${name}.items.${index}`}
+                            name={`${name}.items.${index + exArray.length}`}
                           />
                         )}
                       </Draggable>

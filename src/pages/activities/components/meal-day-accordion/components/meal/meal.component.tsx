@@ -20,19 +20,30 @@ import { reorder } from '../../../../../../utils/dnd'
 import Food from '../food/food.component'
 import { MealSubtitle, Styles } from './meal.styles'
 
-const FOOD = [{ id: 1 }, { id: 2 }, { id: 3 }]
-
-export default function Meal() {
-  const [food, setFood] = useState(FOOD)
+interface MealProps {
+  data?: any
+}
+export default function Meal(props: MealProps) {
+  const { data } = props
+  const [foods, setFoods] = useState(data?.foods ?? [])
   const [dropId] = useState(uuid())
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return
     }
-    setFood((food) =>
+    setFoods((food: any) =>
       reorder(food, result.source.index, (result.destination as any).index)
     )
+  }
+
+  const mealOptions = [
+    { label: 'Fried Rice', value: 'Fried Rice' },
+    { label: 'Brown Rice', value: 'Brown Rice' },
+    { label: 'Fried Eggs', value: 'Fried Eggs' }
+  ]
+  if (data?.name) {
+    mealOptions.push({ label: data.name, value: data.name })
   }
 
   return (
@@ -40,9 +51,10 @@ export default function Meal() {
       <div className="Meal__name">
         <Select
           id="Meal-name"
-          options={[]}
+          options={mealOptions}
           label="Name of meal"
           placeholder="Fried Rice"
+          value={data?.name}
         />
 
         <TimePicker id="Workout-time" label="Schedule" placeholder="08:00" />
@@ -81,27 +93,34 @@ export default function Meal() {
           <Droppable droppableId={dropId}>
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {food.map((row, index) => (
-                  <Draggable
-                    key={row.id}
-                    draggableId={`${row.id}`}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <Food
-                        innerRef={provided.innerRef}
-                        dragHandleProps={provided.dragHandleProps}
-                        draggableProps={provided.draggableProps}
-                        isDragging={snapshot.isDragging}
-                      />
-                    )}
-                  </Draggable>
-                ))}
+                {foods &&
+                  foods.map((row: any, index: number) => (
+                    <Draggable
+                      key={row.id}
+                      draggableId={`${row.id}`}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <Food
+                          innerRef={provided.innerRef}
+                          dragHandleProps={provided.dragHandleProps}
+                          draggableProps={provided.draggableProps}
+                          isDragging={snapshot.isDragging}
+                          data={row}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
         </DragDropContext>
+
+        <div className="Meal__checkbox-container">
+          <Checkbox />
+          <Label className="Meal__checkbox">Save as re-usable template</Label>
+        </div>
       </div>
 
       <div className="Meal__divider" />

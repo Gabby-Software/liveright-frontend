@@ -6,7 +6,7 @@ import { getColorCarry } from '../../../pipes/theme-color.pipe'
 export const DialogStyles = styled<any>(Modal)`
   &.ant-modal {
     width: 100%;
-    max-width: ${(props) => (props.extended ? '960px' : '620px')};
+    max-width: ${(props) => (props.extended ? '1200px' : '620px')};
     padding: 1rem;
   }
 

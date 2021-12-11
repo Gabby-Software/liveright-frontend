@@ -1,7 +1,6 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
+
 import { CustomSelect } from '../../../../components/form/select/select.component'
-import { AddIcon } from '../../../../assets/media/icons'
-import Button from '../../../../components/buttons/button/button.component'
 
 interface InputSearchProps {
   id: string
@@ -10,13 +9,11 @@ interface InputSearchProps {
   options: any[]
   value: string
   onSearch: any
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 export const InputSearch = (props: InputSearchProps) => {
-
   const { options, ...other } = props
-  
-  
+
   return (
     <CustomSelect
       {...other}

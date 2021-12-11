@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 960px;
 
-  .WorkoutDayEdit {
+  .EditDialog {
     &__block {
       background-color: ${getColorCarry('white')};
       border-radius: 10px;
@@ -19,6 +18,20 @@ export const Styles = styled.div`
 
       & .subtitle {
         margin: 8px 0;
+      }
+    }
+
+    &__flex {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+
+      & .toggle {
+        margin: 0 16px 0 0;
+
+        &__body {
+          margin: 0;
+        }
       }
     }
 
@@ -72,8 +85,9 @@ export const Styles = styled.div`
       border-top: 1px solid ${getColorCarry('neutral_40')};
       display: flex;
       justify-content: flex-end;
-      padding-top: 24px;
-      margin: 24px 0;
+      padding: 24px;
+      padding-bottom: 0;
+      margin: 24px -24px;
     }
   }
 `

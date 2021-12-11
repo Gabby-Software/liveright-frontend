@@ -1,7 +1,11 @@
 import { FocusEventHandler, ReactNode, useState } from 'react'
-import ReactSelect, { MenuPosition, OptionsType, OptionTypeBase } from 'react-select'
+import ReactSelect, { MenuPosition } from 'react-select'
 
-import { CaretDownIcon, HelpIcon, SearchIcon } from '../../../assets/media/icons'
+import {
+  CaretDownIcon,
+  HelpIcon,
+  SearchIcon
+} from '../../../assets/media/icons'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import { OptionType } from '../../../types/option.type'
 import FormError from '../../forms/form-error/form-error.component'

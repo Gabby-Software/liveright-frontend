@@ -25,6 +25,7 @@ export default function Superset({
   draggableProps
 }: SupersetProps) {
   const [dropId] = useState(`superset-drop-${Date.now()}`)
+  console.log('superset: ', name)
   return (
     <Styles
       $isDragging={isDragging}

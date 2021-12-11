@@ -1,14 +1,13 @@
 import React from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 
-import { AddIcon } from '../../../../assets/media/icons'
-import { ReactComponent as CloseIcon } from '../../../../assets/media/icons/times.svg'
-import Button from '../../../../components/buttons/button/button.component'
-import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
-import Dialog from '../../../../components/dialogs/dialog/dialog.component'
-import Input from '../../../../components/form/input/input.component'
-import Workout from '../workout-day-accordion/components/workout/workout.component'
-import { Styles } from './workoutday-edit-dialog.styles'
+import { AddIcon } from '../../../../../assets/media/icons'
+import Button from '../../../../../components/buttons/button/button.component'
+import Dialog from '../../../../../components/dialogs/dialog/dialog.component'
+import Input from '../../../../../components/form/input/input.component'
+import Workout from '../../workout-day-accordion/components/workout/workout.component'
+import { DeletableDay } from '../shared/day-item.component'
+import { Styles } from '../shared/edit-dialog.styles'
 
 interface WorkoutDayEditDialogProps {
   data: any
@@ -41,15 +40,14 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
             item[0].info.rest_interval
         } else {
           item.forEach((ex: any, i: number) => {
-            result[`${workout.name}.items.${idx}.${i}.name`] = item[0].name
+            result[`${workout.name}.items.${idx}.${i}.name`] = ex.name
             result[`${workout.name}.items.${idx}.${i}.info.steps`] =
-              item[0].info.steps
-            result[`${workout.name}.items.${idx}.${i}.info.reps`] =
-              item[0].info.reps
+              ex.info.steps
+            result[`${workout.name}.items.${idx}.${i}.info.reps`] = ex.info.reps
             result[`${workout.name}.items.${idx}.${i}.info.tempo`] =
-              item[0].info.tempo
+              ex.info.tempo
             result[`${workout.name}.items.${idx}.${i}.info.rest_interval`] =
-              item[0].info.rest_interval
+              ex.info.rest_interval
           })
         }
       })
@@ -70,7 +68,7 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
     <Dialog title="Edit Training Plan Day" extended {...others}>
       <Styles>
         <FormProvider {...methods}>
-          <section className="WorkoutDayEdit__block">
+          <section className="EditDialog__block">
             <Controller
               name="name"
               render={({ field: { value, name } }) => (
@@ -85,19 +83,19 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
               )}
             />
 
-            <div className="WorkoutDayEdit__days">
+            <div className="EditDialog__days">
               <p className="subtitle">Currently used on</p>
-              <div className="WorkoutDayEdit__days-container">
+              <div className="EditDialog__days-container">
                 <DeletableDay name="Day 1" />
                 <DeletableDay name="Day 3" />
               </div>
             </div>
           </section>
 
-          <section className="WorkoutDayEdit__block">
+          <section className="EditDialog__block">
             <p className="subtitle">List workouts of this training plan</p>
 
-            <div className="WorkoutDayEdit__workouts">
+            <div className="EditDialog__workouts">
               {workouts &&
                 workouts.map((workout: any, idx: number) => (
                   <Workout
@@ -110,12 +108,12 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
                 ))}
             </div>
 
-            <div className="WorkoutDayEdit__add" onClick={onNew}>
+            <div className="EditDialog__add" onClick={onNew}>
               <AddIcon />
               Add Another Workout
             </div>
 
-            <div className="WorkoutDayEdit__actions">
+            <div className="EditDialog__actions">
               <Button onClick={props.onClose}>
                 Save and apply to all days
               </Button>
@@ -128,20 +126,3 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
 }
 
 export default WorkoutDayEditDialog
-
-interface DeletableDayProps {
-  name: string
-  onDelete?: (id: string) => void
-}
-
-function DeletableDay(props: DeletableDayProps) {
-  const { name, onDelete } = props
-  return (
-    <div className="day-item">
-      <span>{name}</span>
-      <IconButton onClick={onDelete ? () => onDelete('') : undefined}>
-        <CloseIcon />
-      </IconButton>
-    </div>
-  )
-}
