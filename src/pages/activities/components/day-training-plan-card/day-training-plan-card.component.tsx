@@ -4,12 +4,17 @@ import { Styles } from './day-training-plan-card.styles'
 
 interface DayTrainingPlanCardProps {
   day: any
+  onExpand?: () => void
 }
 
-export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
+export default function DayTrainingPlanCard({
+  day,
+  onExpand
+}: DayTrainingPlanCardProps) {
   return (
     <DayCard
       title={day.name}
+      onExpand={onExpand}
       content={
         <Styles>
           <div className="day-tp-card__content">

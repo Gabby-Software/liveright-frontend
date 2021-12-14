@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getColor, getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)<any>`
   padding: 0;
@@ -45,7 +45,10 @@ export const Styles = styled(Card)<any>`
       &-title {
         font-size: 1.175rem;
         font-weight: 700;
-        color: ${getColorCarry('primaryDark_v2')};
+        color: ${(props: any) =>
+          props.$error
+            ? getColor(props, 'red')
+            : getColor(props, 'primaryDark_v2')};
 
         @media ${mediaQueries.TABLET} {
           font-size: 0.875rem;

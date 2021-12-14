@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import Input from '../../../../../../components/form/input/input.component'
@@ -20,6 +21,12 @@ export default function ExerciseAccordion({
     control: methods.control
   })
 
+  const onChange = (name: string, value: string) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
+  const { errors } = methods.formState
+
   return (
     <SubItemAccordion
       title={exerciseName}
@@ -34,22 +41,26 @@ export default function ExerciseAccordion({
                 label="Exercise name"
                 placeholder="1A--"
                 value={value}
-                onChange={(e) => methods.setValue(name, e.target.value)}
+                onChange={(e) => onChange(name, e.target.value)}
                 className="ExerciseAccordion__name"
+                error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
               />
             )}
           />
 
           <div className="ExerciseAccordion__controls">
             <Controller
-              name={`${name}.info.steps`}
+              name={`${name}.info.sets`}
               render={({ field: { name, value } }) => (
                 <Input
-                  id="Exercise-steps"
+                  id="Exercise-sets"
                   label="Steps"
                   placeholder="10"
                   value={value}
-                  onChange={(e) => methods.setValue(name, e.target.value)}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
+                  ErrorProps={{ size: 'sm' }}
                 />
               )}
             />
@@ -61,7 +72,9 @@ export default function ExerciseAccordion({
                   label="Reps"
                   placeholder="10"
                   value={value}
-                  onChange={(e) => methods.setValue(name, e.target.value)}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
+                  ErrorProps={{ size: 'sm' }}
                 />
               )}
             />
@@ -73,7 +86,9 @@ export default function ExerciseAccordion({
                   label="Tempo"
                   placeholder="10"
                   value={value}
-                  onChange={(e) => methods.setValue(name, e.target.value)}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
+                  ErrorProps={{ size: 'sm' }}
                 />
               )}
             />
@@ -85,7 +100,9 @@ export default function ExerciseAccordion({
                   label="Rest Interval"
                   placeholder="10"
                   value={value}
-                  onChange={(e) => methods.setValue(name, e.target.value)}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
+                  ErrorProps={{ size: 'sm' }}
                 />
               )}
             />
@@ -99,7 +116,9 @@ export default function ExerciseAccordion({
                 label="Link to video/instructions"
                 placeholder="https://"
                 value={value}
-                onChange={(e) => methods.setValue(name, e.target.value)}
+                onChange={(e) => onChange(name, e.target.value)}
+                error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
               />
             )}
           />

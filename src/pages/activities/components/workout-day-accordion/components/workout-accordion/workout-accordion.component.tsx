@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import {
   Controller,
   useFieldArray,
@@ -7,6 +8,7 @@ import {
 
 import { AddIcon, SearchIcon } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
+import Error from '../../../../../../components/form/error/error.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
@@ -50,6 +52,22 @@ export default function WorkoutAccordion({
     control: methods.control
   })
 
+  const { errors } = methods.formState
+
+  const onChange = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
+  const handleExerciseAdd = () => {
+    exercisesArray.append(createExercise())
+    methods.clearErrors(`${name}.items`)
+  }
+
+  const handleExerciseRemove = (index: number) => {
+    exercisesArray.remove(index)
+    // methods.trigger(`${name}.items`)
+  }
+
   return (
     <ItemAccordion
       title={workoutName}
@@ -67,7 +85,8 @@ export default function WorkoutAccordion({
                   suffix={<SearchIcon />}
                   className="WorkoutAccordion__control"
                   value={value}
-                  onChange={(e) => methods.setValue(name, e.target.value)}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
                 />
               )}
             />
@@ -81,9 +100,8 @@ export default function WorkoutAccordion({
                   placeholder="08:00"
                   className="WorkoutAccordion__control"
                   value={value}
-                  onChange={(e, date) => {
-                    methods.setValue(name, date)
-                  }}
+                  onChange={(e, date) => onChange(name, date)}
+                  error={get(errors, name)}
                 />
               )}
             />
@@ -104,7 +122,7 @@ export default function WorkoutAccordion({
                 <ExerciseAccordion
                   key={index}
                   name={`${name}.items.${index}`}
-                  onRemove={() => exercisesArray.remove(index)}
+                  onRemove={() => handleExerciseRemove(index)}
                 />
               ))}
             </div>
@@ -127,7 +145,7 @@ export default function WorkoutAccordion({
               variant="text"
               size="sm"
               className="WorkoutAccordion__action-btn"
-              onClick={() => exercisesArray.append(createExercise())}
+              onClick={() => handleExerciseAdd()}
             >
               <AddIcon />
               Add Exercise
@@ -141,6 +159,11 @@ export default function WorkoutAccordion({
               Add Superset
             </Button>
           </div>
+
+          {typeof get(errors, `${name}.items`) === 'object' &&
+            !Array.isArray(get(errors, `${name}.items`)) && (
+              <Error standalone="Add at least one exercise" />
+            )}
         </Styles>
       }
     />

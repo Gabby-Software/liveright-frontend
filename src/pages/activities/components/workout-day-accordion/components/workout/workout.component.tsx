@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { useState } from 'react'
 import {
   DragDropContext,
@@ -14,6 +15,7 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
+import Error from '../../../../../../components/form/error/error.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
@@ -53,11 +55,27 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
     name: `${name}.items`
   })
 
+  const onChange = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return
     }
     exercisesArray.swap(result.source.index, (result.destination as any).index)
+  }
+
+  const { errors } = methods.formState
+
+  const handleExerciseAdd = () => {
+    exercisesArray.append(createExercise())
+    methods.clearErrors(`${name}.items`)
+  }
+
+  const handleExerciseRemove = (index: number) => {
+    exercisesArray.remove(index)
+    // methods.trigger(`${name}.items`)
   }
 
   return (
@@ -71,7 +89,8 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
               label="Title of workout"
               placeholder="Title"
               value={value}
-              onChange={(e) => methods.setValue(name, e.target.value)}
+              onChange={(e) => onChange(name, e.target.value)}
+              error={get(errors, name)}
             />
           )}
         />
@@ -101,9 +120,8 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                 label="Schedule"
                 placeholder="08:00"
                 value={value}
-                onChange={(e, date) => {
-                  methods.setValue(name, date)
-                }}
+                onChange={(e, date) => onChange(name, date)}
+                error={get(errors, name)}
               />
             )}
           />
@@ -155,7 +173,7 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                               innerRef={provided.innerRef}
                               isDragging={snapshot.isDragging}
                               name={`${name}.items.${index}`}
-                              onRemove={() => exercisesArray.remove(index)}
+                              onRemove={() => handleExerciseRemove(index)}
                             />
                           )
                         }
@@ -175,7 +193,7 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => exercisesArray.append(createExercise())}
+          onClick={() => handleExerciseAdd()}
         >
           <AddIcon />
           Add Exercise
@@ -186,6 +204,11 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
           Add Superset
         </Button>
       </div>
+
+      {typeof get(errors, `${name}.items`) === 'object' &&
+        !Array.isArray(get(errors, `${name}.items`)) && (
+          <Error standalone="Add at least one exercise" />
+        )}
     </Styles>
   )
 }

@@ -27,7 +27,7 @@ import AddTrainingPlan from '../add-plan/add-plan.component'
 const IS_EMPTY = false
 
 export default function TrainingPlan() {
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState<boolean | number>(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -38,9 +38,10 @@ export default function TrainingPlan() {
     revisionId: params.revisionId
   })
 
-  if (edit) {
+  if (edit || typeof edit === 'number') {
     return (
       <AddTrainingPlan
+        editDay={typeof edit === 'number' ? edit : undefined}
         editId={params.id}
         revisionId={params.revisionId}
         onClose={() => setEdit(false)}
@@ -187,8 +188,12 @@ export default function TrainingPlan() {
 
           {!isMobile && (
             <div className="PlanPage__cards">
-              {revision.days?.map((row: any) => (
-                <DayTrainingPlanCard key={row._id} day={row} />
+              {revision.days?.map((row: any, index: number) => (
+                <DayTrainingPlanCard
+                  onExpand={() => setEdit(index)}
+                  key={row._id}
+                  day={row}
+                />
               ))}
             </div>
           )}
@@ -198,13 +203,17 @@ export default function TrainingPlan() {
           <>
             <p className="PlanPage__subtitle">List of workout days</p>
 
-            {revision.days?.map((row: any) => (
-              <DayTrainingPlanCard day={row} key={row._id} />
+            {revision.days?.map((row: any, index: number) => (
+              <DayTrainingPlanCard
+                onExpand={() => setEdit(index)}
+                day={row}
+                key={row._id}
+              />
             ))}
           </>
         )}
 
-        {isMobile && (
+        {isMobile && revision.status === 'inactive' && (
           <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
         )}
       </Styles>

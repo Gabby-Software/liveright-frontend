@@ -6,6 +6,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 export const Styles = styled(Card)<any>`
   padding: 0;
   margin-bottom: 1.25rem;
+  position: relative;
 
   &:last-child {
     margin-bottom: 0;

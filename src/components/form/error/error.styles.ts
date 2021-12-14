@@ -12,5 +12,16 @@ export default styled.p<any>`
       position: absolute;
       bottom: -1.125rem;
       left: 0;
+
+      ${props.$size === 'sm' &&
+      css`
+        bottom: -1rem;
+      `}
+    `}
+
+  ${(props) =>
+    props.$size === 'sm' &&
+    css`
+      font-size: 0.5rem;
     `}
 `

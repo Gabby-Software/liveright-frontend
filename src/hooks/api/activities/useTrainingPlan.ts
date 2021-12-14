@@ -54,6 +54,8 @@ export default function useTrainingPlan(
             response?.revisions?.[response?.revisions?.length - 1]?._id
         })
       )
+      revisionSwr.mutate()
+      planSwr.mutate()
       onSuccess?.()
     } catch (e) {
       toast.show({ type: 'error', msg: e?.response?.data?.message })
@@ -80,6 +82,8 @@ export default function useTrainingPlan(
         })
       )
       toast.show({ type: 'success', msg: 'Training plan successfully updated' })
+      revisionSwr.mutate()
+      planSwr.mutate()
       onSuccess?.()
     } catch (e) {
       toast.show({ type: 'error', msg: e?.response?.data?.message })

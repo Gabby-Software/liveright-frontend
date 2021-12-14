@@ -1,12 +1,13 @@
 import { useTranslation } from '../../../modules/i18n/i18n.hook'
 import Styles from './error.styles'
 
-interface ErrorProps {
+export interface ErrorProps {
   name?: any
   standalone?: string
+  size?: 'sm'
 }
 
-export default function Error({ name, standalone }: ErrorProps) {
+export default function Error({ name, standalone, size }: ErrorProps) {
   const { t } = useTranslation()
 
   if (standalone) {
@@ -20,5 +21,5 @@ export default function Error({ name, standalone }: ErrorProps) {
       ? t(`errors:${name.message}`)
       : t(`errors:${name.message.key}`, name.message.values)
 
-  return <Styles>{msg}</Styles>
+  return <Styles $size={size}>{msg}</Styles>
 }

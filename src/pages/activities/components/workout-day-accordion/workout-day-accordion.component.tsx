@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 
@@ -11,18 +12,27 @@ import { Styles } from './workout-day-accordion.styles'
 interface WorkoutDayAccordionProps {
   index: number
   onRemove: any
+  editDay?: number
+  defaultOpened?: boolean
 }
 
 export default function WorkoutDayAccordion({
   index,
-  onRemove
+  onRemove,
+  defaultOpened
 }: WorkoutDayAccordionProps) {
   const methods = useFormContext()
+
+  const { errors } = methods.formState
 
   const dayName = useWatch({
     name: `days.${index}.name`,
     control: methods.control
   })
+
+  const onChange = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
 
   return (
     <DayAccordion
@@ -30,6 +40,8 @@ export default function WorkoutDayAccordion({
       icon={<WorkoutIcon />}
       iconColor={getColorCarry('orange_60')}
       onRemove={onRemove}
+      error={get(errors, `days.${index}`) ? 'Enter all fields' : ''}
+      defaultOpen={defaultOpened}
     >
       <Styles>
         <Controller
@@ -41,7 +53,8 @@ export default function WorkoutDayAccordion({
               placeholder="Name"
               className="WorkoutDayAccordion__name-input"
               value={value}
-              onChange={(e) => methods.setValue(name, e.target.value)}
+              onChange={(e) => onChange(name, e.target.value)}
+              error={get(errors, name)}
             />
           )}
         />

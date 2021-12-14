@@ -24,16 +24,57 @@ import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-
 import { Styles } from '../../styles/edit-plan.styles'
 
 interface AddTrainingPlanProps {
+  editDay?: number
   onClose: () => void
   editId?: string
   revisionId?: string
 }
 
+const URL_REGEX =
+  /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
   scheduled_start_on: yup.string().required(),
   scheduled_end_on: yup.string().required(),
-  days: yup.array().required()
+  days: yup
+    .array()
+    .min(1)
+    .of(
+      yup.object().shape({
+        name: yup.string().required(),
+        activities: yup
+          .array()
+          .min(1)
+          .of(
+            yup.object().shape({
+              name: yup.string().required(),
+              time: yup.string().required(),
+              items: yup
+                .array()
+                .min(1)
+                .of(
+                  yup.object().shape({
+                    name: yup.string().required(),
+                    link: yup
+                      .string()
+                      .matches(URL_REGEX, 'Enter a valid link')
+                      .required(),
+                    info: yup.object().shape({
+                      sets: yup.string().required(),
+                      reps: yup.string().required(),
+                      tempo: yup.string().required(),
+                      rest_interval: yup.string().required()
+                    })
+                  })
+                )
+                .required()
+            })
+          )
+          .required()
+      })
+    )
+    .required()
 })
 
 const defaultValues: any = {
@@ -52,6 +93,7 @@ function createDay(dayIndex: number) {
 }
 
 export default function AddTrainingPlan({
+  editDay,
   onClose,
   editId,
   revisionId
@@ -67,7 +109,8 @@ export default function AddTrainingPlan({
 
   const methods = useForm<any>({
     defaultValues,
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange'
   })
 
   const daysArray = useFieldArray({
@@ -90,7 +133,6 @@ export default function AddTrainingPlan({
     } else {
       onAdd(values, onClose)
     }
-    // console.log(values)
   }
 
   const handleSave = () => {
@@ -105,7 +147,16 @@ export default function AddTrainingPlan({
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
     daysArray.append(createDay(newDayIndex))
+    methods.clearErrors('days')
     setDayIndex(newDayIndex)
+  }
+
+  const handleDayRemove = (index: number) => {
+    daysArray.remove(index)
+  }
+
+  const onChange = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
   }
 
   const { errors } = methods.formState
@@ -143,7 +194,7 @@ export default function AddTrainingPlan({
                     placeholder="Name"
                     className="EditPlan__input"
                     value={value}
-                    onChange={(e) => methods.setValue(name, e.target.value)}
+                    onChange={(e) => onChange(name, e.target.value)}
                     error={errors.name}
                   />
                 )}
@@ -158,7 +209,7 @@ export default function AddTrainingPlan({
                     label="Start date"
                     className="EditPlan__input"
                     value={value}
-                    onChange={(e, date) => methods.setValue(name, date)}
+                    onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_start_on}
                   />
                 )}
@@ -172,7 +223,7 @@ export default function AddTrainingPlan({
                     className="EditPlan__input"
                     label="End date"
                     value={value}
-                    onChange={(e, date) => methods.setValue(name, date)}
+                    onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
                   />
                 )}
@@ -185,7 +236,8 @@ export default function AddTrainingPlan({
             <WorkoutDayAccordion
               key={day.id}
               index={index}
-              onRemove={() => daysArray.remove(index)}
+              defaultOpened={editDay === index}
+              onRemove={() => handleDayRemove(index)}
             />
           ))}
 
@@ -193,7 +245,9 @@ export default function AddTrainingPlan({
             <AddIcon />
             Add Workout Day
           </div>
-          {errors.days && <Error standalone="Add at least one day" />}
+          {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
+            <Error standalone="Add at least one day" />
+          )}
         </Styles>
       </FormProvider>
 
