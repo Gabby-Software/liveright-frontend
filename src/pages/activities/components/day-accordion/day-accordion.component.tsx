@@ -12,6 +12,8 @@ interface DayAccordionProps {
   icon: ReactNode
   iconColor: string
   onRemove: any
+  error?: string
+  defaultOpen?: boolean
 }
 
 export default function DayAccordion({
@@ -19,11 +21,13 @@ export default function DayAccordion({
   children,
   iconColor,
   icon,
-  onRemove
+  onRemove,
+  error,
+  defaultOpen
 }: PropsWithChildren<DayAccordionProps>) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen || false)
   return (
-    <Styles $open={open} $iconColor={iconColor}>
+    <Styles $open={open} $iconColor={iconColor} $error={error}>
       <div className="DayAccordion__summary">
         <div className="DayAccordion__summary-title-container">
           <div className="DayAccordion__summary-icon">{icon}</div>
@@ -32,11 +36,9 @@ export default function DayAccordion({
         </div>
 
         <div className="DayAccordion__actions">
-          {open && (
-            <IconButton className="DayAccordion__delete-btn" onClick={onRemove}>
-              <DeleteOutlinedIcon />
-            </IconButton>
-          )}
+          <IconButton className="DayAccordion__delete-btn" onClick={onRemove}>
+            <DeleteOutlinedIcon />
+          </IconButton>
           <IconButton
             className="DayAccordion__summary-btn"
             onClick={() => setOpen(!open)}

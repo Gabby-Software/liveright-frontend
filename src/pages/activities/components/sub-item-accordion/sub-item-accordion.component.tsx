@@ -11,11 +11,13 @@ import { Styles } from './sub-item-accordion.styles'
 interface SubItemAccordionProps {
   content: ReactNode
   title: string
+  onRemove?: any
 }
 
 export default function SubItemAccordion({
   content,
-  title
+  title,
+  onRemove
 }: SubItemAccordionProps) {
   const [open, setOpen] = useState(false)
   return (
@@ -31,7 +33,11 @@ export default function SubItemAccordion({
 
         <div className="SubItemAccordion__actions">
           {open && (
-            <IconButton size="sm" className="SubItemAccordion__delete">
+            <IconButton
+              size="sm"
+              className="SubItemAccordion__delete"
+              onClick={onRemove}
+            >
               <DeleteOutlinedIcon />
             </IconButton>
           )}

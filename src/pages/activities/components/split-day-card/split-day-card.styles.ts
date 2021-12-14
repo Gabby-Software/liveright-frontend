@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
@@ -36,6 +37,10 @@ export const Styles = styled.div<any>`
       align-items: center;
       margin-bottom: 0.75rem;
       padding-left: ${(props) => (props.$schedule ? 'calc(42px + 1rem)' : 0)};
+
+      @media ${mediaQueries.TABLET} {
+        padding-left: 0;
+      }
     }
 
     &__icon {
@@ -60,6 +65,10 @@ export const Styles = styled.div<any>`
       display: flex;
       flex-direction: column;
       padding-left: calc(42px + 1rem);
+
+      @media ${mediaQueries.TABLET} {
+        padding-left: 0;
+      }
     }
 
     &__macronutrients {

@@ -6,6 +6,7 @@ import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
@@ -23,7 +24,7 @@ export default function TrainingSplit() {
   const isMobile = useIsMobile()
 
   if (edit) {
-    return <AddTrainingSplit />
+    return <AddTrainingSplit onClose={() => setEdit(false)} />
   }
 
   if (day) {
@@ -95,7 +96,7 @@ export default function TrainingSplit() {
               <Subtitle>Reduce Bodyweight</Subtitle>
 
               {isMobile && (
-                <Button size="sm" variant="text">
+                <Button size="sm" variant="text" to={Routes.ACTIVITIES_TS}>
                   Other Splits
                 </Button>
               )}
@@ -213,7 +214,9 @@ export default function TrainingSplit() {
   return isMobile ? (
     <MobilePage
       title="Current Training Split"
-      actionComponent={<Button>Edit Split</Button>}
+      actionComponent={
+        <Button onClick={() => setEdit(true)}>Edit Split</Button>
+      }
     >
       {content}
     </MobilePage>

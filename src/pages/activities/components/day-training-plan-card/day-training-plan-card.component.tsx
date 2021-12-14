@@ -2,45 +2,19 @@ import DayCard from '../day-card/day-card.component'
 import DayCardAccordion from '../day-card-accordion/day-card-accordion.component'
 import { Styles } from './day-training-plan-card.styles'
 
-const CONTENT = [
-  {
-    content: [
-      {
-        title: 'Pushups',
-        subtitle: '4 sets of 10 Reps with 2 min break'
-      }
-    ]
-  },
-  {
-    content: [
-      {
-        title: 'Pushups',
-        subtitle: '4 sets of 10 Reps with 2 min break'
-      }
-    ]
-  },
-  {
-    content: [
-      {
-        title: '1A - Pushups',
-        subtitle: '4 sets of 10 Reps with 2 min break'
-      },
-      {
-        title: '1B - Pushups',
-        subtitle: '4 sets of 10 Reps with 2 min break'
-      }
-    ]
-  }
-]
-
 interface DayTrainingPlanCardProps {
   day: any
+  onExpand?: () => void
 }
 
-export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
+export default function DayTrainingPlanCard({
+  day,
+  onExpand
+}: DayTrainingPlanCardProps) {
   return (
     <DayCard
       title={day.name}
+      onExpand={onExpand}
       content={
         <Styles>
           <div className="day-tp-card__content">

@@ -51,7 +51,8 @@ export const Styles = styled.div`
         display: flex;
       }
 
-      &-btn {
+      & button,
+      & a {
         margin-right: 1.25rem;
 
         &:last-child {
