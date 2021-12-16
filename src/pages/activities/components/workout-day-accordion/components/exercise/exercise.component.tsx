@@ -43,7 +43,11 @@ export default function Exercise({
       $prefix={prefix}
       {...draggableProps}
     >
-      {prefix && <WorkoutSubtitle className="Exercise__prefix">Exercises</WorkoutSubtitle>}
+      {prefix && (
+        <WorkoutSubtitle className="Exercise__prefix">
+          Exercises
+        </WorkoutSubtitle>
+      )}
 
       <div className="Exercise__drag">
         <button className="Exercise__drag-btn" {...dragHandleProps}>
