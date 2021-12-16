@@ -45,6 +45,7 @@ export default function useTrainingPlan(
 
   const onAdd = async (data: any, onSuccess: any) => {
     try {
+      // return console.log(formatTrainingPlanData(data))
       const response = await addTrainingPlan(formatTrainingPlanData(data))
       toast.show({ type: 'success', msg: 'Training plan successfully created' })
       history.push(

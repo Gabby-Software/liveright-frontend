@@ -3,16 +3,20 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import Input from '../../../../../../components/form/input/input.component'
 import SubItemAccordion from '../../../sub-item-accordion/sub-item-accordion.component'
-import { Styles } from './exercise-accrdion.styles'
+import { PrefixStyles, Styles } from './exercise-accrdion.styles'
 
 interface ExerciseAccordionProps {
   name: string
   onRemove: any
+  borderBottom?: boolean
+  prefix?: boolean
 }
 
 export default function ExerciseAccordion({
   name,
-  onRemove
+  onRemove,
+  borderBottom,
+  prefix
 }: ExerciseAccordionProps) {
   const methods = useFormContext()
 
@@ -29,6 +33,8 @@ export default function ExerciseAccordion({
 
   return (
     <SubItemAccordion
+      prefix={prefix ? <PrefixStyles>Exercises</PrefixStyles> : undefined}
+      borderBottom={borderBottom}
       title={exerciseName}
       onRemove={onRemove}
       content={
