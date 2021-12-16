@@ -31,20 +31,19 @@ interface WorkoutProps {
 }
 
 function createExercise(isSuperset: boolean) {
+  const ex = {
+    name: '',
+    link: '',
+    info: {
+      steps: '',
+      reps: '',
+      tempo: '',
+      rest_interval: ''
+    }
+  }
   return {
     is_superset: isSuperset,
-    data: [
-      {
-        name: '',
-        link: '',
-        info: {
-          steps: '',
-          reps: '',
-          tempo: '',
-          rest_interval: ''
-        }
-      }
-    ]
+    data: isSuperset ? [ex] : ex
   }
 }
 
@@ -175,7 +174,7 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                                 draggableProps={provided.draggableProps}
                                 innerRef={provided.innerRef}
                                 isDragging={snapshot.isDragging}
-                                name={`${name}.items.${index}.data.0`}
+                                name={`${name}.items.${index}.data`}
                                 onRemove={() => handleExerciseRemove(index)}
                                 prefix={
                                   !!(exercisesArray.fields as any)[index - 1]

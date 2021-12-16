@@ -86,6 +86,7 @@ const validationSchema = yup.object().shape({
     )
     .required()
 })
+console.log(validationSchema)
 
 const defaultValues: any = {
   name: '',
@@ -118,9 +119,9 @@ export default function AddTrainingPlan({
   })
 
   const methods = useForm<any>({
-    defaultValues,
-    resolver: yupResolver(validationSchema),
-    reValidateMode: 'onChange'
+    defaultValues
+    // resolver: yupResolver(validationSchema),
+    // reValidateMode: 'onChange'
   })
 
   const daysArray = useFieldArray({

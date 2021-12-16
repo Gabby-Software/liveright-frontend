@@ -26,12 +26,17 @@ export default function DayTrainingPlanCard({
                     title={row.name}
                     count={row.items?.length}
                     content={row.items?.map((row: any) => ({
-                      content: [
-                        {
-                          title: row.name,
-                          subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
-                        }
-                      ]
+                      content: !row.is_superset
+                        ? [
+                            {
+                              title: row.data.name,
+                              subtitle: `Steps: ${row.data?.info?.steps}; Reps: ${row.data?.info?.reps}; Rest: ${row.data?.info?.rest_interval};`
+                            }
+                          ]
+                        : row.data.map((d: any) => ({
+                            title: d.name,
+                            subtitle: `Steps: ${d.info?.steps}; Reps: ${d?.info?.reps}; Rest: ${d?.info?.rest_interval};`
+                          }))
                     }))}
                   />
                 ))}

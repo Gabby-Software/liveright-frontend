@@ -58,7 +58,10 @@ export default function useTrainingPlan(
       planSwr.mutate()
       onSuccess?.()
     } catch (e) {
-      toast.show({ type: 'error', msg: e?.response?.data?.message })
+      toast.show({
+        type: 'error',
+        msg: e?.response?.data?.message || 'Oops error!'
+      })
       console.error(e)
     }
   }
