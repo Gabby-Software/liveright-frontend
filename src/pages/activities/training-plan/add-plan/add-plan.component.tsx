@@ -35,8 +35,8 @@ const URL_REGEX =
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
-  scheduled_start_on: yup.string().required(),
-  scheduled_end_on: yup.string().required(),
+  scheduled_start_on: yup.string(),
+  scheduled_end_on: yup.string(),
   days: yup
     .array()
     .min(1)
@@ -55,17 +55,27 @@ const validationSchema = yup.object().shape({
                 .min(1)
                 .of(
                   yup.object().shape({
-                    name: yup.string().required(),
-                    link: yup
-                      .string()
-                      .matches(URL_REGEX, 'Enter a valid link')
-                      .required(),
-                    info: yup.object().shape({
-                      sets: yup.string().required(),
-                      reps: yup.string().required(),
-                      tempo: yup.string().required(),
-                      rest_interval: yup.string().required()
-                    })
+                    data: yup
+                      .array()
+                      .of(
+                        yup.object().shape({
+                          name: yup.string().required(),
+                          link: yup.lazy((v) =>
+                            !v
+                              ? yup.string()
+                              : yup
+                                  .string()
+                                  .matches(URL_REGEX, 'Enter a valid link')
+                          ),
+                          info: yup.object().shape({
+                            sets: yup.string(),
+                            reps: yup.string(),
+                            tempo: yup.string(),
+                            rest_interval: yup.string()
+                          })
+                        })
+                      )
+                      .required()
                   })
                 )
                 .required()

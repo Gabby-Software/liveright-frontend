@@ -66,6 +66,10 @@ export const Styles = styled(Card)`
       & svg {
         margin-right: 0.5rem;
       }
+
+      &-red {
+        color: ${getColorCarry('red')};
+      }
     }
   }
 `

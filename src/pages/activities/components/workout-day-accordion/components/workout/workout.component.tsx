@@ -1,5 +1,5 @@
 import get from 'lodash.get'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -30,19 +30,21 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise() {
+function createExercise(isSuperset: boolean) {
   return {
-    id: Date.now(),
-    name: '',
-    link: '',
-    sort_order: '',
-    // super_set: '',
-    info: {
-      steps: '',
-      reps: '',
-      tempo: '',
-      rest_interval: ''
-    }
+    is_superset: isSuperset,
+    data: [
+      {
+        name: '',
+        link: '',
+        info: {
+          steps: '',
+          reps: '',
+          tempo: '',
+          rest_interval: ''
+        }
+      }
+    ]
   }
 }
 
@@ -63,19 +65,19 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
     if (!result.destination) {
       return
     }
-    exercisesArray.swap(result.source.index, (result.destination as any).index)
+    // console.log(result.source.index, (result.destination as any).index)
+    exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
   const { errors } = methods.formState
 
-  const handleExerciseAdd = () => {
-    exercisesArray.append(createExercise())
+  const handleExerciseAdd = (isSuperset: boolean) => {
+    exercisesArray.append(createExercise(isSuperset))
     methods.clearErrors(`${name}.items`)
   }
 
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
-    // methods.trigger(`${name}.items`)
   }
 
   return (
@@ -149,35 +151,41 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                 ) : (
                   exercisesArray.fields.map((row: any, index) => {
                     return (
-                      <Draggable
-                        key={row.id}
-                        draggableId={`${row.id}`}
-                        index={index}
-                        isDragDisabled={row.type === 'superset'}
-                      >
-                        {(provided, snapshot) =>
-                          row.type === 'superset' ? (
-                            <Superset
-                              key={row.id}
-                              exercises={[]}
-                              dragHandleProps={provided.dragHandleProps}
-                              draggableProps={provided.draggableProps}
-                              isDragging={snapshot.isDragging}
-                              innerRef={provided.innerRef}
-                            />
-                          ) : (
-                            <Exercise
-                              key={row.id}
-                              dragHandleProps={provided.dragHandleProps}
-                              draggableProps={provided.draggableProps}
-                              innerRef={provided.innerRef}
-                              isDragging={snapshot.isDragging}
-                              name={`${name}.items.${index}`}
-                              onRemove={() => handleExerciseRemove(index)}
-                            />
-                          )
-                        }
-                      </Draggable>
+                      <Fragment key={row.id}>
+                        <Draggable
+                          draggableId={`${row.id}`}
+                          index={index}
+                          isDragDisabled={row.is_superset}
+                        >
+                          {(provided, snapshot) =>
+                            row.is_superset ? (
+                              <Superset
+                                key={row.id}
+                                name={`${name}.items.${index}`}
+                                dragHandleProps={provided.dragHandleProps}
+                                draggableProps={provided.draggableProps}
+                                isDragging={snapshot.isDragging}
+                                innerRef={provided.innerRef}
+                                onRemove={() => handleExerciseRemove(index)}
+                              />
+                            ) : (
+                              <Exercise
+                                key={row.id}
+                                dragHandleProps={provided.dragHandleProps}
+                                draggableProps={provided.draggableProps}
+                                innerRef={provided.innerRef}
+                                isDragging={snapshot.isDragging}
+                                name={`${name}.items.${index}.data.0`}
+                                onRemove={() => handleExerciseRemove(index)}
+                                prefix={
+                                  !!(exercisesArray.fields as any)[index - 1]
+                                    ?.is_superset
+                                }
+                              />
+                            )
+                          }
+                        </Draggable>
+                      </Fragment>
                     )
                   })
                 )}
@@ -193,13 +201,18 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => handleExerciseAdd()}
+          onClick={() => handleExerciseAdd(false)}
         >
           <AddIcon />
           Add Exercise
         </Button>
 
-        <Button variant="text" size="sm" className="Workout__action-btn">
+        <Button
+          variant="text"
+          size="sm"
+          className="Workout__action-btn"
+          onClick={() => handleExerciseAdd(true)}
+        >
           <AddIcon />
           Add Superset
         </Button>

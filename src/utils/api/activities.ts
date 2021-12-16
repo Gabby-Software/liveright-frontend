@@ -26,18 +26,21 @@ export function formatTrainingPlanData(data: any) {
           sort_order: index,
           items: activity.items.map((item: any, index: number) => {
             return {
-              name: item.name,
-              link: item.link,
               sort_order: index,
-              info: Object.keys(item.info).reduce((acc, cur) => {
+              is_superset: item.is_superset,
+              data: item.data.map((data: any, index: number) => {
                 return {
-                  ...acc,
-                  [cur]: Number(item.info[cur])
+                  sort_order: index,
+                  name: data.name,
+                  link: data.link,
+                  info: Object.keys(data.info).reduce((acc, cur) => {
+                    return {
+                      ...acc,
+                      [cur]: Number(data.info[cur])
+                    }
+                  }, {})
                 }
-              }, {})
-              // info: Object.keys(item.info).forEach((infoKey) => {
-              //   item.info[infoKey] = Number(item.info[infoKey])
-              // })
+              })
             }
           })
         }

@@ -88,6 +88,8 @@ function getTextColor(props: any): string {
       return getColor(props, 'link')
     case 'dark':
       return getColor(props, 'primaryDark2_v2')
+    case 'error':
+      return getColor(props, 'red')
     default:
       return '#fff'
   }
