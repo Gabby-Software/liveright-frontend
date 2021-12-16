@@ -47,17 +47,17 @@ export default function TrainingSplit() {
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
           {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            <div className="TrainingSplits__card-container" key={row}>
-              <DayTrainingSplitCard onExpand={() => setDay(row)} />
-            </div>
+            // <div className="TrainingSplits__card-container" key={row}>
+            <DayTrainingSplitCard key={row} onExpand={() => setDay(row)} />
+            // </div>
           ))}
         </div>
       ) : (
         <div className="TrainingSplits__cards">
           {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            <div className="TrainingSplits__card-container" key={row}>
-              <DayTrainingScheduleCard />
-            </div>
+            // <div className="TrainingSplits__card-container" key={row}>
+            <DayTrainingScheduleCard key={row} />
+            // </div>
           ))}
         </div>
       )}

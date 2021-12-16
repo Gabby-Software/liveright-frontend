@@ -158,6 +158,7 @@ export default function AddTrainingSplit({ onClose }: AddTrainingSplitProps) {
       headerTopComponent={
         <HeaderLink onClick={onClose}>Back to Split Overview</HeaderLink>
       }
+      actionComponent={<Button>Save</Button>}
     >
       {content}
     </MobilePage>

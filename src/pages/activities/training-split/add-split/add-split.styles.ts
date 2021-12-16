@@ -118,10 +118,14 @@ export const Styles = styled.div`
 
     &__cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, 360px);
+      grid-template-columns: repeat(auto-fill, minmax(auto, 360px));
       gap: 1.25rem;
       margin-bottom: 1.5rem;
       //margin: -0.75rem;
+
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: repeat(auto-fill, 100%);
+      }
 
       &-title {
         margin-bottom: 0;
