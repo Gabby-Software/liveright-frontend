@@ -1,3 +1,4 @@
+import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
   Controller,
@@ -170,6 +171,7 @@ export default function AddTrainingPlan({
   }
 
   const { errors } = methods.formState
+  const values = methods.getValues()
 
   const content = (
     <>
@@ -218,6 +220,7 @@ export default function AddTrainingPlan({
                     placeholder="Pick start date"
                     label="Start date"
                     className="EditPlan__input"
+                    disabledPast
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_start_on}
@@ -235,6 +238,10 @@ export default function AddTrainingPlan({
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
+                    disabled={!values.scheduled_start_on}
+                    disabledDate={(date: Moment) =>
+                      date.isBefore(values.scheduled_start_on)
+                    }
                   />
                 )}
               />
