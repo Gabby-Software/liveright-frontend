@@ -81,7 +81,7 @@ export const TS_DEMO = [
       name: 'Low Carb day',
       meals: [
         {
-          name: 'Meal 1',
+          name: 'Fried Rice',
           foods: [
             { id: 'food_1', name: 'Chicken Brest Tender', amount: '100g' },
             { id: 'food_2', name: 'Brown Rice', amount: '50g' },
@@ -89,7 +89,7 @@ export const TS_DEMO = [
           ]
         },
         {
-          name: 'Meal 2',
+          name: 'Brown Rice',
           foods: [
             { id: 'food_4', name: 'Food 1', amount: '80g' },
             { id: 'food_5', name: 'Food 2', amount: '70g' },

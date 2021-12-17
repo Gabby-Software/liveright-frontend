@@ -153,16 +153,22 @@ export const Styles = styled.div`
     }
 
     &__cards {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(auto, 360px));
       gap: 1.25rem;
-      flex-wrap: wrap;
-    }
+      margin-bottom: 1.5rem;
+      //margin: -0.75rem;
 
-    &__card {
-      &-container {
-        width: 100%;
-        max-width: 360px;
+      @media ${mediaQueries.TABLET} {
+        grid-template-columns: repeat(auto-fill, 100%);
       }
     }
+
+    //&__card {
+    //  &-container {
+    //    width: 100%;
+    //    max-width: 360px;
+    //  }
+    //}
   }
 `

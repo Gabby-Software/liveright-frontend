@@ -36,7 +36,11 @@ export const Styles = styled.div`
 
     &__input {
       @media ${mediaQueries.TABLET} {
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
 

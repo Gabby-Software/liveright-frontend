@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { get } from 'lodash'
+import { Fragment, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -16,6 +17,7 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
+import Error from '../../../../../../components/form/error/error.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
@@ -32,19 +34,20 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise() {
-  return {
-    id: Date.now(),
+function createExercise(isSuperset: boolean) {
+  const ex = {
     name: '',
     link: '',
-    sort_order: '',
-    // super_set: '',
     info: {
       steps: '',
       reps: '',
       tempo: '',
       rest_interval: ''
     }
+  }
+  return {
+    is_superset: isSuperset,
+    data: isSuperset ? [ex] : ex
   }
 }
 
@@ -63,7 +66,19 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     if (!result.destination) {
       return
     }
-    exercisesArray.swap(result.source.index, (result.destination as any).index)
+    // console.log(result.source.index, (result.destination as any).index)
+    exercisesArray.move(result.source.index, (result.destination as any).index)
+  }
+
+  const { errors } = methods.formState
+
+  const handleExerciseAdd = (isSuperset: boolean) => {
+    exercisesArray.append(createExercise(isSuperset))
+    methods.clearErrors(`${name}.items`)
+  }
+
+  const handleExerciseRemove = (index: number) => {
+    exercisesArray.remove(index)
   }
 
   const exArray = exercisesArray.fields.filter(
@@ -100,66 +115,64 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
       <div className="Workout__title">
         <Controller
           name={`${name}.name`}
-          render={({ field: { value, name } }) => {
-            return (
-              <InputSearch
-                id="Workout-title"
-                label="Title of workout"
-                placeholder="Title"
-                value={value}
-                onChange={(value) => methods.setValue(name, value)}
-                onSearch={() => {}}
-                options={[
-                  { label: value, value: value },
-                  {
-                    value: 'existing',
-                    label: 'From this training plan',
-                    color: '#0052CC',
-                    isDisabled: true
-                  },
-                  {
-                    value: 'Full Body Workout',
-                    label: 'Full Body Workout',
-                    color: '#5243AA'
-                  },
-                  {
-                    value: 'template',
-                    label: 'From templates',
-                    color: '#0052CC',
-                    isDisabled: true
-                  },
-                  {
-                    value: 'Smooth Workout',
-                    label: 'Smooth Workout',
-                    color: '#FF8B00'
-                  },
-                  {
-                    value: 'Another Workout',
-                    label: 'Another Workout',
-                    color: '#36B37E'
-                  },
-                  {
-                    value: 'Another Workout',
-                    label: (
-                      <Button
-                        variant="text"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          padding: 0
-                        }}
-                        onClick={onNew}
-                      >
-                        <AddIcon />
-                        &nbsp; Create New
-                      </Button>
-                    ),
-                    color: '#36B37E'
-                  }
-                ]}
-              />
-            )
-          }}
+          render={({ field: { value, name } }) => (
+            <InputSearch
+              id="Workout-title"
+              label="Title of workout"
+              placeholder="Title"
+              value={value}
+              onChange={(value) => methods.setValue(name, value)}
+              onSearch={() => {}}
+              options={[
+                { label: value, value: value },
+                {
+                  value: 'existing',
+                  label: 'From this training plan',
+                  color: '#0052CC',
+                  isDisabled: true
+                },
+                {
+                  value: 'Full Body Workout',
+                  label: 'Full Body Workout',
+                  color: '#5243AA'
+                },
+                {
+                  value: 'template',
+                  label: 'From templates',
+                  color: '#0052CC',
+                  isDisabled: true
+                },
+                {
+                  value: 'Smooth Workout',
+                  label: 'Smooth Workout',
+                  color: '#FF8B00'
+                },
+                {
+                  value: 'Another Workout',
+                  label: 'Another Workout',
+                  color: '#36B37E'
+                },
+                {
+                  value: 'Another Workout',
+                  label: (
+                    <Button
+                      variant="text"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: 0
+                      }}
+                      onClick={onNew}
+                    >
+                      <AddIcon />
+                      &nbsp; Create New
+                    </Button>
+                  ),
+                  color: '#36B37E'
+                }
+              ]}
+            />
+          )}
         />
       </div>
 
@@ -214,7 +227,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
                             name={`${name}.items.${index}`}
-                            onRemove={() => exercisesArray.remove(index)}
+                            onRemove={() => handleExerciseRemove(index)}
                           />
                         )}
                       </Draggable>
@@ -237,11 +250,13 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                         {(provided, snapshot) => (
                           <Superset
                             key={row.id}
-                            exercises={row.data}
                             dragHandleProps={provided.dragHandleProps}
                             draggableProps={provided.draggableProps}
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
+                            onRemove={() =>
+                              handleExerciseRemove(index + exArray.length)
+                            }
                             name={`${name}.items.${index + exArray.length}`}
                           />
                         )}
@@ -261,7 +276,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => exercisesArray.append(createExercise())}
+          onClick={() => handleExerciseAdd(false)}
         >
           <AddIcon />
           Add Exercise
@@ -298,6 +313,11 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           </>
         )}
       </div>
+
+      {typeof get(errors, `${name}.items`) === 'object' &&
+        !Array.isArray(get(errors, `${name}.items`)) && (
+          <Error standalone="Add at least one exercise" />
+        )}
     </Styles>
   )
 }

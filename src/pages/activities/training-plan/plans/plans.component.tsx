@@ -82,7 +82,10 @@ export default function TrainingPlans() {
                 <PlanCard
                   key={index}
                   plan={row}
-                  to={getRoute(Routes.ACTIVITIES_TP_ID, { id: row._id })}
+                  to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                    id: row._id,
+                    revisionId: row.revisions?.[row.revisions?.length - 1]?._id
+                  })}
                 />
               ))}
             </>
@@ -147,7 +150,9 @@ export default function TrainingPlans() {
   return isMobile ? (
     <MobilePage
       title="Training Plans"
-      actionComponent={<Button>Create Plan</Button>}
+      actionComponent={
+        <Button onClick={() => setAdd(true)}>Create Plan</Button>
+      }
     >
       {content}
     </MobilePage>

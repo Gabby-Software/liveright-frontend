@@ -11,6 +11,15 @@ import Meal from '../../meal-day-accordion/components/meal/meal.component'
 import { DeletableDay } from '../shared/day-item.component'
 import { Styles } from '../shared/edit-dialog.styles'
 
+const nutrients = [
+  'Protein',
+  'Fat',
+  'Net Carbs',
+  'Sugar',
+  'Fiber',
+  'Total Carbs',
+  'Calories'
+]
 interface MealPlanEditDialogProps {
   data: any
   open: boolean
@@ -68,15 +77,7 @@ const MealPlanEditDialog = (props: MealPlanEditDialogProps) => {
 
             {dayView ? (
               <section className="EditDialog__flex">
-                {[
-                  'Protein',
-                  'Fat',
-                  'Net Carbs',
-                  'Sugar',
-                  'Fiber',
-                  'Total Carbs',
-                  'Calories'
-                ].map((row) => (
+                {nutrients.map((row) => (
                   <Controller
                     key={row}
                     name="name"
@@ -97,15 +98,7 @@ const MealPlanEditDialog = (props: MealPlanEditDialogProps) => {
             ) : (
               <>
                 <section className="EditDialog__flex">
-                  {[
-                    'Protein',
-                    'Fat',
-                    'Net Carbs',
-                    'Sugar',
-                    'Fiber',
-                    'Total Carbs',
-                    'Calories'
-                  ].map((row) => (
+                  {nutrients.map((row) => (
                     <Macronutrient key={row} title={row} />
                   ))}
                 </section>
@@ -115,7 +108,7 @@ const MealPlanEditDialog = (props: MealPlanEditDialogProps) => {
                 <div className="EditDialog__meals">
                   {meals &&
                     meals.map((meal: any, idx: number) => (
-                      <Meal key={idx} data={meal} />
+                      <Meal key={idx} data={meal} index={idx} />
                     ))}
                 </div>
 

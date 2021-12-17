@@ -8,8 +8,12 @@ export default function MealDayForm() {
   const isMobile = useIsMobile()
   return (
     <Styles>
-      {[1].map((row) =>
-        isMobile ? <MealAccordion key={row} /> : <Meal key={row} />
+      {[1].map((row, indexedDB) =>
+        isMobile ? (
+          <MealAccordion key={row} />
+        ) : (
+          <Meal key={row} index={indexedDB} />
+        )
       )}
 
       <div className="MealDayForm__add-meal">

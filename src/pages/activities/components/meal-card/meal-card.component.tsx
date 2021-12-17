@@ -23,7 +23,6 @@ export const MealCard = (props: MealCardProps) => {
       <ItemAccordion
         title={name}
         content={content}
-        remove={false}
         iconDesc="Show Macronutrients"
         divider
       />

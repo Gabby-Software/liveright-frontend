@@ -1,11 +1,16 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getColor, getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid ${getColorCarry('inputBorder_v2')};
+  position: relative;
+  border-bottom: ${(props: any) =>
+    props.$borderBottom
+      ? `1px solid ${getColor(props, 'inputBorder_v2')}`
+      : ''};
+  margin-top: ${(props: any) => (props.$prefix ? '1.25rem' : 0)};
 
   &:last-child {
     border-bottom: 0;

@@ -11,15 +11,22 @@ import { Styles } from './sub-item-accordion.styles'
 interface SubItemAccordionProps {
   content: ReactNode
   title: string
+  onRemove?: any
+  borderBottom?: boolean
+  prefix?: ReactNode
 }
 
 export default function SubItemAccordion({
   content,
-  title
+  title,
+  onRemove,
+  borderBottom = true,
+  prefix
 }: SubItemAccordionProps) {
   const [open, setOpen] = useState(false)
   return (
-    <Styles $open={open}>
+    <Styles $open={open} $borderBottom={borderBottom} $prefix={prefix}>
+      {prefix}
       <div className="SubItemAccordion__summary">
         <div className="SubItemAccordion__title-container">
           <button className="SubItemAccordion__drag">
@@ -31,7 +38,11 @@ export default function SubItemAccordion({
 
         <div className="SubItemAccordion__actions">
           {open && (
-            <IconButton size="sm" className="SubItemAccordion__delete">
+            <IconButton
+              size="sm"
+              className="SubItemAccordion__delete"
+              onClick={onRemove}
+            >
               <DeleteOutlinedIcon />
             </IconButton>
           )}

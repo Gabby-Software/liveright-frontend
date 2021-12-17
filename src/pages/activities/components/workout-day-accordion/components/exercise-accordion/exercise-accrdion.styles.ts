@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { WorkoutSubtitle } from '../workout/workout.styles'
+
 export const Styles = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,4 +18,10 @@ export const Styles = styled.div`
       margin-bottom: 1rem;
     }
   }
+`
+
+export const PrefixStyles = styled(WorkoutSubtitle)`
+  position: absolute;
+  top: -1.25rem;
+  left: 0;
 `

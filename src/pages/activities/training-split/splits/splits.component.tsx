@@ -132,12 +132,7 @@ export default function TrainingSplits() {
   )
 
   return isMobile ? (
-    <MobilePage
-      title="Training Splits"
-      actionComponent={<Button>Create Split</Button>}
-    >
-      {content}
-    </MobilePage>
+    <MobilePage title="Training Splits">{content}</MobilePage>
   ) : (
     content
   )

@@ -13,7 +13,7 @@ import { HelpIcon } from '../../../assets/media/icons'
 import { Formatter } from '../../../managers/formatter.manager'
 import FormError from '../../forms/form-error/form-error.component'
 import Tooltip from '../../tooltip/tooltip.component'
-import Error from '../error/error.component'
+import Error, { ErrorProps } from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './input.styles'
 
@@ -43,6 +43,7 @@ export interface InputProps {
   shouldScrollTo?: Boolean
   onKeyPress?: KeyboardEventHandler<HTMLInputElement>
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
+  ErrorProps?: Pick<ErrorProps, 'size'>
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -72,7 +73,8 @@ const Input = forwardRef<any, InputProps>(
       error,
       shouldScrollTo,
       onKeyPress,
-      onKeyDown
+      onKeyDown,
+      ErrorProps
     },
     ref
   ) => {
@@ -137,7 +139,7 @@ const Input = forwardRef<any, InputProps>(
           onKeyDown={onKeyDown}
         />
         {name && <FormError name={name} className="field-error" />}
-        {error && <Error name={error} />}
+        {error && <Error name={error} {...ErrorProps} />}
       </Styles>
     )
   }

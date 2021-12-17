@@ -22,6 +22,11 @@ export async function getTrainingPlans(url: string) {
   return response.data
 }
 
+export async function getTrainingPlanRevision(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
 export async function getTrainingPlan(url: string) {
   const response = await api.get(url)
   return response.data

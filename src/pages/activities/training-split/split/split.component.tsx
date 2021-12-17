@@ -8,7 +8,6 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
-import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
@@ -92,7 +91,7 @@ export default function TrainingSplit() {
               <Subtitle>Reduce Bodyweight</Subtitle>
 
               {isMobile && (
-                <Button size="sm" variant="text">
+                <Button size="sm" variant="text" to={Routes.ACTIVITIES_TS}>
                   Other Splits
                 </Button>
               )}
@@ -215,7 +214,7 @@ export default function TrainingSplit() {
       /> */}
 
       {/* not scheduled  */}
-      <MakeActiveDialog
+      {/* <MakeActiveDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
@@ -252,7 +251,7 @@ export default function TrainingSplit() {
             { id: '01', title: 'Low Carbs Day' }
           ]
         }}
-      />
+      /> */}
 
       {/* make it active */}
       {/* <MakeActiveDialog
@@ -300,17 +299,60 @@ export default function TrainingSplit() {
           ]
         }}
       /> */}
+
+      {/* other condition */}
+      <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to making changes to the following training split:"
+        title="Training Split Created on Nov 01"
+        date={{
+          label:
+            'Please select the date from when you want these changes to be applied:',
+          value: ''
+        }}
+        alert={
+          <>
+            <div className="title">Read this before make change!</div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created. You can,
+                at all times, go back to old revisions, such as the one you just
+                edited, and re-activate it.
+              </li>
+              <li>
+                Any changes you made to training and diet plans will be applied
+                to respective meal/training plans. A new revision will be
+                created.
+              </li>
+              <li>
+                The version you just edited will become active and applied to
+                any future dates on your calendar.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
+      />
     </>
   )
 
-  return isMobile ? (
-    <MobilePage
-      title="Current Training Split"
-      actionComponent={<Button>Edit Split</Button>}
-    >
-      {content}
-    </MobilePage>
-  ) : (
-    content
-  )
+  return content
 }

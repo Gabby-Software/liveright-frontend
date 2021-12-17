@@ -1,9 +1,12 @@
+import { get } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../../../components/form/input/input.component'
+import formatter from '../../../../../../managers/formatter.manager'
+import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './exercise.styles'
 
 interface ExerciseProps {
@@ -13,6 +16,7 @@ interface ExerciseProps {
   draggableProps: any
   name: string
   onRemove: any
+  prefix?: boolean
 }
 
 export default function Exercise({
@@ -21,11 +25,30 @@ export default function Exercise({
   innerRef,
   draggableProps,
   name,
-  onRemove
+  onRemove,
+  prefix
 }: ExerciseProps) {
   const methods = useFormContext()
+
+  const onChange = (name: string, value: string) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
+  const { errors } = methods.formState
+
   return (
-    <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
+    <Styles
+      $isDragging={isDragging}
+      ref={innerRef}
+      $prefix={prefix}
+      {...draggableProps}
+    >
+      {prefix && (
+        <WorkoutSubtitle className="Exercise__prefix">
+          Exercises
+        </WorkoutSubtitle>
+      )}
+
       <div className="Exercise__drag">
         <button className="Exercise__drag-btn" {...dragHandleProps}>
           <DragIcon />
@@ -47,20 +70,25 @@ export default function Exercise({
             label="Exercise name"
             placeholder="1A--"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />
 
       <Controller
-        name={`${name}.info.steps`}
+        name={`${name}.info.sets`}
         render={({ field: { name, value } }) => (
           <Input
-            id="Exercise-steps"
-            label="Steps"
+            id="Exercise-sets"
+            label="Sets"
             placeholder="10"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            format={formatter().number().min(0).max(100)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />
@@ -72,7 +100,10 @@ export default function Exercise({
             label="Reps"
             placeholder="10"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            format={formatter().number().min(0).max(100)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />
@@ -84,7 +115,10 @@ export default function Exercise({
             label="Tempo"
             placeholder="10"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            format={formatter().number().min(0).max(100)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />
@@ -96,7 +130,10 @@ export default function Exercise({
             label="Rest Interval"
             placeholder="10"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            format={formatter().number().min(0).max(100)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />
@@ -108,7 +145,9 @@ export default function Exercise({
             label="Link to video/instructions"
             placeholder="https://"
             value={value}
-            onChange={(e) => methods.setValue(name, e.target.value)}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
           />
         )}
       />

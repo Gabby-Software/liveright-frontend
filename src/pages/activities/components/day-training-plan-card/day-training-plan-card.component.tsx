@@ -2,46 +2,19 @@ import DayCard from '../day-card/day-card.component'
 import DayCardAccordion from '../day-card-accordion/day-card-accordion.component'
 import { Styles } from './day-training-plan-card.styles'
 
-// const CONTENT = [
-//   {
-//     content: [
-//       {
-//         title: 'Pushups',
-//         subtitle: '4 sets of 10 Reps with 2 min break'
-//       }
-//     ]
-//   },
-//   {
-//     content: [
-//       {
-//         title: 'Pushups',
-//         subtitle: '4 sets of 10 Reps with 2 min break'
-//       }
-//     ]
-//   },
-//   {
-//     content: [
-//       {
-//         title: '1A - Pushups',
-//         subtitle: '4 sets of 10 Reps with 2 min break'
-//       },
-//       {
-//         title: '1B - Pushups',
-//         subtitle: '4 sets of 10 Reps with 2 min break'
-//       }
-//     ]
-//   }
-// ]
-
 interface DayTrainingPlanCardProps {
   day: any
+  onExpand?: () => void
 }
 
-export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
-  console.log(day)
+export default function DayTrainingPlanCard({
+  day,
+  onExpand
+}: DayTrainingPlanCardProps) {
   return (
     <DayCard
       title={day.name}
+      onExpand={onExpand}
       content={
         <Styles>
           <div className="day-tp-card__content">
@@ -53,17 +26,17 @@ export default function DayTrainingPlanCard({ day }: DayTrainingPlanCardProps) {
                     title={row.name}
                     count={row.items?.length}
                     content={row.items?.map((row: any) => ({
-                      content: Array.isArray(row)
-                        ? row.map((row: any) => ({
-                            title: row.name,
-                            subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
-                          }))
-                        : [
+                      content: !row.is_superset
+                        ? [
                             {
-                              title: row.name,
-                              subtitle: `Steps: ${row.info.steps}; Reps: ${row.info.reps}; Rest: ${row.info.rest_interval};`
+                              title: row.data.name,
+                              subtitle: `Steps: ${row.data?.info?.steps}; Reps: ${row.data?.info?.reps}; Rest: ${row.data?.info?.rest_interval};`
                             }
                           ]
+                        : row.data.map((d: any) => ({
+                            title: d.name,
+                            subtitle: `Steps: ${d.info?.steps}; Reps: ${d?.info?.reps}; Rest: ${d?.info?.rest_interval};`
+                          }))
                     }))}
                   />
                 ))}

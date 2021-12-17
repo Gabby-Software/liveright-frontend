@@ -1,31 +1,63 @@
 import { useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
-import Label from '../../../../../../components/form/label/label.component'
+import { AddIcon } from '../../../../../../assets/media/icons'
+import Button from '../../../../../../components/buttons/button/button.component'
 import Exercise from '../exercise/exercise.component'
 import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './superset.styles'
 
 interface SupersetProps {
-  exercises: any[]
   name: string
   dragHandleProps: any
   isDragging: boolean
   innerRef: any
   draggableProps: any
+  onRemove: any
+}
+
+function createExercise() {
+  return {
+    name: '',
+    link: '',
+    info: {
+      steps: '',
+      reps: '',
+      tempo: '',
+      rest_interval: ''
+    }
+  }
 }
 
 export default function Superset({
   dragHandleProps,
   name,
-  exercises,
   isDragging,
   innerRef,
-  draggableProps
+  draggableProps,
+  onRemove
 }: SupersetProps) {
   const [dropId] = useState(`superset-drop-${Date.now()}`)
-  console.log('superset: ', name)
+  const methods = useFormContext()
+
+  const exercisesArray = useFieldArray({
+    control: methods.control,
+    name: `${name}.data`
+  })
+
+  const handleAddExercise = () => {
+    exercisesArray.append(createExercise())
+  }
+
+  const handleRemoveExercise = (index: number) => {
+    if (exercisesArray.fields.length === 1) {
+      onRemove()
+    } else {
+      exercisesArray.remove(index)
+    }
+  }
+
   return (
     <Styles
       $isDragging={isDragging}
@@ -43,12 +75,12 @@ export default function Superset({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {exercises.map((r, index) => (
+              {exercisesArray.fields.map((r, index) => (
                 <Draggable key={r.id} draggableId={`${r.id}`} index={index}>
                   {(provided, snapshot) => (
                     <Exercise
-                      name={`${name}.${index}`}
-                      onRemove={() => {}}
+                      name={`${name}.data.${index}`}
+                      onRemove={() => handleRemoveExercise(index)}
                       innerRef={provided.innerRef}
                       dragHandleProps={provided.dragHandleProps}
                       draggableProps={provided.draggableProps}
@@ -63,9 +95,16 @@ export default function Superset({
         </Droppable>
       </DragDropContext>
 
-      <div className="Superset__template">
-        <Checkbox />
-        <Label className="checkbox">Save superset as re-usable template</Label>
+      <div className="Superset__actions">
+        <Button
+          variant="text"
+          size="sm"
+          className="Superset__action-btn"
+          onClick={handleAddExercise}
+        >
+          <AddIcon />
+          Add Exercise
+        </Button>
       </div>
     </Styles>
   )

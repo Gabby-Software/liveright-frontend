@@ -4,15 +4,17 @@ import { CaretLeftIcon } from '../../../../assets/media/icons'
 import Styles from './header-link.styles'
 
 interface HeaderLinkProps {
-  to: string
+  to?: string
+  onClick?: any
 }
 
 export default function HeaderLink({
   children,
-  to
+  to,
+  onClick
 }: PropsWithChildren<HeaderLinkProps>) {
   return (
-    <Styles variant="text" to={to}>
+    <Styles variant="text" to={to} onClick={onClick}>
       <CaretLeftIcon />
       {children}
     </Styles>
