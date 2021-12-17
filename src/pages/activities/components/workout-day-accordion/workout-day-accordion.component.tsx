@@ -30,6 +30,12 @@ export default function WorkoutDayAccordion({
     control: methods.control
   })
 
+  const name = `days.${index}.activities`
+  const days = useWatch({
+    name,
+    control: methods.control
+  })
+
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -44,26 +50,30 @@ export default function WorkoutDayAccordion({
       defaultOpen={defaultOpened}
     >
       <Styles>
-        <Controller
-          name={`days.${index}.name`}
-          render={({ field: { name, value } }) => (
-            <Input
-              id="WorkoutDayAccordion-name"
-              label="Workout Day Name"
-              placeholder="Name"
-              className="WorkoutDayAccordion__name-input"
-              value={value}
-              onChange={(e) => onChange(name, e.target.value)}
-              error={get(errors, name)}
+        {!!days.length && (
+          <>
+            <Controller
+              name={`days.${index}.name`}
+              render={({ field: { name, value } }) => (
+                <Input
+                  id="WorkoutDayAccordion-name"
+                  label="Workout Day Name"
+                  placeholder="Name"
+                  className="WorkoutDayAccordion__name-input"
+                  value={value}
+                  onChange={(e) => onChange(name, e.target.value)}
+                  error={get(errors, name)}
+                />
+              )}
             />
-          )}
-        />
 
-        <p className="WorkoutDayAccordion__subtitle">
-          List workouts of this training plan
-        </p>
+            <p className="WorkoutDayAccordion__subtitle">
+              List workouts of this training plan
+            </p>
+          </>
+        )}
 
-        <WorkoutDayForm name={`days.${index}.activities`} />
+        <WorkoutDayForm name={name} />
       </Styles>
     </DayAccordion>
   )

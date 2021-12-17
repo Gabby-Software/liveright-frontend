@@ -19,7 +19,6 @@ export default function ExerciseAccordion({
   prefix
 }: ExerciseAccordionProps) {
   const methods = useFormContext()
-
   const exerciseName = useWatch({
     name: `${name}.name`,
     control: methods.control

@@ -13,7 +13,7 @@ interface SupersetAccordionProps {
 
 function createExercise() {
   return {
-    name: '',
+    name: 'Exercise',
     link: '',
     info: {
       steps: '',
