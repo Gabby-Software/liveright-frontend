@@ -447,9 +447,41 @@ export const routes: RouteType[] = [
   },
   {
     title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_NEW,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/training-split/edit-split/create-split.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Split',
     url: Routes.ACTIVITIES_TS_ID,
     Component: lazy(
       () => import('../pages/activities/training-split/split/split.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_EDIT,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/training-split/edit-split/edit-split.component'
+        )
     ),
     version: 2,
     mobileLayout: false,

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -16,7 +15,6 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
-import AddTrainingSplit from '../add-split/add-split.component'
 
 const LABELS = [
   'Split Name',
@@ -51,11 +49,6 @@ const DATA = [
 
 export default function TrainingSplits() {
   const isMobile = useIsMobile()
-  const [add, setAdd] = useState(false)
-
-  if (add) {
-    return <AddTrainingSplit onClose={() => setAdd(false)} />
-  }
 
   const content = (
     <Styles>
@@ -72,7 +65,7 @@ export default function TrainingSplits() {
               <Title>Training Splits</Title>
 
               <div>
-                <Button onClick={() => setAdd(true)}>Create New Split</Button>
+                <Button to={Routes.ACTIVITIES_TS_NEW}>Create New Split</Button>
               </div>
             </div>
           </>
@@ -142,7 +135,7 @@ export default function TrainingSplits() {
     <MobilePage
       title="Training Splits"
       actionComponent={
-        <Button onClick={() => setAdd(true)}>Create Split</Button>
+        <Button to={Routes.ACTIVITIES_TS_NEW}>Create Split</Button>
       }
     >
       {content}

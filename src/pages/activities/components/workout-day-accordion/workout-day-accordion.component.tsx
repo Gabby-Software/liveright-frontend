@@ -1,4 +1,4 @@
-import get from 'lodash.get'
+import { get } from 'lodash'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 

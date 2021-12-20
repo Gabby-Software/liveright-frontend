@@ -10,13 +10,24 @@ interface FoodProps {
   isDragging: boolean
   innerRef?: any
   draggableProps: any
+  data: any
 }
 
+const options = [
+  { value: 'food_1', label: 'Chicken Brest Tender' },
+  { value: 'food_2', label: 'Brown Rice' },
+  { value: 'food_31', label: 'Red Apple' },
+  { value: 'food_4', label: 'Food 1' },
+  { value: 'food_5', label: 'Food 2' },
+  { value: 'food_7', label: 'Food 4' },
+  { value: 'food_6', label: 'Food 3' }
+]
 export default function Food({
   dragHandleProps,
   isDragging,
   innerRef,
-  draggableProps
+  draggableProps,
+  data
 }: FoodProps) {
   return (
     <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
@@ -30,9 +41,15 @@ export default function Food({
         id="Food-name"
         label="Food name"
         placeholder="Food one"
-        options={[]}
+        options={options}
+        value={data?.id}
       />
-      <Input id="Food-Qty(gr)" label="Qty(gr)" placeholder="-" />
+      <Input
+        id="Food-Qty(gr)"
+        label="Qty(gr)"
+        placeholder="-"
+        defaultValue={data?.amount}
+      />
       <Input id="Food-Proteins" label="Proteins" placeholder="-" />
       <Input id="Food-Fat" label="Fat" placeholder="-" />
       <Input id="Food-Net Carbs" label="Net Carbs" placeholder="-" />

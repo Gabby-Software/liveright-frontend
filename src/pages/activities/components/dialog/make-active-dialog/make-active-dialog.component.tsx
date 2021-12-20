@@ -1,56 +1,53 @@
-import { VoidAction } from '../../../../../types/actions.type'
 import ActivitiesDialog, {
-  ActivitiesDialogProps,
-  DateProps,
-  PlanProps
+  ActivitiesDialogProps
 } from '../activities-dialog.component'
 
 type MakeActiveDialogProps = {
-  yes?: string
-  onYes: VoidAction
-  cancel?: string
-  onCancel: VoidAction
+  title: string
+  titleNote?: string
   old: boolean
-  date?: DateProps
-  plans?: PlanProps
-} & Pick<ActivitiesDialogProps, 'onClose' | 'open'>
+} & Pick<
+  ActivitiesDialogProps,
+  | 'onClose'
+  | 'open'
+  | 'actions'
+  | 'plans'
+  | 'date'
+  | 'name'
+  | 'alert'
+  | 'description'
+>
 
 export default function MakeActiveDialog(props: MakeActiveDialogProps) {
-  const { yes, cancel, onYes, onCancel, old, ...others } = props
-  const alert = `This will make John Travolta’s active training plan this one “Another Training Plan” starting from 22/11/2021. This means the training split will also be changed to reference this training plan. You can revert it at any point by re-activating “High Intensity Plan” as the active training plan.`
-  const title = 'Another Training Plan'
-  const titleNote =
-    'This means whatever was your training split at that date will become the new active training split.'
+  const { title, titleNote, old, ...others } = props
 
-  const titleComponent = old ? (
+  const titleComponent = (
     <>
       {title}
-      <div className="ActivitiesDialog__title__note">{titleNote}</div>
+      {titleNote && (
+        <div
+          className={
+            old
+              ? 'ActivitiesDialog__title__note old'
+              : 'ActivitiesDialog__title__note'
+          }
+        >
+          {titleNote}
+        </div>
+      )}
     </>
-  ) : (
-    title
   )
 
-  return (
-    <ActivitiesDialog
-      {...others}
-      alert={alert}
-      title={titleComponent}
-      name="Make Active Plan"
-      description="You’re about to make the following training plan the active one"
-      actions={{ yes, onYes, cancel, onCancel }}
-      // actions={
-      //   <>
-      //     <Button>Confirm Changes</Button>
-      //     <Button variant="secondary">Nevermind</Button>
-      //   </>
-      // }
-    />
-  )
+  return <ActivitiesDialog {...others} title={titleComponent} />
 }
 
 MakeActiveDialog.defaultProps = {
-  onYes: () => {},
-  onCancel: () => {},
+  actions: {
+    onYes: () => {},
+    onCancel: () => {},
+    yes: 'Yes',
+    cancel: 'Cancel',
+    layout: 'left'
+  },
   old: false
 }

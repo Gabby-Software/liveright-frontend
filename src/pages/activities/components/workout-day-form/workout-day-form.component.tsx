@@ -1,4 +1,4 @@
-import get from 'lodash.get'
+import { get } from 'lodash'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { AddIcon } from '../../../../assets/media/icons'
@@ -56,6 +56,7 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
         ) : (
           <Workout
             key={row.id}
+            index={index}
             name={`${name}.${index}`}
             onRemove={() => handleDayRemove(index)}
           />

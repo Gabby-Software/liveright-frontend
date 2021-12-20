@@ -1,4 +1,4 @@
-import get from 'lodash.get'
+import { get } from 'lodash'
 import { Fragment, useState } from 'react'
 import {
   DragDropContext,
@@ -10,23 +10,27 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
 import {
   AddIcon,
-  DeleteOutlinedIcon
+  DeleteOutlinedIcon,
+  LockIcon,
+  UnlockIcon
 } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Error from '../../../../../../components/form/error/error.component'
-import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
+import { InputSearch } from '../../../input-search/input-search.component'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
 import { Styles, WorkoutSubtitle } from './workout.styles'
 
 interface WorkoutProps {
   name: string
+  index: number
+  data?: any
   onRemove: any
 }
 
@@ -47,18 +51,16 @@ function createExercise(isSuperset: boolean) {
   }
 }
 
-export default function Workout({ name, onRemove }: WorkoutProps) {
+export default function Workout({ name, onRemove, index }: WorkoutProps) {
   const [dropId] = useState(Date.now())
+  const [locked, setLocked] = useState(false)
 
   const methods = useFormContext()
+
   const exercisesArray = useFieldArray({
     control: methods.control,
     name: `${name}.items`
   })
-
-  const onChange = (name: string, value: any) => {
-    methods.setValue(name, value, { shouldValidate: true })
-  }
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -79,22 +81,19 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
     exercisesArray.remove(index)
   }
 
+  const exArray = exercisesArray.fields.filter(
+    (item: any) => !Array.isArray(item.data)
+  )
+  const ssArray = exercisesArray.fields.filter((item: any) =>
+    Array.isArray(item.data)
+  )
+
+  const onNew = () => {}
+
   return (
     <Styles>
       <div className="Workout__header">
-        <Controller
-          name={`${name}.name`}
-          render={({ field: { name, value } }) => (
-            <Input
-              id="Workout-title"
-              label="Title of workout"
-              placeholder="Title"
-              value={value}
-              onChange={(e) => onChange(name, e.target.value)}
-              error={get(errors, name)}
-            />
-          )}
-        />
+        <div className="subtitle">{`Workout ${index + 1}`}</div>
 
         <div className="Workout__header-checkbox-cell">
           <div className="Workout__header-checkbox-container">
@@ -111,29 +110,94 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
             </IconButton>
           </div>
         </div>
+      </div>
 
-        <div className="Workout__header-schedule-container">
-          <Controller
-            name={`${name}.time`}
-            render={({ field: { name, value } }) => (
-              <TimePicker
-                id="Workout-time"
-                label="Schedule"
-                placeholder="08:00"
-                value={value}
-                onChange={(e, date) => onChange(name, date)}
-                error={get(errors, name)}
-              />
-            )}
-          />
+      <div className="Workout__title">
+        <Controller
+          name={`${name}.name`}
+          render={({ field: { value, name } }) => (
+            <InputSearch
+              id="Workout-title"
+              label="Title of workout"
+              placeholder="Title"
+              value={value}
+              onChange={(value) => methods.setValue(name, value)}
+              onSearch={() => {}}
+              options={[
+                { label: value, value: value },
+                {
+                  value: 'existing',
+                  label: 'From this training plan',
+                  color: '#0052CC',
+                  isDisabled: true
+                },
+                {
+                  value: 'Full Body Workout',
+                  label: 'Full Body Workout',
+                  color: '#5243AA'
+                },
+                {
+                  value: 'template',
+                  label: 'From templates',
+                  color: '#0052CC',
+                  isDisabled: true
+                },
+                {
+                  value: 'Smooth Workout',
+                  label: 'Smooth Workout',
+                  color: '#FF8B00'
+                },
+                {
+                  value: 'Another Workout',
+                  label: 'Another Workout',
+                  color: '#36B37E'
+                },
+                {
+                  value: 'Another Workout',
+                  label: (
+                    <Button
+                      variant="text"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: 0
+                      }}
+                      onClick={onNew}
+                    >
+                      <AddIcon />
+                      &nbsp; Create New
+                    </Button>
+                  ),
+                  color: '#36B37E'
+                }
+              ]}
+            />
+          )}
+        />
+      </div>
 
-          <Select
-            disabled
-            id="Workout-days"
-            options={[]}
-            value={{ label: 'Apply to all days', value: 'Apply to all days' }}
-          />
-        </div>
+      <div className="Workout__schedule-container">
+        <Controller
+          name={`${name}.time`}
+          render={({ field: { name, value } }) => (
+            <TimePicker
+              id="Workout-time"
+              label="Schedule"
+              placeholder="08:00"
+              value={value}
+              onChange={(e, date) => {
+                methods.setValue(name, date)
+              }}
+            />
+          )}
+        />
+
+        <Select
+          disabled
+          id="Workout-days"
+          options={[]}
+          value={{ label: 'Apply to all days', value: 'Apply to all days' }}
+        />
       </div>
 
       <WorkoutSubtitle>Exercises</WorkoutSubtitle>
@@ -148,45 +212,57 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
                     <EmptyPlaceholder text="Add your exercises" spacing />
                   </div>
                 ) : (
-                  exercisesArray.fields.map((row: any, index) => {
-                    return (
-                      <Fragment key={row.id}>
-                        <Draggable
-                          draggableId={`${row.id}`}
-                          index={index}
-                          isDragDisabled={row.is_superset}
-                        >
-                          {(provided, snapshot) =>
-                            row.is_superset ? (
-                              <Superset
-                                key={row.id}
-                                name={`${name}.items.${index}`}
-                                dragHandleProps={provided.dragHandleProps}
-                                draggableProps={provided.draggableProps}
-                                isDragging={snapshot.isDragging}
-                                innerRef={provided.innerRef}
-                                onRemove={() => handleExerciseRemove(index)}
-                              />
-                            ) : (
-                              <Exercise
-                                key={row.id}
-                                dragHandleProps={provided.dragHandleProps}
-                                draggableProps={provided.draggableProps}
-                                innerRef={provided.innerRef}
-                                isDragging={snapshot.isDragging}
-                                name={`${name}.items.${index}.data`}
-                                onRemove={() => handleExerciseRemove(index)}
-                                prefix={
-                                  !!(exercisesArray.fields as any)[index - 1]
-                                    ?.is_superset
-                                }
-                              />
-                            )
-                          }
-                        </Draggable>
-                      </Fragment>
-                    )
-                  })
+                  <>
+                    {exArray.map((row: any, index) => (
+                      <Draggable
+                        key={row.id}
+                        draggableId={`${row.id}`}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <Exercise
+                            key={row.id}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            name={`${name}.items.${index}`}
+                            onRemove={() => handleExerciseRemove(index)}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+
+                    <div className="Workout__template">
+                      <Checkbox />
+                      <Label className="checkbox">
+                        Save exercise as re-usable template
+                      </Label>
+                    </div>
+
+                    {ssArray.map((row: any, index) => (
+                      <Draggable
+                        key={row.id}
+                        draggableId={`${row.id}`}
+                        index={index}
+                        isDragDisabled
+                      >
+                        {(provided, snapshot) => (
+                          <Superset
+                            key={row.id}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            onRemove={() =>
+                              handleExerciseRemove(index + exArray.length)
+                            }
+                            name={`${name}.items.${index + exArray.length}`}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                  </>
                 )}
                 {provided.placeholder}
               </div>
@@ -206,15 +282,36 @@ export default function Workout({ name, onRemove }: WorkoutProps) {
           Add Exercise
         </Button>
 
-        <Button
-          variant="text"
-          size="sm"
-          className="Workout__action-btn"
-          onClick={() => handleExerciseAdd(true)}
-        >
-          <AddIcon />
-          Add Superset
-        </Button>
+        {ssArray.length === 0 ? (
+          <Button variant="text" size="sm" className="Workout__action-btn">
+            <AddIcon />
+            Add Superset
+          </Button>
+        ) : (
+          <>
+            {locked ? (
+              <Button
+                variant="success"
+                size="sm"
+                className="Workout__action-btn"
+                onClick={() => setLocked(false)}
+              >
+                <UnlockIcon />
+                Open Superset
+              </Button>
+            ) : (
+              <Button
+                variant="danger"
+                size="sm"
+                className="Workout__action-btn"
+                onClick={() => setLocked(true)}
+              >
+                <LockIcon />
+                Close Superset
+              </Button>
+            )}
+          </>
+        )}
       </div>
 
       {typeof get(errors, `${name}.items`) === 'object' &&

@@ -1,5 +1,5 @@
 export interface ButtonProps {
-  variant?: 'secondary' | 'text' | 'dark'
+  variant?: 'secondary' | 'text' | 'dark' | 'danger' | 'success'
   size?: 'sm' | 'md'
   onClick?: any
   className?: string
@@ -10,4 +10,5 @@ export interface ButtonProps {
   htmlType?: string
   form?: string
   linkClassName?: string
+  style?: object
 }

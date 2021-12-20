@@ -3,10 +3,10 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
-export const DialogStyles = styled(Modal)`
+export const DialogStyles = styled<any>(Modal)`
   &.ant-modal {
     width: 100%;
-    max-width: 620px;
+    max-width: ${(props) => (props.extended ? '1200px' : '620px')};
     padding: 1rem;
   }
 

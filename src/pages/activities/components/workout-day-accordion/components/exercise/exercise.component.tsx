@@ -1,4 +1,4 @@
-import get from 'lodash.get'
+import { get } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'

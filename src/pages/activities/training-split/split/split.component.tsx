@@ -12,20 +12,16 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
-import AddTrainingSplit from '../add-split/add-split.component'
+import { TS_DEMO } from '../../demo/splits'
 import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
-  const [edit, setEdit] = useState(false)
   const [makeActiveDialog, setMakeActiveDialog] = useState(false)
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
-
-  if (edit) {
-    return <AddTrainingSplit onClose={() => setEdit(false)} />
-  }
+  const data = TS_DEMO
 
   if (day) {
     return <TrainingSplitDayView onClose={() => setDay(null)} />
@@ -46,18 +42,18 @@ export default function TrainingSplit() {
     <>
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
-          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            // <div className="TrainingSplits__card-container" key={row}>
-            <DayTrainingSplitCard key={row} onExpand={() => setDay(row)} />
-            // </div>
+          {data.map((row: any, idx: number) => (
+            <div className="TrainingSplits__card-container" key={row.day}>
+              <DayTrainingSplitCard onExpand={() => setDay(idx)} data={row} />
+            </div>
           ))}
         </div>
       ) : (
         <div className="TrainingSplits__cards">
-          {[1, 2, 3, 4, 5, 6, 7].map((row) => (
-            // <div className="TrainingSplits__card-container" key={row}>
-            <DayTrainingScheduleCard key={row} />
-            // </div>
+          {data.map((row: any) => (
+            <div className="TrainingSplits__card-container" key={row.day}>
+              <DayTrainingScheduleCard data={row} />
+            </div>
           ))}
         </div>
       )}
@@ -81,7 +77,7 @@ export default function TrainingSplit() {
                 </Button>
                 <Button
                   className="TrainingSplits__title-button"
-                  onClick={() => setEdit(true)}
+                  to={Routes.ACTIVITIES_TS + '/ts_1/edit'}
                 >
                   Edit Training Split
                 </Button>
@@ -178,12 +174,61 @@ export default function TrainingSplit() {
         )}
       </Styles>
 
-      <MakeActiveDialog
-        yes="Confirm Chnages"
-        cancel="Never mind"
+      {/* other condition */}
+      {/* <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
         open={makeActiveDialog}
         onClose={() => setMakeActiveDialog(false)}
-        old
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alert={
+          <>
+            <div className="title">Read this slowly and carefully!</div>
+            <ul>
+              <li>
+                You will have a brand new training split created and made active. it will apply to all future date on you calender.
+              </li>
+              <li>
+                We’ll create a new diet and training plan and make them active. These will have the contents you just added to your training split.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
+      /> */}
+
+      {/* not scheduled  */}
+      {/* <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, save it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03"
         date={{
           label: (
             <span>
@@ -207,6 +252,105 @@ export default function TrainingSplit() {
             { id: '01', title: 'Low Carbs Day' }
           ]
         }}
+      /> */}
+
+      {/* make it active */}
+      {/* <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to create a new training split"
+        title="Training Split Created on Nov 01"
+        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alert={
+          <>
+            <div className="title">Read this slowly and carefully!</div>
+            <ul>
+              <li>
+                Your current Training Split <b>“My Split”</b> will be replaced with
+                this new one. You can always go back to the Training SPlit list
+                and re-activate <b>“My Split”</b>.
+              </li>
+              <li>
+                Your current active Diet Plan will be replaced with the one you
+                created or edited as part of this training split.
+              </li>
+              <li>
+                Your cuurent Traning Plan will be replaced with the one you
+                created or edited as part of this training split.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
+      /> */}
+
+      {/* other condition */}
+      <MakeActiveDialog
+        actions={{
+          yes: 'Looks good, schedule it',
+          cancel: 'Cancel',
+          onYes: () => setMakeActiveDialog(false),
+          onCancel: () => setMakeActiveDialog(false),
+          layout: 'between'
+        }}
+        open={makeActiveDialog}
+        onClose={() => setMakeActiveDialog(false)}
+        name="Create Training Split"
+        description="You’re about to making changes to the following training split:"
+        title="Training Split Created on Nov 01"
+        date={{
+          label:
+            'Please select the date from when you want these changes to be applied:',
+          value: ''
+        }}
+        alert={
+          <>
+            <div className="title">Read this before make change!</div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created. You can,
+                at all times, go back to old revisions, such as the one you just
+                edited, and re-activate it.
+              </li>
+              <li>
+                Any changes you made to training and diet plans will be applied
+                to respective meal/training plans. A new revision will be
+                created.
+              </li>
+              <li>
+                The version you just edited will become active and applied to
+                any future dates on your calendar.
+              </li>
+            </ul>
+          </>
+        }
+        plans={{
+          trainings: [
+            { id: '00', title: 'High Intensity Training' },
+            { id: '01', title: 'Low Intensity Training' }
+          ],
+          meals: [
+            { id: '00', title: 'High Carbs Day' },
+            { id: '01', title: 'Low Carbs Day' }
+          ]
+        }}
       />
     </>
   )
@@ -215,7 +359,7 @@ export default function TrainingSplit() {
     <MobilePage
       title="Current Training Split"
       actionComponent={
-        <Button onClick={() => setEdit(true)}>Edit Split</Button>
+        <Button to={`${Routes.ACTIVITIES_TS}/1/edit`}>Edit Split</Button>
       }
     >
       {content}

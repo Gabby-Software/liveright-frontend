@@ -76,7 +76,10 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
       }
 
       &__note {
-        color: ${getColorCarry('red')};
+        & .old {
+          color: ${getColorCarry('red')};
+        }
+
         font-size: 0.875rem;
         font-weight: 400;
       }
@@ -211,13 +214,18 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
       display: flex;
       align-items: center;
       justify-content: ${(props) => layoutMap[props.actionsLayout]};
+      flex-direction: ${(props) =>
+        props.actionsLayout == 'between' ? 'row-reverse' : 'row'};
 
       @media ${mediaQueries.TABLET} {
         flex-direction: column;
       }
 
       & button {
-        margin-right: 1.25rem;
+        margin-right: ${(props) =>
+          props.actionsLayout == 'left' ? '1.25rem' : '0'};
+        margin-left: ${(props) =>
+          props.actionsLayout == 'right' ? '1.25rem' : '0'};
 
         @media ${mediaQueries.TABLET} {
           width: 100%;

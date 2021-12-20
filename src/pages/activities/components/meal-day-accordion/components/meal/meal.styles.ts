@@ -13,6 +13,16 @@ export const Styles = styled(Card)`
   }
 
   .Meal {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & .subtitle {
+        color: ${getColorCarry('neutral_100')};
+      }
+    }
+
     &__name {
       display: grid;
       grid-template-columns: 3fr 1fr 1fr auto;

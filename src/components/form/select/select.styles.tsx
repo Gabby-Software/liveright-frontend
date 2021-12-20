@@ -1,7 +1,7 @@
 import { components } from 'react-select'
 import styled from 'styled-components'
 
-import { CaretDownIcon } from '../../../assets/media/icons'
+import { CaretDownIcon, SearchIcon } from '../../../assets/media/icons'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import { getHeight } from '../utils.styles'
 
@@ -105,6 +105,14 @@ export function DropdownIndicator(props: any) {
   return (
     <components.DropdownIndicator {...props}>
       <CaretDownIcon />
+    </components.DropdownIndicator>
+  )
+}
+
+export function DropdownSearch(props: any) {
+  return (
+    <components.DropdownIndicator {...props}>
+      <SearchIcon />
     </components.DropdownIndicator>
   )
 }
