@@ -143,7 +143,7 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
     }
 
     &__plans {
-      margin-bottom: 32px;
+      margin-bottom: 16px;
 
       & .plans-label {
         padding: 16px 0;
@@ -154,11 +154,13 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
 
       & .plans-cards {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
 
         & .trainings,
         & .meals {
           width: 45%;
+          margin-bottom: 1rem;
 
           @media ${mediaQueries.MOBILE} {
             width: 100%;

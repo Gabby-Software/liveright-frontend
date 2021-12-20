@@ -109,14 +109,12 @@ export default function TrainingSplit() {
                 }}
               />
 
-              {!isMobile && (
-                <Button
-                  className="TrainingSplits__filters-make-active-btn"
-                  onClick={() => setConfirmDialog(true)}
-                >
-                  Make active
-                </Button>
-              )}
+              <Button
+                className="TrainingSplits__filters-make-active-btn"
+                onClick={() => setConfirmDialog(true)}
+              >
+                Make active
+              </Button>
             </div>
           </div>
 
@@ -175,7 +173,7 @@ export default function TrainingSplit() {
       </Styles>
 
       {/* other condition */}
-      {/* <ConfirmDialog
+      <ConfirmDialog
         actions={{
           yes: 'Looks good, schedule it',
           cancel: 'Cancel',
@@ -189,18 +187,16 @@ export default function TrainingSplit() {
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
         titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alertTitle='Read this slowly and carefully!'
         alert={
-          <>
-            <div className="title">Read this slowly and carefully!</div>
-            <ul>
-              <li>
-                You will have a brand new training split created and made active. it will apply to all future date on you calender.
-              </li>
-              <li>
-                We’ll create a new diet and training plan and make them active. These will have the contents you just added to your training split.
-              </li>
-            </ul>
-          </>
+          <ul>
+            <li>
+              You will have a brand new training split created and made active. it will apply to all future date on you calender.
+            </li>
+            <li>
+              We’ll create a new diet and training plan and make them active. These will have the contents you just added to your training split.
+            </li>
+          </ul>
         }
         plans={{
           trainings: [
@@ -212,10 +208,10 @@ export default function TrainingSplit() {
             { id: '01', title: 'Low Carbs Day' }
           ]
         }}
-      /> */}
+      />
 
       {/* not scheduled  */}
-      {/* <confirmDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
@@ -223,7 +219,7 @@ export default function TrainingSplit() {
           onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={ConfirmDialog}
+        open={confirmDialog}
         onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to create a new training split"
@@ -269,25 +265,23 @@ export default function TrainingSplit() {
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
         titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        alertTitle='Read this slowly and carefully!'
         alert={
-          <>
-            <div className="title">Read this slowly and carefully!</div>
-            <ul>
-              <li>
-                Your current Training Split <b>“My Split”</b> will be replaced with
-                this new one. You can always go back to the Training SPlit list
-                and re-activate <b>“My Split”</b>.
-              </li>
-              <li>
-                Your current active Diet Plan will be replaced with the one you
-                created or edited as part of this training split.
-              </li>
-              <li>
-                Your cuurent Traning Plan will be replaced with the one you
-                created or edited as part of this training split.
-              </li>
-            </ul>
-          </>
+          <ul>
+            <li>
+              Your current Training Split <b>“My Split”</b> will be replaced with
+              this new one. You can always go back to the Training SPlit list
+              and re-activate <b>“My Split”</b>.
+            </li>
+            <li>
+              Your current active Diet Plan will be replaced with the one you
+              created or edited as part of this training split.
+            </li>
+            <li>
+              Your cuurent Traning Plan will be replaced with the one you
+              created or edited as part of this training split.
+            </li>
+          </ul>
         }
         plans={{
           trainings: [
@@ -302,7 +296,7 @@ export default function TrainingSplit() {
       /> */}
 
       {/* other condition */}
-      <ConfirmDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, schedule it',
           cancel: 'Cancel',
@@ -320,26 +314,24 @@ export default function TrainingSplit() {
             'Please select the date from when you want these changes to be applied:',
           value: ''
         }}
+        alertTitle='Read this before make change!'
         alert={
-          <>
-            <div className="title">Read this before make change!</div>
-            <ul>
-              <li>
-                A new revision of your training plan will be created. You can,
-                at all times, go back to old revisions, such as the one you just
-                edited, and re-activate it.
-              </li>
-              <li>
-                Any changes you made to training and diet plans will be applied
-                to respective meal/training plans. A new revision will be
-                created.
-              </li>
-              <li>
-                The version you just edited will become active and applied to
-                any future dates on your calendar.
-              </li>
-            </ul>
-          </>
+          <ul>
+            <li>
+              A new revision of your training plan will be created. You can,
+              at all times, go back to old revisions, such as the one you just
+              edited, and re-activate it.
+            </li>
+            <li>
+              Any changes you made to training and diet plans will be applied
+              to respective meal/training plans. A new revision will be
+              created.
+            </li>
+            <li>
+              The version you just edited will become active and applied to
+              any future dates on your calendar.
+            </li>
+          </ul>
         }
         plans={{
           trainings: [
@@ -351,7 +343,7 @@ export default function TrainingSplit() {
             { id: '01', title: 'Low Carbs Day' }
           ]
         }}
-      />
+      /> */}
     </>
   )
 

@@ -197,6 +197,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
             'From when should we apply this change',
           value: ''
         }}
+        alertTitle='Read this before make change!'
         alert={
           <ul>
             <li>
@@ -215,7 +216,6 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
             </li>
           </ul>
         }
-        alertTitle='Read this before make change!'
       />
 
       <WorkoutEditDialog

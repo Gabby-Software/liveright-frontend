@@ -20,16 +20,7 @@ export const Styles = styled.div`
     &__body {
       font-size: 0.875rem;
       line-height: 1.25rem;
-      padding-left: 2rem;
-      @media ${mediaQueries.TABLET} {
-        padding: 0.25rem;
-      }
-
-      & .title {
-        font-size: 1rem;
-        font-weight: 500;
-        padding: 0.5rem 0;
-      }
+      padding-left: 0.25rem;
 
       & ul {
         padding-inline-start: 16px;
@@ -38,11 +29,13 @@ export const Styles = styled.div`
 
     &__header {
       display: flex;
-      align-items: center;
       margin-bottom: 0.75rem;
     }
 
     &__title {
+      display: flex;
+      align-items: center;
+      min-height: 100%;
       font-size: 0.875rem;
       font-weight: 700;
     }

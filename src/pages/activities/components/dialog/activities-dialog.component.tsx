@@ -30,7 +30,7 @@ export interface ActivitiesDialogProps {
   body?: string | JSX.Element
   date?: DateProps
   alert?: string | JSX.Element
-  alertTitle?: string;
+  alertTitle?: string | JSX.Element;
   plans?: PlanProps
   actions: {
     yes?: string
