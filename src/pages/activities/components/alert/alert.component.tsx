@@ -16,11 +16,7 @@ export default function Alert({ className, title, content }: AlertProps) {
             <div className="Alert__icon">
               <InfoIcon />
             </div>
-            {title && (
-              <div className="Alert__title">
-                {title}
-              </div>
-            )}
+            {title && <div className="Alert__title">{title}</div>}
           </div>
 
           <div className="Alert__body">{content}</div>

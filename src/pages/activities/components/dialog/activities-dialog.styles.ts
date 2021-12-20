@@ -94,10 +94,6 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
       margin-bottom: 2rem;
-
-      @media ${mediaQueries.TABLET} {
-        margin-bottom: 1rem;
-      }
     }
 
     &__body {

@@ -193,26 +193,24 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         description="You’re about to making changes to the following training split:"
         title="Training Split Created on Nov 11"
         date={{
-          label:
-            'From when should we apply this change',
+          label: 'From when should we apply this change',
           value: ''
         }}
-        alertTitle='Read this before make change!'
+        alertTitle="Read this before make change!"
         alert={
           <ul>
             <li>
-              A new revision of your training plan will be created. You can,
-              at all times, go back to old revisions, such as the one you just
+              A new revision of your training plan will be created. You can, at
+              all times, go back to old revisions, such as the one you just
               edited, and re-activate it.
             </li>
             <li>
-              Any changes you made to training and diet plans will be applied
-              to respective meal/training plans. A new revision will be
-              created.
+              Any changes you made to training and diet plans will be applied to
+              respective meal/training plans. A new revision will be created.
             </li>
             <li>
-              The version you just edited will become active and applied to
-              any future dates on your calendar.
+              The version you just edited will become active and applied to any
+              future dates on your calendar.
             </li>
           </ul>
         }

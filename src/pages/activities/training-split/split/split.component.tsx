@@ -187,14 +187,17 @@ export default function TrainingSplit() {
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
         titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
-        alertTitle='Read this slowly and carefully!'
+        alertTitle="Read this slowly and carefully!"
         alert={
           <ul>
             <li>
-              You will have a brand new training split created and made active. it will apply to all future date on you calender.
+              You will have a brand new training split created and made active.
+              it will apply to all future date on you calender.
             </li>
             <li>
-              We’ll create a new diet and training plan and make them active. These will have the contents you just added to your training split.
+              We’ll create a new diet and training plan and make them active.
+              These will have the contents you just added to your training
+              split.
             </li>
           </ul>
         }

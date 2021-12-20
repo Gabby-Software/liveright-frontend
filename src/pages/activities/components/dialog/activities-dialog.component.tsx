@@ -30,7 +30,7 @@ export interface ActivitiesDialogProps {
   body?: string | JSX.Element
   date?: DateProps
   alert?: string | JSX.Element
-  alertTitle?: string | JSX.Element;
+  alertTitle?: string | JSX.Element
   plans?: PlanProps
   actions: {
     yes?: string
@@ -87,7 +87,13 @@ export default function ActivitiesDialog({
           />
         )}
 
-        {alert && <Alert className="ActivitiesDialog__alert" title={alertTitle} content={alert} />}
+        {alert && (
+          <Alert
+            className="ActivitiesDialog__alert"
+            title={alertTitle}
+            content={alert}
+          />
+        )}
 
         {plans && (
           <div className="ActivitiesDialog__plans">
