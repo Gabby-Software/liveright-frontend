@@ -10,6 +10,9 @@ import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import Counter from '../../components/counter/counter.component'
@@ -26,6 +29,7 @@ interface EditTrainingSplitProps {
 }
 export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const { data } = props
+  const isMobile = useIsMobile()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [count, setCount] = useState(data ? data.length : 0)
@@ -41,26 +45,30 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     setEditWorkout(true)
   }
 
-  return (
+  const content = (
     <>
       <Styles>
         <Card className="AddTrainingSplit__card">
-          <MobileBack
-            alias={data ? 'training-split' : 'training-split-overview'}
-            to={Routes.ACTIVITIES_TS + (data ? '/ts_1' : '')}
-          />
 
-          <div className="AddTrainingSplit__title-container">
-            <Title>
-              {data ? 'Editing Training Split' : 'Creating Training Split'}
-            </Title>
+          {isMobile || (
+            <>
+              <MobileBack
+                alias={data ? 'training-split' : 'training-split-overview'}
+                to={Routes.ACTIVITIES_TS + (data ? '/ts_1' : '')}
+              />
+              <div className="AddTrainingSplit__title-container">
+                <Title>
+                  {data ? 'Editing Training Split' : 'Creating Training Split'}
+                </Title>
 
-            <Button onClick={() => setShowConfirm(true)}>
-              {data ? 'Save Changes' : 'Create'}
-            </Button>
-          </div>
+                <Button onClick={() => setShowConfirm(true)}>
+                  {data ? 'Save Changes' : 'Create'}
+                </Button>
+              </div>
 
-          <div className="AddTrainingSplit__divider" />
+              <div className="AddTrainingSplit__divider" />
+            </>
+          )}
 
           <Subtitle className="AddTrainingSplit__subtitle">
             General Info
@@ -223,5 +231,19 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         data={data ? data[0]?.mealPlanDay : undefined}
       />
     </>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Create Training Split"
+      headerTopComponent={
+        <HeaderLink to={Routes.ACTIVITIES_TS}>Back to Split Overview</HeaderLink>
+      }
+      actionComponent={<Button>Save</Button>}
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
   )
 }

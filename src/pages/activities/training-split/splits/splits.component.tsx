@@ -132,7 +132,14 @@ export default function TrainingSplits() {
   )
 
   return isMobile ? (
-    <MobilePage title="Training Splits">{content}</MobilePage>
+    <MobilePage
+      title="Training Splits"
+      actionComponent={
+        <Button to={Routes.ACTIVITIES_TS_NEW}>Create Split</Button>
+      }
+    >
+      {content}
+    </MobilePage>
   ) : (
     content
   )
