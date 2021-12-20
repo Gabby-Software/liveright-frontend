@@ -12,10 +12,10 @@ interface WorkoutDayFormProps {
   name: string
 }
 
-function createWorkout() {
+function createWorkout(index: number) {
   return {
     id: Date.now(),
-    name: '',
+    name: `Workout ${index}`,
     time: '',
     sort_order: '',
     items: []
@@ -33,7 +33,7 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
   })
 
   const handleDayAdd = () => {
-    workoutsArray.append(createWorkout())
+    workoutsArray.append(createWorkout(workoutsArray.fields.length + 1))
     methods.clearErrors(name)
   }
 

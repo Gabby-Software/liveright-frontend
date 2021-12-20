@@ -1,3 +1,5 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
   Controller,
@@ -34,8 +36,7 @@ const URL_REGEX =
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
-  scheduled_start_on: yup.string(),
-  scheduled_end_on: yup.string(),
+  scheduled_start_on: yup.string().required(),
   days: yup
     .array()
     .min(1)
@@ -118,9 +119,9 @@ export default function AddTrainingPlan({
   })
 
   const methods = useForm<any>({
-    defaultValues
-    // resolver: yupResolver(validationSchema),
-    // reValidateMode: 'onChange'
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange'
   })
 
   const daysArray = useFieldArray({
@@ -170,6 +171,7 @@ export default function AddTrainingPlan({
   }
 
   const { errors } = methods.formState
+  const values = methods.getValues()
 
   const content = (
     <>
@@ -218,6 +220,7 @@ export default function AddTrainingPlan({
                     placeholder="Pick start date"
                     label="Start date"
                     className="EditPlan__input"
+                    disabledPast
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_start_on}
@@ -235,6 +238,10 @@ export default function AddTrainingPlan({
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
+                    disabled={!values.scheduled_start_on}
+                    disabledDate={(date: Moment) =>
+                      date.isBefore(values.scheduled_start_on)
+                    }
                   />
                 )}
               />

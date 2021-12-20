@@ -15,7 +15,6 @@ import TimePicker from '../../../../../../components/form/time-picker/time-picke
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'
 import SupersetAccordion from '../superset-accordion/superset-accordion.component'
-import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './workout-accordion.styles'
 
 interface WorkoutAccordionProps {
@@ -25,7 +24,7 @@ interface WorkoutAccordionProps {
 
 function createExercise(isSuperset: boolean) {
   const ex = {
-    name: '',
+    name: 'Exercise',
     link: '',
     info: {
       steps: '',
@@ -60,6 +59,18 @@ export default function WorkoutAccordion({
     methods.setValue(name, value, { shouldValidate: true })
   }
 
+  const exArray = exercisesArray.fields.filter((item: any) => !item.is_superset)
+  const ssArray = exercisesArray.fields.filter((item: any) => item.is_superset)
+  const exIndices: number[] = []
+  const ssIndices: number[] = []
+  exercisesArray.fields.forEach((item: any, idx: number) => {
+    if (item.is_superset) {
+      ssIndices.push(idx)
+    } else {
+      exIndices.push(idx)
+    }
+  })
+
   const handleExerciseAdd = (isSuperset: boolean) => {
     exercisesArray.append(createExercise(isSuperset))
     methods.clearErrors(`${name}.items`)
@@ -76,72 +87,70 @@ export default function WorkoutAccordion({
       onRemove={onRemove}
       content={
         <Styles>
-          <div className="WorkoutAccordion__controls">
-            <Controller
-              name={`${name}.name`}
-              render={({ field: { name, value } }) => (
-                <Input
-                  id="WorkoutAccordion__name-workout"
-                  label="Title of workout"
-                  placeholder="Workout one"
-                  suffix={<SearchIcon />}
-                  className="WorkoutAccordion__control"
-                  value={value}
-                  onChange={(e) => onChange(name, e.target.value)}
-                  error={get(errors, name)}
+          {!!exercisesArray.fields.length && (
+            <>
+              <div className="WorkoutAccordion__controls">
+                <Controller
+                  name={`${name}.name`}
+                  render={({ field: { name, value } }) => (
+                    <Input
+                      id="WorkoutAccordion__name-workout"
+                      label="Title of workout"
+                      placeholder="Workout one"
+                      suffix={<SearchIcon />}
+                      className="WorkoutAccordion__control"
+                      value={value}
+                      onChange={(e) => onChange(name, e.target.value)}
+                      error={get(errors, name)}
+                    />
+                  )}
                 />
-              )}
-            />
 
-            <Controller
-              name={`${name}.time`}
-              render={({ field: { name, value } }) => (
-                <TimePicker
-                  id="WorkoutAccordion__time"
-                  label="Schedule"
-                  placeholder="08:00"
-                  className="WorkoutAccordion__control"
-                  value={value}
-                  onChange={(e, date) => onChange(name, date)}
-                  error={get(errors, name)}
+                <Controller
+                  name={`${name}.time`}
+                  render={({ field: { name, value } }) => (
+                    <TimePicker
+                      id="WorkoutAccordion__time"
+                      label="Schedule"
+                      placeholder="08:00"
+                      className="WorkoutAccordion__control"
+                      value={value}
+                      onChange={(e, date) => onChange(name, date)}
+                      error={get(errors, name)}
+                    />
+                  )}
                 />
-              )}
-            />
 
-            <Select
-              disabled
-              id="WorkoutAccordion__days"
-              options={[]}
-              value={{ label: 'Apply to all days', value: 'Apply to all days' }}
-            />
-          </div>
-
-          <WorkoutSubtitle>Exercises</WorkoutSubtitle>
+                <Select
+                  disabled
+                  id="WorkoutAccordion__days"
+                  options={[]}
+                  value={{
+                    label: 'Apply to all days',
+                    value: 'Apply to all days'
+                  }}
+                />
+              </div>
+            </>
+          )}
 
           <div>
-            <div>
-              {exercisesArray.fields.map((row: any, index) =>
-                row.is_superset ? (
-                  <SupersetAccordion
-                    key={row.id}
-                    name={`${name}.items.${index}`}
-                    onRemove={() => handleExerciseRemove(index)}
-                  />
-                ) : (
-                  <ExerciseAccordion
-                    key={row.id}
-                    name={`${name}.items.${index}.data`}
-                    onRemove={() => handleExerciseRemove(index)}
-                    prefix={
-                      (exercisesArray.fields as any)[index - 1]?.is_superset
-                    }
-                    borderBottom={
-                      !(exercisesArray.fields as any)[index + 1]?.is_superset
-                    }
-                  />
-                )
-              )}
-            </div>
+            {exArray.map((row: any, index: number) => (
+              <ExerciseAccordion
+                key={row.id}
+                name={`${name}.items.${exIndices[index]}.data`}
+                onRemove={() => handleExerciseRemove(exIndices[index])}
+                prefix={index === 0}
+                borderBottom={index === exArray.length - 1}
+              />
+            ))}
+            {ssArray.map((row: any, index: number) => (
+              <SupersetAccordion
+                key={row.id}
+                name={`${name}.items.${ssIndices[index]}`}
+                onRemove={() => handleExerciseRemove(ssIndices[index])}
+              />
+            ))}
           </div>
 
           <div className="WorkoutAccordion__actions">

@@ -29,7 +29,7 @@ export default function ItemAccordion({
         <p className="ItemAccordion__summary-title">{title}</p>
 
         <div className="ItemAccordion__summary-actions">
-          {open && onRemove && (
+          {onRemove && (
             <IconButton
               size="sm"
               className="ItemAccordion__summary-remove-btn"
