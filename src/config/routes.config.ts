@@ -491,6 +491,38 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_EDIT_TP,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/training-split/edit-split/plan-edit/training-plan-edit.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
+    title: 'Training Split',
+    url: Routes.ACTIVITIES_TS_EDIT_MP,
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/training-split/edit-split/plan-edit/meal-plan-edit.component'
+        )
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Training Plans',
     url: Routes.ACTIVITIES_TP,
     Component: lazy(

@@ -46,6 +46,9 @@ export default function Superset({
     name: `${name}.data`
   })
 
+  console.log(methods.getValues())
+  console.log(name, exercisesArray)
+
   const handleAddExercise = () => {
     exercisesArray.append(createExercise())
   }
