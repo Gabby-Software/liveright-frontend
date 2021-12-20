@@ -8,6 +8,7 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
@@ -41,7 +42,7 @@ export default function TrainingSplit() {
     <>
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
-          {data.map((row, idx) => (
+          {data.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingSplitCard onExpand={() => setDay(idx)} data={row} />
             </div>
@@ -49,7 +50,7 @@ export default function TrainingSplit() {
         </div>
       ) : (
         <div className="TrainingSplits__cards">
-          {data.map((row) => (
+          {data.map((row: any) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingScheduleCard data={row} />
             </div>
@@ -354,5 +355,16 @@ export default function TrainingSplit() {
     </>
   )
 
-  return content
+  return isMobile ? (
+    <MobilePage
+      title="Current Training Split"
+      actionComponent={
+        <Button to={`${Routes.ACTIVITIES_TS}/1/edit`}>Edit Split</Button>
+      }
+    >
+      {content}
+    </MobilePage>
+  ) : (
+    content
+  )
 }

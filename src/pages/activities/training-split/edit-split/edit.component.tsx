@@ -10,11 +10,11 @@ import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
+import { Subtitle, Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { Subtitle, Title } from '../../../../components/typography'
-import { Routes } from '../../../../enums/routes.enum'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edit-card.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
@@ -49,7 +49,6 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     <>
       <Styles>
         <Card className="AddTrainingSplit__card">
-
           {isMobile || (
             <>
               <MobileBack
@@ -237,7 +236,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     <MobilePage
       title="Create Training Split"
       headerTopComponent={
-        <HeaderLink to={Routes.ACTIVITIES_TS}>Back to Split Overview</HeaderLink>
+        <HeaderLink to={Routes.ACTIVITIES_TS}>
+          Back to Split Overview
+        </HeaderLink>
       }
       actionComponent={<Button>Save</Button>}
     >

@@ -73,6 +73,7 @@ export default styled.div<any>`
       font-size: 1.375rem;
       font-weight: 700;
       color: #fff;
+      margin-right: 0.5rem;
     }
 
     &__component {
