@@ -19,7 +19,7 @@ import Counter from '../../components/counter/counter.component'
 import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edit-card.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
-import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplan-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import { Styles } from './edit-split.styles'
@@ -177,7 +177,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
           )}
         </Card>
       </Styles>
-      <MakeActiveDialog
+
+      {/* make changes */}
+      <ConfirmDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
@@ -189,32 +191,28 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         onClose={() => setShowConfirm(false)}
         name="Make Change Training Split"
         description="You’re about to making changes to the following training split:"
-        title="Training Split Created on Nov 01"
+        title="Training Split Created on Nov 11"
         date={{
-          label:
-            'Please select the date from when you want these changes to be applied:',
+          label: 'From when should we apply this change',
           value: ''
         }}
+        alertTitle="Read this before make change!"
         alert={
-          <>
-            <div className="title">Read this before make change!</div>
-            <ul>
-              <li>
-                A new revision of your training plan will be created. You can,
-                at all times, go back to old revisions, such as the one you just
-                edited, and re-activate it.
-              </li>
-              <li>
-                Any changes you made to training and diet plans will be applied
-                to respective meal/training plans. A new revision will be
-                created.
-              </li>
-              <li>
-                The version you just edited will become active and applied to
-                any future dates on your calendar.
-              </li>
-            </ul>
-          </>
+          <ul>
+            <li>
+              A new revision of your training plan will be created. You can, at
+              all times, go back to old revisions, such as the one you just
+              edited, and re-activate it.
+            </li>
+            <li>
+              Any changes you made to training and diet plans will be applied to
+              respective meal/training plans. A new revision will be created.
+            </li>
+            <li>
+              The version you just edited will become active and applied to any
+              future dates on your calendar.
+            </li>
+          </ul>
         }
       />
 
@@ -240,7 +238,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
           Back to Split Overview
         </HeaderLink>
       }
-      actionComponent={<Button>Save</Button>}
+      actionComponent={
+        <Button onClick={() => setShowConfirm(true)}>Save</Button>
+      }
     >
       {content}
     </MobilePage>

@@ -2,7 +2,7 @@ import ActivitiesDialog, {
   ActivitiesDialogProps
 } from '../activities-dialog.component'
 
-type MakeActiveDialogProps = {
+type ConfirmDialogProps = {
   title: string
   titleNote?: string
   old: boolean
@@ -15,10 +15,11 @@ type MakeActiveDialogProps = {
   | 'date'
   | 'name'
   | 'alert'
+  | 'alertTitle'
   | 'description'
 >
 
-export default function MakeActiveDialog(props: MakeActiveDialogProps) {
+export default function ConfirmDialog(props: ConfirmDialogProps) {
   const { title, titleNote, old, ...others } = props
 
   const titleComponent = (
@@ -41,7 +42,7 @@ export default function MakeActiveDialog(props: MakeActiveDialogProps) {
   return <ActivitiesDialog {...others} title={titleComponent} />
 }
 
-MakeActiveDialog.defaultProps = {
+ConfirmDialog.defaultProps = {
   actions: {
     onYes: () => {},
     onCancel: () => {},

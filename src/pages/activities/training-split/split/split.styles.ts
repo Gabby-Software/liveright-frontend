@@ -84,13 +84,23 @@ export const Styles = styled.div`
         align-items: center;
 
         @media ${mediaQueries.TABLET} {
-          padding-top: 1.25rem;
+          margin-top: 1.25rem;
+          width: 100%;
+        }
+        @media ${mediaQueries.MOBILE} {
+          flex-direction: column;
+          gap: 1.25rem;
           width: 100%;
         }
       }
 
       &-make-active-btn {
         margin-left: 1.25rem;
+
+        @media ${mediaQueries.MOBILE} {
+          width: 100%;
+          margin: 0;
+        }
       }
     }
 

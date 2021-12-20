@@ -10,7 +10,7 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import Alert from '../../components/alert/alert.component'
 import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-card.component'
-import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import { Styles } from '../../styles/plan.styles'
 import EditDietPlan from '../edit-plan/edit-plan.component'
@@ -19,7 +19,7 @@ const IS_EMPTY = false
 
 export default function DietPlan() {
   const [edit, setEdit] = useState(false)
-  const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
 
   if (edit) {
@@ -86,7 +86,7 @@ export default function DietPlan() {
               {!isMobile && (
                 <Button
                   className="PlanPage__filters-make-active-btn"
-                  onClick={() => setMakeActiveDialog(true)}
+                  onClick={() => setConfirmDialog(true)}
                 >
                   Make active
                 </Button>
@@ -132,22 +132,22 @@ export default function DietPlan() {
           </>
         )}
 
-        <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
+        <Button onClick={() => setConfirmDialog(true)}>Make active</Button>
       </Styles>
 
-      <MakeActiveDialog
+      <ConfirmDialog
         name="Make Active Diet Plan"
         description="You're about to make the following diet plan the active one"
         title="Diet 2"
         alert="This will make John Travolta’s active diet plan this one “Diet 2” starting from 22/11/2021. This means the training split will also be changed to reference this diet plan. You can revert it at any point by re-activating “Balanced Diet” as the active diet plan."
         date={{ label: 'From when should we apply this change?', value: '' }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
         actions={{
           yes: 'Confirm Changes',
           cancel: 'Nevermind',
-          onYes: () => setMakeActiveDialog(false),
-          onCancel: () => setMakeActiveDialog(false),
+          onYes: () => setConfirmDialog(false),
+          onCancel: () => setConfirmDialog(false),
           layout: 'left'
         }}
       />

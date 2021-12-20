@@ -9,9 +9,9 @@ export const ActivitiesDialogStyles = styled(Modal)`
   &.ant-modal {
     width: 100%;
     max-width: 830px;
+    padding: 0 10px;
 
     @media ${mediaQueries.TABLET} {
-      max-height: calc(100vh - 2.5rem);
       overflow-y: auto;
       padding-bottom: 0;
       margin: 1.25rem 0;
@@ -21,6 +21,10 @@ export const ActivitiesDialogStyles = styled(Modal)`
 
   & .ant-modal-body {
     padding: 1.875rem;
+
+    @media ${mediaQueries.TABLET} {
+      padding: 1.875rem 1.5rem;
+    }
   }
 
   & .ant-modal-content {
@@ -90,10 +94,6 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
       height: 1px;
       background-color: ${getColorCarry('inputBorder_v2')};
       margin-bottom: 2rem;
-
-      @media ${mediaQueries.TABLET} {
-        margin-bottom: 1rem;
-      }
     }
 
     &__body {
@@ -139,7 +139,7 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
     }
 
     &__plans {
-      margin-bottom: 32px;
+      margin-bottom: 16px;
 
       & .plans-label {
         padding: 16px 0;
@@ -150,11 +150,13 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
 
       & .plans-cards {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
 
         & .trainings,
         & .meals {
           width: 45%;
+          margin-bottom: 1rem;
 
           @media ${mediaQueries.MOBILE} {
             width: 100%;
