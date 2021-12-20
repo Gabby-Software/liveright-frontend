@@ -9,9 +9,9 @@ export const ActivitiesDialogStyles = styled(Modal)`
   &.ant-modal {
     width: 100%;
     max-width: 830px;
+    padding: 0 10px;
 
     @media ${mediaQueries.TABLET} {
-      max-height: calc(100vh - 2.5rem);
       overflow-y: auto;
       padding-bottom: 0;
       margin: 1.25rem 0;
@@ -21,6 +21,10 @@ export const ActivitiesDialogStyles = styled(Modal)`
 
   & .ant-modal-body {
     padding: 1.875rem;
+
+    @media ${mediaQueries.TABLET} {
+      padding: 1.875rem 1.5rem;
+    }
   }
 
   & .ant-modal-content {

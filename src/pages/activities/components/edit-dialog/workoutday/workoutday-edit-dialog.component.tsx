@@ -99,7 +99,7 @@ const WorkoutDayEditDialog = (props: WorkoutDayEditDialogProps) => {
               {workouts &&
                 workouts.map((workout: any, idx: number) => (
                   <Workout
-                    key={workout.id}
+                    key={idx}
                     name={workout.name}
                     onRemove={() => {}}
                     index={idx}

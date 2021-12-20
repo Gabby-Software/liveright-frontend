@@ -19,7 +19,7 @@ import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
-import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import { Styles } from '../../styles/plan.styles'
 import AddTrainingPlan from '../add-plan/add-plan.component'
@@ -28,7 +28,7 @@ const IS_EMPTY = false
 
 export default function TrainingPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
-  const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
@@ -137,7 +137,7 @@ export default function TrainingPlan() {
               {!isMobile && revision.status === 'inactive' && (
                 <Button
                   className="PlanPage__filters-make-active-btn"
-                  onClick={() => setMakeActiveDialog(true)}
+                  onClick={() => setConfirmDialog(true)}
                 >
                   Make active
                 </Button>
@@ -214,11 +214,11 @@ export default function TrainingPlan() {
         )}
 
         {isMobile && revision.status === 'inactive' && (
-          <Button onClick={() => setMakeActiveDialog(true)}>Make active</Button>
+          <Button onClick={() => setConfirmDialog(true)}>Make active</Button>
         )}
       </Styles>
 
-      <MakeActiveDialog
+      <ConfirmDialog
         name="Make Active Training Plan"
         description="You're about to make the following training plan the active one"
         title="High Intensity Plan"
@@ -239,8 +239,8 @@ export default function TrainingPlan() {
           </>
         }
         date={{ label: 'From when should we apply this change?', value: '' }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
       />
     </>
   )

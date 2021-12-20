@@ -11,14 +11,14 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
-import MakeActiveDialog from '../../components/dialog/make-active-dialog/make-active-dialog.component'
+import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import { TS_DEMO } from '../../demo/splits'
 import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
-  const [makeActiveDialog, setMakeActiveDialog] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(false)
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
   const data = TS_DEMO
@@ -112,7 +112,7 @@ export default function TrainingSplit() {
               {!isMobile && (
                 <Button
                   className="TrainingSplits__filters-make-active-btn"
-                  onClick={() => setMakeActiveDialog(true)}
+                  onClick={() => setConfirmDialog(true)}
                 >
                   Make active
                 </Button>
@@ -175,16 +175,16 @@ export default function TrainingSplit() {
       </Styles>
 
       {/* other condition */}
-      {/* <MakeActiveDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, schedule it',
           cancel: 'Cancel',
-          onYes: () => setMakeActiveDialog(false),
-          onCancel: () => setMakeActiveDialog(false),
+          onYes: () => setConfirmDialog(false),
+          onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
@@ -215,16 +215,16 @@ export default function TrainingSplit() {
       /> */}
 
       {/* not scheduled  */}
-      {/* <MakeActiveDialog
+      {/* <confirmDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
-          onYes: () => setMakeActiveDialog(false),
-          onCancel: () => setMakeActiveDialog(false),
+          onYes: () => setConfirmDialog(false),
+          onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={ConfirmDialog}
+        onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
@@ -255,16 +255,16 @@ export default function TrainingSplit() {
       /> */}
 
       {/* make it active */}
-      {/* <MakeActiveDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, schedule it',
           cancel: 'Cancel',
-          onYes: () => setMakeActiveDialog(false),
-          onCancel: () => setMakeActiveDialog(false),
+          onYes: () => setConfirmDialog(false),
+          onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to create a new training split"
         title="Training Split Created on Nov 01"
@@ -302,16 +302,16 @@ export default function TrainingSplit() {
       /> */}
 
       {/* other condition */}
-      <MakeActiveDialog
+      <ConfirmDialog
         actions={{
           yes: 'Looks good, schedule it',
           cancel: 'Cancel',
-          onYes: () => setMakeActiveDialog(false),
-          onCancel: () => setMakeActiveDialog(false),
+          onYes: () => setConfirmDialog(false),
+          onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={makeActiveDialog}
-        onClose={() => setMakeActiveDialog(false)}
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to making changes to the following training split:"
         title="Training Split Created on Nov 01"

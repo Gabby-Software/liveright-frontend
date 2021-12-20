@@ -4,6 +4,7 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 
 export const Styles = styled.div`
   display: flex;
+  flex-direction: column;
   background-color: rgba(228, 154, 10, 0.05);
   border: 1px solid #e49a0a;
   padding: 1.25rem 1.875rem;
@@ -12,13 +13,17 @@ export const Styles = styled.div`
   margin-bottom: 1.25rem;
 
   @media ${mediaQueries.TABLET} {
-    flex-direction: column;
+    padding: 1rem;
   }
 
   .Alert {
     &__body {
       font-size: 0.875rem;
       line-height: 1.25rem;
+      padding-left: 2rem;
+      @media ${mediaQueries.TABLET} {
+        padding: 0.25rem;
+      }
 
       & .title {
         font-size: 1rem;
@@ -29,6 +34,17 @@ export const Styles = styled.div`
       & ul {
         padding-inline-start: 16px;
       }
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    &__title {
+      font-size: 0.875rem;
+      font-weight: 700;
     }
 
     &__icon {
@@ -45,7 +61,7 @@ export const Styles = styled.div`
       margin-right: 1.25rem;
 
       @media ${mediaQueries.TABLET} {
-        margin-bottom: 0.75rem;
+        margin-right: 1rem;
       }
     }
 

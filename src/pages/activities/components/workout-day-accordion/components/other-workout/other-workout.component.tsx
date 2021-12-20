@@ -14,7 +14,7 @@ export default function OtherWorkout() {
 
       {[1, 2].map((row) =>
         isMobile ? (
-          <ExerciseAccordion name="" onRemove={() => {}} />
+          <ExerciseAccordion name="" onRemove={() => {}} key={row} />
         ) : (
           <Exercise
             name=""
