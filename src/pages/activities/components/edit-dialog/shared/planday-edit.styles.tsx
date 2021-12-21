@@ -1,23 +1,32 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   display: flex;
   flex-direction: column;
 
-  .EditDialog {
+  .TSPlanDayEdit {
     &__block {
       background-color: ${getColorCarry('white')};
       border-radius: 10px;
       padding: 24px;
+      margin-bottom: 1rem;
 
-      &:not(last-child) {
-        margin-bottom: 16px;
+      @media ${mediaQueries.MOBILE} {
+        margin: 0;
+        margin-top: 1rem;
       }
 
       & .subtitle {
         margin: 8px 0;
+      }
+
+      & button.action {
+        @media ${mediaQueries.MOBILE} {
+          width: 100%;
+        }
       }
     }
 
@@ -88,6 +97,11 @@ export const Styles = styled.div`
       padding: 24px;
       padding-bottom: 0;
       margin: 24px -24px;
+    }
+  }
+
+  .mobile-page__content {
+    & TSPlanDayEdit {
     }
   }
 `

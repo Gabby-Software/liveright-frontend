@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { AddIcon } from '../../../../../../assets/media/icons'
+import { AddIcon, LockIcon } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'
 import { WorkoutSubtitle } from '../workout/workout.styles'
@@ -8,6 +8,7 @@ import { Styles } from './superset-accordion.styles'
 
 interface SupersetAccordionProps {
   name: string
+  locked?: boolean
   onRemove: any
 }
 
@@ -26,6 +27,7 @@ function createExercise() {
 
 export default function SupersetAccordion({
   name,
+  locked,
   onRemove
 }: SupersetAccordionProps) {
   const methods = useFormContext()
@@ -50,7 +52,10 @@ export default function SupersetAccordion({
   return (
     <Styles>
       <div>
-        <WorkoutSubtitle>Superset</WorkoutSubtitle>
+        <div className="SupersetAccordion__bar">
+          <WorkoutSubtitle>Superset</WorkoutSubtitle>
+          {locked && <LockIcon />}
+        </div>
         <div>
           {exercisesArray.fields.map((r, index) => (
             <ExerciseAccordion
@@ -61,17 +66,19 @@ export default function SupersetAccordion({
           ))}
         </div>
 
-        <div className="SupersetAccordion__actions">
-          <Button
-            variant="text"
-            size="sm"
-            className="SupersetAccordion__action-btn"
-            onClick={handleAddExercise}
-          >
-            <AddIcon />
-            Add Exercise
-          </Button>
-        </div>
+        {locked || (
+          <div className="SupersetAccordion__actions">
+            <Button
+              variant="text"
+              size="sm"
+              className="SupersetAccordion__action-btn"
+              onClick={handleAddExercise}
+            >
+              <AddIcon />
+              Add Exercise
+            </Button>
+          </div>
+        )}
       </div>
     </Styles>
   )

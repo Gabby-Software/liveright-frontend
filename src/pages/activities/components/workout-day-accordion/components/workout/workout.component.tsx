@@ -66,7 +66,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     if (!result.destination) {
       return
     }
-    // console.log(result.source.index, (result.destination as any).index)
     exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
@@ -232,7 +231,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
                             name={`${name}.items.${exIndices[index]}`}
-                            onRemove={() => handleExerciseRemove(exIndices[index])}
+                            onRemove={() =>
+                              handleExerciseRemove(exIndices[index])
+                            }
                           />
                         )}
                       </Draggable>

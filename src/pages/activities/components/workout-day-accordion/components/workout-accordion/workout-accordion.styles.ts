@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
+
 export const Styles = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,6 +31,14 @@ export const Styles = styled.div`
         width: 16px;
         height: 16px;
         margin-right: 0.5rem;
+      }
+
+      &.open-superset {
+        color: ${getColorCarry('primary_v2')};
+      }
+
+      &.close-superset {
+        color: ${getColorCarry('red')};
       }
     }
   }

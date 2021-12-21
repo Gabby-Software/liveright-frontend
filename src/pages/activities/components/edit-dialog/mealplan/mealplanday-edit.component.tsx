@@ -8,7 +8,7 @@ import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-t
 import Macronutrient from '../../macronutrient/macronutrient.component'
 import Meal from '../../meal-day-accordion/components/meal/meal.component'
 import { DeletableDay } from '../shared/day-item.component'
-import { Styles } from '../shared/edit-dialog.styles'
+import { Styles } from '../shared/planday-edit.styles'
 
 const nutrients = [
   'Protein',
@@ -37,7 +37,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
   return (
     <Styles>
       <FormProvider {...methods}>
-        <section className="EditDialog__block">
+        <section className="TSPlanDayEdit__block">
           <Controller
             name="name"
             render={({ field: { value, name } }) => (
@@ -52,16 +52,16 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
             )}
           />
 
-          <div className="EditDialog__days">
+          <div className="TSPlanDayEdit__days">
             <p className="subtitle">Currently used on</p>
-            <div className="EditDialog__days-container">
+            <div className="TSPlanDayEdit__days-container">
               <DeletableDay name="Day 2" />
             </div>
           </div>
         </section>
 
-        <section className="EditDialog__block">
-          <section className="EditDialog__flex">
+        <section className="TSPlanDayEdit__block">
+          <section className="TSPlanDayEdit__flex">
             <FormToggleUI
               value={dayView}
               onUpdate={() => setDayView(!dayView)}
@@ -71,7 +71,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
           </section>
 
           {dayView ? (
-            <section className="EditDialog__flex">
+            <section className="TSPlanDayEdit__flex">
               {nutrients.map((row) => (
                 <Controller
                   key={row}
@@ -92,7 +92,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
             </section>
           ) : (
             <>
-              <section className="EditDialog__flex">
+              <section className="TSPlanDayEdit__flex">
                 {nutrients.map((row) => (
                   <Macronutrient key={row} title={row} />
                 ))}
@@ -100,21 +100,21 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
 
               <p className="subtitle">List meals of this diet plan</p>
 
-              <div className="EditDialog__meals">
+              <div className="TSPlanDayEdit__meals">
                 {meals &&
                   meals.map((meal: any, idx: number) => (
                     <Meal key={idx} data={meal} index={idx} />
                   ))}
               </div>
 
-              <div className="EditDialog__add" onClick={onNew}>
+              <div className="TSPlanDayEdit__add" onClick={onNew}>
                 <AddIcon />
                 Add Another Meal
               </div>
             </>
           )}
 
-          <div className="EditDialog__actions">
+          <div className="TSPlanDayEdit__actions">
             <Button onClick={onClose}>Save and apply to all days</Button>
           </div>
         </section>

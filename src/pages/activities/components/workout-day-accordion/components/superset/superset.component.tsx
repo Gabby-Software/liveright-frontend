@@ -20,9 +20,8 @@ interface SupersetProps {
 function createExercise() {
   return {
     name: '',
-    link: '',
     info: {
-      steps: '',
+      sets: '',
       reps: '',
       tempo: '',
       rest_interval: ''
@@ -45,9 +44,6 @@ export default function Superset({
     control: methods.control,
     name: `${name}.data`
   })
-
-  console.log(methods.getValues())
-  console.log(name, exercisesArray)
 
   const handleAddExercise = () => {
     exercisesArray.append(createExercise())

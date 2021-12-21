@@ -41,7 +41,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   const handleMealPlan = () => {
     if (isMobile) {
-      history.push(`${history.location.pathname}/training-plan`)
+      history.push(`${history.location.pathname}/meal-plan`)
     } else {
       setEditMealPlan(true)
     }
@@ -49,7 +49,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   const handleWorkout = () => {
     if (isMobile) {
-      history.push(`${history.location.pathname}/meal-plan`)
+      history.push(`${history.location.pathname}/training-plan`)
     } else {
       setEditWorkout(true)
     }

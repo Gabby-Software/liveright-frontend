@@ -5,6 +5,16 @@ export const Styles = styled.div`
   flex-direction: column;
 
   .SupersetAccordion {
+    &__bar {
+      display: flex;
+      align-items: center;
+
+      & > svg {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        color: red;
+      }
+    }
     &__actions {
       display: flex;
       align-items: center;
