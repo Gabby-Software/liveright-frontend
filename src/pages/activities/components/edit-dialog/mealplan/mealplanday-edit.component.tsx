@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 
-import { AddIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import Input from '../../../../../components/form/input/input.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import Macronutrient from '../../macronutrient/macronutrient.component'
-import Meal from '../../meal-day-accordion/components/meal/meal.component'
+import MealDayForm from '../../meal-day-form/meal-day-form.component'
 import { DeletableDay } from '../shared/day-item.component'
 import { Styles } from '../shared/planday-edit.styles'
 
@@ -23,6 +23,7 @@ interface MealPlanEditProps {
   data: any
 }
 const MealPlanEdit = ({ data }: MealPlanEditProps) => {
+  const isMobile = useIsMobile()
   const [dayView, setDayView] = useState(false)
   const methods = useForm({
     defaultValues: {
@@ -30,9 +31,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
     }
   })
 
-  const onNew = () => {}
   const onClose = () => {}
-  const meals = data?.meals
 
   return (
     <Styles>
@@ -71,7 +70,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
           </section>
 
           {dayView ? (
-            <section className="TSPlanDayEdit__flex">
+            <section className="TSPlanDayEdit__flex-wrap">
               {nutrients.map((row) => (
                 <Controller
                   key={row}
@@ -101,23 +100,25 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
               <p className="subtitle">List meals of this diet plan</p>
 
               <div className="TSPlanDayEdit__meals">
-                {meals &&
-                  meals.map((meal: any, idx: number) => (
-                    <Meal key={idx} data={meal} index={idx} />
-                  ))}
-              </div>
-
-              <div className="TSPlanDayEdit__add" onClick={onNew}>
-                <AddIcon />
-                Add Another Meal
+                <MealDayForm />
               </div>
             </>
           )}
 
-          <div className="TSPlanDayEdit__actions">
-            <Button onClick={onClose}>Save and apply to all days</Button>
-          </div>
+          {isMobile || (
+            <div className="TSPlanDayEdit__actions">
+              <Button onClick={onClose}>Save and apply to all days</Button>
+            </div>
+          )}
         </section>
+
+        {isMobile && (
+          <section className="TSPlanDayEdit__block">
+            <Button onClick={onClose} className="action">
+              Save and apply to all days
+            </Button>
+          </section>
+        )}
       </FormProvider>
     </Styles>
   )

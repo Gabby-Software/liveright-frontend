@@ -34,12 +34,24 @@ export const Styles = styled.div`
       display: flex;
       gap: 8px;
       margin: 16px 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
 
       & .toggle {
         margin: 0 16px 0 0;
 
         &__body {
           margin: 0;
+        }
+      }
+
+      &-wrap {
+        display: flex;
+        gap: 8px;
+        margin: 16px 0;
+
+        @media ${mediaQueries.MOBILE} {
+          flex-direction: column;
         }
       }
     }
