@@ -20,7 +20,7 @@ export default function DayTrainingPlanCard({
           <div className="day-tp-card__content">
             <div className="day-tp-card__workout">
               <div>
-                {day.activities?.map((row: any) => (
+                {day.activities?.filter((row: any) => !!row.data).map((row: any) => (
                   <DayCardAccordion
                     key={row._id}
                     title={row.name}

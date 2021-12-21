@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+// import { yupResolver } from '@hookform/resolvers/yup'
 import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
@@ -120,7 +120,7 @@ export default function AddTrainingPlan({
 
   const methods = useForm<any>({
     defaultValues,
-    resolver: yupResolver(validationSchema),
+    // resolver: yupResolver(validationSchema),
     reValidateMode: 'onChange'
   })
 
@@ -131,11 +131,13 @@ export default function AddTrainingPlan({
   })
 
   useEffect(() => {
-    methods.setValue('name', revision.name)
-    methods.setValue('account_id', revision.account_id)
-    methods.setValue('scheduled_start_on', revision.scheduled_start_on)
-    methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-    methods.setValue('days', revision.days)
+    if (revision._id) {
+      methods.setValue('name', revision.name)
+      methods.setValue('account_id', revision.account_id)
+      methods.setValue('scheduled_start_on', revision.scheduled_start_on)
+      methods.setValue('scheduled_end_on', revision.scheduled_end_on)
+      methods.setValue('days', revision.days)
+    }
   }, [revision._id])
 
   const handleSubmit = (values: any) => {
@@ -172,6 +174,7 @@ export default function AddTrainingPlan({
 
   const { errors } = methods.formState
   const values = methods.getValues()
+  console.log(values)
 
   const content = (
     <>

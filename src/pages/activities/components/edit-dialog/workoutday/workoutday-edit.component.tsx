@@ -31,7 +31,7 @@ const WorkoutDayEdit = ({ data }: WorkoutDayEditProps) => {
           resultItems.push({
             id: idx,
             is_superset: superset,
-            ...item[0]
+            data: item[0]
           })
         }
       })

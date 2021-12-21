@@ -39,7 +39,7 @@ function createExercise(isSuperset: boolean) {
     name: '',
     link: '',
     info: {
-      steps: '',
+      sets: '',
       reps: '',
       tempo: '',
       rest_interval: ''
@@ -230,7 +230,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             draggableProps={provided.draggableProps}
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
-                            name={`${name}.items.${exIndices[index]}`}
+                            name={`${name}.items.${exIndices[index]}.data`}
                             onRemove={() =>
                               handleExerciseRemove(exIndices[index])
                             }
