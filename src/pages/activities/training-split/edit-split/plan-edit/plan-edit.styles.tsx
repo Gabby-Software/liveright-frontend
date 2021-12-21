@@ -6,7 +6,7 @@ export const Styles = styled.div`
   display: flex;
   flex-direction: column;
 
-  .EditDialog {
+  .PlanEdit {
     &__block {
       background-color: ${getColorCarry('white')};
       border-radius: 10px;

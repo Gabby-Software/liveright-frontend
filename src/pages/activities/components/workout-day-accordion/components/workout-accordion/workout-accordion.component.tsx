@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import { useState } from 'react'
 import {
   Controller,
   useFieldArray,
@@ -6,15 +7,20 @@ import {
   useWatch
 } from 'react-hook-form'
 
-import { AddIcon, SearchIcon } from '../../../../../../assets/media/icons'
+import {
+  AddIcon,
+  LockIcon,
+  UnlockIcon
+} from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import Error from '../../../../../../components/form/error/error.component'
-import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+import { InputSearch } from '../../../input-search/input-search.component'
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'
 import SupersetAccordion from '../superset-accordion/superset-accordion.component'
+import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './workout-accordion.styles'
 
 interface WorkoutAccordionProps {
@@ -43,6 +49,7 @@ export default function WorkoutAccordion({
   name,
   onRemove
 }: WorkoutAccordionProps) {
+  const [ssLocked, setSsLocked] = useState(true)
   const methods = useFormContext()
   const exercisesArray = useFieldArray({
     control: methods.control,
@@ -81,6 +88,8 @@ export default function WorkoutAccordion({
     // methods.trigger(`${name}.items`)
   }
 
+  const onNew = () => {}
+
   return (
     <ItemAccordion
       title={workoutName}
@@ -92,16 +101,63 @@ export default function WorkoutAccordion({
               <div className="WorkoutAccordion__controls">
                 <Controller
                   name={`${name}.name`}
-                  render={({ field: { name, value } }) => (
-                    <Input
-                      id="WorkoutAccordion__name-workout"
+                  render={({ field: { value, name } }) => (
+                    <InputSearch
+                      id="Workout-title"
                       label="Title of workout"
                       placeholder="Workout one"
-                      suffix={<SearchIcon />}
-                      className="WorkoutAccordion__control"
                       value={value}
-                      onChange={(e) => onChange(name, e.target.value)}
-                      error={get(errors, name)}
+                      onChange={(value) => methods.setValue(name, value)}
+                      onSearch={() => {}}
+                      forceDesktop
+                      options={[
+                        { label: value, value: value },
+                        {
+                          value: 'existing',
+                          label: 'From this training plan',
+                          color: '#0052CC',
+                          isDisabled: true
+                        },
+                        {
+                          value: 'Full Body Workout',
+                          label: 'Full Body Workout',
+                          color: '#5243AA'
+                        },
+                        {
+                          value: 'template',
+                          label: 'From templates',
+                          color: '#0052CC',
+                          isDisabled: true
+                        },
+                        {
+                          value: 'Smooth Workout',
+                          label: 'Smooth Workout',
+                          color: '#FF8B00'
+                        },
+                        {
+                          value: 'Another Workout',
+                          label: 'Another Workout',
+                          color: '#36B37E'
+                        },
+                        {
+                          value: 'Another Workout',
+                          label: (
+                            <Button
+                              variant="text"
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: 0
+                              }}
+                              onClick={onNew}
+                            >
+                              <AddIcon />
+                              &nbsp; Create New
+                            </Button>
+                          ),
+                          color: '#36B37E'
+                        }
+                      ]}
                     />
                   )}
                 />
@@ -134,44 +190,54 @@ export default function WorkoutAccordion({
             </>
           )}
 
+          {exArray && !!exArray.length && (
+            <WorkoutSubtitle>Exercises</WorkoutSubtitle>
+          )}
           <div>
             {exArray.map((row: any, index: number) => (
               <ExerciseAccordion
                 key={row.id}
-                name={`${name}.items.${exIndices[index]}.data`}
+                name={`${name}.items.${exIndices[index]}`}
                 onRemove={() => handleExerciseRemove(exIndices[index])}
-                prefix={index === 0}
                 borderBottom={index === exArray.length - 1}
               />
             ))}
+
+            <div className="WorkoutAccordion__actions">
+              <Button
+                variant="text"
+                size="sm"
+                className="WorkoutAccordion__action-btn"
+                onClick={() => handleExerciseAdd(false)}
+              >
+                <AddIcon />
+                Add Exercise
+              </Button>
+            </div>
+
             {ssArray.map((row: any, index: number) => (
               <SupersetAccordion
                 key={row.id}
+                locked={ssLocked}
                 name={`${name}.items.${ssIndices[index]}`}
                 onRemove={() => handleExerciseRemove(ssIndices[index])}
               />
             ))}
-          </div>
-
-          <div className="WorkoutAccordion__actions">
-            <Button
-              variant="text"
-              size="sm"
-              className="WorkoutAccordion__action-btn"
-              onClick={() => handleExerciseAdd(false)}
-            >
-              <AddIcon />
-              Add Exercise
-            </Button>
-            <Button
-              variant="text"
-              size="sm"
-              className="WorkoutAccordion__action-btn"
-              onClick={() => handleExerciseAdd(true)}
-            >
-              <AddIcon />
-              Add Superset
-            </Button>
+            {ssArray.length > 0 && (
+              <div className="WorkoutAccordion__actions">
+                <Button
+                  variant="text"
+                  size="sm"
+                  className={`WorkoutAccordion__action-btn ${
+                    ssLocked ? 'open-superset' : 'close-superset'
+                  }`}
+                  onClick={() => setSsLocked((locked) => !locked)}
+                >
+                  {ssLocked ? <UnlockIcon /> : <LockIcon />}
+                  {ssLocked ? 'Open Superset' : 'Close Superset'}
+                </Button>
+              </div>
+            )}
           </div>
 
           {typeof get(errors, `${name}.items`) === 'object' &&

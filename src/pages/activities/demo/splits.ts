@@ -13,7 +13,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 4,
+                  sets: 4,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -23,7 +23,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 4,
+                  sets: 4,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -33,7 +33,7 @@ export const TS_DEMO = [
               {
                 name: '1A-Pushups',
                 info: {
-                  steps: 4,
+                  sets: 4,
                   reps: 7,
                   rest_interval: '2 min'
                 }
@@ -41,7 +41,7 @@ export const TS_DEMO = [
               {
                 name: '1B-Pushups',
                 info: {
-                  steps: 3,
+                  sets: 3,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -57,7 +57,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 4,
+                  sets: 4,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -67,7 +67,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 3,
+                  sets: 3,
                   reps: 4,
                   rest_interval: '2 min'
                 }
@@ -113,7 +113,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 3,
+                  sets: 3,
                   reps: 6,
                   rest_interval: '3 min'
                 }
@@ -123,7 +123,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 3,
+                  sets: 3,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -139,7 +139,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 4,
+                  sets: 4,
                   reps: 10,
                   rest_interval: '2 min'
                 }
@@ -149,7 +149,7 @@ export const TS_DEMO = [
               {
                 name: 'Pushups',
                 info: {
-                  steps: 3,
+                  sets: 3,
                   reps: 4,
                   rest_interval: '2 min'
                 }

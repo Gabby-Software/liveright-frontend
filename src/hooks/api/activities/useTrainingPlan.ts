@@ -58,7 +58,7 @@ export default function useTrainingPlan(
       revisionSwr.mutate()
       planSwr.mutate()
       onSuccess?.()
-    } catch (e) {
+    } catch (e: any) {
       toast.show({
         type: 'error',
         msg: e?.response?.data?.message || 'Oops error!'
@@ -89,7 +89,7 @@ export default function useTrainingPlan(
       revisionSwr.mutate()
       planSwr.mutate()
       onSuccess?.()
-    } catch (e) {
+    } catch (e: any) {
       toast.show({ type: 'error', msg: e?.response?.data?.message })
       console.error(e)
     }

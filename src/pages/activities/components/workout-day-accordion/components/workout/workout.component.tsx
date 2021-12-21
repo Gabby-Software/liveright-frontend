@@ -66,11 +66,22 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     if (!result.destination) {
       return
     }
-    // console.log(result.source.index, (result.destination as any).index)
     exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
   const { errors } = methods.formState
+
+  const exArray = exercisesArray.fields.filter((item: any) => !item.is_superset)
+  const ssArray = exercisesArray.fields.filter((item: any) => item.is_superset)
+  const exIndices: number[] = []
+  const ssIndices: number[] = []
+  exercisesArray.fields.forEach((item: any, idx: number) => {
+    if (item.is_superset) {
+      ssIndices.push(idx)
+    } else {
+      exIndices.push(idx)
+    }
+  })
 
   const handleExerciseAdd = (isSuperset: boolean) => {
     exercisesArray.append(createExercise(isSuperset))
@@ -80,13 +91,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
   }
-
-  const exArray = exercisesArray.fields.filter(
-    (item: any) => !Array.isArray(item.data)
-  )
-  const ssArray = exercisesArray.fields.filter((item: any) =>
-    Array.isArray(item.data)
-  )
 
   const onNew = () => {}
 
@@ -226,8 +230,10 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             draggableProps={provided.draggableProps}
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
-                            name={`${name}.items.${index}`}
-                            onRemove={() => handleExerciseRemove(index)}
+                            name={`${name}.items.${exIndices[index]}`}
+                            onRemove={() =>
+                              handleExerciseRemove(exIndices[index])
+                            }
                           />
                         )}
                       </Draggable>
@@ -255,9 +261,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                             innerRef={provided.innerRef}
                             isDragging={snapshot.isDragging}
                             onRemove={() =>
-                              handleExerciseRemove(index + exArray.length)
+                              handleExerciseRemove(ssIndices[index])
                             }
-                            name={`${name}.items.${index + exArray.length}`}
+                            name={`${name}.items.${ssIndices[index]}`}
                           />
                         )}
                       </Draggable>
@@ -283,7 +289,12 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
         </Button>
 
         {ssArray.length === 0 ? (
-          <Button variant="text" size="sm" className="Workout__action-btn">
+          <Button
+            variant="text"
+            size="sm"
+            className="Workout__action-btn"
+            onClick={() => handleExerciseAdd(true)}
+          >
             <AddIcon />
             Add Superset
           </Button>

@@ -20,9 +20,8 @@ interface SupersetProps {
 function createExercise() {
   return {
     name: '',
-    link: '',
     info: {
-      steps: '',
+      sets: '',
       reps: '',
       tempo: '',
       rest_interval: ''

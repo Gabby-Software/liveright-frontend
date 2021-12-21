@@ -41,6 +41,16 @@ export const Styles = styled.div`
       }
     }
 
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+    }
+
     &__actions {
       display: grid;
       grid-template-columns: 1fr 1fr;

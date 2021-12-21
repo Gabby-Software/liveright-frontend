@@ -178,6 +178,7 @@ export interface CustomSelectProps {
   menuOpen?: boolean
   loading?: boolean
   menuPosition?: MenuPosition
+  forceDesktop?: boolean
 }
 
 export function CustomSelect({
@@ -201,6 +202,7 @@ export function CustomSelect({
   Components,
   menuOpen,
   loading,
+  forceDesktop,
   menuPosition
 }: CustomSelectProps) {
   const isMobile = useIsMobile()
@@ -217,7 +219,7 @@ export function CustomSelect({
     onChange?.(e.value, e)
   }
 
-  if (isMobile) {
+  if (isMobile && !forceDesktop) {
     return (
       <>
         <Input

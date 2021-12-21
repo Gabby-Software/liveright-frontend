@@ -9,7 +9,8 @@ interface InputSearchProps {
   options: any[]
   value: string
   onSearch: any
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  forceDesktop?: boolean
+  onChange: (value: any, option: any) => void
 }
 export const InputSearch = (props: InputSearchProps) => {
   const { options, ...other } = props

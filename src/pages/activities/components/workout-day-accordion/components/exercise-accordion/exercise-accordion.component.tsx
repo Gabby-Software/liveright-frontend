@@ -3,7 +3,8 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import Input from '../../../../../../components/form/input/input.component'
 import SubItemAccordion from '../../../sub-item-accordion/sub-item-accordion.component'
-import { PrefixStyles, Styles } from './exercise-accrdion.styles'
+import { WorkoutSubtitle } from '../workout/workout.styles'
+import { Styles } from './exercise-accrdion.styles'
 
 interface ExerciseAccordionProps {
   name: string
@@ -32,7 +33,7 @@ export default function ExerciseAccordion({
 
   return (
     <SubItemAccordion
-      prefix={prefix ? <PrefixStyles>Exercises</PrefixStyles> : undefined}
+      prefix={prefix ? <WorkoutSubtitle>Exercises</WorkoutSubtitle> : undefined}
       borderBottom={borderBottom}
       title={exerciseName}
       onRemove={onRemove}

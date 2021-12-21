@@ -6,7 +6,7 @@ export const Styles = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2.5rem 0 1.875rem 0;
+  padding: 1.75rem 0 1rem 0;
 
   @media only print {
     display: none;

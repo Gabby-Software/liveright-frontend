@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -20,7 +21,7 @@ import DaySplitEditCard from '../../components/day-split-edit-card/day-split-edi
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
-import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplan-edit-dialog.component'
+import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import { Styles } from './edit-split.styles'
 
@@ -29,6 +30,7 @@ interface EditTrainingSplitProps {
 }
 export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const { data } = props
+  const history = useHistory()
   const isMobile = useIsMobile()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -38,11 +40,19 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const [editWorkout, setEditWorkout] = useState(false)
 
   const handleMealPlan = () => {
-    setEditMealPlan(true)
+    if (isMobile) {
+      history.push(`${history.location.pathname}/meal-plan`)
+    } else {
+      setEditMealPlan(true)
+    }
   }
 
   const handleWorkout = () => {
-    setEditWorkout(true)
+    if (isMobile) {
+      history.push(`${history.location.pathname}/training-plan`)
+    } else {
+      setEditWorkout(true)
+    }
   }
 
   const content = (
@@ -232,7 +242,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   return isMobile ? (
     <MobilePage
-      title="Create Training Split"
+      title={data ? 'Editing Training Split' : 'Creating Training Split'}
       headerTopComponent={
         <HeaderLink to={Routes.ACTIVITIES_TS}>
           Back to Split Overview
