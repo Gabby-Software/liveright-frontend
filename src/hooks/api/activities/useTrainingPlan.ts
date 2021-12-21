@@ -44,8 +44,11 @@ export default function useTrainingPlan(
   )
 
   const onAdd = async (data: any, onSuccess: any) => {
+    console.log(data)
     try {
       // return console.log(formatTrainingPlanData(data))
+      if (!data.scheduled_start_on) delete data.scheduled_start_on
+      if (!data.scheduled_end_on) delete data.scheduled_end_on
       const response = await addTrainingPlan(formatTrainingPlanData(data))
       toast.show({ type: 'success', msg: 'Training plan successfully created' })
       history.push(

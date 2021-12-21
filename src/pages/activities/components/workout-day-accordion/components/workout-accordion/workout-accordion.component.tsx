@@ -33,7 +33,7 @@ function createExercise(isSuperset: boolean) {
     name: 'Exercise',
     link: '',
     info: {
-      steps: '',
+      sets: '',
       reps: '',
       tempo: '',
       rest_interval: ''
@@ -197,7 +197,7 @@ export default function WorkoutAccordion({
             {exArray.map((row: any, index: number) => (
               <ExerciseAccordion
                 key={row.id}
-                name={`${name}.items.${exIndices[index]}`}
+                name={`${name}.items.${exIndices[index]}.data`}
                 onRemove={() => handleExerciseRemove(exIndices[index])}
                 borderBottom={index === exArray.length - 1}
               />
