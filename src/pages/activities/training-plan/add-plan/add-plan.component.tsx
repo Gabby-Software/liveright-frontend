@@ -174,8 +174,8 @@ export default function AddTrainingPlan({
 
   const { errors } = methods.formState
   const values = methods.getValues()
-  console.log(values)
 
+  console.log(editId)
   const content = (
     <>
       <FormProvider {...methods}>
@@ -280,7 +280,7 @@ export default function AddTrainingPlan({
 
   return isMobile ? (
     <MobilePage
-      title="Edit Training Plan"
+      title={editId ? 'Edit Training Plan' : 'Create Training Plan'}
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

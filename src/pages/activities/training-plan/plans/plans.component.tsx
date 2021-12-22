@@ -31,7 +31,6 @@ const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 export default function TrainingPlans() {
   const isMobile = useIsMobile()
   const [add, setAdd] = useState(false)
-
   const { isLoading, trainingPlans } = useTrainingPlans()
 
   if (add) {
@@ -59,99 +58,122 @@ export default function TrainingPlans() {
           </>
         )}
 
-        <div className="PlansTable__filters">
-          <ClientSelect
-            id="training-plans-client"
-            onChange={() => {}}
-            placeholder="All Client"
-            className="PlansTable__select"
-          />
+        {trainingPlans.length ? (
+          <>
+            <div className="PlansTable__filters">
+              <ClientSelect
+                id="training-plans-client"
+                onChange={() => {}}
+                placeholder="All Client"
+                className="PlansTable__select"
+              />
 
-          <Select
-            id="training-plans-statuses"
-            options={[]}
-            placeholder="All Status"
-            className="PlansTable__select"
-          />
-        </div>
+              <Select
+                id="training-plans-statuses"
+                options={[]}
+                placeholder="All Status"
+                className="PlansTable__select"
+              />
+            </div>
 
-        <div>
-          {isMobile ? (
-            <>
-              {trainingPlans.map((row, index) => (
-                <PlanCard
-                  key={index}
-                  plan={row}
-                  to={getRoute(Routes.ACTIVITIES_TP_ID, {
-                    id: row._id,
-                    revisionId: row.revisions?.[row.revisions?.length - 1]?._id
-                  })}
+            <div>
+              {isMobile ? (
+                <>
+                  {trainingPlans.map((row, index) => (
+                    <PlanCard
+                      key={index}
+                      plan={row}
+                      to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                        id: row._id,
+                        revisionId:
+                          row.revisions?.[row.revisions?.length - 1]?._id
+                      })}
+                    />
+                  ))}
+                </>
+              ) : (
+                <DataTable
+                  labels={LABELS}
+                  data={trainingPlans}
+                  keys={KEYS}
+                  round="10px"
+                  render={{
+                    name: (row) => (
+                      <Link
+                        to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                          id: row._id,
+                          revisionId:
+                            row.revisions?.[row.revisions?.length - 1]?._id
+                        })}
+                        className="PlansTable__table-link"
+                      >
+                        <span>{row.name}</span>
+                      </Link>
+                    ),
+                    client: () => <span>-</span>,
+                    days: () => <span>-</span>,
+                    start: (row) => (
+                      <span>
+                        {row.scheduled_start_on
+                          ? moment(new Date(row.scheduled_start_on)).format(
+                              DATE_RENDER_FORMAT
+                            )
+                          : '-'}
+                      </span>
+                    ),
+                    end: (row) => (
+                      <span>
+                        {row.scheduled_end_on
+                          ? moment(new Date(row.scheduled_end_on)).format(
+                              DATE_RENDER_FORMAT
+                            )
+                          : '-'}
+                      </span>
+                    ),
+                    status: (row) => (
+                      <StatusBadge
+                        status={row.status.toLowerCase()}
+                        className="PlansTable__table-status"
+                      >
+                        {capitalize(row.status)}
+                      </StatusBadge>
+                    )
+                  }}
                 />
-              ))}
-            </>
-          ) : (
-            <DataTable
-              labels={LABELS}
-              data={trainingPlans}
-              keys={KEYS}
-              round="10px"
-              render={{
-                name: (row) => (
-                  <Link
-                    to={getRoute(Routes.ACTIVITIES_TP_ID, {
-                      id: row._id,
-                      revisionId:
-                        row.revisions?.[row.revisions?.length - 1]?._id
-                    })}
-                    className="PlansTable__table-link"
-                  >
-                    <span>{row.name}</span>
-                  </Link>
-                ),
-                client: () => <span>-</span>,
-                days: () => <span>-</span>,
-                start: (row) => (
-                  <span>
-                    {row.scheduled_start_on
-                      ? moment(new Date(row.scheduled_start_on)).format(
-                          DATE_RENDER_FORMAT
-                        )
-                      : '-'}
-                  </span>
-                ),
-                end: (row) => (
-                  <span>
-                    {row.scheduled_end_on
-                      ? moment(new Date(row.scheduled_end_on)).format(
-                          DATE_RENDER_FORMAT
-                        )
-                      : '-'}
-                  </span>
-                ),
-                status: (row) => (
-                  <StatusBadge
-                    status={row.status.toLowerCase()}
-                    className="PlansTable__table-status"
-                  >
-                    {capitalize(row.status)}
-                  </StatusBadge>
-                )
-              }}
-            />
-          )}
+              )}
+            </div>
+          </>
+        ) : (
+          <div>
+            {isLoading ? (
+              <LoadingPlaceholder spacing />
+            ) : (
+              <EmptyPlaceholder
+                spacing
+                text="There is no training plan yet... "
+                action={
+                  <Button onClick={() => setAdd(true)}>
+                    Create Training Plan
+                  </Button>
+                }
+              />
+            )}
+          </div>
+        )}
 
-          {isLoading && <LoadingPlaceholder spacing />}
-          {!trainingPlans.length && !isLoading && <EmptyPlaceholder spacing />}
-        </div>
+        {/* {isLoading && <LoadingPlaceholder spacing />}
+        {!trainingPlans.length && !isLoading && <EmptyPlaceholder spacing />} */}
       </Card>
     </Styles>
   )
 
   return isMobile ? (
     <MobilePage
-      title="Training Plans"
+      title="Current Training Plans"
       actionComponent={
-        <Button onClick={() => setAdd(true)}>Create Plan</Button>
+        trainingPlans.length > 0 ? (
+          <Button onClick={() => setAdd(true)}>Create Plan</Button>
+        ) : null
       }
     >
       {content}

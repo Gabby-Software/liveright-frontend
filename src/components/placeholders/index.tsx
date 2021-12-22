@@ -1,8 +1,9 @@
+import { WorkoutIcon } from '../../assets/media/icons/activities'
 import { Styles, Text } from './styles'
-
 interface PlaceholderProps {
   spacing?: boolean
   text?: string
+  action?: JSX.Element
 }
 
 export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
@@ -13,10 +14,14 @@ export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
   )
 }
 
-export function EmptyPlaceholder({ spacing, text }: PlaceholderProps) {
+export function EmptyPlaceholder({ spacing, text, action }: PlaceholderProps) {
   return (
     <Styles $spacing={spacing}>
-      <Text>{text || 'No data'}</Text>
+      <div className="content">
+        <WorkoutIcon />
+        <Text>{text || 'No data'}</Text>
+        {action}
+      </div>
     </Styles>
   )
 }
