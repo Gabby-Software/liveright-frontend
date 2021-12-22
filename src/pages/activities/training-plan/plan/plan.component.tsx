@@ -89,7 +89,7 @@ export default function TrainingPlan() {
           <div className="PlanPage__filters">
             <div className="PlanPage__filters-title-container">
               <Subtitle className="PlanPage__filters-title">
-                {revision.name}
+                {revision.name ?? trainingPlan.name}
               </Subtitle>
 
               {isMobile && (

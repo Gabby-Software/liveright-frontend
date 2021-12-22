@@ -4,6 +4,7 @@ interface PlaceholderProps {
   spacing?: boolean
   text?: string
   action?: JSX.Element
+  icon?: boolean
 }
 
 export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
@@ -14,11 +15,16 @@ export function LoadingPlaceholder({ spacing }: PlaceholderProps) {
   )
 }
 
-export function EmptyPlaceholder({ spacing, text, action }: PlaceholderProps) {
+export function EmptyPlaceholder({
+  spacing,
+  text,
+  action,
+  icon
+}: PlaceholderProps) {
   return (
-    <Styles $spacing={spacing}>
+    <Styles $spacing={spacing} $icon={icon}>
       <div className="content">
-        <WorkoutIcon />
+        {icon && <WorkoutIcon />}
         <Text>{text || 'No data'}</Text>
         {action}
       </div>

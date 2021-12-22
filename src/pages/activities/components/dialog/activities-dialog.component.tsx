@@ -25,8 +25,9 @@ export interface ActivitiesDialogProps {
   open: boolean
   onClose: () => void
   name: string
-  description: string | JSX.Element
+  description?: string | JSX.Element
   title: string | JSX.Element
+  separator?: boolean
   body?: string | JSX.Element
   date?: DateProps
   alert?: string | JSX.Element
@@ -47,6 +48,7 @@ export default function ActivitiesDialog({
   name,
   description,
   title,
+  separator,
   body,
   date,
   alert,
@@ -72,9 +74,11 @@ export default function ActivitiesDialog({
       <Styles actionsLayout={actions.layout ?? 'left'}>
         <p className="ActivitiesDialog__name">{name}</p>
 
-        <p className="ActivitiesDialog__description">{description}</p>
+        {description && (
+          <p className="ActivitiesDialog__description">{description}</p>
+        )}
         <p className="ActivitiesDialog__title">{title}</p>
-        <div className="ActivitiesDialog__divider" />
+        {separator && <div className="ActivitiesDialog__divider" />}
 
         {body && <div className="ActivitiesDialog__body">{body}</div>}
         {date && (
@@ -139,6 +143,10 @@ export default function ActivitiesDialog({
       </Styles>
     </ActivitiesDialogStyles>
   )
+}
+
+ActivitiesDialog.defaultProps = {
+  separator: true
 }
 
 type PlanCardProps = {

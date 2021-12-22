@@ -97,6 +97,7 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
     }
 
     &__body {
+      margin-bottom: 2rem;
       & p {
         margin: 12px 0;
       }
@@ -232,6 +233,8 @@ export const Styles = styled.div<{ actionsLayout: ActionsLayout }>`
         @media ${mediaQueries.TABLET} {
           width: 100%;
           margin-bottom: 1rem;
+          margin-left: 0;
+          margin-right: 0;
 
           &:last-child {
             margin-bottom: 0;

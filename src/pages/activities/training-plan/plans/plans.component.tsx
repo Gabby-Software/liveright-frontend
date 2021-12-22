@@ -150,19 +150,19 @@ export default function TrainingPlans() {
             ) : (
               <EmptyPlaceholder
                 spacing
+                icon
                 text="There is no training plan yet... "
                 action={
-                  <Button onClick={() => setAdd(true)}>
-                    Create Training Plan
-                  </Button>
+                  isMobile ? (
+                    <Button onClick={() => setAdd(true)}>
+                      Create Training Plan
+                    </Button>
+                  ) : undefined
                 }
               />
             )}
           </div>
         )}
-
-        {/* {isLoading && <LoadingPlaceholder spacing />}
-        {!trainingPlans.length && !isLoading && <EmptyPlaceholder spacing />} */}
       </Card>
     </Styles>
   )

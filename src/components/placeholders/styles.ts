@@ -4,7 +4,7 @@ import { getColorCarry } from '../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
   width: 100%;
-  height: 480px;
+  height: ${(props) => (props.$icon ? '480px' : '100%')};
   display: flex;
   justify-content: center;
   border-radius: 10px;
@@ -18,11 +18,15 @@ export const Styles = styled.div<any>`
     align-items: center;
     justify-content: center;
     gap: 40px;
+
+    & svg {
+      color: ${getColorCarry('neutral_50')};
+    }
   }
 `
 
 export const Text = styled.p`
   font-size: 1rem;
   font-weight: 400;
-  color: ${getColorCarry('primaryDark_v2')};
+  color: ${getColorCarry('neutral_70')};
 `

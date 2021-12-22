@@ -1,5 +1,11 @@
 import { get } from 'lodash'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult
+} from 'react-beautiful-dnd'
 import {
   Controller,
   useFieldArray,
@@ -49,6 +55,7 @@ export default function WorkoutAccordion({
   name,
   onRemove
 }: WorkoutAccordionProps) {
+  const dropId = useRef(Date.now())
   const [ssLocked, setSsLocked] = useState(true)
   const methods = useFormContext()
   const exercisesArray = useFieldArray({
@@ -59,6 +66,13 @@ export default function WorkoutAccordion({
     name: `${name}.name`,
     control: methods.control
   })
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+    exercisesArray.move(result.source.index, (result.destination as any).index)
+  }
 
   const { errors } = methods.formState
 
@@ -194,14 +208,50 @@ export default function WorkoutAccordion({
             <WorkoutSubtitle>Exercises</WorkoutSubtitle>
           )}
           <div>
-            {exArray.map((row: any, index: number) => (
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId={`droppable-${dropId.current}`}>
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {exArray.map((row: any, index: number) => (
+                      <Draggable
+                        key={row.id}
+                        draggableId={`${row.id}`}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <ExerciseAccordion
+                            key={row.id}
+                            dragHandleProps={provided.dragHandleProps}
+                            draggableProps={provided.draggableProps}
+                            innerRef={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            name={`${name}.items.${exIndices[index]}.data`}
+                            onRemove={() =>
+                              handleExerciseRemove(exIndices[index])
+                            }
+                            borderBottom={index === exArray.length - 1}
+                          />
+                        )}
+                      </Draggable>
+                      // <ExerciseAccordion
+                      //   key={row.id}
+                      //   name={`${name}.items.${exIndices[index]}.data`}
+                      //   onRemove={() => handleExerciseRemove(exIndices[index])}
+                      //   borderBottom={index === exArray.length - 1}
+                      // />
+                    ))}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+            {/* {exArray.map((row: any, index: number) => (
               <ExerciseAccordion
                 key={row.id}
                 name={`${name}.items.${exIndices[index]}.data`}
                 onRemove={() => handleExerciseRemove(exIndices[index])}
                 borderBottom={index === exArray.length - 1}
               />
-            ))}
+            ))} */}
 
             <div className="WorkoutAccordion__actions">
               <Button
@@ -213,6 +263,17 @@ export default function WorkoutAccordion({
                 <AddIcon />
                 Add Exercise
               </Button>
+              {!ssArray.length && (
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="WorkoutAccordion__action-btn"
+                  onClick={() => handleExerciseAdd(true)}
+                >
+                  <AddIcon />
+                  Add Superset
+                </Button>
+              )}
             </div>
 
             {ssArray.map((row: any, index: number) => (
@@ -223,7 +284,7 @@ export default function WorkoutAccordion({
                 onRemove={() => handleExerciseRemove(ssIndices[index])}
               />
             ))}
-            {ssArray.length > 0 && (
+            {!!ssArray.length && (
               <div className="WorkoutAccordion__actions">
                 <Button
                   variant="text"
