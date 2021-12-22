@@ -4,7 +4,7 @@ import { getColor } from '../../pipes/theme-color.pipe'
 
 export default styled.div<any>`
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.25rem;
   padding: 0 1.875rem;
   height: 36px;
