@@ -3,14 +3,15 @@ import React, { useMemo, useState } from 'react'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateExercises from '../../../../hooks/api/templates/useTemplateExercises'
 import { useAuth } from '../../../../hooks/auth.hook'
+import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = [
   'ID',
-  'Created on',
   'Name',
   'Type',
-  'Crated from client',
+  'Created from client',
+  'Created on',
   'Options'
 ]
 const KEYS = ['id', 'created', 'name', 'type', 'client', 'options']
@@ -19,6 +20,11 @@ const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)
   return [p[2], p[1], p[0]].join('-')
 }
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function Excercies() {
   const { id } = useAuth()
@@ -57,6 +63,7 @@ export default function Excercies() {
       keys={KEYS}
       labels={LABELS}
       data={data}
+      mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_EX}
     />
   )

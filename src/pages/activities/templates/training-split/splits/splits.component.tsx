@@ -1,34 +1,40 @@
 import React from 'react'
 
 import { Routes } from '../../../../../enums/routes.enum'
+import { getObjectFromArrays } from '../../../../../utils/obj'
 import TemplatesTable from '../../components/template-table/template-table.component'
 
 const LABELS = [
   'ID',
-  'Created on',
   'Name',
   'Days',
-  'Crated from client',
+  'Created from client',
+  'Created on',
   'Options'
 ]
-const KEYS = ['id', 'name', 'created', 'days', 'client', 'options']
+const KEYS = ['id', 'name', 'days', 'client', 'created', 'options']
 
 const DATA = [
   {
     id: 1,
     name: '10 Days of Wonder',
-    created: '21-01-2021',
+    days: '5',
     client: 'John Travolta',
-    days: '5'
+    created: '21-01-2021'
   },
   {
     id: 2,
     name: 'Reduce Bodyweight',
-    created: '18-10-2021',
+    days: '7',
     client: 'Jackson',
-    days: '7'
+    created: '18-10-2021'
   }
 ]
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function TrainingSplits() {
   const onSearch = (value: string) => {
@@ -45,6 +51,7 @@ export default function TrainingSplits() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
+      mobileLabels={MOBILE_LABELS}
       data={DATA}
       baseLink={Routes.ACTIVITIES_TM_TS}
     />

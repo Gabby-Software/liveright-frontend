@@ -58,6 +58,7 @@ const vars = {
     neutral_50: '#C2C2C2',
     neutral_60: '#9E9E9E',
     neutral_70: '#757575',
+    neutral_80: '#10243D',
     neutral_100: '#2E2F31',
     red: '#EF1733',
     red_10: '#FFEBEB',

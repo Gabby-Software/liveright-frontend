@@ -6,7 +6,9 @@ import DataTable from '../../../../../components/data-table/data-table.component
 import ClientSelect from '../../../../../components/form/client-select/client-select.component'
 import Input from '../../../../../components/form/input/input.component'
 import { EmptyPlaceholder } from '../../../../../components/placeholders'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
+import TemplateCardList from '../template-card-list/template-card-list.component'
 import { Styles } from './template-table.style'
 
 interface TemplatesTableProps {
@@ -16,10 +18,13 @@ interface TemplatesTableProps {
   labels: string[]
   data: any[]
   baseLink: string
+  mobileLabels?: { [key: string]: string }
 }
 export default function TemplatesTable(props: TemplatesTableProps) {
+  const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const { onSearch, onClient, keys, labels, data, baseLink } = props
+  const { onSearch, onClient, keys, labels, data, baseLink, mobileLabels } =
+    props
 
   return (
     <Styles>
@@ -40,25 +45,33 @@ export default function TemplatesTable(props: TemplatesTableProps) {
       </div>
 
       <div className="TemplateTable__content">
-        <DataTable
-          labels={labels}
-          data={data}
-          keys={keys}
-          round="10px"
-          showSort={false}
-          render={{
-            options: (row) => (
-              <Link
-                to={`${baseLink}/${row.id}${
-                  row.revisionId ? `/revisions/${row.revisionId}` : ''
-                }`}
-                className="TemplateTable__link"
-              >
-                View
-              </Link>
-            )
-          }}
-        />
+        {isMobile ? (
+          <TemplateCardList
+            labels={mobileLabels || {}}
+            data={data}
+            baseLink={baseLink}
+          />
+        ) : (
+          <DataTable
+            labels={labels}
+            data={data}
+            keys={keys}
+            round="10px"
+            showSort={false}
+            render={{
+              options: (row) => (
+                <Link
+                  to={`${baseLink}/${row.id}${
+                    row.revisionId ? `/revisions/${row.revisionId}` : ''
+                  }`}
+                  className="TemplateTable__link"
+                >
+                  View
+                </Link>
+              )
+            }}
+          />
+        )}
         {!data.length && <EmptyPlaceholder spacing />}
       </div>
     </Styles>

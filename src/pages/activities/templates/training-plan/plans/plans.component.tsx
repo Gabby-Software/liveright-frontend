@@ -3,14 +3,15 @@ import React, { useMemo, useState } from 'react'
 import { Routes } from '../../../../../enums/routes.enum'
 import useTemplateTrainingPlans from '../../../../../hooks/api/templates/training-plans/useTemplateTrainingPlans'
 import { useAuth } from '../../../../../hooks/auth.hook'
+import { getObjectFromArrays } from '../../../../../utils/obj'
 import TemplatesTable from '../../components/template-table/template-table.component'
 
 const LABELS = [
   'ID',
-  'Created on',
   'Name',
   'Days',
-  'Crated from client',
+  'Created from client',
+  'Created on',
   'Options'
 ]
 const KEYS = ['id', 'created', 'name', 'days', 'client', 'options']
@@ -19,6 +20,11 @@ const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)
   return [p[2], p[1], p[0]].join('-')
 }
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function TrainingPlans() {
   const { id } = useAuth()
@@ -59,6 +65,7 @@ export default function TrainingPlans() {
       keys={KEYS}
       labels={LABELS}
       data={data}
+      mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_TP}
     />
   )

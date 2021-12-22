@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useAuth } from '../../../../hooks/auth.hook'
+import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
@@ -12,6 +13,11 @@ const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)
   return [p[2], p[1], p[0]].join('-')
 }
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function Workouts() {
   const [search, setSearch] = useState('')
@@ -46,6 +52,7 @@ export default function Workouts() {
       keys={KEYS}
       labels={LABELS}
       data={data}
+      mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_WO}
     />
   )

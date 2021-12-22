@@ -6,6 +6,8 @@ import ActivityLayout from '../components/layout/layout.component'
 import DietPlans from './diet-plan/plans/plans.component'
 import Exercies from './exercise/exercises.component'
 import Foods from './food/foods.component'
+import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import Meals from './meal/meals.component'
 import MealPlans from './meal-plan/meal-plans.component'
 import { Styles } from './templates.styles'
@@ -63,8 +65,23 @@ const tabs = [
 ]
 export default function Templates() {
   const [activeTab, setActiveTab] = useState('split')
+  const isMobile = useIsMobile()
 
-  return (
+  return isMobile ? (
+    <MobilePage title="Templates">
+      <ActivityLayout>
+        <Styles>
+          <Tabs
+            activeKey={activeTab}
+            onChange={setActiveTab}
+            tabs={tabs}
+            className={'Templates__tabs'}
+            // justify={isMobile ? 'between' : undefined}
+          />
+        </Styles>
+      </ActivityLayout>
+    </MobilePage>
+  ) : (
     <ActivityLayout>
       <Styles>
         <div className="Templates__title-container">

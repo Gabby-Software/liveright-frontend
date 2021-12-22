@@ -1,9 +1,15 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 30px;
+
+  @media ${mediaQueries.MOBILE} {
+    padding: 20px 0px;
+  }
+
   .Templates {
     &__title {
       &-container {
@@ -26,6 +32,10 @@ export const Styles = styled.div`
     &__tabs {
       & .ant-tabs-nav {
         background-color: #f5f5f5;
+
+        @media ${mediaQueries.MOBILE} {
+          background-color: #ffffff;
+        }
       }
     }
   }

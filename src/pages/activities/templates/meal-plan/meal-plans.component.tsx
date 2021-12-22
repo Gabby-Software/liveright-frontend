@@ -4,17 +4,23 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useDataMealPlansConvert } from '../../../../hooks/template.hook'
+import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = [
   'ID',
-  'Created on',
   'Name',
   'Meals',
-  'Crated from client',
+  'Created from client',
+  'Created on',
   'Options'
 ]
-const KEYS = ['id', 'name', 'created', 'meals', 'client', 'options']
+const KEYS = ['id', 'name', 'meals', 'client', 'created', 'options']
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function MealPlans() {
   const [clientId, setClientId] = useState('all')
@@ -41,6 +47,7 @@ export default function MealPlans() {
       keys={KEYS}
       labels={LABELS}
       data={data}
+      mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_MP}
     />
   )
