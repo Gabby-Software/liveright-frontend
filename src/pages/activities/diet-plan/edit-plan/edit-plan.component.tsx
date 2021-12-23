@@ -9,7 +9,7 @@ import { Title } from '../../../../components/typography'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import Counter from '../../components/counter/counter.component'
-import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
+import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
 
@@ -18,7 +18,7 @@ interface EditDietPlanProps {
 }
 
 export default function EditDietPlan({ onClose }: EditDietPlanProps) {
-  const [makeChangesDialog, setMakeChangesDialog] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const isMobile = useIsMobile()
   const [count, setCount] = useState(2)
 
@@ -36,9 +36,7 @@ export default function EditDietPlan({ onClose }: EditDietPlanProps) {
                 <Title>Edit Training Plan</Title>
 
                 <div>
-                  <Button onClick={() => setMakeChangesDialog(true)}>
-                    Save
-                  </Button>
+                  <Button onClick={() => setShowConfirm(true)}>Save</Button>
                 </div>
               </div>
             </>
@@ -65,9 +63,33 @@ export default function EditDietPlan({ onClose }: EditDietPlanProps) {
         </div>
       </Styles>
 
-      <MakeChangesDialog
-        open={makeChangesDialog}
-        onClose={() => setMakeChangesDialog(false)}
+      <ActivitiesDialog
+        name="Make Change Plan"
+        description="You’re about to making changes to the following training plan:"
+        title="High Intensity Plan"
+        alertTitle="Read this before activating plan!"
+        alert={
+          <ul>
+            <li>
+              A new revision of your training plan will be created and it will
+              become active. All your workout entires on your calender from this
+              day will be updated.
+            </li>
+            <li>
+              This will also make changes to your current training split to use
+              the changes you just made.
+            </li>
+          </ul>
+        }
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        actions={{
+          yes: 'Looks Good, Save Changes',
+          cancel: 'Cancel',
+          layout: 'between',
+          onYes: () => {},
+          onCancel: () => setShowConfirm(false)
+        }}
       />
     </>
   )
@@ -76,7 +98,7 @@ export default function EditDietPlan({ onClose }: EditDietPlanProps) {
     <MobilePage
       title="Edit Training Plan"
       actionComponent={
-        <Button onClick={() => setMakeChangesDialog(true)}>Save</Button>
+        <Button onClick={() => setShowConfirm(true)}>Save</Button>
       }
     >
       {content}
