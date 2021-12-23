@@ -3,11 +3,14 @@ import styled from 'styled-components'
 export default styled.div`
   display: flex;
   width: 100%;
+  background-color: ${(p) => p.theme.vars.colors.background_v2};
 
   .layout {
     &__wrapper {
       width: calc(100% - 220px);
       max-width: calc(100% - 220px);
+      height: 100%;
+      min-height: 100%;
 
       //overflow: auto;
       padding: 0 128px 0 56px;
@@ -18,9 +21,7 @@ export default styled.div`
 
       &.design-v {
         &__2 {
-          background-color: ${(p) => p.theme.vars.colors.background_v2};
           padding: 0 35px;
-
           &.sessions__layout {
             padding: 0;
           }

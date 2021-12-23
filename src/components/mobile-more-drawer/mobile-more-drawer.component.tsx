@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
+  BookmarkTrainerIcon,
   ClientSolidIcon,
+  DocumentTrainerIcon,
   Invoice3Icon,
   LogoutIcon,
   OptionsIcon as SettingsIcon,
@@ -20,6 +22,7 @@ import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { identity } from '../../pipes/identity.pipe'
 import { ACTION_LOGOUT_REQUEST } from '../../store/action-types'
 import BottomDrawer from '../bottom-drawer/bottom-drawer.component'
+import NavSubMenu from '../nav-submenus/nav-submenus.components'
 import SwitchAccountModal from '../switch-account-modal/switch-account-modal.component'
 import Styles from './mobile-more-drawer.styles'
 
@@ -33,6 +36,10 @@ type LinkType = {
   url?: string
   name: string
   permission?: string
+  submenu?: {
+    name: string
+    url: string
+  }[]
 }
 
 const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
@@ -42,6 +49,29 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
   const dispatch = useDispatch()
 
   const menuItems: LinkType[] = [
+    {
+      name: 'activities',
+      url: Routes.ACTIVITIES,
+      Icon: DocumentTrainerIcon,
+      submenu: [
+        {
+          name: 'Your Plan',
+          url: Routes.ACTIVITIES_CURR_PLAN
+        },
+        {
+          name: 'Training Plans',
+          url: Routes.ACTIVITIES_TP
+        },
+        {
+          name: 'Diet Plans',
+          url: Routes.ACTIVITIES_DP
+        },
+        {
+          name: 'Training Slipts',
+          url: Routes.ACTIVITIES_TS
+        }
+      ]
+    },
     { Icon: ProfileIcon, url: identity('/profile'), name: 'menu.profile' },
     {
       Icon: ClientSolidIcon,
@@ -69,6 +99,12 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
     },
     { Icon: UsersIcon, url: Routes.SESSIONS, name: 'menu.sessions' },
     {
+      Icon: () => <BookmarkTrainerIcon fill="black" />,
+      url: Routes.ACTIVITIES_TM,
+      name: 'menu.library',
+      permission: userTypes.TRAINER
+    },
+    {
       Icon: RoundedArrowIcon,
       onClick: () => {
         setSwitchAccountOpen(true)
@@ -93,27 +129,40 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
       <BottomDrawer isOpen={isOpen} onClose={onClose} title={t('menu.more')}>
         <Styles>
           <ul className={'more__menu'}>
-            {menuItems.map(({ onClick, Icon, url, name, permission }, index) =>
-              permission && permission !== type ? null : (
-                <li className={'more__item'} key={index}>
-                  {url?.startsWith('http') ? (
-                    <a href={url} onClick={onClose}>
-                      <Icon />
-                      <span className={'more__label'}>{t(name)}</span>
-                    </a>
-                  ) : url ? (
-                    <Link to={url} onClick={onClose}>
-                      <Icon />
-                      <span className={'more__label'}>{t(name)}</span>
-                    </Link>
-                  ) : (
-                    <a onClick={onClick}>
-                      <Icon />
-                      <span className={'more__label'}>{t(name)}</span>
-                    </a>
-                  )}
-                </li>
-              )
+            {menuItems.map(
+              ({ onClick, Icon, url, name, permission, submenu }, index) =>
+                !submenu ? (
+                  permission && permission !== type ? null : (
+                    <li className={'more__item'} key={index}>
+                      {url?.startsWith('http') ? (
+                        <a href={url} onClick={onClose}>
+                          <Icon />
+                          <span className={'more__label'}>{t(name)}</span>
+                        </a>
+                      ) : url ? (
+                        <Link to={url} onClick={onClose}>
+                          <Icon />
+                          <span className={'more__label'}>{t(name)}</span>
+                        </Link>
+                      ) : (
+                        <a onClick={onClick}>
+                          <Icon />
+                          <span className={'more__label'}>{t(name)}</span>
+                        </a>
+                      )}
+                    </li>
+                  )
+                ) : (
+                  <NavSubMenu
+                    name={name}
+                    Icon={Icon}
+                    url={url || ''}
+                    submenu={submenu}
+                    pathname={''}
+                    styleType="Trainer"
+                    onClick={onClose}
+                  />
+                )
             )}
           </ul>
         </Styles>

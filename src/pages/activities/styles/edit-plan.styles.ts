@@ -49,10 +49,11 @@ export const Styles = styled.div`
       font-weight: 500;
       font-size: 0.875rem;
       color: ${getColorCarry('neutral_70')};
-      border: 1px dashed ${getColorCarry('neutral_70')};
+      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23757575' stroke-width='1' stroke-dasharray='6%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
       border-radius: 10px;
       display: flex;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
 
       & svg {

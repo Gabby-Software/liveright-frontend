@@ -14,6 +14,7 @@ interface SubItemAccordionProps {
   onRemove?: any
   borderBottom?: boolean
   prefix?: ReactNode
+  dragHandleProps?: any
 }
 
 export default function SubItemAccordion({
@@ -21,7 +22,8 @@ export default function SubItemAccordion({
   title,
   onRemove,
   borderBottom = true,
-  prefix
+  prefix,
+  dragHandleProps
 }: SubItemAccordionProps) {
   const [open, setOpen] = useState(false)
   return (
@@ -29,7 +31,7 @@ export default function SubItemAccordion({
       {prefix}
       <div className="SubItemAccordion__summary">
         <div className="SubItemAccordion__title-container">
-          <button className="SubItemAccordion__drag">
+          <button className="SubItemAccordion__drag" {...dragHandleProps}>
             <DragIcon />
           </button>
 
@@ -57,4 +59,8 @@ export default function SubItemAccordion({
       {open && <div className="SubItemAccordion__content">{content}</div>}
     </Styles>
   )
+}
+
+SubItemAccordion.defaultProps = {
+  dragHandleProps: {}
 }

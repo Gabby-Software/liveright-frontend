@@ -48,6 +48,10 @@ export const Styles = styled(Link)`
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 16px;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     &__row {

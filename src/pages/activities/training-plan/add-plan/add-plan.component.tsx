@@ -20,7 +20,7 @@ import { Title } from '../../../../components/typography'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
+import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
 
@@ -111,9 +111,10 @@ export default function AddTrainingPlan({
 }: AddTrainingPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
   const isMobile = useIsMobile()
-  const [makeChangesDialog, setMakeChangesDialog] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [delIdx, setDelIdx] = useState(-1)
 
-  const { onAdd, onEdit, revision } = useTrainingPlan({
+  const { onAdd, onEdit, revision, trainingPlan } = useTrainingPlan({
     id: editId,
     revisionId
   })
@@ -132,7 +133,7 @@ export default function AddTrainingPlan({
 
   useEffect(() => {
     if (revision._id) {
-      methods.setValue('name', revision.name)
+      methods.setValue('name', trainingPlan.name)
       methods.setValue('account_id', revision.account_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
@@ -149,12 +150,11 @@ export default function AddTrainingPlan({
   }
 
   const handleSave = () => {
-    // if (editId) {
-    //   setMakeChangesDialog(true)
-    // } else {
-    //   methods.handleSubmit(handleSubmit)()
-    // }
-    methods.handleSubmit(handleSubmit)()
+    if (editId) {
+      setShowConfirm(true)
+    } else {
+      methods.handleSubmit(handleSubmit)()
+    }
   }
 
   const handleDayAdd = () => {
@@ -165,7 +165,12 @@ export default function AddTrainingPlan({
   }
 
   const handleDayRemove = (index: number) => {
-    daysArray.remove(index)
+    setDelIdx(index)
+  }
+
+  const removeWorkout = () => {
+    daysArray.remove(delIdx)
+    setDelIdx(-1)
   }
 
   const onChange = (name: string, value: any) => {
@@ -270,16 +275,64 @@ export default function AddTrainingPlan({
         </Styles>
       </FormProvider>
 
-      <MakeChangesDialog
-        open={makeChangesDialog}
-        onClose={() => setMakeChangesDialog(false)}
+      <ActivitiesDialog
+        name="Make Change Plan"
+        description="You’re about to making changes to the following training plan:"
+        title={values.name}
+        date={{
+          label:
+            'Please select the date from when you want these changes to be applied:',
+          value: values.scheduled_start_on ?? '',
+          disabledDate: (date: Moment) => date.isBefore()
+        }}
+        alert={
+          <>
+            <div style={{ fontWeight: 600, margin: '0.75rem 0' }}>
+              Read this before activating plan!
+            </div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created and it will
+                become active. All your workout entires on your calender from
+                this day will be updated.
+              </li>
+              <li>
+                This will also make changes to your current training split to
+                use the changes you just made.
+              </li>
+            </ul>
+          </>
+        }
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        actions={{
+          yes: 'Looks Good, Save Changes',
+          cancel: 'Cancel',
+          layout: 'between',
+          onYes: () => methods.handleSubmit(handleSubmit)(),
+          onCancel: () => setShowConfirm(false)
+        }}
+      />
+      <ActivitiesDialog
+        open={delIdx >= 0}
+        onClose={() => setDelIdx(-1)}
+        name="Delete Confirmation"
+        title="Are you sure you want to delete the workout day?"
+        separator={false}
+        body="This will delete the workout day which potentially has workouts"
+        actions={{
+          yes: 'Cancel',
+          cancel: 'Delete',
+          onYes: () => setDelIdx(-1),
+          onCancel: () => removeWorkout()
+        }}
       />
     </>
   )
 
   return isMobile ? (
     <MobilePage
-      title="Edit Training Plan"
+      title={editId ? 'Edit Training Plan' : 'Create Training Plan'}
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

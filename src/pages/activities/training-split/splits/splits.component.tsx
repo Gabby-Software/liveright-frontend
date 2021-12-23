@@ -34,7 +34,9 @@ const DATA = [
     days: '5',
     diet_plan: 'Lose Weight Now',
     training_plan: 'Train Had Intensity',
-    status: 'Inactive'
+    scheduled_start_on: '',
+    scheduled_end_on: '',
+    status: 'draft'
   },
   {
     id: 2,
@@ -43,7 +45,31 @@ const DATA = [
     days: '5',
     diet_plan: 'Lose Weight Now',
     training_plan: 'Train Had Intensity',
-    status: 'Active'
+    scheduled_start_on: '2022-01-07',
+    scheduled_end_on: '',
+    status: 'inactive'
+  },
+  {
+    id: 3,
+    name: '7 Days of Wonder',
+    client: 'John Travolta',
+    days: '5',
+    diet_plan: 'Lose Weight Now',
+    training_plan: 'Train Had Intensity',
+    scheduled_start_on: '2022-01-15',
+    scheduled_end_on: '2022-01-20',
+    status: 'scheduled'
+  },
+  {
+    id: 4,
+    name: '7 Days of Wonder',
+    client: 'John Travolta',
+    days: '5',
+    diet_plan: 'Lose Weight',
+    training_plan: 'Train Had Intensity',
+    scheduled_start_on: '2021-12-21',
+    scheduled_end_on: '',
+    status: 'active'
   }
 ]
 

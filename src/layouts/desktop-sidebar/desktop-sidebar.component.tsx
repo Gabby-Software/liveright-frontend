@@ -26,6 +26,7 @@ import {
 } from '../../assets/media/icons'
 import UserBadgeCard from '../../components/cards/user-bardge-card/user-badge-card.component'
 import ChatIcon from '../../components/chat-icon/chat-icon.component'
+import NavSubMenu from '../../components/nav-submenus/nav-submenus.components'
 import NotificationIcon from '../../components/notification-icon/notification-icon.component'
 import { Routes } from '../../enums/routes.enum'
 import userTypes from '../../enums/user-types.enum'
@@ -47,6 +48,10 @@ type MenuItemType = {
   type?: string
   requireTrainer?: boolean
   occur?: string[]
+  submenu?: {
+    name: string
+    url: string
+  }[]
 }
 
 const clientMenuItems: MenuItemType[] = [
@@ -93,7 +98,30 @@ const clientMenuItems: MenuItemType[] = [
 
 const trainerMenuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeTrainerIcon },
-  { name: 'plans', url: Routes.ACTIVITIES, Icon: DocumentTrainerIcon },
+  {
+    name: 'activities',
+    url: Routes.ACTIVITIES,
+    Icon: DocumentTrainerIcon,
+    submenu: [
+      {
+        name: 'Your Plan',
+        url: Routes.ACTIVITIES_CURR_PLAN
+      },
+      {
+        name: 'Training Plans',
+        url: Routes.ACTIVITIES_TP
+      },
+      {
+        name: 'Diet Plans',
+        url: Routes.ACTIVITIES_DP
+      },
+      {
+        name: 'Training Slipts',
+        url: Routes.ACTIVITIES_TS
+      }
+    ],
+    occur: [Routes.ACTIVITIES]
+  },
   {
     name: 'progress',
     url: Routes.PROGRESS_CLIENTS,
@@ -116,7 +144,7 @@ const trainerMenuItems: MenuItemType[] = [
     type: userTypes.TRAINER
   },
   { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarTrainerIcon },
-  { name: 'library', url: Routes.HUB, Icon: BookmarkTrainerIcon },
+  { name: 'library', url: Routes.ACTIVITIES_TM, Icon: BookmarkTrainerIcon },
   {
     name: 'financials',
     url: Routes.FINANCIALS_OVERVIEW,
@@ -238,26 +266,39 @@ function TrainerDesktopSidebar({ isOpen }: { isOpen: boolean }) {
                   Icon,
                   type: permission,
                   requireTrainer,
-                  occur
+                  occur,
+                  submenu
                 }) =>
-                  (!permission || type === permission) &&
-                  !requireTrainer && (
-                    <Link
-                      to={url}
-                      key={url}
-                      className={classes(
-                        'sidebar__item',
-                        (pathname === url ||
-                          occur?.some((o) => pathname.includes(o))) &&
-                          'sidebar__item_active'
-                      )}
-                    >
-                      <div className="sidebar__item-icon__wrapper">
-                        <Icon />
-                      </div>
+                  !submenu ? (
+                    (!permission || type === permission) &&
+                    !requireTrainer && (
+                      <Link
+                        to={url}
+                        key={url}
+                        className={classes(
+                          'sidebar__item',
+                          (pathname === url ||
+                            occur?.some((o) => pathname.includes(o))) &&
+                            'sidebar__item_active'
+                        )}
+                      >
+                        <div className="sidebar__item-icon__wrapper">
+                          <Icon />
+                        </div>
 
-                      <span>{capitalize(name)}</span>
-                    </Link>
+                        <span>{capitalize(name)}</span>
+                      </Link>
+                    )
+                  ) : (
+                    <NavSubMenu
+                      name={name}
+                      url={url}
+                      submenu={submenu}
+                      Icon={Icon}
+                      pathname={pathname}
+                      occur={occur}
+                      styleType="Trainer"
+                    />
                   )
               )}
             </ul>

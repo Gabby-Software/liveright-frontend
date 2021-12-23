@@ -11,6 +11,27 @@ interface PlanCardProps {
 }
 
 export default function PlanCard({ plan, to }: PlanCardProps) {
+  const status = plan.status
+  const scheduled =
+    plan.status === 'scheduled' ||
+    plan.status === 'active' ||
+    plan.status === 'inactive'
+  const planInfo = (
+    <>
+      {plan.training_plan && (
+        <div>
+          <p className="PlanCard__row-title">Training plan</p>
+          <p className="PlanCard__row-value">{plan.training_plan}</p>
+        </div>
+      )}
+      {plan.diet_plan && (
+        <div>
+          <p className="PlanCard__row-title">Diet plan</p>
+          <p className="PlanCard__row-value">{plan.diet_plan}</p>
+        </div>
+      )}
+    </>
+  )
   return (
     <Styles to={to}>
       <div className="PlanCard__header">
@@ -21,8 +42,8 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
           </p>
         </div>
 
-        <StatusBadge status={plan.status.toLowerCase()}>
-          {capitalize(plan.status)}
+        <StatusBadge status={status.toLowerCase()}>
+          {capitalize(status)}
         </StatusBadge>
       </div>
 
@@ -31,39 +52,35 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
           <p className="PlanCard__row-title">Days</p>
           <p className="PlanCard__row-value">{plan.days || '-'}</p>
         </div>
-        {plan.scheduled_start_on && (
-          <div>
-            <p className="PlanCard__row-title">Start</p>
-            <p className="PlanCard__row-value">
-              {moment(new Date(plan.scheduled_start_on)).format(
-                DATE_RENDER_FORMAT
-              )}
-            </p>
-          </div>
-        )}
-        {plan.scheduled_end_on && (
-          <div>
-            <p className="PlanCard__row-title">Start</p>
-            <p className="PlanCard__row-value">
-              {moment(new Date(plan.scheduled_end_on)).format(
-                DATE_RENDER_FORMAT
-              )}
-            </p>
-          </div>
-        )}
-        {plan.training_plan && (
-          <div>
-            <p className="PlanCard__row-title">Training plan</p>
-            <p className="PlanCard__row-value">{plan.training_plan}</p>
-          </div>
-        )}
-        {plan.diet_plan && (
-          <div>
-            <p className="PlanCard__row-title">Diet plan</p>
-            <p className="PlanCard__row-value">{plan.diet_plan}</p>
-          </div>
+        {scheduled ? (
+          <>
+            {plan.scheduled_start_on && (
+              <div>
+                <p className="PlanCard__row-title">Start</p>
+                <p className="PlanCard__row-value">
+                  {moment(new Date(plan.scheduled_start_on)).format(
+                    DATE_RENDER_FORMAT
+                  )}
+                </p>
+              </div>
+            )}
+            {plan.scheduled_end_on && (
+              <div>
+                <p className="PlanCard__row-title">End</p>
+                <p className="PlanCard__row-value">
+                  {moment(new Date(plan.scheduled_end_on)).format(
+                    DATE_RENDER_FORMAT
+                  )}
+                </p>
+              </div>
+            )}
+          </>
+        ) : (
+          planInfo
         )}
       </div>
+
+      {scheduled && <div className="PlanCard__info">{planInfo}</div>}
     </Styles>
   )
 }

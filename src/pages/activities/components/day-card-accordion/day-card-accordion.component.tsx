@@ -29,7 +29,7 @@ export default function DayCardAccordion({
       <div className="DayCardAccordion__summary" onClick={() => setOpen(!open)}>
         <div>
           <p>
-            {title} &bull; {count}
+            {title}&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;{count}
           </p>
         </div>
 
