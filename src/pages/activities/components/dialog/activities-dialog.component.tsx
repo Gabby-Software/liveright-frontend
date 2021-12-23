@@ -14,6 +14,7 @@ import { ActivitiesDialogStyles, Styles } from './activities-dialog.styles'
 export type DateProps = {
   label: string | JSX.Element
   value: string
+  disabledDate?: any
 }
 
 export type PlanProps = {
@@ -88,6 +89,7 @@ export default function ActivitiesDialog({
             value={date.value}
             placeholder="Start date"
             className="ActivitiesDialog__control"
+            disabledDate={date.disabledDate}
           />
         )}
 
