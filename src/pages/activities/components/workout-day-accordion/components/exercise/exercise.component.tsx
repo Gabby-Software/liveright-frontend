@@ -18,6 +18,7 @@ interface ExerciseProps {
   name: string
   onRemove: any
   prefix?: boolean
+  fromSuperset?: boolean
 }
 
 export default function Exercise({
@@ -26,7 +27,8 @@ export default function Exercise({
   innerRef,
   draggableProps,
   name,
-  onRemove
+  onRemove,
+  fromSuperset
 }: ExerciseProps) {
   const methods = useFormContext()
 
@@ -52,17 +54,37 @@ export default function Exercise({
 
       <Controller
         name={`${name}.name`}
-        render={({ field: { name, value } }) => (
-          <Input
-            id="Exercise-name"
-            label={isCardio ? 'Cardio name' : 'Exercise name'}
-            placeholder="1A--"
-            value={value}
-            onChange={(e) => onChange(name, e.target.value)}
-            error={get(errors, name)}
-            ErrorProps={{ size: 'sm' }}
-          />
-        )}
+        render={({ field: { name, value } }) => {
+          const [prefix, val] = String(value).split('--')
+          return (
+            <div className="exercise-input">
+              {fromSuperset && (
+                <p className="exercise-input__prefix">{prefix}--</p>
+              )}
+              <Input
+                id="Exercise-name"
+                label="Exercise name"
+                placeholder="Exersice"
+                value={fromSuperset ? val : value}
+                onChange={(e) => {
+                  console.log(
+                    fromSuperset
+                      ? `${prefix}--${e.target.value}`
+                      : e.target.value
+                  )
+                  onChange(
+                    name,
+                    fromSuperset
+                      ? `${prefix}--${e.target.value}`
+                      : e.target.value
+                  )
+                }}
+                error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
+              />
+            </div>
+          )
+        }}
       />
 
       {isCardio ? (
