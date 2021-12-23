@@ -87,9 +87,6 @@ export const Styles = styled.div`
         &:nth-child(1) {
           margin-left: 0;
         }
-        &:nth-child(2) {
-          margin-right: 0;
-        }
       }
     }
 
