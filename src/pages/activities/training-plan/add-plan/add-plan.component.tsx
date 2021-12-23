@@ -174,7 +174,6 @@ export default function AddTrainingPlan({
 
   const { errors } = methods.formState
   const values = methods.getValues()
-  console.log(values)
 
   const content = (
     <>

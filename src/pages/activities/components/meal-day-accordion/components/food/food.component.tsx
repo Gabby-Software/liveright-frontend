@@ -1,3 +1,6 @@
+import { get } from 'lodash'
+import { Controller, useFormContext } from 'react-hook-form'
+
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
@@ -10,7 +13,8 @@ interface FoodProps {
   isDragging: boolean
   innerRef?: any
   draggableProps: any
-  data: any
+  name: string
+  onRemove: any
 }
 
 const options = [
@@ -22,13 +26,23 @@ const options = [
   { value: 'food_7', label: 'Food 4' },
   { value: 'food_6', label: 'Food 3' }
 ]
+
 export default function Food({
   dragHandleProps,
   isDragging,
   innerRef,
   draggableProps,
-  data
+  name,
+  onRemove
 }: FoodProps) {
+  const methods = useFormContext()
+
+  const onChange = (name: string, value: string) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
+  const { errors } = methods.formState
+
   return (
     <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
       <div className="Food__drag">
@@ -37,29 +51,134 @@ export default function Food({
         </button>
       </div>
 
-      <Select
-        id="Food-name"
-        label="Food name"
-        placeholder="Food one"
-        options={options}
-        value={data?.id}
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Select
+            id="Food-name"
+            label="Food name"
+            placeholder="Food one"
+            options={options}
+            value={value}
+            onChange={(e) => onChange(name, e)}
+          />
+        )}
+        name={`${name}.name`}
       />
-      <Input
-        id="Food-Qty(gr)"
-        label="Qty(gr)"
-        placeholder="-"
-        defaultValue={data?.amount}
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Qty(gr)"
+            label="Qty(gr)"
+            placeholder="-"
+            defaultValue={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.grams`}
       />
-      <Input id="Food-Proteins" label="Proteins" placeholder="-" />
-      <Input id="Food-Fat" label="Fat" placeholder="-" />
-      <Input id="Food-Net Carbs" label="Net Carbs" placeholder="-" />
-      <Input id="Food-Sugar" label="Sugar" placeholder="-" />
-      <Input id="Food-Fiber" label="Fiber" placeholder="-" />
-      <Input id="Food-Carbs" label="Carbs" placeholder="-" />
-      <Input id="Food-Calories" label="Calories" placeholder="-" />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Proteins"
+            label="Proteins"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.protein`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Fat"
+            label="Fat"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.fat`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Net Carbs"
+            label="Net Carbs"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.carbs`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Sugar"
+            label="Sugar"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.sugar`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Fiber"
+            label="Fiber"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.fiber`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Total-Carbs"
+            label="Total Carbs"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.total_carbs`}
+      />
+      <Controller
+        render={({ field: { value, name } }) => (
+          <Input
+            id="Food-Calories"
+            label="Calories"
+            placeholder="-"
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        )}
+        name={`${name}.info.calories`}
+      />
 
       <div className="Food__delete">
-        <IconButton className="Food__delete-btn">
+        <IconButton className="Food__delete-btn" onClick={onRemove}>
           <DeleteOutlinedIcon />
         </IconButton>
       </div>

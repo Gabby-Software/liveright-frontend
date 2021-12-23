@@ -57,7 +57,7 @@ export default function DaySplitEditFocusView() {
           title="Meal plan"
           color={getColorCarry('primary_v2')}
           icon={<FoodIcon />}
-          content={<MealDayForm />}
+          content={<MealDayForm name="" />}
           control={
             <Select
               id="SplitDayItemCard-diet-plan"

@@ -13,7 +13,7 @@ import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-c
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import { Styles } from '../../styles/plan.styles'
-import EditDietPlan from '../edit-plan/edit-plan.component'
+import AddDietPlan from '../add-plan/add-plan.component'
 
 const IS_EMPTY = false
 
@@ -23,7 +23,7 @@ export default function DietPlan() {
   const isMobile = useIsMobile()
 
   if (edit) {
-    return <EditDietPlan onClose={() => setEdit(false)} />
+    return <AddDietPlan onClose={() => setEdit(false)} />
   }
 
   const content = IS_EMPTY ? (
