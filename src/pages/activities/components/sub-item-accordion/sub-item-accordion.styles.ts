@@ -11,7 +11,6 @@ export const Styles = styled.div<any>`
       ? `1px solid ${getColor(props, 'inputBorder_v2')}`
       : ''};
   margin-top: ${(props: any) => (props.$prefix ? '1.25rem' : 0)};
-  margin-bottom: ${(props: any) => (props.$borderBottom ? '16px' : 0)};
 
   &:last-child {
     border-bottom: 0;

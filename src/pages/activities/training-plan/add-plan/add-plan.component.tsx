@@ -20,6 +20,7 @@ import { Title } from '../../../../components/typography'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
 import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
@@ -112,6 +113,7 @@ export default function AddTrainingPlan({
   const [dayIndex, setDayIndex] = useState(0)
   const isMobile = useIsMobile()
   const [makeChangesDialog, setMakeChangesDialog] = useState(false)
+  const [delIdx, setDelIdx] = useState(-1)
 
   const { onAdd, onEdit, revision } = useTrainingPlan({
     id: editId,
@@ -165,7 +167,12 @@ export default function AddTrainingPlan({
   }
 
   const handleDayRemove = (index: number) => {
-    daysArray.remove(index)
+    setDelIdx(index)
+  }
+
+  const removeWorkout = () => {
+    daysArray.remove(delIdx)
+    setDelIdx(-1)
   }
 
   const onChange = (name: string, value: any) => {
@@ -174,7 +181,6 @@ export default function AddTrainingPlan({
 
   const { errors } = methods.formState
   const values = methods.getValues()
-  console.log(values)
 
   const content = (
     <>
@@ -275,12 +281,26 @@ export default function AddTrainingPlan({
         open={makeChangesDialog}
         onClose={() => setMakeChangesDialog(false)}
       />
+      <ActivitiesDialog
+        open={delIdx >= 0}
+        onClose={() => setDelIdx(-1)}
+        name="Delete Confirmation"
+        title="Are you sure you want to delete the workout day?"
+        separator={false}
+        body="This will delete the workout day which potentially has workouts"
+        actions={{
+          yes: 'Cancel',
+          cancel: 'Delete',
+          onYes: () => setDelIdx(-1),
+          onCancel: () => removeWorkout()
+        }}
+      />
     </>
   )
 
   return isMobile ? (
     <MobilePage
-      title="Edit Training Plan"
+      title={editId ? 'Edit Training Plan' : 'Create Training Plan'}
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}
