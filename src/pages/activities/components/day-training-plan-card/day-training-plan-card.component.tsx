@@ -24,7 +24,7 @@ export default function DayTrainingPlanCard({
                   <DayCardAccordion
                     key={row._id}
                     title={row.name}
-                    count={row.items?.length}
+                    count={countExercise(row.items ?? [])}
                     content={row.items?.map((row: any) => ({
                       content: !row.is_superset
                         ? [
@@ -49,12 +49,24 @@ export default function DayTrainingPlanCard({
   )
 }
 
+function countExercise(items: any[]): string {
+  const count = items.reduce(
+    (prev: number, item: any) =>
+      prev + (item.is_superset ? item.data.length : 1),
+    0
+  )
+  return `${count}`
+}
+
 function formatExercise(data: any): string {
   const ex = data.data ?? data
   let result = ''
   if (ex.info?.cardio) {
     if (ex.info?.duration) {
-      result += `Duration: ${ex.info.duration};`
+      const times = ex.info.duration.split(':')
+      if (times.length === 2) {
+        result += `Duration: ${times[0] * 60 + +times[1]};`
+      }
     }
     if (ex.info?.intensity) {
       result += `Intensity: ${ex.info.intensity};`
