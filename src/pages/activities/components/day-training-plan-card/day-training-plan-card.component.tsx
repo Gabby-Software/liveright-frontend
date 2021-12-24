@@ -28,15 +28,15 @@ export default function DayTrainingPlanCard({
                     content={row.items?.map((row: any) => ({
                       content: !row.is_superset
                         ? [
-                          {
-                            title: row.data?.name ?? row.name,
-                            subtitle: formatExercise(row)
-                          }
-                        ]
+                            {
+                              title: row.data?.name ?? row.name,
+                              subtitle: formatExercise(row)
+                            }
+                          ]
                         : row.data.map((d: any) => ({
-                          title: d.name,
-                          subtitle: formatExercise(d)
-                        }))
+                            title: d.name,
+                            subtitle: formatExercise(d)
+                          }))
                     }))}
                   />
                 ))}
@@ -50,7 +50,6 @@ export default function DayTrainingPlanCard({
 }
 
 function formatExercise(data: any): string {
-
   const ex = data.data ?? data
   let result = ''
   if (ex.info?.cardio) {
