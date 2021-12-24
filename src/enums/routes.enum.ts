@@ -22,7 +22,7 @@ export const Routes = {
   SESSIONS: '/sessions',
   ACTIVITIES: '/activities',
   ACTIVITIES_DP: '/activities/diet-plans',
-  ACTIVITIES_DP_ID: '/activities/diet-plans/:id',
+  ACTIVITIES_DP_ID: '/activities/diet-plans/:id/revisions/:revisionId',
   ACTIVITIES_TP: '/activities/training-plans',
   ACTIVITIES_TP_NEW: '/activities/training-plans/create',
   ACTIVITIES_TP_ID: '/activities/training-plans/:id/revisions/:revisionId',

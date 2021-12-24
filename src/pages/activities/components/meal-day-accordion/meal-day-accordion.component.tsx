@@ -1,3 +1,6 @@
+import { get } from 'lodash'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
+
 import { FoodIcon } from '../../../../assets/media/icons'
 import Input from '../../../../components/form/input/input.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
@@ -6,20 +9,56 @@ import Macronutrient from '../macronutrient/macronutrient.component'
 import MealDayForm from '../meal-day-form/meal-day-form.component'
 import { Styles } from './meal-day-accordion.styles'
 
-export default function MealDayAccordion() {
+interface MealDayAccordionProps {
+  index: number
+  onRemove: any
+  editDay?: number
+  defaultOpened?: boolean
+}
+
+export default function MealDayAccordion({
+  index,
+  onRemove,
+  defaultOpened
+}: MealDayAccordionProps) {
+  const methods = useFormContext()
+
+  const { errors } = methods.formState
+
+  const dayName = useWatch({
+    name: `days.${index}.name`,
+    control: methods.control
+  })
+
+  const name = `days.${index}.activities`
+
+  const onChange = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
   return (
     <DayAccordion
-      title="Day 1 - Low Carbs Day"
+      title={dayName}
       icon={<FoodIcon />}
       iconColor={getColorCarry('primary_v2')}
-      onRemove={() => {}}
+      onRemove={onRemove}
+      error={get(errors, `days.${index}`) ? 'Enter all fields' : ''}
+      defaultOpen={defaultOpened}
     >
       <Styles>
         <div className="MealDayAccordion__name-container">
-          <Input
-            id="MealDayAccordion-name"
-            label="Diet plan day name"
-            placeholder="Meal plan"
+          <Controller
+            name={`days.${index}.name`}
+            render={({ field: { name, value } }) => (
+              <Input
+                id="MealDayAccordion-name"
+                label="Meal plan day name"
+                placeholder="Name"
+                value={value}
+                onChange={(e) => onChange(name, e.target.value)}
+                error={get(errors, name)}
+              />
+            )}
           />
         </div>
 
@@ -41,7 +80,7 @@ export default function MealDayAccordion() {
           List meals of this diet plan
         </p>
 
-        <MealDayForm />
+        <MealDayForm name={name} />
       </Styles>
     </DayAccordion>
   )

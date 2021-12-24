@@ -9,9 +9,9 @@ Available notification types updated as we go and can be checked in the [BE Docu
 
 ### Live events
 
-Apart from the notifications, there can be other cases to use live events (like already used for get notice when invoice PDF is ready)  
+Apart from the notifications, there can be other cases to use live events (like already used for get notice when invoice PDF is ready)
 
 Given channel-name and event-name BE used to push the event, you can subscribe to this event using `usePusher` hook, which can be found at `modules/notifications/hooks/pusher.hook.ts`
 
-Ex. usage:  `usePusher(channelName, eventName, callback)`
+Ex. usage: `usePusher(channelName, eventName, callback)`
 The hook is generic. The generic type is the type you expect to receive in event payload, which is also the type you handle in the callback.

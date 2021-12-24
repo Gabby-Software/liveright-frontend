@@ -62,7 +62,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     name: `${name}.items`
   })
 
-  console.log(exercisesArray)
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return

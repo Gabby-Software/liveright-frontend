@@ -100,7 +100,7 @@ const MealPlanEdit = ({ data }: MealPlanEditProps) => {
               <p className="subtitle">List meals of this diet plan</p>
 
               <div className="TSPlanDayEdit__meals">
-                <MealDayForm />
+                <MealDayForm name="" />
               </div>
             </>
           )}
