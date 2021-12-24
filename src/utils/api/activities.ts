@@ -16,7 +16,6 @@ export function formatPlanData(data: any) {
     delete dataClone.account_id
   }
 
-  console.log(dataClone.days)
   dataClone.days = dataClone.days.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
@@ -40,7 +39,7 @@ export function formatPlanData(data: any) {
                     info: Object.keys(item.data.info).reduce((acc, cur) => {
                       return {
                         ...acc,
-                        [cur]: Number(item.data.info[cur])
+                        [cur]: isNaN(Number(item.data.info[cur])) ? item.data.info[cur] : Number(item.data.info[cur])
                       }
                     }, {})
                   }
