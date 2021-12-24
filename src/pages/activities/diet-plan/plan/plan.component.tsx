@@ -110,19 +110,13 @@ export default function DietPlan() {
                 id="DietPlan-version"
                 options={
                   dietPlan.revisions?.map((r: any) => ({
-                    label: formatRevisionLabel(
-                      r.scheduled_start_on,
-                      r.scheduled_end_on
-                    ),
+                    label: formatRevisionLabel(r),
                     value: r._id
                   })) || []
                 }
                 value={{
                   value: revision._id,
-                  label: formatRevisionLabel(
-                    revision.scheduled_start_on,
-                    revision.scheduled_end_on
-                  )
+                  label: formatRevisionLabel(revision)
                 }}
                 onChange={(e, o) => {
                   history.push(
