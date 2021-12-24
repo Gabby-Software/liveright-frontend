@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult
+} from 'react-beautiful-dnd'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { AddIcon } from '../../../../../../assets/media/icons'
@@ -10,10 +15,6 @@ import { Styles } from './superset.styles'
 
 interface SupersetProps {
   name: string
-  dragHandleProps: any
-  isDragging: boolean
-  innerRef: any
-  draggableProps: any
   onRemove: any
 }
 
@@ -29,14 +30,7 @@ function createExercise() {
   }
 }
 
-export default function Superset({
-  dragHandleProps,
-  name,
-  isDragging,
-  innerRef,
-  draggableProps,
-  onRemove
-}: SupersetProps) {
+export default function Superset({ name, onRemove }: SupersetProps) {
   const [dropId] = useState(`superset-drop-${Date.now()}`)
   const methods = useFormContext()
 
@@ -57,16 +51,19 @@ export default function Superset({
     }
   }
 
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    exercisesArray.move(result.source.index, (result.destination as any).index)
+  }
+
   return (
-    <Styles
-      $isDragging={isDragging}
-      ref={innerRef}
-      {...draggableProps}
-      {...dragHandleProps}
-    >
+    <Styles>
       <WorkoutSubtitle>Superset</WorkoutSubtitle>
 
-      <DragDropContext onDragEnd={() => {}}>
+      <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={dropId}>
           {(provided) => (
             <div

@@ -30,14 +30,12 @@ export default function DayTrainingPlanCard({
                         ? [
                             {
                               title: row.data?.name ?? row.name,
-                              subtitle: row.data
-                                ? `Sets: ${row.data.info?.sets}; Reps: ${row.data.info?.reps}; Rest: ${row.data.info?.rest_interval};`
-                                : `Sets: ${row.info?.sets}; Reps: ${row.info?.reps}; Rest: ${row.info?.rest_interval};`
+                              subtitle: formatExercise(row)
                             }
                           ]
                         : row.data.map((d: any) => ({
                             title: d.name,
-                            subtitle: `Sets: ${d.info?.sets}; Reps: ${d?.info?.reps}; Rest: ${d?.info?.rest_interval};`
+                            subtitle: formatExercise(d)
                           }))
                     }))}
                   />
@@ -49,4 +47,29 @@ export default function DayTrainingPlanCard({
       }
     />
   )
+}
+
+function formatExercise(data: any): string {
+  const ex = data.data ?? data
+  let result = ''
+  if (ex.info?.cardio) {
+    if (ex.info?.duration) {
+      result += `Duration: ${ex.info.duration};`
+    }
+    if (ex.info?.intensity) {
+      result += `Intensity: ${ex.info.intensity};`
+    }
+  } else {
+    if (ex.info?.sets) {
+      result += `Sets: ${ex.info.sets};`
+    }
+    if (ex.info?.reps) {
+      result += ` Reps: ${ex.info.reps};`
+    }
+    if (ex.info?.rest_interval) {
+      result += ` Rest: ${ex?.info.rest_interval};`
+    }
+  }
+
+  return result
 }
