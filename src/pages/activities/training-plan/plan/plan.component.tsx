@@ -112,7 +112,8 @@ export default function TrainingPlan() {
                   trainingPlan.revisions?.map((r: any) => ({
                     label: formatRevisionLabel(
                       r.scheduled_start_on,
-                      r.scheduled_end_on
+                      r.scheduled_end_on,
+                      r.status
                     ),
                     value: r._id
                   })) || []
@@ -121,7 +122,8 @@ export default function TrainingPlan() {
                   value: revision._id,
                   label: formatRevisionLabel(
                     revision.scheduled_start_on,
-                    revision.scheduled_end_on
+                    revision.scheduled_end_on,
+                    revision.status
                   )
                 }}
                 onChange={(e, o) => {

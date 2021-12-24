@@ -3,10 +3,13 @@ import moment from 'moment'
 
 import { DATE_RENDER_FORMAT } from '../date'
 
-export function formatRevisionLabel(from: string, to: string) {
-  return `from ${moment(new Date(from)).format(DATE_RENDER_FORMAT)} to ${moment(
-    new Date(to)
-  ).format(DATE_RENDER_FORMAT)}`
+export function formatRevisionLabel(from: string, to: string, status: string) {
+  if (status === 'active') return 'Active version'
+  else if (status === 'scheduled' && moment(new Date(from)).isAfter()) {
+    return `Scheduled ${moment(new Date(from)).format(DATE_RENDER_FORMAT)}`
+  } else {
+    return `Version ${moment(new Date(from)).format(DATE_RENDER_FORMAT)}`
+  }
 }
 
 export function formatTrainingPlanData(data: any) {
