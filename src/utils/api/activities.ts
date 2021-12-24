@@ -39,7 +39,9 @@ export function formatPlanData(data: any) {
                     info: Object.keys(item.data.info).reduce((acc, cur) => {
                       return {
                         ...acc,
-                        [cur]: isNaN(Number(item.data.info[cur])) ? item.data.info[cur] : Number(item.data.info[cur])
+                        [cur]: isNaN(Number(item.data.info[cur]))
+                          ? item.data.info[cur]
+                          : Number(item.data.info[cur])
                       }
                     }, {})
                   }

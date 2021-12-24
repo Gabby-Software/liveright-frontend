@@ -76,13 +76,6 @@ export default function WorkoutAccordion({
     control: methods.control
   })
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-    exercisesArray.move(result.source.index, (result.destination as any).index)
-  }
-
   const { errors } = methods.formState
 
   const onChange = (name: string, value: any) => {
@@ -100,6 +93,17 @@ export default function WorkoutAccordion({
       exIndices.push(idx)
     }
   })
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    exercisesArray.move(
+      exIndices[result.source.index],
+      exIndices[(result.destination as any).index]
+    )
+  }
 
   const handleExerciseAdd = (isSuperset: boolean, cardio = false) => {
     exercisesArray.append(createExercise(isSuperset, cardio))
@@ -272,7 +276,7 @@ export default function WorkoutAccordion({
               <Button
                 variant="text"
                 size="sm"
-                className="Workout__action-btn"
+                className="WorkoutAccordion__action-btn"
                 onClick={() => handleExerciseAdd(false, true)}
               >
                 <AddIcon />
