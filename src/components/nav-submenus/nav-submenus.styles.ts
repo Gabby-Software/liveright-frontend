@@ -63,6 +63,7 @@ export const TrainerStyles = styled.div`
       padding: 0 0.75rem;
       transition: ${(p) => p.theme.vars.defaults.transition};
       position: relative;
+      cursor: pointer;
 
       &__uparrow {
         transform: rotate(180deg);
@@ -143,7 +144,7 @@ export const TrainerStyles = styled.div`
     align-items: flex-start;
     background-color: transparent;
     width: 70%;
-    margin-left: auto;
+    margin-left: 62px;
 
     @media ${mediaQueries.MOBILE} {
       width: 90%;
@@ -226,7 +227,7 @@ export const MobileStyles = styled.div`
     align-items: flex-start;
     background-color: transparent;
     width: 90%;
-    margin-left: auto;
+    margin-left: 54px;
     margin-top: 1rem;
 
     &__item {

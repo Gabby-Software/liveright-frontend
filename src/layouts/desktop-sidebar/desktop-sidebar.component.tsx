@@ -116,7 +116,7 @@ const trainerMenuItems: MenuItemType[] = [
         url: Routes.ACTIVITIES_DP
       },
       {
-        name: 'Training Slipts',
+        name: 'Training Splits',
         url: Routes.ACTIVITIES_TS
       }
     ],

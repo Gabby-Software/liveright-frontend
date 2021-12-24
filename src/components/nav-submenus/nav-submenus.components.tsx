@@ -44,7 +44,6 @@ const NavSubMenu = ({
     : ClientsStyles
 
   const onNavClicked = () => {
-    setOpen(false)
     onClick && onClick()
   }
 
