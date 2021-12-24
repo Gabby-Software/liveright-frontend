@@ -47,7 +47,11 @@ export default function MealDayForm({ name }: MealDayFormProps) {
     <Styles>
       {mealArray.fields.map((row, index) =>
         isMobile ? (
-          <MealAccordion key={row.id} />
+          <MealAccordion
+            key={row.id}
+            name={`${name}.${index}`}
+            onRemove={() => handleDayRemove(index)}
+          />
         ) : (
           <Meal
             key={row.id}

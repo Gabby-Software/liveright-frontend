@@ -51,9 +51,9 @@ export default function DietPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayDietPlanCard />
-            <DayDietPlanCard />
-            <DayDietPlanCard />
+            <DayDietPlanCard day={{}} onExpand={() => {}} />
+            {/*<DayDietPlanCard />*/}
+            {/*<DayDietPlanCard />*/}
           </div>
         </Card>
       </Styles>

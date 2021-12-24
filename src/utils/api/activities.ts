@@ -9,7 +9,7 @@ export function formatRevisionLabel(from: string, to: string) {
   ).format(DATE_RENDER_FORMAT)}`
 }
 
-export function formatTrainingPlanData(data: any) {
+export function formatPlanData(data: any) {
   const dataClone = cloneDeep(data)
 
   if (!dataClone.account_id) {
@@ -18,7 +18,7 @@ export function formatTrainingPlanData(data: any) {
 
   dataClone.days = dataClone.days.map((day: any) => {
     return {
-      name: day.name,
+      ...(typeof day.name === 'string' && { name: day.name }),
       activities: day.activities.map((activity: any, index: number) => {
         return {
           name: activity.name,
@@ -27,11 +27,15 @@ export function formatTrainingPlanData(data: any) {
           items: activity.items.map((item: any, index: number) => {
             return {
               sort_order: index,
-              is_superset: item.is_superset,
+              ...(typeof item.is_superset === 'boolean' && {
+                is_superset: item.is_superset
+              }),
               data: !item.is_superset
                 ? {
                     name: item.data.name,
-                    link: item.data.link,
+                    ...(typeof item.data.link === 'string' && {
+                      link: item.data.link
+                    }),
                     info: Object.keys(item.data.info).reduce((acc, cur) => {
                       return {
                         ...acc,

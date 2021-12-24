@@ -62,6 +62,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     if (!result.destination) {
       return
     }
+    foodsArray.move(result.source.index, (result.destination as any).index)
   }
 
   const mealOptions = [

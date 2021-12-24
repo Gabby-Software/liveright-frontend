@@ -9,7 +9,7 @@ import {
   getTrainingPlan,
   getTrainingPlanRevision
 } from '../../../services/api/activities'
-import { formatTrainingPlanData } from '../../../utils/api/activities'
+import { formatPlanData } from '../../../utils/api/activities'
 import { getRoute } from '../../../utils/routes'
 
 interface UseTrainingPlan {
@@ -49,7 +49,7 @@ export default function useTrainingPlan(
       // return console.log(formatTrainingPlanData(data))
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
-      const response = await addTrainingPlan(formatTrainingPlanData(data))
+      const response = await addTrainingPlan(formatPlanData(data))
       toast.show({ type: 'success', msg: 'Training plan successfully created' })
       history.push(
         getRoute(Routes.ACTIVITIES_TP_ID, {
@@ -80,7 +80,7 @@ export default function useTrainingPlan(
       const response = await editTrainingPlan(
         id,
         revisionId,
-        formatTrainingPlanData(data)
+        formatPlanData(data)
       )
       history.push(
         getRoute(Routes.ACTIVITIES_TP_ID, {

@@ -159,7 +159,7 @@ export const Styles = styled.div`
       }
 
       &-text {
-        min-height: 36px;
+        //min-height: 36px;
       }
     }
 

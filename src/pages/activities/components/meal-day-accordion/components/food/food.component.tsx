@@ -18,13 +18,13 @@ interface FoodProps {
 }
 
 const options = [
-  { value: 'food_1', label: 'Chicken Brest Tender' },
-  { value: 'food_2', label: 'Brown Rice' },
-  { value: 'food_31', label: 'Red Apple' },
-  { value: 'food_4', label: 'Food 1' },
-  { value: 'food_5', label: 'Food 2' },
-  { value: 'food_7', label: 'Food 4' },
-  { value: 'food_6', label: 'Food 3' }
+  { value: 'Chicken Brest Tender', label: 'Chicken Brest Tender' },
+  { value: 'Brown Rice', label: 'Brown Rice' },
+  { value: 'Red Apple', label: 'Red Apple' },
+  { value: 'Food 1', label: 'Food 1' },
+  { value: 'Food 2', label: 'Food 2' },
+  { value: 'Food 4', label: 'Food 4' },
+  { value: 'Food 3', label: 'Food 3' }
 ]
 
 export default function Food({

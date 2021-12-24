@@ -9,6 +9,7 @@ import {
   getTrainingPlan,
   getTrainingPlanRevision
 } from '../../../services/api/activities'
+import { formatPlanData } from '../../../utils/api/activities'
 import { getRoute } from '../../../utils/routes'
 
 interface UseDietPlan {
@@ -16,7 +17,7 @@ interface UseDietPlan {
   onEdit: (id: string, revisionId: string, data: any, onSuccess: any) => void
   isLoading: boolean
   revision: any
-  trainingPlan: any
+  dietPlan: any
 }
 
 interface UseDietPlanConfig {
@@ -47,7 +48,7 @@ export default function useDietPlan(
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
-      const response = await addDietPlan(data)
+      const response = await addDietPlan(formatPlanData(data))
 
       toast.show({ type: 'success', msg: 'Diet plan successfully created' })
 
@@ -78,7 +79,8 @@ export default function useDietPlan(
     onSuccess: any
   ) => {
     try {
-      const response = await editDietPlan(id, revisionId, data)
+      delete data.name
+      const response = await editDietPlan(id, revisionId, formatPlanData(data))
       history.push(
         getRoute(Routes.ACTIVITIES_DP_ID, {
           id: config.id,
@@ -99,13 +101,13 @@ export default function useDietPlan(
 
   const isLoading = !revisionSwr.data && !revisionSwr.error
   const revision = revisionSwr.data?.data || {}
-  const trainingPlan = planSwr.data?.data || {}
+  const dietPlan = planSwr.data?.data || {}
 
   return {
     onAdd,
     onEdit,
     isLoading,
     revision,
-    trainingPlan
+    dietPlan
   }
 }

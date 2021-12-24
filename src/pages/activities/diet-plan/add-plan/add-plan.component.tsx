@@ -17,7 +17,7 @@ import { Title } from '../../../../components/typography'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
+// import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
 import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
 
@@ -50,7 +50,7 @@ export default function AddDietPlan({
   revisionId
 }: AddDietPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
-  const [makeChangesDialog, setMakeChangesDialog] = useState(false)
+  // const [makeChangesDialog, setMakeChangesDialog] = useState(false)
   const isMobile = useIsMobile()
 
   const { onAdd, onEdit, revision } = useDietPlan({
@@ -144,6 +144,7 @@ export default function AddDietPlan({
                   value={value}
                   onChange={(e) => onChange(name, e.target.value)}
                   error={errors.name}
+                  disabled={!!editId}
                 />
               )}
             />
@@ -204,10 +205,10 @@ export default function AddDietPlan({
         )}
       </Styles>
 
-      <MakeChangesDialog
-        open={makeChangesDialog}
-        onClose={() => setMakeChangesDialog(false)}
-      />
+      {/*<MakeChangesDialog*/}
+      {/*  open={makeChangesDialog}*/}
+      {/*  onClose={() => setMakeChangesDialog(false)}*/}
+      {/*/>*/}
     </FormProvider>
   )
 
