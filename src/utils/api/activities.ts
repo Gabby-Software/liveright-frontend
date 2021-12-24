@@ -16,6 +16,7 @@ export function formatPlanData(data: any) {
     delete dataClone.account_id
   }
 
+  console.log(dataClone.days)
   dataClone.days = dataClone.days.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),

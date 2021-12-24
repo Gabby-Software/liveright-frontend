@@ -34,17 +34,26 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise(isSuperset: boolean) {
-  const ex = {
-    name: '',
-    link: '',
-    info: {
-      sets: '',
-      reps: '',
-      tempo: '',
-      rest_interval: ''
-    }
-  }
+function createExercise(isSuperset: boolean, cardio: boolean) {
+  const ex = cardio
+    ? {
+        name: '',
+        info: {
+          cardio: true,
+          duration: '00:10',
+          intensity: 'Moderate'
+        }
+      }
+    : {
+        name: '',
+        link: '',
+        info: {
+          sets: '',
+          reps: '',
+          tempo: '',
+          rest_interval: ''
+        }
+      }
   return {
     is_superset: isSuperset,
     data: isSuperset ? [ex] : ex
@@ -62,13 +71,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     name: `${name}.items`
   })
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-    exercisesArray.move(result.source.index, (result.destination as any).index)
-  }
-
   const { errors } = methods.formState
 
   const exArray = exercisesArray.fields.filter((item: any) => !item.is_superset)
@@ -83,8 +85,19 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     }
   })
 
-  const handleExerciseAdd = (isSuperset: boolean) => {
-    exercisesArray.append(createExercise(isSuperset))
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    exercisesArray.move(
+      exIndices[result.source.index],
+      exIndices[(result.destination as any).index]
+    )
+  }
+
+  const handleExerciseAdd = (isSuperset: boolean, cardio = false) => {
+    exercisesArray.append(createExercise(isSuperset, cardio))
     methods.clearErrors(`${name}.items`)
   }
 
@@ -238,36 +251,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                         )}
                       </Draggable>
                     ))}
-
-                    <div className="Workout__template">
-                      <Checkbox />
-                      <Label className="checkbox">
-                        Save exercise as re-usable template
-                      </Label>
-                    </div>
-
-                    {ssArray.map((row: any, index) => (
-                      <Draggable
-                        key={row.id}
-                        draggableId={`${row.id}`}
-                        index={index}
-                        isDragDisabled
-                      >
-                        {(provided, snapshot) => (
-                          <Superset
-                            key={row.id}
-                            dragHandleProps={provided.dragHandleProps}
-                            draggableProps={provided.draggableProps}
-                            innerRef={provided.innerRef}
-                            isDragging={snapshot.isDragging}
-                            onRemove={() =>
-                              handleExerciseRemove(ssIndices[index])
-                            }
-                            name={`${name}.items.${ssIndices[index]}`}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
                   </>
                 )}
                 {provided.placeholder}
@@ -275,6 +258,21 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             )}
           </Droppable>
         </DragDropContext>
+
+        <div className="Workout__template">
+          <Checkbox />
+          <Label className="checkbox">
+            Save exercise as re-usable template
+          </Label>
+        </div>
+
+        {ssArray.map((row: any, index) => (
+          <Superset
+            key={row.id}
+            onRemove={() => handleExerciseRemove(ssIndices[index])}
+            name={`${name}.items.${ssIndices[index]}`}
+          />
+        ))}
       </div>
 
       <div className="Workout__actions">
@@ -299,30 +297,26 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             Add Superset
           </Button>
         ) : (
-          <>
-            {locked ? (
-              <Button
-                variant="success"
-                size="sm"
-                className="Workout__action-btn"
-                onClick={() => setLocked(false)}
-              >
-                <UnlockIcon />
-                Open Superset
-              </Button>
-            ) : (
-              <Button
-                variant="danger"
-                size="sm"
-                className="Workout__action-btn"
-                onClick={() => setLocked(true)}
-              >
-                <LockIcon />
-                Close Superset
-              </Button>
-            )}
-          </>
+          <Button
+            variant={locked ? 'success' : 'danger'}
+            size="sm"
+            className="Workout__action-btn"
+            onClick={() => setLocked(!locked)}
+          >
+            {locked ? <UnlockIcon /> : <LockIcon />}
+            {locked ? 'Open Superset' : 'Close Superset'}
+          </Button>
         )}
+
+        <Button
+          variant="text"
+          size="sm"
+          className="Workout__action-btn"
+          onClick={() => handleExerciseAdd(false, true)}
+        >
+          <AddIcon />
+          Add Cardio
+        </Button>
       </div>
 
       {typeof get(errors, `${name}.items`) === 'object' &&
