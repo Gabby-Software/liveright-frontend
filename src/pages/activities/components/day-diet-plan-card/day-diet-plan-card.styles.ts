@@ -5,6 +5,14 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   .DayDietPlanCard {
+    &__content {
+      margin-bottom: 1.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
     &__name {
       font-size: 1.125rem;
       font-weight: 700;

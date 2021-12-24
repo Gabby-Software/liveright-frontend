@@ -4,60 +4,62 @@ import useSWR from 'swr'
 import { toast } from '../../../components/toast/toast.component'
 import { Routes } from '../../../enums/routes.enum'
 import {
-  addTrainingPlan,
-  editTrainingPlan,
+  addDietPlan,
+  editDietPlan,
   getTrainingPlan,
   getTrainingPlanRevision
 } from '../../../services/api/activities'
 import { formatPlanData } from '../../../utils/api/activities'
 import { getRoute } from '../../../utils/routes'
 
-interface UseTrainingPlan {
+interface UseDietPlan {
   onAdd: (data: any, onSuccess: any) => void
   onEdit: (id: string, revisionId: string, data: any, onSuccess: any) => void
   isLoading: boolean
   revision: any
-  trainingPlan: any
+  dietPlan: any
 }
 
-interface UseTrainingPlanConfig {
+interface UseDietPlanConfig {
   id?: string
   revisionId?: string
 }
 
-export default function useTrainingPlan(
-  config: UseTrainingPlanConfig = {}
-): UseTrainingPlan {
+export default function useDietPlan(
+  config: UseDietPlanConfig = {}
+): UseDietPlan {
   const history = useHistory()
 
   const revisionSwr = useSWR(
     () =>
       config.id && config.revisionId
-        ? `/training-plans/${config.id}/revisions/${config.revisionId}`
+        ? `/diet-plans/${config.id}/revisions/${config.revisionId}`
         : null,
     getTrainingPlanRevision
   )
 
   const planSwr = useSWR(
-    () => (config.id ? `/training-plans/${config.id}` : null),
+    () => (config.id ? `/diet-plans/${config.id}` : null),
     getTrainingPlan
   )
 
   const onAdd = async (data: any, onSuccess: any) => {
-    console.log(data)
     try {
-      // return console.log(formatTrainingPlanData(data))
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
-      const response = await addTrainingPlan(formatPlanData(data))
-      toast.show({ type: 'success', msg: 'Training plan successfully created' })
+
+      const response = await addDietPlan(formatPlanData(data))
+
+      toast.show({ type: 'success', msg: 'Diet plan successfully created' })
+
       history.push(
-        getRoute(Routes.ACTIVITIES_TP_ID, {
+        getRoute(Routes.ACTIVITIES_DP_ID, {
           id: response?._id,
           revisionId:
             response?.revisions?.[response?.revisions?.length - 1]?._id
         })
       )
+
       revisionSwr.mutate()
       planSwr.mutate()
       onSuccess?.()
@@ -77,18 +79,17 @@ export default function useTrainingPlan(
     onSuccess: any
   ) => {
     try {
-      const response = await editTrainingPlan(
-        id,
-        revisionId,
-        formatPlanData(data)
-      )
+      delete data.name
+      const response = await editDietPlan(id, revisionId, formatPlanData(data))
       history.push(
-        getRoute(Routes.ACTIVITIES_TP_ID, {
+        getRoute(Routes.ACTIVITIES_DP_ID, {
           id: config.id,
           revisionId: response?._id
         })
       )
-      toast.show({ type: 'success', msg: 'Training plan successfully updated' })
+
+      toast.show({ type: 'success', msg: 'Diet plan successfully updated' })
+
       revisionSwr.mutate()
       planSwr.mutate()
       onSuccess?.()
@@ -100,13 +101,13 @@ export default function useTrainingPlan(
 
   const isLoading = !revisionSwr.data && !revisionSwr.error
   const revision = revisionSwr.data?.data || {}
-  const trainingPlan = planSwr.data?.data || {}
+  const dietPlan = planSwr.data?.data || {}
 
   return {
     onAdd,
     onEdit,
     isLoading,
     revision,
-    trainingPlan
+    dietPlan
   }
 }

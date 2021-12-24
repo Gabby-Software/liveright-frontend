@@ -18,5 +18,5 @@ export default function Macronutrient(props: MacronutrientProps) {
 }
 
 Macronutrient.defaultProps = {
-  amount: '11g'
+  amount: '0g'
 }

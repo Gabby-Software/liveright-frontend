@@ -34,17 +34,26 @@ interface WorkoutAccordionProps {
   onRemove: any
 }
 
-function createExercise(isSuperset: boolean) {
-  const ex = {
-    name: 'Exercise',
-    link: '',
-    info: {
-      sets: '',
-      reps: '',
-      tempo: '',
-      rest_interval: ''
-    }
-  }
+function createExercise(isSuperset: boolean, cardio: boolean) {
+  const ex = cardio
+    ? {
+        name: '',
+        info: {
+          cardio: true,
+          duration: '00:10',
+          intensity: 'Moderate'
+        }
+      }
+    : {
+        name: '',
+        link: '',
+        info: {
+          sets: '',
+          reps: '',
+          tempo: '',
+          rest_interval: ''
+        }
+      }
   return {
     is_superset: isSuperset,
     data: isSuperset ? [ex] : ex
@@ -67,13 +76,6 @@ export default function WorkoutAccordion({
     control: methods.control
   })
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-    exercisesArray.move(result.source.index, (result.destination as any).index)
-  }
-
   const { errors } = methods.formState
 
   const onChange = (name: string, value: any) => {
@@ -92,8 +94,19 @@ export default function WorkoutAccordion({
     }
   })
 
-  const handleExerciseAdd = (isSuperset: boolean) => {
-    exercisesArray.append(createExercise(isSuperset))
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    exercisesArray.move(
+      exIndices[result.source.index],
+      exIndices[(result.destination as any).index]
+    )
+  }
+
+  const handleExerciseAdd = (isSuperset: boolean, cardio = false) => {
+    exercisesArray.append(createExercise(isSuperset, cardio))
     methods.clearErrors(`${name}.items`)
   }
 
@@ -233,25 +246,11 @@ export default function WorkoutAccordion({
                           />
                         )}
                       </Draggable>
-                      // <ExerciseAccordion
-                      //   key={row.id}
-                      //   name={`${name}.items.${exIndices[index]}.data`}
-                      //   onRemove={() => handleExerciseRemove(exIndices[index])}
-                      //   borderBottom={index === exArray.length - 1}
-                      // />
                     ))}
                   </div>
                 )}
               </Droppable>
             </DragDropContext>
-            {/* {exArray.map((row: any, index: number) => (
-              <ExerciseAccordion
-                key={row.id}
-                name={`${name}.items.${exIndices[index]}.data`}
-                onRemove={() => handleExerciseRemove(exIndices[index])}
-                borderBottom={index === exArray.length - 1}
-              />
-            ))} */}
 
             <div className="WorkoutAccordion__actions">
               <Button
@@ -274,6 +273,15 @@ export default function WorkoutAccordion({
                   Add Superset
                 </Button>
               )}
+              <Button
+                variant="text"
+                size="sm"
+                className="WorkoutAccordion__action-btn"
+                onClick={() => handleExerciseAdd(false, true)}
+              >
+                <AddIcon />
+                Add Cardio
+              </Button>
             </div>
 
             {ssArray.map((row: any, index: number) => (

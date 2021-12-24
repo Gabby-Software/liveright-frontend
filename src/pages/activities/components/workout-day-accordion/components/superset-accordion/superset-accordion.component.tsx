@@ -99,13 +99,6 @@ export default function SupersetAccordion({
               )}
             </Droppable>
           </DragDropContext>
-          {/* {exercisesArray.fields.map((r, index) => (
-            <ExerciseAccordion
-              key={r.id}
-              name={`${name}.data.${index}`}
-              onRemove={() => handleRemoveExercise(index)}
-            />
-          ))} */}
         </div>
 
         {locked || (
