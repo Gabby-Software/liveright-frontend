@@ -110,21 +110,13 @@ export default function TrainingPlan() {
                 id="training-plan-version"
                 options={
                   trainingPlan.revisions?.map((r: any) => ({
-                    label: formatRevisionLabel(
-                      r.scheduled_start_on,
-                      r.scheduled_end_on,
-                      r.status
-                    ),
+                    label: formatRevisionLabel(r),
                     value: r._id
                   })) || []
                 }
                 value={{
                   value: revision._id,
-                  label: formatRevisionLabel(
-                    revision.scheduled_start_on,
-                    revision.scheduled_end_on,
-                    revision.status
-                  )
+                  label: formatRevisionLabel(revision)
                 }}
                 onChange={(e, o) => {
                   history.push(
