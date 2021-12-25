@@ -5,8 +5,10 @@ import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm
+  useForm,
+  useFormState
 } from 'react-hook-form'
+import { useHistory } from 'react-router'
 import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
@@ -19,10 +21,12 @@ import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import useTraningPlanFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
+import { ConfirmModal } from '../components/confimation-modal/confirmation-modal.component'
 
 interface AddTrainingPlanProps {
   editDay?: number
@@ -113,6 +117,9 @@ export default function AddTrainingPlan({
   const isMobile = useIsMobile()
   const [showConfirm, setShowConfirm] = useState(false)
   const [delIdx, setDelIdx] = useState(-1)
+  const history = useHistory()
+  const [redirectTo, setRedirectTo] = useState('')
+  const [openConfirm, setOpenConfirm] = useState(false)
 
   const { onAdd, onEdit, revision, trainingPlan } = useTrainingPlan({
     id: editId,
@@ -121,8 +128,21 @@ export default function AddTrainingPlan({
 
   const methods = useForm<any>({
     defaultValues,
+    // no validaton
     // resolver: yupResolver(validationSchema),
     reValidateMode: 'onChange'
+  })
+
+  console.log(redirectTo)
+
+  const { onUnlock } = useTraningPlanFormLock(
+    methods.control,
+    () => setOpenConfirm(true),
+    setRedirectTo
+  )
+
+  const { isDirty } = useFormState({
+    control: methods.control
   })
 
   const daysArray = useFieldArray({
@@ -143,9 +163,17 @@ export default function AddTrainingPlan({
 
   const handleSubmit = (values: any) => {
     if (editId && revisionId) {
-      onEdit(editId, revisionId, values, onClose)
+      onEdit(editId, revisionId, values, () => {
+        onUnlock()
+        onClose()
+        redirectTo && history.push(redirectTo)
+      })
     } else {
-      onAdd(values, onClose)
+      onAdd(values, () => {
+        onUnlock()
+        onClose()
+        redirectTo && history.push(redirectTo)
+      })
     }
   }
 
@@ -177,6 +205,14 @@ export default function AddTrainingPlan({
     methods.setValue(name, value, { shouldValidate: true })
   }
 
+  const onGoBack = () => {
+    if (isDirty) {
+      setOpenConfirm(true)
+    } else {
+      onClose()
+    }
+  }
+
   const { errors } = methods.formState
   const values = methods.getValues()
 
@@ -187,7 +223,7 @@ export default function AddTrainingPlan({
           <Card className="EditPlan__overview">
             {!isMobile && (
               <>
-                <GoBack spacing={4} onClick={onClose}>
+                <GoBack spacing={4} onClick={onGoBack}>
                   {editId ? 'Go Back to Overview' : 'Go Back to listing'}
                 </GoBack>
 
@@ -272,6 +308,18 @@ export default function AddTrainingPlan({
           {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
             <Error standalone="Add at least one day" />
           )}
+
+          <ConfirmModal
+            onExitWithoutSave={() => {
+              onClose()
+              redirectTo && history.push(redirectTo)
+            }}
+            onRedirectTo={setRedirectTo}
+            onUnlock={onUnlock}
+            onSave={handleSave}
+            open={openConfirm}
+            setOpen={setOpenConfirm}
+          />
         </Styles>
       </FormProvider>
 

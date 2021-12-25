@@ -18,9 +18,9 @@ interface SupersetProps {
   onRemove: any
 }
 
-function createExercise() {
+function createExercise(nameValue = '') {
   return {
-    name: '',
+    name: nameValue,
     info: {
       sets: '',
       reps: '',
@@ -40,7 +40,11 @@ export default function Superset({ name, onRemove }: SupersetProps) {
   })
 
   const handleAddExercise = () => {
-    exercisesArray.append(createExercise())
+    exercisesArray.append(
+      createExercise(
+        `1${String.fromCharCode(65 + exercisesArray.fields.length)}--`
+      )
+    )
   }
 
   const handleRemoveExercise = (index: number) => {
@@ -48,6 +52,9 @@ export default function Superset({ name, onRemove }: SupersetProps) {
       onRemove()
     } else {
       exercisesArray.remove(index)
+      // wait for removal to finish
+      setTimeout(resetPrefixValues, 10)
+      console.log(methods.getValues(name).data)
     }
   }
 
@@ -57,6 +64,18 @@ export default function Superset({ name, onRemove }: SupersetProps) {
     }
 
     exercisesArray.move(result.source.index, (result.destination as any).index)
+  }
+
+  const resetPrefixValues = () => {
+    const values: any[] = methods.getValues(name).data
+    // get values and re-order the prefix values i.e 1A, 1B etc.
+    values.forEach((v, i) => {
+      const suf = String(v.name).split('--')[1]
+      methods.setValue(
+        `${name}.data.${i}.name`,
+        `1${String.fromCharCode(65 + i)}--${suf}`
+      )
+    })
   }
 
   return (
@@ -81,6 +100,7 @@ export default function Superset({ name, onRemove }: SupersetProps) {
                       dragHandleProps={provided.dragHandleProps}
                       draggableProps={provided.draggableProps}
                       isDragging={snapshot.isDragging}
+                      fromSuperset
                     />
                   )}
                 </Draggable>

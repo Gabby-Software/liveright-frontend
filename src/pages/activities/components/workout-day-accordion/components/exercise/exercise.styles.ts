@@ -58,4 +58,14 @@ export const Styles = styled.div<any>`
       }
     }
   }
+
+  .exercise-input {
+    display: flex;
+    align-items: center;
+
+    &__prefix {
+      width: 40px;
+      margin-top: 25px;
+    }
+  }
 `

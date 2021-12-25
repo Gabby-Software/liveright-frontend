@@ -45,7 +45,7 @@ function createExercise(isSuperset: boolean, cardio: boolean) {
         }
       }
     : {
-        name: '',
+        name: isSuperset ? '1A--' : '',
         link: '',
         info: {
           sets: '',
@@ -202,6 +202,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
               label="Schedule"
               placeholder="08:00"
               value={value}
+              minuteStep={15}
               onChange={(e, date) => {
                 methods.setValue(name, date)
               }}

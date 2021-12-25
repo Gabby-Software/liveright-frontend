@@ -20,6 +20,7 @@ interface TimePickerProps {
   name?: string
   error?: string
   format?: string
+  minuteStep?: number
 }
 
 const FORMAT = 'H:mm'
@@ -34,7 +35,8 @@ export default function TimePicker({
   disabledUntilNow,
   name,
   error,
-  format = FORMAT
+  format = FORMAT,
+  minuteStep
 }: TimePickerProps) {
   return (
     <Styles className={className}>
@@ -45,6 +47,7 @@ export default function TimePicker({
         value={value ? moment(value, format) : null}
         onChange={onChange}
         format={format || FORMAT}
+        minuteStep={minuteStep}
         disabledHours={() => {
           return getDisabledHours(disabledUntilNow || false)
         }}

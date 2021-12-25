@@ -1,12 +1,15 @@
 import { get } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
 import formatter from '../../../../../../managers/formatter.manager'
 import { Styles } from './exercise.styles'
 
@@ -18,6 +21,7 @@ interface ExerciseProps {
   name: string
   onRemove: any
   prefix?: boolean
+  fromSuperset?: boolean
 }
 
 export default function Exercise({
@@ -26,16 +30,78 @@ export default function Exercise({
   innerRef,
   draggableProps,
   name,
-  onRemove
+  onRemove,
+  fromSuperset
 }: ExerciseProps) {
   const methods = useFormContext()
-
+  const params = useParams<any>()
   const onChange = (name: string, value: string) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
 
   const { errors } = methods.formState
   const isCardio = methods.getValues(`${name}.info.cardio`)
+
+  const { exercises } = useTrainingPlanExercises({
+    id: params.id,
+    revisionId: params.revisionId
+  })
+
+  const onPreviousExerciseSelect = (value: string) => {
+    const exercise = exercises.find((e: any) => e.name === value)
+    if (!exercise) {
+      return
+    }
+    methods.setValue(`${name}.info.sets`, exercise.info.sets)
+    methods.setValue(`${name}.info.reps`, exercise.info.reps)
+    methods.setValue(`${name}.info.tempo`, exercise.info.tempo)
+    methods.setValue(`${name}.info.rest_interval`, exercise.info.rest_interval)
+    methods.setValue(`${name}.link`, exercise.info.link)
+  }
+
+  const renderExersiceNameField = (name: string, value: string) => {
+    if (fromSuperset) {
+      const [prefix, val] = String(value).split('--')
+      return (
+        <div className="exercise-input">
+          {fromSuperset && <p className="exercise-input__prefix">{prefix}--</p>}
+          <Input
+            id="Exercise-name"
+            label="Exercise name"
+            placeholder="Exersice"
+            value={fromSuperset ? val : value}
+            onChange={(e) => {
+              onChange(
+                name,
+                fromSuperset ? `${prefix}--${e.target.value}` : e.target.value
+              )
+            }}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <AutoCompleteInput
+          id="Exercise-name"
+          label="Exercise name"
+          placeholder="Exersice"
+          value={value}
+          onChange={(value) => {
+            onChange(name, value)
+          }}
+          options={exercises.map((e: any) => ({
+            label: e.name,
+            value: e.name
+          }))}
+          onSelect={onPreviousExerciseSelect}
+          error={get(errors, name)}
+          ErrorProps={{ size: 'sm' }}
+        />
+      )
+    }
+  }
 
   return (
     <Styles
@@ -52,17 +118,9 @@ export default function Exercise({
 
       <Controller
         name={`${name}.name`}
-        render={({ field: { name, value } }) => (
-          <Input
-            id="Exercise-name"
-            label={isCardio ? 'Cardio name' : 'Exercise name'}
-            placeholder="1A--"
-            value={value}
-            onChange={(e) => onChange(name, e.target.value)}
-            error={get(errors, name)}
-            ErrorProps={{ size: 'sm' }}
-          />
-        )}
+        render={({ field: { name, value } }) =>
+          renderExersiceNameField(name, value)
+        }
       />
 
       {isCardio ? (

@@ -27,6 +27,11 @@ export async function getTrainingPlanRevision(url: string) {
   return response.data
 }
 
+export async function getTrainingPlanExercises(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
 export async function getTrainingPlan(url: string) {
   const response = await api.get(url)
   return response.data
