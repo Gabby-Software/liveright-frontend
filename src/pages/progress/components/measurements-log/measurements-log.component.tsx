@@ -110,7 +110,7 @@ export default function MeasurementsLog() {
   const initMeasurements = useMeasurements({
     per_page: 1,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     sort: {
       date: 'asc'
@@ -120,7 +120,7 @@ export default function MeasurementsLog() {
   const prevMeasurements = useMeasurements({
     per_page: 1,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     sort: {
       date: 'desc'
@@ -131,7 +131,7 @@ export default function MeasurementsLog() {
     skip: true,
     filter: {
       date: params.date,
-      account_id: params.id
+      account_id: params.clientId
     },
     per_page: 1
   })
@@ -183,7 +183,7 @@ export default function MeasurementsLog() {
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
-    : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
+    : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.clientId })
 
   const onSave = (values: any) => {
     onAdd(values, measurement.id, () => {
@@ -233,7 +233,7 @@ export default function MeasurementsLog() {
                     //         date
                     //       })
                     //     : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, {
-                    //         id: params.id,
+                    //         id: params.clientId,
                     //         date
                     //       })
                     // )

@@ -102,7 +102,10 @@ export default function useMeasurements(
 
   const onAdd: OnAdd = async (values, id, onSuccess) => {
     try {
-      const formattedValues = await formatMeasurementsValues(values, params.id)
+      const formattedValues = await formatMeasurementsValues(
+        values,
+        params.clientId
+      )
       await addMeasurements(formattedValues, id)
 
       const goals = values.goals
@@ -114,7 +117,7 @@ export default function useMeasurements(
         goals.body_fat &&
         goals.lean_mass
       ) {
-        const formattedValues = formatGoalsValues(goals, params.id)
+        const formattedValues = formatGoalsValues(goals, params.clientId)
         await addGoals(formattedValues)
       }
 

@@ -53,7 +53,7 @@ export default function ProgressClients() {
               <ClientProgressCard
                 key={client.id}
                 to={getRoute(Routes.PROGRESS_MEASUREMENTS, {
-                  id: client.id
+                  clientId: client.id
                 })}
                 firstName={client.first_name}
                 lastName={client.last_name}

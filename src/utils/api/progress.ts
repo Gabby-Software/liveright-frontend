@@ -13,13 +13,13 @@ interface GetViewRoutes {
 export function getViewRoutes(params: any, type: any): GetViewRoutes {
   const measurementsTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_MEASUREMENTS
-    : getRoute(Routes.PROGRESS_MEASUREMENTS, { id: params.id })
+    : getRoute(Routes.PROGRESS_MEASUREMENTS, { clientId: params.clientId })
   const healthTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_HEALTH_DATA
-    : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+    : getRoute(Routes.PROGRESS_HEALTH_DATA, { clientId: params.clientId })
   const goalsTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_GOALS
-    : getRoute(Routes.PROGRESS_GOALS, { id: params.id })
+    : getRoute(Routes.PROGRESS_GOALS, { clientId: params.clientId })
 
   return {
     measurementsTo,

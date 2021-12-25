@@ -134,7 +134,7 @@ const LogHealthDataMobile = () => {
     type === userTypes.CLIENT
       ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, { date })
       : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
-          id: params.id,
+          clientId: params.clientId,
           date
         })
 

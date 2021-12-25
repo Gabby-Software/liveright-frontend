@@ -34,7 +34,7 @@ export default function GoalsLog() {
 
   const { onAdd, goals } = useGoals({
     filter: {
-      account_id: params.id || id
+      account_id: params.clientId || id
     }
   })
 
@@ -54,7 +54,7 @@ export default function GoalsLog() {
 
   const backTo = isClient(type)
     ? Routes.PROGRESS_CLIENT_GOALS
-    : getRoute(Routes.PROGRESS_GOALS, { id: params.id })
+    : getRoute(Routes.PROGRESS_GOALS, { clientId: params.clientId })
 
   const onSuccess = () => {
     history.push(backTo)

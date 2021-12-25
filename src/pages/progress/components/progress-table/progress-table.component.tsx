@@ -30,7 +30,7 @@ export default function HealthTable() {
           date: moment().format('YYYY-MM-DD')
         })
       : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
-          id: params.id,
+          clientId: params.clientId,
           date: moment().format('YYYY-MM-DD')
         })
 

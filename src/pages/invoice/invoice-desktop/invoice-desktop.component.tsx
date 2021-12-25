@@ -47,7 +47,7 @@ export default function InvoiceDesktop() {
     invoice,
     isInvoiceLoading
   } = useInvoice({
-    id: params.id
+    id: params.clientid
   })
 
   useMobileBack(
@@ -55,9 +55,12 @@ export default function InvoiceDesktop() {
     'invoices'
   )
 
-  usePusher(`invoice.${params.id}.pdf-generated`, `event.invoice`, () => {}, [
-    params.id
-  ])
+  usePusher(
+    `invoice.${params.clientid}.pdf-generated`,
+    `event.invoice`,
+    () => {},
+    [params.clientid]
+  )
 
   if (isInvoiceLoading) {
     return <Skeleton />

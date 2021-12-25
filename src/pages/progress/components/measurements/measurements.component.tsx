@@ -107,7 +107,7 @@ export default function Measurements() {
   const { measurements, isLoading, meta, filters, onFilters, onPage } =
     useMeasurements({
       filter: {
-        account_id: params.id,
+        account_id: params.clientId,
         range: 'month'
       }
     })
@@ -115,7 +115,10 @@ export default function Measurements() {
   const logTo = (logId?: string) =>
     isClient(auth.type)
       ? getRoute(Routes.PROGRESS_CLIENT_LOG_MEASUREMENTS, { logId })
-      : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, { id: params.id, logId })
+      : getRoute(Routes.PROGRESS_LOG_MEASUREMENTS, {
+          clientId: params.clientId,
+          logId
+        })
 
   const keys = getKeys(activeTab)
 

@@ -42,7 +42,7 @@ const LogHealthData = () => {
   const backUrl =
     type === userTypes.CLIENT
       ? Routes.PROGRESS_CLIENT_HEALTH_DATA
-      : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+      : getRoute(Routes.PROGRESS_HEALTH_DATA, { clientId: params.clientId })
 
   const handleReturn = () => {
     history.push(backUrl)
@@ -108,7 +108,7 @@ const LogHealthData = () => {
       ...payload,
       edit: payload.date === values.date,
       id: values.id,
-      account_id: Number(params.id)
+      account_id: Number(params.clientId)
     }).then(handleReturn)
   }
 
@@ -116,7 +116,7 @@ const LogHealthData = () => {
     skip: !params.date,
     per_page: 1,
     filter: {
-      account_id: params.id,
+      account_id: params.clientId,
       date: params.date
     }
   })

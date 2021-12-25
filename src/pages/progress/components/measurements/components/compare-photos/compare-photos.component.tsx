@@ -47,7 +47,7 @@ export default function ComparePhotos() {
     columns: 'date',
     per_page: 0,
     filter: {
-      account_id: params.id,
+      account_id: params.clientId,
       has_photos: true
     }
   })
@@ -59,14 +59,14 @@ export default function ComparePhotos() {
   const measurementFrom = useMeasurements({
     per_page: 1,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     requireDate: true
   })
   const measurementTo = useMeasurements({
     per_page: 1,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     requireDate: true
   })

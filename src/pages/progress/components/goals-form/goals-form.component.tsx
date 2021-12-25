@@ -38,7 +38,7 @@ export default function GoalsForm({
 
   const { goals } = useGoals({
     filter: {
-      account_id: params.id || auth.id
+      account_id: params.clientId || auth.id
     }
   })
 

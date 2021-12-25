@@ -18,7 +18,7 @@ export default function useLastActivity(): UseLastActivity {
   const { health } = useHealth({
     skip: !isHealth,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     per_page: 1
   })
@@ -26,7 +26,7 @@ export default function useLastActivity(): UseLastActivity {
   const { measurements } = useMeasurements({
     skip: !isMeasurements,
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     per_page: 1
   })

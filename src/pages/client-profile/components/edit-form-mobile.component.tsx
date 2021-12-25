@@ -32,7 +32,7 @@ export default function EditFormMobile({ onClose }: EditFormProps) {
 
   const params = useParams<any>()
   const { user, account, profile, address, onUpdate, isUpdateLoading } =
-    useClientAccount(params.id)
+    useClientAccount(params.clientId)
   const { src, onError } = useImage(user.avatar?.url)
 
   const { setValue, control, handleSubmit } = useForm()

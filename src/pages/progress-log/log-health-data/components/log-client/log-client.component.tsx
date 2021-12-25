@@ -18,18 +18,21 @@ import { classes } from '../../../../../pipes/classes.pipe'
 import SwitchClient from '../../../../progress/components/switch-client/switch-client.component'
 import { Wrapper } from './log-client.styles'
 
-export default function LogClient() {
+export default function LogClient({
+  route = Routes.PROGRESS_HEALTH_DATA
+}: {
+  route?: string
+}) {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
-  const { user, isLoading } = useClientAccount(params.id)
+  const { user, isLoading } = useClientAccount(params.clientId)
   const { lastSeen } = useChatOnline()
   const { findRoomByUserId } = useChats()
   const [switchDialog, setSwitchDialog] = useState(false)
 
   const { activityValue, activityLabel } = useLastActivity()
 
-  const room = findRoomByUserId(params.id)
-
+  const room = findRoomByUserId(params.clientId)
   return (
     <>
       <Wrapper>
@@ -69,7 +72,9 @@ export default function LogClient() {
                     Last Active:
                   </div>
                   <div className={'log-client__bottom__value'}>
-                    {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}
+                    {params.clientId
+                      ? lastSeen(user.uuid, room?.room.meta?.lastSeenAt)
+                      : '-'}
                   </div>
                 </div>
                 <div className={'log-client__bottom__separator'} />
@@ -78,7 +83,7 @@ export default function LogClient() {
                     {activityLabel}
                   </div>
                   <div className={'log-client__bottom__value'}>
-                    {activityValue}
+                    {params.clientId ? activityValue : '-'}
                   </div>
                 </div>
               </div>
@@ -101,7 +106,8 @@ export default function LogClient() {
           <Button
             variant="secondary"
             size="sm"
-            to={`${Routes.CLIENTS}/${params.id}/profile`}
+            to={`${Routes.CLIENTS}/${params.clientId}/profile`}
+            disabled={!params.clientId}
           >
             Open Profile
           </Button>
@@ -120,6 +126,7 @@ export default function LogClient() {
       </Wrapper>
 
       <SwitchClient
+        route={route}
         open={switchDialog}
         onClose={() => setSwitchDialog(false)}
       />
