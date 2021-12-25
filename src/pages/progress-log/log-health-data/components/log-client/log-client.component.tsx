@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 
 import {
   CaretDownIcon,
@@ -13,6 +13,7 @@ import { Routes } from '../../../../../enums/routes.enum'
 import useClientAccount from '../../../../../hooks/api/accounts/useClientAccount'
 import useChatOnline from '../../../../../hooks/api/chat/useChatOnline'
 import useLastActivity from '../../../../../hooks/api/progress/useLastActivity'
+import { useSearchParam } from '../../../../../hooks/search-params'
 import { useChats } from '../../../../../modules/chat/contexts/chats.context'
 import { classes } from '../../../../../pipes/classes.pipe'
 import SwitchClient from '../../../../progress/components/switch-client/switch-client.component'
@@ -25,14 +26,16 @@ export default function LogClient({
 }) {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
-  const { user, isLoading } = useClientAccount(params.clientId)
+  const search = useSearchParam('clientId')
+  const clientId = params.clientId ?? search
+  const { user, isLoading } = useClientAccount(clientId)
   const { lastSeen } = useChatOnline()
   const { findRoomByUserId } = useChats()
   const [switchDialog, setSwitchDialog] = useState(false)
 
   const { activityValue, activityLabel } = useLastActivity()
 
-  const room = findRoomByUserId(params.clientId)
+  const room = findRoomByUserId(clientId)
   return (
     <>
       <Wrapper>
@@ -72,7 +75,7 @@ export default function LogClient({
                     Last Active:
                   </div>
                   <div className={'log-client__bottom__value'}>
-                    {params.clientId
+                    {clientId
                       ? lastSeen(user.uuid, room?.room.meta?.lastSeenAt)
                       : '-'}
                   </div>
@@ -83,7 +86,7 @@ export default function LogClient({
                     {activityLabel}
                   </div>
                   <div className={'log-client__bottom__value'}>
-                    {params.clientId ? activityValue : '-'}
+                    {clientId ? activityValue : '-'}
                   </div>
                 </div>
               </div>
@@ -106,8 +109,8 @@ export default function LogClient({
           <Button
             variant="secondary"
             size="sm"
-            to={`${Routes.CLIENTS}/${params.clientId}/profile`}
-            disabled={!params.clientId}
+            to={`${Routes.CLIENTS}/${clientId}/profile`}
+            disabled={!clientId}
           >
             Open Profile
           </Button>
