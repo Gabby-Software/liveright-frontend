@@ -36,7 +36,7 @@ export default function ActivitiesClient({
 
   const { activityValue, activityLabel } = useLastActivity()
 
-  const room = findRoomByUserId(account.id)
+  const room = findRoomByUserId(account?.id)
 
   return (
     <>
@@ -111,7 +111,7 @@ export default function ActivitiesClient({
             variant="secondary"
             size="sm"
             disabled={!clientId}
-            to={`${Routes.CLIENTS}/${account.id}/profile`}
+            to={`${Routes.CLIENTS}/${account?.id}/profile`}
           >
             Open Profile
           </Button>
