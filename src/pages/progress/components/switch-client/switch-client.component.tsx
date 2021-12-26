@@ -25,13 +25,12 @@ export default function SwitchClient({
   const { t } = useTranslation()
   const [id, setId] = useState('')
   const history = useHistory()
-  const { path } = useRouteMatch()
   const isMobile = useIsMobile()
 
   const handleClick = () => {
     const url = route.includes(':clientId')
       ? getRoute(route, { clientId: id })
-      : `${path}?clientId=${id}`
+      : `${route}?clientId=${id}`
     history.push(url)
     onClose()
   }

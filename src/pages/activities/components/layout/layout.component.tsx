@@ -10,6 +10,7 @@ interface ActivityLayoutProps {
 
 export default function ActivityLayout({ children }: ActivityLayoutProps) {
   const { url } = useRouteMatch()
+  console.log(url)
   return (
     <Styles>
       <div className="ActivitiesLayout__user">

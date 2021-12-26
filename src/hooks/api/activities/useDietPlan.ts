@@ -13,7 +13,7 @@ import { formatPlanData } from '../../../utils/api/activities'
 import { getRoute } from '../../../utils/routes'
 
 interface UseDietPlan {
-  onAdd: (data: any, onSuccess: any) => void
+  onAdd: (data: any, clientId: string, onSuccess: any) => void
   onEdit: (id: string, revisionId: string, data: any, onSuccess: any) => void
   isLoading: boolean
   revision: any
@@ -43,12 +43,14 @@ export default function useDietPlan(
     getTrainingPlan
   )
 
-  const onAdd = async (data: any, onSuccess: any) => {
+  const onAdd = async (data: any, clientId: string, onSuccess: any) => {
     try {
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
-      const response = await addDietPlan(formatPlanData(data))
+      const payload = formatPlanData(data)
+      !!clientId && (payload.account_id = clientId)
+      const response = await addDietPlan(payload)
 
       toast.show({ type: 'success', msg: 'Diet plan successfully created' })
 

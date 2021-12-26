@@ -21,6 +21,7 @@ import Alert from '../../components/alert/alert.component'
 import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
+import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
 
@@ -61,7 +62,7 @@ export default function DietPlan() {
       action={<Button>Create Edit Plan</Button>}
     />
   ) : (
-    <>
+    <ActivityLayout>
       <Styles>
         <Card className="PlanPage__card">
           {!isMobile && (
@@ -226,7 +227,7 @@ export default function DietPlan() {
           layout: 'left'
         }}
       />
-    </>
+    </ActivityLayout>
   )
 
   return isMobile ? (
