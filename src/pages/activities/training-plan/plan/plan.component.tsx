@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
@@ -17,6 +17,7 @@ import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { formatRevisionLabel } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Alert from '../../components/alert/alert.component'
 import DayTrainingPlanCard from '../../components/day-training-plan-card/day-training-plan-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
@@ -33,7 +34,20 @@ export default function TrainingPlan() {
   const params = useParams<any>()
   const history = useHistory()
 
+  useEffect(() => {
+    if (!params.clientId) {
+      history.push(
+        `${Routes.ACTIVITIES}?return=${getRoute(Routes.ACTIVITIES_TP_ID, {
+          clientId: ':clientId',
+          id: params.id,
+          revisionId: params.revisionId
+        })}`
+      )
+    }
+  }, [params.clientId])
+
   const { revision, trainingPlan } = useTrainingPlan({
+    clientId: params.clientId,
     id: params.id,
     revisionId: params.revisionId
   })
@@ -63,6 +77,16 @@ export default function TrainingPlan() {
   ) : (
     <>
       <Styles>
+        <ActivitiesClient
+          clientId={params.clientId}
+          onClientSwitch={(id) => {
+            history.push(
+              getRoute(Routes.ACTIVITIES_TP, {
+                clientId: id
+              })
+            )
+          }}
+        />
         <Card className="PlanPage__card">
           {!isMobile && (
             <div className="PlanPage__header">

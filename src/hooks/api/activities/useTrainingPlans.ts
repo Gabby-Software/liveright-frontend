@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 
 import { getTrainingPlans } from '../../../services/api/activities'
+import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
 
 function getKey(params: any) {
@@ -12,10 +13,21 @@ interface UseTrainingPlans {
   trainingPlans: any[]
 }
 
-export default function useTrainingPlans(): UseTrainingPlans {
-  const params = {}
+export default function useTrainingPlans({
+  clientId
+}: {
+  clientId?: string
+} = {}): UseTrainingPlans {
+  const params = {
+    filter: {
+      account_id: clientId || ''
+    }
+  }
 
-  const { data, error } = useSWR(() => getKey(params), getTrainingPlans)
+  const { data, error } = useSWR(
+    () => getKey(omitEmpty(params)),
+    getTrainingPlans
+  )
 
   const isLoading = !data && !error
   const trainingPlans = data?.data || []

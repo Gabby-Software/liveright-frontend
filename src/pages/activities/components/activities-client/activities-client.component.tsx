@@ -17,23 +17,32 @@ import { classes } from '../../../../pipes/classes.pipe'
 import { Wrapper } from './activities-client.styles'
 import SwitchClient from './switch-client/switch-client.component'
 
-export default function LogClient() {
+interface IProps {
+  clientId: number
+  onClientSwitch: (id: number) => void
+  preventClientSwitch?: boolean
+}
+
+export default function ActivitiesClient({
+  clientId,
+  onClientSwitch,
+  preventClientSwitch
+}: IProps) {
   const [expanded, setExpended] = useState(false)
-  const { user, isLoading } = useClientAccount(0)
+  const { user, isLoading, account } = useClientAccount(clientId)
   const { lastSeen } = useChatOnline()
   const { findRoomByUserId } = useChats()
   const [switchDialog, setSwitchDialog] = useState(false)
 
   const { activityValue, activityLabel } = useLastActivity()
 
-  const room = findRoomByUserId(user.id)
+  const room = findRoomByUserId(account.id)
 
   return (
     <>
       <Wrapper>
         <div className={'log-client__main'}>
           <UserBadge
-            key={user.id}
             size="xl"
             avatarOnly
             avatar={user.avatar?.url}
@@ -49,15 +58,17 @@ export default function LogClient() {
                   : `${user.first_name || ''} ${user.last_name || ''}`}
               </div>
 
-              <Button
-                variant="text"
-                size="sm"
-                className={'log-client__switch'}
-                onClick={() => setSwitchDialog(true)}
-              >
-                <GroupIcon />
-                <span>Switch Client</span>
-              </Button>
+              {!preventClientSwitch && (
+                <Button
+                  variant="text"
+                  size="sm"
+                  className={'log-client__switch'}
+                  onClick={() => setSwitchDialog(true)}
+                >
+                  <GroupIcon />
+                  <span>Switch Client</span>
+                </Button>
+              )}
             </div>
 
             {expanded && (
@@ -99,8 +110,8 @@ export default function LogClient() {
           <Button
             variant="secondary"
             size="sm"
-            disabled={!user.id}
-            to={`${Routes.CLIENTS}/${user.id}/profile`}
+            disabled={!clientId}
+            to={`${Routes.CLIENTS}/${account.id}/profile`}
           >
             Open Profile
           </Button>
@@ -121,7 +132,7 @@ export default function LogClient() {
       <SwitchClient
         open={switchDialog}
         onClose={() => setSwitchDialog(false)}
-        onDone={() => {}}
+        onDone={onClientSwitch}
       />
     </>
   )

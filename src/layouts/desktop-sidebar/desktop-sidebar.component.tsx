@@ -38,6 +38,7 @@ import { useChats } from '../../modules/chat/contexts/chats.context'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { classes } from '../../pipes/classes.pipe'
+import { getRoute } from '../../utils/routes'
 import DesktopFooter from '../desktop-footer/desktop-footer.component'
 import { ClientsStyles, TrainerStyles } from './desktop-sidebar.styles'
 
@@ -109,7 +110,7 @@ const trainerMenuItems: MenuItemType[] = [
       },
       {
         name: 'Training Plans',
-        url: Routes.ACTIVITIES_TP
+        url: getRoute(Routes.ACTIVITIES_TP, { clientId: null })
       },
       {
         name: 'Diet Plans',

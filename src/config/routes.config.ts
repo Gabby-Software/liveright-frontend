@@ -702,7 +702,12 @@ export const routes: RouteType[] = [
   {
     title: 'Activities',
     url: Routes.ACTIVITIES,
-    Component: lazy(() => import('../pages/activities/activities.components')),
+    Component: lazy(
+      () =>
+        import(
+          '../pages/activities/activities-list-clients/activities-list-client.component'
+        )
+    ),
     version: 2,
     mobileLayout: false,
     header: {

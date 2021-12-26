@@ -1,6 +1,6 @@
 import moment from 'moment'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -21,6 +21,7 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 import AddTrainingPlan from '../add-plan/add-plan.component'
@@ -30,8 +31,16 @@ const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
 export default function TrainingPlans() {
   const isMobile = useIsMobile()
+  const { clientId } = useParams<{ clientId: any }>()
+  const history = useHistory()
   const [add, setAdd] = useState(false)
-  const { isLoading, trainingPlans } = useTrainingPlans()
+  const { isLoading, trainingPlans } = useTrainingPlans({ clientId })
+
+  useEffect(() => {
+    if (!clientId) {
+      history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
+    }
+  }, [clientId])
 
   if (add) {
     return <AddTrainingPlan onClose={() => setAdd(false)} />
@@ -39,6 +48,12 @@ export default function TrainingPlans() {
 
   const content = (
     <Styles>
+      <ActivitiesClient
+        clientId={clientId}
+        onClientSwitch={(id) => {
+          history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: id }))
+        }}
+      />
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
@@ -84,6 +99,7 @@ export default function TrainingPlans() {
                       key={index}
                       plan={row}
                       to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                        clientId: clientId,
                         id: row._id,
                         revisionId:
                           row.revisions?.[row.revisions?.length - 1]?._id
@@ -101,6 +117,7 @@ export default function TrainingPlans() {
                     name: (row) => (
                       <Link
                         to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                          clientId: clientId,
                           id: row._id,
                           revisionId:
                             row.revisions?.[row.revisions?.length - 1]?._id

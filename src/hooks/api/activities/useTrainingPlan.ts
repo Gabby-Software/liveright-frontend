@@ -21,12 +21,13 @@ interface UseTrainingPlan {
 }
 
 interface UseTrainingPlanConfig {
+  clientId: string
   id?: string
   revisionId?: string
 }
 
 export default function useTrainingPlan(
-  config: UseTrainingPlanConfig = {}
+  config: UseTrainingPlanConfig
 ): UseTrainingPlan {
   const history = useHistory()
 
@@ -53,6 +54,7 @@ export default function useTrainingPlan(
       toast.show({ type: 'success', msg: 'Training plan successfully created' })
       history.push(
         getRoute(Routes.ACTIVITIES_TP_ID, {
+          clientId: config.clientId,
           id: response?._id,
           revisionId:
             response?.revisions?.[response?.revisions?.length - 1]?._id
@@ -84,6 +86,7 @@ export default function useTrainingPlan(
       )
       history.push(
         getRoute(Routes.ACTIVITIES_TP_ID, {
+          clientId: config.clientId,
           id: config.id,
           revisionId: response?._id
         })

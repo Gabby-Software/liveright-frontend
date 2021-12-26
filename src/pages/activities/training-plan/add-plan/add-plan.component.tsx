@@ -8,7 +8,7 @@ import {
   useForm,
   useFormState
 } from 'react-hook-form'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
@@ -19,10 +19,13 @@ import DatePicker from '../../../../components/form/date-picker/date-picker.comp
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import useTraningPlanFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
@@ -115,13 +118,15 @@ export default function AddTrainingPlan({
 }: AddTrainingPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
   const isMobile = useIsMobile()
+  const { clientId } = useParams<any>()
+  const history = useHistory()
   const [showConfirm, setShowConfirm] = useState(false)
   const [delIdx, setDelIdx] = useState(-1)
-  const history = useHistory()
   const [redirectTo, setRedirectTo] = useState('')
   const [openConfirm, setOpenConfirm] = useState(false)
 
   const { onAdd, onEdit, revision, trainingPlan } = useTrainingPlan({
+    clientId,
     id: editId,
     revisionId
   })
@@ -150,6 +155,13 @@ export default function AddTrainingPlan({
     name: 'days' as never,
     keyName: 'id'
   })
+
+  useEffect(() => {
+    if (clientId) {
+      methods.setValue('account_id', parseInt(clientId))
+    }
+    console.log(methods.getValues())
+  }, [clientId])
 
   useEffect(() => {
     if (revision._id) {
@@ -220,6 +232,18 @@ export default function AddTrainingPlan({
     <>
       <FormProvider {...methods}>
         <Styles>
+          <ActivitiesClient
+            clientId={clientId}
+            preventClientSwitch={Boolean(editId)}
+            onClientSwitch={(id) => {
+              history.push(
+                getRoute(
+                  editId ? Routes.ACTIVITIES_TP_ID : Routes.ACTIVITIES_TP,
+                  { clientId: id, id: editId, revisionId: revisionId }
+                )
+              )
+            }}
+          />
           <Card className="EditPlan__overview">
             {!isMobile && (
               <>
