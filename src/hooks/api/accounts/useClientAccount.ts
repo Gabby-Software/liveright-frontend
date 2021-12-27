@@ -47,7 +47,7 @@ export default function useClientAccount(id: number): UseClientAccount {
     }
   }
 
-  const isLoading = !data && !error
+  const isLoading = id ? !data && !error : false
   const user = data?.user || {}
   const profile = data?.profile || {}
   const account = data?.user?.accounts?.find(

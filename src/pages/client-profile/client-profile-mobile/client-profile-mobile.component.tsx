@@ -49,11 +49,11 @@ export default function ClientProfileMobile() {
   const params = useParams<any>()
   const [edit, setEdit] = useState(false)
   const { isLoading, error, user, profile, address } = useClientAccount(
-    params.id
+    params.clientId
   )
-  const statistic = useStatistic({ account_id: params.id })
-  const upcomingSessions = useSessions(getSessionsConfig(params.id))
-  const freeSessions = useSessions(getSessionsConfig(params.id, true))
+  const statistic = useStatistic({ account_id: params.clientId })
+  const upcomingSessions = useSessions(getSessionsConfig(params.clientId))
+  const freeSessions = useSessions(getSessionsConfig(params.clientId, true))
 
   const { src, onError } = useImage(user.avatar?.url)
 

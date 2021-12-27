@@ -47,7 +47,7 @@ export default function useGoals(config: UseGoalsConfig = {}): UseGoals {
 
   const onAdd: OnAdd = async (values, onSuccess) => {
     try {
-      const formattedData = formatGoalsValues(values, params.id)
+      const formattedData = formatGoalsValues(values, params.clientId)
       await addGoals(formattedData)
       toast.show({ type: 'success', msg: 'Goals successfully saved!' })
       onSuccess?.()

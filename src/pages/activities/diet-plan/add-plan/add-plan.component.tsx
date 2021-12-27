@@ -16,7 +16,9 @@ import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { useSearchParam } from '../../../../hooks/search-params'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import ActivityLayout from '../../components/layout/layout.component'
 // import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
 import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
@@ -53,6 +55,7 @@ export default function AddDietPlan({
   // const [makeChangesDialog, setMakeChangesDialog] = useState(false)
   const isMobile = useIsMobile()
 
+  const clientId = useSearchParam('clientId')
   const { onAdd, onEdit, revision } = useDietPlan({
     id: editId,
     revisionId
@@ -82,7 +85,7 @@ export default function AddDietPlan({
     if (editId && revisionId) {
       onEdit(editId, revisionId, values, onClose)
     } else {
-      onAdd(values, onClose)
+      onAdd(values, clientId ?? '', onClose)
     }
   }
 
@@ -113,103 +116,100 @@ export default function AddDietPlan({
   const { errors } = methods.formState
 
   const content = (
-    <FormProvider {...methods}>
-      <Styles>
-        <Card className="EditPlan__overview">
-          {!isMobile && (
-            <>
-              <GoBack spacing={4} onClick={onClose}>
-                Go Back to Overview
-              </GoBack>
+    <ActivityLayout>
+      <FormProvider {...methods}>
+        <Styles>
+          <Card className="EditPlan__overview">
+            {!isMobile && (
+              <>
+                <GoBack spacing={4} onClick={onClose}>
+                  Go Back to Overview
+                </GoBack>
 
-              <div className="EditPlan__header">
-                <Title>Add Diet Plan</Title>
+                <div className="EditPlan__header">
+                  <Title>Add Diet Plan</Title>
 
-                <div>
-                  <Button onClick={handleSave}>Save</Button>
+                  <div>
+                    <Button onClick={handleSave}>Save</Button>
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
 
-          <div className="EditPlan__controls">
-            <Controller
-              name="name"
-              render={({ field: { value, name } }) => (
-                <Input
-                  id="edit-training-plan-name"
-                  label="Diet Plan Name"
-                  placeholder="Name"
-                  className="EditPlan__input"
-                  value={value}
-                  onChange={(e) => onChange(name, e.target.value)}
-                  error={errors.name}
-                  disabled={!!editId}
-                />
-              )}
-            />
+            <div className="EditPlan__controls">
+              <Controller
+                name="name"
+                render={({ field: { value, name } }) => (
+                  <Input
+                    id="edit-training-plan-name"
+                    label="Diet Plan Name"
+                    placeholder="Name"
+                    className="EditPlan__input"
+                    value={value}
+                    onChange={(e) => onChange(name, e.target.value)}
+                    error={errors.name}
+                    disabled={!!editId}
+                  />
+                )}
+              />
 
-            <Controller
-              name="scheduled_start_on"
-              render={({ field: { name, value } }) => (
-                <DatePicker
-                  id="add-training-plan-start"
-                  placeholder="Pick start date"
-                  label="Start date"
-                  className="EditPlan__input"
-                  disabledPast
-                  value={value}
-                  onChange={(e, date) => onChange(name, date)}
-                  error={errors.scheduled_start_on}
-                />
-              )}
+              <Controller
+                name="scheduled_start_on"
+                render={({ field: { name, value } }) => (
+                  <DatePicker
+                    id="add-training-plan-start"
+                    placeholder="Pick start date"
+                    label="Start date"
+                    className="EditPlan__input"
+                    disabledPast
+                    value={value}
+                    onChange={(e, date) => onChange(name, date)}
+                    error={errors.scheduled_start_on}
+                  />
+                )}
+              />
+              <Controller
+                name="scheduled_end_on"
+                render={({ field: { name, value } }) => (
+                  <DatePicker
+                    id="add-training-plan-end"
+                    placeholder="Pick end date"
+                    className="EditPlan__input"
+                    label="End date"
+                    value={value}
+                    onChange={(e, date) => onChange(name, date)}
+                    error={errors.scheduled_end_on}
+                    // disabled={!values.scheduled_start_on}
+                    // disabledDate={(date: Moment) =>
+                    //   date.isBefore(values.scheduled_start_on)
+                    // }
+                  />
+                )}
+              />
+              {/*<Counter value={count} onChange={(value) => setCount(value)} />*/}
+            </div>
+          </Card>
+
+          {daysArray.fields.map((day, index) => (
+            <MealDayAccordion
+              key={day.id}
+              index={index}
+              defaultOpened={editDay === index}
+              onRemove={() => handleDayRemove(index)}
             />
-            <Controller
-              name="scheduled_end_on"
-              render={({ field: { name, value } }) => (
-                <DatePicker
-                  id="add-training-plan-end"
-                  placeholder="Pick end date"
-                  className="EditPlan__input"
-                  label="End date"
-                  value={value}
-                  onChange={(e, date) => onChange(name, date)}
-                  error={errors.scheduled_end_on}
-                  // disabled={!values.scheduled_start_on}
-                  // disabledDate={(date: Moment) =>
-                  //   date.isBefore(values.scheduled_start_on)
-                  // }
-                />
-              )}
-            />
-            {/*<Counter value={count} onChange={(value) => setCount(value)} />*/}
+          ))}
+
+          <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
+            <AddIcon />
+            Add Meal Day
           </div>
-        </Card>
 
-        {daysArray.fields.map((day, index) => (
-          <MealDayAccordion
-            key={day.id}
-            index={index}
-            defaultOpened={editDay === index}
-            onRemove={() => handleDayRemove(index)}
-          />
-        ))}
-
-        <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
-          <AddIcon />
-          Add Meal Day
-        </div>
-
-        {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
-          <Error standalone="Add at least one day" />
-        )}
-      </Styles>
-
-      {/*<MakeChangesDialog*/}
-      {/*  open={makeChangesDialog}*/}
-      {/*  onClose={() => setMakeChangesDialog(false)}*/}
-      {/*/>*/}
-    </FormProvider>
+          {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
+            <Error standalone="Add at least one day" />
+          )}
+        </Styles>
+      </FormProvider>
+    </ActivityLayout>
   )
 
   return isMobile ? (

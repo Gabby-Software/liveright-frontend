@@ -26,7 +26,7 @@ export default function Goals() {
 
   const { isLoading, goals } = useGoals({
     filter: {
-      account_id: params.id || auth.id
+      account_id: params.clientId || auth.id
     }
   })
 
@@ -36,7 +36,7 @@ export default function Goals() {
 
   const editTo = isClient(auth.type)
     ? Routes.PROGRESS_LOG_CLIENT_GOALS
-    : getRoute(Routes.PROGRESS_LOG_GOALS, { id: params.id })
+    : getRoute(Routes.PROGRESS_LOG_GOALS, { clientId: params.clientId })
 
   return (
     <Styles $client={isClient(auth.type)}>

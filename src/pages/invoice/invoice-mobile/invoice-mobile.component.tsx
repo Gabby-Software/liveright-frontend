@@ -57,9 +57,12 @@ export default function InvoiceMobile({}: Props) {
   const history = useHistory()
   const [showDetails, setShowDetails] = useState(false)
 
-  usePusher(`invoice.${params.id}.pdf-generated`, `event.invoice`, () => {}, [
-    params.id
-  ])
+  usePusher(
+    `invoice.${params.clientId}.pdf-generated`,
+    `event.invoice`,
+    () => {},
+    [params.clientId]
+  )
 
   const {
     onSend,
@@ -70,7 +73,7 @@ export default function InvoiceMobile({}: Props) {
     invoice,
     isInvoiceLoading
   } = useInvoice({
-    id: params.id
+    id: params.clientId
   })
 
   const currency = invoice.currency?.code

@@ -22,7 +22,7 @@ export default function HealthData() {
 
   const health = useHealth({
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     only_include: 'sleep',
     averages: true
@@ -30,7 +30,7 @@ export default function HealthData() {
 
   const healthAll = useHealth({
     filter: {
-      account_id: params.id
+      account_id: params.clientId
     },
     sort: {
       date: 'asc'

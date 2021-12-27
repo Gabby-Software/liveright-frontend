@@ -19,13 +19,13 @@ import { Styles } from './client-info-mobile.styles'
 
 export default function ClientInfoMobile() {
   const params = useParams<any>()
-  const { user } = useClientAccount(params.id)
+  const { user } = useClientAccount(params.clientId)
   const [opened, setOpened] = useState(false)
   const [switchClient, setSwitchClient] = useState(false)
   const { lastSeen } = useChatOnline()
   const { findRoomByUserId } = useChats()
 
-  const room = findRoomByUserId(params.id)
+  const room = findRoomByUserId(params.clientId)
 
   const { activityValue, activityLabel } = useLastActivity()
 
@@ -35,7 +35,7 @@ export default function ClientInfoMobile() {
         <div className="progress__client-card-head">
           <div className="progress__client-card-badge">
             <UserBadge
-              key={params.id}
+              key={params.clientId}
               avatar={user.avatar?.url}
               firstName={user.first_name}
               lastName={user.last_name}
@@ -89,7 +89,7 @@ export default function ClientInfoMobile() {
           <Button
             variant="secondary"
             size="sm"
-            to={Routes.CLIENTS + `/${params.id}/profile`}
+            to={Routes.CLIENTS + `/${params.clientId}/profile`}
           >
             Open Profile
           </Button>
@@ -97,6 +97,7 @@ export default function ClientInfoMobile() {
       </Styles>
 
       <SwitchClient
+        route={Routes.PROGRESS_HEALTH_DATA}
         open={switchClient}
         onClose={() => setSwitchClient(false)}
       />

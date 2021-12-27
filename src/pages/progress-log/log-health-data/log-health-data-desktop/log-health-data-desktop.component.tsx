@@ -62,13 +62,13 @@ const LogHealthDataDesktop: React.FC = () => {
   const backUrl =
     type === userTypes.CLIENT
       ? Routes.PROGRESS_CLIENT_HEALTH_DATA
-      : getRoute(Routes.PROGRESS_HEALTH_DATA, { id: params.id })
+      : getRoute(Routes.PROGRESS_HEALTH_DATA, { clientId: params.clientId })
 
   const replaceUrl = (date: string) =>
     type === userTypes.CLIENT
       ? getRoute(Routes.PROGRESS_CLIENT_LOG_HEALTH_DATA, { date })
       : getRoute(Routes.PROGRESS_LOG_HEALTH_DATA, {
-          id: params.id,
+          clientId: params.clientId,
           date
         })
 
