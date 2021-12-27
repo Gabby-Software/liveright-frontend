@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import { useState } from 'react'
 import {
   DragDropContext,
@@ -74,6 +75,8 @@ export default function Meal({ name, onRemove, index }: MealProps) {
   //   mealOptions.push({ label: data.name, value: data.name, color: '#36B37E' })
   // }
 
+  const { errors } = methods.formState
+
   const handleFoodAdd = () => {
     foodsArray.append(createFood())
     methods.clearErrors(`${name}.items`)
@@ -83,6 +86,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     foodsArray.remove(index)
   }
 
+  console.log(errors)
   return (
     <Styles>
       <div className="Meal__header">
@@ -95,36 +99,40 @@ export default function Meal({ name, onRemove, index }: MealProps) {
       <div className="Meal__name">
         <Controller
           name={`${name}.name`}
-          render={({ field: { value, name } }) => (
-            <InputSearch
-              id="Workout-title"
-              label="Title of workout"
-              placeholder="Title"
-              value={value}
-              onChange={(value) => methods.setValue(name, value)}
-              onSearch={() => {}}
-              options={[
-                ...mealOptions,
-                {
-                  value: 'Another Meal',
-                  label: (
-                    <Button
-                      variant="text"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: 0
-                      }}
-                    >
-                      <AddIcon />
-                      &nbsp; Create New
-                    </Button>
-                  ),
-                  color: '#36B37E'
-                }
-              ]}
-            />
-          )}
+          render={({ field: { value, name } }) => {
+            console.log(name, value)
+            return (
+              <InputSearch
+                id="Workout-title"
+                label="Title of meal"
+                placeholder="Title"
+                value={value}
+                onChange={(value) => methods.setValue(name, value)}
+                onSearch={() => {}}
+                error={get(errors, name)}
+                options={[
+                  ...mealOptions,
+                  {
+                    value: 'Another Meal',
+                    label: (
+                      <Button
+                        variant="text"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          padding: 0
+                        }}
+                      >
+                        <AddIcon />
+                        &nbsp; Create New
+                      </Button>
+                    ),
+                    color: '#36B37E'
+                  }
+                ]}
+              />
+            )
+          }}
         />
 
         <Controller

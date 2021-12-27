@@ -35,6 +35,13 @@ export const Styles = styled.div`
       }
     }
 
+    &__divider {
+      width: 100%;
+      height: 1px;
+      background-color: ${getColorCarry('inputBorder_v2')};
+      margin-bottom: 2rem;
+    }
+
     &__subtitle {
       font-size: 1rem;
       font-weight: 500;
@@ -169,13 +176,13 @@ export const Styles = styled.div`
       gap: 1.25rem;
     }
 
+    &__statuses {
+      display: flex;}
+
     &__info {
       background-color: ${getColorCarry('neutral_10')};
       margin-bottom: 1.25rem;
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
 
       @media ${mediaQueries.TABLET} {
         align-items: flex-start;

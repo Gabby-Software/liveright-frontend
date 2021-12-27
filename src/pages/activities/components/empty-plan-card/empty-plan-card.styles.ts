@@ -5,7 +5,6 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
-  background-color: ${getColorCarry('neutral_20')};
   display: flex;
   align-items: center;
   justify-content: center;

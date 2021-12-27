@@ -1,4 +1,4 @@
-import { FocusEventHandler, ReactNode, useState } from 'react'
+import React, { FocusEventHandler, ReactNode, useState } from 'react'
 import ReactSelect, { MenuPosition } from 'react-select'
 
 import {
@@ -11,6 +11,7 @@ import { OptionType } from '../../../types/option.type'
 import FormError from '../../forms/form-error/form-error.component'
 import SmallModal from '../../small-modal/small-modal.component'
 import Tooltip from '../../tooltip/tooltip.component'
+import Error from '../error/error.component'
 import Input from '../input/input.component'
 import Label from '../label/label.component'
 import { DropdownIndicator, DropdownSearch, Styles } from './select.styles'
@@ -37,6 +38,8 @@ export interface SelectProps {
   menuOpen?: boolean
   loading?: boolean
   menuPosition?: MenuPosition
+  error?: string
+  ErrorProps?: any
 }
 
 export default function Select({
@@ -60,7 +63,9 @@ export default function Select({
   Components,
   menuOpen,
   loading,
-  menuPosition
+  menuPosition,
+  error,
+  ErrorProps
 }: SelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
@@ -163,6 +168,7 @@ export default function Select({
           menuPlacement="auto"
         />
         {name && <FormError name={name} className="field-error" />}
+        {error && <Error name={error} {...ErrorProps} />}
       </div>
     </Styles>
   )
@@ -191,6 +197,8 @@ export interface CustomSelectProps {
   loading?: boolean
   menuPosition?: MenuPosition
   forceDesktop?: boolean
+  error?: string
+  ErrorProps?: any
 }
 
 export function CustomSelect({
@@ -215,7 +223,9 @@ export function CustomSelect({
   menuOpen,
   loading,
   forceDesktop,
-  menuPosition
+  menuPosition,
+  error,
+  ErrorProps
 }: CustomSelectProps) {
   const isMobile = useIsMobile()
   const [modal, setModal] = useState(false)
@@ -306,6 +316,7 @@ export function CustomSelect({
           menuPlacement="auto"
         />
         {name && <FormError name={name} className="field-error" />}
+        {error && <Error name={error} {...ErrorProps} />}
       </div>
     </Styles>
   )

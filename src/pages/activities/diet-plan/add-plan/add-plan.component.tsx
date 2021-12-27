@@ -1,10 +1,14 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import moment, { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm
+  useForm,
+  useWatch
 } from 'react-hook-form'
+import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -18,6 +22,8 @@ import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useSearchParam } from '../../../../hooks/search-params'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
+import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 // import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
 import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
@@ -38,6 +44,43 @@ const defaultValues: any = {
   days: []
 }
 
+const validationSchema = yup.object().shape({
+  name: yup.string().required(),
+  // scheduled_start_on: yup.string().nullable(),
+  days: yup.array().of(
+    yup.object().shape({
+      name: yup.string().required(),
+      activities: yup.array().of(
+        yup.object().shape({
+          name: yup.string().required(),
+          // time: yup.string().nullable(),
+          items: yup.array().of(
+            yup.object().shape({
+              data: yup.object().shape({
+                name: yup.string().required()
+                // link: yup.lazy((v) =>
+                //   !v
+                //     ? yup.string().nullable()
+                //     : yup
+                //     .string()
+                //     .matches(URL_REGEX, 'Enter a valid link')
+                //     .nullable()
+                // ),
+                // info: yup.object().shape({
+                //   sets: yup.string(),
+                //   reps: yup.string(),
+                //   tempo: yup.string(),
+                //   rest_interval: yup.string()
+                // })
+              })
+            })
+          )
+        })
+      )
+    })
+  )
+})
+
 function createDay(dayIndex: number) {
   return {
     name: `Meals day ${dayIndex}`,
@@ -54,6 +97,8 @@ export default function AddDietPlan({
   const [dayIndex, setDayIndex] = useState(0)
   // const [makeChangesDialog, setMakeChangesDialog] = useState(false)
   const isMobile = useIsMobile()
+  const [delIdx, setDelIdx] = useState(-1)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const clientId = useSearchParam('clientId')
   const { onAdd, onEdit, revision } = useDietPlan({
@@ -62,14 +107,28 @@ export default function AddDietPlan({
   })
 
   const methods = useForm<any>({
-    defaultValues
-    // resolver: yupResolver(validationSchema),
+    defaultValues,
+    resolver: yupResolver(validationSchema)
+  })
+
+  const [scheduled_start_on, name] = useWatch({
+    control: methods.control,
+    name: ['scheduled_start_on', 'name']
   })
 
   const daysArray = useFieldArray({
     control: methods.control,
     name: 'days' as never
   })
+
+  const handleDayRemove = (index: number) => {
+    setDelIdx(index)
+  }
+
+  const removeWorkout = () => {
+    daysArray.remove(delIdx)
+    setDelIdx(-1)
+  }
 
   useEffect(() => {
     if (revision._id) {
@@ -89,13 +148,16 @@ export default function AddDietPlan({
     }
   }
 
-  const handleSave = () => {
-    // if (editId) {
-    //   setMakeChangesDialog(true)
-    // } else {
-    //   methods.handleSubmit(handleSubmit)()
-    // }
-    methods.handleSubmit(handleSubmit)()
+  const handleSave = async () => {
+    if (editId) {
+      const response = await methods.trigger()
+      if (!response) {
+        return
+      }
+      setShowConfirm(true)
+    } else {
+      methods.handleSubmit(handleSubmit)()
+    }
   }
 
   const handleDayAdd = () => {
@@ -103,10 +165,6 @@ export default function AddDietPlan({
     daysArray.append(createDay(newDayIndex))
     methods.clearErrors('days')
     setDayIndex(newDayIndex)
-  }
-
-  const handleDayRemove = (index: number) => {
-    daysArray.remove(index)
   }
 
   const onChange = (name: string, value: any) => {
@@ -148,7 +206,6 @@ export default function AddDietPlan({
                     value={value}
                     onChange={(e) => onChange(name, e.target.value)}
                     error={errors.name}
-                    disabled={!!editId}
                   />
                 )}
               />
@@ -179,10 +236,10 @@ export default function AddDietPlan({
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
-                    // disabled={!values.scheduled_start_on}
-                    // disabledDate={(date: Moment) =>
-                    //   date.isBefore(values.scheduled_start_on)
-                    // }
+                    disabled={!scheduled_start_on}
+                    disabledDate={(date: any) =>
+                      date.isBefore(scheduled_start_on)
+                    }
                   />
                 )}
               />
@@ -209,6 +266,59 @@ export default function AddDietPlan({
           )}
         </Styles>
       </FormProvider>
+
+      <ActivitiesDialog
+        name="Make Change Plan"
+        description="You’re about to making changes to the following diet plan:"
+        title={name}
+        date={{
+          label:
+            'Please select the date from when you want these changes to be applied:',
+          value: scheduled_start_on,
+          disabledDate: (date: Moment) => date.isBefore()
+        }}
+        alert={
+          <>
+            <div style={{ fontWeight: 600, margin: '0.75rem 0' }}>
+              Read this before activating plan!
+            </div>
+            <ul>
+              <li>
+                A new revision of your diet plan will be created and it will
+                become active. All your meal entries on your calender from this
+                day will be updated.
+              </li>
+              <li>
+                This will also make changes to your current training split to
+                use the changes you just made.
+              </li>
+            </ul>
+          </>
+        }
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        actions={{
+          yes: 'Looks Good, Save Changes',
+          cancel: 'Cancel',
+          layout: 'between',
+          onYes: () => methods.handleSubmit(handleSubmit)(),
+          onCancel: () => setShowConfirm(false)
+        }}
+      />
+      <ActivitiesDialog
+        open={delIdx >= 0}
+        onClose={() => setDelIdx(-1)}
+        name="Delete Confirmation"
+        title="Are you sure you want to delete the meal day?"
+        separator={false}
+        body="This will delete the workout day which potentially has meals"
+        actions={{
+          yes: 'Cancel',
+          cancel: 'Delete',
+          onYes: () => setDelIdx(-1),
+          onCancel: () => removeWorkout()
+        }}
+      />
     </ActivityLayout>
   )
 

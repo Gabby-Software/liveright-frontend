@@ -12,10 +12,10 @@ interface MealDayFormProps {
   name: string
 }
 
-function createMeal(index: number) {
+function createMeal() {
   return {
     id: Date.now(),
-    name: `Workout ${index}`,
+    name: '',
     time: '',
     sort_order: '',
     items: []
@@ -33,7 +33,7 @@ export default function MealDayForm({ name }: MealDayFormProps) {
   })
 
   const handleDayAdd = () => {
-    mealArray.append(createMeal(mealArray.fields.length + 1))
+    mealArray.append(createMeal())
     methods.clearErrors(name)
   }
 
