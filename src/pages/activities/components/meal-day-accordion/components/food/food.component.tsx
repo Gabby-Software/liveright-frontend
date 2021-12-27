@@ -6,6 +6,7 @@ import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Select from '../../../../../../components/form/select/select.component'
+import formatter from '../../../../../../managers/formatter.manager'
 import { Styles } from './food.styles'
 
 interface FoodProps {
@@ -60,6 +61,7 @@ export default function Food({
             options={options}
             value={value}
             onChange={(e) => onChange(name, e)}
+            error={get(errors, name)}
           />
         )}
         name={`${name}.name`}
@@ -70,10 +72,11 @@ export default function Food({
             id="Food-Qty(gr)"
             label="Qty(gr)"
             placeholder="-"
-            defaultValue={value}
+            value={value}
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.grams`}
@@ -88,6 +91,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.protein`}
@@ -102,6 +106,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.fat`}
@@ -116,6 +121,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.carbs`}
@@ -130,6 +136,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.sugar`}
@@ -144,6 +151,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.fiber`}
@@ -158,6 +166,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.total_carbs`}
@@ -172,6 +181,7 @@ export default function Food({
             onChange={(e) => onChange(name, e.target.value)}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
+            format={formatter().number().min(0).max(10000)}
           />
         )}
         name={`${name}.info.calories`}

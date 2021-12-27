@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
-import { FoodIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
@@ -20,12 +19,9 @@ import { getRoute } from '../../../../utils/routes'
 import Alert from '../../components/alert/alert.component'
 import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
-import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
-
-const IS_EMPTY = false
 
 export default function DietPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
@@ -54,14 +50,7 @@ export default function DietPlan() {
     ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
     : '-'
 
-  const content = IS_EMPTY ? (
-    <EmptyPlan
-      title="Current Diet Plan"
-      text="There is no diet plan yet..."
-      Icon={FoodIcon}
-      action={<Button>Create Edit Plan</Button>}
-    />
-  ) : (
+  const content = (
     <ActivityLayout>
       <Styles>
         <Card className="PlanPage__card">
@@ -71,11 +60,11 @@ export default function DietPlan() {
 
               <div className="PlanPage__header-actions">
                 <Button
-                  variant="secondary"
+                  variant="dark"
                   className="PlanPage__header-btn"
                   to={Routes.ACTIVITIES_DP}
                 >
-                  See Other Plans
+                  See Archived Plans
                 </Button>
                 <Button
                   className="PlanPage__header-btn"
@@ -87,67 +76,78 @@ export default function DietPlan() {
             </div>
           )}
 
-          <div className="PlanPage__filters">
-            <div className="PlanPage__filters-title-container">
-              <Subtitle className="PlanPage__filters-title">
-                {revision.name ?? dietPlan.name}
-              </Subtitle>
-
-              {isMobile && (
-                <Button
-                  variant="text"
-                  size="sm"
-                  className="PlanPage__filters-archived-btn"
-                  to={Routes.ACTIVITIES_DP}
-                >
-                  Archived Plans
-                </Button>
-              )}
-            </div>
-
-            <div className="PlanPage__filters-actions">
-              <Select
-                className="PlanPage__filters-select"
-                id="DietPlan-version"
-                options={
-                  dietPlan.revisions?.map((r: any) => ({
-                    label: formatRevisionLabel(r),
-                    value: r._id
-                  })) || []
-                }
-                value={{
-                  value: revision._id,
-                  label: formatRevisionLabel(revision)
-                }}
-                onChange={(e, o) => {
-                  history.push(
-                    getRoute(Routes.ACTIVITIES_DP_ID, {
-                      id: params.id,
-                      revisionId: o.value
-                    })
-                  )
-                }}
-              />
-
-              {!isMobile && revision.status === 'inactive' && (
-                <Button
-                  className="PlanPage__filters-make-active-btn"
-                  onClick={() => setConfirmDialog(true)}
-                >
-                  Make active
-                </Button>
-              )}
-            </div>
-          </div>
-
           {revision.status === 'scheduled' && (
             <Alert
-              content={`This is your revision of your training plan set become active on ${startOn}.`}
+              content={`This is your revision of your diet plan set become active on ${startOn}.`}
             />
           )}
 
           <Card className="PlanPage__info">
-            <div>
+            <div className="PlanPage__filters">
+              <div className="PlanPage__filters-title-container">
+                <Subtitle className="PlanPage__filters-title">
+                  {revision.name ?? dietPlan.name}
+                </Subtitle>
+
+                {isMobile && (
+                  <Button
+                    variant="text"
+                    size="sm"
+                    className="PlanPage__filters-archived-btn"
+                    to={Routes.ACTIVITIES_DP}
+                  >
+                    Archived Plans
+                  </Button>
+                )}
+              </div>
+
+              <div className="PlanPage__filters-actions">
+                <Select
+                  className="PlanPage__filters-select"
+                  id="DietPlan-version"
+                  options={
+                    dietPlan.revisions?.map((r: any) => ({
+                      label: formatRevisionLabel(r),
+                      value: r._id
+                    })) || []
+                  }
+                  value={{
+                    value: revision._id,
+                    label: formatRevisionLabel(revision)
+                  }}
+                  onChange={(e, o) => {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_DP_ID, {
+                        id: params.id,
+                        revisionId: o.value
+                      })
+                    )
+                  }}
+                />
+
+                {!isMobile && revision.status === 'inactive' && (
+                  <Button
+                    className="PlanPage__filters-make-active-btn"
+                    onClick={() => setConfirmDialog(true)}
+                  >
+                    Make active
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="PlanPage__divider" />
+
+            <div className="PlanPage__statuses">
+              <div className="PlanPage__badge">
+                <StatusBadge
+                  status={revision.status}
+                  className="PlanPage__info-badge"
+                >
+                  {capitalize(revision.status)}
+                </StatusBadge>
+              </div>
+
               {revision.status === 'active' && (
                 <div className="PlanPage__badge">
                   <p className="PlanPage__badge-title">Start and end dates</p>
@@ -170,13 +170,6 @@ export default function DietPlan() {
                 </div>
               )}
             </div>
-
-            <StatusBadge
-              status={revision.status}
-              className="PlanPage__info-badge"
-            >
-              {capitalize(revision.status)}
-            </StatusBadge>
           </Card>
 
           {!isMobile && (

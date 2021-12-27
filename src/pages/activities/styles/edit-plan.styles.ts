@@ -45,6 +45,7 @@ export const Styles = styled.div`
     }
 
     &__add-new-day {
+      margin: 0 2rem;
       padding: 1rem;
       font-weight: 500;
       font-size: 0.875rem;
