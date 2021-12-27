@@ -23,9 +23,10 @@ export const Routes = {
   ACTIVITIES: '/activities',
   ACTIVITIES_DP: '/activities/diet-plans',
   ACTIVITIES_DP_ID: '/activities/diet-plans/:id/revisions/:revisionId',
-  ACTIVITIES_TP: '/activities/training-plans',
+  ACTIVITIES_TP: '/activities/:clientId?/training-plans',
   ACTIVITIES_TP_NEW: '/activities/training-plans/create',
-  ACTIVITIES_TP_ID: '/activities/training-plans/:id/revisions/:revisionId',
+  ACTIVITIES_TP_ID:
+    '/activities/:clientId?/training-plans/:id/revisions/:revisionId',
   ACTIVITIES_CURR_PLAN: '/activities/current-plan',
   ACTIVITIES_TS: '/activities/training-splits',
   ACTIVITIES_TS_NEW: '/activities/training-splits/create',
