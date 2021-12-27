@@ -15,7 +15,7 @@ export default styled.div<any>`
       border-radius: 0.625rem;
       font-size: 0.875rem;
       color: ${getColorCarry('primaryDark_v2')};
-      padding: 0 1rem;
+      padding: 6px 12px;
       line-height: 45px;
 
       & input {
@@ -23,6 +23,10 @@ export default styled.div<any>`
         width: 100%;
         padding: 10px 0;
         line-height: 45px;
+      }
+
+      &::-webkit-input-placeholder {
+        line-height: normal;
       }
     }
 

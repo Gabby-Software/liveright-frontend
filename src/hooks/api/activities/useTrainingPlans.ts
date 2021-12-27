@@ -11,6 +11,7 @@ function getKey(params: any) {
 interface UseTrainingPlans {
   isLoading: boolean
   trainingPlans: any[]
+  mutate: any
 }
 
 export default function useTrainingPlans({
@@ -24,7 +25,7 @@ export default function useTrainingPlans({
     }
   }
 
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     () => getKey(omitEmpty(params)),
     getTrainingPlans
   )
@@ -33,6 +34,7 @@ export default function useTrainingPlans({
   const trainingPlans = data?.data || []
   return {
     isLoading,
-    trainingPlans
+    trainingPlans,
+    mutate
   }
 }

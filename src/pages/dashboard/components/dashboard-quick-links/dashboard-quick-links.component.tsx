@@ -23,7 +23,11 @@ const links: ILink[] = [
     icon: <AddGroupIcon />,
     path: Routes.CLIENTS + '?show_drawer=true'
   },
-  { label: 'Training Plans', icon: <PlanIcon />, path: Routes.ACTIVITIES },
+  {
+    label: 'Training Plans',
+    icon: <PlanIcon />,
+    path: Routes.ACTIVITIES_TP.replace('/:clientId?', '')
+  },
   {
     label: 'Schedule Session',
     icon: <CalendarIcon />,

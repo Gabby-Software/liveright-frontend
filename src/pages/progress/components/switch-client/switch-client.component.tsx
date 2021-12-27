@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { ProfileIcon } from '../../../../assets/media/icons'
 import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.component'

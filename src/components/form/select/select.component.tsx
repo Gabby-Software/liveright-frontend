@@ -76,6 +76,17 @@ export default function Select({
     onChange?.(e.value, e)
   }
 
+  const customStyles = {
+    menu: (provided: any) => ({
+      ...provided,
+      padding: 0
+    }),
+    menuList: (provided: any) => ({
+      ...provided,
+      padding: 0
+    })
+  }
+
   if (isMobile) {
     return (
       <>
@@ -133,6 +144,7 @@ export default function Select({
           value={innerValue}
           defaultValue={innerDefaultValue}
           className="select-container"
+          styles={customStyles}
           classNamePrefix="select"
           components={{
             IndicatorSeparator: () => null,

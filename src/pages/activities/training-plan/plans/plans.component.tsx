@@ -34,7 +34,7 @@ export default function TrainingPlans() {
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
   const [add, setAdd] = useState(false)
-  const { isLoading, trainingPlans } = useTrainingPlans({ clientId })
+  const { isLoading, trainingPlans, mutate } = useTrainingPlans({ clientId })
 
   useEffect(() => {
     if (!clientId) {
@@ -43,7 +43,14 @@ export default function TrainingPlans() {
   }, [clientId])
 
   if (add) {
-    return <AddTrainingPlan onClose={() => setAdd(false)} />
+    return (
+      <AddTrainingPlan
+        onClose={() => {
+          setAdd(false)
+          mutate()
+        }}
+      />
+    )
   }
 
   const content = (
