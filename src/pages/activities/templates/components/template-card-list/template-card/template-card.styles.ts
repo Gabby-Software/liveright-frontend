@@ -7,10 +7,6 @@ export default styled(Card)`
   color: ${getColorCarry('neutral_70')};
   margin-bottom: 15px;
 
-  &:last-child {
-    margin-bottom: 0px;
-  }
-
   .card-id {
     font-size: 14px;
     line-height: 20px;

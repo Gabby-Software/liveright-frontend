@@ -18,7 +18,7 @@ interface TemplatesTableProps {
   labels: string[]
   data: any[]
   baseLink: string
-  mobileLabels?: { [key: string]: string }
+  mobileLabels: { [key: string]: string }
 }
 export default function TemplatesTable(props: TemplatesTableProps) {
   const isMobile = useIsMobile()

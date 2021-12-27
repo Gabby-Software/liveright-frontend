@@ -7,7 +7,7 @@ export const Styles = styled.div`
   padding: 30px;
 
   @media ${mediaQueries.MOBILE} {
-    padding: 20px 0px;
+    padding: 0;
   }
 
   .Templates {
@@ -39,4 +39,13 @@ export const Styles = styled.div`
       }
     }
   }
+`
+
+export const HeaderSubTitle = styled.p`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 8px 0;
 `

@@ -10,7 +10,7 @@ import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import Meals from './meal/meals.component'
 import MealPlans from './meal-plan/meal-plans.component'
-import { Styles } from './templates.styles'
+import { Styles, HeaderSubTitle } from './templates.styles'
 import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
 import Workouts from './workout/workouts.component'
@@ -68,7 +68,15 @@ export default function Templates() {
   const isMobile = useIsMobile()
 
   return isMobile ? (
-    <MobilePage title="Templates">
+    <MobilePage
+      title="Templates"
+      headerSpacing={14}
+      headerComponent={
+        <HeaderSubTitle>
+          Manage your templates (see, edit) and add them to create a plan !
+        </HeaderSubTitle>
+      }
+    >
       <ActivityLayout>
         <Styles>
           <Tabs
