@@ -75,7 +75,7 @@ export const Styles = styled.div<any>`
       z-index: 22;
       overflow-x: hidden;
       border-radius: 0.625rem;
-      padding: 1rem 0;
+      padding: 0;
       box-shadow: 0px 4px 29px rgba(213, 222, 232, 0.55);
     }
 

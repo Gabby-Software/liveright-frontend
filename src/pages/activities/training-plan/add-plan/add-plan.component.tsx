@@ -1,4 +1,5 @@
 // import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
@@ -43,55 +44,39 @@ const URL_REGEX =
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
-  scheduled_start_on: yup.string().required(),
-  days: yup
-    .array()
-    .min(1)
-    .of(
-      yup.object().shape({
-        name: yup.string().required(),
-        activities: yup
-          .array()
-          .min(1)
-          .of(
+  scheduled_start_on: yup.string().nullable(),
+  days: yup.array().of(
+    yup.object().shape({
+      name: yup.string().required(),
+      activities: yup.array().of(
+        yup.object().shape({
+          name: yup.string(),
+          time: yup.string().nullable(),
+          items: yup.array().of(
             yup.object().shape({
-              name: yup.string().required(),
-              time: yup.string().required(),
-              items: yup
-                .array()
-                .min(1)
-                .of(
-                  yup.object().shape({
-                    data: yup
-                      .array()
-                      .of(
-                        yup.object().shape({
-                          name: yup.string().required(),
-                          link: yup.lazy((v) =>
-                            !v
-                              ? yup.string()
-                              : yup
-                                  .string()
-                                  .matches(URL_REGEX, 'Enter a valid link')
-                          ),
-                          info: yup.object().shape({
-                            sets: yup.string(),
-                            reps: yup.string(),
-                            tempo: yup.string(),
-                            rest_interval: yup.string()
-                          })
-                        })
-                      )
-                      .required()
-                  })
-                )
-                .required()
+              data: yup.object().shape({
+                name: yup.string().required(),
+                link: yup.lazy((v) =>
+                  !v
+                    ? yup.string().nullable()
+                    : yup
+                        .string()
+                        .matches(URL_REGEX, 'Enter a valid link')
+                        .nullable()
+                ),
+                info: yup.object().shape({
+                  sets: yup.string(),
+                  reps: yup.string(),
+                  tempo: yup.string(),
+                  rest_interval: yup.string()
+                })
+              })
             })
           )
-          .required()
-      })
-    )
-    .required()
+        })
+      )
+    })
+  )
 })
 console.log(validationSchema)
 
@@ -134,11 +119,10 @@ export default function AddTrainingPlan({
   const methods = useForm<any>({
     defaultValues,
     // no validaton
-    // resolver: yupResolver(validationSchema),
-    reValidateMode: 'onChange'
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange'
   })
-
-  console.log(redirectTo)
 
   const { onUnlock } = useTraningPlanFormLock(
     methods.control,
@@ -146,9 +130,11 @@ export default function AddTrainingPlan({
     setRedirectTo
   )
 
-  const { isDirty } = useFormState({
+  const { isDirty, errors } = useFormState({
     control: methods.control
   })
+
+  console.log(errors)
 
   const daysArray = useFieldArray({
     control: methods.control,
@@ -160,7 +146,6 @@ export default function AddTrainingPlan({
     if (clientId) {
       methods.setValue('account_id', parseInt(clientId))
     }
-    console.log(methods.getValues())
   }, [clientId])
 
   useEffect(() => {
@@ -190,6 +175,10 @@ export default function AddTrainingPlan({
   }
 
   const handleSave = () => {
+    if (Object.keys(errors).length) {
+      methods.trigger()
+      return
+    }
     if (editId) {
       setShowConfirm(true)
     } else {
@@ -225,7 +214,6 @@ export default function AddTrainingPlan({
     }
   }
 
-  const { errors } = methods.formState
   const values = methods.getValues()
 
   const content = (

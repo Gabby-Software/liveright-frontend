@@ -105,7 +105,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     exercisesArray.remove(index)
   }
 
-  const onNew = () => {}
+  const onNew = () => {
+    methods.setValue(`${name}.name`, '')
+  }
 
   return (
     <Styles>
@@ -170,7 +172,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                   color: '#36B37E'
                 },
                 {
-                  value: 'Another Workout',
+                  value: '',
                   label: (
                     <Button
                       variant="text"

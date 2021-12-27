@@ -85,8 +85,8 @@ export default function Exercise({
       return (
         <AutoCompleteInput
           id="Exercise-name"
-          label="Exercise name"
-          placeholder="Exersice"
+          label={`${isCardio ? 'Cardio' : 'Exercise'} name`}
+          placeholder={isCardio ? 'Cardio' : 'Exercise'}
           value={value}
           onChange={(value) => {
             onChange(name, value)
