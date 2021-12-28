@@ -93,7 +93,7 @@ export default function DietPlans() {
         <div className="PlansTable__filters">
           <ClientSelect
             id="DietPlans-client"
-            onChange={() => {}}
+            onChange={(e) => { history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))}}
             placeholder="All Client"
             className="PlansTable__select"
           />
