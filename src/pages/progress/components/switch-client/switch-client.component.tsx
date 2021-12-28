@@ -6,31 +6,25 @@ import BottomDrawer from '../../../../components/bottom-drawer/bottom-drawer.com
 import Button from '../../../../components/buttons/button/button.component'
 import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getRoute } from '../../../../utils/routes'
 import { Content } from './switch-client.styles'
 
 interface SwitchClientProps {
-  route: string
   open: boolean
   onClose: () => void
 }
 
-export default function SwitchClient({
-  route,
-  open,
-  onClose
-}: SwitchClientProps) {
+export default function SwitchClient({ open, onClose }: SwitchClientProps) {
   const { t } = useTranslation()
   const [id, setId] = useState('')
   const history = useHistory()
   const isMobile = useIsMobile()
 
   const handleClick = () => {
-    const url = route.includes(':clientId')
-      ? getRoute(route, { clientId: id })
-      : `${route}?clientId=${id}`
+    const url = getRoute(Routes.PROGRESS_HEALTH_DATA, { clientId: id })
     history.push(url)
     onClose()
   }

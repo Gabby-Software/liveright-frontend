@@ -8,6 +8,7 @@ import {
   useForm,
   useWatch
 } from 'react-hook-form'
+import { useHistory, useParams } from 'react-router'
 import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
@@ -18,12 +19,13 @@ import DatePicker from '../../../../components/form/date-picker/date-picker.comp
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
+import { Routes } from '../../../../enums/routes.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
-import { useSearchParam } from '../../../../hooks/search-params'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
-import ActivityLayout from '../../components/layout/layout.component'
 // import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
 import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
 import { Styles } from '../../styles/edit-plan.styles'
@@ -95,12 +97,14 @@ export default function AddDietPlan({
 }: AddDietPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
   // const [makeChangesDialog, setMakeChangesDialog] = useState(false)
+  const { clientId } = useParams<any>()
+  const history = useHistory()
   const isMobile = useIsMobile()
   const [delIdx, setDelIdx] = useState(-1)
   const [showConfirm, setShowConfirm] = useState(false)
 
-  const clientId = useSearchParam('clientId')
   const { onAdd, onEdit, revision } = useDietPlan({
+    clientId,
     id: editId,
     revisionId
   })
@@ -119,6 +123,12 @@ export default function AddDietPlan({
     control: methods.control,
     name: 'days' as never
   })
+
+  useEffect(() => {
+    if (clientId) {
+      methods.setValue('account_id', parseInt(clientId))
+    }
+  }, [clientId])
 
   const handleDayRemove = (index: number) => {
     setDelIdx(index)
@@ -174,9 +184,21 @@ export default function AddDietPlan({
   const { errors } = methods.formState
 
   const content = (
-    <ActivityLayout>
+    <>
       <FormProvider {...methods}>
         <Styles>
+          <ActivitiesClient
+            clientId={clientId}
+            preventClientSwitch={Boolean(editId)}
+            onClientSwitch={(id) => {
+              history.push(
+                getRoute(
+                  editId ? Routes.ACTIVITIES_DP_ID : Routes.ACTIVITIES_DP,
+                  { clientId: id, id: editId, revisionId: revisionId }
+                )
+              )
+            }}
+          />
           <Card className="EditPlan__overview">
             {!isMobile && (
               <>
@@ -319,7 +341,7 @@ export default function AddDietPlan({
           onCancel: () => removeWorkout()
         }}
       />
-    </ActivityLayout>
+    </>
   )
 
   return isMobile ? (

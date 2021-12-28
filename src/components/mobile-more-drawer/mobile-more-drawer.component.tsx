@@ -21,6 +21,7 @@ import { useAuth } from '../../hooks/auth.hook'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { identity } from '../../pipes/identity.pipe'
 import { ACTION_LOGOUT_REQUEST } from '../../store/action-types'
+import { getRoute } from '../../utils/routes'
 import BottomDrawer from '../bottom-drawer/bottom-drawer.component'
 import NavSubMenu from '../nav-submenus/nav-submenus.components'
 import SwitchAccountModal from '../switch-account-modal/switch-account-modal.component'
@@ -60,11 +61,11 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
         },
         {
           name: 'Training Plans',
-          url: Routes.ACTIVITIES_TP
+          url: getRoute(Routes.ACTIVITIES_TP, { clientId: null })
         },
         {
           name: 'Diet Plans',
-          url: Routes.ACTIVITIES_DP
+          url: getRoute(Routes.ACTIVITIES_DP, { clientId: null })
         },
         {
           name: 'Training Slipts',
