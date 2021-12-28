@@ -78,7 +78,7 @@ export default function DietPlan() {
 
           {revision.status === 'scheduled' && (
             <Alert
-              content={`This is your revision of your diet plan set become active on ${startOn}.`}
+              content={`This Diet plan is set become active on ${startOn}.`}
             />
           )}
 

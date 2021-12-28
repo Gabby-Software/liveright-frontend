@@ -4,8 +4,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Input from '../../../../../../components/form/input/input.component'
-import Select from '../../../../../../components/form/select/select.component'
 import formatter from '../../../../../../managers/formatter.manager'
 import { Styles } from './food.styles'
 
@@ -54,7 +54,7 @@ export default function Food({
 
       <Controller
         render={({ field: { value, name } }) => (
-          <Select
+          <AutoCompleteInput
             id="Food-name"
             label="Food name"
             placeholder="Food one"
@@ -94,7 +94,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
           />
         )}
-        name={`${name}.info.protein`}
+        name={`${name}.info.proteins`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -124,7 +124,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
           />
         )}
-        name={`${name}.info.carbs`}
+        name={`${name}.info.net_carbs`}
       />
       <Controller
         render={({ field: { value, name } }) => (

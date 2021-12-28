@@ -55,9 +55,26 @@ function createFood() {
   }
 }
 
+const MACROS_LABEL_KEY_MAP = {
+  Calories: 'calories',
+  Carbs: 'net_carbs',
+  Fat: 'fat',
+  Proteins: 'proteins'
+}
+
 export default function Meal({ name, onRemove, index }: MealProps) {
   const [dropId] = useState(uuid())
   const [newMeal, setNewMeal] = useState(false)
+  const [totalMacros, setTotalMacros] = useState({
+    grams: 0,
+    proteins: 0,
+    fat: 0,
+    net_carbs: 0,
+    sugar: 0,
+    fiber: 0,
+    total_carbs: 0,
+    calories: 0
+  })
 
   const methods = useFormContext()
 
@@ -100,6 +117,34 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     foodsArray.remove(index)
   }
 
+  const calculateTotalMacros = () => {
+    const items: any[] = methods.getValues(`${name}.items`)
+
+    const macros = {
+      grams: 0,
+      proteins: 0,
+      fat: 0,
+      net_carbs: 0,
+      sugar: 0,
+      fiber: 0,
+      total_carbs: 0,
+      calories: 0
+    }
+
+    items?.forEach((i) => {
+      const info = i.data.info
+      Object.keys(macros).map((k: string) => {
+        return ((macros as any)[k] += parseInt(info[k] || 0))
+      })
+    })
+
+    setTotalMacros(macros)
+  }
+
+  methods.watch(() => {
+    calculateTotalMacros()
+  })
+
   return (
     <Styles>
       <div className="Meal__header">
@@ -116,7 +161,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
             return newMeal ? (
               <Input
                 id="Meal-title"
-                label="Title of meal"
+                label="Title of Meal"
                 placeholder="Title"
                 value={value}
                 onChange={(e) => methods.setValue(name, e.target.value)}
@@ -124,7 +169,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
             ) : (
               <InputSearch
                 id="Meal-title"
-                label="Title of meal"
+                label="Title of Meal"
                 placeholder="Title"
                 value={value}
                 onChange={(value) => {
@@ -187,10 +232,13 @@ export default function Meal({ name, onRemove, index }: MealProps) {
       </div>
 
       <div className="Meal__macronutrients">
-        {['Calories', 'Carbs', 'Fat', 'Protein'].map((row) => (
+        {['Calories', 'Carbs', 'Fat', 'Proteins'].map((row) => (
           <div key={row} className="Meal__macronutrient">
             <p className="Meal__macronutrient-title">{row}</p>
-            <p className="Meal__macronutrient-value">0g</p>
+            <p className="Meal__macronutrient-value">
+              {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]}
+              {row === 'Calories' ? 'KCal' : 'g'}
+            </p>
           </div>
         ))}
       </div>
