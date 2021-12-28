@@ -21,6 +21,7 @@ interface UseDietPlan {
 }
 
 interface UseDietPlanConfig {
+  clientId?: string
   id?: string
   revisionId?: string
 }
@@ -49,13 +50,13 @@ export default function useDietPlan(
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
       const payload = formatPlanData(data)
-      !!clientId && (payload.account_id = clientId)
       const response = await addDietPlan(payload)
 
       toast.show({ type: 'success', msg: 'Diet plan successfully created' })
 
       history.push(
         getRoute(Routes.ACTIVITIES_DP_ID, {
+          clientId: config.clientId,
           id: response?._id,
           revisionId:
             response?.revisions?.[response?.revisions?.length - 1]?._id
@@ -89,6 +90,7 @@ export default function useDietPlan(
       const response = await editDietPlan(id, revisionId, formatPlanData(data))
       history.push(
         getRoute(Routes.ACTIVITIES_DP_ID, {
+          clientId: config.clientId,
           id: config.id,
           revisionId: response?._id
         })

@@ -12,8 +12,16 @@ interface UseDietPlans {
   dietPlans: any[]
 }
 
-export default function useDietPlans(): UseDietPlans {
-  const params = {}
+export default function useDietPlans({
+  clientId
+}: {
+  clientId?: string
+} = {}): UseDietPlans {
+  const params = {
+    filter: {
+      account_id: clientId
+    }
+  }
 
   const { data, error } = useSWR(() => getKey(params), getDietPlans)
 

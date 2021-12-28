@@ -114,7 +114,7 @@ const trainerMenuItems: MenuItemType[] = [
       },
       {
         name: 'Diet Plans',
-        url: Routes.ACTIVITIES_DP
+        url: getRoute(Routes.ACTIVITIES_DP, { clientId: null })
       },
       {
         name: 'Training Splits',

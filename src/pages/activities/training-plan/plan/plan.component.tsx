@@ -36,13 +36,7 @@ export default function TrainingPlan() {
 
   useEffect(() => {
     if (!params.clientId) {
-      history.push(
-        `${Routes.ACTIVITIES}?return=${getRoute(Routes.ACTIVITIES_TP_ID, {
-          clientId: ':clientId',
-          id: params.id,
-          revisionId: params.revisionId
-        })}`
-      )
+      history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
     }
   }, [params.clientId])
 

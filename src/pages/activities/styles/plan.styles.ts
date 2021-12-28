@@ -177,7 +177,8 @@ export const Styles = styled.div`
     }
 
     &__statuses {
-      display: flex;}
+      display: flex;
+    }
 
     &__info {
       background-color: ${getColorCarry('neutral_10')};

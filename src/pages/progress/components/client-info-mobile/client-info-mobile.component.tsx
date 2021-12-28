@@ -97,7 +97,6 @@ export default function ClientInfoMobile() {
       </Styles>
 
       <SwitchClient
-        route={Routes.PROGRESS_HEALTH_DATA}
         open={switchClient}
         onClose={() => setSwitchClient(false)}
       />

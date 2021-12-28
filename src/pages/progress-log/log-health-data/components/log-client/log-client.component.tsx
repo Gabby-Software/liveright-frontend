@@ -19,11 +19,7 @@ import { classes } from '../../../../../pipes/classes.pipe'
 import SwitchClient from '../../../../progress/components/switch-client/switch-client.component'
 import { Wrapper } from './log-client.styles'
 
-export default function LogClient({
-  route = Routes.PROGRESS_HEALTH_DATA
-}: {
-  route?: string
-}) {
+export default function LogClient() {
   const [expanded, setExpended] = useState(false)
   const params = useParams<any>()
   const search = useSearchParam('clientId')
@@ -129,7 +125,6 @@ export default function LogClient({
       </Wrapper>
 
       <SwitchClient
-        route={route}
         open={switchDialog}
         onClose={() => setSwitchDialog(false)}
       />

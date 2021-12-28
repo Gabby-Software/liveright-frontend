@@ -1,6 +1,6 @@
 import moment from 'moment'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useHistory, useParams } from 'react-router-dom'
 
 import { FoodIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
@@ -22,8 +22,8 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
-import ActivityLayout from '../../components/layout/layout.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
@@ -33,135 +33,150 @@ const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
 export default function DietPlans() {
   const isMobile = useIsMobile()
+  const { clientId } = useParams<{ clientId: any }>()
+  const history = useHistory()
   const [add, setAdd] = useState(false)
+  const { isLoading, dietPlans } = useDietPlans({ clientId })
 
-  const { isLoading, dietPlans } = useDietPlans()
+  useEffect(() => {
+    if (!clientId) {
+      history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_DP}`)
+    }
+  }, [clientId])
 
   if (add) {
     return <AddDietPlan onClose={() => setAdd(false)} />
   }
 
-  const content = (
-    <ActivityLayout>
-      {!dietPlans.length ? (
-        <EmptyPlan
-          title="Diet Plans"
-          text="There is no diet plan yet..."
-          Icon={FoodIcon}
-          action={
-            <Button onClick={() => setAdd(true)}>Create Edit Plan</Button>
-          }
-        />
-      ) : (
-        <Styles>
-          <Card className="PlansTable__card">
-            {!isMobile && (
-              <>
-                <MobileBack
-                  to="/"
-                  alias="current-plan"
-                  className="PlansTable__back"
-                />
+  const content = !dietPlans.length ? (
+    <Styles>
+      <ActivitiesClient
+        clientId={clientId}
+        onClientSwitch={(id) => {
+          history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+        }}
+      />
+      <EmptyPlan
+        title="Diet Plans"
+        text="There is no diet plan yet..."
+        Icon={FoodIcon}
+        action={<Button onClick={() => setAdd(true)}>Create Diet Plan</Button>}
+      />
+    </Styles>
+  ) : (
+    <Styles>
+      <ActivitiesClient
+        clientId={clientId}
+        onClientSwitch={(id) => {
+          history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+        }}
+      />
+      <Card className="PlansTable__card">
+        {!isMobile && (
+          <>
+            <MobileBack
+              to="/"
+              alias="current-plan"
+              className="PlansTable__back"
+            />
 
-                <div className="PlansTable__title-container">
-                  <Title>Diet Plans</Title>
+            <div className="PlansTable__title-container">
+              <Title>Diet Plans</Title>
 
-                  <div>
-                    <Button onClick={() => setAdd(true)}>
-                      Create New Plan
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div className="PlansTable__filters">
-              <ClientSelect
-                id="DietPlans-client"
-                onChange={() => {}}
-                placeholder="All Client"
-                className="PlansTable__select"
-              />
-
-              <Select
-                id="DietPlans-statuses"
-                options={[]}
-                placeholder="All Status"
-                className="PlansTable__select"
-              />
+              <div>
+                <Button onClick={() => setAdd(true)}>Create New Plan</Button>
+              </div>
             </div>
+          </>
+        )}
 
-            <div>
-              {isMobile ? (
-                <>
-                  {dietPlans.map((row, index) => (
-                    <PlanCard
-                      plan={row}
-                      key={index}
-                      to={getRoute(Routes.ACTIVITIES_DP_ID, {
-                        id: row._id,
-                        revisionId: getRevision(row)?._id
-                      })}
-                    />
-                  ))}
-                </>
-              ) : (
-                <DataTable
-                  labels={LABELS}
-                  data={dietPlans}
-                  keys={KEYS}
-                  round="10px"
-                  render={{
-                    name: (row) => (
-                      <Link
-                        className="PlansTable__table-link"
-                        to={getRoute(Routes.ACTIVITIES_DP_ID, {
-                          id: row._id,
-                          revisionId: getRevision(row)?._id
-                        })}
-                      >
-                        <span>{row.name}</span>
-                      </Link>
-                    ),
-                    client: () => <span>-</span>,
-                    days: (row) => <span>{getRevision(row)?.days_count}</span>,
-                    start: (row) => (
-                      <span>
-                        {getRevision(row)?.scheduled_start_on
-                          ? moment(
-                              new Date(getRevision(row)?.scheduled_start_on)
-                            ).format(DATE_RENDER_FORMAT)
-                          : '-'}
-                      </span>
-                    ),
-                    end: (row) => (
-                      <span>
-                        {getRevision(row)?.scheduled_end_on
-                          ? moment(
-                              new Date(getRevision(row)?.scheduled_end_on)
-                            ).format(DATE_RENDER_FORMAT)
-                          : '-'}
-                      </span>
-                    ),
-                    status: (row) => (
-                      <StatusBadge
-                        status={getRevision(row)?.status.toLowerCase()}
-                        className="PlansTable__table-status"
-                      >
-                        {capitalize(getRevision(row)?.status)}
-                      </StatusBadge>
-                    )
-                  }}
+        <div className="PlansTable__filters">
+          <ClientSelect
+            id="DietPlans-client"
+            onChange={() => {}}
+            placeholder="All Client"
+            className="PlansTable__select"
+          />
+
+          <Select
+            id="DietPlans-statuses"
+            options={[]}
+            placeholder="All Status"
+            className="PlansTable__select"
+          />
+        </div>
+
+        <div>
+          {isMobile ? (
+            <>
+              {dietPlans.map((row, index) => (
+                <PlanCard
+                  plan={row}
+                  key={index}
+                  to={getRoute(Routes.ACTIVITIES_DP_ID, {
+                    clientId,
+                    id: row._id,
+                    revisionId: getRevision(row)?._id
+                  })}
                 />
-              )}
+              ))}
+            </>
+          ) : (
+            <DataTable
+              labels={LABELS}
+              data={dietPlans}
+              keys={KEYS}
+              round="10px"
+              render={{
+                name: (row) => (
+                  <Link
+                    className="PlansTable__table-link"
+                    to={getRoute(Routes.ACTIVITIES_DP_ID, {
+                      clientId,
+                      id: row._id,
+                      revisionId: getRevision(row)?._id
+                    })}
+                  >
+                    <span>{row.name}</span>
+                  </Link>
+                ),
+                client: () => <span>-</span>,
+                days: (row) => <span>{getRevision(row)?.days_count}</span>,
+                start: (row) => (
+                  <span>
+                    {getRevision(row)?.scheduled_start_on
+                      ? moment(
+                          new Date(getRevision(row)?.scheduled_start_on)
+                        ).format(DATE_RENDER_FORMAT)
+                      : '-'}
+                  </span>
+                ),
+                end: (row) => (
+                  <span>
+                    {getRevision(row)?.scheduled_end_on
+                      ? moment(
+                          new Date(getRevision(row)?.scheduled_end_on)
+                        ).format(DATE_RENDER_FORMAT)
+                      : '-'}
+                  </span>
+                ),
+                status: (row) => (
+                  <StatusBadge
+                    status={getRevision(row)?.status.toLowerCase()}
+                    className="PlansTable__table-status"
+                  >
+                    {capitalize(getRevision(row)?.status)}
+                  </StatusBadge>
+                )
+              }}
+            />
+          )}
 
-              {isLoading && <LoadingPlaceholder spacing />}
-              {!dietPlans.length && !isLoading && <EmptyPlaceholder spacing />}
-            </div>
-          </Card>
-        </Styles>
-      )}
-    </ActivityLayout>
+          {isLoading && <LoadingPlaceholder spacing />}
+          {!dietPlans.length && !isLoading && <EmptyPlaceholder spacing />}
+        </div>
+      </Card>
+    </Styles>
   )
 
   return isMobile ? (

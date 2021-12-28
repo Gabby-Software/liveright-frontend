@@ -21,13 +21,13 @@ interface UseTrainingPlan {
 }
 
 interface UseTrainingPlanConfig {
-  clientId: string
+  clientId?: string
   id?: string
   revisionId?: string
 }
 
 export default function useTrainingPlan(
-  config: UseTrainingPlanConfig
+  config: UseTrainingPlanConfig = { clientId: '' }
 ): UseTrainingPlan {
   const history = useHistory()
 
