@@ -140,6 +140,7 @@ export default function AddDietPlan({
   }, [revision._id])
 
   const handleSubmit = (values: any) => {
+    console.log(values)
     if (editId && revisionId) {
       onEdit(editId, revisionId, values, onClose)
     } else {
@@ -257,7 +258,7 @@ export default function AddDietPlan({
 
           <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
             <AddIcon />
-            Add Meal Day
+            Add Meal Plan Day
           </div>
 
           {typeof errors.days === 'object' && !Array.isArray(errors.days) && (

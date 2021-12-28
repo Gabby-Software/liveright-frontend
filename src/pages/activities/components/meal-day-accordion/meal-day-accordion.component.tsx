@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import { useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { FoodIcon } from '../../../../assets/media/icons'
@@ -16,12 +17,32 @@ interface MealDayAccordionProps {
   defaultOpened?: boolean
 }
 
+const MACROS_LABEL_KEY_MAP = {
+  Proteins: 'proteins',
+  Fat: 'fat',
+  'Net Carbs': 'net_carbs',
+  Sugar: 'sugar',
+  Fiber: 'fiber',
+  'Total Carbs': 'total_carbs',
+  Calories: 'calories'
+}
+
 export default function MealDayAccordion({
   index,
   onRemove,
   defaultOpened
 }: MealDayAccordionProps) {
   const methods = useFormContext()
+  const [totalMacros, setTotalMacros] = useState({
+    grams: 0,
+    proteins: 0,
+    fat: 0,
+    net_carbs: 0,
+    sugar: 0,
+    fiber: 0,
+    total_carbs: 0,
+    calories: 0
+  })
 
   const { errors } = methods.formState
 
@@ -35,6 +56,37 @@ export default function MealDayAccordion({
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
+
+  const calculateTotalMacros = () => {
+    const activities: any[] = methods.getValues(name)
+
+    const macros = {
+      grams: 0,
+      proteins: 0,
+      fat: 0,
+      net_carbs: 0,
+      sugar: 0,
+      fiber: 0,
+      total_carbs: 0,
+      calories: 0
+    }
+
+    activities?.forEach((a) => {
+      const items = a.items
+      items?.forEach((i: any) => {
+        const info = i.data.info
+        Object.keys(macros).map((k: string) => {
+          return ((macros as any)[k] += parseInt(info[k] || 0))
+        })
+      })
+    })
+
+    setTotalMacros(macros)
+  }
+
+  methods.watch(() => {
+    calculateTotalMacros()
+  })
 
   return (
     <DayAccordion
@@ -64,7 +116,7 @@ export default function MealDayAccordion({
 
         <div className="MealDayAccordion__macronutrients">
           {[
-            'Protein',
+            'Proteins',
             'Fat',
             'Net Carbs',
             'Sugar',
@@ -72,7 +124,14 @@ export default function MealDayAccordion({
             'Total Carbs',
             'Calories'
           ].map((row) => (
-            <Macronutrient key={row} title={row} />
+            <Macronutrient
+              key={row}
+              title={row}
+              amount={`${
+                (totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]
+              }
+            ${row === 'Calories' ? 'KCal' : 'g'}`}
+            />
           ))}
         </div>
 

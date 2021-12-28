@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep'
 import moment from 'moment'
 
-import { DATE_RENDER_FORMAT } from '../date'
+import { DATE_MONTH_RENDER_FORMAT } from '../date'
 
 export function formatRevisionLabel(rev: any) {
   const from = rev.scheduled_start_on
@@ -9,10 +9,12 @@ export function formatRevisionLabel(rev: any) {
 
   if (status === 'active') return 'Active version'
   else if (status === 'scheduled' && moment(new Date(from)).isAfter()) {
-    return `Scheduled ${moment(new Date(from)).format(DATE_RENDER_FORMAT)}`
+    return `Scheduled on ${moment(new Date(from)).format(
+      DATE_MONTH_RENDER_FORMAT
+    )}`
   } else {
     return `Version ${moment(new Date(rev.updated_at)).format(
-      DATE_RENDER_FORMAT
+      DATE_MONTH_RENDER_FORMAT
     )}`
   }
 }
