@@ -1,12 +1,17 @@
 import { get } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult
 } from 'react-beautiful-dnd'
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
+import {
+  Controller,
+  useFieldArray,
+  useFormContext,
+  useWatch
+} from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 
 import {
@@ -16,6 +21,7 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
+import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
@@ -51,6 +57,7 @@ function createFood() {
 
 export default function Meal({ name, onRemove, index }: MealProps) {
   const [dropId] = useState(uuid())
+  const [newMeal, setNewMeal] = useState(false)
 
   const methods = useFormContext()
 
@@ -66,14 +73,21 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     foodsArray.move(result.source.index, (result.destination as any).index)
   }
 
+  const [nameVal] = useWatch({
+    control: methods.control,
+    name: [`${name}.name`]
+  })
+
+  useEffect(() => {}, [])
+
   const mealOptions = [
     { label: 'Fried Rice', value: 'Fried Rice', color: '#36B37E' },
     { label: 'Brown Rice', value: 'Brown Rice', color: '#36B37E' },
     { label: 'Fried Eggs', value: 'Fried Eggs', color: '#36B37E' }
   ]
-  // if (data?.name && !mealOptions.find((item) => item.value === data.name)) {
-  //   mealOptions.push({ label: data.name, value: data.name, color: '#36B37E' })
-  // }
+  if (nameVal && !mealOptions.find((item) => item.value === nameVal)) {
+    mealOptions.push({ label: nameVal, value: nameVal, color: '#36B37E' })
+  }
 
   const { errors } = methods.formState
 
@@ -86,7 +100,6 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     foodsArray.remove(index)
   }
 
-  console.log(errors)
   return (
     <Styles>
       <div className="Meal__header">
@@ -100,22 +113,36 @@ export default function Meal({ name, onRemove, index }: MealProps) {
         <Controller
           name={`${name}.name`}
           render={({ field: { value, name } }) => {
-            console.log(name, value)
-            return (
-              <InputSearch
-                id="Workout-title"
+            return newMeal ? (
+              <Input
+                id="Meal-title"
                 label="Title of meal"
                 placeholder="Title"
                 value={value}
-                onChange={(value) => methods.setValue(name, value)}
+                onChange={(e) => methods.setValue(name, e.target.value)}
+              />
+            ) : (
+              <InputSearch
+                id="Meal-title"
+                label="Title of meal"
+                placeholder="Title"
+                value={value}
+                onChange={(value) => {
+                  if (value === 'new_meal') {
+                    setNewMeal(true)
+                  } else {
+                    methods.setValue(name, value)
+                  }
+                }}
                 onSearch={() => {}}
                 error={get(errors, name)}
                 options={[
                   ...mealOptions,
                   {
-                    value: 'Another Meal',
+                    value: 'new_meal',
                     label: (
                       <Button
+                        size="sm"
                         variant="text"
                         style={{
                           display: 'flex',
@@ -143,6 +170,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
               label="Schedule"
               placeholder="08:00"
               value={value}
+              error={get(errors, name)}
               onChange={(e, date) => {
                 methods.setValue(name, date)
               }}

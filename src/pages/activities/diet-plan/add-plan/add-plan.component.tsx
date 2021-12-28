@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import moment, { Moment } from 'moment'
+import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
   Controller,
@@ -22,7 +22,6 @@ import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { useSearchParam } from '../../../../hooks/search-params'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 // import MakeChangesDialog from '../../components/dialog/make-changes-dialog/make-changes-dialog.component'
@@ -53,7 +52,7 @@ const validationSchema = yup.object().shape({
       activities: yup.array().of(
         yup.object().shape({
           name: yup.string().required(),
-          // time: yup.string().nullable(),
+          time: yup.string().nullable().required(),
           items: yup.array().of(
             yup.object().shape({
               data: yup.object().shape({

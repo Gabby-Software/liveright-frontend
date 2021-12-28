@@ -82,6 +82,10 @@ export default function useDietPlan(
   ) => {
     try {
       delete data.name
+
+      if (!data.scheduled_start_on) delete data.scheduled_start_on
+      if (!data.scheduled_end_on) delete data.scheduled_end_on
+
       const response = await editDietPlan(id, revisionId, formatPlanData(data))
       history.push(
         getRoute(Routes.ACTIVITIES_DP_ID, {
