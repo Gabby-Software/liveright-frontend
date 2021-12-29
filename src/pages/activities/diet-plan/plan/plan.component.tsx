@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
-import { formatRevisionLabel } from '../../../../utils/api/activities'
+import { getVersionOptions } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -42,6 +42,15 @@ export default function DietPlan() {
     revisionId: params.revisionId
   })
 
+  const startOn = revision.scheduled_start_on
+    ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
+    : '-'
+
+  const versionOptions = useMemo(
+    () => getVersionOptions(dietPlan.revisions || []),
+    [dietPlan]
+  )
+
   if (edit || typeof edit === 'number') {
     return (
       <AddDietPlan
@@ -53,15 +62,12 @@ export default function DietPlan() {
     )
   }
 
-  const startOn = revision.scheduled_start_on
-    ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
-    : '-'
-
   const content = (
     <>
       <Styles>
         <ActivitiesClient
           clientId={params.clientId}
+          viewActivity={false}
           onClientSwitch={(id) => {
             history.push(
               getRoute(Routes.ACTIVITIES_DP, {
@@ -79,9 +85,11 @@ export default function DietPlan() {
                 <Button
                   variant="dark"
                   className="PlanPage__header-btn"
-                  to={Routes.ACTIVITIES_DP}
+                  to={getRoute(Routes.ACTIVITIES_DP, {
+                    clientId: params.clientId
+                  })}
                 >
-                  See Archived Plans
+                  See Other Plans
                 </Button>
                 <Button
                   className="PlanPage__header-btn"
@@ -122,19 +130,14 @@ export default function DietPlan() {
                 <Select
                   className="PlanPage__filters-select"
                   id="DietPlan-version"
-                  options={
-                    dietPlan.revisions?.map((r: any) => ({
-                      label: formatRevisionLabel(r),
-                      value: r._id
-                    })) || []
-                  }
-                  value={{
-                    value: revision._id,
-                    label: formatRevisionLabel(revision)
-                  }}
+                  options={versionOptions}
+                  value={versionOptions.find(
+                    (o: any) => o.value === revision._id
+                  )}
                   onChange={(e, o) => {
                     history.push(
                       getRoute(Routes.ACTIVITIES_DP_ID, {
+                        clientId: params.clientId,
                         id: params.id,
                         revisionId: o.value
                       })

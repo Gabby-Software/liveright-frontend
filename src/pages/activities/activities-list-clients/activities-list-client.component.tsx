@@ -26,6 +26,22 @@ export default function ActivitiesListClients() {
     status: 'active'
   })
 
+  const getTitle = () => {
+    const returnURL = (searchParams.get('return') || '').split('/')
+    switch (returnURL[returnURL.length - 1]) {
+      case 'training-plans':
+        return 'Training Plans'
+      case 'diet-plans':
+        return 'Diet Plans'
+      case 'curr-plan':
+        return 'Current Plan'
+      case 'training-splits':
+        return 'Training Splits'
+      default:
+        return 'Activities'
+    }
+  }
+
   const filters = (
     <div className="activities__filters-container">
       <Input
@@ -40,7 +56,7 @@ export default function ActivitiesListClients() {
 
   const content = (
     <Styles>
-      {!isMobile && <h3 className="activities__title">Activities</h3>}
+      {!isMobile && <h3 className="activities__title">{getTitle()}</h3>}
 
       {isMobile && filters}
 

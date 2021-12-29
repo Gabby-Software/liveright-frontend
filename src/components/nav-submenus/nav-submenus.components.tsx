@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, matchPath } from 'react-router-dom'
 
 import { DownArrowIcon } from '../../assets/media/icons'
 import { useIsMobile } from '../../hooks/is-mobile.hook'
@@ -20,6 +20,7 @@ interface IProps {
   submenu: {
     name: string
     url: string
+    matchUrl?: string
   }[]
   styleType: 'Trainer' | 'Client'
   onClick?: () => void
@@ -72,7 +73,11 @@ const NavSubMenu = ({
             <Link
               className={classes(
                 'submenu__item',
-                pathname === m.url && 'submenu__item_active'
+                matchPath(pathname, {
+                  path: m.matchUrl || m.url,
+                  exact: false,
+                  strict: false
+                }) && 'submenu__item_active'
               )}
               to={m.url}
               key={i}

@@ -8,7 +8,6 @@ import Card from '../../../../components/cards/card/card.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
-import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import {
   EmptyPlaceholder,
   LoadingPlaceholder

@@ -52,6 +52,7 @@ type MenuItemType = {
   submenu?: {
     name: string
     url: string
+    matchUrl?: string
   }[]
 }
 
@@ -110,11 +111,13 @@ const trainerMenuItems: MenuItemType[] = [
       },
       {
         name: 'Training Plans',
-        url: getRoute(Routes.ACTIVITIES_TP, { clientId: null })
+        url: getRoute(Routes.ACTIVITIES_TP, { clientId: null }),
+        matchUrl: Routes.ACTIVITIES_TP
       },
       {
         name: 'Diet Plans',
-        url: getRoute(Routes.ACTIVITIES_DP, { clientId: null })
+        url: getRoute(Routes.ACTIVITIES_DP, { clientId: null }),
+        matchUrl: Routes.ACTIVITIES_DP
       },
       {
         name: 'Training Splits',

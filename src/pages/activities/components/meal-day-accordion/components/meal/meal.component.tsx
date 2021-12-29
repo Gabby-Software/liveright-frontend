@@ -182,7 +182,6 @@ export default function Meal({ name, onRemove, index }: MealProps) {
                 onSearch={() => {}}
                 error={get(errors, name)}
                 options={[
-                  ...mealOptions,
                   {
                     value: 'new_meal',
                     label: (

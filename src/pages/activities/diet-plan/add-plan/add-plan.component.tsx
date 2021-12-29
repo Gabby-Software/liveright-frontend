@@ -103,7 +103,7 @@ export default function AddDietPlan({
   const [delIdx, setDelIdx] = useState(-1)
   const [showConfirm, setShowConfirm] = useState(false)
 
-  const { onAdd, onEdit, revision } = useDietPlan({
+  const { onAdd, onEdit, revision, dietPlan } = useDietPlan({
     clientId,
     id: editId,
     revisionId
@@ -141,7 +141,7 @@ export default function AddDietPlan({
 
   useEffect(() => {
     if (revision._id) {
-      methods.setValue('name', revision.name)
+      methods.setValue('name', dietPlan.name)
       methods.setValue('account_id', revision.account_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
@@ -189,6 +189,7 @@ export default function AddDietPlan({
         <Styles>
           <ActivitiesClient
             clientId={clientId}
+            viewActivity={false}
             preventClientSwitch={Boolean(editId)}
             onClientSwitch={(id) => {
               history.push(
