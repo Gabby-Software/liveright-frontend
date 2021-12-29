@@ -16,6 +16,7 @@ import {
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
@@ -37,6 +38,7 @@ export default function DietPlans() {
   const history = useHistory()
   const [add, setAdd] = useState(false)
   const { isLoading, dietPlans } = useDietPlans({ clientId })
+  const clientAccount = useClientAccount(clientId)
 
   useEffect(() => {
     if (!clientId) {
@@ -52,6 +54,7 @@ export default function DietPlans() {
     <Styles>
       <ActivitiesClient
         clientId={clientId}
+        viewActivity={false}
         onClientSwitch={(id) => {
           history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
         }}
@@ -67,6 +70,7 @@ export default function DietPlans() {
     <Styles>
       <ActivitiesClient
         clientId={clientId}
+        viewActivity={false}
         onClientSwitch={(id) => {
           history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
         }}
@@ -93,7 +97,9 @@ export default function DietPlans() {
         <div className="PlansTable__filters">
           <ClientSelect
             id="DietPlans-client"
-            onChange={(e) => { history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))}}
+            onChange={(e) => {
+              history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
+            }}
             placeholder="All Client"
             className="PlansTable__select"
           />
@@ -140,7 +146,11 @@ export default function DietPlans() {
                     <span>{row.name}</span>
                   </Link>
                 ),
-                client: () => <span>-</span>,
+                client: () => (
+                  <span>
+                    {clientId ? clientAccount.user?.full_name || '-' : '-'}
+                  </span>
+                ),
                 days: (row) => <span>{getRevision(row)?.days_count}</span>,
                 start: (row) => (
                   <span>

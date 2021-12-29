@@ -3,20 +3,48 @@ import moment from 'moment'
 
 import { DATE_MONTH_RENDER_FORMAT } from '../date'
 
-export function formatRevisionLabel(rev: any) {
-  const from = rev.scheduled_start_on
-  const status = rev.status
+export const findLatest = (
+  array: {
+    updated_at: string
+    [key: string]: any
+  }[]
+) => {
+  const lastestDate = new Date(
+    Math.max(...array.map((e) => new Date(e.updated_at).getTime()))
+  )
+  const lastestObject = array.find((a) =>
+    moment(a.updated_at).isSame(lastestDate)
+  )
+  return lastestObject
+}
 
-  if (status === 'active') return 'Active version'
-  else if (status === 'scheduled' && moment(new Date(from)).isAfter()) {
-    return `Scheduled on ${moment(new Date(from)).format(
+export const getVersionOptions = (revisions: any[]) => {
+  const schduledRev = revisions.filter((r) =>
+    moment(new Date(r.scheduled_start_on)).isAfter()
+  )
+  const unSchduledRev = revisions.filter(
+    (r) => !moment(new Date(r.scheduled_start_on)).isAfter()
+  )
+  const activeRev = findLatest(unSchduledRev)
+  const unActiveRev = unSchduledRev.filter((r) => r._id !== activeRev?._id)
+
+  const unActiveOptions = unActiveRev.map((r) => ({
+    label: `Version ${moment(new Date(r.updated_at)).format(
       DATE_MONTH_RENDER_FORMAT
-    )}`
-  } else {
-    return `Version ${moment(new Date(rev.updated_at)).format(
+    )}`,
+    value: r._id
+  }))
+
+  const scheduledOptions = schduledRev.map((r) => ({
+    label: `Scheduled on ${moment(new Date(r.scheduled_start_on)).format(
       DATE_MONTH_RENDER_FORMAT
-    )}`
-  }
+    )}`,
+    value: r._id
+  }))
+
+  return unActiveOptions
+    .concat([{ label: 'Active Version', value: activeRev?._id }])
+    .concat(scheduledOptions)
 }
 
 export function formatPlanData(data: any) {

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
 
@@ -14,7 +14,7 @@ import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
-import { formatRevisionLabel } from '../../../../utils/api/activities'
+import { getVersionOptions } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -46,6 +46,15 @@ export default function TrainingPlan() {
     revisionId: params.revisionId
   })
 
+  const startOn = revision.scheduled_start_on
+    ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
+    : '-'
+
+  const versionOptions = useMemo(
+    () => getVersionOptions(trainingPlan.revisions || []),
+    [trainingPlan]
+  )
+
   if (edit || typeof edit === 'number') {
     return (
       <AddTrainingPlan
@@ -56,10 +65,6 @@ export default function TrainingPlan() {
       />
     )
   }
-
-  const startOn = revision.scheduled_start_on
-    ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
-    : '-'
 
   const content = IS_EMPTY ? (
     <EmptyPlan
@@ -129,16 +134,10 @@ export default function TrainingPlan() {
               <Select
                 className="PlanPage__filters-select"
                 id="training-plan-version"
-                options={
-                  trainingPlan.revisions?.map((r: any) => ({
-                    label: formatRevisionLabel(r),
-                    value: r._id
-                  })) || []
-                }
-                value={{
-                  value: revision._id,
-                  label: formatRevisionLabel(revision)
-                }}
+                options={versionOptions}
+                value={versionOptions.find(
+                  (o: any) => o.value === revision._id
+                )}
                 onChange={(e, o) => {
                   history.push(
                     getRoute(Routes.ACTIVITIES_TP_ID, {
