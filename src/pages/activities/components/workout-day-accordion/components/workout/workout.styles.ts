@@ -66,9 +66,11 @@ export const Styles = styled(Card)`
     }
 
     &__template {
+      margin-top: 1rem;
       margin-left: 16px;
       display: flex;
       align-items: center;
+
       & > :first-child {
         margin-right: 8px;
       }

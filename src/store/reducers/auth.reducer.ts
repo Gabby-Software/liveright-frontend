@@ -16,6 +16,7 @@ const initialState: AccountObjType = {
   birthday: null,
   created_at: '',
   email: '',
+  full_name: '',
   email_verified_at: null,
   first_name: '',
   last_name: '',

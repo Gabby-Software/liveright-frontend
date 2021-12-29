@@ -21,12 +21,14 @@ interface IProps {
   clientId: number
   onClientSwitch: (id: number) => void
   preventClientSwitch?: boolean
+  viewActivity?: boolean
 }
 
 export default function ActivitiesClient({
   clientId,
   onClientSwitch,
-  preventClientSwitch
+  preventClientSwitch,
+  viewActivity = true
 }: IProps) {
   const [expanded, setExpended] = useState(false)
   const { user, isLoading, account } = useClientAccount(clientId)
@@ -43,6 +45,7 @@ export default function ActivitiesClient({
       <Wrapper>
         <div className={'log-client__main'}>
           <UserBadge
+            key={user.avatar?.url}
             size="xl"
             avatarOnly
             avatar={user.avatar?.url}
@@ -81,15 +84,20 @@ export default function ActivitiesClient({
                     {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}
                   </div>
                 </div>
-                <div className={'log-client__bottom__separator'} />
-                <div className={'log-client__bottom__item'}>
-                  <div className={'log-client__bottom__label'}>
-                    {activityLabel}
-                  </div>
-                  <div className={'log-client__bottom__value'}>
-                    {activityValue}
-                  </div>
-                </div>
+
+                {viewActivity && (
+                  <>
+                    <div className={'log-client__bottom__separator'} />
+                    <div className={'log-client__bottom__item'}>
+                      <div className={'log-client__bottom__label'}>
+                        {activityLabel}
+                      </div>
+                      <div className={'log-client__bottom__value'}>
+                        {activityValue}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>

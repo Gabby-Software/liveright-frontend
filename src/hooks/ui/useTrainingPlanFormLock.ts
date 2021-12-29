@@ -15,8 +15,6 @@ export default function useTraningPlanFormLock(
   const history = useHistory()
   const unblock = useRef<any>()
 
-  console.log(isDirty)
-
   useEffect(() => {
     if (isDirty) {
       unblock.current = history.block((location) => {

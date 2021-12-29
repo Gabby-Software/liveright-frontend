@@ -52,27 +52,28 @@ const validationSchema = yup.object().shape({
         yup.object().shape({
           name: yup.string(),
           time: yup.string().nullable(),
-          items: yup.array().of(
-            yup.object().shape({
-              data: yup.object().shape({
-                name: yup.string().required(),
-                link: yup.lazy((v) =>
-                  !v
-                    ? yup.string().nullable()
-                    : yup
-                        .string()
-                        .matches(URL_REGEX, 'Enter a valid link')
-                        .nullable()
-                ),
-                info: yup.object().shape({
-                  sets: yup.string(),
-                  reps: yup.string(),
-                  tempo: yup.string(),
-                  rest_interval: yup.string()
-                })
-              })
-            })
-          )
+          items: yup.array()
+          // items: yup.array().of(
+          //   yup.object().shape({
+          //     data: yup.object().shape({
+          //       name: yup.string().required(),
+          //       link: yup.lazy((v) =>
+          //         !v
+          //           ? yup.string().nullable()
+          //           : yup
+          //               .string()
+          //               .matches(URL_REGEX, 'Enter a valid link')
+          //               .nullable()
+          //       ),
+          //       info: yup.object().shape({
+          //         sets: yup.string(),
+          //         reps: yup.string(),
+          //         tempo: yup.string(),
+          //         rest_interval: yup.string()
+          //       })
+          //     })
+          //   })
+          // )
         })
       )
     })
@@ -133,8 +134,6 @@ export default function AddTrainingPlan({
   const { isDirty, errors } = useFormState({
     control: methods.control
   })
-
-  console.log(errors)
 
   const daysArray = useFieldArray({
     control: methods.control,
@@ -214,6 +213,7 @@ export default function AddTrainingPlan({
     }
   }
 
+  console.log(errors)
   const values = methods.getValues()
 
   const content = (
@@ -221,6 +221,7 @@ export default function AddTrainingPlan({
       <FormProvider {...methods}>
         <Styles>
           <ActivitiesClient
+            viewActivity={false}
             clientId={clientId}
             preventClientSwitch={Boolean(editId)}
             onClientSwitch={(id) => {

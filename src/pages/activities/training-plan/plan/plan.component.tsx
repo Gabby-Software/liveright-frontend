@@ -72,6 +72,7 @@ export default function TrainingPlan() {
     <>
       <Styles>
         <ActivitiesClient
+          viewActivity={false}
           clientId={params.clientId}
           onClientSwitch={(id) => {
             history.push(
@@ -90,7 +91,9 @@ export default function TrainingPlan() {
                 <Button
                   variant="secondary"
                   className="PlanPage__header-btn"
-                  to={Routes.ACTIVITIES_TP}
+                  to={getRoute(Routes.ACTIVITIES_TP, {
+                    clientId: params.clientId
+                  })}
                 >
                   See Other Plans
                 </Button>
@@ -140,6 +143,7 @@ export default function TrainingPlan() {
                   history.push(
                     getRoute(Routes.ACTIVITIES_TP_ID, {
                       id: params.id,
+                      clientId: params.clientId,
                       revisionId: o.value
                     })
                   )

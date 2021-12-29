@@ -16,6 +16,10 @@ import { Styles } from './superset.styles'
 interface SupersetProps {
   name: string
   onRemove: any
+  dragHandleProps: any
+  draggableProps: any
+  isDragging: boolean
+  innerRef?: any
 }
 
 function createExercise(nameValue = '') {
@@ -30,7 +34,13 @@ function createExercise(nameValue = '') {
   }
 }
 
-export default function Superset({ name, onRemove }: SupersetProps) {
+export default function Superset({
+  name,
+  onRemove,
+  innerRef,
+  dragHandleProps,
+  draggableProps
+}: SupersetProps) {
   const [dropId] = useState(`superset-drop-${Date.now()}`)
   const methods = useFormContext()
 
@@ -54,7 +64,6 @@ export default function Superset({ name, onRemove }: SupersetProps) {
       exercisesArray.remove(index)
       // wait for removal to finish
       setTimeout(resetPrefixValues, 10)
-      console.log(methods.getValues(name).data)
     }
   }
 
@@ -79,7 +88,7 @@ export default function Superset({ name, onRemove }: SupersetProps) {
   }
 
   return (
-    <Styles>
+    <Styles ref={innerRef} {...draggableProps} {...dragHandleProps}>
       <WorkoutSubtitle>Superset</WorkoutSubtitle>
 
       <DragDropContext onDragEnd={onDragEnd}>

@@ -24,8 +24,15 @@ export const Styles = styled.div<any>`
       border: 1px dashed ${getColorCarry('orange_60')};
     `};
 
+  ${(props) =>
+    props.$prefix &&
+    css`
+      margin-top: 1rem;
+    `};
+
   .Exercise {
     &__prefix {
+      margin-top: 0;
       position: absolute;
       top: -1.5rem;
     }

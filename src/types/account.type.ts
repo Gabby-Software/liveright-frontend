@@ -38,6 +38,7 @@ export type AccountObjType = {
   email: string
   email_verified_at: null | string
   first_name: string
+  full_name: string
   gender: null | string
   is_active: boolean
   last_name: string

@@ -45,7 +45,6 @@ export default function useTrainingPlan(
   )
 
   const onAdd = async (data: any, onSuccess: any) => {
-    console.log(data)
     try {
       // return console.log(formatTrainingPlanData(data))
       if (!data.scheduled_start_on) delete data.scheduled_start_on

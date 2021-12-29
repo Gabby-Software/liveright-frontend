@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { Fragment, useState } from 'react'
+import { useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -10,14 +10,13 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
 import {
   AddIcon,
-  DeleteOutlinedIcon,
-  LockIcon,
-  UnlockIcon
+  DeleteOutlinedIcon
 } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Error from '../../../../../../components/form/error/error.component'
+import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
@@ -62,7 +61,7 @@ function createExercise(isSuperset: boolean, cardio: boolean) {
 
 export default function Workout({ name, onRemove, index }: WorkoutProps) {
   const [dropId] = useState(Date.now())
-  const [locked, setLocked] = useState(false)
+  const [addNew, setAddNew] = useState(false)
 
   const methods = useFormContext()
 
@@ -73,27 +72,12 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
 
   const { errors } = methods.formState
 
-  const exArray = exercisesArray.fields.filter((item: any) => !item.is_superset)
-  const ssArray = exercisesArray.fields.filter((item: any) => item.is_superset)
-  const exIndices: number[] = []
-  const ssIndices: number[] = []
-  exercisesArray.fields.forEach((item: any, idx: number) => {
-    if (item.is_superset) {
-      ssIndices.push(idx)
-    } else {
-      exIndices.push(idx)
-    }
-  })
-
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return
     }
 
-    exercisesArray.move(
-      exIndices[result.source.index],
-      exIndices[(result.destination as any).index]
-    )
+    exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
   const handleExerciseAdd = (isSuperset: boolean, cardio = false) => {
@@ -103,10 +87,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
 
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
-  }
-
-  const onNew = () => {
-    methods.setValue(`${name}.name`, '')
   }
 
   return (
@@ -134,64 +114,84 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
       <div className="Workout__title">
         <Controller
           name={`${name}.name`}
-          render={({ field: { value, name } }) => (
-            <InputSearch
-              id="Workout-title"
-              label="Title of workout"
-              placeholder="Title"
-              value={value}
-              onChange={(value) => methods.setValue(name, value)}
-              onSearch={() => {}}
-              options={[
-                { label: value, value: value },
-                {
-                  value: 'existing',
-                  label: 'From this training plan',
-                  color: '#0052CC',
-                  isDisabled: true
-                },
-                {
-                  value: 'Full Body Workout',
-                  label: 'Full Body Workout',
-                  color: '#5243AA'
-                },
-                {
-                  value: 'template',
-                  label: 'From templates',
-                  color: '#0052CC',
-                  isDisabled: true
-                },
-                {
-                  value: 'Smooth Workout',
-                  label: 'Smooth Workout',
-                  color: '#FF8B00'
-                },
-                {
-                  value: 'Another Workout',
-                  label: 'Another Workout',
-                  color: '#36B37E'
-                },
-                {
-                  value: '',
-                  label: (
-                    <Button
-                      variant="text"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: 0
-                      }}
-                      onClick={onNew}
-                    >
-                      <AddIcon />
-                      &nbsp; Create New
-                    </Button>
-                  ),
-                  color: '#36B37E'
-                }
-              ]}
-            />
-          )}
+          render={({ field: { value, name } }) => {
+            if (addNew) {
+              return (
+                <Input
+                  id="Workout-title"
+                  label="Title of workout"
+                  placeholder="Title"
+                  value={value}
+                  onChange={(e) => methods.setValue(name, e.target.value)}
+                />
+              )
+            }
+            return (
+              <InputSearch
+                id="Workout-title"
+                label="Title of workout"
+                placeholder="Title"
+                value={value === '' ? null : value}
+                onChange={(value) => {
+                  if (value === 'add_new') {
+                    methods.setValue(name, '')
+                    setAddNew(true)
+                  } else {
+                    methods.setValue(name, value)
+                  }
+                }}
+                onSearch={() => {}}
+                options={[
+                  { label: value, value: value },
+                  {
+                    value: 'existing',
+                    label: 'From this training plan',
+                    color: '#0052CC',
+                    isDisabled: true
+                  },
+                  {
+                    value: 'Full Body Workout',
+                    label: 'Full Body Workout',
+                    color: '#5243AA'
+                  },
+                  {
+                    value: 'template',
+                    label: 'From templates',
+                    color: '#0052CC',
+                    isDisabled: true
+                  },
+                  {
+                    value: 'Smooth Workout',
+                    label: 'Smooth Workout',
+                    color: '#FF8B00'
+                  },
+                  {
+                    value: 'Another Workout',
+                    label: 'Another Workout',
+                    color: '#36B37E'
+                  },
+                  {
+                    value: 'add_new',
+                    label: (
+                      <Button
+                        size="sm"
+                        variant="text"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          padding: 0
+                        }}
+                      >
+                        <AddIcon />
+                        &nbsp; Create New
+                      </Button>
+                    ),
+                    color: '#36B37E'
+                  }
+                ]}
+              />
+            )
+          }}
         />
       </div>
 
@@ -233,25 +233,40 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                   </div>
                 ) : (
                   <>
-                    {exArray.map((row: any, index) => (
+                    {exercisesArray.fields.map((row: any, index) => (
                       <Draggable
                         key={row.id}
                         draggableId={`${row.id}`}
+                        isDragDisabled={row.is_superset}
                         index={index}
                       >
-                        {(provided, snapshot) => (
-                          <Exercise
-                            key={row.id}
-                            dragHandleProps={provided.dragHandleProps}
-                            draggableProps={provided.draggableProps}
-                            innerRef={provided.innerRef}
-                            isDragging={snapshot.isDragging}
-                            name={`${name}.items.${exIndices[index]}.data`}
-                            onRemove={() =>
-                              handleExerciseRemove(exIndices[index])
-                            }
-                          />
-                        )}
+                        {(provided, snapshot) =>
+                          row.is_superset ? (
+                            <Superset
+                              key={row.id}
+                              name={`${name}.items.${index}`}
+                              dragHandleProps={provided.dragHandleProps}
+                              draggableProps={provided.draggableProps}
+                              isDragging={snapshot.isDragging}
+                              innerRef={provided.innerRef}
+                              onRemove={() => handleExerciseRemove(index)}
+                            />
+                          ) : (
+                            <Exercise
+                              key={row.id}
+                              dragHandleProps={provided.dragHandleProps}
+                              draggableProps={provided.draggableProps}
+                              innerRef={provided.innerRef}
+                              isDragging={snapshot.isDragging}
+                              name={`${name}.items.${index}.data`}
+                              onRemove={() => handleExerciseRemove(index)}
+                              prefix={
+                                !!(exercisesArray.fields as any)[index - 1]
+                                  ?.is_superset
+                              }
+                            />
+                          )
+                        }
                       </Draggable>
                     ))}
                   </>
@@ -268,14 +283,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             Save exercise as re-usable template
           </Label>
         </div>
-
-        {ssArray.map((row: any, index) => (
-          <Superset
-            key={row.id}
-            onRemove={() => handleExerciseRemove(ssIndices[index])}
-            name={`${name}.items.${ssIndices[index]}`}
-          />
-        ))}
       </div>
 
       <div className="Workout__actions">
@@ -289,27 +296,15 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           Add Exercise
         </Button>
 
-        {ssArray.length === 0 ? (
-          <Button
-            variant="text"
-            size="sm"
-            className="Workout__action-btn"
-            onClick={() => handleExerciseAdd(true)}
-          >
-            <AddIcon />
-            Add Superset
-          </Button>
-        ) : (
-          <Button
-            variant={locked ? 'success' : 'danger'}
-            size="sm"
-            className="Workout__action-btn"
-            onClick={() => setLocked(!locked)}
-          >
-            {locked ? <UnlockIcon /> : <LockIcon />}
-            {locked ? 'Open Superset' : 'Close Superset'}
-          </Button>
-        )}
+        <Button
+          variant="text"
+          size="sm"
+          className="Workout__action-btn"
+          onClick={() => handleExerciseAdd(true)}
+        >
+          <AddIcon />
+          Add Superset
+        </Button>
 
         <Button
           variant="text"

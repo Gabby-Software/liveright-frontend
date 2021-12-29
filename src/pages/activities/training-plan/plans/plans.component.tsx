@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
+import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
@@ -15,6 +16,7 @@ import {
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
@@ -35,6 +37,7 @@ export default function TrainingPlans() {
   const history = useHistory()
   const [add, setAdd] = useState(false)
   const { isLoading, trainingPlans, mutate } = useTrainingPlans({ clientId })
+  const clientAccount = useClientAccount(clientId)
 
   useEffect(() => {
     if (!clientId) {
@@ -56,6 +59,7 @@ export default function TrainingPlans() {
   const content = (
     <Styles>
       <ActivitiesClient
+        viewActivity={false}
         clientId={clientId}
         onClientSwitch={(id) => {
           history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: id }))
@@ -64,11 +68,9 @@ export default function TrainingPlans() {
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
-            <MobileBack
-              to="/"
-              alias="current-plan"
-              className="PlansTable__back"
-            />
+            <Link to={Routes.ACTIVITIES}>
+              <GoBack spacing={2}>Go back to Activities</GoBack>
+            </Link>
 
             <div className="PlansTable__title-container">
               <Title>Training Plans</Title>
@@ -84,8 +86,11 @@ export default function TrainingPlans() {
           <>
             <div className="PlansTable__filters">
               <ClientSelect
+                value={clientId}
                 id="training-plans-client"
-                onChange={() => {}}
+                onChange={(e) =>
+                  history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: e }))
+                }
                 placeholder="All Client"
                 className="PlansTable__select"
               />
@@ -108,8 +113,7 @@ export default function TrainingPlans() {
                       to={getRoute(Routes.ACTIVITIES_TP_ID, {
                         clientId: clientId,
                         id: row._id,
-                        revisionId:
-                          row.revisions?.[row.revisions?.length - 1]?._id
+                        revisionId: getRevision(row)?._id
                       })}
                     />
                   ))}
@@ -126,40 +130,43 @@ export default function TrainingPlans() {
                         to={getRoute(Routes.ACTIVITIES_TP_ID, {
                           clientId: clientId,
                           id: row._id,
-                          revisionId:
-                            row.revisions?.[row.revisions?.length - 1]?._id
+                          revisionId: getRevision(row)?._id
                         })}
                         className="PlansTable__table-link"
                       >
-                        <span>{row.name}</span>
+                        <span>{row.name || '-'}</span>
                       </Link>
                     ),
-                    client: () => <span>-</span>,
-                    days: () => <span>-</span>,
+                    client: () => (
+                      <span>
+                        {clientId ? clientAccount.user?.full_name || '-' : '-'}
+                      </span>
+                    ),
+                    days: (row) => <span>{getRevision(row)?.days_count}</span>,
                     start: (row) => (
                       <span>
-                        {row.scheduled_start_on
-                          ? moment(new Date(row.scheduled_start_on)).format(
-                              DATE_RENDER_FORMAT
-                            )
+                        {getRevision(row)?.scheduled_start_on
+                          ? moment(
+                              new Date(getRevision(row)?.scheduled_start_on)
+                            ).format(DATE_RENDER_FORMAT)
                           : '-'}
                       </span>
                     ),
                     end: (row) => (
                       <span>
-                        {row.scheduled_end_on
-                          ? moment(new Date(row.scheduled_end_on)).format(
-                              DATE_RENDER_FORMAT
-                            )
+                        {getRevision(row)?.scheduled_end_on
+                          ? moment(
+                              new Date(getRevision(row).scheduled_end_on)
+                            ).format(DATE_RENDER_FORMAT)
                           : '-'}
                       </span>
                     ),
                     status: (row) => (
                       <StatusBadge
-                        status={row.status.toLowerCase()}
+                        status={getRevision(row)?.status.toLowerCase()}
                         className="PlansTable__table-status"
                       >
-                        {capitalize(row.status)}
+                        {capitalize(getRevision(row)?.status)}
                       </StatusBadge>
                     )
                   }}
@@ -205,4 +212,8 @@ export default function TrainingPlans() {
   ) : (
     content
   )
+}
+
+function getRevision(row: any) {
+  return row.revisions?.[row.revisions?.length - 1]
 }

@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
-import { useParams } from 'react-router'
 
+// import { useParams } from 'react-router'
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
@@ -11,6 +11,7 @@ import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
 import formatter from '../../../../../../managers/formatter.manager'
+import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './exercise.styles'
 
 interface ExerciseProps {
@@ -30,11 +31,12 @@ export default function Exercise({
   innerRef,
   draggableProps,
   name,
+  prefix,
   onRemove,
   fromSuperset
 }: ExerciseProps) {
   const methods = useFormContext()
-  const params = useParams<any>()
+  // const params = useParams<any>()
   const onChange = (name: string, value: string) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -43,8 +45,8 @@ export default function Exercise({
   const isCardio = methods.getValues(`${name}.info.cardio`)
 
   const { exercises } = useTrainingPlanExercises({
-    id: params.id,
-    revisionId: params.revisionId
+    // id: params.id,
+    // revisionId: params.revisionId
   })
 
   const onPreviousExerciseSelect = (value: string) => {
@@ -106,10 +108,17 @@ export default function Exercise({
   return (
     <Styles
       $isDragging={isDragging}
+      $prefix={!!prefix}
       ref={innerRef}
       {...draggableProps}
       cardio={isCardio}
     >
+      {prefix && (
+        <WorkoutSubtitle className="Exercise__prefix">
+          Exercises
+        </WorkoutSubtitle>
+      )}
+
       <div className="Exercise__drag">
         <button className="Exercise__drag-btn" {...dragHandleProps}>
           <DragIcon />
