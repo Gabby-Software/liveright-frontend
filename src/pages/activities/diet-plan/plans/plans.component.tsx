@@ -1,8 +1,7 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
-import { FoodIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataTable from '../../../../components/data-table/data-table.component'
@@ -24,7 +23,6 @@ import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
-import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
@@ -40,33 +38,34 @@ export default function DietPlans() {
   const { isLoading, dietPlans } = useDietPlans({ clientId })
   const clientAccount = useClientAccount(clientId)
 
-  useEffect(() => {
-    if (!clientId) {
-      history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_DP}`)
-    }
-  }, [clientId])
+  // useEffect(() => {
+  //   if (!clientId) {
+  //     history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_DP}`)
+  //   }
+  // }, [clientId])
 
   if (add) {
     return <AddDietPlan onClose={() => setAdd(false)} />
   }
 
-  const content = !dietPlans.length ? (
-    <Styles>
-      <ActivitiesClient
-        clientId={clientId}
-        viewActivity={false}
-        onClientSwitch={(id) => {
-          history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
-        }}
-      />
-      <EmptyPlan
-        title="Diet Plans"
-        text="There is no diet plan yet..."
-        Icon={FoodIcon}
-        action={<Button onClick={() => setAdd(true)}>Create Diet Plan</Button>}
-      />
-    </Styles>
-  ) : (
+  const content = (
+    // const content = !dietPlans.length ? (
+    //   <Styles>
+    //     <ActivitiesClient
+    //       clientId={clientId}
+    //       viewActivity={false}
+    //       onClientSwitch={(id) => {
+    //         history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+    //       }}
+    //     />
+    //     <EmptyPlan
+    //       title="Diet Plans"
+    //       text="There is no diet plan yet..."
+    //       Icon={FoodIcon}
+    //       action={<Button onClick={() => setAdd(true)}>Create Diet Plan</Button>}
+    //     />
+    //   </Styles>
+    // ) : (
     <Styles>
       <ActivitiesClient
         clientId={clientId}

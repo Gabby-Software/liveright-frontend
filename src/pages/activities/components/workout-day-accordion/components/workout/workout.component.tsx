@@ -24,7 +24,7 @@ import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import { InputSearch } from '../../../input-search/input-search.component'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
-import { Styles, WorkoutSubtitle } from './workout.styles'
+import { Styles } from './workout.styles'
 
 interface WorkoutProps {
   name: string

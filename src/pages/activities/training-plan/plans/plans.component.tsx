@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -38,11 +38,11 @@ export default function TrainingPlans() {
   const { isLoading, trainingPlans, mutate } = useTrainingPlans({ clientId })
   const clientAccount = useClientAccount(clientId)
 
-  useEffect(() => {
-    if (!clientId) {
-      history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
-    }
-  }, [clientId])
+  // useEffect(() => {
+  //   if (!clientId) {
+  //     history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
+  //   }
+  // }, [clientId])
 
   if (add) {
     return (
@@ -81,7 +81,9 @@ export default function TrainingPlans() {
           </>
         )}
 
-        {trainingPlans.length ? (
+        {isLoading ? (
+          <LoadingPlaceholder spacing />
+        ) : (
           <>
             <div className="PlansTable__filters">
               <ClientSelect
@@ -118,81 +120,79 @@ export default function TrainingPlans() {
                   ))}
                 </>
               ) : (
-                <DataTable
-                  labels={LABELS}
-                  data={trainingPlans}
-                  keys={KEYS}
-                  round="10px"
-                  render={{
-                    name: (row) => (
-                      <Link
-                        to={getRoute(Routes.ACTIVITIES_TP_ID, {
-                          clientId: clientId,
-                          id: row._id,
-                          revisionId: getRevision(row)?._id
-                        })}
-                        className="PlansTable__table-link"
-                      >
-                        <span>{row.name || '-'}</span>
-                      </Link>
-                    ),
-                    client: () => (
-                      <span>
-                        {clientId ? clientAccount.user?.full_name || '-' : '-'}
-                      </span>
-                    ),
-                    days: (row) => <span>{getRevision(row)?.days_count}</span>,
-                    start: (row) => (
-                      <span>
-                        {getRevision(row)?.scheduled_start_on
-                          ? moment(
-                              new Date(getRevision(row)?.scheduled_start_on)
-                            ).format(DATE_RENDER_FORMAT)
-                          : '-'}
-                      </span>
-                    ),
-                    end: (row) => (
-                      <span>
-                        {getRevision(row)?.scheduled_end_on
-                          ? moment(
-                              new Date(getRevision(row).scheduled_end_on)
-                            ).format(DATE_RENDER_FORMAT)
-                          : '-'}
-                      </span>
-                    ),
-                    status: (row) => (
-                      <StatusBadge
-                        status={getRevision(row)?.status.toLowerCase()}
-                        className="PlansTable__table-status"
-                      >
-                        {capitalize(getRevision(row)?.status)}
-                      </StatusBadge>
-                    )
-                  }}
-                />
+                <>
+                  <DataTable
+                    labels={LABELS}
+                    data={trainingPlans}
+                    keys={KEYS}
+                    round="10px"
+                    render={{
+                      name: (row) => (
+                        <Link
+                          to={getRoute(Routes.ACTIVITIES_TP_ID, {
+                            clientId: clientId,
+                            id: row._id,
+                            revisionId: getRevision(row)?._id
+                          })}
+                          className="PlansTable__table-link"
+                        >
+                          <span>{row.name || '-'}</span>
+                        </Link>
+                      ),
+                      client: () => (
+                        <span>
+                          {clientId
+                            ? clientAccount.user?.full_name || '-'
+                            : '-'}
+                        </span>
+                      ),
+                      days: (row) => (
+                        <span>{getRevision(row)?.days_count}</span>
+                      ),
+                      start: (row) => (
+                        <span>
+                          {getRevision(row)?.scheduled_start_on
+                            ? moment(
+                                new Date(getRevision(row)?.scheduled_start_on)
+                              ).format(DATE_RENDER_FORMAT)
+                            : '-'}
+                        </span>
+                      ),
+                      end: (row) => (
+                        <span>
+                          {getRevision(row)?.scheduled_end_on
+                            ? moment(
+                                new Date(getRevision(row).scheduled_end_on)
+                              ).format(DATE_RENDER_FORMAT)
+                            : '-'}
+                        </span>
+                      ),
+                      status: (row) => (
+                        <StatusBadge
+                          status={getRevision(row)?.status.toLowerCase()}
+                          className="PlansTable__table-status"
+                        >
+                          {capitalize(getRevision(row)?.status)}
+                        </StatusBadge>
+                      )
+                    }}
+                  />
+                  {!trainingPlans.length && <EmptyPlaceholder spacing />}
+                </>
               )}
             </div>
           </>
-        ) : (
-          <div>
-            {isLoading ? (
-              <LoadingPlaceholder spacing />
-            ) : (
-              <EmptyPlaceholder
-                spacing
-                icon
-                text="There is no training plan yet... "
-                action={
-                  isMobile ? (
-                    <Button onClick={() => setAdd(true)}>
-                      Create Training Plan
-                    </Button>
-                  ) : undefined
-                }
-              />
-            )}
-          </div>
         )}
+        {/*<EmptyPlaceholder*/}
+        {/*  spacing*/}
+        {/*  icon*/}
+        {/*  text="There is no training plan yet... "*/}
+        {/*  action={*/}
+        {/*    isMobile ? (*/}
+        {/*      <Button onClick={() => setAdd(true)}>Create Training Plan</Button>*/}
+        {/*    ) : undefined*/}
+        {/*  }*/}
+        {/*/>*/}
       </Card>
     </Styles>
   )
