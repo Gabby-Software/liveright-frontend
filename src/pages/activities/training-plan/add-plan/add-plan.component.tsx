@@ -7,7 +7,8 @@ import {
   FormProvider,
   useFieldArray,
   useForm,
-  useFormState
+  useFormState,
+  useWatch
 } from 'react-hook-form'
 import { useHistory, useParams } from 'react-router'
 import * as yup from 'yup'
@@ -119,7 +120,6 @@ export default function AddTrainingPlan({
 
   const methods = useForm<any>({
     defaultValues,
-    // no validaton
     resolver: yupResolver(validationSchema),
     reValidateMode: 'onChange',
     mode: 'onChange'
@@ -213,8 +213,10 @@ export default function AddTrainingPlan({
     }
   }
 
-  console.log(errors)
-  const values = methods.getValues()
+  const [scheduled_start_on, name] = useWatch({
+    control: methods.control,
+    name: ['scheduled_start_on', 'name']
+  })
 
   const content = (
     <>
@@ -294,9 +296,9 @@ export default function AddTrainingPlan({
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
-                    disabled={!values.scheduled_start_on}
+                    disabled={!scheduled_start_on}
                     disabledDate={(date: Moment) =>
-                      date.isBefore(values.scheduled_start_on)
+                      date.isBefore(scheduled_start_on)
                     }
                   />
                 )}
@@ -339,12 +341,16 @@ export default function AddTrainingPlan({
       <ActivitiesDialog
         name="Make Change Plan"
         description="You’re about to making changes to the following training plan:"
-        title={values.name}
+        title={name}
         date={{
           label:
             'Please select the date from when you want these changes to be applied:',
-          value: values.scheduled_start_on ?? '',
-          disabledDate: (date: Moment) => date.isBefore()
+          value: scheduled_start_on ?? '',
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (e: any, date: any) => {
+            console.log(date)
+            methods.setValue('scheduled_start_on', date)
+          }
         }}
         alert={
           <>

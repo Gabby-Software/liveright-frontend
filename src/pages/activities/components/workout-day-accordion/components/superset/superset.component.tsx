@@ -20,6 +20,7 @@ interface SupersetProps {
   draggableProps: any
   isDragging: boolean
   innerRef?: any
+  labelIndex: number
 }
 
 function createExercise(nameValue = '') {
@@ -39,7 +40,8 @@ export default function Superset({
   onRemove,
   innerRef,
   dragHandleProps,
-  draggableProps
+  draggableProps,
+  labelIndex
 }: SupersetProps) {
   const [dropId] = useState(`superset-drop-${Date.now()}`)
   const methods = useFormContext()
@@ -49,10 +51,13 @@ export default function Superset({
     name: `${name}.data`
   })
 
+  console.log(labelIndex)
   const handleAddExercise = () => {
     exercisesArray.append(
       createExercise(
-        `1${String.fromCharCode(65 + exercisesArray.fields.length)}--`
+        `${labelIndex}${String.fromCharCode(
+          65 + exercisesArray.fields.length
+        )}--`
       )
     )
   }
@@ -82,7 +87,7 @@ export default function Superset({
       const suf = String(v.name).split('--')[1]
       methods.setValue(
         `${name}.data.${i}.name`,
-        `1${String.fromCharCode(65 + i)}--${suf}`
+        `${labelIndex}${String.fromCharCode(65 + i)}--${suf}`
       )
     })
   }
