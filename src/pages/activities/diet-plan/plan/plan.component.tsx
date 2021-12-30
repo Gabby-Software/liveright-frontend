@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import Checkbox from '../../../../components/form/checkbox/checkbox.component'
+import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
@@ -159,36 +161,50 @@ export default function DietPlan() {
             <div className="PlanPage__divider" />
 
             <div className="PlanPage__statuses">
-              <div className="PlanPage__badge">
-                <StatusBadge
-                  status={revision.status}
-                  className="PlanPage__info-badge"
-                >
-                  {capitalize(revision.status)}
-                </StatusBadge>
+              <div className="PlanPage__statuses-content">
+                <div className="PlanPage__badge">
+                  <StatusBadge
+                    status={revision.status}
+                    className="PlanPage__info-badge"
+                  >
+                    {capitalize(revision.status)}
+                  </StatusBadge>
+                </div>
+
+                {revision.status === 'active' && (
+                  <div className="PlanPage__badge">
+                    <p className="PlanPage__badge-title">Start and end dates</p>
+                    <p className="PlanPage__badge-text">
+                      The start and end dates of this training plan are tied to
+                      the active Training Split
+                    </p>
+                  </div>
+                )}
+                {revision.status === 'scheduled' && (
+                  <div className="PlanPage__badge">
+                    <p className="PlanPage__badge-title">Starting on</p>
+                    <p className="PlanPage__badge-text">
+                      {revision.scheduled_start_on
+                        ? moment(new Date(revision.scheduled_start_on)).format(
+                            DATE_RENDER_FORMAT
+                          )
+                        : '-'}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {revision.status === 'active' && (
-                <div className="PlanPage__badge">
-                  <p className="PlanPage__badge-title">Start and end dates</p>
-                  <p className="PlanPage__badge-text">
-                    The start and end dates of this training plan are tied to
-                    the active Training Split
-                  </p>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Checkbox style={{ marginRight: '0.5rem' }} />
+                  <Label
+                    className="MealAccordion__checkbox"
+                    style={{ margin: 0 }}
+                  >
+                    Save as re-usable template
+                  </Label>
                 </div>
-              )}
-              {revision.status === 'scheduled' && (
-                <div className="PlanPage__badge">
-                  <p className="PlanPage__badge-title">Starting on</p>
-                  <p className="PlanPage__badge-text">
-                    {revision.scheduled_start_on
-                      ? moment(new Date(revision.scheduled_start_on)).format(
-                          DATE_RENDER_FORMAT
-                        )
-                      : '-'}
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
           </Card>
 

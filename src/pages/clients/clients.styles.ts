@@ -53,21 +53,23 @@ export const Styles = styled.div`
       }
 
       &-action {
+        color: inherit;
+
         & svg {
           width: 25px;
           height: 25px;
         }
 
-        &:nth-child(1) {
+        &[data-type='Workshops'] {
           color: ${getColorCarry('blue_80')};
         }
-        &:nth-child(2) {
+        &[data-type='Exercises'] {
           color: ${getColorCarry('red_80')};
         }
-        &:nth-child(3) {
+        &[data-type='Meals'] {
           color: ${getColorCarry('orange_60')};
         }
-        &:nth-child(4) {
+        &[data-type='Measures'] {
           color: ${getColorCarry('primaryDark_v2')};
         }
       }

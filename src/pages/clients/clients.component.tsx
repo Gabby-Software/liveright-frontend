@@ -33,6 +33,7 @@ import MobilePage from '../../layouts/mobile-page/mobile-page.component'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { capitalize } from '../../pipes/capitalize.pipe'
 import { parseQuery } from '../../utils/query'
+import { getRoute } from '../../utils/routes'
 import { DrawerContent, Styles } from './clients.styles'
 
 const LABELS: string[] = [
@@ -56,19 +57,23 @@ const KEYS: string[] = [
 const ACTIONS = [
   {
     icon: WorkoutIconV2,
-    title: 'Workshops'
+    title: 'Workshops',
+    href: Routes.ACTIVITIES_TS
   },
   {
     icon: ExerciseIconV2,
-    title: 'Exercises'
+    title: 'Exercises',
+    href: Routes.ACTIVITIES_TP
   },
   {
     icon: FoodIconV2,
-    title: 'Meals'
+    title: 'Meals',
+    href: Routes.ACTIVITIES_DP
   },
   {
     icon: MeasurementIconV2,
-    title: 'Measures'
+    title: 'Measures',
+    href: Routes.PROGRESS_MEASUREMENTS
   }
 ]
 
@@ -207,17 +212,23 @@ function Clients() {
                     t('clients:sessions-remind', {
                       n: data.extras?.credits || 0
                     }),
-                  actions: () => (
+                  actions: (data) => (
                     <div className="clients__table-actions">
                       {activeTab === 'clients' ? (
                         ACTIONS.map((a, index) => (
-                          <IconButton
+                          <Link
+                            style={{ color: 'auto' }}
                             key={index}
-                            className="clients__table-action"
-                            size="sm"
+                            to={getRoute(a.href, { clientId: data.id })}
                           >
-                            <a.icon />
-                          </IconButton>
+                            <IconButton
+                              data-type={a.title}
+                              className="clients__table-action"
+                              size="sm"
+                            >
+                              <a.icon />
+                            </IconButton>
+                          </Link>
                         ))
                       ) : (
                         <Button variant="secondary" size="sm">

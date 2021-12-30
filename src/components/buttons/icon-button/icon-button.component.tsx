@@ -26,7 +26,8 @@ const IconButton = forwardRef<any, PropsWithChildren<IconButtonProps>>(
       TooltipProps,
       LinkProps,
       onClick,
-      disabled
+      disabled,
+      ...other
     } = props
 
     let content
@@ -37,6 +38,7 @@ const IconButton = forwardRef<any, PropsWithChildren<IconButtonProps>>(
         ref={ref}
         onClick={onClick}
         disabled={disabled}
+        {...other}
       >
         {children}
       </Root>

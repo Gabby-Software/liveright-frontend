@@ -141,6 +141,23 @@ export const Styles = styled.div`
         border-radius: 10px;
         margin-bottom: 0;
       }
+
+      &-content {
+        display: flex;
+        align-items: center;
+
+        @media ${mediaQueries.TABLET} {
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 1.25rem;
+        }
+      }
+
+      &-checkbox {
+        @media ${mediaQueries.TABLET} {
+          margin-bottom: 1.25rem;
+        }
+      }
     }
 
     &__badge {
@@ -178,6 +195,21 @@ export const Styles = styled.div`
 
     &__statuses {
       display: flex;
+      justify-content: space-between;
+
+      @media ${mediaQueries.TABLET} {
+        flex-direction: column;
+      }
+
+      &-content {
+        display: flex;
+        align-items: center;
+
+        @media ${mediaQueries.TABLET} {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     }
 
     &__info {
