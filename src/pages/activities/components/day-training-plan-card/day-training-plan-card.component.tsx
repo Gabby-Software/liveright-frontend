@@ -65,21 +65,21 @@ function formatExercise(data: any): string {
     if (ex.info?.duration) {
       const times = ex.info.duration.split(':')
       if (times.length === 2) {
-        result += `Duration: ${times[0] * 60 + +times[1]};`
+        result += `Duration: ${times[0] * 60 + +times[1]}s; `
       }
     }
     if (ex.info?.intensity) {
-      result += `Intensity: ${ex.info.intensity};`
+      result += `Intensity: ${ex.info.intensity}s; `
     }
   } else {
     if (ex.info?.sets) {
-      result += `Sets: ${ex.info.sets};`
+      result += `Sets: ${ex.info.sets}; `
     }
     if (ex.info?.reps) {
-      result += ` Reps: ${ex.info.reps};`
+      result += ` Reps: ${ex.info.reps}; `
     }
     if (ex.info?.rest_interval) {
-      result += ` Rest: ${ex?.info.rest_interval};`
+      result += ` Rest: ${ex?.info.rest_interval}s; `
     }
   }
 

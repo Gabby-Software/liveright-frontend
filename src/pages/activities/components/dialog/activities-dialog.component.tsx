@@ -15,6 +15,7 @@ export type DateProps = {
   label: string | JSX.Element
   value: string
   disabledDate?: any
+  onChange?: any
 }
 
 export type PlanProps = {
@@ -61,6 +62,8 @@ export default function ActivitiesDialog({
     console.log(item)
   }
 
+  console.log(date)
+
   const planLabel =
     'This split has the following meal plan and training plan days'
   return (
@@ -90,6 +93,7 @@ export default function ActivitiesDialog({
             placeholder="Start date"
             className="ActivitiesDialog__control"
             disabledDate={date.disabledDate}
+            onChange={date.onChange}
           />
         )}
 

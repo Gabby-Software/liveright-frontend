@@ -24,7 +24,7 @@ import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import { InputSearch } from '../../../input-search/input-search.component'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
-import { Styles, WorkoutSubtitle } from './workout.styles'
+import { Styles } from './workout.styles'
 
 interface WorkoutProps {
   name: string
@@ -33,7 +33,7 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise(isSuperset: boolean, cardio: boolean) {
+function createExercise(isSuperset: boolean | number, cardio: boolean) {
   const ex = cardio
     ? {
         name: '',
@@ -44,7 +44,7 @@ function createExercise(isSuperset: boolean, cardio: boolean) {
         }
       }
     : {
-        name: isSuperset ? '1A--' : '',
+        name: isSuperset ? `${isSuperset}A--` : '',
         link: '',
         info: {
           sets: '',
@@ -54,7 +54,7 @@ function createExercise(isSuperset: boolean, cardio: boolean) {
         }
       }
   return {
-    is_superset: isSuperset,
+    is_superset: isSuperset && true,
     data: isSuperset ? [ex] : ex
   }
 }
@@ -80,7 +80,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
-  const handleExerciseAdd = (isSuperset: boolean, cardio = false) => {
+  const handleExerciseAdd = (isSuperset: boolean | number, cardio = false) => {
     exercisesArray.append(createExercise(isSuperset, cardio))
     methods.clearErrors(`${name}.items`)
   }
@@ -88,6 +88,10 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
   }
+
+  const supersetIndexes = exercisesArray.fields
+    .map((row: any, index) => (row.is_superset ? index : null))
+    .filter((row) => row !== null)
 
   return (
     <Styles>
@@ -220,8 +224,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
         />
       </div>
 
-      <WorkoutSubtitle>Exercises</WorkoutSubtitle>
-
       <div className="Workout__exercises">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId={`droppable-${dropId}`}>
@@ -250,6 +252,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                               isDragging={snapshot.isDragging}
                               innerRef={provided.innerRef}
                               onRemove={() => handleExerciseRemove(index)}
+                              labelIndex={supersetIndexes.indexOf(index) + 1}
                             />
                           ) : (
                             <Exercise
@@ -261,6 +264,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                               name={`${name}.items.${index}.data`}
                               onRemove={() => handleExerciseRemove(index)}
                               prefix={
+                                index === 0 ||
                                 !!(exercisesArray.fields as any)[index - 1]
                                   ?.is_superset
                               }
@@ -300,7 +304,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => handleExerciseAdd(true)}
+          onClick={() => handleExerciseAdd(supersetIndexes.length + 1)}
         >
           <AddIcon />
           Add Superset
