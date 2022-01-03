@@ -36,7 +36,6 @@ export default function DietPlans() {
   const history = useHistory()
   const [add, setAdd] = useState(false)
   const { isLoading, dietPlans } = useDietPlans({ clientId })
-  const clientAccount = useClientAccount(clientId)
 
   // useEffect(() => {
   //   if (!clientId) {
@@ -145,9 +144,16 @@ export default function DietPlans() {
                     <span>{row.name}</span>
                   </Link>
                 ),
-                client: () => (
+                client: (row) => (
                   <span>
-                    {clientId ? clientAccount.user?.full_name || '-' : '-'}
+                    {row.account
+                      ? [
+                          row.account?.user?.first_name,
+                          row.account?.user?.last_name
+                        ]
+                          .filter(Boolean)
+                          .join(' ') || '-'
+                      : '-'}
                   </span>
                 ),
                 days: (row) => <span>{getRevision(row)?.days_count}</span>,

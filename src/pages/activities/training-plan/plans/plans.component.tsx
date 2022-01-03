@@ -36,7 +36,6 @@ export default function TrainingPlans() {
   const history = useHistory()
   const [add, setAdd] = useState(false)
   const { isLoading, trainingPlans, mutate } = useTrainingPlans({ clientId })
-  const clientAccount = useClientAccount(clientId)
 
   // useEffect(() => {
   //   if (!clientId) {
@@ -139,10 +138,15 @@ export default function TrainingPlans() {
                           <span>{row.name || '-'}</span>
                         </Link>
                       ),
-                      client: () => (
+                      client: (row) => (
                         <span>
-                          {clientId
-                            ? clientAccount.user?.full_name || '-'
+                          {row.account
+                            ? [
+                                row.account?.user?.first_name,
+                                row.account?.user?.last_name
+                              ]
+                                .filter(Boolean)
+                                .join(' ') || '-'
                             : '-'}
                         </span>
                       ),
