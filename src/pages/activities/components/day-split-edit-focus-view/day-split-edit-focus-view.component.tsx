@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { AddIcon, CaretLeftIcon } from '../../../../assets/media/icons'
@@ -23,15 +23,36 @@ interface IProp {
   maxDays: number
   tpDays: any[]
   dpDays: any[]
+  handleDayAdd: () => void
 }
 
 export default function DaySplitEditFocusView({
   maxDays,
   tpDays,
-  dpDays
+  dpDays,
+  handleDayAdd
 }: IProp) {
   const [index, setIndex] = useState(0)
   const methods = useFormContext()
+
+  useEffect(() => {
+    if (maxDays - 1 > 0) {
+      setIndex(maxDays - 1)
+    }
+  }, [maxDays])
+
+  if (maxDays <= 0) {
+    return (
+      <Styles>
+        <div className="DaySplitEditFocusView__head">
+          <Button variant="secondary" onClick={handleDayAdd}>
+            <AddIcon />
+            Add more days
+          </Button>
+        </div>
+      </Styles>
+    )
+  }
 
   return (
     <Styles>
@@ -57,7 +78,7 @@ export default function DaySplitEditFocusView({
           </div>
         </div>
 
-        <Button variant="secondary">
+        <Button variant="secondary" onClick={handleDayAdd}>
           <AddIcon />
           Add more days
         </Button>
@@ -65,11 +86,13 @@ export default function DaySplitEditFocusView({
 
       <div className="DaySplitEditFocusView__content">
         <SplitDayItemCard
+          key={`training_day_${index}`}
           title="Training plan"
           color={getColorCarry('orange_50')}
           icon={<WorkoutIcon />}
           content={
             <WorkoutDayForm
+              key={`days.${index}.training_plan_day.activities`}
               name={`days.${index}.training_plan_day.activities`}
             />
           }
@@ -80,11 +103,20 @@ export default function DaySplitEditFocusView({
                 <Select
                   id="SplitDayItemCard-training-plan"
                   placeholder="Search training plan"
-                  value={value?.name || ''}
+                  value={value?._id || ''}
                   options={
-                    tpDays?.map((d) => ({ label: d.name, value: d })) || []
+                    tpDays?.map((d) => ({
+                      label: d.name,
+                      value: d._id
+                    })) || []
                   }
-                  onChange={(value) => methods.setValue(name, cloneDeep(value))}
+                  onChange={(value) =>
+                    methods.setValue(
+                      name,
+                      cloneDeep(tpDays.find((d) => d._id === value)),
+                      { shouldValidate: true }
+                    )
+                  }
                 />
               )}
             />
@@ -92,11 +124,15 @@ export default function DaySplitEditFocusView({
         />
 
         <SplitDayItemCard
+          key={`diet_day_${index}`}
           title="Meal plan"
           color={getColorCarry('primary_v2')}
           icon={<FoodIcon />}
           content={
-            <MealDayForm name={`days.${index}.diet_plan_day.activities`} />
+            <MealDayForm
+              key={`days.${index}.diet_plan_day.activities`}
+              name={`days.${index}.diet_plan_day.activities`}
+            />
           }
           control={
             <Controller
@@ -105,11 +141,19 @@ export default function DaySplitEditFocusView({
                 <Select
                   id="SplitDayItemCard-training-plan"
                   placeholder="Search training plan"
-                  value={value?.name || ''}
+                  value={value?._id || ''}
                   options={
-                    dpDays?.map((d) => ({ label: d.name, value: d })) || []
+                    dpDays?.map((d) => ({
+                      label: d.name,
+                      value: d._id
+                    })) || []
                   }
-                  onChange={(value) => methods.setValue(name, cloneDeep(value))}
+                  onChange={(value) =>
+                    methods.setValue(
+                      name,
+                      cloneDeep(dpDays.find((d) => d._id === value))
+                    )
+                  }
                 />
               )}
             />
@@ -120,7 +164,7 @@ export default function DaySplitEditFocusView({
           title="Other Exercises"
           color={getColorCarry('blue_40')}
           icon={<ExerciseIcon />}
-          content={<OtherWorkoutDayForm />}
+          content={<OtherWorkoutDayForm name={`days.${index}.items`} />}
           control={
             <Controller
               name={`days.${index}.items`}
