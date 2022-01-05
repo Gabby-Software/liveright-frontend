@@ -31,8 +31,9 @@ export const Routes = {
   ACTIVITIES_CURR_PLAN: '/activities/current-plan',
   ACTIVITIES_TS: '/activities/training-splits',
   ACTIVITIES_TS_NEW: '/activities/training-splits/create',
-  ACTIVITIES_TS_ID: '/activities/training-splits/:id',
-  ACTIVITIES_TS_EDIT: '/activities/training-splits/:id/edit',
+  ACTIVITIES_TS_ID: '/activities/training-split/:id/revision/:revisionId',
+  ACTIVITIES_TS_EDIT:
+    '/activities/training-split/:id/revision/:revisionId/edit',
   ACTIVITIES_TS_EDIT_TP: '/activities/training-splits/:id/edit/training-plan',
   ACTIVITIES_TS_EDIT_MP: '/activities/training-splits/:id/edit/meal-plan',
   ACTIVITIES_TM: '/templates',

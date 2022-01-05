@@ -1,3 +1,7 @@
+import cloneDeep from 'lodash.clonedeep'
+import { useState } from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
+
 import { AddIcon, CaretLeftIcon } from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
@@ -15,18 +19,39 @@ import WorkoutDayForm from '../workout-day-form/workout-day-form.component'
 import SplitDayItemCard from './components/split-day-item-card/split-day-item-card.component'
 import { Styles } from './day-split-edit-focus-view.styles'
 
-export default function DaySplitEditFocusView() {
+interface IProp {
+  maxDays: number
+  tpDays: any[]
+  dpDays: any[]
+}
+
+export default function DaySplitEditFocusView({
+  maxDays,
+  tpDays,
+  dpDays
+}: IProp) {
+  const [index, setIndex] = useState(0)
+  const methods = useFormContext()
+
   return (
     <Styles>
       <div className="DaySplitEditFocusView__head">
         <div className="DaySplitEditFocusView__title-container">
-          <Title className="DaySplitEditFocusView__title">Day 3</Title>
+          <Title className="DaySplitEditFocusView__title">
+            Day {index + 1}
+          </Title>
 
           <div className="DaySplitEditFocusView__title-arrows">
-            <IconButton size="sm">
+            <IconButton
+              size="sm"
+              onClick={() => setIndex((prev) => (prev - 1 + maxDays) % maxDays)}
+            >
               <CaretLeftIcon />
             </IconButton>
-            <IconButton size="sm">
+            <IconButton
+              size="sm"
+              onClick={() => setIndex((prev) => (prev + 1) % maxDays)}
+            >
               <CaretLeftIcon />
             </IconButton>
           </div>
@@ -43,12 +68,25 @@ export default function DaySplitEditFocusView() {
           title="Training plan"
           color={getColorCarry('orange_50')}
           icon={<WorkoutIcon />}
-          content={<WorkoutDayForm name="" />}
+          content={
+            <WorkoutDayForm
+              name={`days.${index}.training_plan_day.activities`}
+            />
+          }
           control={
-            <Select
-              id="SplitDayItemCard-plan"
-              placeholder="Search training plan"
-              options={[]}
+            <Controller
+              name={`days.${index}.training_plan_day`}
+              render={({ field: { value, name } }) => (
+                <Select
+                  id="SplitDayItemCard-training-plan"
+                  placeholder="Search training plan"
+                  value={value?.name || ''}
+                  options={
+                    tpDays?.map((d) => ({ label: d.name, value: d })) || []
+                  }
+                  onChange={(value) => methods.setValue(name, cloneDeep(value))}
+                />
+              )}
             />
           }
         />
@@ -57,12 +95,23 @@ export default function DaySplitEditFocusView() {
           title="Meal plan"
           color={getColorCarry('primary_v2')}
           icon={<FoodIcon />}
-          content={<MealDayForm name="" />}
+          content={
+            <MealDayForm name={`days.${index}.diet_plan_day.activities`} />
+          }
           control={
-            <Select
-              id="SplitDayItemCard-diet-plan"
-              placeholder="Search diet plan"
-              options={[]}
+            <Controller
+              name={`days.${index}.diet_plan_day`}
+              render={({ field: { value, name } }) => (
+                <Select
+                  id="SplitDayItemCard-training-plan"
+                  placeholder="Search training plan"
+                  value={value?.name || ''}
+                  options={
+                    dpDays?.map((d) => ({ label: d.name, value: d })) || []
+                  }
+                  onChange={(value) => methods.setValue(name, cloneDeep(value))}
+                />
+              )}
             />
           }
         />
@@ -73,10 +122,17 @@ export default function DaySplitEditFocusView() {
           icon={<ExerciseIcon />}
           content={<OtherWorkoutDayForm />}
           control={
-            <Select
-              id="SplitDayItemCard-other-exercise"
-              placeholder="Search other exercise"
-              options={[]}
+            <Controller
+              name={`days.${index}.items`}
+              render={({ field: { value, name } }) => (
+                <Select
+                  id="SplitDayItemCard-training-plan"
+                  placeholder="Search training plan"
+                  value={value?.name || ''}
+                  options={[]}
+                  onChange={(value) => methods.setValue(name, cloneDeep(value))}
+                />
+              )}
             />
           }
         />

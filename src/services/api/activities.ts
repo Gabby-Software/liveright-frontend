@@ -64,3 +64,35 @@ export async function getDietPlan(url: string) {
   const response = await api.get(url)
   return response.data
 }
+
+export async function getTrainingSplits(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function getTrainingSplitRevision(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function getTrainingSplit(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function addTrainingSplit(data: any) {
+  const response = await api.post('/training-splits', data)
+  return response.data.data
+}
+
+export async function editTrainingSplit(
+  id: string,
+  revisionId: string,
+  data: any
+) {
+  const response = await api.put(
+    `/training-splits/${id}/revisions/${revisionId}`,
+    data
+  )
+  return response.data.data
+}

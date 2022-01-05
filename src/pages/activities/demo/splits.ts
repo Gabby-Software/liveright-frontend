@@ -1,7 +1,7 @@
 export const TS_DEMO = [
   {
     day: 'Day 1',
-    workoutDay: {
+    training_plan_day: {
       id: '123',
       name: 'High Intensity Workouts',
       activities: [
@@ -77,7 +77,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'Low Carb day',
       meals: [
         {
@@ -98,11 +98,12 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   },
   {
     day: 'Day 2',
-    workoutDay: {
+    training_plan_day: {
       name: 'Low Intensity Workouts',
       activities: [
         {
@@ -157,7 +158,7 @@ export const TS_DEMO = [
             ],
             [
               {
-                name: '1A-Pushups',
+                name: '1A--Pushups',
                 info: {
                   steps: 2,
                   reps: 10,
@@ -165,7 +166,7 @@ export const TS_DEMO = [
                 }
               },
               {
-                name: '1B-Pushups',
+                name: '1B--Pushups',
                 info: {
                   steps: 2,
                   reps: 10,
@@ -177,7 +178,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'High Protein day',
       meals: [
         {
@@ -197,11 +198,12 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   },
   {
     day: 'Day 3',
-    workoutDay: {
+    training_plan_day: {
       name: 'High Intensity Workouts',
       activities: [
         {
@@ -276,7 +278,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'Low Carb day',
       meals: [
         {
@@ -296,11 +298,12 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   },
   {
     day: 'Day 4',
-    workoutDay: {
+    training_plan_day: {
       name: 'Low Intensity Workouts',
       activities: [
         {
@@ -375,7 +378,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'High Protein day',
       meals: [
         {
@@ -395,11 +398,12 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   },
   {
     day: 'Day 5',
-    workoutDay: {
+    training_plan_day: {
       name: 'High Intensity Workouts',
       activities: [
         {
@@ -474,7 +478,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'Low Carb day',
       meals: [
         {
@@ -494,11 +498,12 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   },
   {
     day: 'Day 6',
-    workoutDay: {
+    training_plan_day: {
       name: 'Low Intensity Workouts',
       activities: [
         {
@@ -573,7 +578,7 @@ export const TS_DEMO = [
         }
       ]
     },
-    mealPlanDay: {
+    diet_plan_day: {
       name: 'High Protein day',
       meals: [
         {
@@ -593,6 +598,7 @@ export const TS_DEMO = [
           ]
         }
       ]
-    }
+    },
+    items: []
   }
 ]

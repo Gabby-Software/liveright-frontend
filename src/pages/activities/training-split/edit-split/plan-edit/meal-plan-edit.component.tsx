@@ -15,7 +15,7 @@ const MealPlanEdit = () => {
         <MobileBack to={Routes.ACTIVITIES_TS} alias="training-split" />
       }
     >
-      <MealPlanDayEdit data={data[0].mealPlanDay} />
+      <MealPlanDayEdit data={data[0].diet_plan_day} name="" />
     </MobilePage>
   )
 }
