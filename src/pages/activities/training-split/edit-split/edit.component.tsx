@@ -384,6 +384,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       name={`days.${i}`}
                       tpDays={tpRev.days}
                       dpDays={dpRev.days}
+                      day={`Day ${i + 1}`}
                       edit
                       onWorkout={handleWorkout}
                       onMealPlan={handleMealPlan}
