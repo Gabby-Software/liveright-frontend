@@ -38,6 +38,8 @@ import { Styles } from './edit-split.styles'
 
 const defaultValues: any = {
   name: '',
+  training_plan_revision_id: '',
+  diet_plan_revision_id: '',
   account_id: null,
   scheduled_start_on: '',
   scheduled_end_on: '',
@@ -141,10 +143,26 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     if (revision._id) {
       methods.setValue('name', trainingSplit.name)
       methods.setValue('account_id', trainingSplit.account_id)
+      methods.setValue(
+        'training_plan_revision_id',
+        revision.training_plan_revision_id
+      )
+      methods.setValue('diet_plan_revision_id', revision.diet_plan_revision_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
       methods.setValue('days', revision.days)
       setDayCount(revision.days_count)
+      setSelectedTP(
+        trainingPlans.find(
+          (tp) =>
+            getLatestRevision(tp)?._id === revision.training_plan_revision_id
+        )?._id || ''
+      )
+      setSelectedDP(
+        dietPlans.find(
+          (dp) => getLatestRevision(dp)?._id === revision.diet_plan_revision_id
+        )?._id || ''
+      )
     }
   }, [revision._id])
 
@@ -295,7 +313,14 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                 label="Diet plan"
                 placeholder="Select diet plan"
                 value={selectedDP}
-                onChange={(value) => setSelectedDP(value)}
+                onChange={(value) => {
+                  setSelectedDP(value)
+                  methods.setValue(
+                    'diet_plan_revision_id',
+                    getLatestRevision(dietPlans.find((dp) => dp._id === value))
+                      ?._id
+                  )
+                }}
                 options={dietPlans.map((dp) => ({
                   label: dp.name,
                   value: dp._id
@@ -306,7 +331,15 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                 label="Training plan"
                 placeholder="Select training plan"
                 value={selectedTP}
-                onChange={(value) => setSelectedTP(value)}
+                onChange={(value) => {
+                  setSelectedTP(value)
+                  methods.setValue(
+                    'training_plan_revision_id',
+                    getLatestRevision(
+                      trainingPlans.find((tp) => tp._id === value)
+                    )?._id
+                  )
+                }}
                 options={trainingPlans.map((tp) => ({
                   label: tp.name,
                   value: tp._id
@@ -351,6 +384,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       name={`days.${i}`}
                       tpDays={tpRev.days}
                       dpDays={dpRev.days}
+                      day={`Day ${i + 1}`}
                       edit
                       onWorkout={handleWorkout}
                       onMealPlan={handleMealPlan}
