@@ -13,9 +13,11 @@ export function DeletableDay(props: DeletableDayProps) {
   return (
     <div className="day-item">
       <span>{name}</span>
-      <IconButton onClick={onDelete ? () => onDelete('') : undefined}>
-        <CloseIcon />
-      </IconButton>
+      {onDelete && (
+        <IconButton onClick={onDelete ? () => onDelete('') : undefined}>
+          <CloseIcon />
+        </IconButton>
+      )}
     </div>
   )
 }

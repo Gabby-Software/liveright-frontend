@@ -33,27 +33,29 @@ export default function DayTrainingSplitCard(
           <ListItem
             color={getColorCarry('orange_50')}
             title="Workout Day"
-            content={[data.workoutDay.name]}
+            content={[data.training_plan_day.name]}
             icon={<WorkoutIcon />}
             edit={edit}
             onClick={
-              onWorkout ? () => onWorkout(data.workoutDay.id) : undefined
+              onWorkout
+                ? () => onWorkout(data.training_plan_day._id)
+                : undefined
             }
           />
           <ListItem
             color={getColorCarry('primary_v2')}
             title="Meal Plan Day"
-            content={[data.mealPlanDay.name]}
+            content={[data.diet_plan_day.name]}
             icon={<FoodIcon />}
             edit={edit}
             onClick={
-              onMealPlan ? () => onMealPlan(data.mealPlanDay.id) : undefined
+              onMealPlan ? () => onMealPlan(data.diet_plan_day._id) : undefined
             }
           />
           <ListItem
             color={getColorCarry('blue_50')}
             title="Other Exercises"
-            content={['Cardio']}
+            content={data.items.map((t: any) => t.data?.name)}
             icon={<ExerciseIcon />}
             edit={edit}
             onClick={onCardio ? () => onCardio('') : undefined}

@@ -1,4 +1,7 @@
+import { capitalize } from 'lodash'
+import moment from 'moment'
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -7,12 +10,13 @@ import { FormToggleUI } from '../../../../components/forms/form-toggle/form-togg
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
-import { TS_DEMO } from '../../demo/splits'
 import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
@@ -21,7 +25,14 @@ export default function TrainingSplit() {
   const [confirmDialog, setConfirmDialog] = useState(false)
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
-  const data = TS_DEMO
+
+  const params = useParams<any>()
+
+  const { trainingSplit, revision } = useTrainingSplit({
+    clientId: params.clientId,
+    id: params.id,
+    revisionId: params.revisionId
+  })
 
   if (day) {
     return <TrainingSplitDayView onClose={() => setDay(null)} />
@@ -42,7 +53,7 @@ export default function TrainingSplit() {
     <>
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
-          {data.map((row: any, idx: number) => (
+          {revision?.days?.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingSplitCard onExpand={() => setDay(idx)} data={row} />
             </div>
@@ -50,7 +61,7 @@ export default function TrainingSplit() {
         </div>
       ) : (
         <div className="TrainingSplits__cards">
-          {data.map((row: any) => (
+          {revision?.days?.map((row: any) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingScheduleCard data={row} />
             </div>
@@ -77,7 +88,10 @@ export default function TrainingSplit() {
                 </Button>
                 <Button
                   className="TrainingSplits__title-button"
-                  to={Routes.ACTIVITIES_TS + '/ts_1/edit'}
+                  to={getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                    id: params.id,
+                    revisionId: params.revisionId
+                  })}
                 >
                   Edit Training Split
                 </Button>
@@ -89,7 +103,7 @@ export default function TrainingSplit() {
 
           <div className="TrainingSplits__filters-container">
             <div className="TrainingSplits__filters-title-container">
-              <Subtitle>Reduce Bodyweight</Subtitle>
+              <Subtitle>{trainingSplit.name}</Subtitle>
 
               {isMobile && (
                 <Button size="sm" variant="text" to={Routes.ACTIVITIES_TS}>
@@ -134,26 +148,36 @@ export default function TrainingSplit() {
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Number of Days</p>
-                <p className="TrainingSplits__info-value">7 days</p>
+                <p className="TrainingSplits__info-value">
+                  {revision.days_count}
+                </p>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Started on</p>
-                <p className="TrainingSplits__info-value">04/10/2021</p>
+                <p className="TrainingSplits__info-value">
+                  {moment(revision.scheduled_start_on).format('dd/mm/yyyy')}
+                </p>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Ends on</p>
-                <p className="TrainingSplits__info-value">04/11/2021</p>
+                <p className="TrainingSplits__info-value">
+                  {moment(revision.scheduled_end_on).format('dd/mm/yyyy')}
+                </p>
               </div>
 
               {isMobile ? (
                 <div className="TrainingSplits__info-column">
                   <p className="TrainingSplits__info-title">Status</p>
                   <div className="TrainingSplits__info-badge-container">
-                    <StatusBadge status="active">Active</StatusBadge>
+                    <StatusBadge status={revision.status}>
+                      {capitalize(revision.status)}
+                    </StatusBadge>
                   </div>
                 </div>
               ) : (
-                <StatusBadge status="active">Active</StatusBadge>
+                <StatusBadge status={revision.status}>
+                  {capitalize(revision.status)}
+                </StatusBadge>
               )}
             </div>
 

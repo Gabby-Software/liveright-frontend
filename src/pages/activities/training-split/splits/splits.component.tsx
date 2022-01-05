@@ -10,6 +10,7 @@ import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplits'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
@@ -26,55 +27,14 @@ const LABELS = [
 ]
 const KEYS = ['name', 'diet_plan', 'training_plan', 'client', 'days', 'status']
 
-const DATA = [
-  {
-    id: 1,
-    name: '10 Days of Wonder',
-    client: 'John Travolta',
-    days: '5',
-    diet_plan: 'Lose Weight Now',
-    training_plan: 'Train Had Intensity',
-    scheduled_start_on: '',
-    scheduled_end_on: '',
-    status: 'draft'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    client: 'John Travolta',
-    days: '5',
-    diet_plan: 'Lose Weight Now',
-    training_plan: 'Train Had Intensity',
-    scheduled_start_on: '2022-01-07',
-    scheduled_end_on: '',
-    status: 'inactive'
-  },
-  {
-    id: 3,
-    name: '7 Days of Wonder',
-    client: 'John Travolta',
-    days: '5',
-    diet_plan: 'Lose Weight Now',
-    training_plan: 'Train Had Intensity',
-    scheduled_start_on: '2022-01-15',
-    scheduled_end_on: '2022-01-20',
-    status: 'scheduled'
-  },
-  {
-    id: 4,
-    name: '7 Days of Wonder',
-    client: 'John Travolta',
-    days: '5',
-    diet_plan: 'Lose Weight',
-    training_plan: 'Train Had Intensity',
-    scheduled_start_on: '2021-12-21',
-    scheduled_end_on: '',
-    status: 'active'
-  }
-]
+function getLatestRevision(plan: any) {
+  return plan?.revisions?.[plan.revisions?.length - 1]
+}
 
 export default function TrainingSplits() {
   const isMobile = useIsMobile()
+
+  const { trainingSplits, isLoading } = useTrainingSplits()
 
   const content = (
     <Styles>
@@ -116,24 +76,31 @@ export default function TrainingSplits() {
         <div>
           {isMobile ? (
             <>
-              {DATA.map((row, index) => (
+              {trainingSplits.map((row, index) => (
                 <PlanCard
                   plan={row}
                   key={index}
-                  to={getRoute(Routes.ACTIVITIES_TS_ID, { id: row.id })}
+                  to={getRoute(Routes.ACTIVITIES_TS_ID, {
+                    id: row._id,
+                    revisionId: getLatestRevision(row)._id
+                  })}
                 />
               ))}
             </>
           ) : (
             <DataTable
               labels={LABELS}
-              data={DATA}
+              data={trainingSplits}
               keys={KEYS}
+              loading={isLoading}
               round="10px"
               render={{
                 name: (row) => (
                   <Link
-                    to={`${Routes.ACTIVITIES_TS}/${row.id}`}
+                    to={getRoute(Routes.ACTIVITIES_TS_ID, {
+                      id: row._id,
+                      revisionId: getLatestRevision(row)._id
+                    })}
                     className="PlansTable__table-link"
                   >
                     <span>{row.name}</span>
@@ -146,12 +113,15 @@ export default function TrainingSplits() {
                   >
                     {row.status}
                   </StatusBadge>
-                )
+                ),
+                client: (row) =>
+                  `${row.account?.user?.first_name} ${row.account?.user?.last_name}`,
+                days: (row) => getLatestRevision(row)?.days_count
               }}
             />
           )}
 
-          {!DATA.length && <EmptyPlaceholder spacing />}
+          {!trainingSplits.length && <EmptyPlaceholder spacing />}
         </div>
       </Card>
     </Styles>

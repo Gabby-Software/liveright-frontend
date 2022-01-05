@@ -15,7 +15,6 @@ import {
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
