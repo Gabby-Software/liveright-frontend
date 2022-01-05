@@ -374,6 +374,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                 maxDays={dayCount}
                 tpDays={tpRev.days}
                 dpDays={dpRev.days}
+                handleDayAdd={handleDayAdd}
               />
             ) : (
               <>

@@ -34,10 +34,10 @@ const tempItemsOptions = [
         name: 'Hello',
         link: '',
         info: {
-          sets: '',
-          reps: '',
-          tempo: '',
-          rest_interval: ''
+          sets: '10',
+          reps: '10',
+          tempo: '10',
+          rest_interval: '10'
         }
       }
     }
@@ -88,12 +88,16 @@ export default function DayTrainingSplitEditCard(
             content={data?.training_plan_day?.name || ''}
             name={`${name}.training_plan_day`}
             selectOptions={
-              tpDays?.map((d) => ({ label: d.name, value: d })) || []
+              tpDays?.map((d) => ({ label: d.name, value: d._id })) || []
             }
             icon={<WorkoutIcon />}
             edit={edit}
             onSelection={(name, value) =>
-              methods.setValue(name, value, { shouldValidate: true })
+              methods.setValue(
+                name,
+                cloneDeep(tpDays.find((d) => d._id === value)),
+                { shouldValidate: true }
+              )
             }
             onClick={
               onWorkout
@@ -107,12 +111,16 @@ export default function DayTrainingSplitEditCard(
             content={data?.diet_plan_day?.name || ''}
             name={`${name}.diet_plan_day`}
             selectOptions={
-              dpDays?.map((d) => ({ label: d.name, value: d })) || []
+              dpDays?.map((d) => ({ label: d.name, value: d._id })) || []
             }
             icon={<FoodIcon />}
             edit={edit}
             onSelection={(name, value) =>
-              methods.setValue(name, value, { shouldValidate: true })
+              methods.setValue(
+                name,
+                cloneDeep(dpDays.find((d) => d._id === value)),
+                { shouldValidate: true }
+              )
             }
             onClick={
               onMealPlan
@@ -192,7 +200,7 @@ function ListItem({
                   placeholder="Search training plan"
                   value={value?.name || ''}
                   options={selectOptions}
-                  onChange={(value) => onSelection?.(name, cloneDeep(value))}
+                  onChange={(value) => onSelection?.(name, value)}
                 />
               )}
             />

@@ -62,8 +62,6 @@ export default function ActivitiesDialog({
     console.log(item)
   }
 
-  console.log(date)
-
   const planLabel =
     'This split has the following meal plan and training plan days'
   return (
