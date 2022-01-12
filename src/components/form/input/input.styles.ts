@@ -9,12 +9,19 @@ export default styled.div<any>`
   width: 100%;
   position: relative;
 
+  & .ant-input {
+    font-feature-settings: normal;
+    font-variant: normal;
+  }
+
   & .input__input {
     height: ${getHeight};
     border-radius: 0.625rem;
     font-size: 0.875rem;
     color: ${getColorCarry('primaryDark_v2')};
     padding: 0 1rem;
+    font-variant: unset;
+    font-feature-settings: unset;
 
     &.ant-input-disabled {
       color: rgba(0, 0, 0, 0.25);

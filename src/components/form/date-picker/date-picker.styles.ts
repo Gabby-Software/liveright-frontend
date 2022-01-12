@@ -31,6 +31,7 @@ export default styled.div<any>`
     font-size: 0.875rem;
     color: ${getColorCarry('primaryDark_v2')};
     padding: 0 1rem;
+    font-feature-settings: normal;
   }
 
   & .ant-picker-suffix {

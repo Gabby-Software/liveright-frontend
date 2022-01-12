@@ -97,6 +97,8 @@ export const Styles = styled.div<any>`
 
     &__placeholder {
       color: ${getColorCarry('secondary2_v2')};
+      font-feature-settings: normal;
+      font-variant: normal;
     }
   }
 `
