@@ -13,6 +13,8 @@ export default styled.div`
     color: ${getColorCarry('primaryDark_v2')};
     padding: 0.625rem 1rem;
     resize: none;
+    font-feature-settings: normal;
+    font-variant: unset;
 
     &:hover,
     &:focus,
