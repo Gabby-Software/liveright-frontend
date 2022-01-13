@@ -117,7 +117,7 @@ export default function DietPlans() {
                   plan={row}
                   key={index}
                   to={getRoute(Routes.ACTIVITIES_DP_ID, {
-                    clientId,
+                    clientId: row.account_id || clientId,
                     id: row._id,
                     revisionId: getRevision(row)?._id
                   })}
@@ -135,7 +135,7 @@ export default function DietPlans() {
                   <Link
                     className="PlansTable__table-link"
                     to={getRoute(Routes.ACTIVITIES_DP_ID, {
-                      clientId,
+                      clientId: row.account_id || clientId,
                       id: row._id,
                       revisionId: getRevision(row)?._id
                     })}
