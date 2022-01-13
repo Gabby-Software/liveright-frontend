@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 import {
   Controller,
   FormProvider,
@@ -29,13 +29,13 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitEditCard from '../../components/day-training-split-edit-card/day-training-split-edit-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
-import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import { Styles } from './edit-split.styles'
 
 const defaultValues: any = {
