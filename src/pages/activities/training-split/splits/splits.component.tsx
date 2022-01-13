@@ -14,9 +14,9 @@ import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplit
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
-import ActivitiesClient from '../../components/activities-client/activities-client.component'
 const LABELS = [
   'Split Name',
   'Diet Plan',
@@ -35,7 +35,9 @@ export default function TrainingSplits() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
-  const { trainingSplits, isLoading } = useTrainingSplits({clientId: clientId})
+  const { trainingSplits, isLoading } = useTrainingSplits({
+    clientId: clientId
+  })
 
   const content = (
     <Styles>

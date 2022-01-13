@@ -14,11 +14,11 @@ import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import TrainingSplitDayView from '../day-view/day-view.component'
-import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
