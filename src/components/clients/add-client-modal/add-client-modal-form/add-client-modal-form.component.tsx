@@ -65,6 +65,15 @@ const AddClientModalFormContent = ({
       handleSubmit(values)
     } else {
       setFirstErrorElement(firstErrorObjectKey)
+      if (
+        firstErrorObjectKey === 'first_name' ||
+        firstErrorObjectKey === 'last_name'
+      ) {
+        toast.show({
+          type: 'error',
+          msg: t('errors:firstName-lastName-required')
+        })
+      }
     }
   }
 

@@ -26,11 +26,12 @@ const AddClientModalEmailContent = () => {
     setFieldValue,
     setFieldTouched
   } = useFormikContext<ClientFormType>()
-  const { step, setStep } = useContext(ClientFormContext)
+  const { update, step, setStep } = useContext(ClientFormContext)
   const handleSubmit = (values: ClientFormType) => {
     setSubmitting(false)
     InvitationManager.checkEmailExist(values.email)
       .then((res) => {
+        update('email', values.email)
         setStep(res ? clientFormSteps.MESSAGE : clientFormSteps.FORM)
         console.log({ res, next: step })
       })
