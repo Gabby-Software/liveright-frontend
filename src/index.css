@@ -6,6 +6,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-variant: none;
 }
+body * {
+  font-variant: normal !important;
+  font-feature-settings: normal !important;
+}
 @page {
   size: auto;
   margin: 0mm;
