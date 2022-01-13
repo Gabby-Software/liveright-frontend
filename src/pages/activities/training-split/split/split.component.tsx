@@ -1,7 +1,7 @@
 import { capitalize } from 'lodash'
 import moment from 'moment'
 import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -18,6 +18,7 @@ import DayTrainingScheduleCard from '../../components/day-training-schedule-card
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import TrainingSplitDayView from '../day-view/day-view.component'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
@@ -26,6 +27,7 @@ export default function TrainingSplit() {
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
 
+  const history = useHistory()
   const params = useParams<any>()
 
   const { trainingSplit, revision } = useTrainingSplit({
@@ -74,6 +76,19 @@ export default function TrainingSplit() {
   const content = (
     <>
       <Styles>
+        <ActivitiesClient
+          viewActivity={false}
+          clientId={params.clientId}
+          onClientSwitch={(id) => {
+            history.push(
+              getRoute(Routes.ACTIVITIES_TS_ID, {
+                clientId: id,
+                id: params.id,
+                revisionId: params.revisionId
+              })
+            )
+          }}
+        />
         <Card className="TrainingSplits__card">
           {!isMobile && (
             <div className="TrainingSplits__title-container">
@@ -89,6 +104,7 @@ export default function TrainingSplit() {
                 <Button
                   className="TrainingSplits__title-button"
                   to={getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                    clientId: params.clientId,
                     id: params.id,
                     revisionId: params.revisionId
                   })}
@@ -106,7 +122,13 @@ export default function TrainingSplit() {
               <Subtitle>{trainingSplit.name}</Subtitle>
 
               {isMobile && (
-                <Button size="sm" variant="text" to={Routes.ACTIVITIES_TS}>
+                <Button
+                  size="sm"
+                  variant="text"
+                  to={getRoute(Routes.ACTIVITIES_TS, {
+                    clientId: params.clientId
+                  })}
+                >
                   Other Splits
                 </Button>
               )}
@@ -378,7 +400,13 @@ export default function TrainingSplit() {
     <MobilePage
       title="Current Training Split"
       actionComponent={
-        <Button to={`${Routes.ACTIVITIES_TS}/1/edit`}>Edit Split</Button>
+        <Button
+          to={`${getRoute(Routes.ACTIVITIES_TS, {
+            clientId: params.clientId
+          })}/1/edit`}
+        >
+          Edit Split
+        </Button>
       }
     >
       {content}

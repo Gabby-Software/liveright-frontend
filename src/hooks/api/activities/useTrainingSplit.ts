@@ -49,6 +49,7 @@ export default function useTrainingSplit(
       // return console.log(formatTrainingPlanData(data))
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
+      config.clientId && (data.account_id = config.clientId)
       const response = await addTrainingSplit(formatSplitData(data))
       toast.show({
         type: 'success',

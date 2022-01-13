@@ -33,8 +33,12 @@ interface MobileBackProps {
 }
 
 export default function MobileBack(props: MobileBackProps) {
-  const [to, setTo] = useState(props.to || '')
-  const [alias, setAlias] = useState(props.alias || '')
+  const [to, setTo] = useState(props.to ?? '')
+  const [alias, setAlias] = useState(props.alias ?? '')
+
+  useEffect(() => {
+    setTo(props.to ?? '')
+  }, [props.to])
 
   backData.setTo = setTo
   backData.setAlias = setAlias

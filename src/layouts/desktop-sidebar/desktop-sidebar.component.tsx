@@ -121,7 +121,7 @@ const trainerMenuItems: MenuItemType[] = [
       },
       {
         name: 'Training Splits',
-        url: Routes.ACTIVITIES_TS
+        url: getRoute(Routes.ACTIVITIES_TS, { clientId: 'all' })
       }
     ],
     occur: [Routes.ACTIVITIES]

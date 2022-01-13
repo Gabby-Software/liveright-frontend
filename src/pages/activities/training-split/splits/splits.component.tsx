@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -16,7 +16,7 @@ import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
-
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 const LABELS = [
   'Split Name',
   'Diet Plan',
@@ -33,11 +33,19 @@ function getLatestRevision(plan: any) {
 
 export default function TrainingSplits() {
   const isMobile = useIsMobile()
-
-  const { trainingSplits, isLoading } = useTrainingSplits()
+  const { clientId } = useParams<{ clientId: any }>()
+  const history = useHistory()
+  const { trainingSplits, isLoading } = useTrainingSplits({clientId: clientId})
 
   const content = (
     <Styles>
+      <ActivitiesClient
+        viewActivity={false}
+        clientId={clientId}
+        onClientSwitch={(id) => {
+          history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: id }))
+        }}
+      />
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
@@ -51,7 +59,13 @@ export default function TrainingSplits() {
               <Title>Training Splits</Title>
 
               <div>
-                <Button to={Routes.ACTIVITIES_TS_NEW}>Create New Split</Button>
+                <Button
+                  to={getRoute(Routes.ACTIVITIES_TS_NEW, {
+                    clientId: clientId
+                  })}
+                >
+                  Create New Split
+                </Button>
               </div>
             </div>
           </>
@@ -60,7 +74,10 @@ export default function TrainingSplits() {
         <div className="PlansTable__filters">
           <ClientSelect
             id="DietPlans-client"
-            onChange={() => {}}
+            value={clientId}
+            onChange={(e) =>
+              history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: e }))
+            }
             placeholder="All Client"
             className="PlansTable__select"
           />
@@ -81,6 +98,7 @@ export default function TrainingSplits() {
                   plan={row}
                   key={index}
                   to={getRoute(Routes.ACTIVITIES_TS_ID, {
+                    clientId: clientId,
                     id: row._id,
                     revisionId: getLatestRevision(row)._id
                   })}
@@ -98,6 +116,7 @@ export default function TrainingSplits() {
                 name: (row) => (
                   <Link
                     to={getRoute(Routes.ACTIVITIES_TS_ID, {
+                      clientId: clientId,
                       id: row._id,
                       revisionId: getLatestRevision(row)._id
                     })}
@@ -131,7 +150,9 @@ export default function TrainingSplits() {
     <MobilePage
       title="Training Splits"
       actionComponent={
-        <Button to={Routes.ACTIVITIES_TS_NEW}>Create Split</Button>
+        <Button to={getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: clientId })}>
+          Create Split
+        </Button>
       }
     >
       {content}
