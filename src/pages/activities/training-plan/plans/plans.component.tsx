@@ -110,7 +110,7 @@ export default function TrainingPlans() {
                       key={index}
                       plan={row}
                       to={getRoute(Routes.ACTIVITIES_TP_ID, {
-                        clientId: clientId,
+                        clientId: row.account_id || clientId,
                         id: row._id,
                         revisionId: getRevision(row)?._id
                       })}
@@ -128,7 +128,7 @@ export default function TrainingPlans() {
                       name: (row) => (
                         <Link
                           to={getRoute(Routes.ACTIVITIES_TP_ID, {
-                            clientId: clientId,
+                            clientId: row.account_id || clientId,
                             id: row._id,
                             revisionId: getRevision(row)?._id
                           })}

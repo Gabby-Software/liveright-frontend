@@ -100,7 +100,7 @@ export default function TrainingSplits() {
                   plan={row}
                   key={index}
                   to={getRoute(Routes.ACTIVITIES_TS_ID, {
-                    clientId: clientId,
+                    clientId: row.account_id || clientId,
                     id: row._id,
                     revisionId: getLatestRevision(row)._id
                   })}
@@ -118,7 +118,7 @@ export default function TrainingSplits() {
                 name: (row) => (
                   <Link
                     to={getRoute(Routes.ACTIVITIES_TS_ID, {
-                      clientId: clientId,
+                      clientId: row.account_id || clientId,
                       id: row._id,
                       revisionId: getLatestRevision(row)._id
                     })}
