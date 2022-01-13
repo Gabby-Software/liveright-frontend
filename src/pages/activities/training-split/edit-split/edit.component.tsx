@@ -1,5 +1,5 @@
-import moment from 'moment'
 import { useEffect, useState } from 'react'
+import moment from 'moment'
 import {
   Controller,
   FormProvider,
@@ -28,12 +28,14 @@ import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../utils/routes'
 import Counter from '../../components/counter/counter.component'
 import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitEditCard from '../../components/day-training-split-edit-card/day-training-split-edit-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
+import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import { Styles } from './edit-split.styles'
 
 const defaultValues: any = {
@@ -73,6 +75,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const { data } = props
   const history = useHistory()
   const params = useParams<any>()
+  const { clientId } = params
   const isMobile = useIsMobile()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -111,7 +114,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   })
 
   const { trainingSplit, revision, onAdd, onEdit } = useTrainingSplit({
-    clientId: params.clientId,
+    clientId,
     id: params.id,
     revisionId: params.revisionId
   })
@@ -204,17 +207,49 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       setEditWorkout(name)
     }
   }
-
+  const address =
+    getRoute(Routes.ACTIVITIES_TS, { clientId: clientId }) +
+    (data ? '/ts_1' : '')
   const content = (
     <>
       <FormProvider {...methods}>
         <Styles>
+          <ActivitiesClient
+            viewActivity={false}
+            clientId={clientId}
+            onClientSwitch={(id) => {
+              if (!!params.id || !!params.revisionId) {
+                const pathes = history.location.pathname.split('/')
+                if (pathes[pathes.length - 1] === 'edit') {
+                  history.push(
+                    getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                      clientId: id,
+                      id: params.id,
+                      revisionId: params.revisionId
+                    })
+                  )
+                } else {
+                  history.push(
+                    getRoute(Routes.ACTIVITIES_TS_ID, {
+                      clientId: id,
+                      id: params.id,
+                      revisionId: params.revisionId
+                    })
+                  )
+                }
+              } else {
+                history.push(
+                  getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: id })
+                )
+              }
+            }}
+          />
           <Card className="AddTrainingSplit__card">
             {isMobile || (
               <>
                 <MobileBack
                   alias={data ? 'training-split' : 'training-split-overview'}
-                  to={Routes.ACTIVITIES_TS + (data ? '/ts_1' : '')}
+                  to={address}
                 />
                 <div className="AddTrainingSplit__title-container">
                   <Title>
@@ -477,7 +512,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     <MobilePage
       title={data ? 'Editing Training Split' : 'Creating Training Split'}
       headerTopComponent={
-        <HeaderLink to={Routes.ACTIVITIES_TS}>
+        <HeaderLink to={getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })}>
           Back to Split Overview
         </HeaderLink>
       }
