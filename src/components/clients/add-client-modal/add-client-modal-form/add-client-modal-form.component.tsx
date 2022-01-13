@@ -61,18 +61,17 @@ const AddClientModalFormContent = ({
     const errorObjectLength = Object.values(errors).length
     const firstErrorObjectKey = Object.keys(errors)[0]
 
-    if (errorObjectLength === 0) {
-      handleSubmit(values)
+    if (values.first_name === '' || values.last_name === '') {
+      toast.show({
+        type: 'error',
+        msg: t('errors:firstName-lastName-required')
+      })
+      setFirstErrorElement('first_name')
     } else {
-      setFirstErrorElement(firstErrorObjectKey)
-      if (
-        firstErrorObjectKey === 'first_name' ||
-        firstErrorObjectKey === 'last_name'
-      ) {
-        toast.show({
-          type: 'error',
-          msg: t('errors:firstName-lastName-required')
-        })
+      if (errorObjectLength === 0) {
+        handleSubmit(values)
+      } else {
+        setFirstErrorElement(firstErrorObjectKey)
       }
     }
   }
