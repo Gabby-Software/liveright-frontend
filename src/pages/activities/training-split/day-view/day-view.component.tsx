@@ -120,7 +120,7 @@ export default function TrainingSplitDayView({
               </p>
 
               <div className="TrainingSplitDayView__badge-badge">
-                Diet Plan Balance
+                {revision.diet_plan?.name}
               </div>
             </div>
             <div className="TrainingSplitDayView__badge">
@@ -129,7 +129,7 @@ export default function TrainingSplitDayView({
               </p>
 
               <div className="TrainingSplitDayView__badge-badge">
-                High Intensity Training
+                {revision.training_plan?.name}
               </div>
             </div>
           </div>

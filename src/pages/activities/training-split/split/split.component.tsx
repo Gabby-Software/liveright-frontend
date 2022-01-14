@@ -181,14 +181,16 @@ export default function TrainingSplit() {
             <div className="TrainingSplits__info-columns">
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
-                <p className="TrainingSplits__info-value">My Diet Plan</p>
+                <p className="TrainingSplits__info-value">
+                  {revision.diet_plan?.name}
+                </p>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">
                   Chosen Training Plan
                 </p>
                 <p className="TrainingSplits__info-value">
-                  High Intensity Training
+                  {revision.training_plan?.name}
                 </p>
               </div>
               <div className="TrainingSplits__info-column">
