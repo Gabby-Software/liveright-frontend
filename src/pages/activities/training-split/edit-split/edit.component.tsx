@@ -120,13 +120,14 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   })
 
   const startDate = new Date(methods.getValues('scheduled_start_on'))
-  startDate.setDate(startDate.getDate() - 1)
+  const endDate = new Date(methods.getValues('scheduled_end_on'))
+  const diff = moment(startDate).diff(endDate, 'days') + 1
 
-  const diff =
-    moment(methods.getValues('scheduled_end_on')).diff(
-      methods.getValues('scheduled_start_on'),
-      'days'
-    ) + 1
+  if (isNaN(diff)) {
+    startDate.setDate(startDate.getDate() - 1)
+  } else {
+    startDate.setDate(endDate.getDate() - dayCount)
+  }
 
   const clearTSCards = () => {
     if (daysArray.fields.length > 0) {
@@ -371,7 +372,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                     disabledDate={(date) =>
                       date <
                       moment(methods.getValues('scheduled_start_on')).add(
-                        dayCount,
+                        Math.max(dayCount - 1, 0),
                         'days'
                       )
                     }
