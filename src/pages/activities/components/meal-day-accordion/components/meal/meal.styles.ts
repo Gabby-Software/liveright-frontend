@@ -73,6 +73,10 @@ export const Styles = styled(Card)`
       margin-bottom: 1.25rem;
     }
 
+    &__clickable-container {
+      cursor: pointer;
+    }
+
     &__divider {
       width: 100%;
       height: 1px;
