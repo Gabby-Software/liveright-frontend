@@ -200,6 +200,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   }
 
   const startDate = new Date(methods.getValues('scheduled_start_on'))
+  startDate.setDate(startDate.getDate() - 1)
 
   const handleSave = () => {
     methods.handleSubmit(handleSubmit)()

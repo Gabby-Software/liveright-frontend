@@ -58,6 +58,8 @@ export default function TrainingSplit() {
     </div>
   )
   const startDate = new Date(revision.scheduled_start_on)
+  startDate.setDate(startDate.getDate() - 1)
+
   const cards = (
     <>
       {!scheduleView ? (

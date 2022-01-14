@@ -28,7 +28,7 @@ export default function DayTrainingSplitCard(
     <DayCard
       border="both"
       title={data.day || day}
-      subtitle={subtitle}
+      subtitle={subtitle === 'Invalid date' ? '' : subtitle}
       onExpand={props.onExpand}
       content={
         <Styles>
