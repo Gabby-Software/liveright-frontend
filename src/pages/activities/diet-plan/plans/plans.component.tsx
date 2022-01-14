@@ -13,6 +13,7 @@ import {
   LoadingPlaceholder
 } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import Tooltip from '../../../../components/tooltip/tooltip.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
@@ -85,7 +86,14 @@ export default function DietPlans() {
               <Title>Diet Plans</Title>
 
               <div>
-                <Button onClick={() => setAdd(true)}>Create New Plan</Button>
+                {clientId !== 'all' && (
+                  <Button onClick={() => setAdd(true)}>Create New Plan</Button>
+                )}
+                {clientId === 'all' && (
+                  <Tooltip title="Please select a client before creating a plan">
+                    <Button>Create New Plan</Button>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </>
