@@ -11,7 +11,7 @@ import {
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Select from '../../../../components/form/select/select.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-import DayCard, { DayCardProps } from '../day-card/day-card.component'
+import DayCard from '../day-card/day-card.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
 interface DayTrainingSplitCardProps {
@@ -62,7 +62,7 @@ const tempItemsOptions = [
 ]
 
 export default function DayTrainingSplitEditCard(
-  props: Pick<DayCardProps, 'onExpand'> & DayTrainingSplitCardProps
+  props: DayTrainingSplitCardProps
 ) {
   const {
     name,
@@ -89,7 +89,6 @@ export default function DayTrainingSplitEditCard(
       border="both"
       title={data.name || day}
       subtitle={subtitle}
-      onExpand={props.onExpand}
       content={
         <Styles>
           <ListItem

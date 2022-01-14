@@ -164,7 +164,13 @@ export default function DaySplitEditFocusView({
           title="Other Exercises"
           color={getColorCarry('blue_40')}
           icon={<ExerciseIcon />}
-          content={<OtherWorkoutDayForm name={`days.${index}.items`} />}
+          key={`items_${index}`}
+          content={
+            <OtherWorkoutDayForm
+              key={`days.${index}.items`}
+              name={`days.${index}.items`}
+            />
+          }
           control={
             <Controller
               name={`days.${index}.items`}

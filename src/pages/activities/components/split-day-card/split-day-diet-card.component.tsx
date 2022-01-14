@@ -2,35 +2,48 @@ import { FoodIcon } from '../../../../assets/media/icons/activities'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import Macronutrient from '../macronutrient/macronutrient.component'
 import SplitDayMealCard from '../split-day-meal-card/split-day-meal-card.component'
-import SplitDayCard, { SplitDayCardProps } from './split-day-card.component'
+import SplitDayCard from './split-day-card.component'
 
-export default function SplitDayDietCard(
-  props: Pick<SplitDayCardProps, 'scheduleTime'>
-) {
+interface IProps {
+  scheduleTime?: string
+  data: any
+}
+
+const MACROS_KEY_LABEL: { [key: string]: string } = {
+  proteins: 'Proteins',
+  fat: 'Fat',
+  net_carbs: 'Net Carbs',
+  sugar: 'Sugar',
+  fiber: 'Fiber',
+  total_carbs: 'Total Carbs',
+  calories: 'Calories'
+}
+
+export default function SplitDayDietCard(props: IProps) {
+  const { data, scheduleTime } = props
   return (
     <SplitDayCard
-      scheduleTime={props.scheduleTime}
-      title="Meal Plan Low Carb Day"
+      scheduleTime={scheduleTime}
+      title={data.name}
       color={getColorCarry('primary_v2')}
       icon={<FoodIcon />}
       content={
         <div>
           <div className="SplitDayCard__macronutrients">
-            {[
-              'Protein',
-              'Fat',
-              'Net Carbs',
-              'Sugar',
-              'Fiber',
-              'Total Carbs',
-              'Calories'
-            ].map((row) => (
-              <Macronutrient key={row} title={row} />
+            {Object.keys(MACROS_KEY_LABEL).map((k) => (
+              <Macronutrient
+                key={k}
+                title={MACROS_KEY_LABEL[k]}
+                amount={`${data.total_target?.[k]}${
+                  k === 'calories' ? 'kcal' : 'g'
+                }`}
+              />
             ))}
           </div>
 
-          <SplitDayMealCard />
-          <SplitDayMealCard />
+          {data.activities?.map((a: any, i: number) => (
+            <SplitDayMealCard key={i} data={a} />
+          ))}
         </div>
       }
     />

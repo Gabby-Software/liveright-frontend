@@ -4,15 +4,26 @@ import { CaretDownIcon, ClockIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import { Styles } from './split-day-meal-card.styles'
 
-export default function SplitDayMealCard() {
+interface IProps {
+  data: any
+}
+
+const MACROS_KEY_LABEL: { [key: string]: string } = {
+  calories: 'Calories',
+  net_carbs: 'Net Carbs',
+  fat: 'Fat',
+  proteins: 'Proteins'
+}
+
+export default function SplitDayMealCard({ data }: IProps) {
   const [show, setShow] = useState(false)
   return (
     <Styles>
       <div className="SplitDayMealCard__card">
-        <p className="SplitDayMealCard__title">Meal 1</p>
+        <p className="SplitDayMealCard__title">{data.name}</p>
         <p className="SplitDayMealCard__subtitle">
           <ClockIcon />
-          Scheduled for 08.00
+          {data.time ? `Scheduled for ${data.time}` : 'Not Scheduled'}
         </p>
       </div>
       <div className="SplitDayMealCard__card">
@@ -33,22 +44,23 @@ export default function SplitDayMealCard() {
 
           {show && (
             <div className="SplitDayMealCard__macronutrients">
-              {['Calories', 'Carbs', 'Fat', 'Protein'].map((row) => (
-                <div key={row} className="SplitDayMealCard__macronutrient">
-                  <p className="SplitDayMealCard__macronutrient-title">{row}</p>
-                  <p className="SplitDayMealCard__macronutrient-value">120g</p>
+              {Object.keys(MACROS_KEY_LABEL).map((k) => (
+                <div key={k} className="SplitDayMealCard__macronutrient">
+                  <p className="SplitDayMealCard__macronutrient-title">
+                    {MACROS_KEY_LABEL[k]}
+                  </p>
+                  <p className="SplitDayMealCard__macronutrient-value">
+                    {data.total_target?.[k]}
+                    {k === 'calories' ? 'kcal' : 'g'}
+                  </p>
                 </div>
               ))}
             </div>
           )}
 
-          {[
-            'Chicken Brest Tender  -  100g',
-            'Brown Rice  -  50g',
-            'Red Apple'
-          ].map((row) => (
-            <p key={row} className="SplitDayMealCard__content-row">
-              {row}
+          {data.items?.map((item: any, i: number) => (
+            <p key={i} className="SplitDayMealCard__content-row">
+              {item.data?.name} - {item.data?.info?.grams}g
             </p>
           ))}
         </div>

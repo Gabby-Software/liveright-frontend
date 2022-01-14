@@ -2,43 +2,61 @@ import { ClockIcon } from '../../../../assets/media/icons'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { Styles } from './split-day-workout-card.styles'
 
-export default function SplitDayWorkoutCard() {
+interface IProps {
+  data: any
+}
+
+const EXERCISE_INFO_KEY_LABEL: { [key: string]: string } = {
+  sets: 'Sets',
+  reps: 'Reps',
+  tempo: 'Tempo',
+  rest_interval: 'Rest Interval'
+}
+
+export default function SplitDayWorkoutCard({ data }: IProps) {
   const isMobile = useIsMobile()
   return (
     <Styles>
       <div className="SplitDayWorkoutCard__card">
-        <p className="SplitDayWorkoutCard__title">High Intensity Workout</p>
+        <p className="SplitDayWorkoutCard__title">{data.name}</p>
         <p className="SplitDayWorkoutCard__subtitle">
           <ClockIcon />
-          Scheduled for 08.00
+          {data.time ? `Scheduled for ${data.time}` : 'Not Scheduled'}
         </p>
       </div>
       <div className="SplitDayWorkoutCard__card">
         <div className="SplitDayWorkoutCard__content">
           {isMobile ? (
-            <>
-              <div className="SplitDayWorkoutCard__content-card">
-                <p className="SplitDayWorkoutCard__content-card-title">
-                  Squats
-                </p>
+            data.items?.map((item: any, i: number) => {
+              const exercises = item.is_superset ? item.data : [item.data]
+              return exercises.map((e: any) => (
+                <div key={i} className="SplitDayWorkoutCard__content-card">
+                  <p className="SplitDayWorkoutCard__content-card-title">
+                    {e.name}
+                  </p>
 
-                <div className="SplitDayWorkoutCard__content-card-cols">
-                  {['Sets', 'Reps', 'Tempo', 'Rest Interval', 'Video/Link'].map(
-                    (row) => (
+                  <div className="SplitDayWorkoutCard__content-card-cols">
+                    {Object.keys(EXERCISE_INFO_KEY_LABEL).map((k) => (
                       <div
                         className="SplitDayWorkoutCard__content-card-col"
-                        key={row}
+                        key={k}
                       >
                         <p className="SplitDayWorkoutCard__content-card-col-name">
-                          {row}
+                          {EXERCISE_INFO_KEY_LABEL[k]}
                         </p>
-                        <p>1</p>
+                        <p>{e.info?.[k]}</p>
                       </div>
-                    )
-                  )}
+                    ))}
+                    <div className="SplitDayWorkoutCard__content-card-col">
+                      <p className="SplitDayWorkoutCard__content-card-col-name">
+                        Video/Link
+                      </p>
+                      <p>{e.link || 'ND'}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </>
+              ))
+            })
           ) : (
             <table className="SplitDayWorkoutCard__table">
               <thead>
@@ -52,22 +70,19 @@ export default function SplitDayWorkoutCard() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Squats</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5 min</td>
-                  <td>ND</td>
-                </tr>
-                <tr>
-                  <td>Squats</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>5 min</td>
-                  <td>ND</td>
-                </tr>
+                {data.items?.map((item: any, i: number) => {
+                  const exercises = item.is_superset ? item.data : [item.data]
+                  return exercises.map((e: any) => (
+                    <tr key={i}>
+                      <td>{e?.name}</td>
+                      <td>{e?.info?.sets}</td>
+                      <td>{e?.info?.reps}</td>
+                      <td>{e?.info?.tempo}</td>
+                      <td>{e?.info?.rest_interval}</td>
+                      <td>{e?.link || 'ND'}</td>
+                    </tr>
+                  ))
+                })}
               </tbody>
             </table>
           )}
