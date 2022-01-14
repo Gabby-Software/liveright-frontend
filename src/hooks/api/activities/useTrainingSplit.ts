@@ -111,11 +111,23 @@ export default function useTrainingSplit(
   const revision = revisionSwr.data?.data || {}
   const trainingSplit = planSwr.data?.data || {}
 
+  normalizeRevision(revision)
+
   return {
     onAdd,
     onEdit,
     isLoading,
     revision,
     trainingSplit
+  }
+}
+
+function normalizeRevision(revision: any) {
+  if (revision?.days && Array.isArray(revision.days)) {
+    revision.days.forEach((day: any, idx: number) => {
+      if (!day.day) {
+        day.day = `Day ${idx + 1}`
+      }
+    })
   }
 }

@@ -38,16 +38,6 @@ import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanda
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import { Styles } from './edit-split.styles'
 
-const WeekDays = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-]
-
 const defaultValues: any = {
   name: '',
   training_plan_revision_id: '',
@@ -209,11 +199,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     }
   }
 
-  const d = new Date(
-    methods.getValues('scheduled_start_on')
-      ? methods.getValues('scheduled_start_on')
-      : undefined
-  )
+  const startDate = new Date(methods.getValues('scheduled_start_on'))
 
   const handleSave = () => {
     methods.handleSubmit(handleSubmit)()
@@ -259,6 +245,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       setEditWorkout(name)
     }
   }
+
   const address =
     getRoute(Routes.ACTIVITIES_TS, { clientId: clientId }) +
     (data ? '/ts_1' : '')
@@ -477,7 +464,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       onWorkout={handleWorkout}
                       onMealPlan={handleMealPlan}
                       onCardio={() => {}}
-                      subtitle={WeekDays[(d.getDay() + i) % 7]}
+                      subtitle={moment(
+                        startDate.setDate(startDate.getDate() + i)
+                      ).format('dddd')}
                     />
                   ))}
 

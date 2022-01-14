@@ -84,8 +84,6 @@ export default function DayTrainingSplitEditCard(
     name: `${name}.items`
   })
 
-  console.log('day card', props)
-
   return (
     <DayCard
       border="both"

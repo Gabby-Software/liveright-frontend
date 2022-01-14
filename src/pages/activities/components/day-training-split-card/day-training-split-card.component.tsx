@@ -17,16 +17,17 @@ interface DayTrainingSplitCardProps {
   onMealPlan?: (id: string) => void
   onCardio?: (id: string) => void
   edit?: boolean
+  subtitle: string
 }
 export default function DayTrainingSplitCard(
   props: Pick<DayCardProps, 'onExpand'> & DayTrainingSplitCardProps
 ) {
-  const { data, edit, onWorkout, onMealPlan, onCardio } = props
+  const { data, edit, onWorkout, onMealPlan, onCardio, subtitle } = props
   return (
     <DayCard
       border="both"
       title={data.day}
-      subtitle="Wednesday"
+      subtitle={subtitle}
       onExpand={props.onExpand}
       content={
         <Styles>

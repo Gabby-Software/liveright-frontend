@@ -78,11 +78,11 @@ export default function TrainingSplit() {
           {data.map((row: any) =>
             scheduleView ? (
               <div className="TSTemplates__card-container" key={row.day}>
-                <DayTrainingScheduleCard data={row} />
+                <DayTrainingScheduleCard data={row} subtitle="Wen" />
               </div>
             ) : (
               <div className="TSTemplates__card-container" key={row.day}>
-                <DayTrainingSplitCard data={row} />
+                <DayTrainingSplitCard data={row} subtitle="web" />
               </div>
             )
           )}

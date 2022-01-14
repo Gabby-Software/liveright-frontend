@@ -50,22 +50,34 @@ export default function TrainingSplit() {
       <p>See with schedule view</p>
     </div>
   )
-
+  const startDate = new Date(revision.scheduled_start_on)
+  console.log(revision)
   const cards = (
     <>
       {!scheduleView ? (
         <div className="TrainingSplits__cards">
           {revision?.days?.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
-              <DayTrainingSplitCard onExpand={() => setDay(idx)} data={row} />
+              <DayTrainingSplitCard
+                onExpand={() => setDay(idx)}
+                data={row}
+                subtitle={moment(
+                  startDate.setDate(startDate.getDate() + idx)
+                ).format('dddd')}
+              />
             </div>
           ))}
         </div>
       ) : (
         <div className="TrainingSplits__cards">
-          {revision?.days?.map((row: any) => (
+          {revision?.days?.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
-              <DayTrainingScheduleCard data={row} />
+              <DayTrainingScheduleCard
+                data={row}
+                subtitle={moment(
+                  startDate.setDate(startDate.getDate() + idx)
+                ).format('dddd')}
+              />
             </div>
           ))}
         </div>

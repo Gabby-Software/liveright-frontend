@@ -5,14 +5,15 @@ import { Styles } from './day-training-schedule-card.styles'
 
 interface ScheduleCardProps {
   data: any
+  subtitle: string
 }
 export default function DayTrainingScheduleCard(props: ScheduleCardProps) {
-  const { data } = props
+  const { data, subtitle } = props
   return (
     <DayCard
       border="both"
       title={data.day}
-      subtitle="Wednesday"
+      subtitle={subtitle}
       content={
         <Styles>
           <ListItem time="08.00" title={data.workoutDay.name} type="workout" />
