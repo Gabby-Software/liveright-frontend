@@ -282,7 +282,9 @@ export default function Meal({ name, onRemove, index }: MealProps) {
         </DragDropContext>
 
         {!foodsArray.fields.length && (
-          <EmptyPlaceholder spacing text="Add Foods" />
+          <div className="Meal__clickable-container" onClick={handleFoodAdd}>
+            <EmptyPlaceholder spacing text="Add Foods" />
+          </div>
         )}
 
         {!!foodsArray.fields.length && (
