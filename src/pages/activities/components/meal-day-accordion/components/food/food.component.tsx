@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import { useMemo, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
@@ -38,9 +39,21 @@ export default function Food({
 }: FoodProps) {
   const methods = useFormContext()
 
-  const onChange = (name: string, value: string) => {
-    methods.setValue(name, value, { shouldValidate: true })
+  const [proteins, setProteins] = useState(0)
+  const [fat, setFat] = useState(0)
+  const [netCarbs, setNetCarbs] = useState(0)
+
+  const onChange = (fieldName: string, value: string) => {
+    methods.setValue(fieldName, value, { shouldValidate: true })
   }
+
+  useMemo(() => {
+    methods.setValue(
+      `${name}.info.calories`,
+      proteins * 4 + netCarbs * 4 + fat * 9,
+      { shouldValidate: true }
+    )
+  }, [proteins, fat, netCarbs])
 
   const { errors } = methods.formState
 
@@ -88,7 +101,10 @@ export default function Food({
             label="Proteins"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => {
+              onChange(name, e.target.value)
+              setProteins(Number(e.target.value))
+            }}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
@@ -103,7 +119,10 @@ export default function Food({
             label="Fat"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => {
+              onChange(name, e.target.value)
+              setFat(Number(e.target.value))
+            }}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
@@ -118,7 +137,10 @@ export default function Food({
             label="Net Carbs"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => {
+              onChange(name, e.target.value)
+              setNetCarbs(Number(e.target.value))
+            }}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
@@ -182,6 +204,7 @@ export default function Food({
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            disabled={true}
           />
         )}
         name={`${name}.info.calories`}
