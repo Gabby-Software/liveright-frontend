@@ -8,6 +8,7 @@ import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { EmptyPlaceholder } from '../../../../components/placeholders'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import Tooltip from '../../../../components/tooltip/tooltip.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplits'
@@ -61,13 +62,20 @@ export default function TrainingSplits() {
               <Title>Training Splits</Title>
 
               <div>
-                <Button
-                  to={getRoute(Routes.ACTIVITIES_TS_NEW, {
-                    clientId: clientId
-                  })}
-                >
-                  Create New Split
-                </Button>
+                {clientId !== 'all' && (
+                  <Button
+                    to={getRoute(Routes.ACTIVITIES_TS_NEW, {
+                      clientId: clientId
+                    })}
+                  >
+                    Create New Split
+                  </Button>
+                )}
+                {clientId === 'all' && (
+                  <Tooltip title="Please select a client before creating a split">
+                    <Button>Create New Split</Button>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </>
