@@ -98,8 +98,8 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   const { errors } = methods.formState
 
-  const { trainingPlans } = useTrainingPlans()
-  const { dietPlans } = useDietPlans()
+  const { trainingPlans } = useTrainingPlans({ clientId: clientId })
+  const { dietPlans } = useDietPlans({ clientId: clientId })
 
   const { revision: tpRev } = useTrainingPlan({
     id: selectedTP,
@@ -122,22 +122,43 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   // console.log({ tpRev, dpRev, values: methods.getValues() })
 
   useEffect(() => {
-    if (tpRev && dpRev) {
+    let tempId = 0
+    if (tpRev && Object.keys(tpRev).length !== 0) {
+      tempId = tpRev.account_id
+    } else if (dpRev && Object.keys(dpRev).length !== 0) {
+      tempId = dpRev.account_id
+    }
+
+    if (tempId > 0 && tempId.toString() !== clientId) {
+      const path = history.location.pathname.replace(
+        clientId,
+        tempId.toString()
+      )
+      history.push(path)
+    }
+
+    if (
+      tpRev &&
+      Object.keys(tpRev).length !== 0 &&
+      dpRev &&
+      Object.keys(dpRev).length !== 0
+    ) {
       const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
       const dpDays = dpRev.days
       const tpDays = tpRev.days
 
-      for (let i = 0; i < maxDays - daysArray.fields.length; i++) {
-        const dayIndex = daysArray.fields.length + i
-        daysArray.append(
-          createDay(dayIndex + 1, tpDays[dayIndex], dpDays[dayIndex])
-        )
+      if (daysArray.fields.length > 0) {
+        for (let i = 0; i < daysArray.fields.length; i++) {
+          daysArray.remove(0)
+        }
       }
 
-      if (maxDays - daysArray.fields.length > 0) {
-        setDayCount(
-          daysArray.fields.length + (maxDays - daysArray.fields.length)
-        )
+      for (let i = 0; i < maxDays; i++) {
+        daysArray.append(createDay(i + 1, tpDays[i], dpDays[i]))
+      }
+
+      if (maxDays > 0 && !isNaN(maxDays)) {
+        setDayCount(maxDays)
       }
     }
   }, [tpRev, dpRev])
@@ -186,6 +207,21 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     daysArray.append(createDay(daysArray.fields.length + 1))
     methods.clearErrors('days')
     setDayCount(daysArray.fields.length + 1)
+  }
+
+  const handleDays = (value: number) => {
+    if (value > daysArray.fields.length) {
+      for (let i = 1; i <= value - daysArray.fields.length; i++) {
+        daysArray.append(createDay(daysArray.fields.length + i))
+        methods.clearErrors('days')
+        setDayCount(daysArray.fields.length + i)
+      }
+    } else {
+      for (let i = 1; i <= daysArray.fields.length - value; i++) {
+        daysArray.remove(daysArray.fields.length - i)
+        setDayCount(daysArray.fields.length - i)
+      }
+    }
   }
 
   const onChange = (name: string, value: any) => {
@@ -290,7 +326,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
             <div className="AddTrainingSplit__info-controls">
               <Counter
                 value={dayCount}
-                onChange={(value) => setDayCount(value)}
+                onChange={(value) => handleDays(value)}
               />
 
               <Controller
