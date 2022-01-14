@@ -55,7 +55,7 @@ export default function DayTrainingScheduleCard(props: ScheduleCardProps) {
       border="both"
       title={data.day || day}
       onExpand={onExpand}
-      subtitle={subtitle}
+      subtitle={subtitle === 'Invalid date' ? '' : subtitle}
       content={
         <Styles>
           {activities.map((a, i) => (

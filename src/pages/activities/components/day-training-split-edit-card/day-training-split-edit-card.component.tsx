@@ -88,7 +88,7 @@ export default function DayTrainingSplitEditCard(
     <DayCard
       border="both"
       title={data.name || day}
-      subtitle={subtitle}
+      subtitle={subtitle === 'Invalid date' ? '' : subtitle}
       content={
         <Styles>
           <ListItem
