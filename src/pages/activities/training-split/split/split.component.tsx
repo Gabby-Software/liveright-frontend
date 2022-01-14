@@ -86,7 +86,7 @@ export default function TrainingSplit() {
                 day={`Day ${idx + 1}`}
                 data={row}
                 subtitle={moment(
-                  startDate.setDate(startDate.getDate() + idx)
+                  startDate.setDate(startDate.getDate() + 1)
                 ).format('dddd')}
               />
             </div>
