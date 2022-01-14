@@ -145,6 +145,8 @@ export default function TrainingSplits() {
                     <span>{row.name}</span>
                   </Link>
                 ),
+                diet_plan: (row) => row.diet_plan.name,
+                training_plan: (row) => row.training_plan.name,
                 status: (row) => (
                   <StatusBadge
                     status={row.status.toLowerCase()}
