@@ -1,20 +1,24 @@
 import { ExerciseIcon } from '../../../../assets/media/icons/activities'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import SplitDayOtherWorkoutCard from '../split-day-other-workout-card/split-day-other-workout-card.component'
-import SplitDayCard, { SplitDayCardProps } from './split-day-card.component'
+import SplitDayCard from './split-day-card.component'
 
-export default function SplitDayOtherCard(
-  props: Pick<SplitDayCardProps, 'scheduleTime'>
-) {
+interface IProps {
+  scheduleTime?: string
+  data: any
+}
+
+export default function SplitDayOtherCard(props: IProps) {
+  const { scheduleTime, data } = props
   return (
     <SplitDayCard
-      scheduleTime={props.scheduleTime}
-      title="Other Exercise Cardio Max"
+      scheduleTime={scheduleTime}
+      title="Other Exercise"
       color={getColorCarry('blue_50')}
       icon={<ExerciseIcon />}
       content={
         <div>
-          <SplitDayOtherWorkoutCard />
+          <SplitDayOtherWorkoutCard data={data} />
         </div>
       }
     />

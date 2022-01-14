@@ -25,13 +25,15 @@ export default function DayCard({
         <div className="day-card__header-title-container">
           <p className="day-card__title">{title}</p>
 
-          <IconButton
-            size="sm"
-            className="day-card__header-icon"
-            onClick={onExpand}
-          >
-            <UnionIcon />
-          </IconButton>
+          {onExpand && (
+            <IconButton
+              size="sm"
+              className="day-card__header-icon"
+              onClick={onExpand}
+            >
+              <UnionIcon />
+            </IconButton>
+          )}
         </div>
 
         {subtitle && <p className="day-card__subtitle">{subtitle}</p>}

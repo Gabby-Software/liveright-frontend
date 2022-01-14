@@ -26,11 +26,15 @@ import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog
 import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import { Styles } from '../../styles/plan.styles'
 import AddTrainingPlan from '../add-plan/add-plan.component'
+import TrainingPlanDayView from '../day-view/training-plan-day-view.component'
 
 const IS_EMPTY = false
 
 export default function TrainingPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
+  const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
+    false
+  )
   const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -64,6 +68,20 @@ export default function TrainingPlan() {
         editId={params.id}
         revisionId={params.revisionId}
         onClose={() => setEdit(false)}
+      />
+    )
+  }
+
+  if (expandedDayIndex || typeof expandedDayIndex === 'number') {
+    return (
+      <TrainingPlanDayView
+        onClose={() => setExpandedDayIndex(false)}
+        index={expandedDayIndex as number}
+        setIndex={setExpandedDayIndex}
+        onEdit={() => {
+          setEdit(expandedDayIndex)
+          setExpandedDayIndex(false)
+        }}
       />
     )
   }
@@ -224,7 +242,7 @@ export default function TrainingPlan() {
             <div className="PlanPage__cards">
               {revision.days?.map((row: any, index: number) => (
                 <DayTrainingPlanCard
-                  onExpand={() => setEdit(index)}
+                  onExpand={() => setExpandedDayIndex(index)}
                   key={row._id}
                   day={row}
                 />
@@ -239,7 +257,7 @@ export default function TrainingPlan() {
 
             {revision.days?.map((row: any, index: number) => (
               <DayTrainingPlanCard
-                onExpand={() => setEdit(index)}
+                onExpand={() => setExpandedDayIndex(index)}
                 day={row}
                 key={row._id}
               />

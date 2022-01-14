@@ -13,6 +13,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
@@ -37,7 +38,13 @@ export default function TrainingSplit() {
   })
 
   if (day) {
-    return <TrainingSplitDayView onClose={() => setDay(null)} />
+    return (
+      <TrainingSplitDayView
+        index={day - 1}
+        onClose={() => setDay(null)}
+        setIndex={setDay}
+      />
+    )
   }
 
   const scheduleToggle = (
@@ -59,7 +66,8 @@ export default function TrainingSplit() {
           {revision?.days?.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingSplitCard
-                onExpand={() => setDay(idx)}
+                day={`Day ${idx + 1}`}
+                onExpand={() => setDay(idx + 1)}
                 data={row}
                 subtitle={moment(
                   startDate.setDate(startDate.getDate() + idx)
@@ -73,6 +81,8 @@ export default function TrainingSplit() {
           {revision?.days?.map((row: any, idx: number) => (
             <div className="TrainingSplits__card-container" key={row.day}>
               <DayTrainingScheduleCard
+                onExpand={() => setDay(idx + 1)}
+                day={`Day ${idx + 1}`}
                 data={row}
                 subtitle={moment(
                   startDate.setDate(startDate.getDate() + idx)
@@ -170,7 +180,7 @@ export default function TrainingSplit() {
             <div className="TrainingSplits__info-columns">
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
-                <p className="TrainingSplits__info-value">Dietplan Balance</p>
+                <p className="TrainingSplits__info-value">My Diet Plan</p>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">
@@ -189,13 +199,21 @@ export default function TrainingSplit() {
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Started on</p>
                 <p className="TrainingSplits__info-value">
-                  {moment(revision.scheduled_start_on).format('dd/mm/yyyy')}
+                  {revision.scheduled_start_on
+                    ? moment(revision.scheduled_start_on).format(
+                        DATE_RENDER_FORMAT
+                      )
+                    : '-'}
                 </p>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Ends on</p>
                 <p className="TrainingSplits__info-value">
-                  {moment(revision.scheduled_end_on).format('dd/mm/yyyy')}
+                  {revision.scheduled_end_on
+                    ? moment(revision.scheduled_end_on).format(
+                        DATE_RENDER_FORMAT
+                      )
+                    : '-'}
                 </p>
               </div>
 

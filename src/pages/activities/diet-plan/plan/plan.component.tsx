@@ -24,9 +24,13 @@ import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-c
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import { Styles } from '../../styles/plan.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
+import DietPlanDayView from '../day-view/diet-plan-day-view.component'
 
 export default function DietPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
+  const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
+    false
+  )
   const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -63,6 +67,22 @@ export default function DietPlan() {
       />
     )
   }
+
+  if (expandedDayIndex || typeof expandedDayIndex === 'number') {
+    return (
+      <DietPlanDayView
+        onClose={() => setExpandedDayIndex(false)}
+        index={expandedDayIndex as number}
+        setIndex={setExpandedDayIndex}
+        onEdit={() => {
+          setEdit(expandedDayIndex)
+          setExpandedDayIndex(false)
+        }}
+      />
+    )
+  }
+
+  console.log(revision, dietPlan)
 
   const content = (
     <>
@@ -213,7 +233,7 @@ export default function DietPlan() {
               {revision.days?.map((row: any, index: number) => (
                 <DayDietPlanCard
                   key={row._id}
-                  onExpand={() => setEdit(index)}
+                  onExpand={() => setExpandedDayIndex(index)}
                   day={row}
                 />
               ))}
@@ -227,7 +247,7 @@ export default function DietPlan() {
 
             {revision.days?.map((row: any, index: number) => (
               <DayDietPlanCard
-                onExpand={() => setEdit(index)}
+                onExpand={() => setExpandedDayIndex(index)}
                 day={row}
                 key={row._id}
               />

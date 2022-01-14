@@ -9,34 +9,32 @@ import IconButton from '../../../../components/buttons/icon-button/icon-button.c
 import Card from '../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../components/typography'
-import { Routes } from '../../../../enums/routes.enum'
-import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { getRoute } from '../../../../utils/routes'
-import SplitDayDietCard from '../../components/split-day-card/split-day-diet-card.component'
-import SplitDayOtherCard from '../../components/split-day-card/split-day-other-card.component'
 import SplitDayTrainingCard from '../../components/split-day-card/split-day-training-card.component'
-import { Styles } from './day-view.styles'
+import { Styles } from './training-plan-day-view.styles'
 
-interface TrainingSplitDayViewProps {
+interface TrainingPlanDayViewProps {
   onClose: any
   index: number
   setIndex: (i: number) => void
+  onEdit: () => void
 }
 
-export default function TrainingSplitDayView({
+export default function TrainingPlanDayView({
   onClose,
   index,
-  setIndex
-}: TrainingSplitDayViewProps) {
+  setIndex,
+  onEdit
+}: TrainingPlanDayViewProps) {
   const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
 
   const params = useParams<any>()
 
-  const { trainingSplit, revision } = useTrainingSplit({
+  const { trainingPlan, revision } = useTrainingPlan({
     clientId: params.clientId,
     id: params.id,
     revisionId: params.revisionId
@@ -44,8 +42,8 @@ export default function TrainingSplitDayView({
 
   const { day, activites: activities } = useMemo(() => {
     const day = revision?.days?.[index]
-    const workoutActivites: any[] =
-      day?.training_plan_day.activities?.map((a: any) => ({
+    const activites: any[] =
+      day?.activities?.map((a: any) => ({
         day: {
           activities: [a],
           name: a.name
@@ -53,24 +51,7 @@ export default function TrainingSplitDayView({
         time: a.time,
         type: 'workout'
       })) || []
-    const mealActivites: any[] =
-      day?.diet_plan_day?.activities?.map((a: any) => ({
-        day: {
-          activities: [a],
-          name: a.name,
-          total_target: a.total_target
-        },
-        time: a.time,
-        type: 'meal'
-      })) || []
-    const exerciseActivities: any[] =
-      day?.items?.map((a: any) => ({
-        day: [a],
-        time: a.time,
-        type: 'other'
-      })) || []
 
-    const activites = workoutActivites.concat(mealActivites, exerciseActivities)
     activites.sort(
       (a, b) =>
         Date.parse('1970/01/01 ' + a.time || '00:00') -
@@ -89,51 +70,19 @@ export default function TrainingSplitDayView({
         {!isMobile && (
           <>
             <GoBack spacing={4} onClick={onClose}>
-              Go Back to Training Split Overview
+              Go Back to Training Plan Overview
             </GoBack>
 
             <div className="TrainingSplitDayView__title-container">
-              <Title>Current Training Split</Title>
+              <Title>Current Training Plan</Title>
 
-              <Button
-                to={getRoute(Routes.ACTIVITIES_TS_EDIT, {
-                  clientId: params.clientId,
-                  id: params.id,
-                  revisionId: params.revisionId
-                })}
-              >
-                Edit Training Split
-              </Button>
+              <Button onClick={onEdit}>Edit Training Split</Button>
             </div>
 
             <div className="TrainingSplitDayView__divider" />
           </>
         )}
-
-        <div>
-          <Subtitle>{trainingSplit.name}</Subtitle>
-          <br />
-          <div className="TrainingSplitDayView__badges">
-            <div className="TrainingSplitDayView__badge">
-              <p className="TrainingSplitDayView__badge-name">
-                Chosen Diet Plan
-              </p>
-
-              <div className="TrainingSplitDayView__badge-badge">
-                Diet Plan Balance
-              </div>
-            </div>
-            <div className="TrainingSplitDayView__badge">
-              <p className="TrainingSplitDayView__badge-name">
-                Chosen Training Plan
-              </p>
-
-              <div className="TrainingSplitDayView__badge-badge">
-                High Intensity Training
-              </div>
-            </div>
-          </div>
-        </div>
+        <Subtitle>{trainingPlan.name}</Subtitle>
       </Card>
 
       <Card>
@@ -146,8 +95,7 @@ export default function TrainingSplitDayView({
                 size="sm"
                 onClick={() =>
                   setIndex(
-                    ((index - 1 + revision.days_count) % revision.days_count) +
-                      1
+                    (index - 1 + revision.days_count) % revision.days_count
                   )
                 }
               >
@@ -155,9 +103,7 @@ export default function TrainingSplitDayView({
               </IconButton>
               <IconButton
                 size="sm"
-                onClick={() =>
-                  setIndex(((index + 1) % revision.days_count) + 1)
-                }
+                onClick={() => setIndex((index + 1) % revision.days_count)}
               >
                 <CaretLeftIcon />
               </IconButton>
@@ -187,33 +133,14 @@ export default function TrainingSplitDayView({
 
         <div className="TrainingSplitDayView__cards">
           {!scheduleView ? (
-            <>
-              <SplitDayTrainingCard data={day.training_plan_day} />
-              <SplitDayDietCard data={day.diet_plan_day} />
-              <SplitDayOtherCard data={day.items} />
-            </>
+            <SplitDayTrainingCard data={day} />
           ) : (
-            activities.map((a: any) => (
-              <>
-                {a.type === 'workout' && (
-                  <SplitDayTrainingCard
-                    data={a.day}
-                    scheduleTime={a.time || 'Not Set'}
-                  />
-                )}
-                {a.type === 'meal' && (
-                  <SplitDayDietCard
-                    data={a.day}
-                    scheduleTime={a.time || 'Not Set'}
-                  />
-                )}
-                {a.type === 'other' && (
-                  <SplitDayOtherCard
-                    data={a.day}
-                    scheduleTime={a.time || 'Not Set'}
-                  />
-                )}
-              </>
+            activities.map((a: any, i: number) => (
+              <SplitDayTrainingCard
+                key={i}
+                data={a.day}
+                scheduleTime={a.time || 'Not Set'}
+              />
             ))
           )}
         </div>
@@ -226,7 +153,7 @@ export default function TrainingSplitDayView({
       title="Current Training Split"
       headerTopComponent={
         <HeaderLink onClick={onClose}>
-          Back to training split overview
+          Back to Training plan overview
         </HeaderLink>
       }
     >
