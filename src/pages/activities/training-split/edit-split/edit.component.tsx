@@ -119,7 +119,52 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     revisionId: params.revisionId
   })
 
-  // console.log({ tpRev, dpRev, values: methods.getValues() })
+  const startDate = new Date(methods.getValues('scheduled_start_on'))
+  startDate.setDate(startDate.getDate() - 1)
+
+  const diff =
+    moment(methods.getValues('scheduled_end_on')).diff(
+      methods.getValues('scheduled_start_on'),
+      'days'
+    ) + 1
+
+  const clearTSCards = () => {
+    if (daysArray.fields.length > 0) {
+      for (let i = 0; i < daysArray.fields.length; i++) {
+        daysArray.remove(0)
+      }
+    }
+  }
+
+  const reGenreateTSCards = () => {
+    const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
+    const dpDays = dpRev.days
+    const tpDays = tpRev.days
+
+    let i = 0
+    while (i < dayCount) {
+      for (let j = 0; j < maxDays; j++) {
+        daysArray.append(createDay(j + 1, tpDays[j], dpDays[j]))
+        i++
+      }
+    }
+  }
+
+  useEffect(() => {
+    clearTSCards()
+    if (
+      tpRev &&
+      Object.keys(tpRev).length !== 0 &&
+      dpRev &&
+      Object.keys(dpRev).length !== 0
+    ) {
+      reGenreateTSCards()
+    } else {
+      for (let i = 0; i < dayCount; i++) {
+        daysArray.append(createDay(i + 1))
+      }
+    }
+  }, [dayCount])
 
   useEffect(() => {
     let tempId = 0
@@ -143,23 +188,8 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       dpRev &&
       Object.keys(dpRev).length !== 0
     ) {
-      const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
-      const dpDays = dpRev.days
-      const tpDays = tpRev.days
-
-      if (daysArray.fields.length > 0) {
-        for (let i = 0; i < daysArray.fields.length; i++) {
-          daysArray.remove(0)
-        }
-      }
-
-      for (let i = 0; i < maxDays; i++) {
-        daysArray.append(createDay(i + 1, tpDays[i], dpDays[i]))
-      }
-
-      if (maxDays > 0 && !isNaN(maxDays)) {
-        setDayCount(maxDays)
-      }
+      clearTSCards()
+      reGenreateTSCards()
     }
   }, [tpRev, dpRev])
 
@@ -199,31 +229,13 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     }
   }
 
-  const startDate = new Date(methods.getValues('scheduled_start_on'))
-  startDate.setDate(startDate.getDate() - 1)
-
   const handleSave = () => {
     methods.handleSubmit(handleSubmit)()
   }
 
   const handleDayAdd = () => {
-    daysArray.append(createDay(daysArray.fields.length + 1))
-    methods.clearErrors('days')
-    setDayCount(daysArray.fields.length + 1)
-  }
-
-  const handleDays = (value: number) => {
-    if (value > daysArray.fields.length) {
-      for (let i = 1; i <= value - daysArray.fields.length; i++) {
-        daysArray.append(createDay(daysArray.fields.length + i))
-        methods.clearErrors('days')
-        setDayCount(daysArray.fields.length + i)
-      }
-    } else {
-      for (let i = 1; i <= daysArray.fields.length - value; i++) {
-        daysArray.remove(daysArray.fields.length - i)
-        setDayCount(daysArray.fields.length - i)
-      }
+    if (dayCount < diff || isNaN(diff)) {
+      setDayCount(dayCount + 1)
     }
   }
 
@@ -329,8 +341,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
             <div className="AddTrainingSplit__info-controls">
               <Counter
+                maxValue={diff}
                 value={dayCount}
-                onChange={(value) => handleDays(value)}
+                onChange={(value) => setDayCount(value)}
               />
 
               <Controller
