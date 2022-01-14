@@ -12,12 +12,17 @@ import { Styles } from './counter.styles'
 interface CounterProps {
   onChange: (value: number) => void
   value: number
+  maxValue: number
 }
 export default function Counter(props: CounterProps) {
-  const { value, onChange } = props
+  const { value, onChange, maxValue } = props
 
   const handleIncrease = () => {
-    onChange(value + 1)
+    if (isNaN(maxValue)) {
+      onChange(value + 1)
+    } else {
+      onChange(Math.min(maxValue, value + 1))
+    }
   }
 
   const handleDecrease = () => {
