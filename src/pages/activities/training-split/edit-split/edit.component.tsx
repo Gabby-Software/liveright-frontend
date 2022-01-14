@@ -465,7 +465,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       onMealPlan={handleMealPlan}
                       onCardio={() => {}}
                       subtitle={moment(
-                        startDate.setDate(startDate.getDate() + i)
+                        startDate.setDate(startDate.getDate() + 1)
                       ).format('dddd')}
                     />
                   ))}

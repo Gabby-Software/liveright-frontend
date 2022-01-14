@@ -51,7 +51,6 @@ export default function TrainingSplit() {
     </div>
   )
   const startDate = new Date(revision.scheduled_start_on)
-  console.log(revision)
   const cards = (
     <>
       {!scheduleView ? (
@@ -62,7 +61,7 @@ export default function TrainingSplit() {
                 onExpand={() => setDay(idx)}
                 data={row}
                 subtitle={moment(
-                  startDate.setDate(startDate.getDate() + idx)
+                  startDate.setDate(startDate.getDate() + 1)
                 ).format('dddd')}
               />
             </div>
