@@ -35,7 +35,8 @@ export default function DietPlans() {
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
   const [add, setAdd] = useState(false)
-  const { isLoading, dietPlans } = useDietPlans({ clientId })
+  const [status, setStatus] = useState('')
+  const { isLoading, dietPlans } = useDietPlans({ clientId, status })
 
   // useEffect(() => {
   //   if (!clientId) {
@@ -111,8 +112,15 @@ export default function DietPlans() {
 
           <Select
             id="DietPlans-statuses"
-            options={[]}
-            placeholder="All Status"
+            options={[
+              { label: 'Any Status', value: '' },
+              { label: 'Active', value: 'active' },
+              { label: 'Scheduled', value: 'scheduled' },
+              { label: 'Inactive', value: 'inactive' }
+            ]}
+            value={status}
+            onChange={(value) => setStatus(value)}
+            placeholder="Any Status"
             className="PlansTable__select"
           />
         </div>

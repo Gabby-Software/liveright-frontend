@@ -1,10 +1,14 @@
 import useSWR from 'swr'
 
 import { getDietPlans } from '../../../services/api/activities'
+import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
 
 function getKey(params: any) {
-  return stringifyURL('/diet-plans', params)
+  return stringifyURL('/diet-plans', {
+    ...params,
+    filter: omitEmpty(params.filter)
+  })
 }
 
 interface UseDietPlans {
@@ -12,14 +16,19 @@ interface UseDietPlans {
   dietPlans: any[]
 }
 
-export default function useDietPlans({
-  clientId
-}: {
+interface IProps {
   clientId?: string
-} = {}): UseDietPlans {
+  status?: string
+}
+
+export default function useDietPlans({
+  clientId,
+  status
+}: IProps = {}): UseDietPlans {
   const params = {
     filter: {
-      account_id: clientId
+      account_id: clientId,
+      status
     }
   }
 
