@@ -58,7 +58,12 @@ const validationSchema = yup.object().shape({
           items: yup.array().of(
             yup.object().shape({
               data: yup.object().shape({
-                name: yup.string().required()
+                name: yup.string().required(),
+                info: yup.object().shape({
+                  proteins: yup.string().required(),
+                  fat: yup.string().required(),
+                  net_carbs: yup.string().required()
+                })
                 // link: yup.lazy((v) =>
                 //   !v
                 //     ? yup.string().nullable()
@@ -111,7 +116,9 @@ export default function AddDietPlan({
 
   const methods = useForm<any>({
     defaultValues,
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange'
   })
 
   const [scheduled_start_on, name] = useWatch({
