@@ -5,7 +5,10 @@ import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
 
 function getKey(params: any) {
-  return stringifyURL('/training-splits', params)
+  return stringifyURL('/training-splits', {
+    ...params,
+    filter: omitEmpty(params.filter)
+  })
 }
 
 interface UseTrainingSplits {
@@ -14,14 +17,19 @@ interface UseTrainingSplits {
   mutate: any
 }
 
-export default function useTrainingSplits({
-  clientId
-}: {
+interface IProps {
   clientId?: string
-} = {}): UseTrainingSplits {
+  status?: string
+}
+
+export default function useTrainingSplits({
+  clientId,
+  status
+}: IProps = {}): UseTrainingSplits {
   const params = {
     filter: {
-      account_id: clientId || ''
+      account_id: clientId || '',
+      status
     }
   }
 

@@ -35,14 +35,17 @@ export default function TrainingPlans() {
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
   const [add, setAdd] = useState(false)
-  const { isLoading, trainingPlans, mutate } = useTrainingPlans({ clientId })
+  const [status, setStatus] = useState('')
+  const { isLoading, trainingPlans, mutate } = useTrainingPlans({
+    clientId,
+    status
+  })
 
   // useEffect(() => {
   //   if (!clientId) {
   //     history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
   //   }
   // }, [clientId])
-  console.log('clientId', clientId)
 
   if (add) {
     return (
@@ -105,7 +108,14 @@ export default function TrainingPlans() {
 
               <Select
                 id="training-plans-statuses"
-                options={[]}
+                options={[
+                  { label: 'Any Status', value: '' },
+                  { label: 'Active', value: 'active' },
+                  { label: 'Scheduled', value: 'scheduled' },
+                  { label: 'Inactive', value: 'inactive' }
+                ]}
+                value={status}
+                onChange={(value) => setStatus(value)}
                 placeholder="All Status"
                 className="PlansTable__select"
               />

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -36,8 +37,10 @@ export default function TrainingSplits() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
+  const [status, setStatus] = useState('')
   const { trainingSplits, isLoading } = useTrainingSplits({
-    clientId: clientId
+    clientId: clientId,
+    status
   })
 
   const content = (
@@ -94,7 +97,14 @@ export default function TrainingSplits() {
 
           <Select
             id="DietPlans-statuses"
-            options={[]}
+            options={[
+              { label: 'Any Status', value: '' },
+              { label: 'Active', value: 'active' },
+              { label: 'Scheduled', value: 'scheduled' },
+              { label: 'Inactive', value: 'inactive' }
+            ]}
+            value={status}
+            onChange={(value) => setStatus(value)}
             placeholder="All Status"
             className="PlansTable__select"
           />

@@ -5,7 +5,10 @@ import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
 
 function getKey(params: any) {
-  return stringifyURL('/training-plans', params)
+  return stringifyURL('/training-plans', {
+    ...params,
+    filter: omitEmpty(params.filter)
+  })
 }
 
 interface UseTrainingPlans {
@@ -14,14 +17,19 @@ interface UseTrainingPlans {
   mutate: any
 }
 
-export default function useTrainingPlans({
-  clientId
-}: {
+interface IProps {
   clientId?: string
-} = {}): UseTrainingPlans {
+  status?: string
+}
+
+export default function useTrainingPlans({
+  clientId,
+  status
+}: IProps = {}): UseTrainingPlans {
   const params = {
     filter: {
-      account_id: clientId || ''
+      account_id: clientId || '',
+      status
     }
   }
 
