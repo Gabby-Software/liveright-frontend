@@ -199,6 +199,8 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     }
   }
 
+  const startDate = new Date(methods.getValues('scheduled_start_on'))
+
   const handleSave = () => {
     methods.handleSubmit(handleSubmit)()
   }
@@ -243,6 +245,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       setEditWorkout(name)
     }
   }
+
   const address =
     getRoute(Routes.ACTIVITIES_TS, { clientId: clientId }) +
     (data ? '/ts_1' : '')
@@ -461,6 +464,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       onWorkout={handleWorkout}
                       onMealPlan={handleMealPlan}
                       onCardio={() => {}}
+                      subtitle={moment(
+                        startDate.setDate(startDate.getDate() + i)
+                      ).format('dddd')}
                     />
                   ))}
 

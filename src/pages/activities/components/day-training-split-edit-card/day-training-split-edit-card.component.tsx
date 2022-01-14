@@ -23,6 +23,7 @@ interface DayTrainingSplitCardProps {
   onMealPlan: (id: string) => void
   onCardio: (id: string) => void
   edit?: boolean
+  subtitle: string
 }
 
 const tempItemsOptions = [
@@ -63,8 +64,17 @@ const tempItemsOptions = [
 export default function DayTrainingSplitEditCard(
   props: Pick<DayCardProps, 'onExpand'> & DayTrainingSplitCardProps
 ) {
-  const { name, tpDays, dpDays, day, edit, onWorkout, onMealPlan, onCardio } =
-    props
+  const {
+    name,
+    tpDays,
+    dpDays,
+    day,
+    edit,
+    onWorkout,
+    onMealPlan,
+    onCardio,
+    subtitle
+  } = props
 
   const methods = useFormContext()
   const data = methods.watch(name)
@@ -78,7 +88,7 @@ export default function DayTrainingSplitEditCard(
     <DayCard
       border="both"
       title={data.name || day}
-      subtitle="Wednesday"
+      subtitle={subtitle}
       onExpand={props.onExpand}
       content={
         <Styles>
