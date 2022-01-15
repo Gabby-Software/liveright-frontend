@@ -120,11 +120,12 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     revisionId: params.revisionId
   })
 
-  const startDate = new Date(
-    methods.getValues('scheduled_start_on') === null
-      ? ''
-      : methods.getValues('scheduled_start_on')
-  )
+  const startOnDate = methods.getValues('scheduled_start_on')
+  const startDate =
+    startOnDate !== null && startOnDate !== ''
+      ? new Date(startOnDate)
+      : new Date()
+
   const endDate = new Date(
     methods.getValues('scheduled_end_on') === null
       ? ''
@@ -132,11 +133,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   )
   const diff = moment(endDate).diff(startDate, 'days') + 1
 
-  if (isNaN(diff)) {
-    startDate.setDate(startDate.getDate() - 1)
-  } else {
-    startDate.setDate(endDate.getDate() - dayCount)
-  }
+  startDate.setDate(startDate.getDate() - 1)
 
   useEffect(() => {
     if (daysArray.fields.length > 0) {
@@ -144,29 +141,19 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         daysArray.remove(0)
       }
     }
-    if (
-      tpRev &&
-      Object.keys(tpRev).length !== 0 &&
-      dpRev &&
-      Object.keys(dpRev).length !== 0
-    ) {
-      const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
-      const dpDays = dpRev.days
-      const tpDays = tpRev.days
+    const dpDays = dpRev.days
+    const tpDays = tpRev.days
 
-      let i = 0
-      while (i < dayCount) {
-        for (let j = 0; j < maxDays; j++) {
-          daysArray.append(createDay(j + 1, tpDays[j], dpDays[j]))
-          i++
-        }
-      }
-    } else {
-      for (let i = 0; i < dayCount; i++) {
-        daysArray.append(createDay(i + 1))
-      }
+    for (let i = 0; i < (isNaN(diff) ? dayCount : diff); i++) {
+      daysArray.append(
+        createDay(
+          (i % dayCount) + 1,
+          tpDays?.length > 0 && tpDays[i % tpDays.length],
+          dpDays?.length > 0 && dpDays[i % dpDays.length]
+        )
+      )
     }
-  }, [dayCount, selectedDP, selectedTP])
+  }, [dayCount, selectedDP, selectedTP, diff])
 
   useEffect(() => {
     let tempId = 0
