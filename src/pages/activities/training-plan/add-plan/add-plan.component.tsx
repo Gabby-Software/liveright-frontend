@@ -185,6 +185,11 @@ export default function AddTrainingPlan({
     }
   }
 
+  // const handleDays = () => {
+
+  // }
+  console.log(daysArray)
+
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
     daysArray.append(createDay(newDayIndex))
