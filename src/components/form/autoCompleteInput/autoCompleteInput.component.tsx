@@ -9,12 +9,12 @@ import React, {
 } from 'react'
 
 import { HelpIcon } from '../../../assets/media/icons'
+import { OptionType } from '../../../types/option.type'
 import FormError from '../../forms/form-error/form-error.component'
 import Tooltip from '../../tooltip/tooltip.component'
 import Error, { ErrorProps } from '../error/error.component'
 import Label from '../label/label.component'
 import Styles from './autoCompleteInput.styles'
-
 export interface AutoCompleteInputProps {
   id: string
   label?: string
@@ -24,7 +24,7 @@ export interface AutoCompleteInputProps {
   onChange?: (value: string, option: any) => void
   defaultValue?: string
   value?: string
-  options: { label: string; value: string }[]
+  options: OptionType[] | { label: string; options: OptionType[] }[]
   onClick?: any
   onFocus?: FocusEventHandler<HTMLInputElement>
   className?: string
