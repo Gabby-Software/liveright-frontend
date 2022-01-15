@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
@@ -99,6 +99,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const { errors } = methods.formState
 
   const { trainingPlans } = useTrainingPlans({ clientId: clientId })
+
   const { dietPlans } = useDietPlans({ clientId: clientId })
 
   const { revision: tpRev } = useTrainingPlan({
@@ -119,9 +120,17 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     revisionId: params.revisionId
   })
 
-  const startDate = new Date(methods.getValues('scheduled_start_on'))
-  const endDate = new Date(methods.getValues('scheduled_end_on'))
-  const diff = moment(startDate).diff(endDate, 'days') + 1
+  const startDate = new Date(
+    methods.getValues('scheduled_start_on') === null
+      ? ''
+      : methods.getValues('scheduled_start_on')
+  )
+  const endDate = new Date(
+    methods.getValues('scheduled_end_on') === null
+      ? ''
+      : methods.getValues('scheduled_end_on')
+  )
+  const diff = moment(endDate).diff(startDate, 'days') + 1
 
   if (isNaN(diff)) {
     startDate.setDate(startDate.getDate() - 1)
@@ -129,43 +138,35 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     startDate.setDate(endDate.getDate() - dayCount)
   }
 
-  const clearTSCards = () => {
+  useEffect(() => {
     if (daysArray.fields.length > 0) {
       for (let i = 0; i < daysArray.fields.length; i++) {
         daysArray.remove(0)
       }
     }
-  }
-
-  const reGenreateTSCards = () => {
-    const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
-    const dpDays = dpRev.days
-    const tpDays = tpRev.days
-
-    let i = 0
-    while (i < dayCount) {
-      for (let j = 0; j < maxDays; j++) {
-        daysArray.append(createDay(j + 1, tpDays[j], dpDays[j]))
-        i++
-      }
-    }
-  }
-
-  useEffect(() => {
-    clearTSCards()
     if (
       tpRev &&
       Object.keys(tpRev).length !== 0 &&
       dpRev &&
       Object.keys(dpRev).length !== 0
     ) {
-      reGenreateTSCards()
+      const maxDays = Math.max(tpRev.days?.length, dpRev.days?.length)
+      const dpDays = dpRev.days
+      const tpDays = tpRev.days
+
+      let i = 0
+      while (i < dayCount) {
+        for (let j = 0; j < maxDays; j++) {
+          daysArray.append(createDay(j + 1, tpDays[j], dpDays[j]))
+          i++
+        }
+      }
     } else {
       for (let i = 0; i < dayCount; i++) {
         daysArray.append(createDay(i + 1))
       }
     }
-  }, [dayCount])
+  }, [dayCount, selectedDP, selectedTP])
 
   useEffect(() => {
     let tempId = 0
@@ -181,16 +182,6 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         tempId.toString()
       )
       history.push(path)
-    }
-
-    if (
-      tpRev &&
-      Object.keys(tpRev).length !== 0 &&
-      dpRev &&
-      Object.keys(dpRev).length !== 0
-    ) {
-      clearTSCards()
-      reGenreateTSCards()
     }
   }, [tpRev, dpRev])
 
@@ -259,6 +250,24 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       setEditWorkout(name)
     }
   }
+
+  const tpOptions = useMemo(() => {
+    const options = trainingPlans.map((tp) => ({
+      label: tp.name,
+      value: tp._id
+    }))
+    options.unshift({ label: 'No Select', value: '' })
+    return options
+  }, [trainingPlans])
+
+  const dpOptions = useMemo(() => {
+    const options = dietPlans.map((dp) => ({
+      label: dp.name,
+      value: dp._id
+    }))
+    options.unshift({ label: 'No Select', value: '' })
+    return options
+  }, [dietPlans])
 
   const address =
     getRoute(Routes.ACTIVITIES_TS, { clientId: clientId }) +
@@ -410,10 +419,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       ?._id
                   )
                 }}
-                options={dietPlans.map((dp) => ({
-                  label: dp.name,
-                  value: dp._id
-                }))}
+                options={dpOptions}
               />
               <Select
                 id="add-split-Training-plan"
@@ -429,10 +435,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                     )?._id
                   )
                 }}
-                options={trainingPlans.map((tp) => ({
-                  label: tp.name,
-                  value: tp._id
-                }))}
+                options={tpOptions}
               />
             </div>
           </Card>
