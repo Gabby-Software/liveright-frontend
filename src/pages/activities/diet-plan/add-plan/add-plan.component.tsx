@@ -94,6 +94,13 @@ function createDay(dayIndex: number) {
   }
 }
 
+function updateDay(name: string, activities: Array<any>) {
+  return {
+    name,
+    activities
+  }
+}
+
 export default function AddDietPlan({
   editDay,
   onClose,
@@ -144,7 +151,20 @@ export default function AddDietPlan({
   const removeWorkout = () => {
     daysArray.remove(delIdx)
     setDelIdx(-1)
+    setDayIndex(dayIndex - 1)
   }
+
+  useEffect(() => {
+    const fields: Array<any> = daysArray.fields
+    for (let i = 0; i < daysArray.fields.length; i++) {
+      if (fields[i]?.activities) {
+        daysArray.update(
+          i,
+          updateDay(`Meals day ${i + 1}`, fields[i]?.activities)
+        )
+      }
+    }
+  }, [dayIndex])
 
   useEffect(() => {
     if (revision._id) {

@@ -97,6 +97,13 @@ function createDay(dayIndex: number) {
   }
 }
 
+function updateDay(name: string, activities: Array<any>) {
+  return {
+    name,
+    activities
+  }
+}
+
 export default function AddTrainingPlan({
   editDay,
   onClose,
@@ -185,11 +192,6 @@ export default function AddTrainingPlan({
     }
   }
 
-  // const handleDays = () => {
-
-  // }
-  console.log(daysArray)
-
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
     daysArray.append(createDay(newDayIndex))
@@ -204,11 +206,24 @@ export default function AddTrainingPlan({
   const removeWorkout = () => {
     daysArray.remove(delIdx)
     setDelIdx(-1)
+    setDayIndex(dayIndex - 1)
   }
 
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
+
+  useEffect(() => {
+    const fields: Array<any> = daysArray.fields
+    for (let i = 0; i < daysArray.fields.length; i++) {
+      if (fields[i]?.activities) {
+        daysArray.update(
+          i,
+          updateDay(`Workout day ${i + 1}`, fields[i]?.activities)
+        )
+      }
+    }
+  }, [dayIndex])
 
   const onGoBack = () => {
     if (isDirty) {
@@ -353,7 +368,6 @@ export default function AddTrainingPlan({
           value: scheduled_start_on ?? '',
           disabledDate: (date: Moment) => date.isBefore(),
           onChange: (e: any, date: any) => {
-            console.log(date)
             methods.setValue('scheduled_start_on', date)
           }
         }}
