@@ -7,5 +7,5 @@ export async function getTemplatesWorkouts(url: string) {
 
 export async function getTemplatesMeals(url: string) {
   const response = await api.get(url)
-  return response.data.data
+  return response.data
 }

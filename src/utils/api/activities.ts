@@ -57,11 +57,13 @@ export function formatPlanData(data: any) {
   dataClone.days = dataClone.days.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
+      save_as_template: day.save_as_template,
       activities: day.activities.map((activity: any, index: number) => {
         return {
           name: activity.name,
           time: activity.time,
           sort_order: index,
+          save_as_template: activity.save_as_template,
           items: activity.items.map((item: any, index: number) => {
             return {
               sort_order: index,
@@ -71,6 +73,7 @@ export function formatPlanData(data: any) {
               data: !item.is_superset
                 ? {
                     name: item.data.name,
+                    save_as_template: item.data.save_as_template,
                     ...(typeof item.data.link === 'string' && {
                       link: item.data.link
                     }),
