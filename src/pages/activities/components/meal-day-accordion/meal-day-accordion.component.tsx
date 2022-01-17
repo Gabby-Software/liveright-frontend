@@ -108,7 +108,9 @@ export default function MealDayAccordion({
                 placeholder="Name"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                error={get(errors, name)}
+                // error={get(errors, name)}
+                className={get(errors, name) ? 'invalid-field' : ''}
+                shouldScrollTo={get(errors, name)}
               />
             )}
           />

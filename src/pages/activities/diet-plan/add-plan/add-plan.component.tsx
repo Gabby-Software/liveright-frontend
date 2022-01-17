@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { get } from 'lodash'
 import { Moment } from 'moment'
 import { useEffect, useState } from 'react'
 import {
@@ -18,6 +19,7 @@ import Card from '../../../../components/cards/card/card.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
@@ -178,6 +180,7 @@ export default function AddDietPlan({
 
   const handleSubmit = (values: any) => {
     console.log(values)
+    console.log('errors', errors)
     if (editId && revisionId) {
       onEdit(editId, revisionId, values, onClose)
     } else {
@@ -185,15 +188,27 @@ export default function AddDietPlan({
     }
   }
 
+  const handleError = () => {
+    toast.show({
+      type: 'error',
+      msg: 'Please fill out all the required fields'
+    })
+  }
+
   const handleSave = async () => {
     if (editId) {
       const response = await methods.trigger()
+      console.log('response', response)
       if (!response) {
+        toast.show({
+          type: 'error',
+          msg: 'Please fill out all the required fields'
+        })
         return
       }
       setShowConfirm(true)
     } else {
-      methods.handleSubmit(handleSubmit)()
+      methods.handleSubmit(handleSubmit, handleError)()
     }
   }
 
@@ -252,10 +267,13 @@ export default function AddDietPlan({
                     id="edit-training-plan-name"
                     label="Diet Plan Name"
                     placeholder="Name"
-                    className="EditPlan__input"
+                    className={`EditPlan__input ${
+                      get(errors, name) ? 'invalid-field' : ''
+                    }`}
                     value={value}
                     onChange={(e) => onChange(name, e.target.value)}
-                    error={errors.name}
+                    // error={errors.name}
+                    shouldScrollTo={get(errors, name)}
                   />
                 )}
               />
@@ -351,7 +369,7 @@ export default function AddDietPlan({
           yes: 'Looks Good, Save Changes',
           cancel: 'Cancel',
           layout: 'between',
-          onYes: () => methods.handleSubmit(handleSubmit)(),
+          onYes: () => methods.handleSubmit(handleSubmit, handleError)(),
           onCancel: () => setShowConfirm(false)
         }}
       />

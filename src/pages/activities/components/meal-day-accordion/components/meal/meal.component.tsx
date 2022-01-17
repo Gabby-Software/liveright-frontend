@@ -228,6 +228,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
               onChange={(value) => methods.setValue(name, value)}
               onSelect={onMealSelected}
               options={nameOptions}
+              className={get(errors, name) ? 'invalid-field' : ''}
             />
           )}
         />
@@ -240,10 +241,11 @@ export default function Meal({ name, onRemove, index }: MealProps) {
               label="Schedule"
               placeholder="08:00"
               value={value}
-              error={get(errors, name)}
+              // error={get(errors, name)}
               onChange={(e, date) => {
                 methods.setValue(name, date)
               }}
+              className={get(errors, name) ? 'invalid-field' : ''}
             />
           )}
         />

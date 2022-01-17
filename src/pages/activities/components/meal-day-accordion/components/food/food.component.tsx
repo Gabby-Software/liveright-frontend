@@ -39,9 +39,13 @@ export default function Food({
 }: FoodProps) {
   const methods = useFormContext()
 
-  const [proteins, setProteins] = useState(0)
-  const [fat, setFat] = useState(0)
-  const [netCarbs, setNetCarbs] = useState(0)
+  const [proteins, setProteins] = useState(
+    methods.getValues(`${name}.info.proteins`)
+  )
+  const [fat, setFat] = useState(methods.getValues(`${name}.info.fat`))
+  const [netCarbs, setNetCarbs] = useState(
+    methods.getValues(`${name}.info.net_carbs`)
+  )
 
   const onChange = (fieldName: string, value: string) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
@@ -74,7 +78,9 @@ export default function Food({
             options={options}
             value={value}
             onChange={(e) => onChange(name, e)}
-            error={get(errors, name)}
+            // error={get(errors, name)}
+            className={get(errors, name) ? 'invalid-field' : ''}
+            shouldScrollTo={get(errors, name)}
           />
         )}
         name={`${name}.name`}
@@ -87,9 +93,11 @@ export default function Food({
             placeholder="-"
             value={value}
             onChange={(e) => onChange(name, e.target.value)}
-            error={get(errors, name)}
+            // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            className={get(errors, name) ? 'invalid-field' : ''}
+            shouldScrollTo={get(errors, name)}
           />
         )}
         name={`${name}.info.grams`}
@@ -105,9 +113,11 @@ export default function Food({
               onChange(name, e.target.value)
               setProteins(Number(e.target.value))
             }}
-            error={get(errors, name)}
+            // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            className={get(errors, name) ? 'invalid-field' : ''}
+            shouldScrollTo={get(errors, name)}
           />
         )}
         name={`${name}.info.proteins`}
@@ -123,9 +133,11 @@ export default function Food({
               onChange(name, e.target.value)
               setFat(Number(e.target.value))
             }}
-            error={get(errors, name)}
+            // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            className={get(errors, name) ? 'invalid-field' : ''}
+            shouldScrollTo={get(errors, name)}
           />
         )}
         name={`${name}.info.fat`}
@@ -141,9 +153,11 @@ export default function Food({
               onChange(name, e.target.value)
               setNetCarbs(Number(e.target.value))
             }}
-            error={get(errors, name)}
+            // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            className={get(errors, name) ? 'invalid-field' : ''}
+            shouldScrollTo={get(errors, name)}
           />
         )}
         name={`${name}.info.net_carbs`}
