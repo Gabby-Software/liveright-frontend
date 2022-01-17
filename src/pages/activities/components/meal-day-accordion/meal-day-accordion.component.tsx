@@ -3,7 +3,9 @@ import { useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { FoodIcon } from '../../../../assets/media/icons'
+import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../components/form/input/input.component'
+import Label from '../../../../components/form/label/label.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import Macronutrient from '../macronutrient/macronutrient.component'
@@ -142,6 +144,21 @@ export default function MealDayAccordion({
         </p>
 
         <MealDayForm name={name} />
+
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="MealDayAccordion__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => methods.setValue(name, e.target.checked)}
+              />
+              <Label className="MealDayAccordion__checkbox">
+                Save as re-usable template
+              </Label>
+            </div>
+          )}
+          name={`days.${index}.save_as_template`}
+        />
       </Styles>
     </DayAccordion>
   )

@@ -3,7 +3,9 @@ import { useFormContext, useWatch } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 
 import { WorkoutIcon } from '../../../../assets/media/icons/activities'
+import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../components/form/input/input.component'
+import Label from '../../../../components/form/label/label.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import WorkoutDayForm from '../workout-day-form/workout-day-form.component'
@@ -74,6 +76,21 @@ export default function WorkoutDayAccordion({
         )}
 
         <WorkoutDayForm name={name} />
+
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="WorkoutDayAccordion__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => methods.setValue(name, e.target.checked)}
+              />
+              <Label className="WorkoutDayAccordion__checkbox">
+                Save as re-usable template
+              </Label>
+            </div>
+          )}
+          name={`days.${index}.save_as_template`}
+        />
       </Styles>
     </DayAccordion>
   )

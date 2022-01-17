@@ -6,7 +6,9 @@ import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
+import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
@@ -37,7 +39,7 @@ export default function Exercise({
 }: ExerciseProps) {
   const methods = useFormContext()
   // const params = useParams<any>()
-  const onChange = (name: string, value: string) => {
+  const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
 
@@ -251,6 +253,23 @@ export default function Exercise({
           <DeleteOutlinedIcon />
         </IconButton>
       </div>
+
+      {!fromSuperset && (
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="Exercise__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => onChange(name, e.target.checked)}
+              />
+              <Label className="Exercise__checkbox">
+                Save as re-usable template
+              </Label>
+            </div>
+          )}
+          name={`${name}.save_as_template`}
+        />
+      )}
     </Styles>
   )
 }

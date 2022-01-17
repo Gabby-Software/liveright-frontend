@@ -92,7 +92,8 @@ const validationSchema = yup.object().shape({
 function createDay(dayIndex: number) {
   return {
     name: `Meals day ${dayIndex}`,
-    activities: []
+    activities: [],
+    save_as_template: false
   }
 }
 

@@ -1,12 +1,14 @@
 import { get } from 'lodash'
-import { useMemo, useState } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
 import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
+import Label from '../../../../../../components/form/label/label.component'
 import formatter from '../../../../../../managers/formatter.manager'
 import { Styles } from './food.styles'
 
@@ -39,25 +41,22 @@ export default function Food({
 }: FoodProps) {
   const methods = useFormContext()
 
-  const [proteins, setProteins] = useState(
-    methods.getValues(`${name}.info.proteins`)
-  )
-  const [fat, setFat] = useState(methods.getValues(`${name}.info.fat`))
-  const [netCarbs, setNetCarbs] = useState(
-    methods.getValues(`${name}.info.net_carbs`)
-  )
+  const info = useWatch({
+    control: methods.control,
+    name: `${name}.info`
+  })
 
-  const onChange = (fieldName: string, value: string) => {
+  const onChange = (fieldName: string, value: string | boolean) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
 
-  useMemo(() => {
+  useEffect(() => {
     methods.setValue(
       `${name}.info.calories`,
-      proteins * 4 + netCarbs * 4 + fat * 9,
+      info.proteins * 4 + info.net_carbs * 4 + info.fat * 9,
       { shouldValidate: true }
     )
-  }, [proteins, fat, netCarbs])
+  }, [info.proteins, info.net_carbs, info.fat])
 
   const { errors } = methods.formState
 
@@ -111,7 +110,6 @@ export default function Food({
             value={value}
             onChange={(e) => {
               onChange(name, e.target.value)
-              setProteins(Number(e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -131,7 +129,6 @@ export default function Food({
             value={value}
             onChange={(e) => {
               onChange(name, e.target.value)
-              setFat(Number(e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -151,7 +148,6 @@ export default function Food({
             value={value}
             onChange={(e) => {
               onChange(name, e.target.value)
-              setNetCarbs(Number(e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -229,6 +225,19 @@ export default function Food({
           <DeleteOutlinedIcon />
         </IconButton>
       </div>
+
+      <Controller
+        render={({ field: { value, name } }) => (
+          <div className="Food__checkbox-container">
+            <Checkbox
+              checked={value}
+              onChange={(e) => onChange(name, e.target.checked)}
+            />
+            <Label className="Food__checkbox">Save as re-usable template</Label>
+          </div>
+        )}
+        name={`${name}.save_as_template`}
+      />
     </Styles>
   )
 }
