@@ -217,10 +217,24 @@ export default function AddTrainingPlan({
     const fields: Array<any> = daysArray.fields
     for (let i = 0; i < daysArray.fields.length; i++) {
       if (fields[i]?.activities) {
-        daysArray.update(
-          i,
-          updateDay(`Workout day ${i + 1}`, fields[i]?.activities)
-        )
+        if (fields[i].name) {
+          if (fields[i].name.indexOf('Workout day ') < 0) {
+            daysArray.update(
+              i,
+              updateDay(fields[i].name, fields[i]?.activities)
+            )
+          } else {
+            daysArray.update(
+              i,
+              updateDay(`Workout day ${i + 1}`, fields[i]?.activities)
+            )
+          }
+        } else {
+          daysArray.update(
+            i,
+            updateDay(`Workout day ${i + 1}`, fields[i]?.activities)
+          )
+        }
       }
     }
   }, [dayIndex])
