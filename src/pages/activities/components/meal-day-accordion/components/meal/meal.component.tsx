@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -18,15 +18,15 @@ import {
   AddIcon,
   DeleteOutlinedIcon
 } from '../../../../../../assets/media/icons'
-import Button from '../../../../../../components/buttons/button/button.component'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
-import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
-import { InputSearch } from '../../../input-search/input-search.component'
+import useTemplateMeals from '../../../../../../hooks/api/templates/useTemplateMeals'
+import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import Food from '../food/food.component'
 import { MealSubtitle, Styles } from './meal.styles'
 
@@ -64,7 +64,6 @@ const MACROS_LABEL_KEY_MAP = {
 
 export default function Meal({ name, onRemove, index }: MealProps) {
   const [dropId] = useState(uuid())
-  const [newMeal, setNewMeal] = useState(false)
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
     proteins: 0,
@@ -90,21 +89,17 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     foodsArray.move(result.source.index, (result.destination as any).index)
   }
 
-  const [nameVal] = useWatch({
+  const [mealName] = useWatch({
     control: methods.control,
     name: [`${name}.name`]
   })
 
-  useEffect(() => {}, [])
+  const days = useWatch({
+    name: `days`,
+    control: methods.control
+  })
 
-  const mealOptions = [
-    { label: 'Fried Rice', value: 'Fried Rice', color: '#36B37E' },
-    { label: 'Brown Rice', value: 'Brown Rice', color: '#36B37E' },
-    { label: 'Fried Eggs', value: 'Fried Eggs', color: '#36B37E' }
-  ]
-  if (nameVal && !mealOptions.find((item) => item.value === nameVal)) {
-    mealOptions.push({ label: nameVal, value: nameVal, color: '#36B37E' })
-  }
+  const { meals } = useTemplateMeals()
 
   const { errors } = methods.formState
 
@@ -145,10 +140,77 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     calculateTotalMacros()
   })
 
+  const onMealSelected = (value: string) => {
+    // find in templates
+    let meal = meals.find((m: any) => m.name === value)
+    if (!meal) {
+      // else not found, check in current DP
+      const mealsOfPlan = days?.reduce(
+        (acc: any[], d: any) => [
+          ...acc,
+          ...(d.activities || d.diet_plan_day.activities || [])
+        ],
+        []
+      )
+      meal = mealsOfPlan.find((m: any) => m.name === value)
+    }
+
+    if (meal) {
+      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`${name}.name`, meal.name)
+      methods.setValue(`${name}.time`, meal.time)
+      foodsArray.remove(
+        Array(foodsArray.fields.length)
+          .fill(0)
+          .reduce((acc, v, i) => [...acc, i], [])
+      )
+      foodsArray.append(meal.items)
+    }
+  }
+
+  const nameOptions = useMemo(() => {
+    const mealsOfPlan = days?.reduce(
+      (acc: any[], d: any) => [
+        ...acc,
+        ...(d.activities || d.diet_plan_day.activities || [])
+      ],
+      []
+    )
+    const planOptions = mealsOfPlan
+      ?.filter((m: any) => m.name)
+      ?.map((m: any) => ({
+        label: m.name,
+        value: m.name
+      }))
+
+    const templateOptions = meals.map((w: any) => ({
+      label: w.name,
+      value: w.name
+    }))
+
+    const options = []
+
+    if (planOptions.length) {
+      options.push({
+        label: 'From this Diet Plan',
+        options: getUniqueItemsByProperties(planOptions, ['label'])
+      })
+    }
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [days])
+
   return (
     <Styles>
       <div className="Meal__header">
-        <div className="subtitle">{`Meal ${index + 1}`}</div>
+        <div className="subtitle">{mealName || `Meal ${index + 1}`}</div>
 
         <IconButton className="Meal__delete-btn" onClick={onRemove}>
           <DeleteOutlinedIcon />
@@ -157,53 +219,17 @@ export default function Meal({ name, onRemove, index }: MealProps) {
       <div className="Meal__name">
         <Controller
           name={`${name}.name`}
-          render={({ field: { value, name } }) => {
-            return newMeal ? (
-              <Input
-                id="Meal-title"
-                label="Title of Meal"
-                placeholder="Title"
-                value={value}
-                onChange={(e) => methods.setValue(name, e.target.value)}
-              />
-            ) : (
-              <InputSearch
-                id="Meal-title"
-                label="Title of Meal"
-                placeholder="Title"
-                value={value}
-                onChange={(value) => {
-                  if (value === 'new_meal') {
-                    setNewMeal(true)
-                  } else {
-                    methods.setValue(name, value)
-                  }
-                }}
-                onSearch={() => {}}
-                error={get(errors, name)}
-                options={[
-                  {
-                    value: 'new_meal',
-                    label: (
-                      <Button
-                        size="sm"
-                        variant="text"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          padding: 0
-                        }}
-                      >
-                        <AddIcon />
-                        &nbsp; Create New
-                      </Button>
-                    ),
-                    color: '#36B37E'
-                  }
-                ]}
-              />
-            )
-          }}
+          render={({ field: { value, name } }) => (
+            <AutoCompleteInput
+              id="Meal-title"
+              label="Title of workout"
+              placeholder="Title"
+              value={value}
+              onChange={(value) => methods.setValue(name, value)}
+              onSelect={onMealSelected}
+              options={nameOptions}
+            />
+          )}
         />
 
         <Controller

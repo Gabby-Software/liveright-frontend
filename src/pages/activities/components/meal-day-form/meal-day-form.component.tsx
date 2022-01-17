@@ -49,6 +49,7 @@ export default function MealDayForm({ name }: MealDayFormProps) {
         isMobile ? (
           <MealAccordion
             key={row.id}
+            index={index}
             name={`${name}.${index}`}
             onRemove={() => handleDayRemove(index)}
           />

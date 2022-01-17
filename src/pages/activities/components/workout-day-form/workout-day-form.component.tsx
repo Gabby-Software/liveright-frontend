@@ -50,6 +50,7 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
         isMobile ? (
           <WorkoutAccordion
             key={row.id}
+            index={index}
             name={`${name}.${index}`}
             onRemove={() => handleDayRemove(index)}
           />

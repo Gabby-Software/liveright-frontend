@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -19,10 +19,12 @@ import {
   UnlockIcon
 } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Error from '../../../../../../components/form/error/error.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
-import { InputSearch } from '../../../input-search/input-search.component'
+import useTemplateWorkouts from '../../../../../../hooks/api/templates/useTemplateWorkouts'
+import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'
 import SupersetAccordion from '../superset-accordion/superset-accordion.component'
@@ -31,6 +33,7 @@ import { Styles } from './workout-accordion.styles'
 
 interface WorkoutAccordionProps {
   name: string
+  index: number
   onRemove: any
 }
 
@@ -62,6 +65,7 @@ function createExercise(isSuperset: boolean, cardio: boolean) {
 
 export default function WorkoutAccordion({
   name,
+  index,
   onRemove
 }: WorkoutAccordionProps) {
   const dropId = useRef(Date.now())
@@ -71,10 +75,18 @@ export default function WorkoutAccordion({
     control: methods.control,
     name: `${name}.items`
   })
+
   const workoutName = useWatch({
     name: `${name}.name`,
     control: methods.control
   })
+
+  const days = useWatch({
+    name: `days`,
+    control: methods.control
+  })
+
+  const { workouts } = useTemplateWorkouts()
 
   const { errors } = methods.formState
 
@@ -115,11 +127,76 @@ export default function WorkoutAccordion({
     // methods.trigger(`${name}.items`)
   }
 
-  const onNew = () => {}
+  const onWorkoutNameSelected = (value: string) => {
+    // find in templates
+    let workout = workouts.find((w: any) => w.name === value)
+    if (!workout) {
+      // else not found, check in current TP
+      const workoutsOfPlan = days?.reduce(
+        (acc: any[], d: any) => [
+          ...acc,
+          ...(d.activities || d.training_plan_day.activities || [])
+        ],
+        []
+      )
+      workout = workoutsOfPlan.find((w: any) => w.name === value)
+    }
+
+    if (workout) {
+      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`${name}.name`, workout.name)
+      methods.setValue(`${name}.time`, workout.time)
+      exercisesArray.remove(
+        Array(exercisesArray.fields.length)
+          .fill(0)
+          .reduce((acc, v, i) => [...acc, i], [])
+      )
+      exercisesArray.append(workout.items)
+    }
+  }
+
+  const nameOptions = useMemo(() => {
+    const workoutsOfPlan = days?.reduce(
+      (acc: any[], d: any) => [
+        ...acc,
+        ...(d.activities || d.training_plan_day.activities || [])
+      ],
+      []
+    )
+    const planOptions = workoutsOfPlan
+      ?.filter((w: any) => w.name)
+      ?.map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const templateOptions = workouts.map((w: any) => ({
+      label: w.name,
+      value: w.name
+    }))
+
+    const options = []
+
+    if (planOptions.length) {
+      options.push({
+        label: 'From this Training Plan',
+        options: getUniqueItemsByProperties(planOptions, ['label'])
+      })
+    }
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [days])
 
   return (
     <ItemAccordion
-      title={workoutName}
+      title={workoutName || `Workout ${index + 1}`}
       onRemove={onRemove}
       content={
         <Styles>
@@ -129,62 +206,14 @@ export default function WorkoutAccordion({
                 <Controller
                   name={`${name}.name`}
                   render={({ field: { value, name } }) => (
-                    <InputSearch
+                    <AutoCompleteInput
                       id="Workout-title"
                       label="Title of workout"
-                      placeholder="Workout one"
-                      value={value}
+                      placeholder="Title"
+                      value={value === '' ? null : value}
                       onChange={(value) => methods.setValue(name, value)}
-                      onSearch={() => {}}
-                      forceDesktop
-                      options={[
-                        { label: value, value: value },
-                        {
-                          value: 'existing',
-                          label: 'From this training plan',
-                          color: '#0052CC',
-                          isDisabled: true
-                        },
-                        {
-                          value: 'Full Body Workout',
-                          label: 'Full Body Workout',
-                          color: '#5243AA'
-                        },
-                        {
-                          value: 'template',
-                          label: 'From templates',
-                          color: '#0052CC',
-                          isDisabled: true
-                        },
-                        {
-                          value: 'Smooth Workout',
-                          label: 'Smooth Workout',
-                          color: '#FF8B00'
-                        },
-                        {
-                          value: 'Another Workout',
-                          label: 'Another Workout',
-                          color: '#36B37E'
-                        },
-                        {
-                          value: 'Another Workout',
-                          label: (
-                            <Button
-                              variant="text"
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: 0
-                              }}
-                              onClick={onNew}
-                            >
-                              <AddIcon />
-                              &nbsp; Create New
-                            </Button>
-                          ),
-                          color: '#36B37E'
-                        }
-                      ]}
+                      onSelect={onWorkoutNameSelected}
+                      options={nameOptions}
                     />
                   )}
                 />

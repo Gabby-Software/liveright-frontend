@@ -75,7 +75,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     name: `${name}.items`
   })
 
-  const dayName = useWatch({
+  const workoutName = useWatch({
     name: `${name}.name`,
     control: methods.control
   })
@@ -180,7 +180,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
   return (
     <Styles>
       <div className="Workout__header">
-        <div className="subtitle">{dayName || `Workout ${index + 1}`}</div>
+        <div className="subtitle">{workoutName || `Workout ${index + 1}`}</div>
 
         <div className="Workout__header-checkbox-cell">
           <div className="Workout__header-checkbox-container">

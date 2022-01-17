@@ -4,3 +4,8 @@ export async function getTemplatesWorkouts(url: string) {
   const response = await api.get(url)
   return response.data.data
 }
+
+export async function getTemplatesMeals(url: string) {
+  const response = await api.get(url)
+  return response.data.data
+}
