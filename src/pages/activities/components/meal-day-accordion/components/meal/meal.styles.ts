@@ -8,6 +8,11 @@ export const Styles = styled(Card)`
   padding: 1.5rem;
   margin-bottom: 1.25rem;
 
+  .invalid-field .ant-select-selector,
+  .invalid-field .ant-picker {
+    border-color: #ef1733;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }

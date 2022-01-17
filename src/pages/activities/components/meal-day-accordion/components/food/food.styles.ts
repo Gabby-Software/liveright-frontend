@@ -10,6 +10,14 @@ export const Styles = styled.div<any>`
   background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
 
+  .invalid-field .ant-select-selector,
+  .invalid-field .input__input,
+  .invalid-field .input__input:hover,
+  .invalid-field .input__input:focus,
+  .invalid-field .input__input:focus-within {
+    border-color: #ef1733;
+  }
+
   ${(props) =>
     props.$isDragging &&
     css`

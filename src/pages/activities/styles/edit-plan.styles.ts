@@ -10,6 +10,13 @@ export const Styles = styled.div`
     padding-bottom: 0;
   }
 
+  .invalid-field .input__input,
+  .invalid-field .input__input:hover,
+  .invalid-field .input__input:focus,
+  .invalid-field .input__input:focus-within {
+    border-color: #ef1733;
+  }
+
   .EditPlan {
     &__overview {
       margin-bottom: 1.25rem;
