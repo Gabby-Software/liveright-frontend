@@ -33,5 +33,15 @@ export const Styles = styled.div`
       margin-bottom: 1rem;
       font-weight: 500;
     }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+    }
   }
 `

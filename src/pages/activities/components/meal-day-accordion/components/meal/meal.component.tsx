@@ -41,6 +41,7 @@ function createFood() {
   return {
     data: {
       name: '',
+      save_as_template: false,
       info: {
         grams: '',
         proteins: '',
@@ -268,12 +269,18 @@ export default function Meal({ name, onRemove, index }: MealProps) {
         ))}
       </div>
 
-      <div className="Meal__checkbox-container">
-        <Checkbox />
-        <Label className="Meal__checkbox">
-          Save meal as re-usable template
-        </Label>
-      </div>
+      <Controller
+        render={({ field: { value, name } }) => (
+          <div className="Meal__checkbox-container">
+            <Checkbox
+              checked={value}
+              onChange={(e) => methods.setValue(name, e.target.checked)}
+            />
+            <Label className="Meal__checkbox">Save as re-usable template</Label>
+          </div>
+        )}
+        name={`${name}.save_as_template`}
+      />
 
       <MealSubtitle>Food</MealSubtitle>
 
@@ -310,13 +317,6 @@ export default function Meal({ name, onRemove, index }: MealProps) {
         {!foodsArray.fields.length && (
           <div className="Meal__clickable-container" onClick={handleFoodAdd}>
             <EmptyPlaceholder spacing text="Add Foods" />
-          </div>
-        )}
-
-        {!!foodsArray.fields.length && (
-          <div className="Meal__checkbox-container">
-            <Checkbox />
-            <Label className="Meal__checkbox">Save as re-usable template</Label>
           </div>
         )}
       </div>

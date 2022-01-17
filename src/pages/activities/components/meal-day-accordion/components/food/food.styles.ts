@@ -48,5 +48,15 @@ export const Styles = styled.div<any>`
         color: ${getColorCarry('secondary2_v2')};
       }
     }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-left: 4rem;
+      }
+    }
   }
 `
