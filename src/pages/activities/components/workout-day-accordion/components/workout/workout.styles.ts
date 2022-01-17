@@ -42,7 +42,18 @@ export const Styles = styled(Card)`
 
         &-btn {
           color: ${getColorCarry('red')};
+          margin-top: -8px;
         }
+      }
+    }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
       }
     }
 

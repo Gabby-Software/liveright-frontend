@@ -80,7 +80,6 @@ const validationSchema = yup.object().shape({
     })
   )
 })
-console.log(validationSchema)
 
 const defaultValues: any = {
   name: '',
@@ -93,6 +92,7 @@ const defaultValues: any = {
 function createDay(dayIndex: number) {
   return {
     name: `Workout day ${dayIndex}`,
+    save_as_template: false,
     activities: []
   }
 }

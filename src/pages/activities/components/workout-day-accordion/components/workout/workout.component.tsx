@@ -61,6 +61,7 @@ function createExercise(isSuperset: boolean | number, cardio: boolean) {
       }
   return {
     is_superset: isSuperset && true,
+    save_as_template: false,
     data: isSuperset ? [ex] : ex
   }
 }
@@ -184,18 +185,28 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
 
         <div className="Workout__header-checkbox-cell">
           <div className="Workout__header-checkbox-container">
-            <Checkbox />
-            <Label className="Workout__header-checkbox-label">
-              Save workout as re-usable template
-            </Label>
-            <IconButton
-              size="sm"
-              className="Workout__header-checkbox-btn"
-              onClick={onRemove}
-            >
-              <DeleteOutlinedIcon />
-            </IconButton>
+            <Controller
+              render={({ field: { value, name } }) => (
+                <div className="Workout__checkbox-container">
+                  <Checkbox
+                    checked={value}
+                    onChange={(e) => methods.setValue(name, e.target.checked)}
+                  />
+                  <Label className="Workout__checkbox">
+                    Save as re-usable template
+                  </Label>
+                </div>
+              )}
+              name={`${name}.save_as_template`}
+            />
           </div>
+          <IconButton
+            size="sm"
+            className="Workout__header-checkbox-btn"
+            onClick={onRemove}
+          >
+            <DeleteOutlinedIcon />
+          </IconButton>
         </div>
       </div>
 
@@ -297,13 +308,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             )}
           </Droppable>
         </DragDropContext>
-
-        <div className="Workout__template">
-          <Checkbox />
-          <Label className="checkbox">
-            Save exercise as re-usable template
-          </Label>
-        </div>
       </div>
 
       <div className="Workout__actions">
