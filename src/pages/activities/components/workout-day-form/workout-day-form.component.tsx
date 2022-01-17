@@ -18,6 +18,7 @@ function createWorkout() {
     name: '',
     time: '',
     sort_order: '',
+    save_as_template: false,
     items: []
   }
 }
