@@ -135,7 +135,7 @@ export default function AddDietPlan({
 
   const daysArray = useFieldArray({
     control: methods.control,
-    name: 'days' as never
+    name: 'days'
   })
 
   useEffect(() => {
@@ -155,13 +155,24 @@ export default function AddDietPlan({
   }
 
   useEffect(() => {
-    const fields: Array<any> = daysArray.fields
-    for (let i = 0; i < daysArray.fields.length; i++) {
-      if (fields[i]?.activities) {
-        daysArray.update(
-          i,
-          updateDay(`Meals day ${i + 1}`, fields[i]?.activities)
-        )
+    const days = methods.getValues('days')
+    for (let i = 0; i < days.length; i++) {
+      if (days[i]?.activities) {
+        if (days[i].name) {
+          if (days[i].name.indexOf('Meals day ') < 0) {
+            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
+          } else {
+            daysArray.update(
+              i,
+              updateDay(`Meals day ${i + 1}`, days[i]?.activities)
+            )
+          }
+        } else {
+          daysArray.update(
+            i,
+            updateDay(`Meals day ${i + 1}`, days[i]?.activities)
+          )
+        }
       }
     }
   }, [dayIndex])
