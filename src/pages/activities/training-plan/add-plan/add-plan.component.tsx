@@ -144,8 +144,7 @@ export default function AddTrainingPlan({
 
   const daysArray = useFieldArray({
     control: methods.control,
-    name: 'days' as never,
-    keyName: 'id'
+    name: 'days'
   })
 
   useEffect(() => {
@@ -207,6 +206,7 @@ export default function AddTrainingPlan({
     daysArray.remove(delIdx)
     setDelIdx(-1)
     setDayIndex(dayIndex - 1)
+    methods.clearErrors('days')
   }
 
   const onChange = (name: string, value: any) => {
@@ -214,13 +214,24 @@ export default function AddTrainingPlan({
   }
 
   useEffect(() => {
-    const fields: Array<any> = daysArray.fields
-    for (let i = 0; i < daysArray.fields.length; i++) {
-      if (fields[i]?.activities) {
-        daysArray.update(
-          i,
-          updateDay(`Workout day ${i + 1}`, fields[i]?.activities)
-        )
+    const days = methods.getValues('days')
+    for (let i = 0; i < days.length; i++) {
+      if (days[i]?.activities) {
+        if (days[i].name) {
+          if (days[i].name.indexOf('Workout day ') < 0) {
+            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
+          } else {
+            daysArray.update(
+              i,
+              updateDay(`Workout day ${i + 1}`, days[i]?.activities)
+            )
+          }
+        } else {
+          daysArray.update(
+            i,
+            updateDay(`Workout day ${i + 1}`, days[i]?.activities)
+          )
+        }
       }
     }
   }, [dayIndex])
