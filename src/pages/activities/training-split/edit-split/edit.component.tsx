@@ -1,10 +1,11 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm
+  useForm,
+  useWatch
 } from 'react-hook-form'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -20,11 +21,13 @@ import { FormToggleUI } from '../../../../components/forms/form-toggle/form-togg
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
@@ -77,6 +80,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const params = useParams<any>()
   const { clientId } = params
   const isMobile = useIsMobile()
+  const { type: userType } = useAuth()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [dayCount, setDayCount] = useState(0)
@@ -120,6 +124,11 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     revisionId: params.revisionId
   })
 
+  const [scheduled_start_on, name] = useWatch({
+    control: methods.control,
+    name: ['scheduled_start_on', 'name']
+  })
+
   const startOnDate = methods.getValues('scheduled_start_on')
   const startDate =
     startOnDate !== null && startOnDate !== ''
@@ -148,32 +157,16 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       daysArray.append(
         createDay(
           (i % dayCount) + 1,
-          tpDays?.length > 0 && tpDays[i % tpDays.length],
-          dpDays?.length > 0 && dpDays[i % dpDays.length]
+          tpDays?.[i % tpDays.length],
+          dpDays?.[i % dpDays.length]
         )
       )
     }
-  }, [dayCount, selectedDP, selectedTP, diff])
-
-  useEffect(() => {
-    let tempId = 0
-    if (tpRev && Object.keys(tpRev).length !== 0) {
-      tempId = tpRev.account_id
-    } else if (dpRev && Object.keys(dpRev).length !== 0) {
-      tempId = dpRev.account_id
-    }
-
-    if (tempId > 0 && tempId.toString() !== clientId) {
-      const path = history.location.pathname.replace(
-        clientId,
-        tempId.toString()
-      )
-      history.push(path)
-    }
-  }, [tpRev, dpRev])
+  }, [dayCount, tpRev._id, dpRev._id, diff])
 
   useEffect(() => {
     if (revision._id) {
+      console.log({ revision })
       methods.setValue('name', trainingSplit.name)
       methods.setValue('account_id', trainingSplit.account_id)
       methods.setValue(
@@ -183,21 +176,19 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       methods.setValue('diet_plan_revision_id', revision.diet_plan_revision_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-      methods.setValue('days', revision.days)
+      daysArray.remove(
+        Array(daysArray.fields.length)
+          .fill(1)
+          .reduce((acc, v, i) => [...acc, i], [])
+      )
+      daysArray.append(revision.days)
       setDayCount(revision.days_count)
-      setSelectedTP(
-        trainingPlans.find(
-          (tp) =>
-            getLatestRevision(tp)?._id === revision.training_plan_revision_id
-        )?._id || ''
-      )
-      setSelectedDP(
-        dietPlans.find(
-          (dp) => getLatestRevision(dp)?._id === revision.diet_plan_revision_id
-        )?._id || ''
-      )
+      setSelectedTP(revision.training_plan?._id || '')
+      setSelectedDP(revision.diet_plan?._id || '')
     }
   }, [revision._id])
+
+  // console.log(trainingPlans, dietPlans)
 
   const handleSubmit = (values: any) => {
     if (trainingSplit._id && revision._id) {
@@ -209,6 +200,10 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   }
 
   const handleSave = () => {
+    if (revision._id) {
+      setShowConfirm(true)
+      return
+    }
     methods.handleSubmit(handleSubmit)()
   }
 
@@ -263,36 +258,39 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     <>
       <FormProvider {...methods}>
         <Styles>
-          <ActivitiesClient
-            viewActivity={false}
-            clientId={clientId}
-            onClientSwitch={(id) => {
-              if (!!params.id || !!params.revisionId) {
-                const pathes = history.location.pathname.split('/')
-                if (pathes[pathes.length - 1] === 'edit') {
-                  history.push(
-                    getRoute(Routes.ACTIVITIES_TS_EDIT, {
-                      clientId: id,
-                      id: params.id,
-                      revisionId: params.revisionId
-                    })
-                  )
+          {userType !== userTypes.CLIENT && (
+            <ActivitiesClient
+              viewActivity={false}
+              clientId={clientId}
+              onClientSwitch={(id) => {
+                if (!!params.id || !!params.revisionId) {
+                  const pathes = history.location.pathname.split('/')
+                  if (pathes[pathes.length - 1] === 'edit') {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                        clientId: id,
+                        id: params.id,
+                        revisionId: params.revisionId
+                      })
+                    )
+                  } else {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TS_ID, {
+                        clientId: id,
+                        id: params.id,
+                        revisionId: params.revisionId
+                      })
+                    )
+                  }
                 } else {
                   history.push(
-                    getRoute(Routes.ACTIVITIES_TS_ID, {
-                      clientId: id,
-                      id: params.id,
-                      revisionId: params.revisionId
-                    })
+                    getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: id })
                   )
                 }
-              } else {
-                history.push(
-                  getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: id })
-                )
-              }
-            }}
-          />
+              }}
+            />
+          )}
+
           <Card className="AddTrainingSplit__card">
             {isMobile || (
               <>
@@ -307,7 +305,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       : 'Creating Training Split'}
                   </Title>
 
-                  <Button onClick={() => setShowConfirm(true)}>
+                  <Button onClick={handleSave}>
                     {revision._id ? 'Save Changes' : 'Create'}
                   </Button>
                 </div>
@@ -519,7 +517,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
           cancel: 'Cancel',
           onYes: () => {
             setShowConfirm(false)
-            handleSave()
+            methods.handleSubmit(handleSubmit)()
           },
           onCancel: () => setShowConfirm(false),
           layout: 'between'
@@ -528,10 +526,14 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         onClose={() => setShowConfirm(false)}
         name="Make Change Training Split"
         description="You’re about to making changes to the following training split:"
-        title="Training Split Created on Nov 11"
+        title={name}
         date={{
           label: 'From when should we apply this change',
-          value: ''
+          value: scheduled_start_on,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (e: any, date: any) => {
+            methods.setValue('scheduled_start_on', date)
+          }
         }}
         alertTitle="Read this before make change!"
         alert={

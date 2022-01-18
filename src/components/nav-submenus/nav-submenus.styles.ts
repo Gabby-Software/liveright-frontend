@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { mediaQueries } from '../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export const ClientsStyles = styled.aside`
+export const ClientsStyles = styled.div`
   .sidebar {
     &__item {
       width: 100%;
@@ -22,11 +22,22 @@ export const ClientsStyles = styled.aside`
 
       &__uparrow {
         transform: rotate(180deg);
+        width: 12px !important;
+        height: 7px !important;
+      }
+
+      &__downarrow {
+        width: 12px !important;
+        height: 7px !important;
       }
 
       &__name {
         display: flex;
         align-items: center;
+      }
+
+      &-icon__wrapper {
+        margin-top: 0.4rem;
       }
 
       & svg {
@@ -43,6 +54,44 @@ export const ClientsStyles = styled.aside`
       &:hover {
         background-color: ${getColorCarry('primary_v2')};
         color: #fff;
+      }
+    }
+  }
+
+  .submenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: transparent;
+    width: 70%;
+    margin-left: 62px;
+
+    @media ${mediaQueries.MOBILE} {
+      width: 90%;
+    }
+
+    &__item {
+      margin-bottom: 0.5rem;
+      color: ${getColorCarry('link')};
+
+      &:hover {
+        font-weight: 700;
+        color: ${getColorCarry('blue_80')};
+      }
+
+      &_active {
+        font-weight: 700;
+        color: ${getColorCarry('blue_80')};
+      }
+
+      @media ${mediaQueries.MOBILE} {
+        margin-bottom: 0.75rem;
+        color: ${getColorCarry('neutral_70')};
+        &:hover {
+        }
+        &_active {
+        }
       }
     }
   }

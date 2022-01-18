@@ -22,7 +22,9 @@ import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import useTraningPlanFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
@@ -114,6 +116,7 @@ export default function AddTrainingPlan({
   const isMobile = useIsMobile()
   const { clientId } = useParams<any>()
   const history = useHistory()
+  const { type: userType } = useAuth()
   const [showConfirm, setShowConfirm] = useState(false)
   const [delIdx, setDelIdx] = useState(-1)
   const [redirectTo, setRedirectTo] = useState('')
@@ -244,28 +247,31 @@ export default function AddTrainingPlan({
     }
   }
 
-  const [scheduled_start_on, name] = useWatch({
+  const [name, scheduled_start_on] = useWatch({
     control: methods.control,
-    name: ['scheduled_start_on', 'name']
+    name: ['name', 'scheduled_start_on']
   })
 
   const content = (
     <>
       <FormProvider {...methods}>
         <Styles>
-          <ActivitiesClient
-            viewActivity={false}
-            clientId={clientId}
-            preventClientSwitch={Boolean(editId)}
-            onClientSwitch={(id) => {
-              history.push(
-                getRoute(
-                  editId ? Routes.ACTIVITIES_TP_ID : Routes.ACTIVITIES_TP,
-                  { clientId: id, id: editId, revisionId: revisionId }
+          {userType !== userTypes.CLIENT && (
+            <ActivitiesClient
+              viewActivity={false}
+              clientId={clientId}
+              preventClientSwitch={Boolean(editId)}
+              onClientSwitch={(id) => {
+                history.push(
+                  getRoute(
+                    editId ? Routes.ACTIVITIES_TP_ID : Routes.ACTIVITIES_TP,
+                    { clientId: id, id: editId, revisionId: revisionId }
+                  )
                 )
-              )
-            }}
-          />
+              }}
+            />
+          )}
+
           <Card className="EditPlan__overview">
             {!isMobile && (
               <>
@@ -372,11 +378,13 @@ export default function AddTrainingPlan({
       <ActivitiesDialog
         name="Make Change Plan"
         description="You’re about to making changes to the following training plan:"
-        title={name}
+        title={name || methods.getValues('name')}
         date={{
           label:
             'Please select the date from when you want these changes to be applied:',
-          value: scheduled_start_on ?? '',
+          value:
+            (scheduled_start_on || methods.getValues('scheduled_start_on')) ??
+            '',
           disabledDate: (date: Moment) => date.isBefore(),
           onChange: (e: any, date: any) => {
             methods.setValue('scheduled_start_on', date)

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -10,9 +10,12 @@ import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
@@ -32,6 +35,9 @@ const IS_EMPTY = false
 
 export default function TrainingPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
+  const [activationDate, setActivationDate] = useState<string>(
+    new Date().toISOString()
+  )
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
@@ -39,6 +45,7 @@ export default function TrainingPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
+  const { type: userType } = useAuth()
 
   useEffect(() => {
     if (!params.clientId) {
@@ -46,11 +53,38 @@ export default function TrainingPlan() {
     }
   }, [params.clientId])
 
-  const { revision, trainingPlan } = useTrainingPlan({
+  const { revision, trainingPlan, onEdit } = useTrainingPlan({
     clientId: params.clientId,
     id: params.id,
     revisionId: params.revisionId
   })
+
+  const onMakeActive = () => {
+    onEdit(
+      params.id,
+      params.revisionId,
+      {
+        ...revision,
+        scheduled_start_on: activationDate,
+        scheduled_end_on: moment(activationDate).isBefore(
+          revision.scheduled_end_on
+        )
+          ? revision.schedule_end_on
+          : null
+      },
+      () => {
+        toast.show({
+          type: 'success',
+          msg: `Training Plan successfully ${
+            activationDate === new Date().toDateString()
+              ? 'made active'
+              : 'scheduled'
+          }.`
+        })
+        setConfirmDialog(false)
+      }
+    )
+  }
 
   const startOn = revision.scheduled_start_on
     ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
@@ -96,17 +130,20 @@ export default function TrainingPlan() {
   ) : (
     <>
       <Styles>
-        <ActivitiesClient
-          viewActivity={false}
-          clientId={params.clientId}
-          onClientSwitch={(id) => {
-            history.push(
-              getRoute(Routes.ACTIVITIES_TP, {
-                clientId: id
-              })
-            )
-          }}
-        />
+        {userType !== userTypes.CLIENT && (
+          <ActivitiesClient
+            viewActivity={false}
+            clientId={params.clientId}
+            onClientSwitch={(id) => {
+              history.push(
+                getRoute(Routes.ACTIVITIES_TP, {
+                  clientId: id
+                })
+              )
+            }}
+          />
+        )}
+
         <Card className="PlanPage__card">
           {!isMobile && (
             <div className="PlanPage__header">
@@ -273,7 +310,7 @@ export default function TrainingPlan() {
       <ConfirmDialog
         name="Make Active Training Plan"
         description="You're about to make the following training plan the active one"
-        title="High Intensity Plan"
+        title={trainingPlan.name}
         alert={
           <>
             <div className="title">Read this before activating plan!</div>
@@ -290,9 +327,26 @@ export default function TrainingPlan() {
             </ul>
           </>
         }
-        date={{ label: 'From when should we apply this change?', value: '' }}
+        date={{
+          label:
+            'From when should we apply this change? Selecting a future date will schdule the training plan.',
+          value: activationDate,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (date: any) =>
+            setActivationDate(new Date(date).toISOString())
+        }}
         open={confirmDialog}
         onClose={() => setConfirmDialog(false)}
+        actions={{
+          yes: 'Confirm Changes',
+          cancel: 'Nevermind',
+          onYes: onMakeActive,
+          onCancel: () => {
+            setConfirmDialog(false)
+            setActivationDate(new Date().toISOString())
+          },
+          layout: 'left'
+        }}
       />
     </>
   )

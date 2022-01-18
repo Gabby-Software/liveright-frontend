@@ -16,7 +16,9 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import Tooltip from '../../../../components/tooltip/tooltip.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
@@ -34,6 +36,7 @@ export default function DietPlans() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
+  const { type: userType } = useAuth()
   const [add, setAdd] = useState(false)
   const [status, setStatus] = useState('')
   const { isLoading, dietPlans } = useDietPlans({ clientId, status })
@@ -67,13 +70,16 @@ export default function DietPlans() {
     //   </Styles>
     // ) : (
     <Styles>
-      <ActivitiesClient
-        clientId={clientId}
-        viewActivity={false}
-        onClientSwitch={(id) => {
-          history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
-        }}
-      />
+      {userType !== userTypes.CLIENT && (
+        <ActivitiesClient
+          clientId={clientId}
+          viewActivity={false}
+          onClientSwitch={(id) => {
+            history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+          }}
+        />
+      )}
+
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
@@ -101,14 +107,16 @@ export default function DietPlans() {
         )}
 
         <div className="PlansTable__filters">
-          <ClientSelect
-            id="DietPlans-client"
-            onChange={(e) => {
-              history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
-            }}
-            placeholder="All Client"
-            className="PlansTable__select"
-          />
+          {clientId === 'all' && (
+            <ClientSelect
+              id="DietPlans-client"
+              onChange={(e) => {
+                history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
+              }}
+              placeholder="All Client"
+              className="PlansTable__select"
+            />
+          )}
 
           <Select
             id="DietPlans-statuses"

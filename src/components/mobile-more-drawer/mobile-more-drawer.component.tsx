@@ -68,7 +68,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
           url: getRoute(Routes.ACTIVITIES_DP, { clientId: 'all' })
         },
         {
-          name: 'Training Slipts',
+          name: 'Training Splits',
           url: Routes.ACTIVITIES_TS
         }
       ]

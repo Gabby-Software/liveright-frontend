@@ -65,7 +65,11 @@ const NavSubMenu = ({
 
           <span>{capitalize(name)}</span>
         </div>
-        <DownArrowIcon className={open ? 'sidebar__item__uparrow' : ''} />
+        <DownArrowIcon
+          className={
+            open ? 'sidebar__item__uparrow' : 'sidebar__item__downarrow'
+          }
+        />
       </div>
       {open && (
         <div className="submenu">

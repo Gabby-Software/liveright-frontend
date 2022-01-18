@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { useHistory } from 'react-router-dom'
@@ -9,6 +9,7 @@ import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
@@ -28,6 +29,9 @@ import DietPlanDayView from '../day-view/diet-plan-day-view.component'
 
 export default function DietPlan() {
   const [edit, setEdit] = useState<boolean | number>(false)
+  const [activationDate, setActivationDate] = useState<string>(
+    new Date().toISOString()
+  )
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
@@ -42,11 +46,38 @@ export default function DietPlan() {
     }
   }, [params.clientId])
 
-  const { revision, dietPlan } = useDietPlan({
+  const { revision, dietPlan, onEdit } = useDietPlan({
     clientId: params.clientId,
     id: params.id,
     revisionId: params.revisionId
   })
+
+  const onMakeActive = () => {
+    onEdit(
+      params.id,
+      params.revisionId,
+      {
+        ...revision,
+        scheduled_start_on: activationDate,
+        scheduled_end_on: moment(activationDate).isBefore(
+          revision.scheduled_end_on
+        )
+          ? revision.schedule_end_on
+          : null
+      },
+      () => {
+        toast.show({
+          type: 'success',
+          msg: `Diet Plan successfully ${
+            activationDate === new Date().toISOString()
+              ? 'made active'
+              : 'scheduled'
+          }.`
+        })
+        setConfirmDialog(false)
+      }
+    )
+  }
 
   const startOn = revision.scheduled_start_on
     ? moment(new Date(revision.scheduled_start_on)).format(DATE_RENDER_FORMAT)
@@ -263,16 +294,40 @@ export default function DietPlan() {
       <ConfirmDialog
         name="Make Active Diet Plan"
         description="You're about to make the following diet plan the active one"
-        title="Diet 2"
-        alert="This will make John Travolta’s active diet plan this one “Diet 2” starting from 22/11/2021. This means the training split will also be changed to reference this diet plan. You can revert it at any point by re-activating “Balanced Diet” as the active diet plan."
-        date={{ label: 'From when should we apply this change?', value: '' }}
+        title={dietPlan.name}
+        alert={
+          <>
+            <div className="title">Read this before activating plan!</div>
+            <ul>
+              <li>
+                A new revision of your training plan will be created and it will
+                become active. All your workout entires on your calender from
+                this day will be updated.
+              </li>
+              <li>
+                This will also make changes to your current training split to
+                use the changes you just made.
+              </li>
+            </ul>
+          </>
+        }
+        date={{
+          label: 'From when should we apply this change?',
+          value: activationDate,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (date: any) =>
+            setActivationDate(new Date(date).toISOString())
+        }}
         open={confirmDialog}
         onClose={() => setConfirmDialog(false)}
         actions={{
           yes: 'Confirm Changes',
           cancel: 'Nevermind',
-          onYes: () => setConfirmDialog(false),
-          onCancel: () => setConfirmDialog(false),
+          onYes: onMakeActive,
+          onCancel: () => {
+            setConfirmDialog(false)
+            setActivationDate(new Date().toISOString())
+          },
           layout: 'left'
         }}
       />

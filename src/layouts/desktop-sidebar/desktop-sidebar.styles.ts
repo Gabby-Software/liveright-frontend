@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../pipes/theme-color.pipe'
 
-export const ClientsStyles = styled.aside`
+export const ClientsStyles = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

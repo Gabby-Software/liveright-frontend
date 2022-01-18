@@ -12,13 +12,16 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import Tooltip from '../../../../components/tooltip/tooltip.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplits'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
+
 const LABELS = [
   'Split Name',
   'Diet Plan',
@@ -37,6 +40,7 @@ export default function TrainingSplits() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
+  const { type: userType } = useAuth()
   const [status, setStatus] = useState('')
   const { trainingSplits, isLoading } = useTrainingSplits({
     clientId: clientId,
@@ -45,13 +49,15 @@ export default function TrainingSplits() {
 
   const content = (
     <Styles>
-      <ActivitiesClient
-        viewActivity={false}
-        clientId={clientId}
-        onClientSwitch={(id) => {
-          history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: id }))
-        }}
-      />
+      {clientId === 'all' && (
+        <ActivitiesClient
+          viewActivity={false}
+          clientId={clientId}
+          onClientSwitch={(id) => {
+            history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: id }))
+          }}
+        />
+      )}
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
@@ -85,16 +91,17 @@ export default function TrainingSplits() {
         )}
 
         <div className="PlansTable__filters">
-          <ClientSelect
-            id="DietPlans-client"
-            value={clientId}
-            onChange={(e) =>
-              history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: e }))
-            }
-            placeholder="All Client"
-            className="PlansTable__select"
-          />
-
+          {userType !== userTypes.CLIENT && (
+            <ClientSelect
+              id="DietPlans-client"
+              value={clientId}
+              onChange={(e) =>
+                history.push(getRoute(Routes.ACTIVITIES_TS, { clientId: e }))
+              }
+              placeholder="All Client"
+              className="PlansTable__select"
+            />
+          )}
           <Select
             id="DietPlans-statuses"
             options={[
@@ -145,8 +152,8 @@ export default function TrainingSplits() {
                     <span>{row.name}</span>
                   </Link>
                 ),
-                diet_plan: (row) => row.diet_plan.name,
-                training_plan: (row) => row.training_plan.name,
+                diet_plan: (row) => row.diet_plan?.name || '',
+                training_plan: (row) => row.training_plan?.name || '',
                 status: (row) => (
                   <StatusBadge
                     status={row.status.toLowerCase()}

@@ -18,4 +18,5 @@ export type ExercisesType = DatabaseItemType & {
   body_part: string
   type: ExercisesTypeType
   info: ExerciseLogType
+  link: string
 }
