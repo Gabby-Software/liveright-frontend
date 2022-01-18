@@ -1,6 +1,5 @@
-import React from 'react'
-
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateFoods from '../../../../hooks/api/templates/useTemplateFoods'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
@@ -29,6 +28,9 @@ export default function Foods() {
   const onClient = (e: any, option: any) => {
     console.log(e, option)
   }
+
+  const foods = useTemplateFoods()
+  console.log('foods', foods)
 
   return (
     <TemplatesTable

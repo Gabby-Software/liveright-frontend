@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -7,6 +7,7 @@ import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateFoods from '../../../../hooks/api/templates/useTemplateFoods'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
@@ -21,6 +22,10 @@ const nutrients = [
 export default function Meal() {
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
+
+  const { foods } = useTemplateFoods()
+
+  console.log(foods)
 
   return (
     <ActivityLayout>
