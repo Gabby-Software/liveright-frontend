@@ -244,9 +244,9 @@ export default function AddTrainingPlan({
     }
   }
 
-  const [scheduled_start_on, name] = useWatch({
+  const [name, scheduled_start_on] = useWatch({
     control: methods.control,
-    name: ['scheduled_start_on', 'name']
+    name: ['name', 'scheduled_start_on']
   })
 
   const content = (
@@ -372,11 +372,13 @@ export default function AddTrainingPlan({
       <ActivitiesDialog
         name="Make Change Plan"
         description="You’re about to making changes to the following training plan:"
-        title={name}
+        title={name || methods.getValues('name')}
         date={{
           label:
             'Please select the date from when you want these changes to be applied:',
-          value: scheduled_start_on ?? '',
+          value:
+            (scheduled_start_on || methods.getValues('scheduled_start_on')) ??
+            '',
           disabledDate: (date: Moment) => date.isBefore(),
           onChange: (e: any, date: any) => {
             methods.setValue('scheduled_start_on', date)

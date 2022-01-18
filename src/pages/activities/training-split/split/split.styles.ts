@@ -31,7 +31,9 @@ export const Styles = styled.div`
       }
 
       &-button {
-        margin-right: 1.25rem;
+        &__mr {
+          margin-right: 1.25rem;
+        }
 
         &:last-child {
           margin-right: 0;

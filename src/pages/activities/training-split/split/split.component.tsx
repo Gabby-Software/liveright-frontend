@@ -1,5 +1,5 @@
 import { capitalize } from 'lodash'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -8,12 +8,13 @@ import Card from '../../../../components/cards/card/card.component'
 import Select from '../../../../components/form/select/select.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { DATE_RENDER_FORMAT } from '../../../../utils/date'
+import { DATE_PRETTY_FORMAT, DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
@@ -25,13 +26,16 @@ import { Styles } from './split.styles'
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
   const [confirmDialog, setConfirmDialog] = useState(false)
+  const [activationDate, setActivationDate] = useState<string>(
+    new Date().toISOString()
+  )
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
 
   const history = useHistory()
   const params = useParams<any>()
 
-  const { trainingSplit, revision } = useTrainingSplit({
+  const { trainingSplit, revision, onEdit } = useTrainingSplit({
     clientId: params.clientId,
     id: params.id,
     revisionId: params.revisionId
@@ -44,6 +48,33 @@ export default function TrainingSplit() {
         onClose={() => setDay(null)}
         setIndex={setDay}
       />
+    )
+  }
+
+  const onMakeActive = () => {
+    onEdit(
+      params.id,
+      params.revisionId,
+      {
+        ...revision,
+        scheduled_start_on: activationDate,
+        scheduled_end_on: moment(activationDate).isBefore(
+          revision.scheduled_end_on
+        )
+          ? revision.schedule_end_on
+          : null
+      },
+      () => {
+        toast.show({
+          type: 'success',
+          msg: `Training Split successfully ${
+            activationDate === new Date().toISOString()
+              ? 'made active'
+              : 'scheduled'
+          }.`
+        })
+        setConfirmDialog(false)
+      }
     )
   }
 
@@ -120,7 +151,10 @@ export default function TrainingSplit() {
               <div className="TrainingSplits__title-buttons">
                 <Button
                   variant="secondary"
-                  className="TrainingSplits__title-button"
+                  className="TrainingSplits__title-button__mr"
+                  to={getRoute(Routes.ACTIVITIES_TS, {
+                    clientId: params.clientId
+                  })}
                 >
                   See Other Splits
                 </Button>
@@ -168,12 +202,14 @@ export default function TrainingSplit() {
                 }}
               />
 
-              <Button
-                className="TrainingSplits__filters-make-active-btn"
-                onClick={() => setConfirmDialog(true)}
-              >
-                Make active
-              </Button>
+              {revision.status !== 'active' && (
+                <Button
+                  className="TrainingSplits__filters-make-active-btn"
+                  onClick={() => setConfirmDialog(true)}
+                >
+                  Make active
+                </Button>
+              )}
             </div>
           </div>
 
@@ -251,62 +287,73 @@ export default function TrainingSplit() {
         )}
       </Styles>
 
-      {/* other condition */}
+      {/* active condition */}
       <ConfirmDialog
         actions={{
-          yes: 'Looks good, schedule it',
+          yes: 'Looks good, activate it',
           cancel: 'Cancel',
-          onYes: () => setConfirmDialog(false),
+          onYes: () => onMakeActive(),
           onCancel: () => setConfirmDialog(false),
           layout: 'between'
         }}
-        open={confirmDialog}
+        open={revision.status === 'scheduled' && confirmDialog}
         onClose={() => setConfirmDialog(false)}
-        name="Create Training Split"
+        name="Activate Training Split"
         description="You’re about to create a new training split"
-        title="Training Split Created on Nov 01"
-        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
+        title={trainingSplit.name}
+        titleNote={`It has ${
+          revision.days_count
+        } days and is scheduled to become active on ${moment(
+          revision.scheduled_start_on
+        ).format(DATE_PRETTY_FORMAT)}.`}
         alertTitle="Read this slowly and carefully!"
         alert={
           <ul>
             <li>
-              You will have a brand new training split created and made active.
-              it will apply to all future date on you calender.
+              Your current Training Split <b>“{trainingSplit.name}”</b> will be
+              replaced with this new one. You can always go back to the Training
+              SPlit list and re-activate <b>“{trainingSplit.name}”</b>.
             </li>
             <li>
-              We’ll create a new diet and training plan and make them active.
-              These will have the contents you just added to your training
-              split.
+              Your current active Diet Plan will be replaced with the one you
+              created or edited as part of this training split.
+            </li>
+            <li>
+              Your cuurent Traning Plan will be replaced with the one you
+              created or edited as part of this training split.
             </li>
           </ul>
         }
         plans={{
-          trainings: [
-            { id: '00', title: 'High Intensity Training' },
-            { id: '01', title: 'Low Intensity Training' }
-          ],
-          meals: [
-            { id: '00', title: 'High Carbs Day' },
-            { id: '01', title: 'Low Carbs Day' }
-          ]
+          trainings: revision.days?.map((d: any) => ({
+            id: d.training_plan_day._id,
+            title: d.training_plan_day.name
+          })),
+          meals: revision.days?.map((d: any) => ({
+            id: d.diet_plan_day._id,
+            title: d.diet_plan_day.name
+          }))
         }}
       />
 
       {/* not scheduled  */}
-      {/* <ConfirmDialog
+      <ConfirmDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
-          onYes: () => setConfirmDialog(false),
-          onCancel: () => setConfirmDialog(false),
+          onYes: onMakeActive,
+          onCancel: () => {
+            setConfirmDialog(false)
+            setActivationDate('')
+          },
           layout: 'between'
         }}
-        open={confirmDialog}
+        open={revision.status === 'inactive' && confirmDialog}
         onClose={() => setConfirmDialog(false)}
         name="Create Training Split"
         description="You’re about to create a new training split"
-        title="Training Split Created on Nov 01"
-        titleNote="It has 03"
+        title={trainingSplit.name}
+        titleNote={`It has ${revision.days_count} days`}
         date={{
           label: (
             <span>
@@ -318,19 +365,22 @@ export default function TrainingSplit() {
               &nbsp;later late.
             </span>
           ),
-          value: ''
+          value: activationDate,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (date: any) =>
+            setActivationDate(new Date(date).toISOString())
         }}
         plans={{
-          trainings: [
-            { id: '00', title: 'High Intensity Training' },
-            { id: '01', title: 'Low Intensity Training' }
-          ],
-          meals: [
-            { id: '00', title: 'High Carbs Day' },
-            { id: '01', title: 'Low Carbs Day' }
-          ]
+          trainings: revision.days?.map((d: any) => ({
+            id: d.training_plan_day._id,
+            title: d.training_plan_day.name
+          })),
+          meals: revision.days?.map((d: any) => ({
+            id: d.diet_plan_day._id,
+            title: d.diet_plan_day.name
+          }))
         }}
-      /> */}
+      />
 
       {/* make it active */}
       {/* <ConfirmDialog

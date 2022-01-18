@@ -54,7 +54,7 @@ export function formatPlanData(data: any) {
     delete dataClone.account_id
   }
 
-  dataClone.days = dataClone.days.map((day: any) => {
+  dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
       save_as_template: day.save_as_template,
@@ -116,7 +116,7 @@ export function formatSplitData(data: any) {
     delete dataClone.account_id
   }
 
-  dataClone.days = dataClone.days.map((day: any) => {
+  dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
       training_plan_day: {
