@@ -91,7 +91,7 @@ export default function TrainingSplits() {
         )}
 
         <div className="PlansTable__filters">
-          {userType === userTypes.CLIENT && (
+          {userType !== userTypes.CLIENT && (
             <ClientSelect
               id="DietPlans-client"
               value={clientId}
