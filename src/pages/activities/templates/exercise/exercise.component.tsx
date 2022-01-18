@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -7,24 +8,34 @@ import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateExercise from '../../../../hooks/api/templates/useTemplateExercise'
 import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
 import { GeneralTable } from '../components/general-table/general-table.component'
 
 const labels = ['Sets', 'Reps', 'Tempo', 'Rest Interval', 'Video Link']
-const keys = ['sets', 'reps', 'tempo', 'rest', 'video']
+const keys = ['sets', 'reps', 'tempo', 'rest_interval', 'video']
 const links = ['video']
-const data = [
-  {
-    sets: 1,
-    reps: 2,
-    tempo: 3,
-    rest: '5 min',
-    video: ''
-  }
-]
+// const data = [
+//   {
+//     sets: 1,
+//     reps: 2,
+//     tempo: 3,
+//     rest: '5 min',
+//     video: ''
+//   }
+// ]
 
 export default function Excercise() {
+  const params = useParams<any>()
+  const { exercise } = useTemplateExercise(params.id)
+  const detail = [
+    {
+      ...exercise.info,
+      video: exercise.link
+    }
+  ]
+
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 
@@ -46,9 +57,9 @@ export default function Excercise() {
 
         <Card className="PlanPage__card">
           <section className="PlanPage__header">
-            <Title>Pushups</Title>
+            <Title>{exercise.name}</Title>
 
-            <div className="PlanPage__header-actions">
+            {/* <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
                 Edit Exercise Template
               </Button>
@@ -58,7 +69,7 @@ export default function Excercise() {
               >
                 Use Exercise Template
               </Button>
-            </div>
+            </div> */}
           </section>
 
           <section className="PlanPage__divider" />
@@ -69,7 +80,7 @@ export default function Excercise() {
                 labels={labels}
                 keys={keys}
                 links={links}
-                data={data}
+                data={detail}
               />
             </div>
           </section>
