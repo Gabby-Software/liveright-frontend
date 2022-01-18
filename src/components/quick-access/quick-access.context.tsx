@@ -61,9 +61,9 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
       )?.id
     }
     getHealthDataAsync(payload)
-      .then((res) => res.data)
+      .then((res) => res?.data)
       .then((res) => {
-        if (res.length) {
+        if (res?.length) {
           setTodayHealthData(res[0])
         }
       })
