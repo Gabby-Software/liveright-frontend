@@ -66,3 +66,4 @@ export const EP_UPDATE_GOALS_TARGET = LIVERIGHT_BASE + '/goal-targets'
 export const EP_CALENDAR = LIVERIGHT_BASE + '/calendar'
 
 export const EP_TEMPLATES_EXERCISE_BY_ID = LIVERIGHT_BASE + '/exercises'
+export const EP_TEMPLATES_WORKOUT_BY_ID = LIVERIGHT_BASE + '/workouts'

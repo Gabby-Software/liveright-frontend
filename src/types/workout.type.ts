@@ -1,10 +1,20 @@
-import { ExerciseLogType } from './exercise-log.type'
-import { LibraryType } from './library.type'
+import { DatabaseItemType } from './database-item.type'
 
-export type WorkoutItemType = {
-  exercise_id: number
-  my_info: ExerciseLogType
+export type ExerciseType = {
+  name: string
+  info: any
+  link: string
 }
-export type WorkoutType = LibraryType & {
-  exercise_list: WorkoutItemType[]
+
+export type ItemType = {
+  is_superset: boolean
+  sort_order: number
+  data: ExerciseType
+}
+
+export type WorkoutType = DatabaseItemType & {
+  account_id: number
+  name: string
+  time: string
+  items: ItemType[]
 }
