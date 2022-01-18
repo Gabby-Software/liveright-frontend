@@ -11,6 +11,7 @@ import { Routes } from '../../../../enums/routes.enum'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
+import TemplateMealForm from './template-meal-form/template-meal-form.component'
 
 const nutrients = [
   { name: 'Calories', value: '120g' },
@@ -24,8 +25,13 @@ const foods = [
   { name: 'Red Apple', value: '150g' }
 ]
 export default function Meal() {
+  const [edit, setEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
+
+  if (edit) {
+    return <TemplateMealForm />
+  }
 
   return (
     <ActivityLayout>
@@ -48,7 +54,11 @@ export default function Meal() {
             <Title>Delicious Chiecken Bries With Spinach</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Meal Template
               </Button>
               <Button

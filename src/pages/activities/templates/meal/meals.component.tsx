@@ -1,21 +1,28 @@
-import React from 'react'
+import moment from 'moment'
+import React, { useMemo } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateMeals from '../../../../hooks/api/templates/useTemplateMeals'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import TemplatesTable from '../components/template-table/template-table.component'
 
-const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
+const LABELS = ['ID', 'Name', 'Created on', 'Crated from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']
 
-const DATA = [
-  {
-    id: 123,
-    name: 'Delicious Chicken Bries With Spinach',
-    created: '21-01-2021',
-    client: 'John Travolta'
-  }
-]
-
 export default function Meals() {
+  const { meals } = useTemplateMeals()
+
+  const data = useMemo(() => {
+    return meals.map((m: any) => ({
+      id: m._id,
+      name: m.name,
+      created: moment(m.created_at).format(DATE_RENDER_FORMAT),
+      client: 'No Info From BE.'
+    }))
+  }, [meals])
+
+  console.log(meals)
+
   const onSearch = (value: string) => {
     console.log(value)
   }
@@ -30,7 +37,7 @@ export default function Meals() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
-      data={DATA}
+      data={data}
       baseLink={Routes.ACTIVITIES_TM_ML}
     />
   )
