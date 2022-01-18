@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory, useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -8,29 +9,29 @@ import { LabelDivider } from '../../../../components/label-divider/label-divider
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateMeal from '../../../../hooks/api/templates/meals/useTemplateMeal'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
 import TemplateMealForm from './template-meal-form/template-meal-form.component'
 
-const nutrients = [
-  { name: 'Calories', value: '120g' },
-  { name: 'Carbs', value: '200g' },
-  { name: 'Fat', value: '30g' },
-  { name: 'Protein', value: '300g' }
-]
-const foods = [
-  { name: 'Chicken Brest Tender', value: '100g' },
-  { name: 'Brown Rice', value: '50g' },
-  { name: 'Red Apple', value: '150g' }
-]
+const MACROS_KEY_LABEL: { [key: string]: string } = {
+  calories: 'Calories',
+  net_carbs: 'Net Carbs',
+  fat: 'Fat',
+  proteins: 'Proteins'
+}
+
 export default function Meal() {
   const [edit, setEdit] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const onDelete = () => {}
+  const history = useHistory()
+  const { id } = useParams<any>()
+  const { meal, onDelete } = useTemplateMeal({ id })
 
   if (edit) {
-    return <TemplateMealForm />
+    return <TemplateMealForm onClose={() => setEdit(false)} />
   }
 
   return (
@@ -43,7 +44,11 @@ export default function Meal() {
             className="topbar-back"
           />
 
-          <Button variant="text" onClick={onDelete} className="topbar-delete">
+          <Button
+            variant="text"
+            onClick={() => setConfirmDelete(true)}
+            className="topbar-delete"
+          >
             <DeleteOutlinedIcon style={{ marginRight: 8 }} />
             Delete Template
           </Button>
@@ -51,7 +56,7 @@ export default function Meal() {
 
         <Card className="PlanPage__card">
           <section className="PlanPage__header">
-            <Title>Delicious Chiecken Bries With Spinach</Title>
+            <Title>{meal.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button
@@ -75,11 +80,13 @@ export default function Meal() {
           <section className="PlanPage__summary">
             <p className="label">Micronutrients from this meal</p>
             <div className="nutrients">
-              {nutrients.map((item) => (
+              {Object.keys(MACROS_KEY_LABEL).map((k) => (
                 <Macronutrient
-                  key={item.name}
-                  title={item.name}
-                  amount={item.value}
+                  key={k}
+                  title={MACROS_KEY_LABEL[k]}
+                  amount={`${meal.total_target?.[k]}${
+                    k === 'calories' ? 'kcal' : 'g'
+                  }`}
                 />
               ))}
             </div>
@@ -87,11 +94,11 @@ export default function Meal() {
             <LabelDivider>List Food</LabelDivider>
 
             <div className="foods">
-              {foods.map((food) => (
-                <div className="meal-food" key={food.name}>
-                  <span>{food.name}</span>
+              {meal.items?.map((food: any) => (
+                <div className="meal-food" key={food._id}>
+                  <span>{food.data?.name}</span>
                   &nbsp;-&nbsp;
-                  <span>{food.value}</span>
+                  <span>{food.data?.info?.grams}g</span>
                 </div>
               ))}
             </div>
@@ -109,6 +116,30 @@ export default function Meal() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button onClick={() => setShowConfirm(false)}>Ok, got it</Button>
+        </div>
+      </Dialog>
+      <Dialog
+        open={confirmDelete}
+        title="Delete meal template"
+        onClose={() => setConfirmDelete(false)}
+      >
+        <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          Are you sure you want to delete the template? You will not be able to
+          recover it later!
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+          <Button
+            onClick={() => {
+              onDelete(id, () => {
+                history.push(Routes.ACTIVITIES_TM)
+              })
+            }}
+          >
+            Delete
+          </Button>
+          <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
+            Cancel
+          </Button>
         </div>
       </Dialog>
     </ActivityLayout>

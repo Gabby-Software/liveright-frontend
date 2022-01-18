@@ -3,18 +3,24 @@ import styled from 'styled-components'
 import Card from '../../../../../components/cards/card/card.component'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
-export const Styles = styled(Card)`
-  background-color: ${getColorCarry('neutral_10')};
+export default styled.div`
+  margin: 2rem 0;
+
+  .Title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: ${getColorCarry('primaryDark2_v2')};
+    margin: 1rem 0;
+  }
+`
+
+export const MealStyles = styled(Card)`
+  background-color: ${getColorCarry('white')};
   padding: 1.5rem;
-  margin-bottom: 1.25rem;
 
   .invalid-field .ant-select-selector,
   .invalid-field .ant-picker {
     border-color: #ef1733;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
   }
 
   .Meal {
@@ -22,9 +28,36 @@ export const Styles = styled(Card)`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 1rem;
 
-      & .subtitle {
-        color: ${getColorCarry('neutral_100')};
+      &-title {
+        display: flex;
+        align-items: center;
+
+        & .subtitle {
+          font-size: 1.175rem;
+          font-weight: 700;
+          color: ${getColorCarry('neutral_100')};
+        }
+      }
+
+      &-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        min-height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 9999px;
+        background-color: ${getColorCarry('primary_v2')};
+        margin-right: 1rem;
+        color: #fff;
+
+        & svg {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
 
@@ -44,8 +77,7 @@ export const Styles = styled(Card)`
       display: flex;
       align-items: center;
       flex-wrap: nowrap;
-      margin: 0 -0.25rem;
-      margin-bottom: 1.25rem;
+      margin: 1.25rem -0.25rem;
     }
 
     &__macronutrient {
@@ -72,6 +104,10 @@ export const Styles = styled(Card)`
         align-items: center;
         margin-bottom: 1.5rem;
       }
+    }
+
+    &__time-picker {
+      max-width: 300px;
     }
 
     &__food-container {

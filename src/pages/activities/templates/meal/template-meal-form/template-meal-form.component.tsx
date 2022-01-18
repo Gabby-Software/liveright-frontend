@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -13,18 +13,20 @@ import {
   useForm,
   useWatch
 } from 'react-hook-form'
+import { useParams } from 'react-router'
 import { v4 as uuid } from 'uuid'
 
 import { AddIcon, FoodIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
+import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import AutoCompleteInput from '../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
-import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../components/placeholders'
+import useTemplateMeal from '../../../../../hooks/api/templates/meals/useTemplateMeal'
 import Food from '../../../components/meal-day-accordion/components/food/food.component'
-import { MealSubtitle, Styles } from './template-meal-form'
+import Styles, { MealStyles, MealSubtitle } from './template-meal-form'
 
-interface MealProps {
-  data?: any
+interface IProps {
+  onClose: () => void
 }
 
 function createFood() {
@@ -62,7 +64,7 @@ const MACROS_LABEL_KEY_MAP = {
   Calories: 'calories'
 }
 
-export default function TemplateMealForm({}: MealProps) {
+export default function TemplateMealForm({ onClose }: IProps) {
   const [dropId] = useState(uuid())
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
@@ -75,14 +77,29 @@ export default function TemplateMealForm({}: MealProps) {
     calories: 0
   })
 
+  const { id } = useParams<any>()
+  const { meal, onEdit } = useTemplateMeal({ id })
+
   const methods = useForm<any>({
     defaultValues
   })
 
   const foodsArray = useFieldArray({
     control: methods.control,
-    name: `${name}.items`
+    name: `items`
   })
+
+  useEffect(() => {
+    if (meal._id) {
+      methods.setValue('name', meal.name)
+      foodsArray.remove(
+        Array(foodsArray.fields.length)
+          .fill(1)
+          .map((v, i) => i)
+      )
+      foodsArray.append(meal.items)
+    }
+  }, [meal._id])
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -93,18 +110,18 @@ export default function TemplateMealForm({}: MealProps) {
 
   const [mealName] = useWatch({
     control: methods.control,
-    name: [`${name}.name`]
+    name: [`name`]
   })
 
   const { errors } = methods.formState
 
   const handleSave = () => {
-    methods.handleSubmit((values) => console.log(values))()
+    methods.handleSubmit((values) => onEdit(id, values, () => onClose()))()
   }
 
   const handleFoodAdd = () => {
     foodsArray.append(createFood())
-    methods.clearErrors(`${name}.items`)
+    methods.clearErrors(`items`)
   }
 
   const handleFoodRemove = (index: number) => {
@@ -112,7 +129,7 @@ export default function TemplateMealForm({}: MealProps) {
   }
 
   const calculateTotalMacros = () => {
-    const items: any[] = methods.getValues(`${name}.items`)
+    const items: any[] = methods.getValues(`items`)
 
     const macros = {
       grams: 0,
@@ -142,105 +159,97 @@ export default function TemplateMealForm({}: MealProps) {
   return (
     <FormProvider {...methods}>
       <Styles>
-        <div className="Meal__header">
-          <div>
-            <FoodIcon />
-            <div className="subtitle">{mealName || 'Meal'}</div>
+        <GoBack onClick={onClose}>{'Go Back to Overview'}</GoBack>
+        <h1 className="Title">Editing Meal Template</h1>
+        <MealStyles>
+          <div className="Meal__header">
+            <div className="Meal__header-title">
+              <div className="Meal__header-icon">
+                <FoodIcon />
+              </div>
+              <div className="subtitle">{mealName || meal.name || 'Meal'}</div>
+            </div>
+
+            <Button onClick={handleSave}>Save</Button>
+          </div>
+          <div className="Meal__name">
+            <Controller
+              name={`name`}
+              render={({ field: { value, name } }) => (
+                <AutoCompleteInput
+                  id="Meal-title"
+                  label="Meal Name"
+                  placeholder="Name of Meal"
+                  value={value}
+                  onChange={(value) => methods.setValue(name, value)}
+                  options={[]}
+                  className={get(errors, name) ? 'invalid-field' : ''}
+                />
+              )}
+            />
           </div>
 
-          <Button onClick={handleSave}>Save</Button>
-        </div>
-        <div className="Meal__name">
-          <Controller
-            name={`name`}
-            render={({ field: { value, name } }) => (
-              <AutoCompleteInput
-                id="Meal-title"
-                label="Meal Name"
-                placeholder="Name of Meal"
-                value={value}
-                onChange={(value) => methods.setValue(name, value)}
-                options={[]}
-                className={get(errors, name) ? 'invalid-field' : ''}
-              />
+          <div className="Meal__macronutrients">
+            {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
+              <div key={k} className="Meal__macronutrient">
+                <p className="Meal__macronutrient-title">{k}</p>
+                <p className="Meal__macronutrient-value">
+                  {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[k]]}
+                  {k === 'Calories' ? 'KCal' : 'g'}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <MealSubtitle>Food</MealSubtitle>
+
+          <div className="Meal__food-container">
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId={dropId}>
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {foodsArray.fields &&
+                      foodsArray.fields.map((row: any, index: number) => (
+                        <Draggable
+                          key={row.id}
+                          draggableId={`${row.id}`}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <Food
+                              innerRef={provided.innerRef}
+                              dragHandleProps={provided.dragHandleProps}
+                              draggableProps={provided.draggableProps}
+                              isDragging={snapshot.isDragging}
+                              name={`items.${[index]}.data`}
+                              onRemove={() => handleFoodRemove(index)}
+                            />
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+
+            {!foodsArray.fields.length && (
+              <div
+                className="Meal__clickable-container"
+                onClick={handleFoodAdd}
+              >
+                <EmptyPlaceholder spacing text="Add Foods" />
+              </div>
             )}
-          />
-        </div>
+          </div>
 
-        <Controller
-          name={`time`}
-          render={({ field: { name, value } }) => (
-            <TimePicker
-              id="Workout-time"
-              label="Schedule"
-              placeholder="08:00"
-              value={value}
-              // error={get(errors, name)}
-              onChange={(e, date) => {
-                methods.setValue(name, date)
-              }}
-              className={get(errors, name) ? 'invalid-field' : ''}
-            />
-          )}
-        />
+          <div className="Meal__divider" />
 
-        <div className="Meal__macronutrients">
-          {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
-            <div key={k} className="Meal__macronutrient">
-              <p className="Meal__macronutrient-title">{k}</p>
-              <p className="Meal__macronutrient-value">
-                {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[k]]}
-                {k === 'Calories' ? 'KCal' : 'g'}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <MealSubtitle>Food</MealSubtitle>
-
-        <div className="Meal__food-container">
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId={dropId}>
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {foodsArray.fields &&
-                    foodsArray.fields.map((row: any, index: number) => (
-                      <Draggable
-                        key={row.id}
-                        draggableId={`${row.id}`}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <Food
-                            innerRef={provided.innerRef}
-                            dragHandleProps={provided.dragHandleProps}
-                            draggableProps={provided.draggableProps}
-                            isDragging={snapshot.isDragging}
-                            name={`items.${[index]}.data`}
-                            onRemove={() => handleFoodRemove(index)}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-
-          {!foodsArray.fields.length && (
-            <div className="Meal__clickable-container" onClick={handleFoodAdd}>
-              <EmptyPlaceholder spacing text="Add Foods" />
-            </div>
-          )}
-        </div>
-
-        <div className="Meal__divider" />
-
-        <p className="Meal__add-btn" onClick={handleFoodAdd}>
-          <AddIcon />
-          Add Food
-        </p>
+          <p className="Meal__add-btn" onClick={handleFoodAdd}>
+            <AddIcon />
+            Add Food
+          </p>
+        </MealStyles>
       </Styles>
     </FormProvider>
   )

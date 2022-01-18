@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { useMemo } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
-import useTemplateMeals from '../../../../hooks/api/templates/useTemplateMeals'
+import useTemplateMeals from '../../../../hooks/api/templates/meals/useTemplateMeals'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import TemplatesTable from '../components/template-table/template-table.component'
 
