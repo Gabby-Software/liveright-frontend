@@ -157,32 +157,16 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       daysArray.append(
         createDay(
           (i % dayCount) + 1,
-          tpDays?.length > 0 && tpDays[i % tpDays.length],
-          dpDays?.length > 0 && dpDays[i % dpDays.length]
+          tpDays?.[i % tpDays.length],
+          dpDays?.[i % dpDays.length]
         )
       )
     }
-  }, [dayCount, selectedDP, selectedTP, diff])
-
-  useEffect(() => {
-    let tempId = 0
-    if (tpRev && Object.keys(tpRev).length !== 0) {
-      tempId = tpRev.account_id
-    } else if (dpRev && Object.keys(dpRev).length !== 0) {
-      tempId = dpRev.account_id
-    }
-
-    if (tempId > 0 && tempId.toString() !== clientId) {
-      const path = history.location.pathname.replace(
-        clientId,
-        tempId.toString()
-      )
-      history.push(path)
-    }
-  }, [tpRev, dpRev])
+  }, [dayCount, tpRev._id, dpRev._id, diff])
 
   useEffect(() => {
     if (revision._id) {
+      console.log({ revision })
       methods.setValue('name', trainingSplit.name)
       methods.setValue('account_id', trainingSplit.account_id)
       methods.setValue(
@@ -192,21 +176,19 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       methods.setValue('diet_plan_revision_id', revision.diet_plan_revision_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-      methods.setValue('days', revision.days)
+      daysArray.remove(
+        Array(daysArray.fields.length)
+          .fill(1)
+          .reduce((acc, v, i) => [...acc, i], [])
+      )
+      daysArray.append(revision.days)
       setDayCount(revision.days_count)
-      setSelectedTP(
-        trainingPlans.find(
-          (tp) =>
-            getLatestRevision(tp)?._id === revision.training_plan_revision_id
-        )?._id || ''
-      )
-      setSelectedDP(
-        dietPlans.find(
-          (dp) => getLatestRevision(dp)?._id === revision.diet_plan_revision_id
-        )?._id || ''
-      )
+      setSelectedTP(revision.training_plan?._id || '')
+      setSelectedDP(revision.diet_plan?._id || '')
     }
   }, [revision._id])
+
+  // console.log(trainingPlans, dietPlans)
 
   const handleSubmit = (values: any) => {
     if (trainingSplit._id && revision._id) {
