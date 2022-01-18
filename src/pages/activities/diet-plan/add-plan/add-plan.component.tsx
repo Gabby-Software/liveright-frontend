@@ -22,7 +22,9 @@ import Input from '../../../../components/form/input/input.component'
 import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
@@ -115,6 +117,7 @@ export default function AddDietPlan({
   const { clientId } = useParams<any>()
   const history = useHistory()
   const isMobile = useIsMobile()
+  const { type: userType } = useAuth()
   const [delIdx, setDelIdx] = useState(-1)
   const [showConfirm, setShowConfirm] = useState(false)
 
@@ -241,19 +244,22 @@ export default function AddDietPlan({
     <>
       <FormProvider {...methods}>
         <Styles>
-          <ActivitiesClient
-            clientId={clientId}
-            viewActivity={false}
-            preventClientSwitch={Boolean(editId)}
-            onClientSwitch={(id) => {
-              history.push(
-                getRoute(
-                  editId ? Routes.ACTIVITIES_DP_ID : Routes.ACTIVITIES_DP,
-                  { clientId: id, id: editId, revisionId: revisionId }
+          {userType !== userTypes.CLIENT && (
+            <ActivitiesClient
+              clientId={clientId}
+              viewActivity={false}
+              preventClientSwitch={Boolean(editId)}
+              onClientSwitch={(id) => {
+                history.push(
+                  getRoute(
+                    editId ? Routes.ACTIVITIES_DP_ID : Routes.ACTIVITIES_DP,
+                    { clientId: id, id: editId, revisionId: revisionId }
+                  )
                 )
-              )
-            }}
-          />
+              }}
+            />
+          )}
+
           <Card className="EditPlan__overview">
             {!isMobile && (
               <>

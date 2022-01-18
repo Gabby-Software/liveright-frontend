@@ -21,11 +21,13 @@ import { FormToggleUI } from '../../../../components/forms/form-toggle/form-togg
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
@@ -78,6 +80,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   const params = useParams<any>()
   const { clientId } = params
   const isMobile = useIsMobile()
+  const { type: userType } = useAuth()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [dayCount, setDayCount] = useState(0)
@@ -273,36 +276,39 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     <>
       <FormProvider {...methods}>
         <Styles>
-          <ActivitiesClient
-            viewActivity={false}
-            clientId={clientId}
-            onClientSwitch={(id) => {
-              if (!!params.id || !!params.revisionId) {
-                const pathes = history.location.pathname.split('/')
-                if (pathes[pathes.length - 1] === 'edit') {
-                  history.push(
-                    getRoute(Routes.ACTIVITIES_TS_EDIT, {
-                      clientId: id,
-                      id: params.id,
-                      revisionId: params.revisionId
-                    })
-                  )
+          {userType !== userTypes.CLIENT && (
+            <ActivitiesClient
+              viewActivity={false}
+              clientId={clientId}
+              onClientSwitch={(id) => {
+                if (!!params.id || !!params.revisionId) {
+                  const pathes = history.location.pathname.split('/')
+                  if (pathes[pathes.length - 1] === 'edit') {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                        clientId: id,
+                        id: params.id,
+                        revisionId: params.revisionId
+                      })
+                    )
+                  } else {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TS_ID, {
+                        clientId: id,
+                        id: params.id,
+                        revisionId: params.revisionId
+                      })
+                    )
+                  }
                 } else {
                   history.push(
-                    getRoute(Routes.ACTIVITIES_TS_ID, {
-                      clientId: id,
-                      id: params.id,
-                      revisionId: params.revisionId
-                    })
+                    getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: id })
                   )
                 }
-              } else {
-                history.push(
-                  getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: id })
-                )
-              }
-            }}
-          />
+              }}
+            />
+          )}
+
           <Card className="AddTrainingSplit__card">
             {isMobile || (
               <>

@@ -16,7 +16,9 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import Tooltip from '../../../../components/tooltip/tooltip.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
@@ -34,6 +36,7 @@ export default function TrainingPlans() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
   const history = useHistory()
+  const { type: userType } = useAuth()
   const [add, setAdd] = useState(false)
   const [status, setStatus] = useState('')
   const { isLoading, trainingPlans, mutate } = useTrainingPlans({
@@ -60,13 +63,16 @@ export default function TrainingPlans() {
 
   const content = (
     <Styles>
-      <ActivitiesClient
-        viewActivity={false}
-        clientId={clientId}
-        onClientSwitch={(id) => {
-          history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: id }))
-        }}
-      />
+      {userType !== userTypes.CLIENT && (
+        <ActivitiesClient
+          viewActivity={false}
+          clientId={clientId}
+          onClientSwitch={(id) => {
+            history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: id }))
+          }}
+        />
+      )}
+
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
@@ -96,15 +102,19 @@ export default function TrainingPlans() {
         ) : (
           <>
             <div className="PlansTable__filters">
-              <ClientSelect
-                value={clientId}
-                id="training-plans-client"
-                onChange={(e) =>
-                  history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: e }))
-                }
-                placeholder="All Client"
-                className="PlansTable__select"
-              />
+              {clientId === 'all' && (
+                <ClientSelect
+                  value={clientId}
+                  id="training-plans-client"
+                  onChange={(e) =>
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TP, { clientId: e })
+                    )
+                  }
+                  placeholder="All Client"
+                  className="PlansTable__select"
+                />
+              )}
 
               <Select
                 id="training-plans-statuses"

@@ -13,7 +13,9 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
@@ -43,6 +45,7 @@ export default function TrainingPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
+  const { type: userType } = useAuth()
 
   useEffect(() => {
     if (!params.clientId) {
@@ -127,17 +130,20 @@ export default function TrainingPlan() {
   ) : (
     <>
       <Styles>
-        <ActivitiesClient
-          viewActivity={false}
-          clientId={params.clientId}
-          onClientSwitch={(id) => {
-            history.push(
-              getRoute(Routes.ACTIVITIES_TP, {
-                clientId: id
-              })
-            )
-          }}
-        />
+        {userType !== userTypes.CLIENT && (
+          <ActivitiesClient
+            viewActivity={false}
+            clientId={params.clientId}
+            onClientSwitch={(id) => {
+              history.push(
+                getRoute(Routes.ACTIVITIES_TP, {
+                  clientId: id
+                })
+              )
+            }}
+          />
+        )}
+
         <Card className="PlanPage__card">
           {!isMobile && (
             <div className="PlanPage__header">

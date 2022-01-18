@@ -11,7 +11,9 @@ import StatusBadge from '../../../../components/status-badge/status-badge.compon
 import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { DATE_PRETTY_FORMAT, DATE_RENDER_FORMAT } from '../../../../utils/date'
@@ -31,6 +33,7 @@ export default function TrainingSplit() {
   )
   const [day, setDay] = useState<null | number>(null)
   const isMobile = useIsMobile()
+  const { type: userType } = useAuth()
 
   const history = useHistory()
   const params = useParams<any>()
@@ -130,19 +133,22 @@ export default function TrainingSplit() {
   const content = (
     <>
       <Styles>
-        <ActivitiesClient
-          viewActivity={false}
-          clientId={params.clientId}
-          onClientSwitch={(id) => {
-            history.push(
-              getRoute(Routes.ACTIVITIES_TS_ID, {
-                clientId: id,
-                id: params.id,
-                revisionId: params.revisionId
-              })
-            )
-          }}
-        />
+        {userType !== userTypes.CLIENT && (
+          <ActivitiesClient
+            viewActivity={false}
+            clientId={params.clientId}
+            onClientSwitch={(id) => {
+              history.push(
+                getRoute(Routes.ACTIVITIES_TS_ID, {
+                  clientId: id,
+                  id: params.id,
+                  revisionId: params.revisionId
+                })
+              )
+            }}
+          />
+        )}
+
         <Card className="TrainingSplits__card">
           {!isMobile && (
             <div className="TrainingSplits__title-container">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import {
@@ -55,48 +55,6 @@ type MenuItemType = {
     matchUrl?: string
   }[]
 }
-
-const clientMenuItems: MenuItemType[] = [
-  { name: 'home', url: Routes.HOME, Icon: HomeIcon },
-  { name: 'plans', url: Routes.ACTIVITIES, Icon: PlanIcon },
-  {
-    name: 'progress',
-    url: Routes.PROGRESS_CLIENTS,
-    Icon: ProgressIcon,
-    type: userTypes.TRAINER,
-    occur: ['progress']
-  },
-  {
-    name: 'progress',
-    url: Routes.PROGRESS_CLIENT_MEASUREMENTS,
-    Icon: ProgressIcon,
-    type: userTypes.CLIENT,
-    occur: ['progress']
-  },
-  { name: 'sessions', url: Routes.SESSIONS, Icon: GroupIcon },
-  {
-    name: 'clients',
-    url: Routes.CLIENTS,
-    Icon: ClientSolidIcon,
-    type: userTypes.TRAINER
-  },
-  {
-    name: 'invoices',
-    url: Routes.INVOICES,
-    Icon: InvoiceIcon,
-    type: userTypes.CLIENT
-  },
-  { name: 'chat', url: Routes.CHAT, Icon: ChatIcon, type: userTypes.TRAINER },
-  { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
-  { name: 'library', url: Routes.HUB, Icon: LibraryIcon },
-  {
-    name: 'financials',
-    url: Routes.FINANCIALS_OVERVIEW,
-    Icon: RevenueIcon,
-    type: userTypes.TRAINER
-  },
-  { name: 'notifications', url: Routes.NOTIFICATIONS, Icon: NotificationIcon }
-]
 
 const trainerMenuItems: MenuItemType[] = [
   { name: 'home', url: Routes.HOME, Icon: HomeTrainerIcon },
@@ -163,9 +121,90 @@ const trainerMenuItems: MenuItemType[] = [
 ]
 
 export default function DesktopSidebar() {
-  const { type } = useAuth()
+  const { type, id } = useAuth()
   const { pathname } = useLocation()
   const [isOpen] = useState(false)
+
+  const clientMenuItems: MenuItemType[] = useMemo(
+    () => [
+      { name: 'home', url: Routes.HOME, Icon: HomeIcon },
+      {
+        name: 'activities',
+        url: Routes.ACTIVITIES,
+        Icon: PlanIcon,
+        submenu: [
+          {
+            name: 'Your Plan',
+            url: Routes.ACTIVITIES_CURR_PLAN
+          },
+          {
+            name: 'Training Plans',
+            url: getRoute(Routes.ACTIVITIES_TP, { clientId: id }),
+            matchUrl: Routes.ACTIVITIES_TP
+          },
+          {
+            name: 'Diet Plans',
+            url: getRoute(Routes.ACTIVITIES_DP, { clientId: id }),
+            matchUrl: Routes.ACTIVITIES_DP
+          },
+          {
+            name: 'Training Splits',
+            url: getRoute(Routes.ACTIVITIES_TS, { clientId: id })
+          }
+        ],
+        occur: [Routes.ACTIVITIES]
+      },
+      // { name: 'plans', url: Routes.ACTIVITIES, Icon: PlanIcon },
+      {
+        name: 'progress',
+        url: Routes.PROGRESS_CLIENTS,
+        Icon: ProgressIcon,
+        type: userTypes.TRAINER,
+        occur: ['progress']
+      },
+      {
+        name: 'progress',
+        url: Routes.PROGRESS_CLIENT_MEASUREMENTS,
+        Icon: ProgressIcon,
+        type: userTypes.CLIENT,
+        occur: ['progress']
+      },
+      { name: 'sessions', url: Routes.SESSIONS, Icon: GroupIcon },
+      {
+        name: 'clients',
+        url: Routes.CLIENTS,
+        Icon: ClientSolidIcon,
+        type: userTypes.TRAINER
+      },
+      {
+        name: 'invoices',
+        url: Routes.INVOICES,
+        Icon: InvoiceIcon,
+        type: userTypes.CLIENT
+      },
+      {
+        name: 'chat',
+        url: Routes.CHAT,
+        Icon: ChatIcon,
+        type: userTypes.TRAINER
+      },
+      { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
+      { name: 'library', url: Routes.HUB, Icon: LibraryIcon },
+      {
+        name: 'financials',
+        url: Routes.FINANCIALS_OVERVIEW,
+        Icon: RevenueIcon,
+        type: userTypes.TRAINER
+      },
+      {
+        name: 'notifications',
+        url: Routes.NOTIFICATIONS,
+        Icon: NotificationIcon
+      }
+    ],
+    [id]
+  )
+
   if (type === userTypes.CLIENT) {
     return (
       <>
@@ -191,23 +230,36 @@ export default function DesktopSidebar() {
                     Icon,
                     type: permission,
                     requireTrainer,
-                    occur
+                    occur,
+                    submenu
                   }) =>
-                    (!permission || type === permission) &&
-                    (!requireTrainer || type !== userTypes.CLIENT) && (
-                      <Link
-                        to={url}
-                        key={url}
-                        className={classes(
-                          'sidebar__item',
-                          (pathname === url ||
-                            occur?.some((o) => pathname.includes(o))) &&
-                            'sidebar__item_active'
-                        )}
-                      >
-                        <Icon />
-                        <span>{capitalize(name)}</span>
-                      </Link>
+                    !submenu ? (
+                      (!permission || type === permission) &&
+                      (!requireTrainer || type !== userTypes.CLIENT) && (
+                        <Link
+                          to={url}
+                          key={url}
+                          className={classes(
+                            'sidebar__item',
+                            (pathname === url ||
+                              occur?.some((o) => pathname.includes(o))) &&
+                              'sidebar__item_active'
+                          )}
+                        >
+                          <Icon />
+                          <span>{capitalize(name)}</span>
+                        </Link>
+                      )
+                    ) : (
+                      <NavSubMenu
+                        name={name}
+                        url={url}
+                        submenu={submenu}
+                        Icon={Icon}
+                        pathname={pathname}
+                        occur={occur}
+                        styleType="Client"
+                      />
                     )
                 )}
               </ul>
