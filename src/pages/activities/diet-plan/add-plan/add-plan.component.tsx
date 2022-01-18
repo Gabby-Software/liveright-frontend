@@ -355,7 +355,10 @@ export default function AddDietPlan({
           label:
             'Please select the date from when you want these changes to be applied:',
           value: scheduled_start_on,
-          disabledDate: (date: Moment) => date.isBefore()
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (e: any, date: any) => {
+            methods.setValue('scheduled_start_on', date)
+          }
         }}
         alert={
           <>

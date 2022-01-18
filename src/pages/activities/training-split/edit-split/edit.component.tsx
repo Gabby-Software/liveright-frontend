@@ -1,10 +1,11 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm
+  useForm,
+  useWatch
 } from 'react-hook-form'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -120,6 +121,11 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     revisionId: params.revisionId
   })
 
+  const [scheduled_start_on, name] = useWatch({
+    control: methods.control,
+    name: ['scheduled_start_on', 'name']
+  })
+
   const startOnDate = methods.getValues('scheduled_start_on')
   const startDate =
     startOnDate !== null && startOnDate !== ''
@@ -209,6 +215,10 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   }
 
   const handleSave = () => {
+    if (revision._id) {
+      setShowConfirm(true)
+      return
+    }
     methods.handleSubmit(handleSubmit)()
   }
 
@@ -307,7 +317,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                       : 'Creating Training Split'}
                   </Title>
 
-                  <Button onClick={() => setShowConfirm(true)}>
+                  <Button onClick={handleSave}>
                     {revision._id ? 'Save Changes' : 'Create'}
                   </Button>
                 </div>
@@ -519,7 +529,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
           cancel: 'Cancel',
           onYes: () => {
             setShowConfirm(false)
-            handleSave()
+            methods.handleSubmit(handleSubmit)()
           },
           onCancel: () => setShowConfirm(false),
           layout: 'between'
@@ -528,10 +538,14 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
         onClose={() => setShowConfirm(false)}
         name="Make Change Training Split"
         description="You’re about to making changes to the following training split:"
-        title="Training Split Created on Nov 11"
+        title={name}
         date={{
           label: 'From when should we apply this change',
-          value: ''
+          value: scheduled_start_on,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (e: any, date: any) => {
+            methods.setValue('scheduled_start_on', date)
+          }
         }}
         alertTitle="Read this before make change!"
         alert={

@@ -223,8 +223,8 @@ export default function Meal({ name, onRemove, index }: MealProps) {
           render={({ field: { value, name } }) => (
             <AutoCompleteInput
               id="Meal-title"
-              label="Title of workout"
-              placeholder="Title"
+              label="Meal Name"
+              placeholder="Name of Meal"
               value={value}
               onChange={(value) => methods.setValue(name, value)}
               onSelect={onMealSelected}
