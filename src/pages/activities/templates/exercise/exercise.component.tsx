@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
@@ -29,12 +29,16 @@ const links = ['video']
 export default function Excercise() {
   const params = useParams<any>()
   const { exercise } = useTemplateExercise(params.id)
-  const detail = [
-    {
-      ...exercise.info,
-      video: exercise.link
-    }
-  ]
+
+  const detail = useMemo(() => {
+    const rows = [
+      {
+        ...exercise.info,
+        video: exercise.link
+      }
+    ]
+    return rows
+  }, [exercise, params])
 
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
