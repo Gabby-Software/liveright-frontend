@@ -9,3 +9,8 @@ export async function getTemplatesMeals(url: string) {
   const response = await api.get(url)
   return response.data
 }
+
+export async function getTemplatesFoods(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
