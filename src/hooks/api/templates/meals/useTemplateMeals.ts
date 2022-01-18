@@ -1,8 +1,8 @@
 import useSWR from 'swr'
 
-import { getTemplatesMeals } from '../../../services/api/templates'
-import { omitEmpty } from '../../../utils/obj'
-import { stringifyURL } from '../../../utils/query'
+import { getTemplatesMeals } from '../../../../services/api/templates'
+import { omitEmpty } from '../../../../utils/obj'
+import { stringifyURL } from '../../../../utils/query'
 
 function getKey(params: any) {
   return stringifyURL('/meals', {
