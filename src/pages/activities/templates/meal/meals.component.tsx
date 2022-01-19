@@ -1,34 +1,37 @@
-import moment from 'moment'
-import React, { useMemo } from 'react'
+// import React, { useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMeals from '../../../../hooks/api/templates/meals/useTemplateMeals'
-import { DATE_RENDER_FORMAT } from '../../../../utils/date'
+import { useDataMealsConvert } from '../../../../hooks/template.hook'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Name', 'Created on', 'Crated from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']
 
+// const DATA = [
+//   {
+//     id: 123,
+//     name: 'Delicious Chicken Bries With Spinach',
+//     created: '21-01-2021',
+//     client: 'John Travolta'
+//   }
+// ]
+
 export default function Meals() {
+  // const [clientId, setClientId] = useState('')
+  // const [name, setName] = useState('')
+
   const { meals } = useTemplateMeals()
-
-  const data = useMemo(() => {
-    return meals.map((m: any) => ({
-      id: m._id,
-      name: m.name,
-      created: moment(m.created_at).format(DATE_RENDER_FORMAT),
-      client: 'No Info From BE.'
-    }))
-  }, [meals])
-
-  console.log(meals)
+  const data = useDataMealsConvert(meals)
 
   const onSearch = (value: string) => {
     console.log(value)
+    // setName(value)
   }
 
-  const onClient = (e: any, option: any) => {
-    console.log(e, option)
+  const onClient = (e: any) => {
+    // setClientId(e)
+    console.log(e)
   }
 
   return (

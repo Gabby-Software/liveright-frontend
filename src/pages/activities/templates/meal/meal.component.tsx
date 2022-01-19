@@ -9,7 +9,8 @@ import { LabelDivider } from '../../../../components/label-divider/label-divider
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import useTemplateMeal from '../../../../hooks/api/templates/meals/useTemplateMeal'
+import useTemplateMeal from '../../../../hooks/api/templates/useTemplateMeal'
+import { FoodInfoType } from '../../../../types/food.type'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
@@ -28,7 +29,7 @@ export default function Meal() {
   const [showConfirm, setShowConfirm] = useState(false)
   const history = useHistory()
   const { id } = useParams<any>()
-  const { meal, onDelete } = useTemplateMeal({ id })
+  const { meal, onDelete } = useTemplateMeal(id)
 
   if (edit) {
     return <TemplateMealForm onClose={() => setEdit(false)} />
@@ -84,7 +85,7 @@ export default function Meal() {
                 <Macronutrient
                   key={k}
                   title={MACROS_KEY_LABEL[k]}
-                  amount={`${meal.total_target?.[k]}${
+                  amount={`${meal?.total_target?.[k as keyof FoodInfoType]}${
                     k === 'calories' ? 'kcal' : 'g'
                   }`}
                 />
@@ -94,7 +95,7 @@ export default function Meal() {
             <LabelDivider>List Food</LabelDivider>
 
             <div className="foods">
-              {meal.items?.map((food: any) => (
+              {meal.food_list?.map((food: any) => (
                 <div className="meal-food" key={food._id}>
                   <span>{food.data?.name}</span>
                   &nbsp;-&nbsp;

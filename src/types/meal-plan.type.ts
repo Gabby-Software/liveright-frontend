@@ -6,7 +6,7 @@ export type MealPlanItemType = {
   timestamp: number
 }
 export type MealPlanType = LibraryType & {
-  target: FoodInfoType
+  total_target: FoodInfoType
   current: FoodInfoType
   eat_list: MealPlanItemType[]
 }

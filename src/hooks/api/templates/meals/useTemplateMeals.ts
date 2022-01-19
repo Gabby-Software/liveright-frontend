@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 
-import { getTemplatesMeals } from '../../../../services/api/templates'
+import { getTemplatesData } from '../../../../services/api/templates'
 import { omitEmpty } from '../../../../utils/obj'
 import { stringifyURL } from '../../../../utils/query'
 
@@ -29,7 +29,7 @@ export default function useTemplateMeals({
     }
   }
 
-  const { data, error } = useSWR(() => getKey(params), getTemplatesMeals)
+  const { data, error } = useSWR(() => getKey(params), getTemplatesData)
 
   const isLoading = !data && !error
   const meals = data?.data || []
