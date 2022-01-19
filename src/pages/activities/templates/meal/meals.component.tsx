@@ -1,11 +1,11 @@
 // import React, { useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
-import useTemplateMeals from '../../../../hooks/api/templates/useTemplateMeals'
+import useTemplateMeals from '../../../../hooks/api/templates/meals/useTemplateMeals'
 import { useDataMealsConvert } from '../../../../hooks/template.hook'
 import TemplatesTable from '../components/template-table/template-table.component'
 
-const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
+const LABELS = ['ID', 'Name', 'Created on', 'Crated from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']
 
 // const DATA = [
@@ -22,7 +22,7 @@ export default function Meals() {
   // const [name, setName] = useState('')
 
   const { meals } = useTemplateMeals()
-  const DATA = useDataMealsConvert(meals)
+  const data = useDataMealsConvert(meals)
 
   const onSearch = (value: string) => {
     console.log(value)
@@ -40,7 +40,7 @@ export default function Meals() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
-      data={DATA}
+      data={data}
       baseLink={Routes.ACTIVITIES_TM_ML}
     />
   )

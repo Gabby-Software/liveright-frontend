@@ -13,7 +13,7 @@ import Checkbox from '../../../../../../components/form/checkbox/checkbox.compon
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
-import useTemplateMeals from '../../../../../../hooks/api/templates/useTemplateMeals'
+import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import { WorkoutSubtitle } from '../../../workout-day-accordion/components/workout/workout.styles'

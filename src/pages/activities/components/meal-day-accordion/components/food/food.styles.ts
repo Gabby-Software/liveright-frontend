@@ -6,9 +6,10 @@ export const Styles = styled.div<any>`
   display: grid;
   grid-template-columns: 46px 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 46px;
   gap: 1rem;
-  padding: 0.5rem 0 0.75rem 0;
+  padding: 0.75rem 0 0.75rem 0;
   background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
+  margin: 10px 0;
 
   .invalid-field .ant-select-selector,
   .invalid-field .input__input,

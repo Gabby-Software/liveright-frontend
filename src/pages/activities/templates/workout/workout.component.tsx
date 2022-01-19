@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -8,6 +9,7 @@ import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateWorkout from '../../../../hooks/api/templates/useTemplateWorkout'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
@@ -21,28 +23,45 @@ const labels = [
   'Rest Interval',
   'Video Link'
 ]
-const keys = ['name', 'sets', 'reps', 'tempo', 'rest', 'video']
+const keys = ['name', 'sets', 'reps', 'tempo', 'rest_interval', 'video']
 const links = ['video']
-const data = [
-  {
-    name: 'Squats',
-    sets: 1,
-    reps: 2,
-    tempo: 3,
-    rest: '5 min',
-    video: ''
-  },
-  {
-    name: 'Pushup',
-    sets: 3,
-    reps: 2,
-    tempo: 3,
-    rest: '3 min',
-    video: ''
-  }
-]
+// const data = [
+//   {
+//     name: 'Squats',
+//     sets: 1,
+//     reps: 2,
+//     tempo: 3,
+//     rest: '5 min',
+//     video: ''
+//   },
+//   {
+//     name: 'Pushup',
+//     sets: 3,
+//     reps: 2,
+//     tempo: 3,
+//     rest: '3 min',
+//     video: ''
+//   }
+// ]
 
 export default function Workout() {
+  const params = useParams<any>()
+  const { workout } = useTemplateWorkout(params.id)
+
+  const detail = useMemo(() => {
+    const rows = workout.items
+      ? workout.items.map((item) => ({
+          name: item?.data?.name,
+          sets: item?.data?.info?.sets,
+          reps: item?.data?.info?.reps,
+          tempo: item?.data?.info?.tempo,
+          rest_interval: item?.data?.info?.rest_interval,
+          video: item?.data?.link
+        }))
+      : []
+    return rows
+  }, [workout, params])
+
   const [showConfirm, setShowConfirm] = useState(false)
   const [option, setOption] = useState('existing')
   const [tpOption, setTpOption] = useState('123')
@@ -98,7 +117,7 @@ export default function Workout() {
                 labels={labels}
                 keys={keys}
                 links={links}
-                data={data}
+                data={detail}
               />
             </div>
           </section>
