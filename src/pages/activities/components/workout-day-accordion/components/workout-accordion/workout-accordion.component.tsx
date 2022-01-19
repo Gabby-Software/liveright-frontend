@@ -23,7 +23,7 @@ import AutoCompleteInput from '../../../../../../components/form/autoCompleteInp
 import Error from '../../../../../../components/form/error/error.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
-import useTemplateWorkouts from '../../../../../../hooks/api/templates/useTemplateWorkouts'
+import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
 import ExerciseAccordion from '../exercise-accordion/exercise-accordion.component'

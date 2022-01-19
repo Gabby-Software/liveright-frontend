@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
 import useClients from '../../../../hooks/api/clients/useClients'
-import useTemplateWorkouts from '../../../../hooks/api/templates/useTemplateWorkouts'
+import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = [

@@ -1,13 +1,23 @@
 import api from '../../managers/api.manager'
 
 export async function getTemplatesWorkouts(url: string) {
-  console.log('getTemplatesWorkouts', url)
   const response = await api.get(url)
   return response.data
 }
+
 export async function getTemplatesWorkoutById(url: string) {
   const response = await api.get(url)
   return response.data
+}
+
+export async function editTemplatesWorkout(id: string, data: any) {
+  const response = await api.put(`/workouts/${id}`, data)
+  return response.data.data
+}
+
+export async function deleteTemplatesWorkout(id: string) {
+  const response = await api.delete(`/workouts/${id}`)
+  return response.data.data
 }
 
 export async function getTemplatesMeals(url: string) {
