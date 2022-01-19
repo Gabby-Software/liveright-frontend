@@ -19,12 +19,12 @@ import Macronutrient from '../../components/macronutrient/macronutrient.componen
 import { MealCard } from '../../components/meal-card/meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 
-const nutrients = [
-  { name: 'Calories', value: '120g' },
-  { name: 'Carbs', value: '200g' },
-  { name: 'Fat', value: '30g' },
-  { name: 'Protein', value: '300g' }
-]
+// const nutrients = [
+//   { name: 'Calories', value: '120g' },
+//   { name: 'Carbs', value: '200g' },
+//   { name: 'Fat', value: '30g' },
+//   { name: 'Protein', value: '300g' }
+// ]
 const plans = [
   {
     id: '123',
