@@ -58,7 +58,7 @@ export const useAuthorization = () => {
   useEffect(() => {
     unblockCookies()
     api
-      .get(EP_GET_USER)
+      .get(`${EP_GET_USER}?excludeAdmin=1`)
       .then((res) => res.data.data)
       .then((res) => {
         dispatch({ type: ACTION_LOGIN_SUCCESS, payload: res })
