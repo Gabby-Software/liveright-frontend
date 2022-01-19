@@ -28,7 +28,6 @@ const KEYS = ['id', 'name', 'created', 'meals', 'client', 'options']
 export default function MealPlans() {
   const { mealPlans } = useTemplateMealPlans()
   const DATA = useDataMealsConvert(mealPlans)
-  // console.log(mealPlans)
   const onSearch = (value: string) => {
     console.log(value)
   }

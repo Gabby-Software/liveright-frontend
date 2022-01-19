@@ -30,7 +30,6 @@ export default function Meal() {
   const params = useParams<any>()
   const { meal } = useTemplateMeal(params.id)
   const nutrients = useNutrientsConvert(meal.total_target)
-  console.log(meal, nutrients)
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 

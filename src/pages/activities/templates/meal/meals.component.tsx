@@ -23,7 +23,6 @@ export default function Meals() {
 
   const { meals } = useTemplateMeals()
   const DATA = useDataMealsConvert(meals)
-  console.log(DATA)
 
   const onSearch = (value: string) => {
     console.log(value)

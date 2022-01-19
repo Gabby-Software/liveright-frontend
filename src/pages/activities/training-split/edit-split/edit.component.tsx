@@ -188,8 +188,6 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     }
   }, [revision._id])
 
-  // console.log(trainingPlans, dietPlans)
-
   const handleSubmit = (values: any) => {
     if (trainingSplit._id && revision._id) {
       onEdit(trainingSplit._id, revision._id, values, null)
