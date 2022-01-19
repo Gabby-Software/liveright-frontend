@@ -102,7 +102,7 @@ export default function TrainingPlans() {
         ) : (
           <>
             <div className="PlansTable__filters">
-              {clientId === 'all' && (
+              {userType !== userTypes.CLIENT && (
                 <ClientSelect
                   value={clientId}
                   id="training-plans-client"

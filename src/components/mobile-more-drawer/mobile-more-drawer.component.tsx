@@ -46,7 +46,7 @@ type LinkType = {
 const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
   const { t } = useTranslation()
   const [switchAccountOpen, setSwitchAccountOpen] = useState(false)
-  const { type } = useAuth()
+  const { type, id } = useAuth()
   const dispatch = useDispatch()
 
   const menuItems: LinkType[] = [
@@ -61,15 +61,21 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
         },
         {
           name: 'Training Plans',
-          url: getRoute(Routes.ACTIVITIES_TP, { clientId: 'all' })
+          url: getRoute(Routes.ACTIVITIES_TP, {
+            clientId: userTypes.CLIENT ? id : 'all'
+          })
         },
         {
           name: 'Diet Plans',
-          url: getRoute(Routes.ACTIVITIES_DP, { clientId: 'all' })
+          url: getRoute(Routes.ACTIVITIES_DP, {
+            clientId: userTypes.CLIENT ? id : 'all'
+          })
         },
         {
           name: 'Training Splits',
-          url: Routes.ACTIVITIES_TS
+          url: getRoute(Routes.ACTIVITIES_TS, {
+            clientId: userTypes.CLIENT ? id : 'all'
+          })
         }
       ]
     },

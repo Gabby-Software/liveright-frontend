@@ -107,7 +107,7 @@ export default function DietPlans() {
         )}
 
         <div className="PlansTable__filters">
-          {clientId === 'all' && (
+          {userType !== userTypes.CLIENT && (
             <ClientSelect
               id="DietPlans-client"
               onChange={(e) => {

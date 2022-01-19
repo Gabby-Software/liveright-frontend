@@ -16,18 +16,19 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
     plan.status === 'scheduled' ||
     plan.status === 'active' ||
     plan.status === 'inactive'
+
   const planInfo = (
     <>
       {plan.training_plan && (
         <div>
           <p className="PlanCard__row-title">Training plan</p>
-          <p className="PlanCard__row-value">{plan.training_plan}</p>
+          <p className="PlanCard__row-value">{plan.training_plan.name}</p>
         </div>
       )}
       {plan.diet_plan && (
         <div>
           <p className="PlanCard__row-title">Diet plan</p>
-          <p className="PlanCard__row-value">{plan.diet_plan}</p>
+          <p className="PlanCard__row-value">{plan.diet_plan.name}</p>
         </div>
       )}
     </>

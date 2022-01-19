@@ -49,7 +49,7 @@ export default function TrainingSplits() {
 
   const content = (
     <Styles>
-      {clientId === 'all' && (
+      {userType !== userTypes.CLIENT && (
         <ActivitiesClient
           viewActivity={false}
           clientId={clientId}
