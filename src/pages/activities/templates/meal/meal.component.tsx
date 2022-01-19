@@ -29,8 +29,8 @@ export default function Meal() {
   const [showConfirm, setShowConfirm] = useState(false)
   const history = useHistory()
   const { id } = useParams<any>()
-  const { meal, onDelete } = useTemplateMeal(id)
-
+  const { meal, onDelete } = useTemplateMeal({ id })
+  console.log(meal)
   if (edit) {
     return <TemplateMealForm onClose={() => setEdit(false)} />
   }
@@ -95,7 +95,7 @@ export default function Meal() {
             <LabelDivider>List Food</LabelDivider>
 
             <div className="foods">
-              {meal.food_list?.map((food: any) => (
+              {meal.items?.map((food: any) => (
                 <div className="meal-food" key={food._id}>
                   <span>{food.data?.name}</span>
                   &nbsp;-&nbsp;

@@ -130,7 +130,7 @@ export default function MealPlan() {
               <div className="meal-food" key={item._id}>
                 <span>{item?.name}</span>
                 &nbsp;-&nbsp;
-                <span>{item.total_target?.info?.grams}g</span>
+                <span>{item.total_target?.grams}g</span>
               </div>
             ))}
           </section>
