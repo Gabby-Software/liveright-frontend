@@ -8,21 +8,6 @@ import TemplatesTable from '../components/template-table/template-table.componen
 const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']
 
-// const DATA = [
-//   {
-//     id: 123,
-//     name: 'Chicken Breast, 1',
-//     created: '21-01-2021',
-//     client: 'John Travolta'
-//   },
-//   {
-//     id: 124,
-//     name: 'Chicken Breast, 2',
-//     created: '21-01-2021',
-//     client: 'John Travolta'
-//   }
-// ]
-
 export default function Foods() {
   const [clientId, setClientId] = useState('')
   const [name, setName] = useState('')

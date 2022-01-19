@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
@@ -6,6 +7,7 @@ import Card from '../../../../../components/cards/card/card.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../../components/typography'
 import { Routes } from '../../../../../enums/routes.enum'
+import useTemplateDietPlan from '../../../../../hooks/api/templates/diet-plan/useTemplateDietPlan'
 import DayDietPlanCard from '../../../components/day-diet-plan-card/day-diet-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import ActivityLayout from '../../../components/layout/layout.component'
@@ -13,6 +15,9 @@ import { Styles } from '../../../styles/plan.styles'
 
 export default function DietPlan() {
   const [showConfirm, setShowConfirm] = useState(false)
+  const { id } = useParams<any>()
+  const { dietTemplate } = useTemplateDietPlan(id)
+  console.log(dietTemplate)
   const onDelete = () => {}
 
   return (
@@ -33,7 +38,7 @@ export default function DietPlan() {
 
         <Card className="PlanPage__card">
           <div className="PlanPage__header">
-            <Title>Current Diet Plan</Title>
+            <Title>{dietTemplate.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
@@ -51,9 +56,7 @@ export default function DietPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayDietPlanCard day={{}} onExpand={() => {}} />
-            {/*<DayDietPlanCard />*/}
-            {/*<DayDietPlanCard />*/}
+            <DayDietPlanCard day={dietTemplate} onExpand={() => {}} />
           </div>
         </Card>
       </Styles>
