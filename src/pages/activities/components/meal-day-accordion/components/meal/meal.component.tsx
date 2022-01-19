@@ -22,7 +22,6 @@ import IconButton from '../../../../../../components/buttons/icon-button/icon-bu
 import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../../../components/form/label/label.component'
-import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
@@ -251,12 +250,12 @@ export default function Meal({ name, onRemove, index }: MealProps) {
           )}
         />
 
-        <Select
+        {/* <Select
           disabled
           id="Workout-days"
           options={[]}
           value={{ label: 'Apply to all days', value: 'Apply to all days' }}
-        />
+        /> */}
       </div>
 
       <div className="Meal__macronutrients">

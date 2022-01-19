@@ -21,7 +21,6 @@ import {
 import Button from '../../../../../../components/buttons/button/button.component'
 import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Error from '../../../../../../components/form/error/error.component'
-import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
@@ -233,7 +232,7 @@ export default function WorkoutAccordion({
                   )}
                 />
 
-                <Select
+                {/* <Select
                   disabled
                   id="WorkoutAccordion__days"
                   options={[]}
@@ -241,7 +240,7 @@ export default function WorkoutAccordion({
                     label: 'Apply to all days',
                     value: 'Apply to all days'
                   }}
-                />
+                /> */}
               </div>
             </>
           )}

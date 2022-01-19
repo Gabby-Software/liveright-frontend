@@ -23,7 +23,6 @@ import AutoCompleteInput from '../../../../../../components/form/autoCompleteInp
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Error from '../../../../../../components/form/error/error.component'
 import Label from '../../../../../../components/form/label/label.component'
-import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
@@ -244,12 +243,12 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           )}
         />
 
-        <Select
+        {/* <Select
           disabled
           id="Workout-days"
           options={[]}
           value={{ label: 'Apply to all days', value: 'Apply to all days' }}
-        />
+        /> */}
       </div>
 
       <div className="Workout__exercises">

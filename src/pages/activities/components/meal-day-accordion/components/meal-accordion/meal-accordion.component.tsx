@@ -11,7 +11,6 @@ import Button from '../../../../../../components/buttons/button/button.component
 import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../../../components/form/label/label.component'
-import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
@@ -193,13 +192,13 @@ export default function MealAccordion({
             )}
           />
 
-          <Select
+          {/* <Select
             disabled
             id="Workout-days"
             options={[]}
             value={{ label: 'Apply to all days', value: 'Apply to all days' }}
             className="MealAccordion__control"
-          />
+          /> */}
 
           <div className="MealAccordion__checkbox-container">
             <Checkbox />
