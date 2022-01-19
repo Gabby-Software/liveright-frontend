@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
-import useClients from '../../../../hooks/api/clients/useClients'
 import useTemplateExercises from '../../../../hooks/api/templates/useTemplateExercises'
 import TemplatesTable from '../components/template-table/template-table.component'
 
@@ -15,19 +14,13 @@ const LABELS = [
 ]
 const KEYS = ['id', 'created', 'name', 'type', 'client', 'options']
 
-// const DATA = [
-//   {
-//     id: 123,
-//     name: 'Pushups',
-//     created: '21-01-2021',
-//     client: 'John Travolta',
-//     type: 'Higher Body'
-//   }
-// ]
+const convertDate = (dateString: string) => {
+  const p = dateString.split(/\D/g)
+  return [p[2], p[1], p[0]].join('-')
+}
 
 export default function Excercies() {
   const { exercises } = useTemplateExercises()
-  const { clients } = useClients()
 
   const [search, setSearch] = useState('')
   const [client, setClient] = useState('')
@@ -42,13 +35,9 @@ export default function Excercies() {
       .map((item) => ({
         ...item,
         id: item?._id,
-        created: item?.created_at.substring(0, 10),
+        created: convertDate(item?.created_at.substring(0, 10)),
         type: item?.info?.type,
-        client: clients.find((a) => a?.id === item?.account_id)
-          ? `${clients.find((a) => a?.id === item?.account_id)?.first_name} ${
-              clients.find((a) => a?.id === item?.account_id)?.last_name
-            }`
-          : ''
+        client: item.account?.user?.full_name
       }))
     return rows
   }, [exercises, search, client])

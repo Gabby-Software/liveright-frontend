@@ -67,3 +67,4 @@ export const EP_CALENDAR = LIVERIGHT_BASE + '/calendar'
 
 export const EP_TEMPLATES_EXERCISE_BY_ID = LIVERIGHT_BASE + '/exercises'
 export const EP_TEMPLATES_WORKOUT_BY_ID = LIVERIGHT_BASE + '/workouts'
+export const EP_TEMPLATES_TP_BY_ID = LIVERIGHT_BASE + '/training-plan-templates'

@@ -16,15 +16,6 @@ import { GeneralTable } from '../components/general-table/general-table.componen
 const labels = ['Sets', 'Reps', 'Tempo', 'Rest Interval', 'Video Link']
 const keys = ['sets', 'reps', 'tempo', 'rest_interval', 'video']
 const links = ['video']
-// const data = [
-//   {
-//     sets: 1,
-//     reps: 2,
-//     tempo: 3,
-//     rest: '5 min',
-//     video: ''
-//   }
-// ]
 
 export default function Excercise() {
   const params = useParams<any>()

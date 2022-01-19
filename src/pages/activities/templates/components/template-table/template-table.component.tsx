@@ -49,7 +49,9 @@ export default function TemplatesTable(props: TemplatesTableProps) {
           render={{
             options: (row) => (
               <Link
-                to={`${baseLink}/${row.id}`}
+                to={`${baseLink}/${row.id}${
+                  row.revisionId ? `/revisions/${row.revisionId}` : ''
+                }`}
                 className="TemplateTable__link"
               >
                 View
