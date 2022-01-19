@@ -1,11 +1,10 @@
 import useSWR from 'swr'
 
 import { getTemplatesData } from '../../../services/api/templates'
-import { FoodType } from '../../../types/food.type'
 
 interface useTemplateFood {
   isLoading: boolean
-  food: FoodType
+  food: any
 }
 
 export default function useTemplateFood(id: string): useTemplateFood {
