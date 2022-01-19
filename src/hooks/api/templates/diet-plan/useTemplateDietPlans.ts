@@ -1,19 +1,19 @@
 import useSWR from 'swr'
 
-import { getTemplatesData } from '../../../services/api/templates'
-import { omitEmpty } from '../../../utils/obj'
-import { stringifyURL } from '../../../utils/query'
+import { getTemplatesData } from '../../../../services/api/templates'
+import { omitEmpty } from '../../../../utils/obj'
+import { stringifyURL } from '../../../../utils/query'
 
 function getKey(params: any) {
-  return stringifyURL('/meal-plans', {
+  return stringifyURL('/diet-plan-templates', {
     ...params,
     filter: omitEmpty(params.filter)
   })
 }
 
-interface UseTemplateMealPlans {
+interface UseTemplateDietPlans {
   isLoading: boolean
-  mealPlans: any[]
+  dietTemplates: any[]
 }
 
 interface IProps {
@@ -21,10 +21,10 @@ interface IProps {
   name?: string
 }
 
-export default function useTemplateMealPlans({
+export default function useTemplateDietPlans({
   clientId,
   name
-}: IProps = {}): UseTemplateMealPlans {
+}: IProps = {}): UseTemplateDietPlans {
   const params = {
     filter: {
       account_id: clientId,
@@ -35,9 +35,9 @@ export default function useTemplateMealPlans({
   const { data, error } = useSWR(() => getKey(params), getTemplatesData)
 
   const isLoading = !data && !error
-  const mealPlans = data?.data || []
+  const dietTemplates = data?.data || []
   return {
     isLoading,
-    mealPlans
+    dietTemplates
   }
 }

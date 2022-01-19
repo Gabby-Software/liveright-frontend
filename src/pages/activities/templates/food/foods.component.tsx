@@ -24,7 +24,7 @@ const KEYS = ['id', 'name', 'created', 'client', 'options']
 // ]
 
 export default function Foods() {
-  // const [clientId, setClientId] = useState('')
+  const [clientId, setClientId] = useState('')
   const [name, setName] = useState('')
 
   const onSearch = (value: string) => {
@@ -34,10 +34,14 @@ export default function Foods() {
 
   const onClient = (e: any) => {
     console.log(e)
-    // setClientId(e)
+    if (e === 'all') {
+      setClientId('')
+    } else {
+      setClientId(e)
+    }
   }
 
-  const { foods } = useTemplateFoods({ name })
+  const { foods } = useTemplateFoods({ name, clientId })
   const DATA = useDataFMConvert(foods)
 
   return (

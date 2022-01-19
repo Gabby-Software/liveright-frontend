@@ -8,55 +8,55 @@ import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../components/form/label/label.component'
 import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
 import Select from '../../../../components/form/select/select.component'
+import { LabelDivider } from '../../../../components/label-divider/label-divider.styles'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMealPlan from '../../../../hooks/api/templates/useTemplateMealPlan'
-import { useNutrientsConvert } from '../../../../hooks/template.hook'
+import { FoodInfoType } from '../../../../types/food.type'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
-import { MealCard } from '../../components/meal-card/meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 
-// const nutrients = [
-//   { name: 'Calories', value: '120g' },
-//   { name: 'Carbs', value: '200g' },
-//   { name: 'Fat', value: '30g' },
-//   { name: 'Protein', value: '300g' }
+const MACROS_KEY_LABEL: { [key: string]: string } = {
+  calories: 'Calories',
+  net_carbs: 'Net Carbs',
+  fat: 'Fat',
+  proteins: 'Proteins'
+}
+// const plans = [
+//   {
+//     id: '123',
+//     name: 'Meal 1',
+//     nutrients: [
+//       { name: 'Calories', value: '20g' },
+//       { name: 'Carbs', value: '40g' },
+//       { name: 'Fat', value: '10g' },
+//       { name: 'Protein', value: '60g' }
+//     ],
+//     meals: [
+//       { name: 'Chicken Brest Tender', value: '100g' },
+//       { name: 'Brown Rice', value: '50g' },
+//       { name: 'Red Apple', value: '150g' }
+//     ]
+//   },
+//   {
+//     id: '124',
+//     name: 'Meal 2',
+//     nutrients: [
+//       { name: 'Calories', value: '70g' },
+//       { name: 'Carbs', value: '50g' },
+//       { name: 'Fat', value: '15g' },
+//       { name: 'Protein', value: '80g' }
+//     ],
+//     meals: [
+//       { name: 'Chicken Brest Tender', value: '120g' },
+//       { name: 'Brown Rice', value: '60g' },
+//       { name: 'Red Apple', value: '150g' }
+//     ]
+//   }
 // ]
-const plans = [
-  {
-    id: '123',
-    name: 'Meal 1',
-    nutrients: [
-      { name: 'Calories', value: '20g' },
-      { name: 'Carbs', value: '40g' },
-      { name: 'Fat', value: '10g' },
-      { name: 'Protein', value: '60g' }
-    ],
-    meals: [
-      { name: 'Chicken Brest Tender', value: '100g' },
-      { name: 'Brown Rice', value: '50g' },
-      { name: 'Red Apple', value: '150g' }
-    ]
-  },
-  {
-    id: '124',
-    name: 'Meal 2',
-    nutrients: [
-      { name: 'Calories', value: '70g' },
-      { name: 'Carbs', value: '50g' },
-      { name: 'Fat', value: '15g' },
-      { name: 'Protein', value: '80g' }
-    ],
-    meals: [
-      { name: 'Chicken Brest Tender', value: '120g' },
-      { name: 'Brown Rice', value: '60g' },
-      { name: 'Red Apple', value: '150g' }
-    ]
-  }
-]
 const options = [
   { label: 'Balanced Diet', value: '123' },
   { label: 'Low Fat Diet', value: '124' }
@@ -69,7 +69,8 @@ export default function MealPlan() {
   const [dpOption, setDpOption] = useState('123')
 
   const { mealPlan } = useTemplateMealPlan(params.id)
-  const nutrients = useNutrientsConvert(mealPlan.total_target)
+  console.log(mealPlan)
+  // const nutrients = useNutrientsConvert(mealPlan.total_target)
   const onDelete = () => {}
 
   return (
@@ -90,7 +91,7 @@ export default function MealPlan() {
 
         <Card className="PlanPage__card">
           <section className="PlanPage__header">
-            <Title>Low Carb Day</Title>
+            <Title>{mealPlan.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
@@ -110,24 +111,27 @@ export default function MealPlan() {
           <section className="PlanPage__summary">
             <p className="label">Total micronutrients from this meal plan</p>
             <div className="nutrients">
-              {nutrients.map((item) => (
+              {Object.keys(MACROS_KEY_LABEL).map((k) => (
                 <Macronutrient
-                  key={item.name}
-                  title={item.name}
-                  amount={item.value}
+                  key={k}
+                  title={MACROS_KEY_LABEL[k]}
+                  amount={`${
+                    mealPlan?.total_target?.[k as keyof FoodInfoType]
+                  }${k === 'calories' ? 'kcal' : 'g'}`}
                 />
               ))}
             </div>
           </section>
 
+          <LabelDivider>List Food</LabelDivider>
+
           <section className="PlanPage__meals">
-            {plans.map((plan) => (
-              <MealCard
-                key={plan.id}
-                name={plan.name}
-                nutrients={plan.nutrients}
-                meals={plan.meals}
-              />
+            {mealPlan.activities?.map((item: any) => (
+              <div className="meal-food" key={item._id}>
+                <span>{item?.name}</span>
+                &nbsp;-&nbsp;
+                <span>{item.total_target?.info?.grams}g</span>
+              </div>
             ))}
           </section>
         </Card>

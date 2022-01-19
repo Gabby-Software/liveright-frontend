@@ -1,8 +1,8 @@
-// import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMeals from '../../../../hooks/api/templates/meals/useTemplateMeals'
-import { useDataMealsConvert } from '../../../../hooks/template.hook'
+import { useDataFMConvert } from '../../../../hooks/template.hook'
 import TemplatesTable from '../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Name', 'Created on', 'Crated from client', 'Options']
@@ -18,20 +18,24 @@ const KEYS = ['id', 'name', 'created', 'client', 'options']
 // ]
 
 export default function Meals() {
-  // const [clientId, setClientId] = useState('')
-  // const [name, setName] = useState('')
+  const [clientId, setClientId] = useState('')
+  const [name, setName] = useState('')
 
-  const { meals } = useTemplateMeals()
-  const data = useDataMealsConvert(meals)
+  const { meals } = useTemplateMeals({ name, clientId })
+  console.log(meals)
+  const data = useDataFMConvert(meals)
 
   const onSearch = (value: string) => {
     console.log(value)
-    // setName(value)
+    setName(value)
   }
 
   const onClient = (e: any) => {
-    // setClientId(e)
-    console.log(e)
+    if (e === 'all') {
+      setClientId('')
+    } else {
+      setClientId(e)
+    }
   }
 
   return (
