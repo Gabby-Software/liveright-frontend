@@ -1,11 +1,11 @@
 import useSWR from 'swr'
 
 import { getTemplatesData } from '../../../services/api/templates'
-import { MealPlanType } from '../../../types/meal-plan.type'
+// import { MealPlanType } from '../../../types/meal-plan.type'
 
 interface useTemplateMealPlan {
   isLoading: boolean
-  mealPlan: MealPlanType
+  mealPlan: any
 }
 
 export default function useTemplateMealPlan(id: string): useTemplateMealPlan {

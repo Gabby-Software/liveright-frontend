@@ -9,7 +9,7 @@ import { LabelDivider } from '../../../../components/label-divider/label-divider
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import useTemplateMeal from '../../../../hooks/api/templates/useTemplateMeal'
+import useTemplateMeal from '../../../../hooks/api/templates/meals/useTemplateMeal'
 import { FoodInfoType } from '../../../../types/food.type'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'

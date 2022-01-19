@@ -18,14 +18,17 @@ interface UseTemplateMeals {
 
 interface IProps {
   clientId?: string
+  name?: string
 }
 
 export default function useTemplateMeals({
-  clientId
+  clientId,
+  name
 }: IProps = {}): UseTemplateMeals {
   const params = {
     filter: {
-      account_id: clientId
+      account_id: clientId,
+      name
     }
   }
 

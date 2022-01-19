@@ -3,27 +3,54 @@ import { useMemo } from 'react'
 
 export const useDataFMConvert = (data: any) => {
   return useMemo(() => {
-    return data.map((item: any) => {
-      return {
-        id: item._id,
-        created: item.name,
-        client: item.account.user.full_name,
-        name: moment(item.created_at).format('DD-MM-YYYY')
-      }
-    })
+    if (data) {
+      return data.map((item: any) => {
+        return {
+          id: item._id,
+          created: item.name,
+          client: item.account.user.full_name,
+          name: moment(item.created_at).format('DD-MM-YYYY')
+        }
+      })
+    } else {
+      return []
+    }
   }, [data])
 }
 
-export const useDataMealsConvert = (data: any) => {
+export const useDataMealPlansConvert = (data: any) => {
   return useMemo(() => {
-    return data.map((item: any) => {
-      return {
-        id: item._id,
-        created: item.name,
-        client: 'name',
-        name: moment(item.created_at).format('DD-MM-YYYY')
-      }
-    })
+    if (data) {
+      return data?.map((item: any) => {
+        return {
+          id: item._id,
+          created: item.name,
+          client: item.account.user.full_name,
+          meals: 5,
+          name: moment(item.created_at).format('DD-MM-YYYY')
+        }
+      })
+    } else {
+      return []
+    }
+  }, [data])
+}
+
+export const useDataDietPlansConvert = (data: any) => {
+  return useMemo(() => {
+    if (data) {
+      return data.map((item: any) => {
+        return {
+          id: item._id,
+          created: item.name,
+          client: 'name',
+          days: 5,
+          name: moment(item.created_at).format('DD-MM-YYYY')
+        }
+      })
+    } else {
+      return []
+    }
   }, [data])
 }
 
