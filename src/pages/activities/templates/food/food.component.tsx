@@ -9,17 +9,17 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateFood from '../../../../hooks/api/templates/useTemplateFood'
-import { useNutrientsConvert } from '../../../../hooks/template.hook'
+import { FoodInfoType } from '../../../../types/food.type'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
 
-// const nutrients = [
-//   { name: 'Calories', value: '120g' },
-//   { name: 'Carbs', value: '200g' },
-//   { name: 'Fat', value: '30g' },
-//   { name: 'Protein', value: '300g' }
-// ]
+const MACROS_KEY_LABEL: { [key: string]: string } = {
+  calories: 'Calories',
+  net_carbs: 'Net Carbs',
+  fat: 'Fat',
+  proteins: 'Proteins'
+}
 
 export default function Meal() {
   const params = useParams<any>()
@@ -27,8 +27,7 @@ export default function Meal() {
   const onDelete = () => {}
 
   const { food } = useTemplateFood(params.id)
-  const nutrients = useNutrientsConvert(food.info)
-  console.log(nutrients)
+  console.log(food)
 
   return (
     <ActivityLayout>
@@ -68,11 +67,13 @@ export default function Meal() {
           <section className="PlanPage__summary">
             <p className="label">Micronutrients from this food</p>
             <div className="nutrients">
-              {nutrients.map((item) => (
+              {Object.keys(MACROS_KEY_LABEL).map((k) => (
                 <Macronutrient
-                  key={item.name}
-                  title={item.name}
-                  amount={item.value}
+                  key={k}
+                  title={MACROS_KEY_LABEL[k]}
+                  amount={`${food?.info?.[k as keyof FoodInfoType]}${
+                    k === 'calories' ? 'kcal' : 'g'
+                  }`}
                 />
               ))}
             </div>
