@@ -58,7 +58,7 @@ const validationSchema = yup.object().shape({
       activities: yup.array().of(
         yup.object().shape({
           name: yup.string().required(),
-          time: yup.string().nullable().required(),
+          time: yup.string().nullable(),
           items: yup.array().of(
             yup.object().shape({
               data: yup.object().shape({

@@ -1,19 +1,21 @@
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
 import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
-import useTemplateWorkout from '../../../../hooks/api/templates/useTemplateWorkout'
+import useTemplateWorkout from '../../../../hooks/api/templates/workouts/useTemplateWorkout'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import { Styles } from '../../styles/plan.styles'
 import { GeneralTable } from '../components/general-table/general-table.component'
+import WorkoutTemplateForm from './workout-template-form/workout-template-form.component'
 
 const labels = [
   'Excercise',
@@ -25,28 +27,27 @@ const labels = [
 ]
 const keys = ['name', 'sets', 'reps', 'tempo', 'rest_interval', 'video']
 const links = ['video']
-// const data = [
-//   {
-//     name: 'Squats',
-//     sets: 1,
-//     reps: 2,
-//     tempo: 3,
-//     rest: '5 min',
-//     video: ''
-//   },
-//   {
-//     name: 'Pushup',
-//     sets: 3,
-//     reps: 2,
-//     tempo: 3,
-//     rest: '3 min',
-//     video: ''
-//   }
-// ]
+
+const tpOptions = [
+  { label: 'Lose Weight', value: '123' },
+  { label: 'Wonder', value: '124' }
+]
+const dwOptions = [
+  { label: 'High Intensity Training', value: '123' },
+  { label: 'Low Intensity Training', value: '124' }
+]
 
 export default function Workout() {
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [edit, setEdit] = useState(false)
+  const [option, setOption] = useState('existing')
+  const [tpOption, setTpOption] = useState('123')
+  const [dwOption, setDwOption] = useState('123')
+
+  const history = useHistory()
   const params = useParams<any>()
-  const { workout } = useTemplateWorkout(params.id)
+  const { workout, onDelete } = useTemplateWorkout(params.id)
 
   const detail = useMemo(() => {
     const rows = workout.items
@@ -62,20 +63,10 @@ export default function Workout() {
     return rows
   }, [workout, params])
 
-  const [showConfirm, setShowConfirm] = useState(false)
-  const [option, setOption] = useState('existing')
-  const [tpOption, setTpOption] = useState('123')
-  const [dwOption, setDwOption] = useState('123')
-  const onDelete = () => {}
+  if (edit) {
+    return <WorkoutTemplateForm onClose={() => setEdit(false)} />
+  }
 
-  const tpOptions = [
-    { label: 'Lose Weight', value: '123' },
-    { label: 'Wonder', value: '124' }
-  ]
-  const dwOptions = [
-    { label: 'High Intensity Training', value: '123' },
-    { label: 'Low Intensity Training', value: '124' }
-  ]
   return (
     <ActivityLayout>
       <Styles>
@@ -86,7 +77,11 @@ export default function Workout() {
             className="topbar-back"
           />
 
-          <Button variant="text" onClick={onDelete} className="topbar-delete">
+          <Button
+            variant="text"
+            onClick={() => setConfirmDelete(true)}
+            className="topbar-delete"
+          >
             <DeleteOutlinedIcon style={{ marginRight: 8 }} />
             Delete Template
           </Button>
@@ -94,10 +89,14 @@ export default function Workout() {
 
         <Card className="PlanPage__card">
           <section className="PlanPage__header">
-            <Title>High Intensity Workout</Title>
+            <Title>{workout.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Workout Template
               </Button>
               <Button
@@ -188,6 +187,30 @@ export default function Workout() {
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
       />
+      <Dialog
+        open={confirmDelete}
+        title="Delete Workout template"
+        onClose={() => setConfirmDelete(false)}
+      >
+        <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          Are you sure you want to delete the template? You will not be able to
+          recover it later!
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+          <Button
+            onClick={() => {
+              onDelete(params.id, () => {
+                history.push(Routes.ACTIVITIES_TM)
+              })
+            }}
+          >
+            Delete
+          </Button>
+          <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
+            Cancel
+          </Button>
+        </div>
+      </Dialog>
     </ActivityLayout>
   )
 }

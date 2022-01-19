@@ -9,10 +9,11 @@ export const Styles = styled.div<any>`
       ? '46px 1fr 1fr 1fr 46px'
       : '46px 2fr 1fr 1fr 1fr 1fr 3fr 46px'};
   gap: 1rem;
-  padding: 0.5rem 0 0.75rem 0;
+  padding: 0.75rem 0 0.75rem 0;
   background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
   position: relative;
+  margin: 10px 0;
 
   & label {
     white-space: nowrap;
