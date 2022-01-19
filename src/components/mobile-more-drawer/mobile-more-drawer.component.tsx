@@ -62,19 +62,19 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
         {
           name: 'Training Plans',
           url: getRoute(Routes.ACTIVITIES_TP, {
-            clientId: userTypes.CLIENT ? id : 'all'
+            clientId: type === userTypes.CLIENT ? id : 'all'
           })
         },
         {
           name: 'Diet Plans',
           url: getRoute(Routes.ACTIVITIES_DP, {
-            clientId: userTypes.CLIENT ? id : 'all'
+            clientId: type === userTypes.CLIENT ? id : 'all'
           })
         },
         {
           name: 'Training Splits',
           url: getRoute(Routes.ACTIVITIES_TS, {
-            clientId: userTypes.CLIENT ? id : 'all'
+            clientId: type === userTypes.CLIENT ? id : 'all'
           })
         }
       ]
