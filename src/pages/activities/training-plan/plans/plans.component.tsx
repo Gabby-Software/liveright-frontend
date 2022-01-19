@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
-import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
@@ -76,10 +75,6 @@ export default function TrainingPlans() {
       <Card className="PlansTable__card">
         {!isMobile && (
           <>
-            <Link to={Routes.ACTIVITIES}>
-              <GoBack spacing={2}>Go back to Activities</GoBack>
-            </Link>
-
             <div className="PlansTable__title-container">
               <Title>Training Plans</Title>
 
