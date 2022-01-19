@@ -44,7 +44,7 @@ export const useDataDietPlansConvert = (data: any) => {
           id: item._id,
           created: item.name,
           client: item.account.user.full_name,
-          days: 5,
+          days: item.revisions.days_count,
           name: moment(item.created_at).format('DD-MM-YYYY')
         }
       })
