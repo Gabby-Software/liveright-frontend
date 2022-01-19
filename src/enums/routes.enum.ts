@@ -43,6 +43,8 @@ export const Routes = {
   ACTIVITIES_TM_TS_ID: '/templates/training-splits/:id',
   ACTIVITIES_TM_TP: '/templates/training-plans',
   ACTIVITIES_TM_TP_ID: '/templates/training-plans/:id',
+  ACTIVITIES_TM_TP_REVISION_ID:
+    '/templates/training-plans/:id/revisions/:revisionId',
   ACTIVITIES_TM_DP: '/templates/diet-plans',
   ACTIVITIES_TM_DP_ID: '/templates/diet-plans/:id',
   ACTIVITIES_TM_WO: '/templates/workouts',

@@ -54,3 +54,18 @@ export async function getTemplatesData(url: string) {
   const response = await api.get(url)
   return response.data
 }
+
+export async function getTemplatesTrainingPlans(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function getTemplatesTrainingPlanById(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function getTemplatesTrainingRevisionById(url: string) {
+  const response = await api.get(url)
+  return response.data
+}

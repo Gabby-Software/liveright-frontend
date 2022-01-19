@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../../assets/media/icons'
 import { WorkoutIcon } from '../../../../../assets/media/icons/activities'
@@ -7,6 +8,8 @@ import Card from '../../../../../components/cards/card/card.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../../components/typography'
 import { Routes } from '../../../../../enums/routes.enum'
+import useTemplateTrainingPlan from '../../../../../hooks/api/templates/training-plans/useTemplateTrainingPlan'
+import useTemplateTrainingPlanRevision from '../../../../../hooks/api/templates/training-plans/useTemplateTrainingPlanRevision'
 import DayTrainingPlanCard from '../../../components/day-training-plan-card/day-training-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import EmptyPlan from '../../../components/empty-plan/empty-plan.component'
@@ -14,83 +17,17 @@ import ActivityLayout from '../../../components/layout/layout.component'
 import { Styles } from '../../../styles/plan.styles'
 
 const IS_EMPTY = false
-const TRAIN_PLAN = {
-  name: 'High Intensity Workouts',
-  activities: [
-    {
-      _id: '1',
-      name: 'Workout One',
-      items: [
-        [
-          {
-            name: 'Pushups',
-            info: {
-              steps: 4,
-              reps: 10,
-              rest_interval: '2 min'
-            }
-          }
-        ],
-        [
-          {
-            name: 'Pushups',
-            info: {
-              steps: 4,
-              reps: 10,
-              rest_interval: '2 min'
-            }
-          }
-        ],
-        [
-          {
-            name: '1A-Pushups',
-            info: {
-              steps: 4,
-              reps: 10,
-              rest_interval: '2 min'
-            }
-          },
-          {
-            name: '1B-Pushups',
-            info: {
-              steps: 4,
-              reps: 10,
-              rest_interval: '2 min'
-            }
-          }
-        ]
-      ]
-    },
-    {
-      _id: '2',
-      name: 'Workout Two',
-      items: [
-        [
-          {
-            name: 'Pushups',
-            info: {
-              steps: 4,
-              reps: 10,
-              rest_interval: '2 min'
-            }
-          }
-        ],
-        [
-          {
-            name: 'Pushups',
-            info: {
-              steps: 3,
-              reps: 4,
-              rest_interval: '2 min'
-            }
-          }
-        ]
-      ]
-    }
-  ]
-}
 
 export default function TrainingPlan() {
+  const params = useParams<any>()
+  const { trainingPlan } = useTemplateTrainingPlan(params.id)
+  const { trainingPlanRevision } = useTemplateTrainingPlanRevision(
+    params.id,
+    params.revisionId
+  )
+  console.log('params', params)
+  console.log('trainingPlanRevision', trainingPlanRevision)
+
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 
@@ -123,7 +60,7 @@ export default function TrainingPlan() {
 
         <Card className="PlanPage__card">
           <div className="PlanPage__header">
-            <Title>Training Plan From Nov 1</Title>
+            <Title>{trainingPlan?.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
@@ -141,9 +78,11 @@ export default function TrainingPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayTrainingPlanCard day={TRAIN_PLAN} />
-            <DayTrainingPlanCard day={TRAIN_PLAN} />
-            <DayTrainingPlanCard day={TRAIN_PLAN} />
+            {trainingPlanRevision?.days?.map((day: any) => (
+              <>
+                <DayTrainingPlanCard day={day} />
+              </>
+            ))}
           </div>
         </Card>
       </Styles>

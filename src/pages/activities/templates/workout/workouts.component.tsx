@@ -7,6 +7,11 @@ import TemplatesTable from '../components/template-table/template-table.componen
 const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
 const KEYS = ['id', 'created', 'name', 'client', 'options']
 
+const convertDate = (dateString: string) => {
+  const p = dateString.split(/\D/g)
+  return [p[2], p[1], p[0]].join('-')
+}
+
 export default function Workouts() {
   const { workouts } = useTemplateWorkouts()
 
@@ -23,7 +28,7 @@ export default function Workouts() {
       .map((item) => ({
         ...item,
         id: item?._id,
-        created: item?.created_at?.substring(0, 10),
+        created: convertDate(item?.created_at?.substring(0, 10)),
         type: item?.info?.type,
         days: Math.ceil(item?.time?.split(':')[0] / 24),
         client: item.account?.user?.full_name
