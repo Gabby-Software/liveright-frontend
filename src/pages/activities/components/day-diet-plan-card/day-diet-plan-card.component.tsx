@@ -14,11 +14,11 @@ export default function DayDietPlanCard({
 }: DayDietPlanCardProps) {
   return (
     <DayCard
-      title={day.name}
+      title={day?.name}
       onExpand={onExpand}
       content={
         <Styles>
-          {day.activities.map((row: any) => (
+          {day?.activities?.map((row: any) => (
             <div className="DayDietPlanCard__content" key={row._id}>
               <div className="DayDietPlanCard__name-container">
                 <div className="DayDietPlanCard__name-icon">
