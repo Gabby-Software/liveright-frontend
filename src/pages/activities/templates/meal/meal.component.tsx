@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -8,22 +9,28 @@ import { LabelDivider } from '../../../../components/label-divider/label-divider
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateMeal from '../../../../hooks/api/templates/useTemplateMeal'
+import { useNutrientsConvert } from '../../../../hooks/template.hook'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
 
-const nutrients = [
-  { name: 'Calories', value: '120g' },
-  { name: 'Carbs', value: '200g' },
-  { name: 'Fat', value: '30g' },
-  { name: 'Protein', value: '300g' }
-]
+// const nutrients = [
+//   { name: 'Calories', value: '120g' },
+//   { name: 'Carbs', value: '200g' },
+//   { name: 'Fat', value: '30g' },
+//   { name: 'Protein', value: '300g' }
+// ]
 const foods = [
   { name: 'Chicken Brest Tender', value: '100g' },
   { name: 'Brown Rice', value: '50g' },
   { name: 'Red Apple', value: '150g' }
 ]
 export default function Meal() {
+  const params = useParams<any>()
+  const { meal } = useTemplateMeal(params.id)
+  const nutrients = useNutrientsConvert(meal.total_target)
+  console.log(meal, nutrients)
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 
@@ -45,7 +52,7 @@ export default function Meal() {
 
         <Card className="PlanPage__card">
           <section className="PlanPage__header">
-            <Title>Delicious Chiecken Bries With Spinach</Title>
+            <Title>{meal.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">

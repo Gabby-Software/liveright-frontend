@@ -5,39 +5,36 @@ import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
 
 function getKey(params: any) {
-  return stringifyURL('/foods', {
+  return stringifyURL('/meal-plans', {
     ...params,
     filter: omitEmpty(params.filter)
   })
 }
 
-interface UseTemplateFoods {
+interface UseTemplateMealPlans {
   isLoading: boolean
-  foods: any[]
+  mealPlans: any[]
 }
 
 interface IProps {
   clientId?: string
-  name?: string
 }
 
-export default function useTemplateFoods({
-  name,
+export default function useTemplateMealPlans({
   clientId
-}: IProps = {}): UseTemplateFoods {
+}: IProps = {}): UseTemplateMealPlans {
   const params = {
     filter: {
-      name: name || '',
-      account_id: clientId || ''
+      account_id: clientId
     }
   }
 
   const { data, error } = useSWR(() => getKey(params), getTemplatesData)
 
   const isLoading = !data && !error
-  const foods = data?.data || []
+  const mealPlans = data?.data || []
   return {
     isLoading,
-    foods
+    mealPlans
   }
 }

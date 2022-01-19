@@ -7,7 +7,7 @@ export type MealItemType = {
   my_info: FoodInfoType
 }
 export type MealType = LibraryType & {
-  target: FoodInfoType
+  total_target: FoodInfoType
   current: FoodInfoType
   food_list: MealType[]
 }

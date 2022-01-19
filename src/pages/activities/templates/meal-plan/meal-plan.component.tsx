@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -10,6 +11,8 @@ import Select from '../../../../components/form/select/select.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import useTemplateMealPlan from '../../../../hooks/api/templates/useTemplateMealPlan'
+import { useNutrientsConvert } from '../../../../hooks/template.hook'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
@@ -60,9 +63,13 @@ const options = [
 ]
 
 export default function MealPlan() {
+  const params = useParams<any>()
   const [showConfirm, setShowConfirm] = useState(false)
   const [option, setOption] = useState('existing')
   const [dpOption, setDpOption] = useState('123')
+
+  const { mealPlan } = useTemplateMealPlan(params.id)
+  const nutrients = useNutrientsConvert(mealPlan.total_target)
   const onDelete = () => {}
 
   return (
