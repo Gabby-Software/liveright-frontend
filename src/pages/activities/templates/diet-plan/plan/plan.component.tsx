@@ -38,7 +38,7 @@ export default function DietPlan() {
 
         <Card className="PlanPage__card">
           <div className="PlanPage__header">
-            <Title>Current Diet Plan</Title>
+            <Title>{dietTemplate.name}</Title>
 
             <div className="PlanPage__header-actions">
               <Button variant="dark" className="PlanPage__header-btn">
