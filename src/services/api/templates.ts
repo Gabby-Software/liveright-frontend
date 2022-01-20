@@ -69,3 +69,13 @@ export async function getTemplatesTrainingRevisionById(url: string) {
   const response = await api.get(url)
   return response.data
 }
+
+export async function getTemplatesWorkoutDays(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+
+export async function getTemplatesWorkoutDayById(url: string) {
+  const response = await api.get(url)
+  return response.data
+}

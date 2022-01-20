@@ -12,6 +12,7 @@ import { Styles } from './templates.styles'
 import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
 import Workouts from './workout/workouts.component'
+import WorkoutDays from './workout-days/days/days.component'
 
 const tabs = [
   {
@@ -25,9 +26,9 @@ const tabs = [
     renderContent: () => <TrainingPlans />
   },
   {
-    label: 'Diet Plans',
-    key: 'diet',
-    renderContent: () => <DietPlans />
+    label: 'Workout days',
+    key: 'days',
+    renderContent: () => <WorkoutDays />
   },
   {
     label: 'Workouts',
@@ -38,6 +39,11 @@ const tabs = [
     label: 'Exercies',
     key: 'excercise',
     renderContent: () => <Exercies />
+  },
+  {
+    label: 'Diet Plans',
+    key: 'diet',
+    renderContent: () => <DietPlans />
   },
   {
     label: 'Meal Plans',

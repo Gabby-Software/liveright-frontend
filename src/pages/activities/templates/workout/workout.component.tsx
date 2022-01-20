@@ -51,14 +51,19 @@ export default function Workout() {
 
   const detail = useMemo(() => {
     const rows = workout.items
-      ? workout.items.map((item) => ({
-          name: item?.data?.name,
-          sets: item?.data?.info?.sets,
-          reps: item?.data?.info?.reps,
-          tempo: item?.data?.info?.tempo,
-          rest_interval: item?.data?.info?.rest_interval,
-          video: item?.data?.link
-        }))
+      ? workout.items
+          .map((item) => {
+            const exercises = item.is_superset ? item.data : [item.data]
+            return exercises.map((a: any) => ({
+              name: a?.name,
+              sets: a?.info?.sets,
+              reps: a?.info?.reps,
+              tempo: a?.info?.tempo,
+              rest_interval: a?.info?.rest_interval,
+              video: a?.link
+            }))
+          })
+          .reduce((m, n) => [...m, ...n])
       : []
     return rows
   }, [workout, params])
