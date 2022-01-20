@@ -41,10 +41,61 @@ export default function TrainingSplits() {
   const history = useHistory()
   const { type: userType } = useAuth()
   const [status, setStatus] = useState('')
+  const [sorting, setSorting] = useState<any>({
+    sortKey: '',
+    sortMethod: 0
+  })
   const { trainingSplits, isLoading } = useTrainingSplits({
     clientId: clientId,
     status
   })
+
+  const sortLogic = (a: any, b: any) => {
+    let sortValue = 0
+    switch (sorting?.sortKey) {
+      case 'name':
+        sortValue =
+          a?.name?.toLowerCase().localeCompare(b?.name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'diet_plan':
+        sortValue =
+          a?.diet_plan?.name
+            ?.toLowerCase()
+            .localeCompare(b?.diet_plan?.name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'training_plan':
+        sortValue =
+          a?.training_plan?.name
+            ?.toLowerCase()
+            .localeCompare(b?.training_plan?.name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'client':
+        sortValue =
+          a?.account?.user?.full_name
+            ?.toLowerCase()
+            .localeCompare(b?.account?.user?.full_name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'days':
+        sortValue =
+          getLatestRevision(a)
+            ?.days_count?.toString()
+            ?.localeCompare(getLatestRevision(b)?.days_count?.toString()) *
+          sorting?.sortMethod
+        break
+      case 'status':
+        sortValue =
+          a?.status?.toLowerCase().localeCompare(b?.status?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      default:
+        break
+    }
+    return sortValue
+  }
 
   const content = (
     <Styles>
@@ -128,8 +179,10 @@ export default function TrainingSplits() {
           ) : (
             <DataTable
               labels={LABELS}
-              data={trainingSplits}
+              data={trainingSplits.sort(sortLogic)}
               keys={KEYS}
+              sort={sorting}
+              setSort={setSorting}
               loading={isLoading}
               round="10px"
               render={{

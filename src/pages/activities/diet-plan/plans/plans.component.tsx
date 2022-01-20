@@ -38,6 +38,10 @@ export default function DietPlans() {
   const { type: userType } = useAuth()
   const [add, setAdd] = useState(false)
   const [status, setStatus] = useState('')
+  const [sorting, setSorting] = useState<any>({
+    sortKey: '',
+    sortMethod: 0
+  })
   const { isLoading, dietPlans } = useDietPlans({ clientId, status })
 
   // useEffect(() => {
@@ -48,6 +52,61 @@ export default function DietPlans() {
 
   if (add) {
     return <AddDietPlan onClose={() => setAdd(false)} />
+  }
+
+  const sortLogic = (a: any, b: any) => {
+    let sortValue = 0
+    switch (sorting?.sortKey) {
+      case 'name':
+        sortValue =
+          a?.name?.toLowerCase().localeCompare(b?.name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'client':
+        sortValue =
+          a?.account?.user?.full_name
+            ?.toLowerCase()
+            .localeCompare(b?.account?.user?.full_name?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      case 'days':
+        sortValue =
+          getRevision(a)
+            ?.days_count?.toString()
+            ?.localeCompare(getRevision(b)?.days_count?.toString()) *
+          sorting?.sortMethod
+        break
+      case 'start':
+        sortValue =
+          (getRevision(a)?.scheduled_start_on
+            ? getRevision(a)?.scheduled_start_on
+            : ''
+          ).localeCompare(
+            getRevision(b)?.scheduled_start_on
+              ? getRevision(b)?.scheduled_start_on
+              : ''
+          ) * sorting?.sortMethod
+        break
+      case 'end':
+        sortValue =
+          (getRevision(a)?.scheduled_end_on
+            ? getRevision(a)?.scheduled_end_on
+            : ''
+          ).localeCompare(
+            getRevision(b)?.scheduled_end_on
+              ? getRevision(b)?.scheduled_end_on
+              : ''
+          ) * sorting?.sortMethod
+        break
+      case 'status':
+        sortValue =
+          a?.status?.toLowerCase().localeCompare(b?.status?.toLowerCase()) *
+          sorting?.sortMethod
+        break
+      default:
+        break
+    }
+    return sortValue
   }
 
   const content = (
@@ -144,8 +203,10 @@ export default function DietPlans() {
           ) : (
             <DataTable
               labels={LABELS}
-              data={dietPlans}
+              data={dietPlans.sort(sortLogic)}
               keys={KEYS}
+              sort={sorting}
+              setSort={setSorting}
               round="10px"
               render={{
                 name: (row) => (
