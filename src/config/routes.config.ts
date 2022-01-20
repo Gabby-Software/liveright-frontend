@@ -634,6 +634,20 @@ export const routes: RouteType[] = [
     }
   },
   {
+    title: 'Workout Days Template',
+    url: Routes.ACTIVITIES_TM_WD_ID,
+    Component: lazy(
+      () =>
+        import('../pages/activities/templates/workout-days/day/day.component')
+    ),
+    version: 2,
+    mobileLayout: false,
+    header: {
+      title: null,
+      items: []
+    }
+  },
+  {
     title: 'Workout Template',
     url: Routes.ACTIVITIES_TM_WO_ID,
     Component: lazy(
