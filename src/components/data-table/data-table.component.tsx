@@ -2,7 +2,11 @@ import { Skeleton } from 'antd'
 import get from 'lodash/get'
 import React, { ReactNode } from 'react'
 
-import { SortGroupIcon } from '../../assets/media/icons'
+import {
+  SortAscIcon,
+  SortDescIcon,
+  SortGroupIcon
+} from '../../assets/media/icons'
 import { useTranslation } from '../../modules/i18n/i18n.hook'
 import { classes } from '../../pipes/classes.pipe'
 import Styles from './data-table.styles'
@@ -22,6 +26,8 @@ interface Props<G> {
   round?: string
   showSort?: boolean
   customLastRow?: ReactNode
+  sort?: { sortKey: string; sortMethod: number }
+  setSort?: (item: G) => void
 }
 const DataTable = ({
   labels,
@@ -36,9 +42,22 @@ const DataTable = ({
   error,
   actionWidth,
   round,
-  showSort = true
+  showSort = true,
+  sort = { sortKey: '', sortMethod: 0 },
+  setSort
 }: Props<any>) => {
   const { t } = useTranslation()
+
+  const sortColumn = (index: number) => {
+    if (keys && setSort) {
+      setSort({
+        ...sort,
+        sortKey: keys[index],
+        sortMethod: keys[index] === sort?.sortKey ? sort?.sortMethod * -1 : 1
+      })
+    }
+  }
+
   return (
     <Styles
       round={round}
@@ -49,9 +68,21 @@ const DataTable = ({
         <tr>
           {labels.map((label, index) => (
             <th key={label + index.toString()} className={'data-table__th'}>
-              <div className="data-table__th-container">
+              <div
+                className="data-table__th-container"
+                onClick={() => sortColumn(index)}
+              >
                 {t(label)}
-                {showSort && <SortGroupIcon />}
+                {showSort &&
+                  (keys && sort?.sortKey === keys[index] ? (
+                    sort?.sortMethod === 1 ? (
+                      <SortDescIcon />
+                    ) : (
+                      <SortAscIcon />
+                    )
+                  ) : (
+                    <SortGroupIcon />
+                  ))}
               </div>
             </th>
           ))}
