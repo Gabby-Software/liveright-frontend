@@ -23,7 +23,7 @@ interface SupersetProps {
   labelIndex: number
 }
 
-function createExercise(nameValue = '') {
+function createExercise(nameValue = '', sort_order = 1) {
   return {
     name: nameValue,
     info: {
@@ -31,7 +31,8 @@ function createExercise(nameValue = '') {
       reps: '',
       tempo: '',
       rest_interval: ''
-    }
+    },
+    sort_order: sort_order + 1
   }
 }
 
@@ -57,7 +58,8 @@ export default function Superset({
       createExercise(
         `${labelIndex}${String.fromCharCode(
           65 + exercisesArray.fields.length
-        )}--`
+        )}--`,
+        exercisesArray.fields.length
       )
     )
   }
