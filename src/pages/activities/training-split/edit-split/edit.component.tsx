@@ -31,6 +31,7 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getActiveOrLatestRev } from '../../../../utils/api/activities'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Counter from '../../components/counter/counter.component'
@@ -68,14 +69,7 @@ function createDay(
   }
 }
 
-function getLatestRevision(plan: any) {
-  return plan?.revisions?.[plan.revisions?.length - 1]
-}
-interface EditTrainingSplitProps {
-  data?: any
-}
-export default function EditTrainingSplit(props: EditTrainingSplitProps) {
-  const { data } = props
+export default function EditTrainingSplit() {
   const history = useHistory()
   const params = useParams<any>()
   const { clientId } = params
@@ -108,14 +102,15 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   const { revision: tpRev } = useTrainingPlan({
     id: selectedTP,
-    revisionId: getLatestRevision(
-      trainingPlans.find((tp) => tp._id === selectedTP)
+    revisionId: getActiveOrLatestRev(
+      trainingPlans.find((tp) => tp._id === selectedTP) || { revisions: [] }
     )?._id
   })
   const { revision: dpRev } = useDietPlan({
     id: selectedDP,
-    revisionId: getLatestRevision(dietPlans.find((dp) => dp._id === selectedDP))
-      ?._id
+    revisionId: getActiveOrLatestRev(
+      dietPlans.find((dp) => dp._id === selectedDP) || { revisions: [] }
+    )?._id
   })
 
   const { trainingSplit, revision, onAdd, onEdit } = useTrainingSplit({
@@ -166,8 +161,6 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   useEffect(() => {
     if (revision._id) {
-      console.log({ revision })
-      methods.setValue('name', trainingSplit.name)
       methods.setValue('account_id', trainingSplit.account_id)
       methods.setValue(
         'training_plan_revision_id',
@@ -186,13 +179,16 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
       setSelectedTP(revision.training_plan?._id || '')
       setSelectedDP(revision.diet_plan?._id || '')
     }
-  }, [revision._id])
+
+    if (trainingSplit._id) {
+      methods.setValue('name', trainingSplit.name)
+    }
+  }, [revision._id, trainingSplit._id])
 
   const handleSubmit = (values: any) => {
     if (trainingSplit._id && revision._id) {
       onEdit(trainingSplit._id, revision._id, values, null)
     } else {
-      console.log(values)
       onAdd(values, null)
     }
   }
@@ -216,19 +212,11 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
   }
 
   const handleMealPlan = (name: string) => {
-    if (isMobile) {
-      history.push(`${history.location.pathname}/meal-plan`)
-    } else {
-      setEditMealPlan(name)
-    }
+    setEditMealPlan(name)
   }
 
   const handleWorkout = (name: string) => {
-    if (isMobile) {
-      history.push(`${history.location.pathname}/training-plan`)
-    } else {
-      setEditWorkout(name)
-    }
+    setEditWorkout(name)
   }
 
   const tpOptions = useMemo(() => {
@@ -249,9 +237,14 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
     return options
   }, [dietPlans])
 
-  const address =
-    getRoute(Routes.ACTIVITIES_TS, { clientId: clientId }) +
-    (data ? '/ts_1' : '')
+  const address = !revision._id
+    ? getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })
+    : getRoute(Routes.ACTIVITIES_TS_ID, {
+        clientId: clientId,
+        id: params.id,
+        revisionId: params.revisionId
+      })
+
   const content = (
     <>
       <FormProvider {...methods}>
@@ -293,7 +286,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
             {isMobile || (
               <>
                 <MobileBack
-                  alias={data ? 'training-split' : 'training-split-overview'}
+                  alias={
+                    revision._id ? 'training-split' : 'training-split-overview'
+                  }
                   to={address}
                 />
                 <div className="AddTrainingSplit__title-container">
@@ -398,8 +393,9 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                   setSelectedDP(value)
                   methods.setValue(
                     'diet_plan_revision_id',
-                    getLatestRevision(dietPlans.find((dp) => dp._id === value))
-                      ?._id
+                    getActiveOrLatestRev(
+                      dietPlans.find((dp) => dp._id === value)
+                    )?._id
                   )
                 }}
                 options={dpOptions}
@@ -413,7 +409,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
                   setSelectedTP(value)
                   methods.setValue(
                     'training_plan_revision_id',
-                    getLatestRevision(
+                    getActiveOrLatestRev(
                       trainingPlans.find((tp) => tp._id === value)
                     )?._id
                   )
@@ -426,7 +422,7 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
           <Card className="AddTrainingSplit__card">
             <div className="AddTrainingSplit__cards-title-container">
               <Subtitle className="AddTrainingSplit__cards-title">
-                {data ? 'Edit your split' : 'Build your split'}
+                {revision._id ? 'Edit your split' : 'Build your split'}
               </Subtitle>
 
               <div className="AddTrainingSplit__cards-toggle-container">
@@ -557,15 +553,16 @@ export default function EditTrainingSplit(props: EditTrainingSplitProps) {
 
   return isMobile ? (
     <MobilePage
-      title={data ? 'Editing Training Split' : 'Creating Training Split'}
+      title={
+        revision._id ? 'Editing Training Split' : 'Creating Training Split'
+      }
+      headerSpacing={20}
       headerTopComponent={
-        <HeaderLink to={getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })}>
-          Back to Split Overview
+        <HeaderLink to={address}>
+          {revision._id ? 'Back to Split Overview' : 'Back to Splits'}
         </HeaderLink>
       }
-      actionComponent={
-        <Button onClick={() => setShowConfirm(true)}>Save</Button>
-      }
+      actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}
     </MobilePage>

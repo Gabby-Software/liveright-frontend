@@ -43,7 +43,7 @@ const MealPlanEdit = ({ name, onClose }: MealPlanEditProps) => {
       .map((d, i) => {
         if (dpName && d?.diet_plan_day?.name === dpName) {
           return {
-            day: d.name,
+            day: `Day ${i + 1}`,
             onDelete:
               name === `days.${i}.diet_plan_day`
                 ? null

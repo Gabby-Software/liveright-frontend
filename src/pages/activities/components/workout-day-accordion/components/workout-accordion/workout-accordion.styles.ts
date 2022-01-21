@@ -12,7 +12,7 @@ export const Styles = styled.div`
     }
 
     &__controls {
-      margin-bottom: 2rem;
+      margin-bottom: 0.5rem;
     }
 
     &__actions {
@@ -39,6 +39,16 @@ export const Styles = styled.div`
 
       &.close-superset {
         color: ${getColorCarry('red')};
+      }
+    }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
       }
     }
   }

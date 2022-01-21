@@ -180,7 +180,9 @@ export default function TrainingPlan() {
                   variant="text"
                   size="sm"
                   className="PlanPage__filters-archived-btn"
-                  to={Routes.ACTIVITIES_TP}
+                  to={getRoute(Routes.ACTIVITIES_TP, {
+                    clientId: params.clientId
+                  })}
                 >
                   Archived Plans
                 </Button>
@@ -263,7 +265,7 @@ export default function TrainingPlan() {
             </div>
 
             <div>
-              <div className="PlanPage__badges-checkbox">
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Checkbox style={{ marginRight: '0.5rem' }} />
                 <Label
                   className="MealAccordion__checkbox"
@@ -354,6 +356,7 @@ export default function TrainingPlan() {
   return isMobile ? (
     <MobilePage
       title="Current Training Plan"
+      headerSpacing={20}
       actionComponent={<Button onClick={() => setEdit(true)}>Edit Plan</Button>}
     >
       {content}

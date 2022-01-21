@@ -6,6 +6,11 @@ export const Styles = styled.div`
   display: flex;
   flex-direction: column;
 
+  .invalid-field .ant-select-selector,
+  .invalid-field .ant-picker {
+    border-color: #ef1733;
+  }
+
   .MealAccordion {
     &__control {
       margin-bottom: 1rem;

@@ -16,6 +16,7 @@ import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplit
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getActiveOrLatestRev } from '../../../../utils/api/activities'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
@@ -30,10 +31,6 @@ const LABELS = [
   'Status'
 ]
 const KEYS = ['name', 'diet_plan', 'training_plan', 'client', 'days', 'status']
-
-function getLatestRevision(plan: any) {
-  return plan?.revisions?.[plan.revisions?.length - 1]
-}
 
 export default function TrainingSplits() {
   const isMobile = useIsMobile()
@@ -171,7 +168,7 @@ export default function TrainingSplits() {
                   to={getRoute(Routes.ACTIVITIES_TS_ID, {
                     clientId: row.account_id || clientId,
                     id: row._id,
-                    revisionId: getLatestRevision(row)._id
+                    revisionId: getActiveOrLatestRev(row)._id
                   })}
                 />
               ))}
@@ -191,7 +188,7 @@ export default function TrainingSplits() {
                     to={getRoute(Routes.ACTIVITIES_TS_ID, {
                       clientId: row.account_id || clientId,
                       id: row._id,
-                      revisionId: getLatestRevision(row)._id
+                      revisionId: getActiveOrLatestRev(row)._id
                     })}
                     className="PlansTable__table-link"
                   >
@@ -210,7 +207,7 @@ export default function TrainingSplits() {
                 ),
                 client: (row) =>
                   `${row.account?.user?.first_name} ${row.account?.user?.last_name}`,
-                days: (row) => getLatestRevision(row)?.days_count
+                days: (row) => getActiveOrLatestRev(row)?.days_count
               }}
             />
           )}
@@ -224,6 +221,7 @@ export default function TrainingSplits() {
   return isMobile ? (
     <MobilePage
       title="Training Splits"
+      headerSpacing={20}
       actionComponent={
         <Button to={getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: clientId })}>
           Create Split

@@ -1,7 +1,10 @@
 import { get } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
+import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import SubItemAccordion from '../../../sub-item-accordion/sub-item-accordion.component'
@@ -17,6 +20,7 @@ interface ExerciseAccordionProps {
   innerRef?: any
   draggableProps: any
   isDragging: boolean
+  fromSuperset?: boolean
 }
 
 export default function ExerciseAccordion({
@@ -26,17 +30,58 @@ export default function ExerciseAccordion({
   name,
   onRemove,
   borderBottom,
-  prefix
+  prefix,
+  fromSuperset
 }: ExerciseAccordionProps) {
   const methods = useFormContext()
   const exerciseName = methods.getValues(`${name}.name`)
   const isCardio = methods.getValues(`${name}.info.cardio`)
 
-  const onChange = (name: string, value: string) => {
+  const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
 
   const { errors } = methods.formState
+
+  const renderExersiceNameField = (name: string, value: string) => {
+    if (fromSuperset) {
+      const [prefix, val] = String(value).split('--')
+      return (
+        <div className="exercise-input">
+          {fromSuperset && <p className="exercise-input__prefix">{prefix}--</p>}
+          <Input
+            id="Exercise-name"
+            label="Exercise name"
+            placeholder="Exersice"
+            value={fromSuperset ? val : value}
+            onChange={(e) => {
+              onChange(
+                name,
+                fromSuperset ? `${prefix}--${e.target.value}` : e.target.value
+              )
+            }}
+            error={get(errors, name)}
+            ErrorProps={{ size: 'sm' }}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <AutoCompleteInput
+          id="Exercise-name"
+          label={`${isCardio ? 'Cardio' : 'Exercise'} name`}
+          placeholder={isCardio ? 'Cardio' : 'Exercise'}
+          value={value}
+          onChange={(value) => {
+            onChange(name, value)
+          }}
+          options={[]}
+          error={get(errors, name)}
+          ErrorProps={{ size: 'sm' }}
+        />
+      )
+    }
+  }
 
   return (
     <div ref={innerRef} {...draggableProps}>
@@ -52,18 +97,9 @@ export default function ExerciseAccordion({
           <Styles>
             <Controller
               name={`${name}.name`}
-              render={({ field: { name, value } }) => (
-                <Input
-                  id="Exercise-name"
-                  label={isCardio ? 'Cardio name' : 'Exercise name'}
-                  placeholder="1A--"
-                  value={value}
-                  onChange={(e) => onChange(name, e.target.value)}
-                  className="ExerciseAccordion__name"
-                  error={get(errors, name)}
-                  ErrorProps={{ size: 'sm' }}
-                />
-              )}
+              render={({ field: { name, value } }) =>
+                renderExersiceNameField(name, value)
+              }
             />
 
             {isCardio ? (
@@ -177,6 +213,22 @@ export default function ExerciseAccordion({
                   )}
                 />
               </>
+            )}
+            {!fromSuperset && (
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="ExerciseAccordion__checkbox-container">
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => onChange(name, e.target.checked)}
+                    />
+                    <Label className="ExerciseAccordion__checkbox">
+                      Save as re-usable template
+                    </Label>
+                  </div>
+                )}
+                name={`${name}.save_as_template`}
+              />
             )}
           </Styles>
         }

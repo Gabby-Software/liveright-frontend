@@ -182,5 +182,11 @@ export const Styles = styled.div`
     //    max-width: 360px;
     //  }
     //}
+
+    &__listOfDays {
+      font-size: 1.125rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
   }
 `

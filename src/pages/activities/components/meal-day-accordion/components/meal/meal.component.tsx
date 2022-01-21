@@ -143,6 +143,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
   const onMealSelected = (value: string) => {
     // find in templates
     let meal = meals.find((m: any) => m.name === value)
+
     if (!meal) {
       // else not found, check in current DP
       const mealsOfPlan = days?.reduce(
@@ -153,6 +154,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
         []
       )
       meal = mealsOfPlan.find((m: any) => m.name === value)
+      console.log(mealsOfPlan)
     }
 
     if (meal) {

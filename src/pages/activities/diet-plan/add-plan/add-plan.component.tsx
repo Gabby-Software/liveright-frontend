@@ -414,6 +414,7 @@ export default function AddDietPlan({
   return isMobile ? (
     <MobilePage
       title="Add Diet Plan"
+      headerSpacing={20}
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

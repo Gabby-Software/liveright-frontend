@@ -82,6 +82,7 @@ export const Styles = styled(Card)`
         border: 1px solid ${getColorCarry('inputBorder_v2')};
         border-radius: 10px;
         padding: 1rem;
+        margin-top: 0.5rem;
         width: 100%;
       }
 
@@ -106,6 +107,10 @@ export const Styles = styled(Card)`
 
         &-name {
           color: ${getColorCarry('neutral_70')};
+        }
+
+        &-link {
+          word-break: break-all;
         }
       }
     }

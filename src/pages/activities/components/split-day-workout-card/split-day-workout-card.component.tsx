@@ -51,7 +51,14 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                       <p className="SplitDayWorkoutCard__content-card-col-name">
                         Video/Link
                       </p>
-                      <p>{e.link || 'ND'}</p>
+                      <a
+                        href={e.link || ''}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="SplitDayWorkoutCard__content-card-col-link"
+                      >
+                        {e.link || 'ND'}
+                      </a>
                     </div>
                   </div>
                 </div>
