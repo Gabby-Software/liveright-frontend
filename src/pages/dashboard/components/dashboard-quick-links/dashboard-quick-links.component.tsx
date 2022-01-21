@@ -26,7 +26,7 @@ const links: ILink[] = [
   {
     label: 'Training Plans',
     icon: <PlanIcon />,
-    path: Routes.ACTIVITIES_TP.replace('/:clientId?', '')
+    path: Routes.ACTIVITIES_TP.replace('/:clientId?', '/all')
   },
   {
     label: 'Schedule Session',

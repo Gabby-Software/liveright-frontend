@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { useState } from 'react'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Link, Redirect, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
@@ -52,6 +52,13 @@ export default function TrainingPlans() {
   //     history.push(`${Routes.ACTIVITIES}?return=${Routes.ACTIVITIES_TP}`)
   //   }
   // }, [clientId])
+
+  if (
+    (userType === userTypes.TRAINER && !clientId) ||
+    (userType === userTypes.CLIENT && clientId === 'all')
+  ) {
+    return <Redirect to={Routes.HOME} />
+  }
 
   if (add) {
     return (
