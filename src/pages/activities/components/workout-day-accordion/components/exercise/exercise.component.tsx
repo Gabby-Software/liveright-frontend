@@ -25,6 +25,7 @@ interface ExerciseProps {
   onRemove: any
   prefix?: boolean
   fromSuperset?: boolean
+  fromTemplate?: boolean
 }
 
 export default function Exercise({
@@ -35,7 +36,8 @@ export default function Exercise({
   name,
   prefix,
   onRemove,
-  fromSuperset
+  fromSuperset,
+  fromTemplate = false
 }: ExerciseProps) {
   const methods = useFormContext()
   // const params = useParams<any>()
@@ -254,7 +256,7 @@ export default function Exercise({
         </IconButton>
       </div>
 
-      {!fromSuperset && (
+      {!fromSuperset && !fromTemplate && (
         <Controller
           render={({ field: { value, name } }) => (
             <div className="Exercise__checkbox-container">

@@ -55,7 +55,8 @@ function createExercise(isSuperset: boolean | number, cardio: boolean) {
           reps: '',
           tempo: '',
           rest_interval: ''
-        }
+        },
+        sort_order: isSuperset && 1
       }
   return {
     is_superset: isSuperset && true,
@@ -149,8 +150,8 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
               render={({ field: { value, name } }) => (
                 <AutoCompleteInput
                   id="Workout-title"
-                  label="Title of workout"
-                  placeholder="Title"
+                  label="Workout Name"
+                  placeholder="Workout Name"
                   value={value === '' ? null : value}
                   onChange={(value) => methods.setValue(name, value)}
                   options={[]}
@@ -205,6 +206,7 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
                                     !!(exercisesArray.fields as any)[index - 1]
                                       ?.is_superset
                                   }
+                                  fromTemplate={true}
                                 />
                               )
                             }
@@ -228,6 +230,16 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
             >
               <AddIcon />
               Add Exercise
+            </Button>
+
+            <Button
+              variant="text"
+              size="sm"
+              className="Workout__action-btn"
+              onClick={() => handleExerciseAdd(supersetIndexes.length + 1)}
+            >
+              <AddIcon />
+              Add Superset
             </Button>
 
             <Button
