@@ -82,30 +82,30 @@ export default function TrainingPlans() {
         break
       case 'days':
         sortValue =
-          getRevision(a)
+          getActiveOrLatestRev(a)
             ?.days_count?.toString()
-            ?.localeCompare(getRevision(b)?.days_count?.toString()) *
+            ?.localeCompare(getActiveOrLatestRev(b)?.days_count?.toString()) *
           sorting?.sortMethod
         break
       case 'start':
         sortValue =
-          (getRevision(a)?.scheduled_start_on
-            ? getRevision(a)?.scheduled_start_on
+          (getActiveOrLatestRev(a)?.scheduled_start_on
+            ? getActiveOrLatestRev(a)?.scheduled_start_on
             : ''
           ).localeCompare(
-            getRevision(b)?.scheduled_start_on
-              ? getRevision(b)?.scheduled_start_on
+            getActiveOrLatestRev(b)?.scheduled_start_on
+              ? getActiveOrLatestRev(b)?.scheduled_start_on
               : ''
           ) * sorting?.sortMethod
         break
       case 'end':
         sortValue =
-          (getRevision(a)?.scheduled_end_on
-            ? getRevision(a)?.scheduled_end_on
+          (getActiveOrLatestRev(a)?.scheduled_end_on
+            ? getActiveOrLatestRev(a)?.scheduled_end_on
             : ''
           ).localeCompare(
-            getRevision(b)?.scheduled_end_on
-              ? getRevision(b)?.scheduled_end_on
+            getActiveOrLatestRev(b)?.scheduled_end_on
+              ? getActiveOrLatestRev(b)?.scheduled_end_on
               : ''
           ) * sorting?.sortMethod
         break

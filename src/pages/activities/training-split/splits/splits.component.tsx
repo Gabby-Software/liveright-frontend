@@ -78,9 +78,9 @@ export default function TrainingSplits() {
         break
       case 'days':
         sortValue =
-          getLatestRevision(a)
+          getActiveOrLatestRev(a)
             ?.days_count?.toString()
-            ?.localeCompare(getLatestRevision(b)?.days_count?.toString()) *
+            ?.localeCompare(getActiveOrLatestRev(b)?.days_count?.toString()) *
           sorting?.sortMethod
         break
       case 'status':
