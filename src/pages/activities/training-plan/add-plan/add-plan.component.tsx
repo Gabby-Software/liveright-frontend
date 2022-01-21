@@ -438,6 +438,7 @@ export default function AddTrainingPlan({
   return isMobile ? (
     <MobilePage
       title={editId ? 'Edit Training Plan' : 'Create Training Plan'}
+      headerSpacing={20}
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

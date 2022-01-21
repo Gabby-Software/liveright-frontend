@@ -1,6 +1,6 @@
 import { capitalize } from 'lodash'
 import moment, { Moment } from 'moment'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -16,6 +16,7 @@ import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getVersionOptions } from '../../../../utils/api/activities'
 import { DATE_PRETTY_FORMAT, DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -43,6 +44,11 @@ export default function TrainingSplit() {
     id: params.id,
     revisionId: params.revisionId
   })
+
+  const versionOptions = useMemo(
+    () => getVersionOptions(trainingSplit.revisions || []),
+    [trainingSplit]
+  )
 
   if (day) {
     return (
@@ -201,10 +207,18 @@ export default function TrainingSplit() {
               <Select
                 className="TrainingSplits__filters-control"
                 id="TrainingSplits-version"
-                options={[]}
-                value={{
-                  label: 'Latest Version',
-                  value: 'Latest Version'
+                options={versionOptions}
+                value={versionOptions.find(
+                  (o: any) => o.value === revision._id
+                )}
+                onChange={(e, o) => {
+                  history.push(
+                    getRoute(Routes.ACTIVITIES_TS_ID, {
+                      id: params.id,
+                      clientId: params.clientId,
+                      revisionId: o.value
+                    })
+                  )
                 }}
               />
 
@@ -285,11 +299,14 @@ export default function TrainingSplit() {
         </Card>
 
         {isMobile && (
-          <Card>
-            {scheduleToggle}
+          <>
+            <h3 className="TrainingSplits__listOfDays">List of Days</h3>
+            <Card>
+              {scheduleToggle}
 
-            {cards}
-          </Card>
+              {cards}
+            </Card>
+          </>
         )}
       </Styles>
 
@@ -488,11 +505,14 @@ export default function TrainingSplit() {
   return isMobile ? (
     <MobilePage
       title="Current Training Split"
+      headerSpacing={20}
       actionComponent={
         <Button
-          to={`${getRoute(Routes.ACTIVITIES_TS, {
-            clientId: params.clientId
-          })}/1/edit`}
+          to={getRoute(Routes.ACTIVITIES_TS_EDIT, {
+            clientId: params.clientId,
+            id: params.id,
+            revisionId: params.revisionId
+          })}
         >
           Edit Split
         </Button>

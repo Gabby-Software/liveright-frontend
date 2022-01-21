@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { getActiveOrLatestRev } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { Styles } from './plan-card.styles'
 
@@ -11,24 +12,23 @@ interface PlanCardProps {
 }
 
 export default function PlanCard({ plan, to }: PlanCardProps) {
-  const status = plan.status
+  const latestRev = getActiveOrLatestRev(plan)
+  const status = latestRev?.status
   const scheduled =
-    plan.status === 'scheduled' ||
-    plan.status === 'active' ||
-    plan.status === 'inactive'
+    status === 'scheduled' || status === 'active' || status === 'inactive'
 
   const planInfo = (
     <>
-      {plan.training_plan && (
+      {latestRev?.training_plan && (
         <div>
           <p className="PlanCard__row-title">Training plan</p>
-          <p className="PlanCard__row-value">{plan.training_plan.name}</p>
+          <p className="PlanCard__row-value">{latestRev?.training_plan.name}</p>
         </div>
       )}
-      {plan.diet_plan && (
+      {latestRev?.diet_plan && (
         <div>
           <p className="PlanCard__row-title">Diet plan</p>
-          <p className="PlanCard__row-value">{plan.diet_plan.name}</p>
+          <p className="PlanCard__row-value">{latestRev?.diet_plan.name}</p>
         </div>
       )}
     </>
@@ -39,7 +39,12 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
         <div>
           <p className="PlanCard__name">{plan.name}</p>
           <p className="PlanCard__subtitle">
-            <span>Client:</span> {plan.client || '-'}
+            <span>Client:</span>{' '}
+            {plan.account
+              ? [plan.account?.user?.first_name, plan.account?.user?.last_name]
+                  .filter(Boolean)
+                  .join(' ') || '-'
+              : '-'}
           </p>
         </div>
 
@@ -51,25 +56,25 @@ export default function PlanCard({ plan, to }: PlanCardProps) {
       <div className="PlanCard__info">
         <div>
           <p className="PlanCard__row-title">Days</p>
-          <p className="PlanCard__row-value">{plan.days || '-'}</p>
+          <p className="PlanCard__row-value">{latestRev?.days_count}</p>
         </div>
         {scheduled ? (
           <>
-            {plan.scheduled_start_on && (
+            {latestRev?.scheduled_start_on && (
               <div>
                 <p className="PlanCard__row-title">Start</p>
                 <p className="PlanCard__row-value">
-                  {moment(new Date(plan.scheduled_start_on)).format(
+                  {moment(new Date(latestRev?.scheduled_start_on)).format(
                     DATE_RENDER_FORMAT
                   )}
                 </p>
               </div>
             )}
-            {plan.scheduled_end_on && (
+            {latestRev?.scheduled_end_on && (
               <div>
                 <p className="PlanCard__row-title">End</p>
                 <p className="PlanCard__row-value">
-                  {moment(new Date(plan.scheduled_end_on)).format(
+                  {moment(new Date(latestRev?.scheduled_end_on)).format(
                     DATE_RENDER_FORMAT
                   )}
                 </p>

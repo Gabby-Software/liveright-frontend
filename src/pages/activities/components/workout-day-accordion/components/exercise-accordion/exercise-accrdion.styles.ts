@@ -17,6 +17,26 @@ export const Styles = styled.div`
     &__name {
       margin-bottom: 1rem;
     }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  .exercise-input {
+    display: flex;
+    align-items: center;
+
+    &__prefix {
+      width: 40px;
+      margin-top: 25px;
+    }
   }
 `
 

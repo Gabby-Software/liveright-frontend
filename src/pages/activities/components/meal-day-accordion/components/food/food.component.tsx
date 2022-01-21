@@ -53,7 +53,9 @@ export default function Food({
   useEffect(() => {
     methods.setValue(
       `${name}.info.calories`,
-      info.proteins * 4 + info.net_carbs * 4 + info.fat * 9,
+      (info.proteins || 0) * 4 +
+        (info.net_carbs || 0) * 4 +
+        (info.fat || 0) * 9,
       { shouldValidate: true }
     )
   }, [info.proteins, info.net_carbs, info.fat])

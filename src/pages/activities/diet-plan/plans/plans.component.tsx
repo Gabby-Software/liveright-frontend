@@ -21,6 +21,7 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
+import { getActiveOrLatestRev } from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -71,30 +72,30 @@ export default function DietPlans() {
         break
       case 'days':
         sortValue =
-          getRevision(a)
+          getActiveOrLatestRev(a)
             ?.days_count?.toString()
-            ?.localeCompare(getRevision(b)?.days_count?.toString()) *
+            ?.localeCompare(getActiveOrLatestRev(b)?.days_count?.toString()) *
           sorting?.sortMethod
         break
       case 'start':
         sortValue =
-          (getRevision(a)?.scheduled_start_on
-            ? getRevision(a)?.scheduled_start_on
+          (getActiveOrLatestRev(a)?.scheduled_start_on
+            ? getActiveOrLatestRev(a)?.scheduled_start_on
             : ''
           ).localeCompare(
-            getRevision(b)?.scheduled_start_on
-              ? getRevision(b)?.scheduled_start_on
+            getActiveOrLatestRev(b)?.scheduled_start_on
+              ? getActiveOrLatestRev(b)?.scheduled_start_on
               : ''
           ) * sorting?.sortMethod
         break
       case 'end':
         sortValue =
-          (getRevision(a)?.scheduled_end_on
-            ? getRevision(a)?.scheduled_end_on
+          (getActiveOrLatestRev(a)?.scheduled_end_on
+            ? getActiveOrLatestRev(a)?.scheduled_end_on
             : ''
           ).localeCompare(
-            getRevision(b)?.scheduled_end_on
-              ? getRevision(b)?.scheduled_end_on
+            getActiveOrLatestRev(b)?.scheduled_end_on
+              ? getActiveOrLatestRev(b)?.scheduled_end_on
               : ''
           ) * sorting?.sortMethod
         break
@@ -165,6 +166,7 @@ export default function DietPlans() {
               onChange={(e) => {
                 history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
               }}
+              value={clientId}
               placeholder="All Client"
               className="PlansTable__select"
             />
@@ -195,7 +197,7 @@ export default function DietPlans() {
                   to={getRoute(Routes.ACTIVITIES_DP_ID, {
                     clientId: row.account_id || clientId,
                     id: row._id,
-                    revisionId: getRevision(row)?._id
+                    revisionId: getActiveOrLatestRev(row)?._id
                   })}
                 />
               ))}
@@ -215,7 +217,7 @@ export default function DietPlans() {
                     to={getRoute(Routes.ACTIVITIES_DP_ID, {
                       clientId: row.account_id || clientId,
                       id: row._id,
-                      revisionId: getRevision(row)?._id
+                      revisionId: getActiveOrLatestRev(row)?._id
                     })}
                   >
                     <span>{row.name}</span>
@@ -233,31 +235,35 @@ export default function DietPlans() {
                       : '-'}
                   </span>
                 ),
-                days: (row) => <span>{getRevision(row)?.days_count}</span>,
+                days: (row) => (
+                  <span>{getActiveOrLatestRev(row)?.days_count}</span>
+                ),
                 start: (row) => (
                   <span>
-                    {getRevision(row)?.scheduled_start_on
+                    {getActiveOrLatestRev(row)?.scheduled_start_on
                       ? moment(
-                          new Date(getRevision(row)?.scheduled_start_on)
+                          new Date(
+                            getActiveOrLatestRev(row)?.scheduled_start_on
+                          )
                         ).format(DATE_RENDER_FORMAT)
                       : '-'}
                   </span>
                 ),
                 end: (row) => (
                   <span>
-                    {getRevision(row)?.scheduled_end_on
+                    {getActiveOrLatestRev(row)?.scheduled_end_on
                       ? moment(
-                          new Date(getRevision(row)?.scheduled_end_on)
+                          new Date(getActiveOrLatestRev(row)?.scheduled_end_on)
                         ).format(DATE_RENDER_FORMAT)
                       : '-'}
                   </span>
                 ),
                 status: (row) => (
                   <StatusBadge
-                    status={getRevision(row)?.status.toLowerCase()}
+                    status={getActiveOrLatestRev(row)?.status.toLowerCase()}
                     className="PlansTable__table-status"
                   >
-                    {capitalize(getRevision(row)?.status)}
+                    {capitalize(getActiveOrLatestRev(row)?.status)}
                   </StatusBadge>
                 )
               }}
@@ -274,6 +280,7 @@ export default function DietPlans() {
   return isMobile ? (
     <MobilePage
       title="Diet Plans"
+      headerSpacing={20}
       actionComponent={
         <Button onClick={() => setAdd(true)}>Create Plan</Button>
       }
@@ -283,8 +290,4 @@ export default function DietPlans() {
   ) : (
     content
   )
-}
-
-function getRevision(row: any) {
-  return row.revisions?.[row.revisions?.length - 1]
 }

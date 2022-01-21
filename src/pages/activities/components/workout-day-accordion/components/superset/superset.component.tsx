@@ -26,6 +26,7 @@ interface SupersetProps {
 function createExercise(nameValue = '') {
   return {
     name: nameValue,
+    link: '',
     info: {
       sets: '',
       reps: '',
@@ -51,7 +52,6 @@ export default function Superset({
     name: `${name}.data`
   })
 
-  console.log(labelIndex)
   const handleAddExercise = () => {
     exercisesArray.append(
       createExercise(

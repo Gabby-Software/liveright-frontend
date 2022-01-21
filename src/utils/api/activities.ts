@@ -18,17 +18,36 @@ export const findLatest = (
   return lastestObject
 }
 
-export const getVersionOptions = (revisions: any[]) => {
-  const schduledRev = revisions.filter((r) =>
-    moment(new Date(r.scheduled_start_on)).isAfter()
-  )
-  const unSchduledRev = revisions.filter(
-    (r) => !moment(new Date(r.scheduled_start_on)).isAfter()
-  )
-  const activeRev = findLatest(unSchduledRev)
-  const unActiveRev = unSchduledRev.filter((r) => r._id !== activeRev?._id)
+export const findRevByStatus = (
+  array: {
+    status: string
+    [key: string]: any
+  }[],
+  status: string
+): any[] => {
+  return array.filter((a) => a.status === status)
+}
 
-  const unActiveOptions = unActiveRev.map((r) => ({
+export const getActiveOrLatestRev = (plan: {
+  status: string
+  revisions: {
+    status: string
+    [key: string]: any
+  }[]
+  [key: string]: any
+}): any => {
+  return (
+    findRevByStatus(plan.revisions, 'active')?.[0] ||
+    plan.revisions?.[plan.revisions?.length - 1]
+  )
+}
+
+export const getVersionOptions = (revisions: any[]) => {
+  const schduledRev = findRevByStatus(revisions, 'scheduled')
+  const inActiveRev = findRevByStatus(revisions, 'inactive')
+  const activeRev = findRevByStatus(revisions, 'active')
+
+  const unActiveOptions = inActiveRev.map((r) => ({
     label: `Version ${moment(new Date(r.updated_at)).format(
       DATE_MONTH_RENDER_FORMAT
     )}`,
@@ -43,7 +62,11 @@ export const getVersionOptions = (revisions: any[]) => {
   }))
 
   return unActiveOptions
-    .concat([{ label: 'Active Version', value: activeRev?._id }])
+    .concat(
+      activeRev?.[0]?._id
+        ? [{ label: 'Active Version', value: activeRev?.[0]?._id }]
+        : []
+    )
     .concat(scheduledOptions)
 }
 

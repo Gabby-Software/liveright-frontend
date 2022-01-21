@@ -17,14 +17,19 @@ interface SupersetAccordionProps {
   name: string
   locked?: boolean
   onRemove: any
+  dragHandleProps: any
+  draggableProps: any
+  isDragging: boolean
+  innerRef?: any
+  labelIndex: number
 }
 
-function createExercise() {
+function createExercise(nameValue = '') {
   return {
-    name: 'Exercise',
+    name: nameValue,
     link: '',
     info: {
-      steps: '',
+      sets: '',
       reps: '',
       tempo: '',
       rest_interval: ''
@@ -35,7 +40,11 @@ function createExercise() {
 export default function SupersetAccordion({
   name,
   locked,
-  onRemove
+  onRemove,
+  innerRef,
+  dragHandleProps,
+  draggableProps,
+  labelIndex
 }: SupersetAccordionProps) {
   const dropId = useRef(Date.now())
   const methods = useFormContext()
@@ -53,7 +62,13 @@ export default function SupersetAccordion({
   }
 
   const handleAddExercise = () => {
-    exercisesArray.append(createExercise())
+    exercisesArray.append(
+      createExercise(
+        `${labelIndex}${String.fromCharCode(
+          65 + exercisesArray.fields.length
+        )}--`
+      )
+    )
   }
 
   const handleRemoveExercise = (index: number) => {
@@ -61,11 +76,25 @@ export default function SupersetAccordion({
       onRemove()
     } else {
       exercisesArray.remove(index)
+      // wait for removal to finish
+      setTimeout(resetPrefixValues, 10)
     }
   }
 
+  const resetPrefixValues = () => {
+    const values: any[] = methods.getValues(name).data
+    // get values and re-order the prefix values i.e 1A, 1B etc.
+    values.forEach((v, i) => {
+      const suf = String(v.name).split('--')[1]
+      methods.setValue(
+        `${name}.data.${i}.name`,
+        `${labelIndex}${String.fromCharCode(65 + i)}--${suf}`
+      )
+    })
+  }
+
   return (
-    <Styles>
+    <Styles ref={innerRef} {...draggableProps} {...dragHandleProps}>
       <div>
         <div className="SupersetAccordion__bar">
           <WorkoutSubtitle>Superset</WorkoutSubtitle>
@@ -91,10 +120,12 @@ export default function SupersetAccordion({
                           isDragging={snapshot.isDragging}
                           name={`${name}.data.${index}`}
                           onRemove={() => handleRemoveExercise(index)}
+                          fromSuperset
                         />
                       )}
                     </Draggable>
                   ))}
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>

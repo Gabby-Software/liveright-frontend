@@ -1,10 +1,18 @@
-import { useMemo } from 'react'
+import get from 'lodash.get'
+import { useMemo, useState } from 'react'
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult
+} from 'react-beautiful-dnd'
 import {
   Controller,
   useFieldArray,
   useFormContext,
   useWatch
 } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 
 import { AddIcon } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
@@ -12,6 +20,7 @@ import AutoCompleteInput from '../../../../../../components/form/autoCompleteInp
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Label from '../../../../../../components/form/label/label.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import ItemAccordion from '../../../item-accordion/item-accordion.component'
@@ -29,6 +38,7 @@ function createFood() {
   return {
     data: {
       name: '',
+      save_as_template: false,
       info: {
         grams: '',
         proteins: '',
@@ -43,11 +53,29 @@ function createFood() {
   }
 }
 
+const MACROS_LABEL_KEY_MAP = {
+  Calories: 'calories',
+  Carbs: 'net_carbs',
+  Fat: 'fat',
+  Proteins: 'proteins'
+}
+
 export default function MealAccordion({
   name,
   index,
   onRemove
 }: MealAccordionProps) {
+  const [dropId] = useState(uuid())
+  const [totalMacros, setTotalMacros] = useState({
+    grams: 0,
+    proteins: 0,
+    fat: 0,
+    net_carbs: 0,
+    sugar: 0,
+    fiber: 0,
+    total_carbs: 0,
+    calories: 0
+  })
   const methods = useFormContext()
 
   const foodsArray = useFieldArray({
@@ -67,6 +95,15 @@ export default function MealAccordion({
 
   const { meals } = useTemplateMeals()
 
+  const { errors } = methods.formState
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+    foodsArray.move(result.source.index, (result.destination as any).index)
+  }
+
   const handleFoodAdd = () => {
     foodsArray.append(createFood())
     methods.clearErrors(`${name}.items`)
@@ -75,6 +112,34 @@ export default function MealAccordion({
   const handleFoodRemove = (index: number) => {
     foodsArray.remove(index)
   }
+
+  const calculateTotalMacros = () => {
+    const items: any[] = methods.getValues(`${name}.items`)
+
+    const macros = {
+      grams: 0,
+      proteins: 0,
+      fat: 0,
+      net_carbs: 0,
+      sugar: 0,
+      fiber: 0,
+      total_carbs: 0,
+      calories: 0
+    }
+
+    items?.forEach((i) => {
+      const info = i.data.info
+      Object.keys(macros).map((k: string) => {
+        return ((macros as any)[k] += parseInt(info[k] || 0))
+      })
+    })
+
+    setTotalMacros(macros)
+  }
+
+  methods.watch(() => {
+    calculateTotalMacros()
+  })
 
   const onMealSelected = (value: string) => {
     // find in templates
@@ -160,6 +225,7 @@ export default function MealAccordion({
                   onChange={(value) => methods.setValue(name, value)}
                   onSelect={onMealSelected}
                   options={nameOptions}
+                  className={get(errors, name) ? 'invalid-field' : ''}
                 />
               )}
               name={`${name}.name`}
@@ -168,10 +234,13 @@ export default function MealAccordion({
 
           <Label>Micronutrients</Label>
           <div className="MealAccordion__macronutrients">
-            {['Calories', 'Carbs', 'Fat', 'Protein'].map((row) => (
+            {['Calories', 'Carbs', 'Fat', 'Proteins'].map((row) => (
               <div key={row} className="MealAccordion__macronutrient">
                 <p className="MealAccordion__macronutrient-title">{row}</p>
-                <p className="MealAccordion__macronutrient-value">0g</p>
+                <p className="MealAccordion__macronutrient-value">
+                  {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]}
+                  {row === 'Calories' ? 'KCal' : 'g'}
+                </p>
               </div>
             ))}
           </div>
@@ -200,30 +269,63 @@ export default function MealAccordion({
             className="MealAccordion__control"
           /> */}
 
-          <div className="MealAccordion__checkbox-container">
-            <Checkbox />
-            <Label className="MealAccordion__checkbox">
-              Save meal as re-usable template
-            </Label>
-          </div>
+          <Controller
+            render={({ field: { value, name } }) => (
+              <div className="Meal__checkbox-container">
+                <Checkbox
+                  checked={value}
+                  onChange={(e) => methods.setValue(name, e.target.checked)}
+                />
+                <Label className="Meal__checkbox">
+                  Save as re-usable template
+                </Label>
+              </div>
+            )}
+            name={`${name}.save_as_template`}
+          />
+
           <WorkoutSubtitle>Food</WorkoutSubtitle>
 
           <div>
-            {foodsArray.fields.map((row: any, index: number) => (
-              <FoodAccordion
-                key={row.id}
-                name={`${name}.items.${[index]}.data`}
-                onRemove={() => handleFoodRemove(index)}
-              />
-            ))}
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId={dropId}>
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {foodsArray.fields &&
+                      foodsArray.fields.map((row: any, index: number) => (
+                        <Draggable
+                          key={row.id}
+                          draggableId={`${row.id}`}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <FoodAccordion
+                              innerRef={provided.innerRef}
+                              dragHandleProps={provided.dragHandleProps}
+                              draggableProps={provided.draggableProps}
+                              isDragging={snapshot.isDragging}
+                              name={`${name}.items.${[index]}.data`}
+                              onRemove={() => handleFoodRemove(index)}
+                            />
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+
+            {!foodsArray.fields.length && (
+              <div
+                className="Meal__clickable-container"
+                onClick={handleFoodAdd}
+              >
+                <EmptyPlaceholder spacing text="Add Foods" />
+              </div>
+            )}
           </div>
 
-          <div className="MealAccordion__checkbox-container">
-            <Checkbox />
-            <Label className="MealAccordion__checkbox">
-              Save as re-usable template
-            </Label>
-          </div>
           <div className="MealAccordion__actions">
             <Button
               variant="text"

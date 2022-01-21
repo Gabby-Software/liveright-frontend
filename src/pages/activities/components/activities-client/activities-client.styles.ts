@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Wrapper = styled(Card)`
@@ -9,6 +10,12 @@ export const Wrapper = styled(Card)`
   color: ${getColorCarry('primaryDark_v2')};
   flex-direction: row;
   justify-content: space-between;
+
+  @media ${mediaQueries.MOBILE} {
+    padding: 1rem;
+    flex-direction: column;
+    margin-top: -5rem;
+  }
 
   .log-client {
     &__label {
@@ -19,6 +26,11 @@ export const Wrapper = styled(Card)`
     &__top {
       display: flex;
       align-items: center;
+
+      @media ${mediaQueries.MOBILE} {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
     &__bottom {
       display: flex;
@@ -30,6 +42,12 @@ export const Wrapper = styled(Card)`
       &__item {
         display: flex;
         align-items: center;
+
+        @media ${mediaQueries.MOBILE} {
+          flex-direction: column;
+          align-items: flex-start;
+          width: 50%;
+        }
       }
 
       &__separator {
@@ -44,15 +62,31 @@ export const Wrapper = styled(Card)`
       }
       &__value {
       }
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 14px;
+        background: rgba(9, 72, 79, 0.03);
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        margin-top: 10px;
+      }
     }
     &__main {
       flex: 1;
       display: flex;
       align-items: center;
+
+      @media ${mediaQueries.MOBILE} {
+        justify-content: space-between;
+      }
     }
     &__name {
       font-size: 1.125rem;
       font-weight: 700;
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 1rem;
+      }
     }
     &__switch {
       display: flex;
@@ -68,6 +102,16 @@ export const Wrapper = styled(Card)`
       & span {
         text-decoration: underline;
       }
+
+      @media ${mediaQueries.MOBILE} {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &__user-container {
+      display: flex;
+      align-items: center;
     }
 
     &__actions {
