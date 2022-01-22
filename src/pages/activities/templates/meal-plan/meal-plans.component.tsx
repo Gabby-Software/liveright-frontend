@@ -15,22 +15,13 @@ const LABELS = [
 ]
 const KEYS = ['id', 'name', 'created', 'meals', 'client', 'options']
 
-// const DATA = [
-//   {
-//     id: 123,
-//     name: 'Low Carb Day',
-//     created: '21-01-2021',
-//     client: 'John Travolta',
-//     meals: '3'
-//   }
-// ]
-
 export default function MealPlans() {
   const [clientId, setClientId] = useState('')
   const [name, setName] = useState('')
 
   const { mealPlans } = useTemplateMealPlans({ clientId, name })
-  const DATA = useDataMealPlansConvert(mealPlans)
+  const data = useDataMealPlansConvert(mealPlans)
+  console.log(data, mealPlans)
 
   const onSearch = (value: string) => {
     console.log(value)
@@ -51,7 +42,7 @@ export default function MealPlans() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
-      data={DATA}
+      data={data}
       baseLink={Routes.ACTIVITIES_TM_MP}
     />
   )
