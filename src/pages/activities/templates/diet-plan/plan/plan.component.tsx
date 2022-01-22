@@ -11,14 +11,47 @@ import useTemplateDietPlan from '../../../../../hooks/api/templates/diet-plan/us
 import DayDietPlanCard from '../../../components/day-diet-plan-card/day-diet-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import ActivityLayout from '../../../components/layout/layout.component'
+import AddDietPlan from '../../../diet-plan/add-plan/add-plan.component'
 import { Styles } from '../../../styles/plan.styles'
+import DietPlanTemplateDayView from '../components/diet-plan-day-template-view'
 
 export default function DietPlan() {
   const [showConfirm, setShowConfirm] = useState(false)
+  const [edit, setEdit] = useState<boolean | number>(false)
+  const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
+    false
+  )
   const { id } = useParams<any>()
   const { dietTemplate } = useTemplateDietPlan(id)
+  const params = useParams<any>()
   console.log(dietTemplate)
   const onDelete = () => {}
+
+  if (edit || typeof edit === 'number') {
+    return (
+      <AddDietPlan
+        editDay={typeof edit === 'number' ? edit : undefined}
+        editId={id}
+        revisionId={params.revisionId}
+        onClose={() => setEdit(false)}
+      />
+    )
+  }
+
+  if (expandedDayIndex || typeof expandedDayIndex === 'number') {
+    return (
+      <DietPlanTemplateDayView
+        data={dietTemplate}
+        onClose={() => setExpandedDayIndex(false)}
+        index={expandedDayIndex as number}
+        setIndex={setExpandedDayIndex}
+        onEdit={() => {
+          setEdit(expandedDayIndex)
+          setExpandedDayIndex(false)
+        }}
+      />
+    )
+  }
 
   return (
     <ActivityLayout>
@@ -56,7 +89,13 @@ export default function DietPlan() {
           <div className="PlanPage__divider" />
 
           <div className="PlanPage__cards">
-            <DayDietPlanCard day={dietTemplate} onExpand={() => {}} />
+            {dietTemplate?.days?.map((item: any, index: number) => (
+              <DayDietPlanCard
+                day={item}
+                onExpand={() => setExpandedDayIndex(index)}
+                key={item._id}
+              />
+            ))}
           </div>
         </Card>
       </Styles>

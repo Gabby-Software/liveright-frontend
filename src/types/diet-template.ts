@@ -9,4 +9,5 @@ export type DietTemplateType = LibraryType & {
   total_target: FoodInfoType
   current: FoodInfoType
   eat_list: DietTemplateItemType[]
+  days: any
 }
