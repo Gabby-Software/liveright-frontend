@@ -17,46 +17,19 @@ import { FoodInfoType } from '../../../../types/food.type'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import ActivityLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
+import SplitDayMealCard from '../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
-  calories: 'Calories',
-  net_carbs: 'Net Carbs',
+  proteins: 'Proteins',
   fat: 'Fat',
-  proteins: 'Proteins'
+  net_carbs: 'Net Carbs',
+  sugar: 'Sugar',
+  fiber: 'Fiber',
+  total_carbs: 'Total Carbs',
+  calories: 'Calories'
 }
-// const plans = [
-//   {
-//     id: '123',
-//     name: 'Meal 1',
-//     nutrients: [
-//       { name: 'Calories', value: '20g' },
-//       { name: 'Carbs', value: '40g' },
-//       { name: 'Fat', value: '10g' },
-//       { name: 'Protein', value: '60g' }
-//     ],
-//     meals: [
-//       { name: 'Chicken Brest Tender', value: '100g' },
-//       { name: 'Brown Rice', value: '50g' },
-//       { name: 'Red Apple', value: '150g' }
-//     ]
-//   },
-//   {
-//     id: '124',
-//     name: 'Meal 2',
-//     nutrients: [
-//       { name: 'Calories', value: '70g' },
-//       { name: 'Carbs', value: '50g' },
-//       { name: 'Fat', value: '15g' },
-//       { name: 'Protein', value: '80g' }
-//     ],
-//     meals: [
-//       { name: 'Chicken Brest Tender', value: '120g' },
-//       { name: 'Brown Rice', value: '60g' },
-//       { name: 'Red Apple', value: '150g' }
-//     ]
-//   }
-// ]
+
 const options = [
   { label: 'Balanced Diet', value: '123' },
   { label: 'Low Fat Diet', value: '124' }
@@ -69,8 +42,7 @@ export default function MealPlan() {
   const [dpOption, setDpOption] = useState('123')
 
   const { mealPlan } = useTemplateMealPlan(params.id)
-  console.log(mealPlan)
-  // const nutrients = useNutrientsConvert(mealPlan.total_target)
+
   const onDelete = () => {}
 
   return (
@@ -115,25 +87,19 @@ export default function MealPlan() {
                 <Macronutrient
                   key={k}
                   title={MACROS_KEY_LABEL[k]}
-                  amount={`${
-                    mealPlan?.total_target?.[k as keyof FoodInfoType]
-                  }${k === 'calories' ? 'kcal' : 'g'}`}
+                  amount={`${mealPlan?.total_target?.[
+                    k as keyof FoodInfoType
+                  ].toFixed(2)} ${k === 'calories' ? 'kcal' : 'g'}`}
                 />
               ))}
             </div>
           </section>
 
-          <LabelDivider>List Food</LabelDivider>
+          <LabelDivider>List Meal</LabelDivider>
 
-          <section className="PlanPage__meals">
-            {mealPlan.activities?.map((item: any) => (
-              <div className="meal-food" key={item._id}>
-                <span>{item?.name}</span>
-                &nbsp;-&nbsp;
-                <span>{item.total_target?.grams}g</span>
-              </div>
-            ))}
-          </section>
+          {mealPlan.activities?.map((a: any, i: number) => (
+            <SplitDayMealCard key={i} data={a} />
+          ))}
         </Card>
       </Styles>
 

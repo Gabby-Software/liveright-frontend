@@ -24,9 +24,10 @@ export const useDataMealPlansConvert = (data: any) => {
       return data?.map((item: any) => {
         return {
           id: item._id,
+          revisionId: item.revision_id,
           created: item.name,
           client: item.account.user.full_name,
-          meals: 5,
+          meals: item?.activities?.length,
           name: moment(item.created_at).format('DD-MM-YYYY')
         }
       })
@@ -44,7 +45,7 @@ export const useDataDietPlansConvert = (data: any) => {
           id: item._id,
           created: item.name,
           client: item.account.user.full_name,
-          days: item.revisions.days_count,
+          days: item.revisions?.days_count,
           name: moment(item.created_at).format('DD-MM-YYYY')
         }
       })
