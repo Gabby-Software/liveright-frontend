@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { Routes } from '../../../../../enums/routes.enum'
 import useTemplateWorkoutDays from '../../../../../hooks/api/templates/workout-days/useTemplateWorkoutDays'
+import { useAuth } from '../../../../../hooks/auth.hook'
 import TemplatesTable from '../../components/template-table/template-table.component'
 
 const LABELS = ['ID', 'Created on', 'Name', 'Created from client', 'Options']
@@ -13,26 +14,25 @@ const convertDate = (dateString: string) => {
 }
 
 export default function WorkoutDays() {
-  const { workoutDays } = useTemplateWorkoutDays()
+  const { id } = useAuth()
 
   const [search, setSearch] = useState('')
-  const [client, setClient] = useState('')
+  const [client, setClient] = useState('all')
+
+  const { workoutDays } = useTemplateWorkoutDays({
+    name: search,
+    clientId: client
+  })
 
   const data = useMemo(() => {
-    const rows = workoutDays
-      .filter(
-        (item) =>
-          item?.name?.toLowerCase().includes(search.toLowerCase()) &&
-          (client === 'all' || client === '' || item?.account_id === client)
-      )
-      .map((item) => ({
-        ...item,
-        id: item?._id,
-        created: convertDate(item?.created_at?.substring(0, 10)),
-        client: item.account?.user?.full_name
-      }))
+    const rows = workoutDays.map((item) => ({
+      ...item,
+      id: item?._id,
+      created: convertDate(item?.created_at?.substring(0, 10)),
+      client: item.account_id === id ? '-' : item.account?.user?.full_name
+    }))
     return rows
-  }, [workoutDays, search, client])
+  }, [workoutDays])
 
   const onSearch = (value: string) => {
     setSearch(value)

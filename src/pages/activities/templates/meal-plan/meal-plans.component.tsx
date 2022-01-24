@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useDataMealPlansConvert } from '../../../../hooks/template.hook'
 import TemplatesTable from '../components/template-table/template-table.component'
 
@@ -16,11 +17,12 @@ const LABELS = [
 const KEYS = ['id', 'name', 'created', 'meals', 'client', 'options']
 
 export default function MealPlans() {
-  const [clientId, setClientId] = useState('')
+  const [clientId, setClientId] = useState('all')
   const [name, setName] = useState('')
 
+  const { id } = useAuth()
   const { mealPlans } = useTemplateMealPlans({ clientId, name })
-  const data = useDataMealPlansConvert(mealPlans)
+  const data = useDataMealPlansConvert(mealPlans, id)
   console.log(data, mealPlans)
 
   const onSearch = (value: string) => {
@@ -29,11 +31,7 @@ export default function MealPlans() {
   }
 
   const onClient = (e: any) => {
-    if (e === 'all') {
-      setClientId('')
-    } else {
-      setClientId(e)
-    }
+    setClientId(e)
   }
 
   return (
