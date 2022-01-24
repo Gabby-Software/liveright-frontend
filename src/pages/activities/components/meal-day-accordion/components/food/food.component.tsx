@@ -235,7 +235,7 @@ export default function Food({
               checked={value}
               onChange={(e) => onChange(name, e.target.checked)}
             />
-            <Label className="Food__checkbox">Save as re-usable template</Label>
+            <Label className="Food__checkbox">Save Food as template</Label>
           </div>
         )}
         name={`${name}.save_as_template`}
