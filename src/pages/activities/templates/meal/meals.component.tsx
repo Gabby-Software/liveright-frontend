@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMeals from '../../../../hooks/api/templates/meals/useTemplateMeals'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { useDataFMConvert } from '../../../../hooks/template.hook'
 import TemplatesTable from '../components/template-table/template-table.component'
 
@@ -18,12 +19,13 @@ const KEYS = ['id', 'name', 'created', 'client', 'options']
 // ]
 
 export default function Meals() {
-  const [clientId, setClientId] = useState('')
+  const [clientId, setClientId] = useState('all')
   const [name, setName] = useState('')
 
+  const { id } = useAuth()
   const { meals } = useTemplateMeals({ name, clientId })
   console.log(meals)
-  const data = useDataFMConvert(meals)
+  const data = useDataFMConvert(meals, id)
 
   const onSearch = (value: string) => {
     console.log(value)
@@ -31,11 +33,7 @@ export default function Meals() {
   }
 
   const onClient = (e: any) => {
-    if (e === 'all') {
-      setClientId('')
-    } else {
-      setClientId(e)
-    }
+    setClientId(e)
   }
 
   return (

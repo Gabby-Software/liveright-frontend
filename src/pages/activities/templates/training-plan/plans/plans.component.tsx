@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { Routes } from '../../../../../enums/routes.enum'
 import useTemplateTrainingPlans from '../../../../../hooks/api/templates/training-plans/useTemplateTrainingPlans'
+import { useAuth } from '../../../../../hooks/auth.hook'
 import TemplatesTable from '../../components/template-table/template-table.component'
 
 const LABELS = [
@@ -20,29 +21,28 @@ const convertDate = (dateString: string) => {
 }
 
 export default function TrainingPlans() {
-  const { trainingPlans } = useTemplateTrainingPlans()
+  const { id } = useAuth()
 
   const [search, setSearch] = useState('')
-  const [client, setClient] = useState('')
+  const [client, setClient] = useState('all')
+
+  const { trainingPlans } = useTemplateTrainingPlans({
+    name: search,
+    clientId: client
+  })
 
   const data = useMemo(() => {
-    const rows = trainingPlans
-      .filter(
-        (item) =>
-          item?.name?.toLowerCase().includes(search.toLowerCase()) &&
-          (client === 'all' || client === '' || item?.account_id === client)
-      )
-      .map((item) => ({
-        ...item,
-        id: item?._id,
-        created: convertDate(item?.created_at?.substring(0, 10)),
-        type: item?.info?.type,
-        days: item?.revisions[0]?.days_count,
-        client: item.account?.user?.full_name,
-        revisionId: item?.revisions[0]?._id
-      }))
+    const rows = trainingPlans.map((item) => ({
+      ...item,
+      id: item?._id,
+      created: convertDate(item?.created_at?.substring(0, 10)),
+      type: item?.info?.type,
+      days: item?.days_count,
+      client: item.account_id === id ? '-' : item.account?.user?.full_name,
+      revisionId: item?.revisions[0]?._id
+    }))
     return rows
-  }, [trainingPlans, search, client])
+  }, [trainingPlans])
 
   const onSearch = (value: string) => {
     setSearch(value)

@@ -17,15 +17,18 @@ interface UseTemplateWorkouts {
 }
 
 interface IProps {
+  name?: string
   clientId?: string
 }
 
 export default function useTemplateWorkouts({
+  name,
   clientId
 }: IProps = {}): UseTemplateWorkouts {
   const params = {
     filter: {
-      account_id: clientId
+      account_id: clientId,
+      name
     }
   }
 
