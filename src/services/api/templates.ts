@@ -79,3 +79,8 @@ export async function getTemplatesWorkoutDayById(url: string) {
   const response = await api.get(url)
   return response.data
 }
+
+export async function editTemplatesWorkoutDay(id: string, data: any) {
+  const response = await api.put(`/workout-plans/${id}`, data)
+  return response.data.data
+}
