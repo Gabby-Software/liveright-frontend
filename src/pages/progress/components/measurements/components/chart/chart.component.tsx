@@ -7,6 +7,8 @@ import {
   ChartCheckboxes
 } from '../../../../../../components/chart-container/chart-container.component'
 import LineChart from '../../../../../../components/charts/line-chart/line-chart.component'
+import userTypes from '../../../../../../enums/user-types.enum'
+import { useAuth } from '../../../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../../../hooks/is-mobile.hook'
 import {
   DATE_FORMAT,
@@ -18,12 +20,6 @@ interface ChartProps {
   onClose: any
   data: any[]
   isDashboard?: boolean
-}
-
-const COLORS: any = {
-  weight_kgs: colors.green_90,
-  fat_mass: colors.blue_80,
-  lean_mass: colors.primary_v2
 }
 
 const Y_ID: any = {
@@ -40,6 +36,7 @@ export default function Chart({ onClose, data, isDashboard }: ChartProps) {
     fat_mass: true,
     lean_mass: true
   })
+  const { type: userType } = useAuth()
 
   const onChange = (name: string, e: boolean) => {
     setActive((active: any) => ({
@@ -48,6 +45,12 @@ export default function Chart({ onClose, data, isDashboard }: ChartProps) {
     }))
   }
 
+  const COLORS: any = {
+    weight_kgs: colors.green_90,
+    fat_mass: colors.blue_80,
+    lean_mass:
+      userType === userTypes.CLIENT ? colors.primary : colors.primary_v2
+  }
   const filterKeys = Object.keys(active).filter((key) => !!active[key])
   const dataKey = filterKeys
   const dataStroke = filterKeys.map((key) => COLORS[key])
