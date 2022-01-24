@@ -17,6 +17,7 @@ import { Styles } from './chart.styles'
 interface ChartProps {
   onClose: any
   data: any[]
+  isDashboard?: boolean
 }
 
 const COLORS: any = {
@@ -31,7 +32,7 @@ const Y_ID: any = {
   lean_mass: 'primaryY'
 }
 
-export default function Chart({ onClose, data }: ChartProps) {
+export default function Chart({ onClose, data, isDashboard }: ChartProps) {
   const isMobile = useIsMobile()
   const chartData = formatData(data)
   const [active, setActive] = useState<any>({
@@ -54,7 +55,12 @@ export default function Chart({ onClose, data }: ChartProps) {
 
   return (
     <Styles
-      DialogProps={{ backText: 'Back to Measurements', onClose }}
+      isDashboard={isDashboard}
+      isMobile={isMobile}
+      DialogProps={{
+        backText: isDashboard ? 'Back to Dashboard' : 'Back to Measurements',
+        onClose
+      }}
       title="Measurements"
       legendComponent={
         <div className="measurements-chart__legends">
@@ -98,6 +104,7 @@ export default function Chart({ onClose, data }: ChartProps) {
           yAxisId: 'secondaryY',
           tickFormatter: (tick: any) => `${tick}%`
         }}
+        dataType="measurements"
       />
     </Styles>
   )

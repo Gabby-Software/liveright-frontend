@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 
 import { mediaQueries } from '../../../../enums/screen-sizes.enum'
+import userTypes from '../../../../enums/user-types.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getShadow } from '../../../../pipes/theme-shadow.pipe'
 
-export const Styles = styled.div`
-  grid-area: 2 / 1 / 3 / 2;
+export const Styles = styled.div<{ userType: string }>`
+  grid-area: ${(props) =>
+    props.userType === userTypes.CLIENT ? '1 / 1 / 2 / 2' : '2 / 1 / 3 / 2'};
   width: 100%;
   background: #ffffff;
   box-shadow: ${getShadow('secondary')};

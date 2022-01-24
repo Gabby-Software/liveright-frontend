@@ -5,11 +5,14 @@ import Button from '../../../../components/buttons/button/button.component'
 import Calendar from '../../../../components/calendar/calendar.component'
 import { Subtitle } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { Styles } from './dashboard-calendar.styles'
 
 export const DashboardCalendar = () => {
+  const { type } = useAuth()
+
   return (
-    <Styles>
+    <Styles userType={type}>
       <div className="dashboard-calendar__title-container">
         <Subtitle>Your Calendar</Subtitle>
 

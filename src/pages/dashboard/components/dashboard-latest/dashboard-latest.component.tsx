@@ -84,7 +84,7 @@ export const DashboardLatest = () => {
     notifications: { data: notifications }
   } = useNotifications()
   const dispatch = useDispatch()
-  const { uuid } = useAuth()
+  const { uuid, type } = useAuth()
 
   useEffect(() => {
     const fetchNotifications = () => {
@@ -144,7 +144,7 @@ export const DashboardLatest = () => {
     }
   ]
   return (
-    <Styles>
+    <Styles userType={type}>
       <div className="wrapper">
         <h2 className="wrapper-title">The Latest</h2>
       </div>
