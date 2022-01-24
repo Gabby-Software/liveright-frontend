@@ -224,7 +224,7 @@ export default function FoodAccordion({
                     onChange={(e) => onChange(name, e.target.checked)}
                   />
                   <Label className="FoodAccordion__checkbox">
-                    Save as re-usable template
+                    Save Food as template
                   </Label>
                 </div>
               )}

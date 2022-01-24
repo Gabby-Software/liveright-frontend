@@ -223,7 +223,7 @@ export default function ExerciseAccordion({
                       onChange={(e) => onChange(name, e.target.checked)}
                     />
                     <Label className="ExerciseAccordion__checkbox">
-                      Save as re-usable template
+                      Save Exercise as template
                     </Label>
                   </div>
                 )}

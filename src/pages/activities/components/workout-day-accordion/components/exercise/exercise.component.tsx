@@ -265,7 +265,7 @@ export default function Exercise({
                 onChange={(e) => onChange(name, e.target.checked)}
               />
               <Label className="Exercise__checkbox">
-                Save as re-usable template
+                Save Exercise as template
               </Label>
             </div>
           )}

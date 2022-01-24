@@ -225,7 +225,7 @@ export default function WorkoutAccordion({
                     onChange={(e) => methods.setValue(name, e.target.checked)}
                   />
                   <Label className="WorkoutAccordion__checkbox">
-                    Save as re-usable template
+                    Save Workout as template
                   </Label>
                 </div>
               )}

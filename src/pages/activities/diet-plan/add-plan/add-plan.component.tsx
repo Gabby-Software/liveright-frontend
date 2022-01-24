@@ -16,9 +16,11 @@ import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
+import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
+import Label from '../../../../components/form/label/label.component'
 import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
@@ -43,6 +45,7 @@ interface AddDietPlanProps {
 
 const defaultValues: any = {
   name: '',
+  save_as_template: false,
   account_id: null,
   scheduled_start_on: '',
   scheduled_end_on: '',
@@ -311,6 +314,7 @@ export default function AddDietPlan({
                   />
                 )}
               />
+
               <Controller
                 name="scheduled_end_on"
                 render={({ field: { name, value } }) => (
@@ -329,6 +333,22 @@ export default function AddDietPlan({
                   />
                 )}
               />
+
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="EditPlan__checkbox-container">
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => methods.setValue(name, e.target.checked)}
+                    />
+                    <Label className="EditPlan__checkbox">
+                      Save Diet Plan as template
+                    </Label>
+                  </div>
+                )}
+                name={`save_as_template`}
+              />
+
               {/*<Counter value={count} onChange={(value) => setCount(value)} />*/}
             </div>
           </Card>

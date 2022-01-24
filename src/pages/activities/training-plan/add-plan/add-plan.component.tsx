@@ -17,9 +17,11 @@ import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
+import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
+import Label from '../../../../components/form/label/label.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -86,6 +88,7 @@ const validationSchema = yup.object().shape({
 const defaultValues: any = {
   name: '',
   account_id: null,
+  save_as_template: false,
   scheduled_start_on: '',
   scheduled_end_on: '',
   days: []
@@ -339,6 +342,20 @@ export default function AddTrainingPlan({
                     }
                   />
                 )}
+              />
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="EditPlan__checkbox-container">
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => methods.setValue(name, e.target.checked)}
+                    />
+                    <Label className="EditPlan__checkbox">
+                      Save Training Plan as template
+                    </Label>
+                  </div>
+                )}
+                name={`save_as_template`}
               />
               {/*<Counter />*/}
             </div>

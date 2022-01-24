@@ -44,6 +44,7 @@ import { Styles } from './edit-split.styles'
 
 const defaultValues: any = {
   name: '',
+  save_as_template: false,
   training_plan_revision_id: '',
   diet_plan_revision_id: '',
   account_id: null,
@@ -369,6 +370,22 @@ export default function EditTrainingSplit() {
                   />
                 )}
               />
+
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="AddTrainingSplit__cards-checkbox-container">
+                    <Checkbox
+                      className="AddTrainingSplit__cards-checkbox"
+                      checked={value}
+                      onChange={(e) => methods.setValue(name, e.target.checked)}
+                    />
+                    <Label className="AddTrainingSplit__cards-checkbox-label">
+                      Save Training Split as template
+                    </Label>
+                  </div>
+                )}
+                name={`save_as_template`}
+              />
             </div>
           </Card>
 
@@ -474,13 +491,6 @@ export default function EditTrainingSplit() {
                     <AddIcon />
                     Add More Days
                   </div>
-                </div>
-
-                <div className="AddTrainingSplit__cards-checkbox-container">
-                  <Checkbox className="AddTrainingSplit__cards-checkbox" />
-                  <Label className="AddTrainingSplit__cards-checkbox-label">
-                    Save as re-usable template
-                  </Label>
                 </div>
               </>
             )}
