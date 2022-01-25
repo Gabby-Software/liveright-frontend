@@ -116,7 +116,7 @@ export default function ActivitiesClient({
         <Button
           variant="secondary"
           size="sm"
-          disabled={!clientId}
+          disabled={!clientId || String(clientId) === 'all'}
           to={`${Routes.CLIENTS}/${account?.id}/profile`}
         >
           Open Profile
