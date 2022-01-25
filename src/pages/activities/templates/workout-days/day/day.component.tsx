@@ -12,13 +12,25 @@ import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/
 import ActivityLayout from '../../../components/layout/layout.component'
 import SplitDayWorkoutCard from '../../../components/split-day-workout-card/split-day-workout-card.component'
 import { Styles } from '../../../styles/plan.styles'
+import WorkoutDayTemplateForm from '../workout-day-template-form/workout-day-template-form.component'
 
 export default function WorkoutDay() {
+  const [edit, setEdit] = useState(false)
+
   const params = useParams<any>()
   const { workoutDay } = useTemplateWorkoutDay(params.id)
 
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
+
+  if (edit) {
+    return (
+      <WorkoutDayTemplateForm
+        name={`activities`}
+        onClose={() => setEdit(false)}
+      />
+    )
+  }
 
   return (
     <ActivityLayout>
@@ -41,7 +53,11 @@ export default function WorkoutDay() {
             <Title>{workoutDay?.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Workout Day Template
               </Button>
               <Button

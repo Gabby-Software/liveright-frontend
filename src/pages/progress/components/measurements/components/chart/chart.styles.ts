@@ -4,12 +4,19 @@ import ChartContainer from '../../../../../../components/chart-container/chart-c
 import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
-export const Styles = styled(ChartContainer)`
+export const Styles = styled(ChartContainer)<{
+  isDashboard?: boolean
+  isMobile?: boolean
+}>`
+  ${(props) =>
+    props.isDashboard && !props.isMobile ? 'padding: 0 !important;' : ''}
+
   .measurements-chart {
     &__legends {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: ${(props) => (props.isMobile ? '' : '1rem')};
     }
 
     &__legend {

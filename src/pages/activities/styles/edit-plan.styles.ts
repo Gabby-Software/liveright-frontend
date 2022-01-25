@@ -32,7 +32,7 @@ export const Styles = styled.div`
     &__controls {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
-      gap: 2rem;
+      gap: 1.5rem;
 
       @media ${mediaQueries.TABLET} {
         display: flex;
@@ -66,6 +66,15 @@ export const Styles = styled.div`
 
       & svg {
         margin-right: 0.5rem;
+      }
+    }
+
+    &__checkbox {
+      margin: 0 0.75rem;
+
+      &-container {
+        display: flex;
+        align-items: center;
       }
     }
   }

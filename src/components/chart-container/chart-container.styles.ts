@@ -51,7 +51,7 @@ export const Styles = styled(Card)`
     &__chart {
       &-container {
         width: auto;
-        margin-left: -1.75rem;
+        // margin-left: -1.75rem;
 
         @media ${mediaQueries.LANDSCAPE} {
           flex: 1;

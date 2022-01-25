@@ -7,6 +7,8 @@ import {
   ChartCheckboxes
 } from '../../../../../../components/chart-container/chart-container.component'
 import LineChart from '../../../../../../components/charts/line-chart/line-chart.component'
+import userTypes from '../../../../../../enums/user-types.enum'
+import { useAuth } from '../../../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../../../hooks/is-mobile.hook'
 import {
   DATE_FORMAT,
@@ -17,12 +19,7 @@ import { Styles } from './chart.styles'
 interface ChartProps {
   onClose: any
   data: any[]
-}
-
-const COLORS: any = {
-  weight_kgs: colors.green_90,
-  fat_mass: colors.blue_80,
-  lean_mass: colors.primary_v2
+  isDashboard?: boolean
 }
 
 const Y_ID: any = {
@@ -31,7 +28,7 @@ const Y_ID: any = {
   lean_mass: 'primaryY'
 }
 
-export default function Chart({ onClose, data }: ChartProps) {
+export default function Chart({ onClose, data, isDashboard }: ChartProps) {
   const isMobile = useIsMobile()
   const chartData = formatData(data)
   const [active, setActive] = useState<any>({
@@ -39,6 +36,7 @@ export default function Chart({ onClose, data }: ChartProps) {
     fat_mass: true,
     lean_mass: true
   })
+  const { type: userType } = useAuth()
 
   const onChange = (name: string, e: boolean) => {
     setActive((active: any) => ({
@@ -47,6 +45,12 @@ export default function Chart({ onClose, data }: ChartProps) {
     }))
   }
 
+  const COLORS: any = {
+    weight_kgs: colors.green_90,
+    fat_mass: colors.blue_80,
+    lean_mass:
+      userType === userTypes.CLIENT ? colors.primary : colors.primary_v2
+  }
   const filterKeys = Object.keys(active).filter((key) => !!active[key])
   const dataKey = filterKeys
   const dataStroke = filterKeys.map((key) => COLORS[key])
@@ -54,7 +58,12 @@ export default function Chart({ onClose, data }: ChartProps) {
 
   return (
     <Styles
-      DialogProps={{ backText: 'Back to Measurements', onClose }}
+      isDashboard={isDashboard}
+      isMobile={isMobile}
+      DialogProps={{
+        backText: isDashboard ? 'Back to Dashboard' : 'Back to Measurements',
+        onClose
+      }}
       title="Measurements"
       legendComponent={
         <div className="measurements-chart__legends">
@@ -98,6 +107,7 @@ export default function Chart({ onClose, data }: ChartProps) {
           yAxisId: 'secondaryY',
           tickFormatter: (tick: any) => `${tick}%`
         }}
+        dataType="measurements"
       />
     </Styles>
   )

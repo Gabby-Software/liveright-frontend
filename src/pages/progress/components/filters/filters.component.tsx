@@ -17,13 +17,15 @@ interface FiltersProps {
   isGraph: boolean
   filters: Record<string, any>
   onFilters: any
+  isDashboard?: boolean
 }
 
 export default function Filters({
   onView,
   isGraph,
   filters,
-  onFilters
+  onFilters,
+  isDashboard
 }: FiltersProps) {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
@@ -100,7 +102,7 @@ export default function Filters({
       <Subtitle>Over Time</Subtitle>
 
       <div className="filters__filters">
-        {button}
+        {!isDashboard && button}
         {filtersComponent}
       </div>
     </Styles>

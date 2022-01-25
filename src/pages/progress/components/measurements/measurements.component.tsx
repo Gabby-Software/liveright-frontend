@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 
@@ -97,12 +97,22 @@ const TABS = [
   }
 ]
 
-export default function Measurements() {
+interface Props {
+  isDashboard?: boolean
+}
+
+export default function Measurements(props: Props) {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const auth = useAuth()
   const [activeTab, setActiveTab] = useState('summary')
   const [isGraph, setGraph] = useState(false)
+
+  useEffect(() => {
+    if (props.isDashboard && !isMobile) {
+      setGraph(true)
+    }
+  }, [props.isDashboard])
 
   const { measurements, isLoading, meta, filters, onFilters, onPage } =
     useMeasurements({
@@ -129,15 +139,16 @@ export default function Measurements() {
   ) : null
 
   return (
-    <Styles>
+    <Styles isDashboard={props.isDashboard}>
       <Filters
         onView={() => setGraph(!isGraph)}
         isGraph={isGraph}
         filters={filters}
         onFilters={onFilters}
+        isDashboard={props.isDashboard}
       />
 
-      {!isGraph && (
+      {!isGraph && !props.isDashboard && (
         <Tabs
           className="measurements__tabs"
           activeKey={activeTab}
@@ -148,7 +159,11 @@ export default function Measurements() {
 
       <div className="measurements__content">
         {isGraph ? (
-          <Chart onClose={() => setGraph(false)} data={measurements} />
+          <Chart
+            onClose={() => setGraph(false)}
+            data={measurements}
+            isDashboard={props.isDashboard}
+          />
         ) : !isMobile ? (
           <Card className="measurements__table-card">
             <div className="measurements__table-container">
@@ -189,7 +204,7 @@ export default function Measurements() {
               total={meta.total}
             />
           </Card>
-        ) : (
+        ) : !props.isDashboard ? (
           <div>
             {measurements.map((row, index) => (
               <ProgressLogCard
@@ -212,10 +227,10 @@ export default function Measurements() {
               justify="center"
             />
           </div>
-        )}
+        ) : null}
       </div>
 
-      <ComparePhotos />
+      {!props.isDashboard && <ComparePhotos />}
     </Styles>
   )
 }

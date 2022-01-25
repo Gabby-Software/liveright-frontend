@@ -5,8 +5,6 @@ import { useHistory } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
-import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { toast } from '../../../../components/toast/toast.component'
@@ -243,18 +241,6 @@ export default function DietPlan() {
                   </p>
                 </div>
               )}
-            </div>
-
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Checkbox style={{ marginRight: '0.5rem' }} />
-                <Label
-                  className="MealAccordion__checkbox"
-                  style={{ margin: 0 }}
-                >
-                  Save as re-usable template
-                </Label>
-              </div>
             </div>
           </div>
 
