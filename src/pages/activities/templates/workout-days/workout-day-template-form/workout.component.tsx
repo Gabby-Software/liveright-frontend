@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -13,22 +13,15 @@ import {
   useWatch
 } from 'react-hook-form'
 
-import {
-  AddIcon,
-  DeleteOutlinedIcon
-} from '../../../../../../assets/media/icons'
-import Button from '../../../../../../components/buttons/button/button.component'
-import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
-import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
-import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
-import Error from '../../../../../../components/form/error/error.component'
-import Label from '../../../../../../components/form/label/label.component'
-import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
-import { EmptyPlaceholder } from '../../../../../../components/placeholders'
-import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
-import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
-import Exercise from '../exercise/exercise.component'
-import Superset from '../superset/superset.component'
+import { AddIcon, DeleteOutlinedIcon } from '../../../../../assets/media/icons'
+import Button from '../../../../../components/buttons/button/button.component'
+import IconButton from '../../../../../components/buttons/icon-button/icon-button.component'
+import AutoCompleteInput from '../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+import Error from '../../../../../components/form/error/error.component'
+import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
+import { EmptyPlaceholder } from '../../../../../components/placeholders'
+import Exercise from '../../../components/workout-day-accordion/components/exercise/exercise.component'
+import Superset from '../../../components/workout-day-accordion/components/superset/superset.component'
 import { Styles } from './workout.styles'
 
 interface WorkoutProps {
@@ -56,7 +49,8 @@ function createExercise(isSuperset: boolean | number, cardio: boolean) {
           reps: '',
           tempo: '',
           rest_interval: ''
-        }
+        },
+        sort_order: isSuperset && 1
       }
   return {
     is_superset: isSuperset && true,
@@ -80,13 +74,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     control: methods.control
   })
 
-  const days = useWatch({
-    name: `days`,
-    control: methods.control
-  })
-
-  const { workouts } = useTemplateWorkouts()
-
   const { errors } = methods.formState
 
   const onDragEnd = (result: DropResult) => {
@@ -106,73 +93,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     exercisesArray.remove(index)
   }
 
-  const onWorkoutNameSelected = (value: string) => {
-    // find in templates
-    let workout = workouts.find((w: any) => w.name === value)
-    if (!workout) {
-      // else not found, check in current TP
-      const workoutsOfPlan = days?.reduce(
-        (acc: any[], d: any) => [
-          ...acc,
-          ...(d.activities || d.training_plan_day.activities || [])
-        ],
-        []
-      )
-      workout = workoutsOfPlan.find((w: any) => w.name === value)
-    }
-
-    if (workout) {
-      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
-      methods.setValue(`${name}.name`, workout.name)
-      methods.setValue(`${name}.time`, workout.time)
-      exercisesArray.remove(
-        Array(exercisesArray.fields.length)
-          .fill(0)
-          .reduce((acc, v, i) => [...acc, i], [])
-      )
-      exercisesArray.append(workout.items)
-    }
-  }
-
-  const nameOptions = useMemo(() => {
-    const workoutsOfPlan = days?.reduce(
-      (acc: any[], d: any) => [
-        ...acc,
-        ...(d.activities || d.training_plan_day.activities || [])
-      ],
-      []
-    )
-    const planOptions = workoutsOfPlan
-      ?.filter((w: any) => w.name)
-      ?.map((w: any) => ({
-        label: w.name,
-        value: w.name
-      }))
-
-    const templateOptions = workouts.map((w: any) => ({
-      label: w.name,
-      value: w.name
-    }))
-
-    const options = []
-
-    if (planOptions.length) {
-      options.push({
-        label: 'From this Training Plan',
-        options: getUniqueItemsByProperties(planOptions, ['label'])
-      })
-    }
-
-    if (templateOptions.length) {
-      options.push({
-        label: 'From Templates',
-        options: getUniqueItemsByProperties(templateOptions, ['label'])
-      })
-    }
-
-    return options.length ? options : []
-  }, [days])
-
   const supersetIndexes = exercisesArray.fields
     .map((row: any, index) => (row.is_superset ? index : null))
     .filter((row) => row !== null)
@@ -183,22 +103,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
         <div className="subtitle">{workoutName || `Workout ${index + 1}`}</div>
 
         <div className="Workout__header-checkbox-cell">
-          <div className="Workout__header-checkbox-container">
-            <Controller
-              render={({ field: { value, name } }) => (
-                <div className="Workout__checkbox-container">
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => methods.setValue(name, e.target.checked)}
-                  />
-                  <Label className="Workout__checkbox">
-                    Save Workout as template
-                  </Label>
-                </div>
-              )}
-              name={`${name}.save_as_template`}
-            />
-          </div>
           <IconButton
             size="sm"
             className="Workout__header-checkbox-btn"
@@ -219,8 +123,8 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
               placeholder="Title"
               value={value === '' ? null : value}
               onChange={(value) => methods.setValue(name, value)}
-              onSelect={onWorkoutNameSelected}
-              options={nameOptions}
+              // onSelect={onWorkoutNameSelected}
+              options={[]}
             />
           )}
         />
@@ -295,6 +199,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                                 !!(exercisesArray.fields as any)[index - 1]
                                   ?.is_superset
                               }
+                              fromTemplate={true}
                             />
                           )
                         }

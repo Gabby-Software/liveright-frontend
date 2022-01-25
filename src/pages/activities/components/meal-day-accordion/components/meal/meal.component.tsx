@@ -279,7 +279,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
               checked={value}
               onChange={(e) => methods.setValue(name, e.target.checked)}
             />
-            <Label className="Meal__checkbox">Save as re-usable template</Label>
+            <Label className="Meal__checkbox">Save Meal as template</Label>
           </div>
         )}
         name={`${name}.save_as_template`}

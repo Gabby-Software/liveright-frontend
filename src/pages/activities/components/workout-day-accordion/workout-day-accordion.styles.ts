@@ -14,7 +14,7 @@ export const Styles = styled(Card)<any>`
 
   .WorkoutDayAccordion {
     &__name-input {
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.5rem;
     }
 
     &__subtitle {
@@ -30,7 +30,8 @@ export const Styles = styled(Card)<any>`
       &-container {
         display: flex;
         align-items: center;
-        margin-top: 1.5rem;
+        margin: 1.5rem 0;
+        margin-top: 0.5rem;
       }
     }
   }

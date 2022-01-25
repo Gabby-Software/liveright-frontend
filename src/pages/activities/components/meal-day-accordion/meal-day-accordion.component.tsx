@@ -128,6 +128,21 @@ export default function MealDayAccordion({
           </div>
         </div>
 
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="MealDayAccordion__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => methods.setValue(name, e.target.checked)}
+              />
+              <Label className="MealDayAccordion__checkbox">
+                Save Meal Plan as template
+              </Label>
+            </div>
+          )}
+          name={`days.${index}.save_as_template`}
+        />
+
         {!dayTarget ? (
           <>
             <div className="MealDayAccordion__macronutrients">

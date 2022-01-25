@@ -33,10 +33,6 @@ export default function WorkoutDayAccordion({
   })
 
   const name = `days.${index}.activities`
-  const days = useWatch({
-    name,
-    control: methods.control
-  })
 
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
@@ -52,30 +48,20 @@ export default function WorkoutDayAccordion({
       defaultOpen={defaultOpened}
     >
       <Styles>
-        {!!days.length && (
-          <>
-            <Controller
-              name={`days.${index}.name`}
-              render={({ field: { name, value } }) => (
-                <Input
-                  id="WorkoutDayAccordion-name"
-                  label="Workout Day Name"
-                  placeholder="Name"
-                  className="WorkoutDayAccordion__name-input"
-                  value={value}
-                  onChange={(e) => onChange(name, e.target.value)}
-                  error={get(errors, name)}
-                />
-              )}
+        <Controller
+          name={`days.${index}.name`}
+          render={({ field: { name, value } }) => (
+            <Input
+              id="WorkoutDayAccordion-name"
+              label="Workout Day Name"
+              placeholder="Name"
+              className="WorkoutDayAccordion__name-input"
+              value={value}
+              onChange={(e) => onChange(name, e.target.value)}
+              error={get(errors, name)}
             />
-
-            <p className="WorkoutDayAccordion__subtitle">
-              List workouts of this training plan
-            </p>
-          </>
-        )}
-
-        <WorkoutDayForm name={name} />
+          )}
+        />
 
         <Controller
           render={({ field: { value, name } }) => (
@@ -85,12 +71,18 @@ export default function WorkoutDayAccordion({
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
               <Label className="WorkoutDayAccordion__checkbox">
-                Save as re-usable template
+                Save Workout Plan as template
               </Label>
             </div>
           )}
           name={`days.${index}.save_as_template`}
         />
+
+        <p className="WorkoutDayAccordion__subtitle">
+          List workouts of this training plan
+        </p>
+
+        <WorkoutDayForm name={name} />
       </Styles>
     </DayAccordion>
   )

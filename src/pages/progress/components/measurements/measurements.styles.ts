@@ -2,8 +2,12 @@ import styled from 'styled-components'
 
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Styles = styled.div`
+export const Styles = styled.div<{ isDashboard?: boolean }>`
   width: 100%;
+  ${(props) =>
+    props.isDashboard
+      ? 'grid-area: 2 / 1 / 3 / 3; background-color: #fff; border-radius: 10px; padding: 1.5rem 1.75rem 1rem 1.75rem; height: fit-content;'
+      : ''}
 
   .measurements {
     &__table {

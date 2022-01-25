@@ -43,6 +43,7 @@ interface LineChartProps {
     yAxisId?: string
     tickFormatter?: any
   }
+  dataType?: 'measurements' | 'progress' | 'revenue' | 'statistics'
 }
 
 export default function LineChart({
@@ -57,14 +58,19 @@ export default function LineChart({
   tooltip,
   dot = true,
   yAxisId,
-  secondaryY
+  secondaryY,
+  dataType
 }: LineChartProps) {
   if (data.length === 0) {
     return (
       <NoData height={height}>
         <BlankContainer>
           <SadEmojiIcon />
-          <p>{`No earnings this ${range || ''}`}</p>
+          <p>
+            {dataType === 'measurements'
+              ? 'No data'
+              : `No earnings this ${range || ''}`}
+          </p>
         </BlankContainer>
       </NoData>
     )

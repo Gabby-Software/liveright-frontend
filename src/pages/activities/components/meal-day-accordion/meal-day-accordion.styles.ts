@@ -23,7 +23,7 @@ export const Styles = styled.div`
     &__name {
       &-container {
         display: flex;
-        margin-bottom: 2.5rem;
+        margin-bottom: 0.5rem;
       }
     }
 
@@ -40,7 +40,8 @@ export const Styles = styled.div`
       &-container {
         display: flex;
         align-items: center;
-        margin-top: 1.5rem;
+        margin: 1.5rem 0;
+        margin-top: 0.5rem;
       }
     }
     &__day-toggle {
