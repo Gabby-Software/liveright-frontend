@@ -43,7 +43,14 @@ export default function TrainingPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
+  const queryParams = new URLSearchParams(location.search)
   const { type: userType } = useAuth()
+
+  useEffect(() => {
+    if (queryParams.get('edit')) {
+      setEdit(true)
+    }
+  }, [])
 
   useEffect(() => {
     if (!params.clientId) {

@@ -10,29 +10,34 @@ interface ScheduleCardProps {
   subtitle: string
   day?: string
   onExpand?: () => void
+  onWorkout?: (data: any) => void
+  onMealPlan?: (data: any) => void
 }
 
 interface DailyActivity {
   title: string
   time: string
   type: string
+  onClick?: () => void
 }
 
 export default function DayTrainingScheduleCard(props: ScheduleCardProps) {
-  const { data, day, subtitle, onExpand } = props
+  const { data, day, subtitle, onExpand, onMealPlan, onWorkout } = props
 
   const activities = useMemo(() => {
     const workoutActivites: DailyActivity[] =
       data?.training_plan_day?.activities?.map((a: any) => ({
         title: a.name,
         time: a.time,
-        type: 'workout'
+        type: 'workout',
+        onClick: () => onWorkout?.({ ...a, activities: [a] })
       })) || []
     const mealActivites: DailyActivity[] =
       data?.diet_plan_day?.activities?.map((a: any) => ({
         title: a.name,
         time: a.time,
-        type: 'meal'
+        type: 'meal',
+        onClick: () => onMealPlan?.({ ...a, activities: [a] })
       })) || []
     const exerciseActivities: DailyActivity[] =
       data?.items?.map((a: any) => ({
@@ -64,6 +69,7 @@ export default function DayTrainingScheduleCard(props: ScheduleCardProps) {
               time={a.time || '--:--'}
               title={a.title}
               type={a.type}
+              onClick={a.onClick}
             />
           ))}
         </Styles>
@@ -76,9 +82,10 @@ interface ListItemProps {
   time: string
   title: string
   type: string
+  onClick?: () => void
 }
 
-function ListItem({ time, title, type }: ListItemProps) {
+function ListItem({ time, title, type, onClick }: ListItemProps) {
   return (
     <div className="DayTrainingScheduleCard__row" data-type={type}>
       <div className="DayTrainingScheduleCard__row-content">
@@ -86,7 +93,7 @@ function ListItem({ time, title, type }: ListItemProps) {
         <p>{title}</p>
       </div>
 
-      <IconButton size="sm">
+      <IconButton size="sm" onClick={onClick}>
         <AddIcon />
       </IconButton>
     </div>

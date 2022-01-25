@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 
 import { Subtitle } from '../../../../components/typography'
+import { classes } from '../../../../pipes/classes.pipe'
 import { Styles } from './split-day-card.styles'
 
 export interface SplitDayCardProps {
@@ -9,6 +10,8 @@ export interface SplitDayCardProps {
   icon: ReactNode
   content: ReactNode
   scheduleTime?: string
+  actionComponent?: ReactNode
+  contentClass?: string
 }
 
 export default function SplitDayCard({
@@ -16,19 +19,26 @@ export default function SplitDayCard({
   color,
   icon,
   content,
-  scheduleTime
+  scheduleTime,
+  actionComponent,
+  contentClass
 }: SplitDayCardProps) {
   return (
     <Styles $color={color} $schedule={scheduleTime}>
       {scheduleTime && <p className="SplitDayCard__schedule">{scheduleTime}</p>}
 
-      <div className="SplitDayCard__title">
-        <div className="SplitDayCard__icon">{icon}</div>
+      <div className="SplitDayCard__header">
+        <div className="SplitDayCard__title">
+          <div className="SplitDayCard__icon">{icon}</div>
 
-        <Subtitle>{title}</Subtitle>
+          <Subtitle>{title}</Subtitle>
+        </div>
+        {actionComponent}
       </div>
 
-      <div className="SplitDayCard__content">{content}</div>
+      <div className={classes('SplitDayCard__content', contentClass)}>
+        {content}
+      </div>
     </Styles>
   )
 }

@@ -42,7 +42,7 @@ export default function TrainingSplitDayView({
     revisionId: params.revisionId
   })
 
-  const { day, activites: activities } = useMemo(() => {
+  const { day, activities } = useMemo(() => {
     const day = revision?.days?.[index]
     const workoutActivites: any[] =
       day?.training_plan_day.activities?.map((a: any) => ({
@@ -70,8 +70,11 @@ export default function TrainingSplitDayView({
         type: 'other'
       })) || []
 
-    const activites = workoutActivites.concat(mealActivites, exerciseActivities)
-    activites.sort(
+    const activities = workoutActivites.concat(
+      mealActivites,
+      exerciseActivities
+    )
+    activities.sort(
       (a, b) =>
         Date.parse('1970/01/01 ' + a.time || '00:00') -
         Date.parse('1970/01/01 ' + b.time || '00:00')
@@ -79,7 +82,7 @@ export default function TrainingSplitDayView({
 
     return {
       day,
-      activites
+      activities
     }
   }, [index, revision])
 

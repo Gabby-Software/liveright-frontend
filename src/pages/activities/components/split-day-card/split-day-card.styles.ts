@@ -43,6 +43,17 @@ export const Styles = styled.div<any>`
       }
     }
 
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+
+      @media ${mediaQueries.TABLET} {
+        padding-left: 0;
+      }
+    }
+
     &__icon {
       width: 42px;
       height: 42px;
