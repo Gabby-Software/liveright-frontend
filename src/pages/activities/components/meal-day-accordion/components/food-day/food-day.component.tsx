@@ -1,5 +1,6 @@
 import { get } from 'lodash'
-import { Controller, useFormContext } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import Input from '../../../../../../components/form/input/input.component'
 import formatter from '../../../../../../managers/formatter.manager'
@@ -22,24 +23,24 @@ export default function FoodDay({
 }: FoodDayProps) {
   const methods = useFormContext()
 
-  // const info = useWatch({
-  //   control: methods.control,
-  //   name: `${name}.info`
-  // })
-
+  const info = useWatch({
+    control: methods.control,
+    name: `${name}.info`
+  })
+  console.log(info)
   const onChange = (fieldName: string, value: string | boolean) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
 
-  // useEffect(() => {
-  //   methods.setValue(
-  //     `${name}.info.calories`,
-  //     (info.proteins || 0) * 4 +
-  //       (info.net_carbs || 0) * 4 +
-  //       (info.fat || 0) * 9,
-  //     { shouldValidate: true }
-  //   )
-  // }, [info.proteins, info.net_carbs, info.fat])
+  useEffect(() => {
+    methods.setValue(
+      `${name}.info.calories`,
+      (info.proteins || 0) * 4 +
+        (info.net_carbs || 0) * 4 +
+        (info.fat || 0) * 9,
+      { shouldValidate: true }
+    )
+  }, [info.proteins, info.net_carbs, info.fat])
 
   const { errors } = methods.formState
 
