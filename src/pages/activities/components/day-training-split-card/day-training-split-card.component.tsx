@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { AddIcon, EditIcon } from '../../../../assets/media/icons'
+import { AddIcon } from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
@@ -23,7 +23,7 @@ interface DayTrainingSplitCardProps {
 export default function DayTrainingSplitCard(
   props: Pick<DayCardProps, 'onExpand'> & DayTrainingSplitCardProps
 ) {
-  const { data, edit, onWorkout, onMealPlan, onCardio, day, subtitle } = props
+  const { data, onWorkout, onMealPlan, onCardio, day, subtitle } = props
   return (
     <DayCard
       border="both"
@@ -37,9 +37,10 @@ export default function DayTrainingSplitCard(
             title="Workout Day"
             content={[data.training_plan_day.name]}
             icon={<WorkoutIcon />}
-            edit={edit}
             onClick={
-              onWorkout ? () => onWorkout(data.training_plan_day) : undefined
+              onWorkout && data.training_plan_day.name
+                ? () => onWorkout(data.training_plan_day)
+                : undefined
             }
           />
           <ListItem
@@ -47,9 +48,10 @@ export default function DayTrainingSplitCard(
             title="Meal Plan Day"
             content={[data.diet_plan_day.name]}
             icon={<FoodIcon />}
-            edit={edit}
             onClick={
-              onMealPlan ? () => onMealPlan(data.diet_plan_day) : undefined
+              onMealPlan && data.diet_plan_day.name
+                ? () => onMealPlan(data.diet_plan_day)
+                : undefined
             }
           />
           <ListItem
@@ -57,7 +59,6 @@ export default function DayTrainingSplitCard(
             title="Other Exercises"
             content={data.items.map((t: any) => t.data?.name)}
             icon={<ExerciseIcon />}
-            edit={edit}
             onClick={onCardio ? () => onCardio('') : undefined}
           />
         </Styles>
@@ -71,18 +72,10 @@ interface ListItemProps {
   title: string
   icon: ReactNode
   content: string[]
-  edit?: boolean
   onClick?: (id: string) => void
 }
 
-function ListItem({
-  color,
-  title,
-  content,
-  icon,
-  edit,
-  onClick
-}: ListItemProps) {
+function ListItem({ color, title, content, icon, onClick }: ListItemProps) {
   return (
     <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
       <div className="DayTrainingSplitCard__li-icon">{icon}</div>
@@ -95,13 +88,15 @@ function ListItem({
             <p className="DayTrainingSplitCard__li-subtitle" key={index}>
               <span>{text}</span>
 
-              <IconButton
-                size="sm"
-                className="DayTrainingSplitCard__li-btn"
-                onClick={onClick}
-              >
-                {edit ? <EditIcon /> : <AddIcon />}
-              </IconButton>
+              {onClick && (
+                <IconButton
+                  size="sm"
+                  className="DayTrainingSplitCard__li-btn"
+                  onClick={onClick}
+                >
+                  <AddIcon />
+                </IconButton>
+              )}
             </p>
           ))}
         </div>

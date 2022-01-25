@@ -355,7 +355,7 @@ export default function TrainingSplit() {
           subtitle={mealPlanDay.subtitle}
           toLink={`${getRoute(Routes.ACTIVITIES_DP_ID, {
             clientId: params.clientId,
-            id: revision.diet_plan._id,
+            id: revision.diet_plan?._id,
             revisionId: revision.diet_plan_revision_id
           })}?edit=1`}
         />
@@ -370,7 +370,7 @@ export default function TrainingSplit() {
           subtitle={workoutPlanDay.subtitle}
           toLink={`${getRoute(Routes.ACTIVITIES_TP_ID, {
             clientId: params.clientId,
-            id: revision.training_plan._id,
+            id: revision.training_plan?._id,
             revisionId: revision.training_plan_revision_id
           })}?edit=1`}
         />
