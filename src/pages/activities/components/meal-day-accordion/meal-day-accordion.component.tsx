@@ -6,7 +6,9 @@ import { FoodIcon } from '../../../../assets/media/icons'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
+import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import FoodDay from '../../components/meal-day-accordion/components/food-day/food-day.component'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import Macronutrient from '../macronutrient/macronutrient.component'
 import MealDayForm from '../meal-day-form/meal-day-form.component'
@@ -35,6 +37,7 @@ export default function MealDayAccordion({
   defaultOpened
 }: MealDayAccordionProps) {
   const methods = useFormContext()
+  const [dayTarget, setDayTarget] = useState(false)
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
     proteins: 0,
@@ -45,7 +48,6 @@ export default function MealDayAccordion({
     total_carbs: 0,
     calories: 0
   })
-
   const { errors } = methods.formState
 
   const dayName = useWatch({
@@ -116,6 +118,14 @@ export default function MealDayAccordion({
               />
             )}
           />
+
+          <div className="MealDayAccordion__day-toggle">
+            <FormToggleUI
+              value={dayTarget}
+              onUpdate={() => setDayTarget(!dayTarget)}
+            />
+            <p className="MealDayAccordion__day-toggle-label">Day Target</p>
+          </div>
         </div>
 
         <Controller
@@ -133,32 +143,53 @@ export default function MealDayAccordion({
           name={`days.${index}.save_as_template`}
         />
 
-        <div className="MealDayAccordion__macronutrients">
-          {[
-            'Proteins',
-            'Fat',
-            'Net Carbs',
-            'Sugar',
-            'Fiber',
-            'Total Carbs',
-            'Calories'
-          ].map((row) => (
-            <Macronutrient
-              key={row}
-              title={row}
-              amount={`${
-                (totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]
-              }
-            ${row === 'Calories' ? 'KCal' : 'g'}`}
+        {!dayTarget ? (
+          <>
+            <div className="MealDayAccordion__macronutrients">
+              {[
+                'Proteins',
+                'Fat',
+                'Net Carbs',
+                'Sugar',
+                'Fiber',
+                'Total Carbs',
+                'Calories'
+              ].map((row) => (
+                <Macronutrient
+                  key={row}
+                  title={row}
+                  amount={`${
+                    (totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]
+                  }
+                ${row === 'Calories' ? 'KCal' : 'g'}`}
+                />
+              ))}
+            </div>
+
+            <p className="MealDayAccordion__subtitle">
+              List meals of this diet plan
+            </p>
+
+            <MealDayForm name={name} />
+
+            <Controller
+              render={({ field: { value, name } }) => (
+                <div className="MealDayAccordion__checkbox-container">
+                  <Checkbox
+                    checked={value}
+                    onChange={(e) => methods.setValue(name, e.target.checked)}
+                  />
+                  <Label className="MealDayAccordion__checkbox">
+                    Save as re-usable template
+                  </Label>
+                </div>
+              )}
+              name={`days.${index}.save_as_template`}
             />
-          ))}
-        </div>
-
-        <p className="MealDayAccordion__subtitle">
-          List meals of this diet plan
-        </p>
-
-        <MealDayForm name={name} />
+          </>
+        ) : (
+          <FoodDay name={`days.${index}.food-day`} />
+        )}
       </Styles>
     </DayAccordion>
   )
