@@ -43,5 +43,12 @@ export const Styles = styled.div`
         margin-top: 1.5rem;
       }
     }
+    &__day-toggle {
+      display: flex;
+      width: 160px;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
   }
 `
