@@ -7,6 +7,8 @@ import SplitDayCard from './split-day-card.component'
 interface IProps {
   scheduleTime?: string
   data: any
+  actionComponent?: React.ReactNode
+  contentClass?: string
 }
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
@@ -20,13 +22,15 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
 }
 
 export default function SplitDayDietCard(props: IProps) {
-  const { data, scheduleTime } = props
+  const { data, scheduleTime, actionComponent, contentClass } = props
   return (
     <SplitDayCard
       scheduleTime={scheduleTime}
       title={data.name}
       color={getColorCarry('primary_v2')}
       icon={<FoodIcon />}
+      actionComponent={actionComponent}
+      contentClass={contentClass}
       content={
         <div>
           <div className="SplitDayCard__macronutrients">

@@ -37,6 +37,13 @@ export default function DietPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const history = useHistory()
+  const queryParams = new URLSearchParams(location.search)
+
+  useEffect(() => {
+    if (queryParams.get('edit')) {
+      setEdit(true)
+    }
+  }, [])
 
   useEffect(() => {
     if (!params.clientId) {

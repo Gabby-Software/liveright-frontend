@@ -13,8 +13,8 @@ import { ListItemStyles, Styles } from './day-training-split-card.styles'
 
 interface DayTrainingSplitCardProps {
   data: any
-  onWorkout?: (id: string) => void
-  onMealPlan?: (id: string) => void
+  onWorkout?: (data: any) => void
+  onMealPlan?: (data: any) => void
   onCardio?: (id: string) => void
   edit?: boolean
   subtitle: string
@@ -39,9 +39,7 @@ export default function DayTrainingSplitCard(
             icon={<WorkoutIcon />}
             edit={edit}
             onClick={
-              onWorkout
-                ? () => onWorkout(data.training_plan_day._id)
-                : undefined
+              onWorkout ? () => onWorkout(data.training_plan_day) : undefined
             }
           />
           <ListItem
@@ -51,7 +49,7 @@ export default function DayTrainingSplitCard(
             icon={<FoodIcon />}
             edit={edit}
             onClick={
-              onMealPlan ? () => onMealPlan(data.diet_plan_day._id) : undefined
+              onMealPlan ? () => onMealPlan(data.diet_plan_day) : undefined
             }
           />
           <ListItem

@@ -23,12 +23,24 @@ import ActivitiesClient from '../../components/activities-client/activities-clie
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../components/day-training-split-card/day-training-split-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
+import MealPlanDayDialog from '../../components/meal-plan-day-dialog/meal-plan-day-dialog.component'
+import WorkoutPlanDayDialog from '../../components/workout-plan-day-dialog/workout-plan-day-dialog.component'
 import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
+
+interface DayDialogState {
+  day: string
+  subtitle: string
+  data: any
+}
 
 export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
   const [confirmDialog, setConfirmDialog] = useState(false)
+  const [mealPlanDay, setMealPlanDay] = useState<DayDialogState | null>(null)
+  const [workoutPlanDay, setWorkoutPlanDay] = useState<DayDialogState | null>(
+    null
+  )
   const [activationDate, setActivationDate] = useState<string>(
     new Date().toISOString()
   )
@@ -49,16 +61,6 @@ export default function TrainingSplit() {
     () => getVersionOptions(trainingSplit.revisions || []),
     [trainingSplit]
   )
-
-  if (day) {
-    return (
-      <TrainingSplitDayView
-        index={day - 1}
-        onClose={() => setDay(null)}
-        setIndex={setDay}
-      />
-    )
-  }
 
   const onMakeActive = () => {
     onEdit(
@@ -84,6 +86,36 @@ export default function TrainingSplit() {
         })
         setConfirmDialog(false)
       }
+    )
+  }
+
+  const onMealPlanDayHandler = (day: any, idx: number) => {
+    setMealPlanDay({
+      day: `Day ${idx + 1}`,
+      subtitle: moment(revision.scheduled_start_on)
+        .add(idx, 'days')
+        .format('dddd'),
+      data: day
+    })
+  }
+
+  const onWorkoutPlanDayHandler = (day: any, idx: number) => {
+    setWorkoutPlanDay({
+      day: `Day ${idx + 1}`,
+      subtitle: moment(revision.scheduled_start_on)
+        .add(idx, 'days')
+        .format('dddd'),
+      data: day
+    })
+  }
+
+  if (day) {
+    return (
+      <TrainingSplitDayView
+        index={day - 1}
+        onClose={() => setDay(null)}
+        setIndex={setDay}
+      />
     )
   }
 
@@ -113,6 +145,8 @@ export default function TrainingSplit() {
                 subtitle={moment(
                   startDate.setDate(startDate.getDate() + 1)
                 ).format('dddd')}
+                onMealPlan={(data) => onMealPlanDayHandler(data, idx)}
+                onWorkout={(data) => onWorkoutPlanDayHandler(data, idx)}
               />
             </div>
           ))}
@@ -128,6 +162,8 @@ export default function TrainingSplit() {
                 subtitle={moment(
                   startDate.setDate(startDate.getDate() + 1)
                 ).format('dddd')}
+                onMealPlan={(data) => onMealPlanDayHandler(data, idx)}
+                onWorkout={(data) => onWorkoutPlanDayHandler(data, idx)}
               />
             </div>
           ))}
@@ -309,6 +345,36 @@ export default function TrainingSplit() {
           </>
         )}
       </Styles>
+
+      {!!mealPlanDay && (
+        <MealPlanDayDialog
+          open={!!mealPlanDay}
+          onClose={() => setMealPlanDay(null)}
+          data={mealPlanDay.data}
+          title={mealPlanDay.day}
+          subtitle={mealPlanDay.subtitle}
+          toLink={`${getRoute(Routes.ACTIVITIES_DP_ID, {
+            clientId: params.clientId,
+            id: revision.diet_plan._id,
+            revisionId: revision.diet_plan_revision_id
+          })}?edit=1`}
+        />
+      )}
+
+      {!!workoutPlanDay && (
+        <WorkoutPlanDayDialog
+          open={!!workoutPlanDay}
+          onClose={() => setWorkoutPlanDay(null)}
+          data={workoutPlanDay.data}
+          title={workoutPlanDay.day}
+          subtitle={workoutPlanDay.subtitle}
+          toLink={`${getRoute(Routes.ACTIVITIES_TP_ID, {
+            clientId: params.clientId,
+            id: revision.training_plan._id,
+            revisionId: revision.training_plan_revision_id
+          })}?edit=1`}
+        />
+      )}
 
       {/* active condition */}
       <ConfirmDialog
