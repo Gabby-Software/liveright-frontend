@@ -48,7 +48,6 @@ export default function MealDayAccordion({
     total_carbs: 0,
     calories: 0
   })
-  console.log(dayTarget)
   const { errors } = methods.formState
 
   const dayName = useWatch({

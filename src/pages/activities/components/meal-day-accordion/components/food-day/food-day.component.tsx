@@ -27,8 +27,6 @@ export default function FoodDay({
   //   name: `${name}.info`
   // })
 
-  console.log(methods.getValues())
-
   const onChange = (fieldName: string, value: string | boolean) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
