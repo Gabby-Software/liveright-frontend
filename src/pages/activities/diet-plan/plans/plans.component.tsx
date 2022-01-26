@@ -281,8 +281,15 @@ export default function DietPlans() {
     <MobilePage
       title="Diet Plans"
       headerSpacing={20}
+      headerNavChat
       actionComponent={
-        <Button onClick={() => setAdd(true)}>Create Plan</Button>
+        clientId === 'all' ? (
+          <Tooltip title="Please select a client before creating a plan">
+            <Button>Create Plan</Button>
+          </Tooltip>
+        ) : (
+          <Button onClick={() => setAdd(true)}>Create Plan</Button>
+        )
       }
     >
       {content}

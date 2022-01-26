@@ -28,6 +28,7 @@ import userTypes from '../../../../enums/user-types.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -435,6 +436,11 @@ export default function AddDietPlan({
     <MobilePage
       title="Add Diet Plan"
       headerSpacing={20}
+      headerTopComponent={
+        <HeaderLink onClick={onClose}>
+          {revision._id ? 'Back to Plan Overview' : 'Back to Diet Plan'}
+        </HeaderLink>
+      }
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

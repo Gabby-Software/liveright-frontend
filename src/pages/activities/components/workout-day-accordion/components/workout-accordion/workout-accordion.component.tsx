@@ -313,7 +313,7 @@ export default function WorkoutAccordion({
             <Button
               variant="text"
               size="sm"
-              className="Workout__action-btn"
+              className="WorkoutAccordion__action-btn"
               onClick={() => handleExerciseAdd(ssIndices.length + 1)}
             >
               <AddIcon />

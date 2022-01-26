@@ -572,6 +572,7 @@ export default function TrainingSplit() {
     <MobilePage
       title="Current Training Split"
       headerSpacing={20}
+      headerNavChat
       actionComponent={
         <Button
           to={getRoute(Routes.ACTIVITIES_TS_EDIT, {

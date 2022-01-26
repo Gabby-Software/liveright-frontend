@@ -29,6 +29,7 @@ import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import useTraningPlanFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
+import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -336,7 +337,10 @@ export default function AddTrainingPlan({
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
                     error={errors.scheduled_end_on}
-                    disabled={!scheduled_start_on}
+                    disabled={
+                      !scheduled_start_on ||
+                      !methods.getValues('scheduled_start_on')
+                    }
                     disabledDate={(date: Moment) =>
                       date.isBefore(scheduled_start_on)
                     }
@@ -456,6 +460,11 @@ export default function AddTrainingPlan({
     <MobilePage
       title={editId ? 'Edit Training Plan' : 'Create Training Plan'}
       headerSpacing={20}
+      headerTopComponent={
+        <HeaderLink onClick={onGoBack}>
+          {revision._id ? 'Back to Plan Overview' : 'Back to Diet Plan'}
+        </HeaderLink>
+      }
       actionComponent={<Button onClick={handleSave}>Save</Button>}
     >
       {content}

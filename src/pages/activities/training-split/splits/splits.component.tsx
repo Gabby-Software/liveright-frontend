@@ -222,10 +222,19 @@ export default function TrainingSplits() {
     <MobilePage
       title="Training Splits"
       headerSpacing={20}
+      headerNavChat
       actionComponent={
-        <Button to={getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: clientId })}>
-          Create Split
-        </Button>
+        clientId === 'all' ? (
+          <Tooltip title="Please select a client before creating a plan">
+            <Button>Create Split</Button>
+          </Tooltip>
+        ) : (
+          <Button
+            to={getRoute(Routes.ACTIVITIES_TS_NEW, { clientId: clientId })}
+          >
+            Create Split
+          </Button>
+        )
       }
     >
       {content}

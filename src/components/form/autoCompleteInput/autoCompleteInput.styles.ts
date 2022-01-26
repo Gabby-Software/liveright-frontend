@@ -18,6 +18,10 @@ export default styled.div<any>`
       padding: 6px 12px;
       line-height: 45px;
 
+      & span {
+        top: -3px;
+      }
+
       & input {
         height: 100%;
         width: 100%;
