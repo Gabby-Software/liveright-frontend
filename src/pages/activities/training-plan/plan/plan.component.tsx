@@ -350,6 +350,7 @@ export default function TrainingPlan() {
     <MobilePage
       title="Current Training Plan"
       headerSpacing={20}
+      headerNavChat
       actionComponent={<Button onClick={() => setEdit(true)}>Edit Plan</Button>}
     >
       {content}

@@ -2,10 +2,10 @@ import cloneDeep from 'lodash.clonedeep'
 import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
-import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import Dialog from '../../../../../components/dialogs/dialog/dialog.component'
 import MobileFullScreenDialog from '../../../../../components/dialogs/mobile-fullscreen-dialog/mobile-fullscreen-dialog.component'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MealPlanEdit from './mealplanday-edit.component'
 
 interface MealPlanEditDialogProps {
@@ -32,16 +32,7 @@ const MealPlanEditDialog = (props: MealPlanEditDialogProps) => {
       <MobileFullScreenDialog
         title="Edit Meal Plan Day"
         headerTopComponent={
-          <div
-            style={{ display: 'flex', alignItems: 'center' }}
-            onClick={(e) => {
-              e.stopPropagation()
-              onDropDownClose()
-            }}
-          >
-            <CaretLeftIcon />
-            <span>Go Back</span>
-          </div>
+          <HeaderLink onClick={onDropDownClose}>Go Back</HeaderLink>
         }
       >
         <MealPlanEdit data={data} name={name} onClose={onClose} />

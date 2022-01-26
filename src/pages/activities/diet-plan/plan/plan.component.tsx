@@ -330,6 +330,7 @@ export default function DietPlan() {
     <MobilePage
       title="Current Diet Plan"
       headerSpacing={20}
+      headerNavChat
       actionComponent={<Button onClick={() => setEdit(true)}>Edit Plan</Button>}
     >
       {content}

@@ -74,7 +74,7 @@ export default function ActivitiesClient({
             )}
           </div>
 
-          {expanded && (
+          {expanded && user.id && (
             <div className={'log-client__bottom'}>
               <div className={'log-client__bottom__item'}>
                 <div className={'log-client__bottom__label'}>Last Active:</div>
@@ -176,25 +176,29 @@ export default function ActivitiesClient({
             <ChatIcon />
           </IconButton>
         </div>
-        <div className={'log-client__bottom'}>
-          <div className={'log-client__bottom__item'}>
-            <div className={'log-client__bottom__label'}>Last Active:</div>
-            <div className={'log-client__bottom__value'}>
-              {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}
-            </div>
-          </div>
-          {viewActivity && (
-            <>
-              <div className={'log-client__bottom__separator'} />
-              <div className={'log-client__bottom__item'}>
-                <div className={'log-client__bottom__label'}>Last Activity</div>
-                <div className={'log-client__bottom__value'}>
-                  {activityValue}
-                </div>
+        {user.id && (
+          <div className={'log-client__bottom'}>
+            <div className={'log-client__bottom__item'}>
+              <div className={'log-client__bottom__label'}>Last Active:</div>
+              <div className={'log-client__bottom__value'}>
+                {lastSeen(user.uuid, room?.room.meta?.lastSeenAt)}
               </div>
-            </>
-          )}
-        </div>
+            </div>
+            {viewActivity && (
+              <>
+                <div className={'log-client__bottom__separator'} />
+                <div className={'log-client__bottom__item'}>
+                  <div className={'log-client__bottom__label'}>
+                    Last Activity
+                  </div>
+                  <div className={'log-client__bottom__value'}>
+                    {activityValue}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </Wrapper>
     )
   }

@@ -31,6 +31,12 @@ export const DialogStyles = styled(Dialog)`
 
     &__btn {
       width: 100%;
+      padding: 8px 20px;
+      height: fit-content;
+
+      & span {
+        white-space: normal;
+      }
     }
 
     &__title {

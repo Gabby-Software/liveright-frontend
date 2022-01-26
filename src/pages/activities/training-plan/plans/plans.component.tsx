@@ -303,10 +303,15 @@ export default function TrainingPlans() {
     <MobilePage
       title="Current Training Plans"
       headerSpacing={20}
+      headerNavChat
       actionComponent={
-        trainingPlans.length > 0 ? (
+        clientId === 'all' ? (
+          <Tooltip title="Please select a client before creating a plan">
+            <Button>Create Plan</Button>
+          </Tooltip>
+        ) : (
           <Button onClick={() => setAdd(true)}>Create Plan</Button>
-        ) : null
+        )
       }
     >
       {content}
