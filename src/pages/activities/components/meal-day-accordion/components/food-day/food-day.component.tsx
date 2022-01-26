@@ -27,7 +27,7 @@ export default function FoodDay({
     control: methods.control,
     name: `${name}.info`
   })
-  console.log(info)
+
   const onChange = (fieldName: string, value: string | boolean) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
@@ -35,12 +35,12 @@ export default function FoodDay({
   useEffect(() => {
     methods.setValue(
       `${name}.info.calories`,
-      (info.proteins || 0) * 4 +
-        (info.net_carbs || 0) * 4 +
-        (info.fat || 0) * 9,
+      (info?.proteins || 0) * 4 +
+        (info?.net_carbs || 0) * 4 +
+        (info?.fat || 0) * 9,
       { shouldValidate: true }
     )
-  }, [info.proteins, info.net_carbs, info.fat])
+  }, [info?.proteins, info?.net_carbs, info?.fat])
 
   const { errors } = methods.formState
 
