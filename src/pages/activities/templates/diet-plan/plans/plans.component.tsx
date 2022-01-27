@@ -17,16 +17,6 @@ const LABELS = [
 ]
 const KEYS = ['id', 'name', 'days', 'client', 'created', 'options']
 
-// const DATA = [
-//   {
-//     id: 123,
-//     name: 'Diet Plan From Nov 10',
-//     created: '21-01-2021',
-//     client: 'John Travolta',
-//     days: '6'
-//   }
-// ]
-
 const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
   KEYS,
   LABELS

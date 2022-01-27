@@ -21,6 +21,7 @@ interface ExerciseAccordionProps {
   draggableProps: any
   isDragging: boolean
   fromSuperset?: boolean
+  fromTemplate?: boolean
 }
 
 export default function ExerciseAccordion({
@@ -31,7 +32,8 @@ export default function ExerciseAccordion({
   onRemove,
   borderBottom,
   prefix,
-  fromSuperset
+  fromSuperset,
+  fromTemplate = false
 }: ExerciseAccordionProps) {
   const methods = useFormContext()
   const exerciseName = methods.getValues(`${name}.name`)
@@ -214,7 +216,7 @@ export default function ExerciseAccordion({
                 />
               </>
             )}
-            {!fromSuperset && (
+            {!fromSuperset && !fromTemplate && (
               <Controller
                 render={({ field: { value, name } }) => (
                   <div className="ExerciseAccordion__checkbox-container">

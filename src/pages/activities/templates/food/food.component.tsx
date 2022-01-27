@@ -9,10 +9,12 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateFood from '../../../../hooks/api/templates/useTemplateFood'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { FoodInfoType } from '../../../../types/food.type'
-import ActivityLayout from '../../components/layout/layout.component'
+import TemplateLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
+import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
   calories: 'Calories',
@@ -22,15 +24,64 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
 }
 
 export default function Meal() {
+  const isMobile = useIsMobile()
   const params = useParams<any>()
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 
   const { food } = useTemplateFood(params.id)
-  console.log(food)
 
-  return (
-    <ActivityLayout>
+  const content = (
+    <>
+      <section className="PlanPage__summary">
+        <p className="label">Micronutrients from this food</p>
+        <div className="nutrients">
+          {Object.keys(MACROS_KEY_LABEL).map((k) => (
+            <Macronutrient
+              key={k}
+              title={MACROS_KEY_LABEL[k]}
+              amount={`${food?.info?.[k as keyof FoodInfoType]}${
+                k === 'calories' ? 'kcal' : 'g'
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="food-description">Generic description of the food</div>
+      </section>
+      <Dialog
+        open={showConfirm}
+        title="Use food template"
+        onClose={() => setShowConfirm(false)}
+      >
+        <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          To use this food, search for its name within any meal .
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button onClick={() => setShowConfirm(false)}>Ok, got it</Button>
+        </div>
+      </Dialog>
+    </>
+  )
+
+  return isMobile ? (
+    <TemplateMobilePage
+      contentTitle={food.name}
+      pageTitle={'Food Detail'}
+      actionComponent={
+        <Button
+          className="PlanPage__header-btn"
+          onClick={() => setShowConfirm(true)}
+        >
+          Use Food Template
+        </Button>
+      }
+      onDelete={onDelete}
+    >
+      <Styles>{content}</Styles>
+    </TemplateMobilePage>
+  ) : (
+    <TemplateLayout>
       <Styles>
         <section className="topbar">
           <MobileBack
@@ -63,40 +114,9 @@ export default function Meal() {
           </section>
 
           <section className="PlanPage__divider" />
-
-          <section className="PlanPage__summary">
-            <p className="label">Micronutrients from this food</p>
-            <div className="nutrients">
-              {Object.keys(MACROS_KEY_LABEL).map((k) => (
-                <Macronutrient
-                  key={k}
-                  title={MACROS_KEY_LABEL[k]}
-                  amount={`${food?.info?.[k as keyof FoodInfoType]}${
-                    k === 'calories' ? 'kcal' : 'g'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <div className="food-description">
-              Generic description of the food
-            </div>
-          </section>
+          {content}
         </Card>
       </Styles>
-
-      <Dialog
-        open={showConfirm}
-        title="Use food template"
-        onClose={() => setShowConfirm(false)}
-      >
-        <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-          To use this food, search for its name within any meal .
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button onClick={() => setShowConfirm(false)}>Ok, got it</Button>
-        </div>
-      </Dialog>
-    </ActivityLayout>
+    </TemplateLayout>
   )
 }

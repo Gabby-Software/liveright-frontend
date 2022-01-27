@@ -14,10 +14,6 @@ export const Styles = styled.div`
       margin-top: 0.9375rem;
       border-radius: 14px;
       width: 100%;
-
-      @media ${mediaQueries.MOBILE} {
-        margin-top: -4rem;
-      }
     }
 
     &__content {

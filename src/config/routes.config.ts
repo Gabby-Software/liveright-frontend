@@ -605,7 +605,7 @@ export const routes: RouteType[] = [
   },
   {
     title: 'Training Plan Template',
-    url: Routes.ACTIVITIES_TM_TP_REVISION_ID,
+    url: Routes.ACTIVITIES_TM_TP_ID,
     Component: lazy(
       () =>
         import(

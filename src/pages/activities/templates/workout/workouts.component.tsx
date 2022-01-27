@@ -6,8 +6,8 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
-const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
-const KEYS = ['id', 'created', 'name', 'client', 'options']
+const LABELS = ['ID', 'Name', 'Created on', 'Created from client', 'Options']
+const KEYS = ['id', 'name', 'created', 'client', 'options']
 
 const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)

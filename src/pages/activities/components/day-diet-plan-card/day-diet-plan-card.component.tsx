@@ -6,16 +6,19 @@ import { Styles } from './day-diet-plan-card.styles'
 interface DayDietPlanCardProps {
   day: any
   onExpand?: () => void
+  border?: 'both' | 'mobile' | 'desktop'
 }
 
 export default function DayDietPlanCard({
   day,
-  onExpand
+  onExpand,
+  border = 'desktop'
 }: DayDietPlanCardProps) {
   return (
     <DayCard
       title={day?.name}
       onExpand={onExpand}
+      border={border}
       content={
         <Styles>
           {day?.activities?.map((row: any) => (

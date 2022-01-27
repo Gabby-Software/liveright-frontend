@@ -11,15 +11,15 @@ import {
   DropdownMenuItem
 } from '../../../../../components/dropdown'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
-import ActivityLayout from '../../../components/layout/layout.component'
+import TemplateLayout from '../../../components/layout/layout.component'
 import Styles from './template-mobile-page.styles'
 
 interface IProps {
-  actionComponent: React.ReactNode
+  actionComponent?: React.ReactNode
   pageTitle: string
   contentTitle: string
-  onEdit: () => void
-  onDelete: () => void
+  onEdit?: () => void
+  onDelete?: () => void
 }
 
 const TemplateMobilePage: React.FC<IProps> = ({
@@ -32,25 +32,29 @@ const TemplateMobilePage: React.FC<IProps> = ({
 }) => {
   const dropdownMenu = (
     <DropdownMenu>
-      <DropdownMenuItem>
-        <Button
-          variant="text"
-          className="TSTemplates__title-button"
-          onClick={onEdit}
-        >
-          Edit Split Template
-        </Button>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Button
-          variant="text"
-          onClick={onDelete}
-          className="TSTemplates__topbar-delete"
-        >
-          <DeleteOutlinedIcon style={{ marginRight: 8 }} />
-          Delete Template
-        </Button>
-      </DropdownMenuItem>
+      {onEdit && (
+        <DropdownMenuItem>
+          <Button
+            variant="text"
+            className="TSTemplates__title-button"
+            onClick={onEdit}
+          >
+            Edit Template
+          </Button>
+        </DropdownMenuItem>
+      )}
+      {onDelete && (
+        <DropdownMenuItem>
+          <Button
+            variant="text"
+            onClick={onDelete}
+            className="TSTemplates__topbar-delete"
+          >
+            <DeleteOutlinedIcon style={{ marginRight: 8 }} />
+            Delete Template
+          </Button>
+        </DropdownMenuItem>
+      )}
     </DropdownMenu>
   )
 
@@ -59,8 +63,9 @@ const TemplateMobilePage: React.FC<IProps> = ({
       title={pageTitle}
       headerSpacing={16}
       actionComponent={actionComponent}
+      headerNavChat
     >
-      <ActivityLayout>
+      <TemplateLayout>
         <Styles>
           <section className="TSTemplates__title-container">
             <h1 className="TSTemplates__title">{contentTitle}</h1>
@@ -71,7 +76,7 @@ const TemplateMobilePage: React.FC<IProps> = ({
           <div className="TSTemplates__divider" />
           {children}
         </Styles>
-      </ActivityLayout>
+      </TemplateLayout>
     </MobilePage>
   )
 }

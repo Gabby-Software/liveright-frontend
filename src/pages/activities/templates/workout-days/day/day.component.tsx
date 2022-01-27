@@ -9,7 +9,7 @@ import { Title } from '../../../../../components/typography'
 import { Routes } from '../../../../../enums/routes.enum'
 import useTemplateWorkoutDay from '../../../../../hooks/api/templates/workout-days/useTemplateWorkoutDay'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
-import ActivityLayout from '../../../components/layout/layout.component'
+import TemplateLayout from '../../../components/layout/layout.component'
 import SplitDayWorkoutCard from '../../../components/split-day-workout-card/split-day-workout-card.component'
 import { Styles } from '../../../styles/plan.styles'
 import WorkoutDayTemplateForm from '../workout-day-template-form/workout-day-template-form.component'
@@ -33,7 +33,7 @@ export default function WorkoutDay() {
   }
 
   return (
-    <ActivityLayout>
+    <TemplateLayout>
       <Styles>
         <section className="topbar">
           <MobileBack
@@ -89,6 +89,6 @@ export default function WorkoutDay() {
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
       />
-    </ActivityLayout>
+    </TemplateLayout>
   )
 }

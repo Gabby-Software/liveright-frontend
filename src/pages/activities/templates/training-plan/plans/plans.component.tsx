@@ -14,7 +14,7 @@ const LABELS = [
   'Created on',
   'Options'
 ]
-const KEYS = ['id', 'created', 'name', 'days', 'client', 'options']
+const KEYS = ['id', 'name', 'days', 'client', 'created', 'options']
 
 const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)
@@ -44,8 +44,7 @@ export default function TrainingPlans() {
       created: convertDate(item?.created_at?.substring(0, 10)),
       type: item?.info?.type,
       days: item?.days_count,
-      client: item.account_id === id ? '-' : item.account?.user?.full_name,
-      revisionId: item?.revisions[0]?._id
+      client: item.account_id === id ? '-' : item.account?.user?.full_name
     }))
     return rows
   }, [trainingPlans])

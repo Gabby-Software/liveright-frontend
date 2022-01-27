@@ -7,7 +7,7 @@ import { useDataFMConvert } from '../../../../hooks/template.hook'
 import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
-const LABELS = ['ID', 'Name', 'Created on', 'Crated from client', 'Options']
+const LABELS = ['ID', 'Name', 'Created on', 'Created from client', 'Options']
 const KEYS = ['id', 'name', 'created', 'client', 'options']
 
 const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(

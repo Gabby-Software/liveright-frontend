@@ -9,7 +9,7 @@ import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
-import ActivityLayout from '../../../components/layout/layout.component'
+import TemplateLayout from '../../../components/layout/layout.component'
 import { TS_DEMO } from '../../../demo/splits'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import { Styles } from './split.styles'
@@ -88,7 +88,7 @@ export default function TrainingSplit() {
     </>
   ) : (
     <>
-      <ActivityLayout>
+      <TemplateLayout>
         <Styles>
           <section className="TSTemplates__topbar">
             <MobileBack
@@ -146,7 +146,7 @@ export default function TrainingSplit() {
             )}
           </div>
         </Styles>
-      </ActivityLayout>
+      </TemplateLayout>
 
       <SplitTemplateDialog
         name="Use split template"

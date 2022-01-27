@@ -10,11 +10,11 @@ const LABELS = [
   'ID',
   'Name',
   'Type',
-  'Created from client',
   'Created on',
+  'Created from client',
   'Options'
 ]
-const KEYS = ['id', 'created', 'name', 'type', 'client', 'options']
+const KEYS = ['id', 'name', 'type', 'created', 'client', 'options']
 
 const convertDate = (dateString: string) => {
   const p = dateString.split(/\D/g)

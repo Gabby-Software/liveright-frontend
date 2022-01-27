@@ -108,8 +108,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
     {
       Icon: () => <BookmarkTrainerIcon fill="black" />,
       url: Routes.ACTIVITIES_TM,
-      name: 'menu.library',
-      permission: userTypes.TRAINER
+      name: 'menu.library'
     },
     {
       Icon: RoundedArrowIcon,

@@ -191,6 +191,10 @@ export const Styles = styled.div`
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1.25rem;
+
+      @media ${mediaQueries.MOBILE} {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__statuses {
@@ -253,6 +257,10 @@ export const Styles = styled.div`
       & .nutrients {
         display: flex;
         gap: 4px;
+
+        @media ${mediaQueries.MOBILE} {
+          flex-wrap: wrap;
+        }
       }
 
       & .food-description {
@@ -271,6 +279,25 @@ export const Styles = styled.div`
 
       & .table {
         padding: 1.5rem;
+      }
+    }
+  }
+
+  .MobileExercise {
+    &__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+
+      &-name {
+        color: ${getColorCarry('neutral_60')};
+      }
+
+      &-value {
+        color: ${getColorCarry('neutral_80')};
       }
     }
   }
