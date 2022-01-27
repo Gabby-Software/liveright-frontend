@@ -4,10 +4,16 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTemplateFoods from '../../../../hooks/api/templates/useTemplateFoods'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useDataFMConvert } from '../../../../hooks/template.hook'
+import { getObjectFromArrays } from '../../../../utils/obj'
 import TemplatesTable from '../components/template-table/template-table.component'
 
-const LABELS = ['ID', 'Created on', 'Name', 'Crated from client', 'Options']
-const KEYS = ['id', 'name', 'created', 'client', 'options']
+const LABELS = ['ID', 'Name', 'Crated from client', 'Created on', 'Options']
+const KEYS = ['id', 'name', 'client', 'created', 'options']
+
+const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
+  KEYS,
+  LABELS
+)
 
 export default function Foods() {
   const [clientId, setClientId] = useState('all')
@@ -33,6 +39,7 @@ export default function Foods() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
+      mobileLabels={MOBILE_LABELS}
       data={DATA}
       baseLink={Routes.ACTIVITIES_TM_FO}
     />

@@ -189,7 +189,7 @@ export default function DesktopSidebar() {
         type: userTypes.TRAINER
       },
       { name: 'calendar', url: Routes.CALENDAR, Icon: CalendarIcon },
-      { name: 'library', url: Routes.HUB, Icon: LibraryIcon },
+      { name: 'library', url: Routes.ACTIVITIES_TM, Icon: LibraryIcon },
       {
         name: 'financials',
         url: Routes.FINANCIALS_OVERVIEW,

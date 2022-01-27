@@ -2,11 +2,11 @@ import useSWR from 'swr'
 
 import { EP_TEMPLATES_TP_BY_ID } from '../../../../enums/api.enum'
 import { getTemplatesTrainingPlanById } from '../../../../services/api/templates'
-import { TrainingPlanType } from '../../../../types/training-plan.type'
+import { TrainingTemplateType } from '../../../../types/training-template.type'
 
 interface useTemplateTrainingPlan {
   isLoading: boolean
-  trainingPlan: TrainingPlanType
+  trainingTemplate: TrainingTemplateType
 }
 
 export default function useTemplateTrainingPlan(
@@ -18,10 +18,10 @@ export default function useTemplateTrainingPlan(
   )
 
   const isLoading = id ? !data && !error : false
-  const trainingPlan = data?.data || {}
+  const trainingTemplate = data?.data || {}
 
   return {
     isLoading,
-    trainingPlan
+    trainingTemplate
   }
 }

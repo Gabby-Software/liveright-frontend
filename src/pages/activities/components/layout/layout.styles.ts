@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
@@ -20,6 +21,10 @@ export const Styles = styled.div`
       border-radius: 14px;
       flex-grow: 1;
       background-color: ${getColorCarry('white')};
+
+      @media ${mediaQueries.MOBILE} {
+        background-color: transparent;
+      }
     }
   }
 `

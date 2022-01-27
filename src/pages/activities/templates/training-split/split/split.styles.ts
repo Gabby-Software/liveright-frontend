@@ -1,9 +1,14 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div`
   padding: 2rem;
+
+  @media ${mediaQueries.MOBILE} {
+    padding: 0;
+  }
 
   .TSTemplates {
     &__topbar {
@@ -23,6 +28,14 @@ export const Styles = styled.div`
       }
     }
     &__title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: ${getColorCarry('primaryDark2_v2')};
+
+      @media ${mediaQueries.MOBILE} {
+        font-size: 18px;
+      }
+
       &-container {
         display: flex;
         align-items: center;

@@ -7,10 +7,10 @@ export const useDataFMConvert = (data: any, trainerId: number) => {
       return data.map((item: any) => {
         return {
           id: item._id,
-          created: item.name,
+          name: item.name,
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
-          name: moment(item.created_at).format('DD-MM-YYYY')
+          created: moment(item.created_at).format('DD-MM-YYYY')
         }
       })
     } else {
@@ -45,11 +45,11 @@ export const useDataDietPlansConvert = (data: any, trainerId: number) => {
       return data.map((item: any) => {
         return {
           id: item._id,
-          created: item.name,
+          created: moment(item.created_at).format('DD-MM-YYYY'),
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
-          days: item.revisions?.days_count,
-          name: moment(item.created_at).format('DD-MM-YYYY')
+          days: item.days_count,
+          name: item.name
         }
       })
     } else {

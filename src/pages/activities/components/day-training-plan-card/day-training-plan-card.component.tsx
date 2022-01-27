@@ -5,16 +5,19 @@ import { Styles } from './day-training-plan-card.styles'
 interface DayTrainingPlanCardProps {
   day: any
   onExpand?: () => void
+  border?: 'both' | 'mobile' | 'desktop'
 }
 
 export default function DayTrainingPlanCard({
   day,
-  onExpand
+  onExpand,
+  border = 'desktop'
 }: DayTrainingPlanCardProps) {
   return (
     <DayCard
       title={day.name}
       onExpand={onExpand}
+      border={border}
       content={
         <Styles>
           <div className="day-tp-card__content">

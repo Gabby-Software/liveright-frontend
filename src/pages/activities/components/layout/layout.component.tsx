@@ -1,18 +1,23 @@
 import React from 'react'
 
-import LogClient from '../../../progress-log/log-health-data/components/log-client/log-client.component'
+import userTypes from '../../../../enums/user-types.enum'
+import { useAuth } from '../../../../hooks/auth.hook'
+import ActivitiesClient from '../activities-client/activities-client.component'
 import { Styles } from './layout.styles'
 
-interface ActivityLayoutProps {
+interface TemplateLayoutProps {
   children: React.ReactNode
 }
 
-export default function ActivityLayout({ children }: ActivityLayoutProps) {
+export default function TemplateLayout({ children }: TemplateLayoutProps) {
+  const { type } = useAuth()
   return (
     <Styles>
-      <div className="ActivitiesLayout__user">
-        <LogClient />
-      </div>
+      {type !== userTypes.CLIENT && (
+        <div className="ActivitiesLayout__user">
+          <ActivitiesClient clientId={0} onClientSwitch={() => null} />
+        </div>
+      )}
       <div className="ActivitiesLayout__content">{children}</div>
     </Styles>
   )

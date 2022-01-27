@@ -8,11 +8,13 @@ import MobileBack from '../../../../../components/mobile-back/mobile-back.compon
 import { Title } from '../../../../../components/typography'
 import { Routes } from '../../../../../enums/routes.enum'
 import useTemplateDietPlan from '../../../../../hooks/api/templates/diet-plan/useTemplateDietPlan'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayDietPlanCard from '../../../components/day-diet-plan-card/day-diet-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
-import ActivityLayout from '../../../components/layout/layout.component'
+import TemplateLayout from '../../../components/layout/layout.component'
 import AddDietPlan from '../../../diet-plan/add-plan/add-plan.component'
 import { Styles } from '../../../styles/plan.styles'
+import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import DietPlanTemplateDayView from '../components/diet-plan-day-template-view'
 
 export default function DietPlan() {
@@ -21,18 +23,43 @@ export default function DietPlan() {
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
-  const { id } = useParams<any>()
+  const isMobile = useIsMobile()
+  const { id, revisionId } = useParams<any>()
   const { dietTemplate } = useTemplateDietPlan(id)
-  const params = useParams<any>()
   console.log(dietTemplate)
   const onDelete = () => {}
+
+  const content = (
+    <>
+      <div className="PlanPage__cards">
+        {dietTemplate?.days?.map((item: any, index: number) => (
+          <DayDietPlanCard
+            day={item}
+            onExpand={() => setExpandedDayIndex(index)}
+            key={item._id}
+            border="both"
+          />
+        ))}
+      </div>
+      <SplitTemplateDialog
+        name="Use diet plan template"
+        title="Diet Plan From Nov 1"
+        description="You’re about to use the following diet plan template"
+        alert="This will make John Travolta’s active diet plan this one (Diet Plan From Nov 1) starting from 22/11/2021. This will also change the training split to reference this diet plan. You can make any changes to the training split and diet plan adter you schedule these changes. Additionally you can revert it at any point by re-activating “Balanced Diet” as the active plan."
+        yes="Confirm Changes"
+        cancel="Nevermind"
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+      />
+    </>
+  )
 
   if (edit || typeof edit === 'number') {
     return (
       <AddDietPlan
         editDay={typeof edit === 'number' ? edit : undefined}
         editId={id}
-        revisionId={params.revisionId}
+        revisionId={revisionId}
         onClose={() => setEdit(false)}
       />
     )
@@ -53,8 +80,25 @@ export default function DietPlan() {
     )
   }
 
-  return (
-    <ActivityLayout>
+  return isMobile ? (
+    <TemplateMobilePage
+      pageTitle="Diet Plan Template Detail"
+      contentTitle={dietTemplate.name}
+      actionComponent={
+        <Button
+          className="PlanPage__header-btn"
+          onClick={() => setShowConfirm(true)}
+        >
+          Use Diet Template
+        </Button>
+      }
+      onDelete={onDelete}
+      onEdit={() => {}}
+    >
+      <Styles>{content}</Styles>
+    </TemplateMobilePage>
+  ) : (
+    <TemplateLayout>
       <Styles>
         <section className="topbar">
           <MobileBack
@@ -87,29 +131,9 @@ export default function DietPlan() {
           </div>
 
           <div className="PlanPage__divider" />
-
-          <div className="PlanPage__cards">
-            {dietTemplate?.days?.map((item: any, index: number) => (
-              <DayDietPlanCard
-                day={item}
-                onExpand={() => setExpandedDayIndex(index)}
-                key={item._id}
-              />
-            ))}
-          </div>
+          {content}
         </Card>
       </Styles>
-
-      <SplitTemplateDialog
-        name="Use diet plan template"
-        title="Diet Plan From Nov 1"
-        description="You’re about to use the following diet plan template"
-        alert="This will make John Travolta’s active diet plan this one (Diet Plan From Nov 1) starting from 22/11/2021. This will also change the training split to reference this diet plan. You can make any changes to the training split and diet plan adter you schedule these changes. Additionally you can revert it at any point by re-activating “Balanced Diet” as the active plan."
-        yes="Confirm Changes"
-        cancel="Nevermind"
-        open={showConfirm}
-        onClose={() => setShowConfirm(false)}
-      />
-    </ActivityLayout>
+    </TemplateLayout>
   )
 }

@@ -22,7 +22,11 @@ import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import AutoCompleteInput from '../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import { EmptyPlaceholder } from '../../../../../components/placeholders'
 import useTemplateMeal from '../../../../../hooks/api/templates/meals/useTemplateMeal'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
+import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
+import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
 import Food from '../../../components/meal-day-accordion/components/food/food.component'
+import FoodAccordion from '../../../components/meal-day-accordion/components/food-accordion/food-accordion.component'
 import Styles, { MealStyles, MealSubtitle } from './template-meal-form'
 
 interface IProps {
@@ -66,6 +70,7 @@ const MACROS_LABEL_KEY_MAP = {
 
 export default function TemplateMealForm({ onClose }: IProps) {
   const [dropId] = useState(uuid())
+  const isMobile = useIsMobile()
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
     proteins: 0,
@@ -156,66 +161,73 @@ export default function TemplateMealForm({ onClose }: IProps) {
     calculateTotalMacros()
   })
 
-  return (
+  const content = (
     <FormProvider {...methods}>
-      <Styles>
-        <GoBack onClick={onClose}>{'Go Back to Overview'}</GoBack>
-        <h1 className="Title">Editing Meal Template</h1>
-        <MealStyles>
-          <div className="Meal__header">
-            <div className="Meal__header-title">
-              <div className="Meal__header-icon">
-                <FoodIcon />
-              </div>
-              <div className="subtitle">{mealName || meal.name || 'Meal'}</div>
+      <MealStyles>
+        <div className="Meal__header">
+          <div className="Meal__header-title">
+            <div className="Meal__header-icon">
+              <FoodIcon />
             </div>
-
-            <Button onClick={handleSave}>Save</Button>
-          </div>
-          <div className="Meal__name">
-            <Controller
-              name={`name`}
-              render={({ field: { value, name } }) => (
-                <AutoCompleteInput
-                  id="Meal-title"
-                  label="Meal Name"
-                  placeholder="Name of Meal"
-                  value={value}
-                  onChange={(value) => methods.setValue(name, value)}
-                  options={[]}
-                  className={get(errors, name) ? 'invalid-field' : ''}
-                />
-              )}
-            />
+            <div className="subtitle">{mealName || meal.name || 'Meal'}</div>
           </div>
 
-          <div className="Meal__macronutrients">
-            {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
-              <div key={k} className="Meal__macronutrient">
-                <p className="Meal__macronutrient-title">{k}</p>
-                <p className="Meal__macronutrient-value">
-                  {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[k]]}
-                  {k === 'Calories' ? 'KCal' : 'g'}
-                </p>
-              </div>
-            ))}
-          </div>
+          <Button onClick={handleSave}>Save</Button>
+        </div>
+        <div className="Meal__name">
+          <Controller
+            name={`name`}
+            render={({ field: { value, name } }) => (
+              <AutoCompleteInput
+                id="Meal-title"
+                label="Meal Name"
+                placeholder="Name of Meal"
+                value={value}
+                onChange={(value) => methods.setValue(name, value)}
+                options={[]}
+                className={get(errors, name) ? 'invalid-field' : ''}
+              />
+            )}
+          />
+        </div>
 
-          <MealSubtitle>Food</MealSubtitle>
+        <div className="Meal__macronutrients">
+          {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
+            <div key={k} className="Meal__macronutrient">
+              <p className="Meal__macronutrient-title">{k}</p>
+              <p className="Meal__macronutrient-value">
+                {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[k]]}
+                {k === 'Calories' ? 'KCal' : 'g'}
+              </p>
+            </div>
+          ))}
+        </div>
 
-          <div className="Meal__food-container">
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId={dropId}>
-                {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {foodsArray.fields &&
-                      foodsArray.fields.map((row: any, index: number) => (
-                        <Draggable
-                          key={row.id}
-                          draggableId={`${row.id}`}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
+        <MealSubtitle>Food</MealSubtitle>
+
+        <div className="Meal__food-container">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId={dropId}>
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {foodsArray.fields &&
+                    foodsArray.fields.map((row: any, index: number) => (
+                      <Draggable
+                        key={row.id}
+                        draggableId={`${row.id}`}
+                        index={index}
+                      >
+                        {(provided, snapshot) =>
+                          isMobile ? (
+                            <FoodAccordion
+                              innerRef={provided.innerRef}
+                              dragHandleProps={provided.dragHandleProps}
+                              draggableProps={provided.draggableProps}
+                              isDragging={snapshot.isDragging}
+                              name={`items.${[index]}.data`}
+                              onRemove={() => handleFoodRemove(index)}
+                            />
+                          ) : (
                             <Food
                               innerRef={provided.innerRef}
                               dragHandleProps={provided.dragHandleProps}
@@ -224,33 +236,47 @@ export default function TemplateMealForm({ onClose }: IProps) {
                               name={`items.${[index]}.data`}
                               onRemove={() => handleFoodRemove(index)}
                             />
-                          )}
-                        </Draggable>
-                      ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+                          )
+                        }
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
 
-            {!foodsArray.fields.length && (
-              <div
-                className="Meal__clickable-container"
-                onClick={handleFoodAdd}
-              >
-                <EmptyPlaceholder spacing text="Add Foods" />
-              </div>
-            )}
-          </div>
+          {!foodsArray.fields.length && (
+            <div className="Meal__clickable-container" onClick={handleFoodAdd}>
+              <EmptyPlaceholder spacing text="Add Foods" />
+            </div>
+          )}
+        </div>
 
-          <div className="Meal__divider" />
+        <div className="Meal__divider" />
 
-          <p className="Meal__add-btn" onClick={handleFoodAdd}>
-            <AddIcon />
-            Add Food
-          </p>
-        </MealStyles>
-      </Styles>
+        <p className="Meal__add-btn" onClick={handleFoodAdd}>
+          <AddIcon />
+          Add Food
+        </p>
+      </MealStyles>
     </FormProvider>
+  )
+
+  return isMobile ? (
+    <MobilePage
+      title="Editing Meal Template"
+      headerTopComponent={
+        <HeaderLink onClick={onClose}>Go Back to Overview</HeaderLink>
+      }
+    >
+      <Styles>{content}</Styles>
+    </MobilePage>
+  ) : (
+    <Styles>
+      <GoBack onClick={onClose}>{'Go Back to Overview'}</GoBack>
+      <h1 className="Title">Editing Meal Template</h1>
+      {content}
+    </Styles>
   )
 }

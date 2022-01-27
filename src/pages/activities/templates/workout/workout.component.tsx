@@ -11,10 +11,13 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateWorkout from '../../../../hooks/api/templates/workouts/useTemplateWorkout'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
-import ActivityLayout from '../../components/layout/layout.component'
+import TemplateLayout from '../../components/layout/layout.component'
+import ExerciseMobileCards from '../../components/split-day-workout-card/workout-mobile-card/workout-mobile-card'
 import { Styles } from '../../styles/plan.styles'
 import { GeneralTable } from '../components/general-table/general-table.component'
+import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
 import WorkoutTemplateForm from './workout-template-form/workout-template-form.component'
 
 const labels = [
@@ -45,6 +48,7 @@ export default function Workout() {
   const [tpOption, setTpOption] = useState('123')
   const [dwOption, setDwOption] = useState('123')
 
+  const isMobile = useIsMobile()
   const history = useHistory()
   const params = useParams<any>()
   const { workout, onDelete } = useTemplateWorkout(params.id)
@@ -72,61 +76,22 @@ export default function Workout() {
     return <WorkoutTemplateForm onClose={() => setEdit(false)} />
   }
 
-  return (
-    <ActivityLayout>
-      <Styles>
-        <section className="topbar">
-          <MobileBack
-            to={Routes.ACTIVITIES_TM}
-            alias="templates"
-            className="topbar-back"
-          />
-
-          <Button
-            variant="text"
-            onClick={() => setConfirmDelete(true)}
-            className="topbar-delete"
-          >
-            <DeleteOutlinedIcon style={{ marginRight: 8 }} />
-            Delete Template
-          </Button>
-        </section>
-
-        <Card className="PlanPage__card">
-          <section className="PlanPage__header">
-            <Title>{workout.name}</Title>
-
-            <div className="PlanPage__header-actions">
-              <Button
-                variant="dark"
-                className="PlanPage__header-btn"
-                onClick={() => setEdit(true)}
-              >
-                Edit Workout Template
-              </Button>
-              <Button
-                className="PlanPage__header-btn"
-                onClick={() => setShowConfirm(true)}
-              >
-                Use Workout Template
-              </Button>
-            </div>
-          </section>
-
-          <section className="PlanPage__divider" />
-
-          <section className="PlanPage__content">
-            <div className="table">
-              <GeneralTable
-                labels={labels}
-                keys={keys}
-                links={links}
-                data={detail}
-              />
-            </div>
-          </section>
-        </Card>
-      </Styles>
+  const content = (
+    <>
+      <section className="PlanPage__content">
+        <div className="table">
+          {isMobile ? (
+            <ExerciseMobileCards data={workout} />
+          ) : (
+            <GeneralTable
+              labels={labels}
+              keys={keys}
+              links={links}
+              data={detail}
+            />
+          )}
+        </div>
+      </section>
 
       <WorkoutTemplateDialog
         name="Use workout template"
@@ -216,6 +181,72 @@ export default function Workout() {
           </Button>
         </div>
       </Dialog>
-    </ActivityLayout>
+    </>
+  )
+
+  return !isMobile ? (
+    <TemplateLayout>
+      <Styles>
+        <section className="topbar">
+          <MobileBack
+            to={Routes.ACTIVITIES_TM}
+            alias="templates"
+            className="topbar-back"
+          />
+
+          <Button
+            variant="text"
+            onClick={() => setConfirmDelete(true)}
+            className="topbar-delete"
+          >
+            <DeleteOutlinedIcon style={{ marginRight: 8 }} />
+            Delete Template
+          </Button>
+        </section>
+
+        <Card className="PlanPage__card">
+          <section className="PlanPage__header">
+            <Title>{workout.name}</Title>
+
+            <div className="PlanPage__header-actions">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
+                Edit Workout Template
+              </Button>
+              <Button
+                className="PlanPage__header-btn"
+                onClick={() => setShowConfirm(true)}
+              >
+                Use Workout Template
+              </Button>
+            </div>
+          </section>
+
+          <section className="PlanPage__divider" />
+
+          {content}
+        </Card>
+      </Styles>
+    </TemplateLayout>
+  ) : (
+    <TemplateMobilePage
+      contentTitle={workout.name}
+      pageTitle={'Workout Detail'}
+      actionComponent={
+        <Button
+          className="PlanPage__header-btn"
+          onClick={() => setShowConfirm(true)}
+        >
+          Use Template
+        </Button>
+      }
+      onDelete={() => setConfirmDelete(true)}
+      onEdit={() => setEdit(true)}
+    >
+      {content}
+    </TemplateMobilePage>
   )
 }
