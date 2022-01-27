@@ -3,6 +3,18 @@
   "add": "Add",
   "chat": "Chat With Trainer",
   "log-sleep": "Log Sleep Data",
+  "log-exercise": {
+    "title": "Exercises/Workouts",
+    "search-placeholder": "Search existing workouts",
+    "today-exercises": "Today’s exercises/workout",
+    "add-new": "Add new workout"
+  },
+  "log-meal": {
+    "title": "Meals",
+    "search-placeholder": "Search existing meals",
+    "today-exercises": "Today’s planned meals",
+    "add-new": "Add new meal"
+  },
   "menu": {
     "log": "Log",
     "exercise": "Exercise",
