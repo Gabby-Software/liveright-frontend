@@ -122,6 +122,7 @@ export default function DietPlanDayView({
           <div className="TrainingSplitDayView__day-toggle">
             <FormToggleUI
               value={scheduleView}
+              enable={revision.days[index].is_day_target}
               onUpdate={() => setScheduleView(!scheduleView)}
             />
             <p className="TrainingSplitDayView__day-toggle-label">

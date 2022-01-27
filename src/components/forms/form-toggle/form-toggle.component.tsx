@@ -8,6 +8,7 @@ type UIProps = {
   value: boolean
   onUpdate: (val: boolean) => void
   className?: string
+  enable?: any
 }
 
 type Props = {
@@ -20,7 +21,8 @@ export const FormToggleUI = ({
   label,
   value,
   onUpdate,
-  className
+  className,
+  enable
 }: UIProps) => {
   const [innerValue, setInnerValue] = useState(value)
 
@@ -36,8 +38,11 @@ export const FormToggleUI = ({
   }, [value])
 
   return (
-    <Styles onClick={handleChange} className={className}>
-      {label ? <span className={'toggle__label'}>{label}</span> : null}
+    <Styles
+      onClick={!enable ? handleChange : () => {}}
+      className={`${className ? className : ''}${enable ? ' not-allowed' : ''}`}
+    >
+      {label ? <span className={`toggle__label`}>{label}</span> : null}
       <div
         className={classes(
           'toggle__body',
