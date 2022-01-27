@@ -7,6 +7,9 @@ export default styled.label`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  &.not-allowed {
+    cursor: not-allowed;
+  }
 
   .toggle {
     &__label {

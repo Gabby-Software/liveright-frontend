@@ -38,9 +38,9 @@ export default function SplitDayDietCard(props: IProps) {
               <Macronutrient
                 key={k}
                 title={MACROS_KEY_LABEL[k]}
-                amount={`${data.total_target?.[k]}${
-                  k === 'calories' ? 'kcal' : 'g'
-                }`}
+                amount={`${
+                  data.total_target?.[k] ? data.total_target?.[k] : 0
+                }${k === 'calories' ? 'kcal' : 'g'}`}
               />
             ))}
           </div>
