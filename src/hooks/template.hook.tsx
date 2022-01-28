@@ -28,10 +28,10 @@ export const useDataTSConvert = (data: any, trainerId: number) => {
         const row = getActiveOrLatestRev(item)
         return {
           id: item._id,
-          created: item.name,
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
-          name: moment(item.created_at).format('DD-MM-YYYY'),
+          name: item.name,
+          created: moment(item.created_at).format('DD-MM-YYYY'),
           days: 5,
           revisionId: row._id
         }
@@ -49,11 +49,11 @@ export const useDataMealPlansConvert = (data: any, trainerId: number) => {
         return {
           id: item._id,
           revisionId: item.revision_id,
-          created: item.name,
+          name: item.name,
+          created: moment(item.created_at).format('DD-MM-YYYY'),
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
-          meals: item?.activities?.length,
-          name: moment(item.created_at).format('DD-MM-YYYY')
+          meals: item?.activities?.length
         }
       })
     } else {
