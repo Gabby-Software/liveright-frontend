@@ -49,7 +49,7 @@ export default function TrainingSplit() {
       </section>
 
       <div className="TSTemplates__cards">
-        {revision.days.map((row: any) =>
+        {revision?.days?.map((row: any) =>
           scheduleView ? (
             <div className="TSTemplates__card-container" key={row.day}>
               <DayTrainingScheduleCard data={row} subtitle="Wen" />
@@ -141,7 +141,7 @@ export default function TrainingSplit() {
           </section>
 
           <div className="TSTemplates__cards">
-            {revision?.days.map((row: any) =>
+            {revision?.days?.map((row: any) =>
               scheduleView ? (
                 <div className="TSTemplates__card-container" key={row.day}>
                   <DayTrainingScheduleCard
