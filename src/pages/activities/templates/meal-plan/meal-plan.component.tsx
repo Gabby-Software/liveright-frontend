@@ -4,10 +4,6 @@ import { useParams } from 'react-router'
 import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
-import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import Label from '../../../../components/form/label/label.component'
-import RadioGroup from '../../../../components/form/radio-group/radio-group.component'
-import Select from '../../../../components/form/select/select.component'
 import { LabelDivider } from '../../../../components/label-divider/label-divider.styles'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../components/typography'
@@ -15,12 +11,12 @@ import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMealPlan from '../../../../hooks/api/templates/useTemplateMealPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { FoodInfoType } from '../../../../types/food.type'
-import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
 import TemplateLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import SplitDayMealCard from '../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
+import MealPlanUseTemplateDialog from './use-template-dialog/mealplan-use-template-dialog'
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
   proteins: 'Proteins',
@@ -32,18 +28,11 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
   calories: 'Calories'
 }
 
-const options = [
-  { label: 'Balanced Diet', value: '123' },
-  { label: 'Low Fat Diet', value: '124' }
-]
-
 export default function MealPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
   // const [edit, setEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [option, setOption] = useState('existing')
-  const [dpOption, setDpOption] = useState('123')
 
   const { mealPlan } = useTemplateMealPlan({ id: params.id })
 
@@ -76,81 +65,7 @@ export default function MealPlan() {
       {mealPlan.activities?.map((a: any, i: number) => (
         <SplitDayMealCard key={i} data={a} />
       ))}
-      <WorkoutTemplateDialog
-        name="Use meal plan template"
-        title="Low Carbs Day"
-        description="You’re about to use the following meal plan template"
-        body={
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div className="options-todo">
-              <p>What do you wish to do?</p>
-              <RadioGroup
-                align="vertical"
-                options={[
-                  {
-                    label: 'Add to existing diet plan day',
-                    value: 'existing',
-                    disabled: false
-                  },
-                  {
-                    label: 'Create new diet plan day from this meal plan',
-                    value: 'new',
-                    disabled: false
-                  }
-                ]}
-                value={option}
-                onChange={(e) => setOption(e.target.value)}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginTop: '1.5rem'
-              }}
-            >
-              <div style={{ width: '45%' }}>
-                <p>Select diet plan</p>
-                <Select
-                  id="diet-plan-select"
-                  options={options}
-                  value={dpOption}
-                  onChange={(value) => setDpOption(value)}
-                />
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'inline-flex',
-                gap: 8,
-                margin: '1rem 0',
-                padding: '12px 16px',
-                borderRadius: 8,
-                backgroundColor: '#EDEDED'
-              }}
-            >
-              <div style={{ display: 'inline-flex', marginRight: 16 }}>
-                <Checkbox style={{ lineHeight: 1 }} />
-                <Label style={{ margin: '0 8px', lineHeight: 1 }}>Day 1</Label>
-              </div>
-              <div style={{ display: 'inline-flex', marginRight: 16 }}>
-                <Checkbox />
-                <Label style={{ margin: '0 8px', lineHeight: 1 }}>Day 2</Label>
-              </div>
-              <div style={{ display: 'inline-flex' }}>
-                <Checkbox />
-                <Label style={{ margin: '0 8px', lineHeight: 1 }}>Day 3</Label>
-              </div>
-            </div>
-          </div>
-        }
-        date={{
-          label: 'From when should we apply this change',
-          value: ''
-        }}
-        alert="This will make changes to John Travolta’s “Balanced Diet” diet plan, which is currently active and will add this meal plan to day 3 overwriting the current choice. You can make changes to the order and details after confirming below. This will take effect from November 21st."
-        yes="Confirm Changes"
-        cancel="Nevermind"
+      <MealPlanUseTemplateDialog
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
       />

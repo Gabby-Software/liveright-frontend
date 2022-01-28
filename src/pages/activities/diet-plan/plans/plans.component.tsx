@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
@@ -44,6 +44,14 @@ export default function DietPlans() {
     sortMethod: 0
   })
   const { isLoading, dietPlans } = useDietPlans({ clientId, status })
+
+  const queryParams = new URLSearchParams(location.search)
+
+  useEffect(() => {
+    if (queryParams.get('create') && clientId) {
+      setAdd(true)
+    }
+  }, [])
 
   // useEffect(() => {
   //   if (!clientId) {
