@@ -31,7 +31,7 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
   const [selectedDP, setSelectedDP] = useState('')
   const [days, setDays] = useState<number[]>([])
 
-  const { mealPlan } = useTemplateMealPlan(params.id)
+  const { mealPlan } = useTemplateMealPlan({ id: params.id })
   const { dietPlans } = useDietPlans({ clientId: client.id })
   const { dietPlan, revision } = useDietPlan({
     clientId: client.id,
