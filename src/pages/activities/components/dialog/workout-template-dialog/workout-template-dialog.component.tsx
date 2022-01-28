@@ -6,6 +6,7 @@ import ActivitiesDialog, {
 } from '../activities-dialog.component'
 
 type WorkoutTemplateDialogProps = {
+  onClient?: (value: string, option: any) => void
   yes?: string
   onYes: VoidAction
   cancel?: string
@@ -21,9 +22,9 @@ type WorkoutTemplateDialogProps = {
 export default function WorkoutTemplateDialog(
   props: WorkoutTemplateDialogProps
 ) {
-  const { yes, cancel, onYes, onCancel, body, ...others } = props
+  const { onClient, yes, cancel, onYes, onCancel, body, ...others } = props
 
-  const onClient = (e: any, option: any) => {
+  const onClientChange = (e: any, option: any) => {
     console.log(e, option)
   }
 
@@ -34,7 +35,7 @@ export default function WorkoutTemplateDialog(
       </p>
       <ClientSelect
         id="client-select"
-        onChange={onClient}
+        onChange={onClient || onClientChange}
         placeholder="All Client"
         className="client-select"
       />
@@ -46,10 +47,6 @@ export default function WorkoutTemplateDialog(
     <ActivitiesDialog
       {...others}
       body={bodyContent}
-      date={{
-        label: 'From when should we apply this change?',
-        value: ''
-      }}
       actions={{ yes, onYes, cancel, onCancel }}
     />
   )
