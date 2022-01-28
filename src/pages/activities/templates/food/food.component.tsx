@@ -15,7 +15,7 @@ import TemplateLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import { Styles } from '../../styles/plan.styles'
 import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
-
+import FoodTemplateForm from './template-food-form/template-food-form.component'
 const MACROS_KEY_LABEL: { [key: string]: string } = {
   calories: 'Calories',
   net_carbs: 'Net Carbs',
@@ -24,12 +24,18 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
 }
 
 export default function Meal() {
+  const [edit, setEdit] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
+  const { food } = useTemplateFood({ id: params.id })
 
-  const { food } = useTemplateFood(params.id)
+  console.log(food, 'food', params.id)
+
+  if (edit) {
+    return <FoodTemplateForm onClose={() => setEdit(false)} />
+  }
 
   const content = (
     <>
@@ -101,7 +107,11 @@ export default function Meal() {
             <Title>{food.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Food Template
               </Button>
               <Button
