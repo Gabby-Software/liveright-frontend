@@ -13,10 +13,12 @@ import DayTrainingSplitCard from '../../../components/day-training-split-card/da
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import TemplateLayout from '../../../components/layout/layout.component'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
+import TrainingSplitDayView from '../day-view/day-view.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
   const isMobile = useIsMobile()
+  const [day, setDay] = useState<null | number>(null)
   const [scheduleView, setScheduleView] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
   const params = useParams<any>()
@@ -29,6 +31,16 @@ export default function TrainingSplit() {
 
   console.log(revision)
   const onDelete = () => {}
+
+  if (day) {
+    return (
+      <TrainingSplitDayView
+        index={day - 1}
+        onClose={() => setDay(null)}
+        setIndex={setDay}
+      />
+    )
+  }
 
   const mainContent = (
     <Styles>
@@ -141,13 +153,13 @@ export default function TrainingSplit() {
           </section>
 
           <div className="TSTemplates__cards">
-            {revision?.days?.map((row: any) =>
+            {revision?.days?.map((row: any, idx: number) =>
               scheduleView ? (
                 <div className="TSTemplates__card-container" key={row.day}>
                   <DayTrainingScheduleCard
                     data={row}
                     subtitle="Wen"
-                    onExpand={() => console.log('test')}
+                    onExpand={() => setDay(idx + 1)}
                   />
                 </div>
               ) : (
@@ -155,7 +167,7 @@ export default function TrainingSplit() {
                   <DayTrainingSplitCard
                     data={row}
                     subtitle="web"
-                    onExpand={() => console.log('test')}
+                    onExpand={() => setDay(idx + 1)}
                   />
                 </div>
               )
