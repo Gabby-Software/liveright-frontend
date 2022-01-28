@@ -40,6 +40,20 @@ export async function deleteTemplatesMeal(id: string) {
   return response.data.data
 }
 
+export async function getTemplatesFood(url: string) {
+  const response = await api.get(url)
+  return response.data
+}
+export async function editTemplatesFood(id: string, data: any) {
+  const response = await api.put(`/foods/${id}`, data)
+  return response.data.data
+}
+
+export async function deleteTemplatesFood(id: string) {
+  const response = await api.delete(`/foods/${id}`)
+  return response.data.data
+}
+
 export async function editTemplatesMealPlan(id: string, data: any) {
   const response = await api.put(`/meal-plans/${id}`, data)
   return response.data.data

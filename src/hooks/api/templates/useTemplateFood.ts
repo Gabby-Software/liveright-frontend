@@ -1,20 +1,68 @@
 import useSWR from 'swr'
 
-import { getTemplatesData } from '../../../services/api/templates'
+import { toast } from '../../../components/toast/toast.component'
+import {
+  deleteTemplatesFood,
+  editTemplatesFood,
+  getTemplatesFood
+} from '../../../services/api/templates'
 
-interface useTemplateFood {
+interface UseTemplateFood {
   isLoading: boolean
   food: any
+  onEdit: (id: string, data: any, onSuccess?: () => void) => void
+  onDelete: (id: string, onSuccess?: () => void) => void
 }
 
-export default function useTemplateFood(id: string): useTemplateFood {
-  const { data, error } = useSWR(id ? `foods/${id}` : null, getTemplatesData)
+interface IProps {
+  id?: string
+}
 
-  const isLoading = id ? !data && !error : false
+export default function UseTemplateFood({ id }: IProps = {}): UseTemplateFood {
+  const { data, error, mutate } = useSWR(
+    () => (id ? `/foods/${id}` : null),
+    getTemplatesFood
+  )
+
+  const onEdit = async (id: string, data: any, onSuccess?: () => void) => {
+    try {
+      await editTemplatesFood(id, data)
+      toast.show({ type: 'success', msg: 'Meal Template successfully updated' })
+      mutate()
+      onSuccess?.()
+    } catch (e: any) {
+      toast.show({
+        type: 'error',
+        msg: e?.response?.data?.message || 'Oops! An error occured'
+      })
+      console.error(e)
+    }
+  }
+
+  const onDelete = async (id: string, onSuccess?: () => void) => {
+    try {
+      await deleteTemplatesFood(id)
+      toast.show({
+        type: 'success',
+        msg: 'Meal Template successfully deleted!'
+      })
+      mutate()
+      onSuccess?.()
+    } catch (e: any) {
+      toast.show({
+        type: 'error',
+        msg: e?.response?.data?.message || 'Oops! An error occured'
+      })
+      console.error(e)
+    }
+  }
+
+  const isLoading = !data && !error
   const food = data?.data || {}
-
   return {
     isLoading,
-    food
+    food,
+    onEdit,
+    onDelete
   }
 }
