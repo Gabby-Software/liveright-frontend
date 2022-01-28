@@ -41,6 +41,8 @@ export const Routes = {
   ACTIVITIES_TM: '/templates',
   ACTIVITIES_TM_TS: '/templates/training-splits',
   ACTIVITIES_TM_TS_ID: '/templates/training-splits/:id',
+  ACTIVITIES_TM_TS_REVISION_ID:
+    '/templates/training-splits/:id/revisions/:revisionId',
   ACTIVITIES_TM_TP: '/templates/training-plans',
   ACTIVITIES_TM_TP_ID: '/templates/training-plans/:id',
   ACTIVITIES_TM_TP_REVISION_ID:

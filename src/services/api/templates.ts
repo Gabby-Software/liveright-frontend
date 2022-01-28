@@ -40,6 +40,16 @@ export async function deleteTemplatesMeal(id: string) {
   return response.data.data
 }
 
+export async function editTemplatesMealPlan(id: string, data: any) {
+  const response = await api.put(`/meal-plans/${id}`, data)
+  return response.data.data
+}
+
+export async function deleteTemplatesMealPlan(id: string) {
+  const response = await api.delete(`/meal-plans/${id}`)
+  return response.data.data
+}
+
 export async function getTemplatesExercises(url: string) {
   const response = await api.get(url)
   return response.data
@@ -68,6 +78,16 @@ export async function getTemplatesTrainingPlanById(url: string) {
 export async function getTemplatesTrainingRevisionById(url: string) {
   const response = await api.get(url)
   return response.data
+}
+
+export async function editTemplatesTrainingPlan(id: string, data: any) {
+  const response = await api.put(`/training-plan-templates/${id}`, data)
+  return response.data.data
+}
+
+export async function deleteTemplatesTrainingPlan(id: string) {
+  const response = await api.delete(`/training-plan-templates/${id}`)
+  return response.data.data
 }
 
 export async function getTemplatesWorkoutDays(url: string) {
