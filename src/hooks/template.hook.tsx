@@ -1,6 +1,8 @@
 import moment from 'moment'
 import { useMemo } from 'react'
 
+import { getActiveOrLatestRev } from '../utils/api/activities'
+
 export const useDataFMConvert = (data: any, trainerId: number) => {
   return useMemo(() => {
     if (data) {
@@ -11,6 +13,27 @@ export const useDataFMConvert = (data: any, trainerId: number) => {
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
           created: moment(item.created_at).format('DD-MM-YYYY')
+        }
+      })
+    } else {
+      return []
+    }
+  }, [data])
+}
+
+export const useDataTSConvert = (data: any, trainerId: number) => {
+  return useMemo(() => {
+    if (data) {
+      return data.map((item: any) => {
+        const row = getActiveOrLatestRev(item)
+        return {
+          id: item._id,
+          created: item.name,
+          client:
+            item.account_id === trainerId ? '-' : item.account.user.full_name,
+          name: moment(item.created_at).format('DD-MM-YYYY'),
+          days: 5,
+          revisionId: row._id
         }
       })
     } else {

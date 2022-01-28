@@ -40,11 +40,17 @@ const options = [
 export default function MealPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
+  // const [edit, setEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [option, setOption] = useState('existing')
   const [dpOption, setDpOption] = useState('123')
 
-  const { mealPlan } = useTemplateMealPlan(params.id)
+  const { mealPlan } = useTemplateMealPlan({ id: params.id })
+
+  // if (edit) {
+  //   return <TemplateMealPlanForm onClose={() => setEdit(false)} />
+  // }
+  // console.log(edit)
 
   const onDelete = () => {}
 

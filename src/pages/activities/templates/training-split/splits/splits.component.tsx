@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Routes } from '../../../../../enums/routes.enum'
+import useTrainingSplits from '../../../../../hooks/api/activities/useTrainingSplits'
+import { useDataTSConvert } from '../../../../../hooks/template.hook'
 import { getObjectFromArrays } from '../../../../../utils/obj'
 import TemplatesTable from '../../components/template-table/template-table.component'
 
@@ -14,35 +16,24 @@ const LABELS = [
 ]
 const KEYS = ['id', 'name', 'days', 'client', 'created', 'options']
 
-const DATA = [
-  {
-    id: 1,
-    name: '10 Days of Wonder',
-    days: '5',
-    client: 'John Travolta',
-    created: '21-01-2021'
-  },
-  {
-    id: 2,
-    name: 'Reduce Bodyweight',
-    days: '7',
-    client: 'Jackson',
-    created: '18-10-2021'
-  }
-]
-
 const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
   KEYS,
   LABELS
 )
 
 export default function TrainingSplits() {
+  const [clientId, setClientId] = useState('all')
+  const { trainingSplits } = useTrainingSplits({
+    clientId: clientId
+  })
+  const data = useDataTSConvert(trainingSplits, 10)
+  console.log(trainingSplits, data)
   const onSearch = (value: string) => {
     console.log(value)
   }
 
-  const onClient = (e: any, option: any) => {
-    console.log(e, option)
+  const onClient = (e: any) => {
+    setClientId(e)
   }
 
   return (
@@ -51,8 +42,8 @@ export default function TrainingSplits() {
       onSearch={onSearch}
       keys={KEYS}
       labels={LABELS}
+      data={data}
       mobileLabels={MOBILE_LABELS}
-      data={DATA}
       baseLink={Routes.ACTIVITIES_TM_TS}
     />
   )

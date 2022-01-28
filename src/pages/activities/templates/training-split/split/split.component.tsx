@@ -1,16 +1,17 @@
 import { useState } from 'react'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Routes } from '../../../../../enums/routes.enum'
+import useTrainingSplit from '../../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import TemplateLayout from '../../../components/layout/layout.component'
-import { TS_DEMO } from '../../../demo/splits'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import { Styles } from './split.styles'
 
@@ -18,9 +19,16 @@ export default function TrainingSplit() {
   const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
+  const params = useParams<any>()
 
+  const { revision } = useTrainingSplit({
+    clientId: params.clientId,
+    id: params.id,
+    revisionId: params.revisionId
+  })
+
+  console.log(revision)
   const onDelete = () => {}
-  const data = TS_DEMO
 
   const mainContent = (
     <Styles>
@@ -41,7 +49,7 @@ export default function TrainingSplit() {
       </section>
 
       <div className="TSTemplates__cards">
-        {data.map((row: any) =>
+        {revision.days.map((row: any) =>
           scheduleView ? (
             <div className="TSTemplates__card-container" key={row.day}>
               <DayTrainingScheduleCard data={row} subtitle="Wen" />
@@ -133,14 +141,22 @@ export default function TrainingSplit() {
           </section>
 
           <div className="TSTemplates__cards">
-            {data.map((row: any) =>
+            {revision?.days.map((row: any) =>
               scheduleView ? (
                 <div className="TSTemplates__card-container" key={row.day}>
-                  <DayTrainingScheduleCard data={row} subtitle="Wen" />
+                  <DayTrainingScheduleCard
+                    data={row}
+                    subtitle="Wen"
+                    onExpand={() => console.log('test')}
+                  />
                 </div>
               ) : (
                 <div className="TSTemplates__card-container" key={row.day}>
-                  <DayTrainingSplitCard data={row} subtitle="web" />
+                  <DayTrainingSplitCard
+                    data={row}
+                    subtitle="web"
+                    onExpand={() => console.log('test')}
+                  />
                 </div>
               )
             )}
