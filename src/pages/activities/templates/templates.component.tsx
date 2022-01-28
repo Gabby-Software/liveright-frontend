@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 
 import Tabs from '../../../components/tabs/tabs.component'
 import { Title } from '../../../components/typography'
-import ActivityLayout from '../components/layout/layout.component'
+import userTypes from '../../../enums/user-types.enum'
+import { useAuth } from '../../../hooks/auth.hook'
+import { useIsMobile } from '../../../hooks/is-mobile.hook'
+import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
+import TemplateLayout from '../components/layout/layout.component'
 import DietPlans from './diet-plan/plans/plans.component'
 import Exercies from './exercise/exercises.component'
 import Foods from './food/foods.component'
 import Meals from './meal/meals.component'
 import MealPlans from './meal-plan/meal-plans.component'
-import { Styles } from './templates.styles'
+import { HeaderSubTitle, Styles } from './templates.styles'
 import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
 import Workouts from './workout/workouts.component'
@@ -63,9 +67,34 @@ const tabs = [
 ]
 export default function Templates() {
   const [activeTab, setActiveTab] = useState('split')
+  const { type } = useAuth()
+  const isMobile = useIsMobile()
 
-  return (
-    <ActivityLayout>
+  return isMobile ? (
+    <MobilePage
+      title="Templates"
+      headerSpacing={type === userTypes.TRAINER ? 14 : 0}
+      headerNavChat
+      headerComponent={
+        <HeaderSubTitle>
+          Manage your templates (see, edit) and add them to create a plan !
+        </HeaderSubTitle>
+      }
+    >
+      <TemplateLayout>
+        <Styles>
+          <Tabs
+            activeKey={activeTab}
+            onChange={setActiveTab}
+            tabs={tabs}
+            className={'Templates__tabs'}
+            // justify={isMobile ? 'between' : undefined}
+          />
+        </Styles>
+      </TemplateLayout>
+    </MobilePage>
+  ) : (
+    <TemplateLayout>
       <Styles>
         <div className="Templates__title-container">
           <Title>Templates</Title>
@@ -84,6 +113,6 @@ export default function Templates() {
           // justify={isMobile ? 'between' : undefined}
         />
       </Styles>
-    </ActivityLayout>
+    </TemplateLayout>
   )
 }

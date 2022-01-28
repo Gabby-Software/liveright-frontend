@@ -15,3 +15,13 @@ export function omitEmpty(obj: Record<string, any>): Record<string, any> {
 
   return copy
 }
+
+export function getObjectFromArrays(keys: any[], values: any[]) {
+  const obj: any = {}
+
+  keys.forEach((value: any, index: number) => {
+    obj[value] = values[index]
+  })
+
+  return obj
+}

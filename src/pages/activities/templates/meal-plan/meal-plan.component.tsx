@@ -13,13 +13,14 @@ import MobileBack from '../../../../components/mobile-back/mobile-back.component
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import useTemplateMealPlan from '../../../../hooks/api/templates/useTemplateMealPlan'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { FoodInfoType } from '../../../../types/food.type'
 import WorkoutTemplateDialog from '../../components/dialog/workout-template-dialog/workout-template-dialog.component'
-import ActivityLayout from '../../components/layout/layout.component'
+import TemplateLayout from '../../components/layout/layout.component'
 import Macronutrient from '../../components/macronutrient/macronutrient.component'
 import SplitDayMealCard from '../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../styles/plan.styles'
-// import TemplateMealPlanForm from './template-meal-plan-form/template-meal-plan-from.component'
+import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
   proteins: 'Proteins',
@@ -37,8 +38,9 @@ const options = [
 ]
 
 export default function MealPlan() {
+  const isMobile = useIsMobile()
   const params = useParams<any>()
-  const [edit, setEdit] = useState(false)
+  // const [edit, setEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [option, setOption] = useState('existing')
   const [dpOption, setDpOption] = useState('123')
@@ -48,72 +50,32 @@ export default function MealPlan() {
   // if (edit) {
   //   return <TemplateMealPlanForm onClose={() => setEdit(false)} />
   // }
-  console.log(edit)
+  // console.log(edit)
 
   const onDelete = () => {}
 
-  return (
-    <ActivityLayout>
-      <Styles>
-        <section className="topbar">
-          <MobileBack
-            to={Routes.ACTIVITIES_TM}
-            alias="templates"
-            className="topbar-back"
-          />
-
-          <Button variant="text" onClick={onDelete} className="topbar-delete">
-            <DeleteOutlinedIcon style={{ marginRight: 8 }} />
-            Delete Template
-          </Button>
-        </section>
-
-        <Card className="PlanPage__card">
-          <section className="PlanPage__header">
-            <Title>{mealPlan.name}</Title>
-
-            <div className="PlanPage__header-actions">
-              <Button
-                variant="dark"
-                className="PlanPage__header-btn"
-                onClick={() => setEdit(true)}
-              >
-                Edit Meal Plan Template
-              </Button>
-              <Button
-                className="PlanPage__header-btn"
-                onClick={() => setShowConfirm(true)}
-              >
-                Use Meal Plan Template
-              </Button>
-            </div>
-          </section>
-
-          <div className="PlanPage__divider" />
-
-          <section className="PlanPage__summary">
-            <p className="label">Total micronutrients from this meal plan</p>
-            <div className="nutrients">
-              {Object.keys(MACROS_KEY_LABEL).map((k) => (
-                <Macronutrient
-                  key={k}
-                  title={MACROS_KEY_LABEL[k]}
-                  amount={`${mealPlan?.total_target?.[
-                    k as keyof FoodInfoType
-                  ].toFixed(2)} ${k === 'calories' ? 'kcal' : 'g'}`}
-                />
-              ))}
-            </div>
-          </section>
-
-          <LabelDivider>List Meal</LabelDivider>
-
-          {mealPlan.activities?.map((a: any, i: number) => (
-            <SplitDayMealCard key={i} data={a} />
+  const content = (
+    <>
+      <section className="PlanPage__summary">
+        <p className="label">Total micronutrients from this meal plan</p>
+        <div className="nutrients">
+          {Object.keys(MACROS_KEY_LABEL).map((k) => (
+            <Macronutrient
+              key={k}
+              title={MACROS_KEY_LABEL[k]}
+              amount={`${mealPlan?.total_target?.[
+                k as keyof FoodInfoType
+              ].toFixed(2)} ${k === 'calories' ? 'kcal' : 'g'}`}
+            />
           ))}
-        </Card>
-      </Styles>
+        </div>
+      </section>
 
+      <LabelDivider>List Meal</LabelDivider>
+
+      {mealPlan.activities?.map((a: any, i: number) => (
+        <SplitDayMealCard key={i} data={a} />
+      ))}
       <WorkoutTemplateDialog
         name="Use meal plan template"
         title="Low Carbs Day"
@@ -192,6 +154,63 @@ export default function MealPlan() {
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
       />
-    </ActivityLayout>
+    </>
+  )
+
+  return isMobile ? (
+    <TemplateMobilePage
+      contentTitle={mealPlan.name}
+      pageTitle={'Meal Plan Detail'}
+      actionComponent={
+        <Button
+          className="PlanPage__header-btn"
+          onClick={() => setShowConfirm(true)}
+        >
+          Use Template
+        </Button>
+      }
+      onDelete={onDelete}
+      onEdit={() => {}}
+    >
+      <Styles>{content}</Styles>
+    </TemplateMobilePage>
+  ) : (
+    <TemplateLayout>
+      <Styles>
+        <section className="topbar">
+          <MobileBack
+            to={Routes.ACTIVITIES_TM}
+            alias="templates"
+            className="topbar-back"
+          />
+
+          <Button variant="text" onClick={onDelete} className="topbar-delete">
+            <DeleteOutlinedIcon style={{ marginRight: 8 }} />
+            Delete Template
+          </Button>
+        </section>
+
+        <Card className="PlanPage__card">
+          <section className="PlanPage__header">
+            <Title>{mealPlan.name}</Title>
+
+            <div className="PlanPage__header-actions">
+              <Button variant="dark" className="PlanPage__header-btn">
+                Edit Meal Plan Template
+              </Button>
+              <Button
+                className="PlanPage__header-btn"
+                onClick={() => setShowConfirm(true)}
+              >
+                Use Meal Plan Template
+              </Button>
+            </div>
+          </section>
+
+          <div className="PlanPage__divider" />
+          {content}
+        </Card>
+      </Styles>
+    </TemplateLayout>
   )
 }

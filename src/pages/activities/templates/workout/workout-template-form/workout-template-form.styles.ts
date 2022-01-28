@@ -19,10 +19,6 @@ export const WorkoutStyles = styled(Card)`
   background-color: ${getColorCarry('white')};
   padding: 1.5rem;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
-
   .Workout {
     &__header {
       display: grid;
@@ -132,6 +128,10 @@ export const WorkoutStyles = styled(Card)`
       align-items: center;
       padding-top: 1.25rem;
       border-top: 1px solid ${getColorCarry('inputBorder_v2')};
+
+      @media ${mediaQueries.MOBILE} {
+        flex-wrap: wrap;
+      }
     }
 
     &__action-btn {

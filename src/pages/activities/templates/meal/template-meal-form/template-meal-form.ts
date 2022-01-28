@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Card from '../../../../../components/cards/card/card.component'
+import { mediaQueries } from '../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div`
@@ -67,6 +68,10 @@ export const MealStyles = styled(Card)`
       gap: 1.25rem;
       align-items: flex-end;
       margin-bottom: 1.25rem;
+
+      @media ${mediaQueries.MOBILE} {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__delete-btn {
@@ -78,6 +83,10 @@ export const MealStyles = styled(Card)`
       align-items: center;
       flex-wrap: nowrap;
       margin: 1.25rem -0.25rem;
+
+      @media ${mediaQueries.MOBILE} {
+        flex-wrap: wrap;
+      }
     }
 
     &__macronutrient {
