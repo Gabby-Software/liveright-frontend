@@ -10,6 +10,7 @@ import QuickAccessLogHealthHeartRate from '../../pages/quick-access-log-health/q
 import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick-access-log-health-sleep/quick-access-log-health-sleep.component'
 import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import QuickAccessLogMeal from '../../pages/quick-access-log-meal/quick-access-log-meal.component'
+import QuickAccessAddExercise from '../../pages/quick-access-add-exercise/quick-access-add-exercise.component'
 import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles, { Times } from './quick-access-popup.styles'
@@ -38,6 +39,8 @@ const QuickAccessPopup: FC = () => {
         return QuickAccessLogExercise
       case quickAccessRoutes.LOG_MEAL:
         return QuickAccessLogMeal
+      case quickAccessRoutes.ADD_EXERCISE:
+        return QuickAccessAddExercise
       default:
         return React.Fragment
     }

@@ -1,10 +1,10 @@
 import React, { FC, useMemo } from 'react'
 
 import {
+  ExerciseIconV2,
   HealthDataIconV2,
   MealIconV2,
-  MeasurementIconV2,
-  WorkoutOutlinedIconV1
+  MeasurementIconV2
 } from '../../../../assets/media/icons'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -23,7 +23,7 @@ const QuickAccessLog: FC<Props> = ({}) => {
   const options = useMemo(
     () => [
       {
-        icon: WorkoutOutlinedIconV1,
+        icon: ExerciseIconV2,
         route: quickAccessRoutes.LOG_EXERCISE,
         label: 'exercise',
         color: '#E49A0A'

@@ -22,7 +22,10 @@ interface DatePickerProps {
   name?: string
   disabled?: boolean
   defaultPickerValue?: any
+  defaultValue?: any
   picker?: 'date' | 'week' | 'month' | 'quarter' | 'year'
+  showSuffixIcon?: boolean
+  allowClear?: boolean
 }
 
 export default function DatePicker({
@@ -40,7 +43,10 @@ export default function DatePicker({
   disabled,
   defaultPickerValue,
   format,
-  picker
+  picker,
+  defaultValue,
+  showSuffixIcon = true,
+  allowClear = true,
 }: DatePickerProps) {
   return (
     <Styles className={className} $disabled={disabled}>
@@ -48,7 +54,7 @@ export default function DatePicker({
       <AntdDatePicker
         id={id}
         placeholder={placeholder}
-        suffixIcon={<CalendarBoldIcon />}
+        suffixIcon={showSuffixIcon && <CalendarBoldIcon />}
         value={value ? moment(value) : null}
         onChange={onChange}
         disabledDate={
@@ -60,8 +66,11 @@ export default function DatePicker({
         }
         disabled={disabled}
         defaultPickerValue={defaultPickerValue}
+        defaultValue={defaultValue}
         format={format}
         picker={picker}
+        getPopupContainer={(trigger: any) => trigger.parentElement}
+        allowClear={allowClear}
       />
       {name && <FormError name={name} className="field-error" />}
       {error && <Error name={error} />}
