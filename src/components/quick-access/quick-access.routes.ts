@@ -7,6 +7,7 @@ export enum quickAccessRoutes {
   ADD_SCHEDULE,
   ADD_INVOICE,
   LOG_EXERCISE,
+  LOG_MEAL,
   LOG_WORKOUT,
   LOG_HEALTH_DATA,
   LOG_MEASUREMENT,

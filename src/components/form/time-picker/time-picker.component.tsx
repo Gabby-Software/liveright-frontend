@@ -21,6 +21,8 @@ interface TimePickerProps {
   error?: string
   format?: string
   minuteStep?: number
+  showSuffixIcon?: boolean
+  allowClear?: boolean
 }
 
 const FORMAT = 'H:mm'
@@ -36,13 +38,15 @@ export default function TimePicker({
   name,
   error,
   format = FORMAT,
-  minuteStep
+  minuteStep,
+  showSuffixIcon = true,
+  allowClear = true,
 }: TimePickerProps) {
   return (
     <Styles className={className}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <AntdTimePicker
-        suffixIcon={<ClockIcon />}
+        suffixIcon={showSuffixIcon && <ClockIcon />}
         disabled={disabled}
         value={value ? moment(value, format) : null}
         onChange={onChange}
@@ -54,6 +58,8 @@ export default function TimePicker({
         disabledMinutes={(hour) => {
           return getDisabledMinutes(disabledUntilNow || false, hour)
         }}
+        getPopupContainer={(trigger: any) => trigger.parentElement}
+        allowClear={allowClear}
       />
       {name && <FormError name={name} className="field-error" />}
       {error && <Error name={error} />}

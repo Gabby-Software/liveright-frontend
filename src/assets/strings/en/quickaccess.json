@@ -3,8 +3,37 @@
   "add": "Add",
   "chat": "Chat With Trainer",
   "log-sleep": "Log Sleep Data",
+  "log-exercise": {
+    "title": "Exercises/Workouts",
+    "search-placeholder": "Search existing workouts",
+    "today-exercises": "Today’s exercises/workout",
+    "add-new": "Add new workout"
+  },
+  "add-exercise": {
+    "label-strength": "Strength",
+    "label-cardio": "Cardio",
+    "label-date": "Date",
+    "placeholder-date": "Select date",
+    "label-exercises": "Exercises",
+    "placeholder-exercises": "Search exercises...",
+    "label-sets": "Sets",
+    "label-reps": "Reps",
+    "label-tempo": "Tempo",
+    "label-rest": "Rest Interval",
+    "label-time": "Time",
+    "label-intensity": "Intensity",
+    "add-exercise": "Add Exercise Only",
+    "add-log-exercise": "Add Exercise & Log"
+  },
+  "log-meal": {
+    "title": "Meals",
+    "search-placeholder": "Search existing meals",
+    "today-exercises": "Today’s planned meals",
+    "add-new": "Add new meal"
+  },
   "menu": {
     "log": "Log",
+    "add": "Add",
     "exercise": "Exercise",
     "workout": "Workout",
     "health-data": "Health Data",

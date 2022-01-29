@@ -30,6 +30,10 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import {
+  getItemFromLocalStorage,
+  removeItemFromLocalStorage
+} from '../../../../utils/localStorage'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import ActivitiesDialog from '../../components/dialog/activities-dialog.component'
@@ -119,6 +123,7 @@ export default function AddDietPlan({
   const [dayIndex, setDayIndex] = useState(0)
   // const [makeChangesDialog, setMakeChangesDialog] = useState(false)
   const { clientId } = useParams<any>()
+  const queryParams = new URLSearchParams(location.search)
   const history = useHistory()
   const isMobile = useIsMobile()
   const { type: userType } = useAuth()
@@ -193,9 +198,46 @@ export default function AddDietPlan({
       methods.setValue('account_id', revision.account_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-      methods.setValue('days', revision.days)
+      /**
+       * This is to prevent overwriting days loaded from local storage
+       * if days were loaded from local storage. Please read below comment
+       * for more information regarding this.
+       */
+      if (!queryParams.get('loadDaysFromls')) {
+        methods.setValue('days', revision.days)
+      }
     }
   }, [revision._id])
+
+  /**
+   * this is to load days data from local storage which is set when
+   * a user tries to apply a meal plan template from template meal
+   * plan page. The data is stored in local storage and key is sent using
+   * query params. This ways we also know when to acutally load data
+   * from local storage.
+   */
+  useEffect(() => {
+    const loadDaysFromls = queryParams.get('loadDaysFromls')
+    if (loadDaysFromls) {
+      const days = JSON.parse(getItemFromLocalStorage(loadDaysFromls) || 'null')
+
+      if (days) {
+        console.log(days)
+        daysArray.remove(
+          Array(daysArray.fields.length)
+            .fill(1)
+            .map((v, i) => i)
+        )
+        daysArray.append([...days])
+      }
+
+      removeItemFromLocalStorage(loadDaysFromls)
+    }
+    const date = queryParams.get('scheduled_start_on')
+    if (date) {
+      methods.setValue('scheduled_start_on', date)
+    }
+  }, [location.search])
 
   const handleSubmit = (values: any) => {
     console.log(values)

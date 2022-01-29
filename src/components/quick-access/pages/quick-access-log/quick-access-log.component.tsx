@@ -3,8 +3,8 @@ import React, { FC, useMemo } from 'react'
 import {
   ExerciseIconV2,
   HealthDataIconV2,
-  MeasurementIconV2,
-  WorkoutIconV2
+  MealIconV2,
+  MeasurementIconV2
 } from '../../../../assets/media/icons'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -26,19 +26,19 @@ const QuickAccessLog: FC<Props> = ({}) => {
         icon: ExerciseIconV2,
         route: quickAccessRoutes.LOG_EXERCISE,
         label: 'exercise',
-        color: '#D70004'
-      },
-      {
-        icon: WorkoutIconV2,
-        route: quickAccessRoutes.LOG_WORKOUT,
-        label: 'workout',
-        color: '#1268E4'
+        color: '#E49A0A'
       },
       {
         icon: HealthDataIconV2,
         route: quickAccessRoutes.LOG_HEALTH_DATA,
         label: 'health-data',
         color: '#F123B8'
+      },
+      {
+        icon: MealIconV2,
+        route: quickAccessRoutes.LOG_MEAL,
+        label: 'meal',
+        color: '#00B334'
       },
       {
         icon: MeasurementIconV2,

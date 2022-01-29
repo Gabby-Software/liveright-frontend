@@ -32,6 +32,7 @@ export type QuickAccessContextType = {
   client: AccountObjType | null
   setClient: Dispatch<null | AccountObjType>
 }
+
 const QuickAccessContext = createContext<QuickAccessContextType | null>(null)
 export const useQuickAccess = () =>
   useContext(QuickAccessContext) as QuickAccessContextType
@@ -47,10 +48,12 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
   const [todayHealthData, setTodayHealthData] = useState<Partial<HealthData>>(
     {}
   )
+
   const changeOpen = (open: boolean) => {
     setOpen(open)
     if (!open) setRoute(quickAccessRoutes.LOG)
   }
+
   useEffect(() => {
     const payload: Partial<GetHealthDataPayload> = {
       date: moment().format('YYYY-MM-DD')
@@ -68,6 +71,7 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
         }
       })
   }, [type, client])
+
   const logHealthData = (data: Partial<HealthData>) => {
     return logHealthDataAsync({
       id: todayHealthData?.id,
@@ -80,6 +84,7 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
       setTodayHealthData({ ...todayHealthData, ...data })
     })
   }
+
   return (
     <QuickAccessContext.Provider
       value={{
