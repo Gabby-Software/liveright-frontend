@@ -16,6 +16,7 @@ import Macronutrient from '../../components/macronutrient/macronutrient.componen
 import SplitDayMealCard from '../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 import TemplateMobilePage from '../components/template-mobile-page/template-mobile-page.component'
+import TemplateMealPlanForm from './template-meal-plan-form/template-meal-plan-form.component'
 import MealPlanUseTemplateDialog from './use-template-dialog/mealplan-use-template-dialog'
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
@@ -31,15 +32,14 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
 export default function MealPlan() {
   const isMobile = useIsMobile()
   const params = useParams<any>()
-  // const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
 
   const { mealPlan } = useTemplateMealPlan({ id: params.id })
 
-  // if (edit) {
-  //   return <TemplateMealPlanForm onClose={() => setEdit(false)} />
-  // }
-  // console.log(edit)
+  if (edit) {
+    return <TemplateMealPlanForm onClose={() => setEdit(false)} />
+  }
 
   const onDelete = () => {}
 
@@ -110,7 +110,11 @@ export default function MealPlan() {
             <Title>{mealPlan.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Meal Plan Template
               </Button>
               <Button
