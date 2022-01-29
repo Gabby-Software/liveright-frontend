@@ -20,12 +20,10 @@ export default function Foods() {
   const [name, setName] = useState('')
 
   const onSearch = (value: string) => {
-    console.log(value)
     setName(value)
   }
 
   const onClient = (e: any) => {
-    console.log(e)
     setClientId(e)
   }
 

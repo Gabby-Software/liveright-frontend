@@ -27,7 +27,7 @@ export default function TrainingSplits() {
     clientId: clientId
   })
   const data = useDataTSConvert(trainingSplits, 10)
-  console.log(trainingSplits, data)
+
   const onSearch = (value: string) => {
     console.log(value)
   }

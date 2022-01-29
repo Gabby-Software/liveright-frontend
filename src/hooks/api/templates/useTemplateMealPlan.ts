@@ -2,11 +2,10 @@ import useSWR from 'swr'
 
 import { toast } from '../../../components/toast/toast.component'
 import {
-  deleteTemplatesMeal,
-  editTemplatesMeal,
+  deleteTemplatesMealPlan,
+  editTemplatesMealPlan,
   getTemplatesData
 } from '../../../services/api/templates'
-// import { MealPlanType } from '../../../types/meal-plan.type'
 
 interface useTemplateMealPlan {
   isLoading: boolean
@@ -29,8 +28,11 @@ export default function useTemplateMealPlan({
 
   const onEdit = async (id: string, data: any, onSuccess?: () => void) => {
     try {
-      await editTemplatesMeal(id, data)
-      toast.show({ type: 'success', msg: 'Meal Template successfully updated' })
+      await editTemplatesMealPlan(id, data)
+      toast.show({
+        type: 'success',
+        msg: 'Meal Plan Template successfully updated'
+      })
       mutate()
       onSuccess?.()
     } catch (e: any) {
@@ -44,10 +46,10 @@ export default function useTemplateMealPlan({
 
   const onDelete = async (id: string, onSuccess?: () => void) => {
     try {
-      await deleteTemplatesMeal(id)
+      await deleteTemplatesMealPlan(id)
       toast.show({
         type: 'success',
-        msg: 'Meal Template successfully deleted!'
+        msg: 'Meal Plan Template successfully deleted!'
       })
       mutate()
       onSuccess?.()
@@ -61,7 +63,6 @@ export default function useTemplateMealPlan({
   }
 
   const isLoading = id ? !data && !error : false
-  console.log(data)
   const mealPlan = data?.data || {}
 
   return {
