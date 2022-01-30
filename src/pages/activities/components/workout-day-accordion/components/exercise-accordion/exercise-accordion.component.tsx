@@ -176,9 +176,10 @@ export default function ExerciseAccordion({
                       <Input
                         id="Exercise-tempo"
                         label="Tempo"
-                        placeholder="10"
+                        placeholder="3x21"
                         value={value}
                         onChange={(e) => onChange(name, e.target.value)}
+                        tooltip="Only 4 digits or x allowed."
                         error={get(errors, name)}
                         ErrorProps={{ size: 'sm' }}
                       />
