@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { getColorCarry } from '../../../../pipes/theme-color.pipe'
-
 export default styled.div`
   .qa-add-exercise {
     &__radio-group {

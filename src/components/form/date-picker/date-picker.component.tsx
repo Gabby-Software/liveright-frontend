@@ -46,7 +46,7 @@ export default function DatePicker({
   picker,
   defaultValue,
   showSuffixIcon = true,
-  allowClear = true,
+  allowClear = true
 }: DatePickerProps) {
   return (
     <Styles className={className} $disabled={disabled}>

@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { get } from 'lodash'
 import { useEffect, useState } from 'react'
 import {
@@ -14,6 +15,7 @@ import {
   useWatch
 } from 'react-hook-form'
 import { useParams } from 'react-router'
+import * as yup from 'yup'
 
 import { AddIcon } from '../../../../../assets/media/icons'
 import { WorkoutIcon } from '../../../../../assets/media/icons/activities'
@@ -41,6 +43,34 @@ const defaultValues = {
   time: '',
   items: []
 }
+
+const validationSchema = yup.object().shape({
+  name: yup.string(),
+  time: yup.string().nullable(),
+  items: yup.array().of(
+    yup.object().shape({
+      data: yup.object().shape({
+        //       name: yup.string().required(),
+        //       link: yup.lazy((v) =>
+        //         !v
+        //           ? yup.string().nullable()
+        //           : yup
+        //               .string()
+        //               .matches(URL_REGEX, 'Enter a valid link')
+        //               .nullable()
+        //       ),
+        info: yup.object().shape({
+          tempo: yup.string().matches(/^([0-9x]){4}$/, {
+            message: 'Only 4 digits with x allowed'
+          })
+          //         sets: yup.string(),
+          //         reps: yup.string(),
+          //         rest_interval: yup.string()
+        })
+      })
+    })
+  )
+})
 
 function createExercise(isSuperset: boolean | number, cardio: boolean) {
   const ex = cardio
@@ -75,7 +105,10 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
   const isMobile = useIsMobile()
 
   const methods = useForm<any>({
-    defaultValues
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange'
   })
 
   const exercisesArray = useFieldArray({

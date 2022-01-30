@@ -40,7 +40,7 @@ export default function TimePicker({
   format = FORMAT,
   minuteStep,
   showSuffixIcon = true,
-  allowClear = true,
+  allowClear = true
 }: TimePickerProps) {
   return (
     <Styles className={className}>

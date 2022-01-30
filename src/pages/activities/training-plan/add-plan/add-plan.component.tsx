@@ -58,28 +58,30 @@ const validationSchema = yup.object().shape({
         yup.object().shape({
           name: yup.string(),
           time: yup.string().nullable(),
-          items: yup.array()
-          // items: yup.array().of(
-          //   yup.object().shape({
-          //     data: yup.object().shape({
-          //       name: yup.string().required(),
-          //       link: yup.lazy((v) =>
-          //         !v
-          //           ? yup.string().nullable()
-          //           : yup
-          //               .string()
-          //               .matches(URL_REGEX, 'Enter a valid link')
-          //               .nullable()
-          //       ),
-          //       info: yup.object().shape({
-          //         sets: yup.string(),
-          //         reps: yup.string(),
-          //         tempo: yup.string(),
-          //         rest_interval: yup.string()
-          //       })
-          //     })
-          //   })
-          // )
+          // items: yup.array()
+          items: yup.array().of(
+            yup.object().shape({
+              data: yup.object().shape({
+                //       name: yup.string().required(),
+                //       link: yup.lazy((v) =>
+                //         !v
+                //           ? yup.string().nullable()
+                //           : yup
+                //               .string()
+                //               .matches(URL_REGEX, 'Enter a valid link')
+                //               .nullable()
+                //       ),
+                info: yup.object().shape({
+                  tempo: yup.string().matches(/^([0-9x]){4}$/, {
+                    message: 'Only 4 digits with x allowed'
+                  })
+                  //         sets: yup.string(),
+                  //         reps: yup.string(),
+                  //         rest_interval: yup.string()
+                })
+              })
+            })
+          )
         })
       )
     })
