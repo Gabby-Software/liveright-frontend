@@ -209,10 +209,10 @@ export default function Exercise({
               <Input
                 id="Exercise-tempo"
                 label="Tempo"
-                placeholder="10"
+                placeholder="3x21"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                format={formatter().number().min(0).max(100)}
+                tooltip="Only 4 digits or x allowed."
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
               />
