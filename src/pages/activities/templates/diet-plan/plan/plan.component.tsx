@@ -12,10 +12,10 @@ import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayDietPlanCard from '../../../components/day-diet-plan-card/day-diet-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import TemplateLayout from '../../../components/layout/layout.component'
-import AddDietPlan from '../../../diet-plan/add-plan/add-plan.component'
 import { Styles } from '../../../styles/plan.styles'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import DietPlanTemplateDayView from '../components/diet-plan-day-template-view'
+import EditDietPlan from '../edit/edit.component'
 
 export default function DietPlan() {
   const [showConfirm, setShowConfirm] = useState(false)
@@ -24,8 +24,8 @@ export default function DietPlan() {
     false
   )
   const isMobile = useIsMobile()
-  const { id, revisionId } = useParams<any>()
-  const { dietTemplate } = useTemplateDietPlan(id)
+  const { id } = useParams<any>()
+  const { dietTemplate } = useTemplateDietPlan({ id })
   console.log(dietTemplate)
   const onDelete = () => {}
 
@@ -56,10 +56,8 @@ export default function DietPlan() {
 
   if (edit || typeof edit === 'number') {
     return (
-      <AddDietPlan
+      <EditDietPlan
         editDay={typeof edit === 'number' ? edit : undefined}
-        editId={id}
-        revisionId={revisionId}
         onClose={() => setEdit(false)}
       />
     )
@@ -93,7 +91,7 @@ export default function DietPlan() {
         </Button>
       }
       onDelete={onDelete}
-      onEdit={() => {}}
+      onEdit={() => setEdit(0)}
     >
       <Styles>{content}</Styles>
     </TemplateMobilePage>
@@ -118,7 +116,11 @@ export default function DietPlan() {
             <Title>{dietTemplate.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(0)}
+              >
                 Edit Diet Template
               </Button>
               <Button

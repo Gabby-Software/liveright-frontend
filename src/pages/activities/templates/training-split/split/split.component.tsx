@@ -26,7 +26,6 @@ export default function TrainingSplit() {
   const params = useParams<any>()
 
   const { trainingSplit } = useTemplateTrainingSplit({ id: params.id })
-  console.log(trainingSplit)
   const onDelete = () => {}
 
   if (edit) {
@@ -82,7 +81,7 @@ export default function TrainingSplit() {
     <>
       <TemplateMobilePage
         pageTitle="Detail Training Split"
-        contentTitle="High Pace Training"
+        contentTitle={trainingSplit.name}
         actionComponent={
           <Button
             className="TSTemplates__title-button"
@@ -132,7 +131,7 @@ export default function TrainingSplit() {
           </section>
 
           <section className="TSTemplates__title-container">
-            <h1 className="TSTemplates__title">High Pace Training</h1>
+            <h1 className="TSTemplates__title">{trainingSplit.name}</h1>
 
             <div className="TSTemplates__title-buttons">
               <Button

@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { useMemo, useState } from 'react'
 
-// import { useParams } from 'react-router'
 import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import GoBack from '../../../../../components/buttons/go-back/go-back.component'
@@ -9,7 +8,6 @@ import IconButton from '../../../../../components/buttons/icon-button/icon-butto
 import Card from '../../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../../components/typography'
-// import useDietPlan from '../../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
@@ -33,14 +31,6 @@ export default function DietPlanDayView({
 }: DietPlanDayViewProps) {
   const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
-
-  // const params = useParams<any>()
-
-  // const { dietPlan, revision } = useDietPlan({
-  //   clientId: params.clientId,
-  //   id: params.id,
-  //   revisionId: params.revisionId
-  // })
 
   const { day, activites: activities } = useMemo(() => {
     const day = data?.days?.[index]
