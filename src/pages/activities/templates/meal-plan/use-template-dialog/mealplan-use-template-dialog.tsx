@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 import React, { useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 
@@ -10,6 +10,7 @@ import { Routes } from '../../../../../enums/routes.enum'
 import useDietPlan from '../../../../../hooks/api/activities/useDietPlan'
 import useDietPlans from '../../../../../hooks/api/activities/useDietPlans'
 import useTemplateMealPlan from '../../../../../hooks/api/templates/useTemplateMealPlan'
+import { DATE_PRETTY_FORMAT } from '../../../../../utils/date'
 import { setItemInLocalStorage } from '../../../../../utils/localStorage'
 import { getRoute } from '../../../../../utils/routes'
 import WorkoutTemplateDialog from '../../../components/dialog/workout-template-dialog/workout-template-dialog.component'
@@ -45,6 +46,32 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
       value: dp._id
     }))
   }, [dietPlans])
+
+  const getAlertMessage = () => {
+    let msg =
+      applyOption === 'new'
+        ? `This will make a new training plan for ${client.name} and add the selected meal plan to it. 
+        You can make changes to the order and details after confirming below.`
+        : dietPlan.name
+        ? `This will make changes to ${client.name}’s “${
+            dietPlan.name
+          }” diet plan, which is currently ${
+            dietPlan.status
+          } and will add this meal plan to ${days
+            .map((v) => `Day ${v + 1}`)
+            .join(
+              ', '
+            )} overwriting the current choice. You can make changes to the order and details after confirming below.`
+        : ''
+
+    if (date) {
+      msg += ` This will take effect from ${moment(date).format(
+        DATE_PRETTY_FORMAT
+      )}.`
+    }
+
+    return msg
+  }
 
   const onDayCheckboxChange = (checked: boolean, value: number) => {
     if (checked) {
@@ -98,7 +125,7 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
   return (
     <WorkoutTemplateDialog
       name="Use meal plan template"
-      title="Low Carbs Day"
+      title={mealPlan.name}
       description="You’re about to use the following meal plan template"
       onClient={(value, option) => setClient({ id: value, name: option.label })}
       body={
@@ -123,70 +150,67 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
               onChange={(e) => setApplyOption(e.target.value)}
             />
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '1.5rem'
-            }}
-          >
-            <div style={{ width: '45%' }}>
-              <p>Select diet plan</p>
-              <Select
-                id="diet-plan-select"
-                options={dpOptions}
-                value={selectedDP}
-                onChange={(value) => setSelectedDP(value)}
-                disabled={applyOption === 'new'}
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              display: 'inline-flex',
-              gap: 8,
-              margin: '1rem 0',
-              padding: '12px 16px',
-              borderRadius: 8,
-              backgroundColor: '#EDEDED'
-            }}
-          >
-            {Array(revision?.days_count || 0)
-              .fill(1)
-              .map((v, i) => (
-                <div
-                  style={{ display: 'inline-flex', marginRight: 16 }}
-                  key={i}
-                >
-                  <Checkbox
-                    style={{ lineHeight: 1 }}
-                    value={days.includes(i)}
-                    onChange={(e) => onDayCheckboxChange(e.target.checked, i)}
+          {applyOption === 'existing' && (
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginTop: '1.5rem'
+                }}
+              >
+                <div style={{ width: '45%' }}>
+                  <p>Select diet plan</p>
+                  <Select
+                    id="diet-plan-select"
+                    options={dpOptions}
+                    value={selectedDP}
+                    onChange={(value) => setSelectedDP(value)}
                   />
-                  <Label style={{ margin: '0 8px', lineHeight: 1 }}>
-                    Day {i + 1}
-                  </Label>
                 </div>
-              ))}
-          </div>
+              </div>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  gap: 8,
+                  margin: '1rem 0',
+                  padding: '12px 16px',
+                  borderRadius: 8,
+                  backgroundColor: '#EDEDED'
+                }}
+              >
+                {Array(revision?.days_count || 0)
+                  .fill(1)
+                  .map((v, i) => (
+                    <div
+                      style={{ display: 'inline-flex', marginRight: 16 }}
+                      key={i}
+                    >
+                      <Checkbox
+                        style={{ lineHeight: 1 }}
+                        value={days.includes(i)}
+                        onChange={(e) =>
+                          onDayCheckboxChange(e.target.checked, i)
+                        }
+                      />
+                      <Label style={{ margin: '0 8px', lineHeight: 1 }}>
+                        Day {i + 1}
+                      </Label>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
         </div>
       }
       date={{
         label: 'From when should we apply this change',
         value: date,
         disabledDate: (date: Moment) => date.isBefore(),
-        onChange: (date: Moment, dateStr: string) =>
-          setDate(new Date(dateStr).toISOString())
+        onChange: (date: any) =>
+          setDate(date ? new Date(date).toISOString() : '')
       }}
-      alert={`This will make changes to ${client.name}’s “${
-        dietPlan.name
-      }” diet plan, which is currently ${
-        dietPlan.status
-      } and will add this meal plan to ${days
-        .map((v) => `Day ${v + 1}`)
-        .join(
-          ', '
-        )} overwriting the current choice. You can make changes to the order and details after confirming below. This will take effect from November 21st.`}
+      alert={getAlertMessage()}
       yes="Confirm Changes"
       cancel="Nevermind"
       open={open}
