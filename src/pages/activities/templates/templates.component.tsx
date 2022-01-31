@@ -8,7 +8,7 @@ import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import TemplateLayout from '../components/layout/layout.component'
 import DietPlans from './diet-plan/plans/plans.component'
-import Exercies from './exercise/exercises.component'
+import Exercises from './exercise/exercises.component'
 import Foods from './food/foods.component'
 import Meals from './meal/meals.component'
 import MealPlans from './meal-plan/meal-plans.component'
@@ -40,9 +40,9 @@ const tabs = [
     renderContent: () => <Workouts />
   },
   {
-    label: 'Exercies',
+    label: 'Exercises',
     key: 'excercise',
-    renderContent: () => <Exercies />
+    renderContent: () => <Exercises />
   },
   {
     label: 'Diet Plans',
