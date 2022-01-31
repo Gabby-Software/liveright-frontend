@@ -1,6 +1,5 @@
 import moment from 'moment'
 import { useMemo, useState } from 'react'
-import { useParams } from 'react-router'
 
 import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
@@ -9,7 +8,6 @@ import IconButton from '../../../../../components/buttons/icon-button/icon-butto
 import Card from '../../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../../components/typography'
-import useTrainingSplit from '../../../../../hooks/api/activities/useTrainingSplit'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
@@ -22,23 +20,17 @@ interface TrainingSplitDayViewProps {
   onClose: any
   index: number
   setIndex: (i: number) => void
+  revision?: any
 }
 
 export default function TrainingSplitDayView({
   onClose,
   index,
-  setIndex
+  setIndex,
+  revision
 }: TrainingSplitDayViewProps) {
   const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
-
-  const params = useParams<any>()
-
-  const { trainingSplit, revision } = useTrainingSplit({
-    clientId: params.clientId,
-    id: params.id,
-    revisionId: params.revisionId
-  })
 
   const { day, activities } = useMemo(() => {
     const day = revision?.days?.[index]
@@ -104,7 +96,7 @@ export default function TrainingSplitDayView({
         )}
 
         <div>
-          <Subtitle>{trainingSplit.name}</Subtitle>
+          <Subtitle>{revision.name}</Subtitle>
           <br />
           <div className="TrainingSplitDayView__badges">
             <div className="TrainingSplitDayView__badge">

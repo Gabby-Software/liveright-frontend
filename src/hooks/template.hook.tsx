@@ -1,8 +1,6 @@
 import moment from 'moment'
 import { useMemo } from 'react'
 
-import { getActiveOrLatestRev } from '../utils/api/activities'
-
 export const useDataFMConvert = (data: any, trainerId: number) => {
   return useMemo(() => {
     if (data) {
@@ -25,15 +23,13 @@ export const useDataTSConvert = (data: any, trainerId: number) => {
   return useMemo(() => {
     if (data) {
       return data.map((item: any) => {
-        const row = getActiveOrLatestRev(item)
         return {
           id: item._id,
           client:
             item.account_id === trainerId ? '-' : item.account.user.full_name,
           name: item.name,
           created: moment(item.created_at).format('DD-MM-YYYY'),
-          days: 5,
-          revisionId: row._id
+          days: item.days_count
         }
       })
     } else {
