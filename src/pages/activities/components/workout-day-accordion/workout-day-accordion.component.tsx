@@ -71,7 +71,7 @@ export default function WorkoutDayAccordion({
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
               <Label className="WorkoutDayAccordion__checkbox">
-                Save Workout Plan as template
+                Save Workout Day as template
               </Label>
             </div>
           )}

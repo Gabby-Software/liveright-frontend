@@ -74,6 +74,11 @@ export async function getTemplatesExerciseById(url: string) {
   return response.data
 }
 
+export async function editTemplatesExercise(id: string, data: any) {
+  const response = await api.put(`/exercises/${id}`, data)
+  return response.data.data
+}
+
 export async function getTemplatesData(url: string) {
   const response = await api.get(url)
   return response.data
