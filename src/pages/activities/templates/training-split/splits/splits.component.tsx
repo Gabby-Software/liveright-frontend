@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Routes } from '../../../../../enums/routes.enum'
-import useTrainingSplits from '../../../../../hooks/api/activities/useTrainingSplits'
+import useTemplateTrainingSplits from '../../../../../hooks/api/templates/training-splits/useTemplateTrainingSplits'
 import { useDataTSConvert } from '../../../../../hooks/template.hook'
 import { getObjectFromArrays } from '../../../../../utils/obj'
 import TemplatesTable from '../../components/template-table/template-table.component'
@@ -23,9 +23,10 @@ const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
 
 export default function TrainingSplits() {
   const [clientId, setClientId] = useState('all')
-  const { trainingSplits } = useTrainingSplits({
+  const { trainingSplits } = useTemplateTrainingSplits({
     clientId: clientId
   })
+  console.log(trainingSplits)
   const data = useDataTSConvert(trainingSplits, 10)
 
   const onSearch = (value: string) => {
@@ -35,7 +36,7 @@ export default function TrainingSplits() {
   const onClient = (e: any) => {
     setClientId(e)
   }
-
+  // return <div>test</div>
   return (
     <TemplatesTable
       onClient={onClient}

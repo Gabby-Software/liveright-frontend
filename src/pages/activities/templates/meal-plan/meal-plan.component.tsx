@@ -85,7 +85,7 @@ export default function MealPlan() {
         </Button>
       }
       onDelete={onDelete}
-      onEdit={() => {}}
+      onEdit={() => setEdit(true)}
     >
       <Styles>{content}</Styles>
     </TemplateMobilePage>

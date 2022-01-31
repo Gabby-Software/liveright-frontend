@@ -6,7 +6,7 @@ import Button from '../../../../../components/buttons/button/button.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Routes } from '../../../../../enums/routes.enum'
-import useTrainingSplit from '../../../../../hooks/api/activities/useTrainingSplit'
+import useTemplateTrainingSplit from '../../../../../hooks/api/templates/training-splits/useTemplateTrainingSplit'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayTrainingScheduleCard from '../../../components/day-training-schedule-card/day-training-schedule-card.component'
 import DayTrainingSplitCard from '../../../components/day-training-split-card/day-training-split-card.component'
@@ -14,6 +14,7 @@ import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/
 import TemplateLayout from '../../../components/layout/layout.component'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import TrainingSplitDayView from '../day-view/day-view.component'
+import EditTemplateTrainingSplit from '../edit/edit.component'
 import { Styles } from './split.styles'
 
 export default function TrainingSplit() {
@@ -21,16 +22,16 @@ export default function TrainingSplit() {
   const [day, setDay] = useState<null | number>(null)
   const [scheduleView, setScheduleView] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
+  const [edit, setEdit] = useState(false)
   const params = useParams<any>()
 
-  const { revision } = useTrainingSplit({
-    clientId: params.clientId,
-    id: params.id,
-    revisionId: params.revisionId
-  })
-
-  console.log(revision)
+  const { trainingSplit } = useTemplateTrainingSplit({ id: params.id })
+  console.log(trainingSplit)
   const onDelete = () => {}
+
+  if (edit) {
+    return <EditTemplateTrainingSplit onClose={() => setEdit(false)} />
+  }
 
   if (day) {
     return (
@@ -38,6 +39,7 @@ export default function TrainingSplit() {
         index={day - 1}
         onClose={() => setDay(null)}
         setIndex={setDay}
+        revision={trainingSplit}
       />
     )
   }
@@ -61,7 +63,7 @@ export default function TrainingSplit() {
       </section>
 
       <div className="TSTemplates__cards">
-        {revision?.days?.map((row: any) =>
+        {trainingSplit?.days?.map((row: any) =>
           scheduleView ? (
             <div className="TSTemplates__card-container" key={row.day}>
               <DayTrainingScheduleCard data={row} subtitle="Wen" />
@@ -89,7 +91,9 @@ export default function TrainingSplit() {
             Use Split
           </Button>
         }
-        onEdit={() => {}}
+        onEdit={() => {
+          setEdit(true)
+        }}
         onDelete={onDelete}
       >
         {mainContent}
@@ -131,7 +135,11 @@ export default function TrainingSplit() {
             <h1 className="TSTemplates__title">High Pace Training</h1>
 
             <div className="TSTemplates__title-buttons">
-              <Button variant="dark" className="TSTemplates__title-button">
+              <Button
+                variant="dark"
+                className="TSTemplates__title-button"
+                onClick={() => setEdit(true)}
+              >
                 Edit Split Template
               </Button>
               <Button
@@ -153,7 +161,7 @@ export default function TrainingSplit() {
           </section>
 
           <div className="TSTemplates__cards">
-            {revision?.days?.map((row: any, idx: number) =>
+            {trainingSplit?.days?.map((row: any, idx: number) =>
               scheduleView ? (
                 <div className="TSTemplates__card-container" key={row.day}>
                   <DayTrainingScheduleCard

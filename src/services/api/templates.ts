@@ -104,6 +104,16 @@ export async function deleteTemplatesTrainingPlan(id: string) {
   return response.data.data
 }
 
+export async function editTemplatesTrainingSplit(id: string, data: any) {
+  const response = await api.put(`/training-split-templates/${id}`, data)
+  return response.data.data
+}
+
+export async function deleteTemplatesTrainingSplit(id: string) {
+  const response = await api.delete(`/training-split-templates/${id}`)
+  return response.data.data
+}
+
 export async function getTemplatesWorkoutDays(url: string) {
   const response = await api.get(url)
   return response.data
