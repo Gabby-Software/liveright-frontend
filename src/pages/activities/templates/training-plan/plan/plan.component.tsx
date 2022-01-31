@@ -14,21 +14,28 @@ import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/
 import TemplateLayout from '../../../components/layout/layout.component'
 import { Styles } from '../../../styles/plan.styles'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
+import TrainingPlanTemplateForm from '../training-plan-template-form/training-plan-template-form.component'
 
 export default function TrainingPlan() {
+  const [edit, setEdit] = useState(false)
+
   const isMobile = useIsMobile()
   const params = useParams<any>()
-  const { trainingTemplate } = useTemplateTrainingPlan(params.id)
+  const { trainingPlan } = useTemplateTrainingPlan(params.id)
 
   const [showConfirm, setShowConfirm] = useState(false)
   const onDelete = () => {}
 
-  console.log(trainingTemplate.days)
+  console.log(trainingPlan.days)
+
+  if (edit) {
+    return <TrainingPlanTemplateForm onClose={() => setEdit(false)} />
+  }
 
   const content = (
     <>
       <div className="PlanPage__cards">
-        {trainingTemplate?.days?.map((day: any, i) => (
+        {trainingPlan?.days?.map((day: any, i: number) => (
           <DayTrainingPlanCard day={day} border="both" key={i} />
         ))}
       </div>
@@ -48,7 +55,7 @@ export default function TrainingPlan() {
   return isMobile ? (
     <TemplateMobilePage
       pageTitle="Training Plan Template Detail"
-      contentTitle={trainingTemplate.name}
+      contentTitle={trainingPlan.name}
       actionComponent={
         <Button
           className="PlanPage__header-btn"
@@ -80,10 +87,14 @@ export default function TrainingPlan() {
 
         <Card className="PlanPage__card">
           <div className="PlanPage__header">
-            <Title>{trainingTemplate?.name}</Title>
+            <Title>{trainingPlan?.name}</Title>
 
             <div className="PlanPage__header-actions">
-              <Button variant="dark" className="PlanPage__header-btn">
+              <Button
+                variant="dark"
+                className="PlanPage__header-btn"
+                onClick={() => setEdit(true)}
+              >
                 Edit Training Plan Template
               </Button>
               <Button

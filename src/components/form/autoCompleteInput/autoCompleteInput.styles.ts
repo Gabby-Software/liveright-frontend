@@ -19,7 +19,7 @@ export default styled.div<any>`
       line-height: 45px;
 
       & span {
-        top: -3px;
+        // top: -3px;
       }
 
       & input {

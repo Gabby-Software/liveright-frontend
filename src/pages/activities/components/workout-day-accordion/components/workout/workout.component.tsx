@@ -56,7 +56,8 @@ function createExercise(isSuperset: boolean | number, cardio: boolean) {
           reps: '',
           tempo: '',
           rest_interval: ''
-        }
+        },
+        sort_order: isSuperset && 1
       }
   return {
     is_superset: isSuperset && true,
