@@ -11,8 +11,16 @@ type Props = {
   isOpen: boolean
   onClose: () => void
   back?: boolean
+  isLogDrawer?: boolean
 }
-const BottomDrawer = ({ children, title, isOpen, onClose, back }: Props) => {
+const BottomDrawer = ({
+  children,
+  title,
+  isOpen,
+  onClose,
+  back,
+  isLogDrawer
+}: Props) => {
   const ref = useRef(null)
   const { y } = useSwipe(ref, ({ y }) => y >= 50, onClose)
   return (
@@ -24,6 +32,7 @@ const BottomDrawer = ({ children, title, isOpen, onClose, back }: Props) => {
       visible={isOpen}
       closable={false}
       height={'auto'}
+      isLogDrawer={isLogDrawer}
     >
       <div className={'drawer__wrapper'}>
         <div className={'drawer__header'} ref={ref}>

@@ -18,55 +18,12 @@ import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles from './quick-access-workout-overview.styles'
 
-const data = [
-  {
-    id: 1,
-    name: 'Pushups',
-    type: 'strength',
-    sets: 4,
-    reps: 4,
-    rest: '10:00',
-    tempo: '3005'
-  },
-  {
-    id: 2,
-    name: 'Superset A',
-    type: 'superset',
-    exercises: [
-      {
-        id: 21,
-        name: 'Pushups',
-        type: 'strength',
-        sets: 4,
-        reps: 4,
-        rest: '10:00',
-        tempo: '3005'
-      },
-      {
-        id: 22,
-        name: 'Pushups',
-        type: 'strength',
-        sets: 4,
-        reps: 4,
-        rest: '10:00',
-        tempo: '3005'
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: 'Cardio Bike',
-    type: 'cardio',
-    intensity: 'High',
-    time: '00:10:00'
-  }
-]
-
 interface Props {}
 
 const QuickAccessWorkoutOverview: FC<Props> = () => {
   const { t } = useTranslation()
-  const { routeParams } = useQuickAccess()
+  const { routeParams, workoutsData } = useQuickAccess()
+  const workout = workoutsData.find((workout) => workout.id === routeParams.id)
 
   const [showVideo, setShowVideo] = useState(false)
 
@@ -138,7 +95,7 @@ const QuickAccessWorkoutOverview: FC<Props> = () => {
       <h4>{moment().format('dddd, D MMMM YYYY').toString()}</h4>
 
       <div className="body">
-        {data.map((exercise) =>
+        {workout.exercises.map((exercise: any) =>
           exercise.type === 'superset'
             ? renderSuperset(exercise)
             : renderExercise(exercise)

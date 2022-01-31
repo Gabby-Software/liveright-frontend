@@ -35,7 +35,132 @@ export type QuickAccessContextType = {
   todayHealthData: Partial<HealthData>
   client: AccountObjType | null
   setClient: Dispatch<null | AccountObjType>
+  workoutsData: any[]
+  mealsData: any[]
 }
+
+// Dummy data
+const workoutsData = [
+  {
+    id: 1,
+    type: 'strength',
+    iconColor: '#E49A0A',
+    name: 'The Great Workout',
+    exercises: [
+      {
+        id: 1,
+        name: 'Pushups',
+        type: 'strength',
+        sets: 4,
+        reps: 4,
+        rest: '10:00',
+        tempo: '3005'
+      },
+      {
+        id: 2,
+        name: 'Superset A',
+        type: 'superset',
+        exercises: [
+          {
+            id: 21,
+            name: 'Pushups',
+            type: 'strength',
+            sets: 4,
+            reps: 4,
+            rest: '10:00',
+            tempo: '3005'
+          },
+          {
+            id: 22,
+            name: 'Pushups',
+            type: 'strength',
+            sets: 4,
+            reps: 4,
+            rest: '10:00',
+            tempo: '3005'
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Cardio Bike',
+        type: 'cardio',
+        intensity: 'High',
+        time: '00:10:00'
+      }
+    ],
+    completed: true
+  },
+  {
+    id: 2,
+    type: 'strength',
+    iconColor: '#E49A0A',
+    name: 'Second Day Workout',
+    exercises: [
+      {
+        id: 1,
+        name: 'Pushups',
+        type: 'strength',
+        sets: 4,
+        reps: 4,
+        rest: '10:00',
+        tempo: '3005'
+      },
+      {
+        id: 2,
+        name: 'Superset A',
+        type: 'superset',
+        exercises: [
+          {
+            id: 21,
+            name: 'Pushups',
+            type: 'strength',
+            sets: 4,
+            reps: 4,
+            rest: '10:00',
+            tempo: '3005'
+          },
+          {
+            id: 22,
+            name: 'Pushups',
+            type: 'strength',
+            sets: 4,
+            reps: 4,
+            rest: '10:00',
+            tempo: '3005'
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Cardio Bike',
+        type: 'cardio',
+        intensity: 'High',
+        time: '00:10:00'
+      }
+    ],
+    completed: false
+  },
+  {
+    id: 3,
+    type: 'cardio',
+    iconColor: '#EF1733',
+    name: 'Cardio Bike',
+    exercises: [
+      {
+        id: 3,
+        name: 'Cardio Bike',
+        type: 'cardio',
+        intensity: 'High',
+        time: '00:10:00'
+      }
+    ],
+    time: '10 min',
+    completed: false
+  }
+]
+
+const mealsData: any[] = []
 
 const QuickAccessContext = createContext<QuickAccessContextType | null>(null)
 export const useQuickAccess = () =>
@@ -109,7 +234,9 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
         todayHealthData,
         logHealthData,
         client,
-        setClient
+        setClient,
+        workoutsData,
+        mealsData
       }}
     >
       {children}

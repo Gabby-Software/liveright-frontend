@@ -23,6 +23,7 @@ export default styled.div<{ open: boolean; fullscreen?: boolean }>`
         position: static;
         width: 100%;
         box-shadow: none;
+        padding-top: 25px;
   `}
   top: ${({ fullscreen }) => (fullscreen ? 'calc(0px - 91.5vh)' : '')};
 `

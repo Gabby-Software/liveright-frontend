@@ -36,7 +36,8 @@ export default styled.div`
     overflow-y: auto;
 
     @media ${mediaQueries.TABLET} {
-      max-height: calc(100vh - 280px);
+      max-height: none;
+      height: calc(100vh - 280px)
     }
   }
 

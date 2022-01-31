@@ -17,7 +17,7 @@ const MobileLogDrawer = ({ isOpen, onClose }: MobileLogDrawerPropsType) => {
       return <QuickAccessPopup fullscreen />
     default:
       return (
-        <BottomDrawer isOpen={isOpen} onClose={onClose}>
+        <BottomDrawer isOpen={isOpen} onClose={onClose} isLogDrawer>
           <QuickAccessPopup />
         </BottomDrawer>
       )

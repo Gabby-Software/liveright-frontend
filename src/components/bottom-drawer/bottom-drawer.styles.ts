@@ -1,7 +1,7 @@
 import { Drawer } from 'antd'
 import styled from 'styled-components'
 
-export default styled(Drawer)`
+export default styled(Drawer)<{ isLogDrawer?: boolean }>`
   --top: 0;
   .ant-drawer-content-wrapper {
     bottom: var(--top);
@@ -23,7 +23,8 @@ export default styled(Drawer)`
     }
     &__header {
       position: relative;
-      padding: 34px 24px 14px 24px;
+      padding: ${({ isLogDrawer }) =>
+        isLogDrawer ? '16px' : '34px 24px 14px 24px'};
       &:before {
         ${(p) => p.theme.extend.pseudo}
         left:0;
