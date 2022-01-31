@@ -31,7 +31,7 @@ export default styled.div`
     width: calc(100% + 44px);
     margin-left: -22px;
     background-color: ${getColorCarry('neutral_10')};
-    padding: 20px;
+    padding: 16px;
     max-height: 500px;
     overflow-y: auto;
 

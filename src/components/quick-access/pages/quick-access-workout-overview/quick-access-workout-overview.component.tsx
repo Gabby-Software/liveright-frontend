@@ -165,7 +165,11 @@ const QuickAccessWorkoutOverview: FC<Props> = () => {
         visible={showVideo}
         onCancel={() => setShowVideo(false)}
       >
-        <img src={VideoImg} alt="workout-video" style={{ marginTop: '35px' }} />
+        <img
+          src={VideoImg}
+          alt="workout-video"
+          style={{ marginTop: '35px', width: '100%' }}
+        />
       </QuickAccessModal>
     </Styles>
   )
