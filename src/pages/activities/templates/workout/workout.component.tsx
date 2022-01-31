@@ -67,7 +67,7 @@ export default function Workout() {
               video: a?.link
             }))
           })
-          .reduce((m, n) => [...m, ...n])
+          .reduce((m, n) => [...m, ...n], [])
       : []
     return rows
   }, [workout, params])
