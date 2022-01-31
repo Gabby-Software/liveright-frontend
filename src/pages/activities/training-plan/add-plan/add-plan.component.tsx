@@ -200,6 +200,8 @@ export default function AddTrainingPlan({
     }
   }
 
+  console.log(errors)
+
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
     daysArray.append(createDay(newDayIndex))
