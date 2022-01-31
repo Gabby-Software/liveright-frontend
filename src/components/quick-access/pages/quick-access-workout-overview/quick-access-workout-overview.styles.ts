@@ -36,7 +36,7 @@ export default styled.div`
     overflow-y: auto;
 
     @media ${mediaQueries.TABLET} {
-      max-height: 67vh;
+      max-height: calc(100vh - 280px);
     }
   }
 
@@ -141,6 +141,11 @@ export default styled.div`
 
     &__button {
       max-width: 165px;
+      @media ${mediaQueries.MOBILE} {
+        max-width: 200px:
+        max-width: none;
+        flex-grow: 1;
+      }
     }
   }
 

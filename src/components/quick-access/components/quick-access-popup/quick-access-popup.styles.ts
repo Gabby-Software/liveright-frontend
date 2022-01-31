@@ -24,7 +24,7 @@ export default styled.div<{ open: boolean; fullscreen?: boolean }>`
         width: 100%;
         box-shadow: none;
   `}
-  top: ${({ fullscreen }) => (fullscreen ? 'calc(0px - 92vh)' : '')};
+  top: ${({ fullscreen }) => (fullscreen ? 'calc(0px - 91.5vh)' : '')};
 `
 export const Times = styled.span<{ color?: string }>`
   position: absolute;
