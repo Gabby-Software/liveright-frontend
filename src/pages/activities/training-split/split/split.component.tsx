@@ -56,7 +56,7 @@ export default function TrainingSplit() {
     id: params.id,
     revisionId: params.revisionId
   })
-  console.log(revision)
+
   const versionOptions = useMemo(
     () => getVersionOptions(trainingSplit.revisions || []),
     [trainingSplit]
