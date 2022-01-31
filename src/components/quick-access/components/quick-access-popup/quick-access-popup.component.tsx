@@ -1,6 +1,8 @@
 import React, { FC, useMemo } from 'react'
 
-import { CrossIcon } from '../../../../assets/media/icons'
+import { CrossIcon, DeleteOutlinedIcon } from '../../../../assets/media/icons'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import LogMeasurements from '../../pages/log-measurements/log-measurements.component'
 import QuickAccessAddExercise from '../../pages/quick-access-add-exercise/quick-access-add-exercise.component'
 import QuickAccessHome from '../../pages/quick-access-home/quick-access-home.component'
@@ -11,12 +13,18 @@ import QuickAccessLogHealthHeartRate from '../../pages/quick-access-log-health/q
 import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick-access-log-health-sleep/quick-access-log-health-sleep.component'
 import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import QuickAccessLogMeal from '../../pages/quick-access-log-meal/quick-access-log-meal.component'
+import QuickAccessWorkoutOverview from '../../pages/quick-access-workout-overview/quick-access-workout-overview.component'
 import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles, { Times } from './quick-access-popup.styles'
 
-const QuickAccessPopup: FC = () => {
+interface Props {
+  fullscreen?: boolean
+}
+
+const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
   const { open, setOpen, route } = useQuickAccess()
+  const isMobile = useIsMobile()
 
   const Content = useMemo(() => {
     switch (route) {
@@ -41,15 +49,28 @@ const QuickAccessPopup: FC = () => {
         return QuickAccessLogMeal
       case quickAccessRoutes.ADD_EXERCISE:
         return QuickAccessAddExercise
+      case quickAccessRoutes.WORKOUT_OVERVIEW:
+        return QuickAccessWorkoutOverview
       default:
         return React.Fragment
     }
   }, [route])
 
   return (
-    <Styles open={open}>
-      <Times onClick={() => setOpen(false)}>
-        <CrossIcon />
+    <Styles open={open} fullscreen={fullscreen}>
+      <Times
+        color={
+          route === quickAccessRoutes.WORKOUT_OVERVIEW
+            ? getColorCarry('neutral_50')
+            : ''
+        }
+        onClick={() => setOpen(false)}
+      >
+        {route === quickAccessRoutes.WORKOUT_OVERVIEW && isMobile ? (
+          <DeleteOutlinedIcon />
+        ) : (
+          <CrossIcon />
+        )}
       </Times>
 
       <Content />

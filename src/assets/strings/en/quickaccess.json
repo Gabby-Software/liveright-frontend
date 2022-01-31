@@ -25,6 +25,15 @@
     "add-exercise": "Add Exercise Only",
     "add-log-exercise": "Add Exercise & Log"
   },
+  "workout-overview": {
+    "view-video": "View video",
+    "rest": "Rest",
+    "tempo": "Tempo",
+    "time": "Time",
+    "add-exercise": "Add Exercise",
+    "mark-completed": "Mark Completed",
+    "start-workout": "Start Workout"
+  },
   "log-meal": {
     "title": "Meals",
     "search-placeholder": "Search existing meals",
@@ -35,6 +44,7 @@
     "log": "Log",
     "add": "Add",
     "exercise": "Exercise",
+    "log-exercise": "log exercise",
     "workout": "Workout",
     "health-data": "Health Data",
     "measurement": "Measurements",

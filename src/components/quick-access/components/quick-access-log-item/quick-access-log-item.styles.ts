@@ -12,6 +12,7 @@ export default styled.div<{ iconColor: string; completed: boolean }>`
     completed ? getColorCarry('neutral_30') : getColorCarry('neutral_100')};
   padding: 1.4rem 2rem 1.1rem 1.5rem;
   margin: 0.5rem 0;
+  cursor: pointer;
 
   h3 {
     font-size: 0.875rem;

@@ -9,17 +9,19 @@ interface Props {
   name: string
   amount: string
   completed: boolean
+  onClick?: () => void
 }
 
-const QuickAccessLogExerciseItem: FC<Props> = ({
+const QuickAccessLogItem: FC<Props> = ({
   Icon,
   iconColor,
   name,
   amount,
-  completed
+  completed,
+  onClick
 }) => {
   return (
-    <Styles iconColor={iconColor} completed={completed}>
+    <Styles iconColor={iconColor} completed={completed} onClick={onClick}>
       <Icon className="qa-log-item__icon" />
       <div>
         <h3>{name}</h3>
@@ -34,4 +36,4 @@ const QuickAccessLogExerciseItem: FC<Props> = ({
   )
 }
 
-export default QuickAccessLogExerciseItem
+export default QuickAccessLogItem

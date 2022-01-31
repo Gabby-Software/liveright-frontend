@@ -26,7 +26,11 @@ export type QuickAccessContextType = {
   open: boolean
   setOpen: Dispatch<boolean>
   route: quickAccessRoutes
-  setRoute: Dispatch<quickAccessRoutes>
+  routeParams: { [key: string]: string }
+  setRoute: (
+    route: quickAccessRoutes,
+    params?: { [key: string]: string }
+  ) => void
   logHealthData: (data: Partial<HealthData>) => Promise<void>
   todayHealthData: Partial<HealthData>
   client: AccountObjType | null
@@ -42,12 +46,21 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
   initialOpen
 }) => {
   const [open, setOpen] = useState(!!initialOpen)
-  const [route, setRoute] = useState<quickAccessRoutes>(quickAccessRoutes.LOG)
+  const [route, _setRoute] = useState<quickAccessRoutes>(quickAccessRoutes.LOG)
+  const [routeParams, setRouteParams] = useState<{ [key: string]: string }>({})
   const [client, setClient] = useState<null | AccountObjType>(null)
   const { type } = useAuth()
   const [todayHealthData, setTodayHealthData] = useState<Partial<HealthData>>(
     {}
   )
+
+  const setRoute = (
+    route: quickAccessRoutes,
+    params?: { [key: string]: string }
+  ) => {
+    _setRoute(route)
+    params && setRouteParams(params)
+  }
 
   const changeOpen = (open: boolean) => {
     setOpen(open)
@@ -91,6 +104,7 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
         open,
         setOpen: changeOpen,
         route,
+        routeParams,
         setRoute,
         todayHealthData,
         logHealthData,

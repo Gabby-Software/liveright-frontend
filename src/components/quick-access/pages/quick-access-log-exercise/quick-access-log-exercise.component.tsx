@@ -10,6 +10,7 @@ import Button from '../../../buttons/button/button.component'
 import Input from '../../../form/input/input.component'
 import QuickAccessBack from '../../components/quick-access-back/quick-access-back.component'
 import ExerciseItem from '../../components/quick-access-log-item/quick-access-log-item.component'
+import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles from './quick-access-log-exercise.styles'
 
@@ -39,6 +40,7 @@ const exercises = [
 
 const QuickAccessLogExercise: FC = () => {
   const { t } = useTranslation()
+  const { setRoute } = useQuickAccess()
 
   return (
     <Styles>
@@ -56,7 +58,16 @@ const QuickAccessLogExercise: FC = () => {
 
       <h4>{t('quickaccess:log-exercise.today-exercises')}</h4>
       {exercises.map((exercise) => (
-        <ExerciseItem key={exercise.name} {...exercise} />
+        <ExerciseItem
+          key={exercise.name}
+          {...exercise}
+          onClick={() =>
+            setRoute(quickAccessRoutes.WORKOUT_OVERVIEW, {
+              id: exercise.name,
+              name: exercise.name
+            })
+          }
+        />
       ))}
 
       <Button variant="text" className="qa-log-exercise__button" size="sm">
