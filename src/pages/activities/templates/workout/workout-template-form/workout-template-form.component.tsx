@@ -47,29 +47,6 @@ const defaultValues = {
 const validationSchema = yup.object().shape({
   name: yup.string(),
   time: yup.string().nullable()
-  // items: yup.array().of(
-  //   yup.object().shape({
-  //     data: yup.object().shape({
-  //       //       name: yup.string().required(),
-  //       //       link: yup.lazy((v) =>
-  //       //         !v
-  //       //           ? yup.string().nullable()
-  //       //           : yup
-  //       //               .string()
-  //       //               .matches(URL_REGEX, 'Enter a valid link')
-  //       //               .nullable()
-  //       //       ),
-  //       // info: yup.object().shape({
-  //         // tempo: yup.string().matches(/^([0-9x]){4}$/, {
-  //         //   message: 'Only 4 digits with x allowed'
-  //         // })
-  //         //         sets: yup.string(),
-  //         //         reps: yup.string(),
-  //         //         rest_interval: yup.string()
-  //       // })
-  //     })
-  //   })
-  // )
 })
 
 function createExercise(isSuperset: boolean | number, cardio: boolean) {
@@ -310,7 +287,7 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
   ) : (
     <Styles>
       <GoBack onClick={onClose}>{'Go Back to Overview'}</GoBack>
-      <h1 className="Title">Editing Workout Template</h1>
+      <h1 className="Title">Edit Workout Template</h1>
       {content}
     </Styles>
   )
