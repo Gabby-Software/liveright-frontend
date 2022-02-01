@@ -55,7 +55,7 @@ export default function DayTrainingSplitCard(
             }
           />
           <ListItem
-            color={getColorCarry('blue_50')}
+            color={getColorCarry('red')}
             title="Other Exercises"
             content={data.items.map((t: any) => t.data?.name)}
             icon={<ExerciseIcon />}

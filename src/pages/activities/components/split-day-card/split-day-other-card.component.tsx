@@ -14,7 +14,7 @@ export default function SplitDayOtherCard(props: IProps) {
     <SplitDayCard
       scheduleTime={scheduleTime}
       title="Other Exercise"
-      color={getColorCarry('blue_50')}
+      color={getColorCarry('red')}
       icon={<ExerciseIcon />}
       content={
         <div>
