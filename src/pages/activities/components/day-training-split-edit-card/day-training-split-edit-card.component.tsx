@@ -138,7 +138,7 @@ export default function DayTrainingSplitEditCard(
             }
           />
           <ListOther
-            color={getColorCarry('blue_50')}
+            color={getColorCarry('red')}
             title="Other Exercises"
             content={items.fields}
             name={`${name}.items`}
