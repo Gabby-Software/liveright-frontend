@@ -30,9 +30,25 @@
     "rest": "Rest",
     "tempo": "Tempo",
     "time": "Time",
-    "add-exercise": "Add Exercise",
+    "add-exercise-btn": "Add Exercise",
     "mark-completed": "Mark Completed",
-    "start-workout": "Start Workout"
+    "start-workout": "Start Workout",
+    "add-exercise": {
+      "heading-exercise": "Add Exercise",
+      "heading-superset": "Add Superset",
+      "switch-mode-exercise": "Switch to Add Exercise",
+      "switch-mode-superset": "Create Superset",
+      "label-exercises": "Exercises",
+      "placeholder-exercises": "Search exercises...",
+      "label-sets": "Sets",
+      "label-reps": "Reps",
+      "label-tempo": "Tempo",
+      "label-rest": "Rest Interval",
+      "label-time": "Time",
+      "label-intensity": "Intensity",
+      "add-exercise-btn": "Add Exercise",
+      "add-superset-btn": "Add Superset"
+    }
   },
   "log-meal": {
     "title": "Meals",
@@ -54,6 +70,7 @@
     "steps": "Daily Step",
     "heart-rate": "Heart Rate",
     "sleep": "Sleep Rate",
-    "glucose": "Glucose"
+    "glucose": "Glucose",
+    "overview": "overview"
   }
 }

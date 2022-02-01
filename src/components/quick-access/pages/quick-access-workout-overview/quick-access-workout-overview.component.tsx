@@ -22,7 +22,7 @@ interface Props {}
 
 const QuickAccessWorkoutOverview: FC<Props> = () => {
   const { t } = useTranslation()
-  const { routeParams, workoutsData } = useQuickAccess()
+  const { routeParams, workoutsData, setRoute } = useQuickAccess()
   const workout = workoutsData.find((workout) => workout.id === routeParams.id)
 
   const [showVideo, setShowVideo] = useState(false)
@@ -103,9 +103,14 @@ const QuickAccessWorkoutOverview: FC<Props> = () => {
       </div>
 
       <div className="footer">
-        <button className="add-exercise-button">
+        <button
+          className="add-exercise-button"
+          onClick={() =>
+            setRoute(quickAccessRoutes.WORKOUT_OVERVIEW_ADD_EXERCISE)
+          }
+        >
           <AddIcon />{' '}
-          <span>{t('quickaccess:workout-overview.add-exercise')}</span>
+          <span>{t('quickaccess:workout-overview.add-exercise-btn')}</span>
         </button>
 
         <div className="button-group">
