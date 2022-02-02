@@ -36,6 +36,7 @@ export default function DietPlan() {
           <DayDietPlanCard
             day={item}
             onExpand={() => setExpandedDayIndex(index)}
+            onFoodClick={() => {}}
             key={item._id}
             border="both"
           />

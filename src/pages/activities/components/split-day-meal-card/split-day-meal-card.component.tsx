@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { useState } from 'react'
 
 import { CaretDownIcon, ClockIcon } from '../../../../assets/media/icons'
@@ -9,10 +10,13 @@ interface IProps {
 }
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
-  calories: 'Calories',
-  net_carbs: 'Net Carbs',
+  proteins: 'Proteins',
   fat: 'Fat',
-  proteins: 'Proteins'
+  net_carbs: 'Net Carbs',
+  sugar: 'Sugar',
+  fiber: 'Fiber',
+  total_carbs: 'Total Carbs',
+  calories: 'Calories'
 }
 
 export default function SplitDayMealCard({ data }: IProps) {
@@ -23,7 +27,11 @@ export default function SplitDayMealCard({ data }: IProps) {
         <p className="SplitDayMealCard__title">{data.name}</p>
         <p className="SplitDayMealCard__subtitle">
           <ClockIcon />
-          {data.time ? `Scheduled for ${data.time}` : 'Not Scheduled'}
+          {data.time
+            ? `Scheduled for ${moment('1970/01/01 ' + data.time).format(
+                'HH:mm'
+              )}`
+            : 'Not Scheduled'}
         </p>
       </div>
       <div className="SplitDayMealCard__card">

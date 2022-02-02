@@ -37,7 +37,7 @@ export default function MealDayAccordion({
   defaultOpened
 }: MealDayAccordionProps) {
   const methods = useFormContext()
-  const [dayTarget, setDayTarget] = useState(false)
+  // const [dayTarget, setDayTarget] = useState(false)
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
     proteins: 0,
@@ -50,8 +50,8 @@ export default function MealDayAccordion({
   })
   const { errors } = methods.formState
 
-  const dayName = useWatch({
-    name: `days.${index}.name`,
+  const [dayName, isDayTarget] = useWatch({
+    name: [`days.${index}.name`, `days.${index}.is_day_target`],
     control: methods.control
   })
 
@@ -108,7 +108,7 @@ export default function MealDayAccordion({
             render={({ field: { name, value } }) => (
               <Input
                 id="MealDayAccordion-name"
-                label="Meal plan day name"
+                label="Meal Plan name"
                 placeholder="Name"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
@@ -119,13 +119,18 @@ export default function MealDayAccordion({
             )}
           />
 
-          <div className="MealDayAccordion__day-toggle">
-            <FormToggleUI
-              value={dayTarget}
-              onUpdate={() => setDayTarget(!dayTarget)}
-            />
-            <p className="MealDayAccordion__day-toggle-label">Day Target</p>
-          </div>
+          <Controller
+            render={({ field: { value, name } }) => (
+              <div className="MealDayAccordion__day-toggle">
+                <FormToggleUI
+                  value={value}
+                  onUpdate={(val) => onChange(name, val)}
+                />
+                <p className="MealDayAccordion__day-toggle-label">Day Target</p>
+              </div>
+            )}
+            name={`days.${index}.is_day_target`}
+          />
         </div>
 
         <Controller
@@ -143,7 +148,7 @@ export default function MealDayAccordion({
           name={`days.${index}.save_as_template`}
         />
 
-        {!dayTarget ? (
+        {!isDayTarget ? (
           <>
             <div className="MealDayAccordion__macronutrients">
               {[
@@ -171,24 +176,9 @@ export default function MealDayAccordion({
             </p>
 
             <MealDayForm name={name} />
-
-            <Controller
-              render={({ field: { value, name } }) => (
-                <div className="MealDayAccordion__checkbox-container">
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => methods.setValue(name, e.target.checked)}
-                  />
-                  <Label className="MealDayAccordion__checkbox">
-                    Save as re-usable template
-                  </Label>
-                </div>
-              )}
-              name={`days.${index}.save_as_template`}
-            />
           </>
         ) : (
-          <FoodDay name={`days.${index}.food-day`} />
+          <FoodDay name={`days.${index}`} />
         )}
       </Styles>
     </DayAccordion>

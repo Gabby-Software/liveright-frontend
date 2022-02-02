@@ -50,6 +50,7 @@ export default function useDietPlan(
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
       const payload = formatPlanData(data)
+      console.log(payload)
       const response = await addDietPlan(payload)
 
       toast.show({ type: 'success', msg: 'Diet plan successfully created' })

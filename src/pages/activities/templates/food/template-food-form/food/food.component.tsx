@@ -29,19 +29,21 @@ export default function Food({ name }: FoodProps) {
     name: `${name}.info`
   })
 
-  const onChange = (fieldName: string, value: string | boolean) => {
+  const onChange = (fieldName: string, value: string | boolean | number) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
 
   useEffect(() => {
-    methods.setValue(
+    onChange(
       `${name}.info.calories`,
-      (info?.proteins || 0) * 4 +
-        (info?.net_carbs || 0) * 4 +
-        (info?.fat || 0) * 9,
-      { shouldValidate: true }
+      (info.proteins || 0) * 4 + (info.net_carbs || 0) * 4 + (info.fat || 0) * 9
     )
-  }, [info?.proteins, info?.net_carbs, info?.fat])
+
+    onChange(
+      `${name}.info.total_carbs`,
+      (+info.net_carbs || 0) + (+info.fiber || 0)
+    )
+  }, [info.proteins, info.net_carbs, info.fat, info.fiber])
 
   const { errors } = methods.formState
 
@@ -52,7 +54,7 @@ export default function Food({ name }: FoodProps) {
           <AutoCompleteInput
             id="Food-name"
             label="Food name"
-            placeholder="Food one"
+            placeholder="-"
             options={options}
             value={value}
             onChange={(e) => onChange(name, e)}
@@ -178,6 +180,7 @@ export default function Food({ name }: FoodProps) {
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            disabled
           />
         )}
         name={`${name}.info.total_carbs`}

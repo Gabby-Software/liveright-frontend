@@ -6,12 +6,14 @@ import { Styles } from './day-diet-plan-card.styles'
 interface DayDietPlanCardProps {
   day: any
   onExpand?: () => void
+  onFoodClick: (food: any) => void
   border?: 'both' | 'mobile' | 'desktop'
 }
 
 export default function DayDietPlanCard({
   day,
   onExpand,
+  onFoodClick,
   border = 'desktop'
 }: DayDietPlanCardProps) {
   return (
@@ -37,6 +39,7 @@ export default function DayDietPlanCard({
                     <DayCardListItem
                       key={row._id}
                       title={row.data?.name || '-'}
+                      onClick={() => onFoodClick(row)}
                     />
                   ))}
                 </div>

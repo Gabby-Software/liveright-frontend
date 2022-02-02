@@ -4,14 +4,18 @@ import { Styles } from './day-card-list-item.styles'
 
 interface DayCardListItemProps {
   title: string
+  onClick?: () => void
 }
 
-export default function DayCardListItem({ title }: DayCardListItemProps) {
+export default function DayCardListItem({
+  title,
+  onClick
+}: DayCardListItemProps) {
   return (
     <Styles>
       <span>{title}</span>
 
-      <IconButton size="sm">
+      <IconButton size="sm" onClick={onClick}>
         <AddIcon />
       </IconButton>
     </Styles>

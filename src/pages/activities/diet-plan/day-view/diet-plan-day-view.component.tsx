@@ -49,7 +49,7 @@ export default function DietPlanDayView({
           name: a.name,
           total_target: a.total_target
         },
-        time: a.time,
+        time: moment('1970/01/01 ' + a.time).format('HH:mm'),
         type: 'meal'
       })) || []
 
@@ -119,23 +119,28 @@ export default function DietPlanDayView({
               .format('dddd')}
           </p>
 
-          <div className="TrainingSplitDayView__day-toggle">
-            <FormToggleUI
-              value={scheduleView}
-              enable={revision.days[index].is_day_target}
-              onUpdate={() => setScheduleView(!scheduleView)}
-            />
-            <p className="TrainingSplitDayView__day-toggle-label">
-              See with schedule view
-            </p>
-          </div>
+          {!day.is_day_target && (
+            <div className="TrainingSplitDayView__day-toggle">
+              <FormToggleUI
+                value={scheduleView}
+                enable={revision.days[index].is_day_target}
+                onUpdate={() => setScheduleView(!scheduleView)}
+              />
+              <p className="TrainingSplitDayView__day-toggle-label">
+                See with schedule view
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="TrainingSplitDayView__divider" />
 
         <div className="TrainingSplitDayView__cards">
           {!scheduleView ? (
-            <SplitDayDietCard data={day} />
+            <SplitDayDietCard
+              data={day}
+              mode={day.is_day_target ? 'dayTarget' : 'normal'}
+            />
           ) : (
             activities.map((a: any, i: number) => (
               <SplitDayDietCard

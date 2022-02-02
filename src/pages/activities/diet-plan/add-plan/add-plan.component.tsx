@@ -101,9 +101,11 @@ const validationSchema = yup.object().shape({
 
 function createDay(dayIndex: number) {
   return {
-    name: `Meals day ${dayIndex}`,
+    name: `Day ${dayIndex}`,
     activities: [],
-    save_as_template: false
+    save_as_template: false,
+    is_day_target: false,
+    custom_target: {}
   }
 }
 
@@ -174,19 +176,13 @@ export default function AddDietPlan({
     for (let i = 0; i < days.length; i++) {
       if (days[i]?.activities) {
         if (days[i].name) {
-          if (days[i].name.indexOf('Meals day ') < 0) {
+          if (days[i].name.indexOf('Day ') < 0) {
             daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
           } else {
-            daysArray.update(
-              i,
-              updateDay(`Meals day ${i + 1}`, days[i]?.activities)
-            )
+            daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
           }
         } else {
-          daysArray.update(
-            i,
-            updateDay(`Meals day ${i + 1}`, days[i]?.activities)
-          )
+          daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
         }
       }
     }
@@ -310,7 +306,7 @@ export default function AddDietPlan({
             {!isMobile && (
               <>
                 <GoBack spacing={4} onClick={onClose}>
-                  Go Back to Overview
+                  Go back to Overview
                 </GoBack>
 
                 <div className="EditPlan__header">
@@ -329,7 +325,7 @@ export default function AddDietPlan({
                 render={({ field: { value, name } }) => (
                   <Input
                     id="edit-training-plan-name"
-                    label="Diet Plan Name"
+                    label="Diet Plan name"
                     placeholder="Name"
                     className={`EditPlan__input ${
                       get(errors, name) ? 'invalid-field' : ''
@@ -480,7 +476,7 @@ export default function AddDietPlan({
       headerSpacing={20}
       headerTopComponent={
         <HeaderLink onClick={onClose}>
-          {revision._id ? 'Back to Plan Overview' : 'Back to Diet Plan'}
+          {revision._id ? 'Go back to Overview' : 'Go back to Diet Plan'}
         </HeaderLink>
       }
       actionComponent={<Button onClick={handleSave}>Save</Button>}

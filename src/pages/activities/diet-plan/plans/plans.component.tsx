@@ -21,7 +21,10 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
-import { getActiveOrLatestRev } from '../../../../utils/api/activities'
+import {
+  getActiveOrLatestRev,
+  getStatus
+} from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
@@ -268,10 +271,10 @@ export default function DietPlans() {
                 ),
                 status: (row) => (
                   <StatusBadge
-                    status={getActiveOrLatestRev(row)?.status.toLowerCase()}
+                    status={getStatus(row)?.toLowerCase()}
                     className="PlansTable__table-status"
                   >
-                    {capitalize(getActiveOrLatestRev(row)?.status)}
+                    {capitalize(getStatus(row))}
                   </StatusBadge>
                 )
               }}

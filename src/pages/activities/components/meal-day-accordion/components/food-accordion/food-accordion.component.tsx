@@ -37,19 +37,21 @@ export default function FoodAccordion({
     name: `${name}.info`
   })
 
-  const onChange = (name: string, value: string | boolean) => {
+  const onChange = (name: string, value: string | boolean | number) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
 
   useEffect(() => {
-    methods.setValue(
+    onChange(
       `${name}.info.calories`,
-      (info.proteins || 0) * 4 +
-        (info.net_carbs || 0) * 4 +
-        (info.fat || 0) * 9,
-      { shouldValidate: true }
+      (info.proteins || 0) * 4 + (info.net_carbs || 0) * 4 + (info.fat || 0) * 9
     )
-  }, [info.proteins, info.net_carbs, info.fat])
+
+    onChange(
+      `${name}.info.total_carbs`,
+      (+info.net_carbs || 0) + (+info.fiber || 0)
+    )
+  }, [info.proteins, info.net_carbs, info.fat, info.fiber])
 
   const { errors } = methods.formState
 
@@ -66,7 +68,7 @@ export default function FoodAccordion({
                 <AutoCompleteInput
                   id="Food-name"
                   label="Food name"
-                  placeholder="Food one"
+                  placeholder="-"
                   options={[
                     { label: 'Brown Rice', value: 'Brown Rice' },
                     { label: 'Fried Eggs', value: 'Fried Eggs' }
@@ -194,6 +196,7 @@ export default function FoodAccordion({
                     error={get(errors, name)}
                     ErrorProps={{ size: 'sm' }}
                     format={formatter().number().min(0).max(10000)}
+                    disabled
                   />
                 )}
                 name={`${name}.info.total_carbs`}
