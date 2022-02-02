@@ -36,7 +36,7 @@ export default function WorkoutTemplateDialog(
       <ClientSelect
         id="client-select"
         onChange={onClient || onClientChange}
-        placeholder="All Client"
+        placeholder="Select Client"
         className="client-select"
       />
       {body}

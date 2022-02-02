@@ -6,6 +6,7 @@ import Checkbox from '../../../../../components/form/checkbox/checkbox.component
 import Label from '../../../../../components/form/label/label.component'
 import RadioGroup from '../../../../../components/form/radio-group/radio-group.component'
 import Select from '../../../../../components/form/select/select.component'
+import { toast } from '../../../../../components/toast/toast.component'
 import { Routes } from '../../../../../enums/routes.enum'
 import useDietPlan from '../../../../../hooks/api/activities/useDietPlan'
 import useDietPlans from '../../../../../hooks/api/activities/useDietPlans'
@@ -41,16 +42,23 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
   })
 
   const dpOptions = useMemo(() => {
-    return dietPlans.map((dp: any) => ({
+    const options = dietPlans.map((dp: any) => ({
       label: dp.name,
       value: dp._id
     }))
+    return [{ label: 'No selected', value: '' }, ...options]
   }, [dietPlans])
+
+  const reset = () => {
+    setDate('')
+    setSelectedDP('')
+    setDays([])
+  }
 
   const getAlertMessage = () => {
     let msg =
       applyOption === 'new'
-        ? `This will make a new training plan for ${client.name} and add the selected meal plan to it. 
+        ? `This will create a new diet plan for ${client.name} and add the selected meal plan to it. 
         You can make changes to the order and details after confirming below.`
         : dietPlan.name
         ? `This will make changes to ${client.name}’s “${
@@ -82,6 +90,14 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
   }
 
   const onConfirm = () => {
+    if (
+      !client.id ||
+      (applyOption === 'existing' && (!selectedDP || !days.length))
+    ) {
+      toast.show({ type: 'error', msg: 'Please fill in all fields!' })
+      return
+    }
+
     let dPdays: any[] = []
 
     if (applyOption !== 'new') {
@@ -127,7 +143,10 @@ const MealPlanUseTemplateDialog = ({ open, onClose }: IProps) => {
       name="Use meal plan template"
       title={mealPlan.name}
       description="You’re about to use the following meal plan template"
-      onClient={(value, option) => setClient({ id: value, name: option.label })}
+      onClient={(value, option) => {
+        setClient({ id: value, name: option.label })
+        reset()
+      }}
       body={
         <div style={{ marginBottom: '1.5rem' }}>
           <div className="options-todo">
