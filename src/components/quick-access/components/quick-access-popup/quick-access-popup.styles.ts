@@ -3,9 +3,13 @@ import styled from 'styled-components'
 import { media } from '../../../../assets/styles/_media'
 // import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export default styled.div<{ open: boolean; fullscreen?: boolean }>`
+export default styled.div<{
+  open: boolean
+  fullscreen?: boolean
+  backgroundColor?: string
+}>`
   border-radius: 10px;
-  background-color: white;
+  background-color: ${({ backgroundColor }) => backgroundColor || 'white'};
   position: absolute ${({ fullscreen }) => (fullscreen ? '!important' : '')};
   bottom: 0;
   right: 0;

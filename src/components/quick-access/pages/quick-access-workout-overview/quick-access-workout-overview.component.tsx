@@ -117,7 +117,15 @@ const QuickAccessWorkoutOverview: FC<Props> = () => {
           <Button className="button-group__button" variant="secondary">
             {t('quickaccess:workout-overview.mark-completed')}
           </Button>
-          <Button className="button-group__button">
+          <Button
+            className="button-group__button"
+            onClick={() =>
+              setRoute(quickAccessRoutes.WORKOUT_LOGGING_CARDIO, {
+                id: routeParams.id,
+                name: routeParams.name
+              })
+            }
+          >
             {t('quickaccess:workout-overview.start-workout')}
           </Button>
         </div>

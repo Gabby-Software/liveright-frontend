@@ -50,6 +50,11 @@
       "add-superset-btn": "Add Superset"
     }
   },
+  "logging-cardio": {
+    "video-link": "View video",
+    "intensity": "Intensity",
+    "mark-completed-btn": "Mark Completed"
+  },
   "log-meal": {
     "title": "Meals",
     "search-placeholder": "Search existing meals",

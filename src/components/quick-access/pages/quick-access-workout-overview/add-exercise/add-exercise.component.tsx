@@ -1,5 +1,4 @@
 import { FormikProvider, useFormik } from 'formik'
-import moment from 'moment'
 import { FC, useState } from 'react'
 
 import { AddIcon, SearchIcon } from '../../../../../assets/media/icons'
@@ -14,14 +13,11 @@ const WorkoutOverviewAddExercise: FC = () => {
   const { t } = useTranslation()
   const formik = useFormik({
     initialValues: {
-      date: '',
       exercise: '',
       sets: '',
       reps: '',
       tempo: '',
-      restInterval: '',
-      time: '',
-      intensity: ''
+      restInterval: ''
     },
     // validationSchema: formValidations,
     onSubmit: (values) => {

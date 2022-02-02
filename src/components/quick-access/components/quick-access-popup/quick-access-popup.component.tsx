@@ -13,6 +13,7 @@ import QuickAccessLogHealthHeartRate from '../../pages/quick-access-log-health/q
 import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick-access-log-health-sleep/quick-access-log-health-sleep.component'
 import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import QuickAccessLogMeal from '../../pages/quick-access-log-meal/quick-access-log-meal.component'
+import QuickAccessLoggingCardio from '../../pages/quick-access-logging-cardio/quick-access-logging-cardio.component'
 import QuickAccessWorkoutOverviewAddExercise from '../../pages/quick-access-workout-overview/add-exercise/add-exercise.component'
 import QuickAccessWorkoutOverview from '../../pages/quick-access-workout-overview/quick-access-workout-overview.component'
 import { useQuickAccess } from '../../quick-access.context'
@@ -54,18 +55,27 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
         return QuickAccessWorkoutOverview
       case quickAccessRoutes.WORKOUT_OVERVIEW_ADD_EXERCISE:
         return QuickAccessWorkoutOverviewAddExercise
+      case quickAccessRoutes.WORKOUT_LOGGING_CARDIO:
+        return QuickAccessLoggingCardio
       default:
         return React.Fragment
     }
   }, [route])
 
   return (
-    <Styles open={open} fullscreen={fullscreen}>
+    <Styles
+      open={open}
+      fullscreen={fullscreen}
+      backgroundColor={
+        route === quickAccessRoutes.WORKOUT_LOGGING_CARDIO &&
+        getColorCarry('neutral_100')
+      }
+    >
       <Times
         color={
-          route === quickAccessRoutes.WORKOUT_OVERVIEW
-            ? getColorCarry('neutral_50')
-            : ''
+          (route === quickAccessRoutes.WORKOUT_OVERVIEW ||
+            route === quickAccessRoutes.WORKOUT_LOGGING_CARDIO) &&
+          getColorCarry('neutral_50')
         }
         onClick={() => setOpen(false)}
       >

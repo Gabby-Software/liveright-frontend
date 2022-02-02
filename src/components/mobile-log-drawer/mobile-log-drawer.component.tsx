@@ -14,6 +14,7 @@ const MobileLogDrawer = ({ isOpen, onClose }: MobileLogDrawerPropsType) => {
 
   switch (route) {
     case quickAccessRoutes.WORKOUT_OVERVIEW:
+    case quickAccessRoutes.WORKOUT_LOGGING_CARDIO:
       return <QuickAccessPopup fullscreen />
     default:
       return (
