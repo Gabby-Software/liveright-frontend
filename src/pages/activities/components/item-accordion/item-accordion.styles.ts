@@ -9,10 +9,6 @@ export const Styles = styled(Card)<any>`
   margin-bottom: 1rem;
   color: ${getColorCarry('neutral_100')};
 
-  &:last-child {
-    margin-bottom: 0;
-  }
-
   .ItemAccordion {
     &__summary {
       padding: 1.25rem 1rem;
@@ -36,6 +32,11 @@ export const Styles = styled(Card)<any>`
       &-title {
         font-size: 1rem;
         font-weight: 500;
+
+        &-container {
+          display: flex;
+          align-items: center;
+        }
       }
 
       &-actions {
@@ -52,6 +53,17 @@ export const Styles = styled(Card)<any>`
           height: 18px;
         }
       }
+    }
+
+    &__drag {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      background-color: transparent;
+      border: 0;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      color: ${getColorCarry('neutral_70')};
     }
 
     &__divider {

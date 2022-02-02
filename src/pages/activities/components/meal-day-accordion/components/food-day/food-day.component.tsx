@@ -23,24 +23,23 @@ export default function FoodDay({
 }: FoodDayProps) {
   const methods = useFormContext()
 
-  const info = useWatch({
+  const targets = useWatch({
     control: methods.control,
-    name: `${name}.info`
+    name: `${name}.custom_target`
   })
 
-  const onChange = (fieldName: string, value: string | boolean) => {
+  const onChange = (fieldName: string, value: string | boolean | number) => {
     methods.setValue(fieldName, value, { shouldValidate: true })
   }
 
   useEffect(() => {
-    methods.setValue(
-      `${name}.info.calories`,
-      (info?.proteins || 0) * 4 +
-        (info?.net_carbs || 0) * 4 +
-        (info?.fat || 0) * 9,
-      { shouldValidate: true }
+    onChange(
+      `${name}.custom_target.calories`,
+      (targets?.proteins || 0) * 4 +
+        (targets?.net_carbs || 0) * 4 +
+        (targets?.fat || 0) * 9
     )
-  }, [info?.proteins, info?.net_carbs, info?.fat])
+  }, [targets?.proteins, targets?.net_carbs, targets?.fat])
 
   const { errors } = methods.formState
 
@@ -63,7 +62,7 @@ export default function FoodDay({
             shouldScrollTo={get(errors, name)}
           />
         )}
-        name={`${name}.info.proteins`}
+        name={`${name}.custom_target.proteins`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -82,7 +81,7 @@ export default function FoodDay({
             shouldScrollTo={get(errors, name)}
           />
         )}
-        name={`${name}.info.fat`}
+        name={`${name}.custom_target.fat`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -101,7 +100,7 @@ export default function FoodDay({
             shouldScrollTo={get(errors, name)}
           />
         )}
-        name={`${name}.info.net_carbs`}
+        name={`${name}.custom_target.net_carbs`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -116,7 +115,7 @@ export default function FoodDay({
             format={formatter().number().min(0).max(10000)}
           />
         )}
-        name={`${name}.info.sugar`}
+        name={`${name}.custom_target.sugar`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -131,7 +130,7 @@ export default function FoodDay({
             format={formatter().number().min(0).max(10000)}
           />
         )}
-        name={`${name}.info.fiber`}
+        name={`${name}.custom_target.fiber`}
       />
       <Controller
         render={({ field: { value, name } }) => (
@@ -147,7 +146,7 @@ export default function FoodDay({
             disabled={true}
           />
         )}
-        name={`${name}.info.calories`}
+        name={`${name}.custom_target.calories`}
       />
     </Styles>
   )

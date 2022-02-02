@@ -160,6 +160,7 @@ const MobileMoreDrawer = ({ isOpen, onClose }: MobileMoreDrawerPropsType) => {
                   )
                 ) : (
                   <NavSubMenu
+                    key={index}
                     name={name}
                     Icon={Icon}
                     url={url || ''}

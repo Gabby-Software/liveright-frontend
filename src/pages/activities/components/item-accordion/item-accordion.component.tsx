@@ -4,12 +4,14 @@ import {
   CaretDownIcon,
   DeleteOutlinedIcon
 } from '../../../../assets/media/icons'
+import { DragIcon } from '../../../../assets/media/icons/activities'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import { Styles } from './item-accordion.styles'
 
 interface ItemAccordionProps {
   content: ReactNode
   title: string
+  dragHandleProps?: any
   onRemove?: boolean
   iconDesc?: string
   divider?: boolean
@@ -18,6 +20,7 @@ interface ItemAccordionProps {
 export default function ItemAccordion({
   content,
   title,
+  dragHandleProps,
   iconDesc,
   divider,
   onRemove
@@ -26,7 +29,13 @@ export default function ItemAccordion({
   return (
     <Styles $open={open}>
       <div className="ItemAccordion__summary">
-        <p className="ItemAccordion__summary-title">{title}</p>
+        <div className="ItemAccordion__summary-title-container">
+          <button className="ItemAccordion__drag" {...dragHandleProps}>
+            <DragIcon />
+          </button>
+
+          <p className="ItemAccordion__summary-title">{title}</p>
+        </div>
 
         <div className="ItemAccordion__summary-actions">
           {onRemove && (

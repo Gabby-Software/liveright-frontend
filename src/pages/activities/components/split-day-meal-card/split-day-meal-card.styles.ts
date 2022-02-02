@@ -6,7 +6,7 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
   display: grid;
-  grid-template-columns: 2fr 5fr;
+  grid-template-columns: 2fr 6fr;
   padding: 1.5rem 1.875rem;
   border-radius: 10px;
   background-color: ${getColorCarry('neutral_10')};

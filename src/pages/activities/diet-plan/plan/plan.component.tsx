@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import Dialog from '../../../../components/dialogs/dialog/dialog.component'
 import Select from '../../../../components/form/select/select.component'
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { toast } from '../../../../components/toast/toast.component'
@@ -21,6 +22,7 @@ import ActivitiesClient from '../../components/activities-client/activities-clie
 import Alert from '../../components/alert/alert.component'
 import DayDietPlanCard from '../../components/day-diet-plan-card/day-diet-plan-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
+import SplitDayMealCard from '../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../styles/plan.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
 import DietPlanDayView from '../day-view/diet-plan-day-view.component'
@@ -33,6 +35,7 @@ export default function DietPlan() {
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
+  const [selectedFood, setSelectedFood] = useState<any>(null)
   const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -92,6 +95,23 @@ export default function DietPlan() {
     () => getVersionOptions(dietPlan.revisions || []),
     [dietPlan]
   )
+
+  const onFoodPlusClicked = (food: any) => {
+    /**
+     * The plus button is place on food item, so when clicked, we get
+     * food item. But the UI to display it was decied to be the one
+     * that shows a meal as a whole. So here he need to disguise out food item
+     * as a meal, so that it can be used properly in the meal component.
+     */
+
+    console.log(food)
+
+    setSelectedFood({
+      name: food.data.name,
+      items: [food],
+      total_target: food.data?.info || {}
+    })
+  }
 
   if (edit || typeof edit === 'number') {
     return (
@@ -257,6 +277,7 @@ export default function DietPlan() {
                 <DayDietPlanCard
                   key={row._id}
                   onExpand={() => setExpandedDayIndex(index)}
+                  onFoodClick={onFoodPlusClicked}
                   day={row}
                 />
               ))}
@@ -271,12 +292,22 @@ export default function DietPlan() {
             {revision.days?.map((row: any, index: number) => (
               <DayDietPlanCard
                 onExpand={() => setExpandedDayIndex(index)}
+                onFoodClick={onFoodPlusClicked}
                 day={row}
                 key={row._id}
               />
             ))}
           </>
         )}
+
+        <Dialog
+          open={!!selectedFood}
+          onClose={() => setSelectedFood(null)}
+          title="Food Detail"
+          extended
+        >
+          <SplitDayMealCard data={selectedFood} />
+        </Dialog>
 
         {isMobile && (
           <Button onClick={() => setConfirmDialog(true)}>Make active</Button>

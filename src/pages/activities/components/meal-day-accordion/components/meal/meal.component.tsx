@@ -1,18 +1,12 @@
 import { get } from 'lodash'
 import { useMemo, useState } from 'react'
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult
-} from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import {
   Controller,
   useFieldArray,
   useFormContext,
   useWatch
 } from 'react-hook-form'
-import { v4 as uuid } from 'uuid'
 
 import {
   AddIcon,
@@ -30,6 +24,10 @@ import Food from '../food/food.component'
 import { MealSubtitle, Styles } from './meal.styles'
 
 interface MealProps {
+  dragHandleProps: any
+  innerRef?: any
+  draggableProps: any
+  dropId: string
   name: string
   index: number
   data?: any
@@ -56,14 +54,23 @@ function createFood() {
 }
 
 const MACROS_LABEL_KEY_MAP = {
-  Calories: 'calories',
-  Carbs: 'net_carbs',
+  Proteins: 'proteins',
   Fat: 'fat',
-  Proteins: 'proteins'
+  'Net Carbs': 'net_carbs',
+  Sugar: 'sugar',
+  Fiber: 'fiber',
+  'Total Carbs': 'total_carbs',
+  Calories: 'calories'
 }
 
-export default function Meal({ name, onRemove, index }: MealProps) {
-  const [dropId] = useState(uuid())
+export default function Meal({
+  innerRef,
+  dragHandleProps,
+  draggableProps,
+  dropId,
+  name,
+  onRemove
+}: MealProps) {
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
     proteins: 0,
@@ -81,13 +88,6 @@ export default function Meal({ name, onRemove, index }: MealProps) {
     control: methods.control,
     name: `${name}.items`
   })
-
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-    foodsArray.move(result.source.index, (result.destination as any).index)
-  }
 
   const [mealName] = useWatch({
     control: methods.control,
@@ -210,9 +210,9 @@ export default function Meal({ name, onRemove, index }: MealProps) {
   }, [days])
 
   return (
-    <Styles>
+    <Styles ref={innerRef} {...draggableProps} {...dragHandleProps}>
       <div className="Meal__header">
-        <div className="subtitle">{mealName || `Meal ${index + 1}`}</div>
+        <div className="subtitle">{mealName}</div>
 
         <IconButton className="Meal__delete-btn" onClick={onRemove}>
           <DeleteOutlinedIcon />
@@ -261,7 +261,7 @@ export default function Meal({ name, onRemove, index }: MealProps) {
       </div>
 
       <div className="Meal__macronutrients">
-        {['Calories', 'Carbs', 'Fat', 'Proteins'].map((row) => (
+        {Object.keys(MACROS_LABEL_KEY_MAP).map((row) => (
           <div key={row} className="Meal__macronutrient">
             <p className="Meal__macronutrient-title">{row}</p>
             <p className="Meal__macronutrient-value">
@@ -288,34 +288,32 @@ export default function Meal({ name, onRemove, index }: MealProps) {
       <MealSubtitle>Food</MealSubtitle>
 
       <div className="Meal__food-container">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId={dropId}>
-            {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                {foodsArray.fields &&
-                  foodsArray.fields.map((row: any, index: number) => (
-                    <Draggable
-                      key={row.id}
-                      draggableId={`${row.id}`}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <Food
-                          innerRef={provided.innerRef}
-                          dragHandleProps={provided.dragHandleProps}
-                          draggableProps={provided.draggableProps}
-                          isDragging={snapshot.isDragging}
-                          name={`${name}.items.${[index]}.data`}
-                          onRemove={() => handleFoodRemove(index)}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <Droppable droppableId={dropId} type="Food">
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {foodsArray.fields &&
+                foodsArray.fields.map((row: any, index: number) => (
+                  <Draggable
+                    key={row.id}
+                    draggableId={`${row.id}`}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <Food
+                        innerRef={provided.innerRef}
+                        dragHandleProps={provided.dragHandleProps}
+                        draggableProps={provided.draggableProps}
+                        isDragging={snapshot.isDragging}
+                        name={`${name}.items.${[index]}.data`}
+                        onRemove={() => handleFoodRemove(index)}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
 
         {!foodsArray.fields.length && (
           <div className="Meal__clickable-container" onClick={handleFoodAdd}>

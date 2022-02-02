@@ -9,6 +9,7 @@ interface IProps {
   data: any
   actionComponent?: React.ReactNode
   contentClass?: string
+  mode?: 'normal' | 'dayTarget'
 }
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
@@ -22,7 +23,16 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
 }
 
 export default function SplitDayDietCard(props: IProps) {
-  const { data, scheduleTime, actionComponent, contentClass } = props
+  const {
+    data,
+    scheduleTime,
+    actionComponent,
+    contentClass,
+    mode = 'normal'
+  } = props
+
+  const targets = mode === 'normal' ? data.total_targets : data.custom_target
+
   return (
     <SplitDayCard
       scheduleTime={scheduleTime}
@@ -38,9 +48,9 @@ export default function SplitDayDietCard(props: IProps) {
               <Macronutrient
                 key={k}
                 title={MACROS_KEY_LABEL[k]}
-                amount={`${
-                  data.total_target?.[k] ? data.total_target?.[k] : 0
-                }${k === 'calories' ? 'kcal' : 'g'}`}
+                amount={`${targets?.[k] ? targets?.[k] : 0}${
+                  k === 'calories' ? 'kcal' : 'g'
+                }`}
               />
             ))}
           </div>

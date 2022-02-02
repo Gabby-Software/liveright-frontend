@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
-export const Styles = styled.div`
+export const Styles = styled.div<any>`
   .MealDayAccordion {
     &__macronutrients {
       display: flex;
@@ -52,4 +52,11 @@ export const Styles = styled.div`
       margin-top: 20px;
     }
   }
+
+  ${(props) =>
+    props.$isDragging &&
+    css`
+      border: 1px dashed ${getColorCarry('orange_60')};
+      padding: 1rem 1rem 0 1rem;
+    `};
 `

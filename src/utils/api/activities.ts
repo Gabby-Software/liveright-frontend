@@ -42,6 +42,24 @@ export const getActiveOrLatestRev = (plan: {
   )
 }
 
+export const getStatus = (plan: {
+  status: string
+  revisions: {
+    status: string
+    [key: string]: any
+  }[]
+  [key: string]: any
+}) => {
+  const activeRev = findRevByStatus(plan.revisions, 'active')
+  const scheduledRevs = findRevByStatus(plan.revisions, 'scheduled')
+
+  if (activeRev.length && scheduledRevs.length) {
+    return 'Active/Scheduled'
+  }
+
+  return getActiveOrLatestRev(plan)?.status
+}
+
 export const getVersionOptions = (revisions: any[]) => {
   const schduledRev = findRevByStatus(revisions, 'scheduled')
   const inActiveRev = findRevByStatus(revisions, 'inactive')
@@ -77,55 +95,65 @@ export function formatPlanData(data: any) {
     delete dataClone.account_id
   }
 
+  /**
+   * day.is_day_target is only applicable for Diet Plans
+   */
   dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
+      ...(day.is_day_target &&
+        day.custom_target && {
+          is_day_target: day.is_day_target,
+          custom_target: day.custom_target
+        }),
       save_as_template: day.save_as_template,
-      activities: day.activities.map((activity: any, index: number) => {
-        return {
-          name: activity.name,
-          time: activity.time,
-          sort_order: index,
-          save_as_template: activity.save_as_template,
-          items: activity.items.map((item: any, index: number) => {
+      activities: day.is_day_target
+        ? []
+        : day.activities.map((activity: any, index: number) => {
             return {
+              name: activity.name,
+              time: activity.time,
               sort_order: index,
-              ...(typeof item.is_superset === 'boolean' && {
-                is_superset: item.is_superset
-              }),
-              data: !item.is_superset
-                ? {
-                    name: item.data.name,
-                    save_as_template: item.data.save_as_template,
-                    ...(typeof item.data.link === 'string' && {
-                      link: item.data.link
-                    }),
-                    info: Object.keys(item.data.info).reduce((acc, cur) => {
-                      return {
-                        ...acc,
-                        [cur]: isNaN(Number(item.data.info[cur]))
-                          ? item.data.info[cur]
-                          : Number(item.data.info[cur])
+              save_as_template: activity.save_as_template,
+              items: activity.items.map((item: any, index: number) => {
+                return {
+                  sort_order: index,
+                  ...(typeof item.is_superset === 'boolean' && {
+                    is_superset: item.is_superset
+                  }),
+                  data: !item.is_superset
+                    ? {
+                        name: item.data.name,
+                        save_as_template: item.data.save_as_template,
+                        ...(typeof item.data.link === 'string' && {
+                          link: item.data.link
+                        }),
+                        info: Object.keys(item.data.info).reduce((acc, cur) => {
+                          return {
+                            ...acc,
+                            [cur]: isNaN(Number(item.data.info[cur]))
+                              ? item.data.info[cur]
+                              : Number(item.data.info[cur])
+                          }
+                        }, {})
                       }
-                    }, {})
-                  }
-                : item.data.map((data: any, index: number) => {
-                    return {
-                      sort_order: index,
-                      name: data.name,
-                      link: data.link,
-                      info: Object.keys(data.info).reduce((acc, cur) => {
+                    : item.data.map((data: any, index: number) => {
                         return {
-                          ...acc,
-                          [cur]: Number(data.info[cur])
+                          sort_order: index,
+                          name: data.name,
+                          link: data.link,
+                          info: Object.keys(data.info).reduce((acc, cur) => {
+                            return {
+                              ...acc,
+                              [cur]: Number(data.info[cur])
+                            }
+                          }, {})
                         }
-                      }, {})
-                    }
-                  })
+                      })
+                }
+              })
             }
           })
-        }
-      })
     }
   })
 
