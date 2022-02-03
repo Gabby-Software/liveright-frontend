@@ -49,7 +49,7 @@ export default function useDietPlan(
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
-      const payload = formatPlanData(data)
+      const payload = formatPlanData(data, 'number')
       console.log(payload)
       const response = await addDietPlan(payload)
 
@@ -86,7 +86,11 @@ export default function useDietPlan(
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
 
-      const response = await editDietPlan(id, revisionId, formatPlanData(data))
+      const response = await editDietPlan(
+        id,
+        revisionId,
+        formatPlanData(data, 'number')
+      )
       history.push(
         getRoute(Routes.ACTIVITIES_DP_ID, {
           clientId: config.clientId,
