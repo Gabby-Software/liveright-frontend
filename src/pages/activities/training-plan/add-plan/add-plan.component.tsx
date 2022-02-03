@@ -22,6 +22,7 @@ import DatePicker from '../../../../components/form/date-picker/date-picker.comp
 import Error from '../../../../components/form/error/error.component'
 import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -61,24 +62,31 @@ const validationSchema = yup.object().shape({
           // items: yup.array()
           items: yup.array().of(
             yup.object().shape({
-              data: yup.object().shape({
-                //       name: yup.string().required(),
-                //       link: yup.lazy((v) =>
-                //         !v
-                //           ? yup.string().nullable()
-                //           : yup
-                //               .string()
-                //               .matches(URL_REGEX, 'Enter a valid link')
-                //               .nullable()
-                //       ),
-                info: yup.object().shape({
-                  tempo: yup.string().matches(/^([0-9x]){4}$/, {
-                    message: 'Only 4 digits with x allowed'
+              is_superset: yup.boolean(),
+              data: yup.mixed().when('is_superset', (is_superset: boolean) => {
+                const basicSchema = yup.object().shape({
+                  //       name: yup.string().required(),
+                  //       link: yup.lazy((v) =>
+                  //         !v
+                  //           ? yup.string().nullable()
+                  //           : yup
+                  //               .string()
+                  //               .matches(URL_REGEX, 'Enter a valid link')
+                  //               .nullable()
+                  //       ),
+                  info: yup.object().shape({
+                    tempo: yup
+                      .string()
+                      .matches(/^$|^([0-9x]){4}$/, {
+                        message: 'Only 4 digits with x allowed'
+                      })
+                      .nullable()
+                    //         sets: yup.string(),
+                    //         reps: yup.string(),
+                    //         rest_interval: yup.string()
                   })
-                  //         sets: yup.string(),
-                  //         reps: yup.string(),
-                  //         rest_interval: yup.string()
                 })
+                return is_superset ? yup.array().of(basicSchema) : basicSchema
               })
             })
           )
@@ -188,9 +196,13 @@ export default function AddTrainingPlan({
     }
   }
 
-  const handleSave = () => {
-    if (Object.keys(errors).length) {
-      methods.trigger()
+  const handleSave = async () => {
+    const isValid = await methods.trigger()
+    if (!isValid) {
+      toast.show({
+        type: 'error',
+        msg: 'Please fill out all the required fields'
+      })
       return
     }
     if (editId) {
@@ -199,8 +211,6 @@ export default function AddTrainingPlan({
       methods.handleSubmit(handleSubmit)()
     }
   }
-
-  console.log(errors)
 
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1

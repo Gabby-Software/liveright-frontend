@@ -24,6 +24,7 @@ import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import AutoCompleteInput from '../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Error from '../../../../../components/form/error/error.component'
 import { EmptyPlaceholder } from '../../../../../components/placeholders'
+import { toast } from '../../../../../components/toast/toast.component'
 import useTemplateWorkout from '../../../../../hooks/api/templates/workouts/useTemplateWorkout'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -46,7 +47,37 @@ const defaultValues = {
 
 const validationSchema = yup.object().shape({
   name: yup.string(),
-  time: yup.string().nullable()
+  time: yup.string().nullable(),
+  items: yup.array().of(
+    yup.object().shape({
+      is_superset: yup.boolean(),
+      data: yup.mixed().when('is_superset', (is_superset: boolean) => {
+        const basicSchema = yup.object().shape({
+          //       name: yup.string().required(),
+          //       link: yup.lazy((v) =>
+          //         !v
+          //           ? yup.string().nullable()
+          //           : yup
+          //               .string()
+          //               .matches(URL_REGEX, 'Enter a valid link')
+          //               .nullable()
+          //       ),
+          info: yup.object().shape({
+            tempo: yup
+              .string()
+              .matches(/^$|^([0-9x]){4}$/, {
+                message: 'Only 4 digits with x allowed'
+              })
+              .nullable()
+            //         sets: yup.string(),
+            //         reps: yup.string(),
+            //         rest_interval: yup.string()
+          })
+        })
+        return is_superset ? yup.array().of(basicSchema) : basicSchema
+      })
+    })
+  )
 })
 
 function createExercise(isSuperset: boolean | number, cardio: boolean) {
@@ -115,8 +146,57 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
 
   const { errors } = methods.formState
 
-  const handleSave = () => {
-    methods.handleSubmit((values) => onEdit(id, values, () => onClose()))()
+  const onInValidForm = () => {
+    toast.show({
+      type: 'error',
+      msg: 'Please fill out all the required fields'
+    })
+  }
+
+  const onValidForm = (values: any) => {
+    const formattedValues = {
+      ...values,
+      items: values.items.map((item: any, index: number) => {
+        return {
+          sort_order: index,
+          ...(typeof item.is_superset === 'boolean' && {
+            is_superset: item.is_superset
+          }),
+          data: !item.is_superset
+            ? {
+                name: item.data.name,
+                save_as_template: item.data.save_as_template,
+                ...(typeof item.data.link === 'string' && {
+                  link: item.data.link
+                }),
+                info: Object.keys(item.data.info).reduce((acc, cur) => {
+                  return {
+                    ...acc,
+                    [cur]: String(item.data.info[cur] || '')
+                  }
+                }, {})
+              }
+            : item.data.map((data: any, index: number) => {
+                return {
+                  sort_order: index,
+                  name: data.name,
+                  link: data.link,
+                  info: Object.keys(data.info).reduce((acc, cur) => {
+                    return {
+                      ...acc,
+                      [cur]: String(data.info[cur] || '')
+                    }
+                  }, {})
+                }
+              })
+        }
+      })
+    }
+    onEdit(id, formattedValues, () => onClose())
+  }
+
+  const handleSave = async () => {
+    methods.handleSubmit(onValidForm, onInValidForm)()
   }
 
   const onDragEnd = (result: DropResult) => {

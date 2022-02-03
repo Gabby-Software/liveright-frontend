@@ -88,13 +88,15 @@ export const getVersionOptions = (revisions: any[]) => {
     .concat(scheduledOptions)
 }
 
-export function formatPlanData(data: any) {
+export function formatPlanData(
+  data: any,
+  infoType: 'string' | 'number' = 'string'
+) {
   const dataClone = cloneDeep(data)
 
   if (!dataClone.account_id) {
     delete dataClone.account_id
   }
-
   /**
    * day.is_day_target is only applicable for Diet Plans
    */
@@ -131,9 +133,10 @@ export function formatPlanData(data: any) {
                         info: Object.keys(item.data.info).reduce((acc, cur) => {
                           return {
                             ...acc,
-                            [cur]: isNaN(Number(item.data.info[cur]))
-                              ? item.data.info[cur]
-                              : Number(item.data.info[cur])
+                            [cur]:
+                              infoType === 'string'
+                                ? String(item.data.info[cur] || '')
+                                : Number(item.data.info[cur]) || 0
                           }
                         }, {})
                       }
@@ -145,7 +148,10 @@ export function formatPlanData(data: any) {
                           info: Object.keys(data.info).reduce((acc, cur) => {
                             return {
                               ...acc,
-                              [cur]: Number(data.info[cur])
+                              [cur]:
+                                infoType === 'string'
+                                  ? String(data.info[cur] || '')
+                                  : Number(data.info[cur]) || 0
                             }
                           }, {})
                         }
