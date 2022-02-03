@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import {
   DragDropContext,
   Draggable,
@@ -7,26 +7,26 @@ import {
   DropResult
 } from 'react-beautiful-dnd'
 import {
-  Controller,
+  // Controller,
   useFieldArray,
-  useFormContext,
-  useWatch
+  useFormContext
+  // useWatch
 } from 'react-hook-form'
 
 import {
-  AddIcon,
-  DeleteOutlinedIcon
+  AddIcon
+  // DeleteOutlinedIcon
 } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
-import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
-import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
-import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
+// import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
+// import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+// import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Error from '../../../../../../components/form/error/error.component'
-import Label from '../../../../../../components/form/label/label.component'
-import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+// import Label from '../../../../../../components/form/label/label.component'
+// import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
-import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
-import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
+// import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
+// import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
 import { Styles } from './workout.styles'
@@ -73,20 +73,22 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
 
   const exercisesArray = useFieldArray({
     control: methods.control,
-    name: `${name}.items`
+    name: `${name}`
   })
 
-  const workoutName = useWatch({
-    name: `${name}.name`,
-    control: methods.control
-  })
+  console.log('exercisesArray', exercisesArray)
 
-  const days = useWatch({
-    name: `days`,
-    control: methods.control
-  })
+  // const workoutName = useWatch({
+  //   name: `${name}.name`,
+  //   control: methods.control
+  // })
 
-  const { workouts } = useTemplateWorkouts()
+  // const days = useWatch({
+  //   name: `days`,
+  //   control: methods.control
+  // })
+
+  // const { workouts } = useTemplateWorkouts()
 
   const { errors } = methods.formState
 
@@ -107,72 +109,72 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     exercisesArray.remove(index)
   }
 
-  const onWorkoutNameSelected = (value: string) => {
-    // find in templates
-    let workout = workouts.find((w: any) => w.name === value)
-    if (!workout) {
-      // else not found, check in current TP
-      const workoutsOfPlan = days?.reduce(
-        (acc: any[], d: any) => [
-          ...acc,
-          ...(d.activities || d.training_plan_day.activities || [])
-        ],
-        []
-      )
-      workout = workoutsOfPlan.find((w: any) => w.name === value)
-    }
+  // const onWorkoutNameSelected = (value: string) => {
+  //   // find in templates
+  //   let workout = workouts.find((w: any) => w.name === value)
+  //   if (!workout) {
+  //     // else not found, check in current TP
+  //     const workoutsOfPlan = days?.reduce(
+  //       (acc: any[], d: any) => [
+  //         ...acc,
+  //         ...(d.activities || d.training_plan_day.activities || [])
+  //       ],
+  //       []
+  //     )
+  //     workout = workoutsOfPlan.find((w: any) => w.name === value)
+  //   }
 
-    if (workout) {
-      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
-      methods.setValue(`${name}.name`, workout.name)
-      methods.setValue(`${name}.time`, workout.time)
-      exercisesArray.remove(
-        Array(exercisesArray.fields.length)
-          .fill(0)
-          .reduce((acc, v, i) => [...acc, i], [])
-      )
-      exercisesArray.append(workout.items)
-    }
-  }
+  //   if (workout) {
+  //     // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+  //     methods.setValue(`${name}.name`, workout.name)
+  //     methods.setValue(`${name}.time`, workout.time)
+  //     exercisesArray.remove(
+  //       Array(exercisesArray.fields.length)
+  //         .fill(0)
+  //         .reduce((acc, v, i) => [...acc, i], [])
+  //     )
+  //     exercisesArray.append(workout.items)
+  //   }
+  // }
 
-  const nameOptions = useMemo(() => {
-    const workoutsOfPlan = days?.reduce(
-      (acc: any[], d: any) => [
-        ...acc,
-        ...(d.activities || d.training_plan_day.activities || [])
-      ],
-      []
-    )
-    const planOptions = workoutsOfPlan
-      ?.filter((w: any) => w.name)
-      ?.map((w: any) => ({
-        label: w.name,
-        value: w.name
-      }))
+  // const nameOptions = useMemo(() => {
+  //   const workoutsOfPlan = days?.reduce(
+  //     (acc: any[], d: any) => [
+  //       ...acc,
+  //       ...(d.activities || d.training_plan_day.activities || [])
+  //     ],
+  //     []
+  //   )
+  //   const planOptions = workoutsOfPlan
+  //     ?.filter((w: any) => w.name)
+  //     ?.map((w: any) => ({
+  //       label: w.name,
+  //       value: w.name
+  //     }))
 
-    const templateOptions = workouts.map((w: any) => ({
-      label: w.name,
-      value: w.name
-    }))
+  //   const templateOptions = workouts.map((w: any) => ({
+  //     label: w.name,
+  //     value: w.name
+  //   }))
 
-    const options = []
+  //   const options = []
 
-    if (planOptions.length) {
-      options.push({
-        label: 'From this Training Plan',
-        options: getUniqueItemsByProperties(planOptions, ['label'])
-      })
-    }
+  //   if (planOptions.length) {
+  //     options.push({
+  //       label: 'From this Training Plan',
+  //       options: getUniqueItemsByProperties(planOptions, ['label'])
+  //     })
+  //   }
 
-    if (templateOptions.length) {
-      options.push({
-        label: 'From Templates',
-        options: getUniqueItemsByProperties(templateOptions, ['label'])
-      })
-    }
+  //   if (templateOptions.length) {
+  //     options.push({
+  //       label: 'From Templates',
+  //       options: getUniqueItemsByProperties(templateOptions, ['label'])
+  //     })
+  //   }
 
-    return options.length ? options : []
-  }, [days])
+  //   return options.length ? options : []
+  // }, [days])
 
   const supersetIndexes = exercisesArray.fields
     .map((row: any, index) => (row.is_superset ? index : null))
@@ -180,7 +182,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
 
   return (
     <Styles>
-      <div className="Workout__header">
+      {/* <div className="Workout__header">
         <div className="subtitle">{workoutName || `Workout ${index + 1}`}</div>
 
         <div className="Workout__header-checkbox-cell">
@@ -208,9 +210,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             <DeleteOutlinedIcon />
           </IconButton>
         </div>
-      </div>
+      </div> */}
 
-      <div className="Workout__title">
+      {/* <div className="Workout__title">
         <Controller
           name={`${name}.name`}
           render={({ field: { value, name } }) => (
@@ -225,9 +227,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
             />
           )}
         />
-      </div>
+      </div> */}
 
-      <div className="Workout__schedule-container">
+      {/* <div className="Workout__schedule-container">
         <Controller
           name={`${name}.time`}
           render={({ field: { name, value } }) => (
@@ -242,15 +244,15 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
               }}
             />
           )}
-        />
+        /> */}
 
-        {/* <Select
+      {/* <Select
           disabled
           id="Workout-days"
           options={[]}
           value={{ label: 'Apply to all days', value: 'Apply to all days' }}
         /> */}
-      </div>
+      {/* </div> */}
 
       <div className="Workout__exercises">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -274,7 +276,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                           row.is_superset ? (
                             <Superset
                               key={row.id}
-                              name={`${name}.items.${index}`}
+                              name={`${name}.${index}`}
                               dragHandleProps={provided.dragHandleProps}
                               draggableProps={provided.draggableProps}
                               isDragging={snapshot.isDragging}
@@ -289,7 +291,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                               draggableProps={provided.draggableProps}
                               innerRef={provided.innerRef}
                               isDragging={snapshot.isDragging}
-                              name={`${name}.items.${index}.data`}
+                              name={`${name}.${index}.data`}
                               onRemove={() => handleExerciseRemove(index)}
                               prefix={
                                 index === 0 ||

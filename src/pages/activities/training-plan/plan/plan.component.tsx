@@ -36,9 +36,9 @@ export default function TrainingPlan() {
   const [activationDate, setActivationDate] = useState<string>(
     new Date().toISOString()
   )
-  const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
-    false
-  )
+  const [expandedActivityIndex, setExpandedActivityIndex] = useState<
+    boolean | number
+  >(false)
   const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -111,15 +111,15 @@ export default function TrainingPlan() {
     )
   }
 
-  if (expandedDayIndex || typeof expandedDayIndex === 'number') {
+  if (expandedActivityIndex || typeof expandedActivityIndex === 'number') {
     return (
       <TrainingPlanDayView
-        onClose={() => setExpandedDayIndex(false)}
-        index={expandedDayIndex as number}
-        setIndex={setExpandedDayIndex}
+        onClose={() => setExpandedActivityIndex(false)}
+        index={expandedActivityIndex as number}
+        setIndex={setExpandedActivityIndex}
         onEdit={() => {
-          setEdit(expandedDayIndex)
-          setExpandedDayIndex(false)
+          setEdit(expandedActivityIndex)
+          setExpandedActivityIndex(false)
         }}
       />
     )
@@ -272,13 +272,22 @@ export default function TrainingPlan() {
 
           {!isMobile && (
             <div className="PlanPage__cards">
-              {revision.days?.map((row: any, index: number) => (
-                <DayTrainingPlanCard
-                  onExpand={() => setExpandedDayIndex(index)}
-                  key={row._id}
-                  day={row}
-                />
-              ))}
+              {revision.days &&
+                revision.days[0]?.activities?.map((row: any, index: number) => (
+                  <DayTrainingPlanCard
+                    onExpand={() => setExpandedActivityIndex(index)}
+                    key={row._id}
+                    activity={row}
+                  />
+                ))}
+              {revision.activities &&
+                revision.activities?.map((row: any, index: number) => (
+                  <DayTrainingPlanCard
+                    onExpand={() => setExpandedActivityIndex(index)}
+                    key={row._id}
+                    activity={row}
+                  />
+                ))}
             </div>
           )}
         </Card>
@@ -287,13 +296,22 @@ export default function TrainingPlan() {
           <>
             <p className="PlanPage__subtitle">List of workout days</p>
 
-            {revision.days?.map((row: any, index: number) => (
-              <DayTrainingPlanCard
-                onExpand={() => setExpandedDayIndex(index)}
-                day={row}
-                key={row._id}
-              />
-            ))}
+            {revision.days &&
+              revision.days[0]?.activities?.map((row: any, index: number) => (
+                <DayTrainingPlanCard
+                  onExpand={() => setExpandedActivityIndex(index)}
+                  key={row._id}
+                  activity={row}
+                />
+              ))}
+            {revision.activities &&
+              revision.activities?.map((row: any, index: number) => (
+                <DayTrainingPlanCard
+                  onExpand={() => setExpandedActivityIndex(index)}
+                  key={row._id}
+                  activity={row}
+                />
+              ))}
           </>
         )}
 

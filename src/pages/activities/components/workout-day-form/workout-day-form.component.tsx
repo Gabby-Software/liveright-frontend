@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { AddIcon } from '../../../../assets/media/icons'
+// import { AddIcon } from '../../../../assets/media/icons'
 import Error from '../../../../components/form/error/error.component'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import Workout from '../workout-day-accordion/components/workout/workout.component'
@@ -12,16 +12,16 @@ interface WorkoutDayFormProps {
   name: string
 }
 
-function createWorkout() {
-  return {
-    id: Date.now(),
-    name: '',
-    time: '',
-    sort_order: '',
-    save_as_template: false,
-    items: []
-  }
-}
+// function createWorkout() {
+//   return {
+//     id: Date.now(),
+//     name: '',
+//     time: '',
+//     sort_order: '',
+//     save_as_template: false,
+//     items: []
+//   }
+// }
 
 export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
   const isMobile = useIsMobile()
@@ -33,10 +33,10 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
     name
   })
 
-  const handleDayAdd = () => {
-    workoutsArray.append(createWorkout())
-    methods.clearErrors(name)
-  }
+  // const handleDayAdd = () => {
+  //   workoutsArray.append(createWorkout())
+  //   methods.clearErrors(name)
+  // }
 
   const handleDayRemove = (index: number) => {
     workoutsArray.remove(index)
@@ -47,7 +47,7 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
 
   return (
     <Styles>
-      {workoutsArray.fields.map((row, index) =>
+      {/* {workoutsArray.fields.map((row, index) =>
         isMobile ? (
           <WorkoutAccordion
             key={row.id}
@@ -63,15 +63,29 @@ export default function WorkoutDayForm({ name }: WorkoutDayFormProps) {
             onRemove={() => handleDayRemove(index)}
           />
         )
+      )} */}
+
+      {isMobile ? (
+        <WorkoutAccordion
+          index={0}
+          name={`${name}`}
+          onRemove={() => handleDayRemove(0)}
+        />
+      ) : (
+        <Workout
+          index={0}
+          name={`${name}`}
+          onRemove={() => handleDayRemove(0)}
+        />
       )}
 
-      <div
+      {/* <div
         className="WorkoutDayForm__add-workout"
         onClick={() => handleDayAdd()}
       >
         <AddIcon />
         Add Another Workout
-      </div>
+      </div> */}
 
       {typeof get(errors, name) === 'object' &&
         !Array.isArray(get(errors, name)) && (

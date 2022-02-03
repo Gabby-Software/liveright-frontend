@@ -28,11 +28,11 @@ export default function WorkoutDayAccordion({
   const { errors } = methods.formState
 
   const dayName = useWatch({
-    name: `days.${index}.name`,
+    name: `activities.${index}.name`,
     control: methods.control
   })
 
-  const name = `days.${index}.activities`
+  const name = `activities.${index}.items`
 
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
@@ -44,16 +44,16 @@ export default function WorkoutDayAccordion({
       icon={<WorkoutIcon />}
       iconColor={getColorCarry('orange_60')}
       onRemove={onRemove}
-      error={get(errors, `days.${index}`) ? 'Enter all fields' : ''}
+      error={get(errors, `activities.${index}`) ? 'Enter all fields' : ''}
       defaultOpen={defaultOpened}
     >
       <Styles>
         <Controller
-          name={`days.${index}.name`}
+          name={`activities.${index}.name`}
           render={({ field: { name, value } }) => (
             <Input
               id="WorkoutDayAccordion-name"
-              label="Workout Day Name"
+              label="Workout Name"
               placeholder="Name"
               className="WorkoutDayAccordion__name-input"
               value={value}
@@ -71,16 +71,16 @@ export default function WorkoutDayAccordion({
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
               <Label className="WorkoutDayAccordion__checkbox">
-                Save Workout Day as template
+                Save Workout as template
               </Label>
             </div>
           )}
-          name={`days.${index}.save_as_template`}
+          name={`activities.${index}.save_as_template`}
         />
 
-        <p className="WorkoutDayAccordion__subtitle">
+        {/* <p className="WorkoutDayAccordion__subtitle">
           List workouts of this training plan
-        </p>
+        </p> */}
 
         <WorkoutDayForm name={name} />
       </Styles>

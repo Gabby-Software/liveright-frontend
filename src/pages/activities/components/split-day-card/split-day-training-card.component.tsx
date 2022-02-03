@@ -22,9 +22,9 @@ export default function SplitDayTrainingCard(props: IProps) {
       contentClass={contentClass}
       content={
         <div>
-          {data.activities?.map((a: any, idx: number) => (
-            <SplitDayWorkoutCard key={idx} data={a} />
-          ))}
+          {/* {data.activities?.map((a: any, idx: number) => ( */}
+          <SplitDayWorkoutCard data={data} />
+          {/* ))} */}
         </div>
       }
     />
