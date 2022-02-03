@@ -107,9 +107,9 @@ const defaultValues: any = {
 
 function createDay(dayIndex: number) {
   return {
-    name: `Workout day ${dayIndex}`,
+    name: `Workout ${dayIndex}`,
     save_as_template: false,
-    activities: []
+    items: []
   }
 }
 
@@ -164,6 +164,11 @@ export default function AddTrainingPlan({
     name: 'days'
   })
 
+  const activitiesArray = useFieldArray({
+    control: methods.control,
+    name: 'activities'
+  })
+
   useEffect(() => {
     if (clientId) {
       methods.setValue('account_id', parseInt(clientId))
@@ -177,6 +182,7 @@ export default function AddTrainingPlan({
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
       methods.setValue('days', revision.days)
+      methods.setValue('activities', revision.days[0]?.activities)
     }
   }, [revision._id])
 
@@ -214,7 +220,7 @@ export default function AddTrainingPlan({
 
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
-    daysArray.append(createDay(newDayIndex))
+    activitiesArray.append(createDay(newDayIndex))
     methods.clearErrors('days')
     setDayIndex(newDayIndex)
   }
@@ -379,9 +385,9 @@ export default function AddTrainingPlan({
             </div>
           </Card>
 
-          {daysArray.fields.map((day, index) => (
+          {activitiesArray.fields.map((activity, index) => (
             <WorkoutDayAccordion
-              key={day.id}
+              key={activity.id}
               index={index}
               defaultOpened={editDay === index}
               onRemove={() => handleDayRemove(index)}
@@ -390,7 +396,7 @@ export default function AddTrainingPlan({
 
           <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
             <AddIcon />
-            Add Workout Day
+            Add Workout
           </div>
           {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
             <Error standalone="Add at least one day" />

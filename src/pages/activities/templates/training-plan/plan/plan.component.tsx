@@ -35,9 +35,14 @@ export default function TrainingPlan() {
   const content = (
     <>
       <div className="PlanPage__cards">
-        {trainingPlan?.days?.map((day: any, i: number) => (
-          <DayTrainingPlanCard day={day} border="both" key={i} />
-        ))}
+        {trainingPlan?.days &&
+          trainingPlan?.days[0]?.activities?.map((row: any, i: number) => (
+            <DayTrainingPlanCard activity={row} border="both" key={i} />
+          ))}
+        {trainingPlan?.activities &&
+          trainingPlan?.activities?.map((row: any, i: number) => (
+            <DayTrainingPlanCard activity={row} border="both" key={i} />
+          ))}
       </div>
       <SplitTemplateDialog
         name="Use training plan template"

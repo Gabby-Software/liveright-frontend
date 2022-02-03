@@ -90,6 +90,11 @@ export default function TrainingPlanTemplateForm({
     name: 'days'
   })
 
+  const activitiesArray = useFieldArray({
+    control: methods.control,
+    name: 'activities'
+  })
+
   const { id } = useParams<any>()
   const { trainingPlan, onEdit } = useTemplateTrainingPlan(id)
 
@@ -102,6 +107,7 @@ export default function TrainingPlanTemplateForm({
           .map((v, i) => i)
       )
       daysArray.append(trainingPlan.days)
+      methods.setValue('activities', trainingPlan.days[0]?.activities)
     }
   }, [trainingPlan._id])
 
@@ -193,9 +199,9 @@ export default function TrainingPlanTemplateForm({
             </div>
           </Card>
 
-          {daysArray.fields.map((day, index) => (
+          {activitiesArray.fields.map((activity, index) => (
             <WorkoutDayAccordion
-              key={day.id}
+              key={activity.id}
               index={index}
               defaultOpened={false}
               onRemove={() => handleDayRemove(index)}
@@ -204,7 +210,7 @@ export default function TrainingPlanTemplateForm({
 
           <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
             <AddIcon />
-            Add Workout Day
+            Add Workout
           </div>
           {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
             <Error standalone="Add at least one day" />

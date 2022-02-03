@@ -1,13 +1,13 @@
-import moment from 'moment'
+// import moment from 'moment'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 
-import { CaretLeftIcon } from '../../../../assets/media/icons'
+// import { CaretLeftIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
-import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+// import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
-import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+// import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -26,7 +26,7 @@ interface TrainingPlanDayViewProps {
 export default function TrainingPlanDayView({
   onClose,
   index,
-  setIndex,
+  // setIndex,
   onEdit
 }: TrainingPlanDayViewProps) {
   const isMobile = useIsMobile()
@@ -40,27 +40,12 @@ export default function TrainingPlanDayView({
     revisionId: params.revisionId
   })
 
-  const { day, activites: activities } = useMemo(() => {
-    const day = revision?.days?.[index]
-    const activites: any[] =
-      day?.activities?.map((a: any) => ({
-        day: {
-          activities: [a],
-          name: a.name
-        },
-        time: a.time,
-        type: 'workout'
-      })) || []
-
-    activites.sort(
-      (a, b) =>
-        Date.parse('1970/01/01 ' + a.time || '00:00') -
-        Date.parse('1970/01/01 ' + b.time || '00:00')
-    )
-
+  const { activity } = useMemo(() => {
+    const activity = revision?.activities
+      ? revision?.activities?.[index]
+      : revision?.days?.[0]?.activities?.[index]
     return {
-      day,
-      activites
+      activity
     }
   }, [index, revision])
 
@@ -86,7 +71,7 @@ export default function TrainingPlanDayView({
       </Card>
 
       <Card>
-        <div>
+        {/* <div>
           <Title className="TrainingSplitDayView__day-title">
             <span>{`Day ${index + 1}`}</span>
 
@@ -109,9 +94,9 @@ export default function TrainingPlanDayView({
               </IconButton>
             </div>
           </Title>
-        </div>
+        </div> */}
 
-        <div className="TrainingSplitDayView__day-subtitle-container">
+        {/* <div className="TrainingSplitDayView__day-subtitle-container">
           <p className="TrainingSplitDayView__day-subtitle">
             {moment(revision.scheduled_start_on)
               .add(index, 'day')
@@ -129,19 +114,16 @@ export default function TrainingPlanDayView({
           </div>
         </div>
 
-        <div className="TrainingSplitDayView__divider" />
+        <div className="TrainingSplitDayView__divider" /> */}
 
         <div className="TrainingSplitDayView__cards">
           {!scheduleView ? (
-            <SplitDayTrainingCard data={day} />
+            <SplitDayTrainingCard data={activity} />
           ) : (
-            activities.map((a: any, i: number) => (
-              <SplitDayTrainingCard
-                key={i}
-                data={a.day}
-                scheduleTime={a.time || 'Not Set'}
-              />
-            ))
+            <SplitDayTrainingCard
+              data={activity?.day}
+              scheduleTime={activity?.time || 'Not Set'}
+            />
           )}
         </div>
       </Card>

@@ -1,4 +1,4 @@
-import { ClockIcon } from '../../../../assets/media/icons'
+// import { ClockIcon } from '../../../../assets/media/icons'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { Styles } from './split-day-workout-card.styles'
 import ExerciseMobileCards from './workout-mobile-card/workout-mobile-card'
@@ -11,13 +11,13 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
   const isMobile = useIsMobile()
   return (
     <Styles>
-      <div className="SplitDayWorkoutCard__card">
+      {/* <div className="SplitDayWorkoutCard__card">
         <p className="SplitDayWorkoutCard__title">{data.name}</p>
         <p className="SplitDayWorkoutCard__subtitle">
           <ClockIcon />
           {data.time ? `Scheduled for ${data.time}` : 'Not Scheduled'}
         </p>
-      </div>
+      </div> */}
       <div className="SplitDayWorkoutCard__card">
         <div className="SplitDayWorkoutCard__content">
           {isMobile ? (

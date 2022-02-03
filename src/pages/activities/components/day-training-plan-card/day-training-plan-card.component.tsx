@@ -3,19 +3,19 @@ import DayCardAccordion from '../day-card-accordion/day-card-accordion.component
 import { Styles } from './day-training-plan-card.styles'
 
 interface DayTrainingPlanCardProps {
-  day: any
+  activity: any
   onExpand?: () => void
   border?: 'both' | 'mobile' | 'desktop'
 }
 
 export default function DayTrainingPlanCard({
-  day,
+  activity,
   onExpand,
   border = 'desktop'
 }: DayTrainingPlanCardProps) {
   return (
     <DayCard
-      title={day.name}
+      title={activity.name}
       onExpand={onExpand}
       border={border}
       content={
@@ -23,26 +23,23 @@ export default function DayTrainingPlanCard({
           <div className="day-tp-card__content">
             <div className="day-tp-card__workout">
               <div>
-                {day.activities.map((row: any) => (
-                  <DayCardAccordion
-                    key={row._id}
-                    title={row.name}
-                    count={countExercise(row.items ?? [])}
-                    content={row.items?.map((row: any) => ({
-                      content: !row.is_superset
-                        ? [
-                            {
-                              title: row.data?.name ?? row.name,
-                              subtitle: formatExercise(row)
-                            }
-                          ]
-                        : row.data.map((d: any) => ({
-                            title: d.name,
-                            subtitle: formatExercise(d)
-                          }))
-                    }))}
-                  />
-                ))}
+                <DayCardAccordion
+                  title={''}
+                  count={countExercise(activity.items ?? [])}
+                  content={activity.items?.map((row: any) => ({
+                    content: !row.is_superset
+                      ? [
+                          {
+                            title: row.data?.name ?? row.name,
+                            subtitle: formatExercise(row)
+                          }
+                        ]
+                      : row.data.map((d: any) => ({
+                          title: d.name,
+                          subtitle: formatExercise(d)
+                        }))
+                  }))}
+                />
               </div>
             </div>
           </div>
