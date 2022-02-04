@@ -48,7 +48,8 @@ export default function TrainingSplitDayView({
       day?.training_plan_activities?.map((a: any) => ({
         day: {
           activities: [a],
-          name: a.name
+          name: a.name,
+          items: a.items
         },
         time: a.time,
         type: 'workout'
@@ -191,7 +192,9 @@ export default function TrainingSplitDayView({
         <div className="TrainingSplitDayView__cards">
           {!scheduleView ? (
             <>
-              <SplitDayTrainingCard data={day.training_plan_activities} />
+              {day.training_plan_activities?.map((row: any, index: number) => (
+                <SplitDayTrainingCard key={index} data={row} />
+              ))}
               <SplitDayDietCard data={day.diet_plan_day} />
               <SplitDayOtherCard data={day.items} />
             </>
@@ -200,7 +203,7 @@ export default function TrainingSplitDayView({
               <>
                 {a.type === 'workout' && (
                   <SplitDayTrainingCard
-                    data={a.day?.activities}
+                    data={a.day}
                     scheduleTime={a.time || 'Not Set'}
                   />
                 )}

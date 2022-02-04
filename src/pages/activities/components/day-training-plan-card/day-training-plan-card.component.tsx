@@ -65,11 +65,11 @@ function formatExercise(data: any): string {
     if (ex.info?.duration) {
       const times = ex.info.duration.split(':')
       if (times.length === 2) {
-        result += `Duration: ${times[0] * 60 + +times[1]}s; `
+        result += `Duration: ${times[0] * 60 + +times[1]}; `
       }
     }
     if (ex.info?.intensity) {
-      result += `Intensity: ${ex.info.intensity}s; `
+      result += `Intensity: ${ex.info.intensity}; `
     }
   } else {
     if (ex.info?.sets) {
@@ -79,7 +79,7 @@ function formatExercise(data: any): string {
       result += ` Reps: ${ex.info.reps}; `
     }
     if (ex.info?.rest_interval) {
-      result += ` Rest: ${ex?.info.rest_interval}s; `
+      result += ` Rest: ${ex?.info.rest_interval}; `
     }
   }
 
