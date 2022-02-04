@@ -16,7 +16,6 @@ import { HeaderSubTitle, Styles } from './templates.styles'
 import TrainingPlans from './training-plan/plans/plans.component'
 import TrainingSplits from './training-split/splits/splits.component'
 import Workouts from './workout/workouts.component'
-import WorkoutDays from './workout-days/days/days.component'
 
 const tabs = [
   {
@@ -28,11 +27,6 @@ const tabs = [
     label: 'Training Plans',
     key: 'training',
     renderContent: () => <TrainingPlans />
-  },
-  {
-    label: 'Workout days',
-    key: 'days',
-    renderContent: () => <WorkoutDays />
   },
   {
     label: 'Workouts',

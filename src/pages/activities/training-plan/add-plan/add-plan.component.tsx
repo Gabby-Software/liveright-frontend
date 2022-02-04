@@ -40,7 +40,7 @@ import { Styles } from '../../styles/edit-plan.styles'
 import { ConfirmModal } from '../components/confimation-modal/confirmation-modal.component'
 
 interface AddTrainingPlanProps {
-  editDay?: number
+  editWorkout?: number
   onClose: () => void
   editId?: string
   revisionId?: string
@@ -52,44 +52,26 @@ interface AddTrainingPlanProps {
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
   scheduled_start_on: yup.string().nullable(),
-  days: yup.array().of(
+  activities: yup.array().of(
     yup.object().shape({
-      name: yup.string().required(),
-      activities: yup.array().of(
+      name: yup.string(),
+      time: yup.string().nullable(),
+      items: yup.array().of(
         yup.object().shape({
-          name: yup.string(),
-          time: yup.string().nullable(),
-          // items: yup.array()
-          items: yup.array().of(
-            yup.object().shape({
-              is_superset: yup.boolean(),
-              data: yup.mixed().when('is_superset', (is_superset: boolean) => {
-                const basicSchema = yup.object().shape({
-                  //       name: yup.string().required(),
-                  //       link: yup.lazy((v) =>
-                  //         !v
-                  //           ? yup.string().nullable()
-                  //           : yup
-                  //               .string()
-                  //               .matches(URL_REGEX, 'Enter a valid link')
-                  //               .nullable()
-                  //       ),
-                  info: yup.object().shape({
-                    tempo: yup
-                      .string()
-                      .matches(/^$|^([0-9x]){4}$/, {
-                        message: 'Only 4 digits with x allowed'
-                      })
-                      .nullable()
-                    //         sets: yup.string(),
-                    //         reps: yup.string(),
-                    //         rest_interval: yup.string()
+          is_superset: yup.boolean(),
+          data: yup.mixed().when('is_superset', (is_superset: boolean) => {
+            const basicSchema = yup.object().shape({
+              info: yup.object().shape({
+                tempo: yup
+                  .string()
+                  .matches(/^$|^([0-9x]){4}$/, {
+                    message: 'Only 4 digits with x allowed'
                   })
-                })
-                return is_superset ? yup.array().of(basicSchema) : basicSchema
+                  .nullable()
               })
             })
-          )
+            return is_superset ? yup.array().of(basicSchema) : basicSchema
+          })
         })
       )
     })
@@ -102,31 +84,24 @@ const defaultValues: any = {
   save_as_template: false,
   scheduled_start_on: '',
   scheduled_end_on: '',
-  days: []
+  activities: []
 }
 
-function createDay(dayIndex: number) {
+function createWorkout(workoutIndex: number) {
   return {
-    name: `Workout ${dayIndex}`,
+    name: `Workout ${workoutIndex}`,
     save_as_template: false,
     items: []
   }
 }
 
-function updateDay(name: string, activities: Array<any>) {
-  return {
-    name,
-    activities
-  }
-}
-
 export default function AddTrainingPlan({
-  editDay,
+  editWorkout,
   onClose,
   editId,
   revisionId
 }: AddTrainingPlanProps) {
-  const [dayIndex, setDayIndex] = useState(0)
+  const [workoutIndex, setWorkoutIndex] = useState(0)
   const isMobile = useIsMobile()
   const { clientId } = useParams<any>()
   const history = useHistory()
@@ -159,11 +134,6 @@ export default function AddTrainingPlan({
     control: methods.control
   })
 
-  const daysArray = useFieldArray({
-    control: methods.control,
-    name: 'days'
-  })
-
   const activitiesArray = useFieldArray({
     control: methods.control,
     name: 'activities'
@@ -181,13 +151,13 @@ export default function AddTrainingPlan({
       methods.setValue('account_id', revision.account_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-      methods.setValue('days', revision.days)
-      methods.setValue('activities', revision.days[0]?.activities)
+      methods.setValue('activities', revision.activities)
     }
   }, [revision._id])
 
   const handleSubmit = (values: any) => {
     if (editId && revisionId) {
+      console.log('values', values)
       onEdit(editId, revisionId, values, () => {
         onUnlock()
         onClose()
@@ -218,50 +188,27 @@ export default function AddTrainingPlan({
     }
   }
 
-  const handleDayAdd = () => {
-    const newDayIndex = dayIndex + 1
-    activitiesArray.append(createDay(newDayIndex))
-    methods.clearErrors('days')
-    setDayIndex(newDayIndex)
+  const handleWorkoutAdd = () => {
+    const newWorkoutIndex = workoutIndex + 1
+    activitiesArray.append(createWorkout(newWorkoutIndex))
+    methods.clearErrors('activities')
+    setWorkoutIndex(newWorkoutIndex)
   }
 
-  const handleDayRemove = (index: number) => {
+  const handleWorkoutRemove = (index: number) => {
     setDelIdx(index)
   }
 
   const removeWorkout = () => {
-    daysArray.remove(delIdx)
+    activitiesArray.remove(delIdx)
     setDelIdx(-1)
-    setDayIndex(dayIndex - 1)
-    methods.clearErrors('days')
+    setWorkoutIndex(workoutIndex - 1)
+    methods.clearErrors('activities')
   }
 
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
-
-  useEffect(() => {
-    const days = methods.getValues('days')
-    for (let i = 0; i < days.length; i++) {
-      if (days[i]?.activities) {
-        if (days[i].name) {
-          if (days[i].name.indexOf('Workout day ') < 0) {
-            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
-          } else {
-            daysArray.update(
-              i,
-              updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-            )
-          }
-        } else {
-          daysArray.update(
-            i,
-            updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-          )
-        }
-      }
-    }
-  }, [dayIndex])
 
   const onGoBack = () => {
     if (isDirty) {
@@ -389,18 +336,19 @@ export default function AddTrainingPlan({
             <WorkoutDayAccordion
               key={activity.id}
               index={index}
-              defaultOpened={editDay === index}
-              onRemove={() => handleDayRemove(index)}
+              defaultOpened={editWorkout === index}
+              onRemove={() => handleWorkoutRemove(index)}
             />
           ))}
 
-          <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
+          <div className="EditPlan__add-new-day" onClick={handleWorkoutAdd}>
             <AddIcon />
             Add Workout
           </div>
-          {typeof errors.days === 'object' && !Array.isArray(errors.days) && (
-            <Error standalone="Add at least one day" />
-          )}
+          {typeof errors.activities === 'object' &&
+            !Array.isArray(errors.activities) && (
+              <Error standalone="Add at least one day" />
+            )}
 
           <ConfirmModal
             onExitWithoutSave={() => {
@@ -463,9 +411,9 @@ export default function AddTrainingPlan({
         open={delIdx >= 0}
         onClose={() => setDelIdx(-1)}
         name="Delete Confirmation"
-        title="Are you sure you want to delete the workout day?"
+        title="Are you sure you want to delete the workout?"
         separator={false}
-        body="This will delete the workout day which potentially has workouts"
+        body="This will delete the workout which potentially has exercises"
         actions={{
           yes: 'Cancel',
           cancel: 'Delete',

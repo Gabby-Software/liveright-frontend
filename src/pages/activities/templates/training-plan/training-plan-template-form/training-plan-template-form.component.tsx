@@ -32,14 +32,26 @@ interface TrainingPlanTemplateFormProps {
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
   scheduled_start_on: yup.string().nullable(),
-  days: yup.array().of(
+  activities: yup.array().of(
     yup.object().shape({
-      name: yup.string().required(),
-      activities: yup.array().of(
+      name: yup.string(),
+      time: yup.string().nullable(),
+      items: yup.array().of(
         yup.object().shape({
-          name: yup.string(),
-          time: yup.string().nullable(),
-          items: yup.array()
+          is_superset: yup.boolean(),
+          data: yup.mixed().when('is_superset', (is_superset: boolean) => {
+            const basicSchema = yup.object().shape({
+              info: yup.object().shape({
+                tempo: yup
+                  .string()
+                  .matches(/^$|^([0-9x]){4}$/, {
+                    message: 'Only 4 digits with x allowed'
+                  })
+                  .nullable()
+              })
+            })
+            return is_superset ? yup.array().of(basicSchema) : basicSchema
+          })
         })
       )
     })
@@ -48,28 +60,21 @@ const validationSchema = yup.object().shape({
 
 const defaultValues: any = {
   name: '',
-  days: []
+  activities: []
 }
 
-function createDay(dayIndex: number) {
+function createWorkout(workoutIndex: number) {
   return {
-    name: `Workout day ${dayIndex}`,
+    name: `Workout ${workoutIndex}`,
     save_as_template: false,
     activities: []
-  }
-}
-
-function updateDay(name: string, activities: Array<any>) {
-  return {
-    name,
-    activities
   }
 }
 
 export default function TrainingPlanTemplateForm({
   onClose
 }: TrainingPlanTemplateFormProps) {
-  const [dayIndex, setDayIndex] = useState(0)
+  const [workoutIndex, setWorkoutIndex] = useState(0)
   const [delIdx, setDelIdx] = useState(-1)
 
   const isMobile = useIsMobile()
@@ -85,11 +90,6 @@ export default function TrainingPlanTemplateForm({
     control: methods.control
   })
 
-  const daysArray = useFieldArray({
-    control: methods.control,
-    name: 'days'
-  })
-
   const activitiesArray = useFieldArray({
     control: methods.control,
     name: 'activities'
@@ -101,13 +101,7 @@ export default function TrainingPlanTemplateForm({
   useEffect(() => {
     if (trainingPlan._id) {
       methods.setValue('name', trainingPlan.name)
-      daysArray.remove(
-        Array(daysArray.fields.length)
-          .fill(1)
-          .map((v, i) => i)
-      )
-      daysArray.append(trainingPlan.days)
-      methods.setValue('activities', trainingPlan.days[0]?.activities)
+      methods.setValue('activities', trainingPlan.activities)
     }
   }, [trainingPlan._id])
 
@@ -115,50 +109,27 @@ export default function TrainingPlanTemplateForm({
     methods.handleSubmit((values) => onEdit(id, values, () => onClose()))()
   }
 
-  const handleDayAdd = () => {
-    const newDayIndex = dayIndex + 1
-    daysArray.append(createDay(newDayIndex))
-    methods.clearErrors('days')
-    setDayIndex(newDayIndex)
+  const handleWorkoutAdd = () => {
+    const newDayIndex = workoutIndex + 1
+    activitiesArray.append(createWorkout(newDayIndex))
+    methods.clearErrors('activities')
+    setWorkoutIndex(newDayIndex)
   }
 
-  const handleDayRemove = (index: number) => {
+  const handleWorkoutRemove = (index: number) => {
     setDelIdx(index)
   }
 
   const removeWorkout = () => {
-    daysArray.remove(delIdx)
+    activitiesArray.remove(delIdx)
     setDelIdx(-1)
-    setDayIndex(dayIndex - 1)
-    methods.clearErrors('days')
+    setWorkoutIndex(workoutIndex - 1)
+    methods.clearErrors('activities')
   }
 
   const onChange = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
-
-  useEffect(() => {
-    const days = methods.getValues('days')
-    for (let i = 0; i < days.length; i++) {
-      if (days[i]?.activities) {
-        if (days[i].name) {
-          if (days[i].name.indexOf('Workout day ') < 0) {
-            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
-          } else {
-            daysArray.update(
-              i,
-              updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-            )
-          }
-        } else {
-          daysArray.update(
-            i,
-            updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-          )
-        }
-      }
-    }
-  }, [dayIndex])
 
   const content = (
     <>
@@ -204,11 +175,11 @@ export default function TrainingPlanTemplateForm({
               key={activity.id}
               index={index}
               defaultOpened={false}
-              onRemove={() => handleDayRemove(index)}
+              onRemove={() => handleWorkoutRemove(index)}
             />
           ))}
 
-          <div className="EditPlan__add-new-day" onClick={handleDayAdd}>
+          <div className="EditPlan__add-new-day" onClick={handleWorkoutAdd}>
             <AddIcon />
             Add Workout
           </div>
@@ -222,9 +193,9 @@ export default function TrainingPlanTemplateForm({
         open={delIdx >= 0}
         onClose={() => setDelIdx(-1)}
         name="Delete Confirmation"
-        title="Are you sure you want to delete the workout day?"
+        title="Are you sure you want to delete the workout?"
         separator={false}
-        body="This will delete the workout day which potentially has workouts"
+        body="This will delete the workout which potentially has exercises"
         actions={{
           yes: 'Cancel',
           cancel: 'Delete',

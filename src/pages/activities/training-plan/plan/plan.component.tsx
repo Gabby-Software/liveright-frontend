@@ -103,7 +103,7 @@ export default function TrainingPlan() {
   if (edit || typeof edit === 'number') {
     return (
       <AddTrainingPlan
-        editDay={typeof edit === 'number' ? edit : undefined}
+        editWorkout={typeof edit === 'number' ? edit : undefined}
         editId={params.id}
         revisionId={params.revisionId}
         onClose={() => setEdit(false)}
@@ -272,14 +272,14 @@ export default function TrainingPlan() {
 
           {!isMobile && (
             <div className="PlanPage__cards">
-              {revision.days &&
+              {/* {revision.days &&
                 revision.days[0]?.activities?.map((row: any, index: number) => (
                   <DayTrainingPlanCard
                     onExpand={() => setExpandedActivityIndex(index)}
                     key={row._id}
                     activity={row}
                   />
-                ))}
+                ))} */}
               {revision.activities &&
                 revision.activities?.map((row: any, index: number) => (
                   <DayTrainingPlanCard
@@ -294,16 +294,16 @@ export default function TrainingPlan() {
 
         {isMobile && (
           <>
-            <p className="PlanPage__subtitle">List of workout days</p>
+            <p className="PlanPage__subtitle">List of workouts</p>
 
-            {revision.days &&
+            {/* {revision.days &&
               revision.days[0]?.activities?.map((row: any, index: number) => (
                 <DayTrainingPlanCard
                   onExpand={() => setExpandedActivityIndex(index)}
                   key={row._id}
                   activity={row}
                 />
-              ))}
+              ))} */}
             {revision.activities &&
               revision.activities?.map((row: any, index: number) => (
                 <DayTrainingPlanCard
