@@ -8,7 +8,7 @@ export default styled.div<{
   fullscreen?: boolean
   backgroundColor?: string
 }>`
-  border-radius: 10px;
+  border-radius: ${({ fullscreen }) => (fullscreen ? '0' : '10px')};
   background-color: ${({ backgroundColor }) => backgroundColor || 'white'};
   position: absolute ${({ fullscreen }) => (fullscreen ? '!important' : '')};
   bottom: 0;
@@ -29,7 +29,7 @@ export default styled.div<{
         box-shadow: none;
         padding-top: 25px;
   `}
-  top: ${({ fullscreen }) => (fullscreen ? 'calc(0px - 91.5vh)' : '')};
+  top: ${({ fullscreen }) => (fullscreen ? 'calc(0px - 91.6vh)' : '')};
 `
 export const Times = styled.span<{ color?: string }>`
   position: absolute;

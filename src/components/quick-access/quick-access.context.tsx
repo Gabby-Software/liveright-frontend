@@ -37,6 +37,8 @@ export type QuickAccessContextType = {
   setClient: Dispatch<null | AccountObjType>
   workoutsData: any[]
   mealsData: any[]
+  workoutProgress: number
+  setWorkoutProgress: Dispatch<number>
 }
 
 // Dummy data
@@ -178,6 +180,7 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
   const [todayHealthData, setTodayHealthData] = useState<Partial<HealthData>>(
     {}
   )
+  const [workoutProgress, setWorkoutProgress] = useState(0)
 
   const setRoute = (
     route: quickAccessRoutes,
@@ -236,7 +239,9 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
         client,
         setClient,
         workoutsData,
-        mealsData
+        mealsData,
+        workoutProgress,
+        setWorkoutProgress
       }}
     >
       {children}

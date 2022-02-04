@@ -44,6 +44,7 @@ export interface InputProps {
   onKeyPress?: KeyboardEventHandler<HTMLInputElement>
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
   ErrorProps?: Pick<ErrorProps, 'size'>
+  bordered?: boolean
 }
 
 const Input = forwardRef<any, InputProps>(
@@ -74,7 +75,8 @@ const Input = forwardRef<any, InputProps>(
       shouldScrollTo,
       onKeyPress,
       onKeyDown,
-      ErrorProps
+      ErrorProps,
+      bordered
     },
     ref
   ) => {
@@ -137,6 +139,7 @@ const Input = forwardRef<any, InputProps>(
           maxLength={max}
           onKeyPress={onKeyPress}
           onKeyDown={onKeyDown}
+          bordered={bordered}
         />
         {name && <FormError name={name} className="field-error" />}
         {error && <Error name={error} {...ErrorProps} />}

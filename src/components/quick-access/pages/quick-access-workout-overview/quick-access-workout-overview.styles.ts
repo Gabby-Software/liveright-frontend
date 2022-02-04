@@ -37,7 +37,7 @@ export default styled.div`
 
     @media ${mediaQueries.TABLET} {
       max-height: none;
-      height: calc(100vh - 280px)
+      height: calc(100vh - 280px);
     }
   }
 
@@ -109,6 +109,7 @@ export default styled.div`
 
     &-header {
       margin-left: 20px;
+      margin-bottom: 10px;
     }
   }
 
@@ -143,8 +144,8 @@ export default styled.div`
     &__button {
       max-width: 165px;
       @media ${mediaQueries.MOBILE} {
-        max-width: 200px:
         max-width: none;
+        width: 46%;
         flex-grow: 1;
       }
     }

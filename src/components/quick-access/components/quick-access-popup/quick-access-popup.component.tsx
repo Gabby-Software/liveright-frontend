@@ -14,6 +14,7 @@ import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick
 import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import QuickAccessLogMeal from '../../pages/quick-access-log-meal/quick-access-log-meal.component'
 import QuickAccessLoggingCardio from '../../pages/quick-access-logging-cardio/quick-access-logging-cardio.component'
+import QuickAccessLoggingStrength from '../../pages/quick-access-logging-strength/quick-access-logging-strength.component'
 import QuickAccessWorkoutOverviewAddExercise from '../../pages/quick-access-workout-overview/add-exercise/add-exercise.component'
 import QuickAccessWorkoutOverview from '../../pages/quick-access-workout-overview/quick-access-workout-overview.component'
 import { useQuickAccess } from '../../quick-access.context'
@@ -57,6 +58,8 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
         return QuickAccessWorkoutOverviewAddExercise
       case quickAccessRoutes.WORKOUT_LOGGING_CARDIO:
         return QuickAccessLoggingCardio
+      case quickAccessRoutes.WORKOUT_LOGGING_STRENGTH:
+        return QuickAccessLoggingStrength
       default:
         return React.Fragment
     }

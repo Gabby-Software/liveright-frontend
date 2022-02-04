@@ -16,7 +16,7 @@ interface Props {}
 
 const QuickAccessLoggingCardio: FC<Props> = () => {
   const { t } = useTranslation()
-  const { routeParams, setRoute } = useQuickAccess()
+  const { routeParams, setRoute, workoutProgress } = useQuickAccess()
 
   const [showVideo, setShowVideo] = useState(false)
   const [timerStarted, setTimerStarted] = useState(false)
@@ -74,7 +74,7 @@ const QuickAccessLoggingCardio: FC<Props> = () => {
         />
         <div className="qa-logging-cardio__header">
           <h3>{routeParams?.name}</h3>
-          <QuickAccessProgressBar percent={10} />
+          <QuickAccessProgressBar percent={workoutProgress} />
         </div>
 
         <h2>Treadmill Run</h2>

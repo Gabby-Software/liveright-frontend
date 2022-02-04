@@ -120,7 +120,7 @@ const QuickAccessWorkoutOverview: FC<Props> = () => {
           <Button
             className="button-group__button"
             onClick={() =>
-              setRoute(quickAccessRoutes.WORKOUT_LOGGING_CARDIO, {
+              setRoute(quickAccessRoutes.WORKOUT_LOGGING_STRENGTH, {
                 id: routeParams.id,
                 name: routeParams.name
               })
