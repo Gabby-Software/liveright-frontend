@@ -34,12 +34,12 @@ export default function DayTrainingSplitCard(
         <Styles>
           <ListItem
             color={getColorCarry('orange_50')}
-            title="Workout Day"
-            content={[data.training_plan_day.name]}
+            title="Workouts"
+            content={data.training_plan_activities.map((t: any) => t.name)}
             icon={<WorkoutIcon />}
             onClick={
-              onWorkout && data.training_plan_day.name
-                ? () => onWorkout(data.training_plan_day)
+              onWorkout && data.training_plan_activities.name
+                ? () => onWorkout(data.training_plan_activities)
                 : undefined
             }
           />
