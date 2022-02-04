@@ -24,9 +24,10 @@ interface DailyActivity {
 export default function DayTrainingScheduleCard(props: ScheduleCardProps) {
   const { data, day, subtitle, onExpand, onMealPlan, onWorkout } = props
 
+  console.log('aaa')
   const activities = useMemo(() => {
     const workoutActivites: DailyActivity[] =
-      data?.training_plan_day?.activities?.map((a: any) => ({
+      data?.training_plan_activities?.map((a: any) => ({
         title: a.name,
         time: a.time,
         type: 'workout',

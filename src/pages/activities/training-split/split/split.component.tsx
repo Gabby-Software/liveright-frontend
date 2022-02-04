@@ -415,8 +415,8 @@ export default function TrainingSplit() {
         }
         plans={{
           trainings: revision.days?.map((d: any) => ({
-            id: d.training_plan_day._id,
-            title: d.training_plan_day.name
+            id: d.training_plan_activities._id,
+            title: d.training_plan_activities.name
           })),
           meals: revision.days?.map((d: any) => ({
             id: d.diet_plan_day._id,
@@ -461,8 +461,8 @@ export default function TrainingSplit() {
         }}
         plans={{
           trainings: revision.days?.map((d: any) => ({
-            id: d.training_plan_day._id,
-            title: d.training_plan_day.name
+            id: d.training_plan_activities._id,
+            title: d.training_plan_activities.name
           })),
           meals: revision.days?.map((d: any) => ({
             id: d.diet_plan_day._id,

@@ -35,7 +35,7 @@ export default function TrainingSplitDayView({
   const { day, activities } = useMemo(() => {
     const day = revision?.days?.[index]
     const workoutActivites: any[] =
-      day?.training_plan_day.activities?.map((a: any) => ({
+      day?.training_plan_activities.activities?.map((a: any) => ({
         day: {
           activities: [a],
           name: a.name
@@ -173,7 +173,7 @@ export default function TrainingSplitDayView({
         <div className="TrainingSplitDayView__cards">
           {!scheduleView ? (
             <>
-              <SplitDayTrainingCard data={day.training_plan_day} />
+              <SplitDayTrainingCard data={day.training_plan_activities} />
               <SplitDayDietCard data={day.diet_plan_day} />
               <SplitDayOtherCard data={day.items} />
             </>

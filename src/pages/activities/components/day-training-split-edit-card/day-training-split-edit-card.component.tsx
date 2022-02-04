@@ -93,7 +93,7 @@ export default function DayTrainingSplitEditCard(
         <Styles>
           <ListItem
             color={getColorCarry('orange_50')}
-            title="Workout Day"
+            title="Workouts"
             content={data?.training_plan_day?.name || ''}
             name={`${name}.training_plan_day`}
             selectOptions={
