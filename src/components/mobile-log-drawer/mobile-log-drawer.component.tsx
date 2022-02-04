@@ -16,6 +16,8 @@ const MobileLogDrawer = ({ isOpen, onClose }: MobileLogDrawerPropsType) => {
     case quickAccessRoutes.WORKOUT_OVERVIEW:
     case quickAccessRoutes.WORKOUT_LOGGING_CARDIO:
     case quickAccessRoutes.WORKOUT_LOGGING_STRENGTH:
+    case quickAccessRoutes.WORKOUT_LOG_SUPERSET:
+    case quickAccessRoutes.WORKOUT_LOGGING_SUPERSET:
       return <QuickAccessPopup fullscreen />
     default:
       return (

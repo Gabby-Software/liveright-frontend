@@ -7,7 +7,7 @@ import Button from '../../../../buttons/button/button.component'
 import Input from '../../../../form/input/input.component'
 import QuickAccessBack from '../../../components/quick-access-back/quick-access-back.component'
 import { quickAccessRoutes } from '../../../quick-access.routes'
-import Styles from './add-exercise.styles'
+import Styles from './workout-overview-add-exercise.styles'
 
 const WorkoutOverviewAddExercise: FC = () => {
   const { t } = useTranslation()

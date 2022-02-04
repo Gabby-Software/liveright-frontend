@@ -13,10 +13,12 @@ import QuickAccessLogHealthHeartRate from '../../pages/quick-access-log-health/q
 import QuickAccessLogHealthSleep from '../../pages/quick-access-log-health/quick-access-log-health-sleep/quick-access-log-health-sleep.component'
 import QuickAccessLogHealthSteps from '../../pages/quick-access-log-health/quick-access-log-health-steps/quick-access-log-health-steps.component'
 import QuickAccessLogMeal from '../../pages/quick-access-log-meal/quick-access-log-meal.component'
+import QuickAccessLogSuperset from '../../pages/quick-access-log-superset/quick-access-log-superset.component'
 import QuickAccessLoggingCardio from '../../pages/quick-access-logging-cardio/quick-access-logging-cardio.component'
 import QuickAccessLoggingStrength from '../../pages/quick-access-logging-strength/quick-access-logging-strength.component'
-import QuickAccessWorkoutOverviewAddExercise from '../../pages/quick-access-workout-overview/add-exercise/add-exercise.component'
+import QuickAccessLoggingSuperset from '../../pages/quick-access-logging-superset/quick-access-logging-superset.component'
 import QuickAccessWorkoutOverview from '../../pages/quick-access-workout-overview/quick-access-workout-overview.component'
+import QuickAccessWorkoutOverviewAddExercise from '../../pages/quick-access-workout-overview/workout-overview-add-exercise/workout-overview-add-exercise.component'
 import { useQuickAccess } from '../../quick-access.context'
 import { quickAccessRoutes } from '../../quick-access.routes'
 import Styles, { Times } from './quick-access-popup.styles'
@@ -60,6 +62,10 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
         return QuickAccessLoggingCardio
       case quickAccessRoutes.WORKOUT_LOGGING_STRENGTH:
         return QuickAccessLoggingStrength
+      case quickAccessRoutes.WORKOUT_LOG_SUPERSET:
+        return QuickAccessLogSuperset
+      case quickAccessRoutes.WORKOUT_LOGGING_SUPERSET:
+        return QuickAccessLoggingSuperset
       default:
         return React.Fragment
     }
