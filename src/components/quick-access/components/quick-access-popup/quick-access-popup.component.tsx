@@ -17,6 +17,7 @@ import QuickAccessLogSuperset from '../../pages/quick-access-log-superset/quick-
 import QuickAccessLoggingCardio from '../../pages/quick-access-logging-cardio/quick-access-logging-cardio.component'
 import QuickAccessLoggingStrength from '../../pages/quick-access-logging-strength/quick-access-logging-strength.component'
 import QuickAccessLoggingSuperset from '../../pages/quick-access-logging-superset/quick-access-logging-superset.component'
+import QuickAccessMealOverview from '../../pages/quick-access-meal-overview/quick-access-meal-overview.component'
 import QuickAccessWorkoutOverview from '../../pages/quick-access-workout-overview/quick-access-workout-overview.component'
 import QuickAccessWorkoutOverviewAddExercise from '../../pages/quick-access-workout-overview/workout-overview-add-exercise/workout-overview-add-exercise.component'
 import { useQuickAccess } from '../../quick-access.context'
@@ -66,6 +67,8 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
         return QuickAccessLogSuperset
       case quickAccessRoutes.WORKOUT_LOGGING_SUPERSET:
         return QuickAccessLoggingSuperset
+      case quickAccessRoutes.MEAL_OVERVIEW:
+        return QuickAccessMealOverview
       default:
         return React.Fragment
     }
@@ -83,12 +86,15 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
       <Times
         color={
           (route === quickAccessRoutes.WORKOUT_OVERVIEW ||
-            route === quickAccessRoutes.WORKOUT_LOGGING_CARDIO) &&
+            route === quickAccessRoutes.WORKOUT_LOGGING_CARDIO ||
+            route === quickAccessRoutes.MEAL_OVERVIEW) &&
           getColorCarry('neutral_50')
         }
         onClick={() => setOpen(false)}
       >
-        {route === quickAccessRoutes.WORKOUT_OVERVIEW && isMobile ? (
+        {(route === quickAccessRoutes.WORKOUT_OVERVIEW ||
+          route === quickAccessRoutes.MEAL_OVERVIEW) &&
+        isMobile ? (
           <DeleteOutlinedIcon />
         ) : (
           <CrossIcon />

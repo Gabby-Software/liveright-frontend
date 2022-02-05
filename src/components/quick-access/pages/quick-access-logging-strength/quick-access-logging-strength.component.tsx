@@ -4,7 +4,7 @@ import { useTimer } from 'react-timer-hook'
 import { AddIcon, CheckIcon, EditIcon } from '../../../../assets/media/icons'
 import VideoImg from '../../../../assets/media/quick-access-video.png'
 import Formatter from '../../../../managers/formatter.manager'
-// import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
 import Input from '../../../form/input/input.component'
 import QuickAccessExerciseInput from '../../components/quick-access-exercise-input/quick-access-exercise-input.component'
@@ -33,7 +33,7 @@ const backendExercise = {
 }
 
 const QuickAccessLoggingStrength: FC = () => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const { routeParams, setRoute, workoutProgress, setWorkoutProgress } =
     useQuickAccess()
   // timer
@@ -162,16 +162,16 @@ const QuickAccessLoggingStrength: FC = () => {
               className="qa-logging-strength__video-link"
               onClick={() => setShowVideo(true)}
             >
-              View video
+              {t('quickaccess:logging-strength.video-link')}
             </span>
           </div>
           <div className="qa-logging-strength__exercise-info">
             <div>
-              <span>Rest</span>
+              <span>{t('quickaccess:logging-strength.rest')}</span>
               <p>10:00</p>
             </div>
             <div>
-              <span>Tempo</span>
+              <span>{t('quickaccess:logging-strength.tempo')}</span>
               <p>2000</p>
             </div>
           </div>
@@ -182,10 +182,10 @@ const QuickAccessLoggingStrength: FC = () => {
             <table id="sets-table">
               <thead>
                 <tr>
-                  <th>Set</th>
-                  <th>Weight</th>
-                  <th>Reps</th>
-                  <th>Volume</th>
+                  <th>{t('quickaccess:logging-strength.set')}</th>
+                  <th>{t('quickaccess:logging-strength.weight')}</th>
+                  <th>{t('quickaccess:logging-strength.reps')}</th>
+                  <th>{t('quickaccess:logging-strength.volume')}</th>
                   <th />
                 </tr>
               </thead>
@@ -197,7 +197,9 @@ const QuickAccessLoggingStrength: FC = () => {
                       <>
                         <td>{(index + 1).toString().padStart(2, '0')}</td>
                         <td className="current-set">
-                          <span>Logging...</span>
+                          <span>
+                            {t('quickaccess:logging-strength.logging')}
+                          </span>
                         </td>
                         <td />
                         <td />
@@ -297,17 +299,18 @@ const QuickAccessLoggingStrength: FC = () => {
             className="qa-logging-strength__add-set-button"
             onClick={addSet}
           >
-            <AddIcon /> <span>Add additional set</span>
+            <AddIcon />
+            <span>{t('quickaccess:logging-strength.add-set-btn')}</span>
           </button>
         </div>
 
         <div className="qa-logging-strength__footer">
           <div className="qa-logging-strength__volume">
             <div>
-              Previous Volume <span>{1500}</span>
+            {t('quickaccess:logging-strength.previous-volume')} <span>{1500}</span>
             </div>
             <div>
-              Total Volume <span>{totalVolume}</span>
+            {t('quickaccess:logging-strength.total-volume')} <span>{totalVolume}</span>
             </div>
           </div>
 
@@ -353,7 +356,7 @@ const QuickAccessLoggingStrength: FC = () => {
 
           {isResting ? (
             <Button onClick={skipRest} style={{ width: '100%' }}>
-              Skip
+              {t('quickaccess:logging-strength.skip-set-btn')}
             </Button>
           ) : (
             <div className="qa-logging-strength__button-group">
@@ -362,7 +365,7 @@ const QuickAccessLoggingStrength: FC = () => {
                 variant="dark"
                 onClick={() => setRoute(quickAccessRoutes.WORKOUT_LOG_SUPERSET)}
               >
-                Skip Exercise
+                {t('quickaccess:logging-strength.skip-exercise-btn')}
               </Button>
               <Button onClick={goToNextSet}>{`Next ${
                 exerciseSets.length - 1 === currentSetIndex ? 'Exercise' : 'Set'

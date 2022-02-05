@@ -4,7 +4,7 @@ import { useTimer } from 'react-timer-hook'
 import { AddIcon, CheckIcon, EditIcon } from '../../../../assets/media/icons'
 import VideoImg from '../../../../assets/media/quick-access-video.png'
 import Formatter from '../../../../managers/formatter.manager'
-// import { useTranslation } from '../../../../modules/i18n/i18n.hook'
+import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
 import Input from '../../../form/input/input.component'
 import QuickAccessExerciseInput from '../../components/quick-access-exercise-input/quick-access-exercise-input.component'
@@ -39,7 +39,7 @@ const backendExercise = {
 }
 
 const QuickAccessLoggingSuperset: FC = () => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const { routeParams, setRoute, workoutProgress, setWorkoutProgress } =
     useQuickAccess()
   // timer
@@ -166,11 +166,11 @@ const QuickAccessLoggingSuperset: FC = () => {
             <table id="sets-table">
               <thead>
                 <tr>
-                  <th>Exercise</th>
-                  <th>Set</th>
-                  <th>Weight</th>
-                  <th>Reps</th>
-                  <th>Volume</th>
+                  <th>{t('quickaccess:logging-strength.exercise')}</th>
+                  <th>{t('quickaccess:logging-strength.set')}</th>
+                  <th>{t('quickaccess:logging-strength.weight')}</th>
+                  <th>{t('quickaccess:logging-strength.reps')}</th>
+                  <th>{t('quickaccess:logging-strength.volume')}</th>
                   <th />
                 </tr>
               </thead>
@@ -182,7 +182,9 @@ const QuickAccessLoggingSuperset: FC = () => {
                       <>
                         <td>{set.exercise}</td>
                         <td className="current-set">
-                          <span>Logging...</span>
+                          <span>
+                            {t('quickaccess:logging-strength.logging')}
+                          </span>
                         </td>
                         <td />
                         <td />
@@ -290,7 +292,8 @@ const QuickAccessLoggingSuperset: FC = () => {
             className="qa-logging-superset__add-set-button"
             onClick={() => setShowAddSetModal(true)}
           >
-            <AddIcon /> <span>Add additional set</span>
+            <AddIcon />{' '}
+            <span>{t('quickaccess:logging-strength.add-set-btn')}</span>
           </button>
         </div>
 
@@ -302,26 +305,28 @@ const QuickAccessLoggingSuperset: FC = () => {
                 className="qa-logging-superset__video-link"
                 onClick={() => setShowVideo(true)}
               >
-                View video
+                {t('quickaccess:logging-strength.video-link')}
               </span>
             </div>
             <div className="qa-logging-superset__exercise-info">
               <div>
-                <span>Rest</span>
+                <span>{t('quickaccess:logging-strength.rest')}</span>
                 <p>10:00</p>
               </div>
               <div>
-                <span>Tempo</span>
+                <span>{t('quickaccess:logging-strength.tempo')}</span>
                 <p>2000</p>
               </div>
             </div>
           </div>
           <div className="qa-logging-superset__volume">
             <div>
-              Previous Volume <span>{1500}</span>
+              {t('quickaccess:logging-strength.previous-volume')}{' '}
+              <span>{1500}</span>
             </div>
             <div>
-              Total Volume <span>{totalVolume}</span>
+              {t('quickaccess:logging-strength.total-volume')}{' '}
+              <span>{totalVolume}</span>
             </div>
           </div>
 
@@ -367,7 +372,7 @@ const QuickAccessLoggingSuperset: FC = () => {
 
           {isResting ? (
             <Button onClick={skipRest} style={{ width: '100%' }}>
-              Skip
+              {t('quickaccess:logging-strength.skip-set-btn')}
             </Button>
           ) : (
             <div className="qa-logging-superset__button-group">
@@ -378,7 +383,7 @@ const QuickAccessLoggingSuperset: FC = () => {
                   setRoute(quickAccessRoutes.WORKOUT_LOGGING_CARDIO)
                 }
               >
-                Skip Exercise
+                {t('quickaccess:logging-strength.skip-exercise-btn')}
               </Button>
               <Button onClick={goToNextSet}>{`Next ${
                 exerciseSets.length - 1 === currentSetIndex ? 'Exercise' : 'Set'
@@ -402,8 +407,8 @@ const QuickAccessLoggingSuperset: FC = () => {
           onCancel={() => setShowAddSetModal(false)}
           footer={null}
         >
-          <h1>Add set</h1>
-          <h2>Please select for which exercise:</h2>
+          <h1>{t('quickaccess:logging-strength.add-set')}</h1>
+          <h2>{t('quickaccess:logging-strength.select-exercise')}</h2>
 
           <div>
             {backendExercise.sets.map((set, index) => (

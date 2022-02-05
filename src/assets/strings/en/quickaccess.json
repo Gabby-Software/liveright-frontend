@@ -55,11 +55,34 @@
     "intensity": "Intensity",
     "mark-completed-btn": "Mark Completed"
   },
+  "logging-strength": {
+    "video-link": "View video",
+    "rest": "Rest",
+    "tempo": "Tempo",
+    "mark-completed-btn": "Mark Completed",
+    "set": "Set",
+    "weight": "Weight",
+    "reps": "Reps",
+    "volume": "Volume",
+    "exercise": "Exercise",
+    "logging": "Logging...",
+    "add-set-btn": "Add additional Set",
+    "previous-volume": "Previous Volume",
+    "total-volume": "Total Volume",
+    "skip-set-btn": "Skip",
+    "skip-exercise-btn": "Skip Exercise",
+    "add-set": "Add Set",
+    "select-exercise": "Please select for which exercise:"
+  },
   "log-meal": {
     "title": "Meals",
     "search-placeholder": "Search existing meals",
     "today-exercises": "Today’s planned meals",
     "add-new": "Add new meal"
+  },
+  "meal-overview": {
+    "add-food-btn": "Add Food",
+    "mark-completed-btn": "Mark Completed"
   },
   "menu": {
     "log": "Log",
@@ -76,6 +99,7 @@
     "heart-rate": "Heart Rate",
     "sleep": "Sleep Rate",
     "glucose": "Glucose",
-    "overview": "overview"
+    "overview": "overview",
+    "log-meals": "log meals"
   }
 }
