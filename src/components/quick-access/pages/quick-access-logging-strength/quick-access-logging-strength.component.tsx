@@ -307,10 +307,12 @@ const QuickAccessLoggingStrength: FC = () => {
         <div className="qa-logging-strength__footer">
           <div className="qa-logging-strength__volume">
             <div>
-            {t('quickaccess:logging-strength.previous-volume')} <span>{1500}</span>
+              {t('quickaccess:logging-strength.previous-volume')}{' '}
+              <span>{1500}</span>
             </div>
             <div>
-            {t('quickaccess:logging-strength.total-volume')} <span>{totalVolume}</span>
+              {t('quickaccess:logging-strength.total-volume')}{' '}
+              <span>{totalVolume}</span>
             </div>
           </div>
 

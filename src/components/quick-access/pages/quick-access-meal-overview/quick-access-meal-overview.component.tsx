@@ -57,7 +57,14 @@ const QuickAccessMealOverview: FC<Props> = () => {
       </div>
 
       <div className="qa-meal-overview__footer">
-        <button className="qa-meal-overview__add-food-button">
+        <button
+          className="qa-meal-overview__add-food-button"
+          onClick={() =>
+            setRoute(quickAccessRoutes.ADD_FOOD, {
+              parentRoute: 'meal-overview'
+            })
+          }
+        >
           <AddIcon />
           <span>{t('quickaccess:meal-overview.add-food-btn')}</span>
         </button>

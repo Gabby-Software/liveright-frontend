@@ -5,6 +5,7 @@ import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import LogMeasurements from '../../pages/log-measurements/log-measurements.component'
 import QuickAccessAddExercise from '../../pages/quick-access-add-exercise/quick-access-add-exercise.component'
+import QuickAccessAddFood from '../../pages/quick-access-add-food/quick-access-add-food.component'
 import QuickAccessHome from '../../pages/quick-access-home/quick-access-home.component'
 import QuickAccessLogExercise from '../../pages/quick-access-log-exercise/quick-access-log-exercise.component'
 import QuickAccessLogHealth from '../../pages/quick-access-log-health/quick-access-log-health.component'
@@ -69,6 +70,8 @@ const QuickAccessPopup: FC<Props> = ({ fullscreen }) => {
         return QuickAccessLoggingSuperset
       case quickAccessRoutes.MEAL_OVERVIEW:
         return QuickAccessMealOverview
+      case quickAccessRoutes.ADD_FOOD:
+        return QuickAccessAddFood
       default:
         return React.Fragment
     }

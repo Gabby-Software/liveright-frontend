@@ -84,6 +84,24 @@
     "add-food-btn": "Add Food",
     "mark-completed-btn": "Mark Completed"
   },
+  "add-food": {
+    "title": "Add Food",
+    "label-date":"Date",
+    "label-food": "Food",
+    "placeholder-food": "Search food...",
+    "label-quantity": "Qty (gr)",
+    "label-proteins": "Proteins",
+    "label-fat": "Fat",
+    "label-net_carbs": "Net carbs",
+    "label-sugar": "Sugar",
+    "label-fiber": "Fiber",
+    "label-total_carbs": "Carbs",
+    "label-calories": "Calories",
+    "meal-overview": "Your Meal Overview",
+    "add-btn": "Add Food Only",
+    "add-log-btn": "Add & Log Food",
+    "add-food": "Add Food"
+  },
   "menu": {
     "log": "Log",
     "add": "Add",
@@ -100,6 +118,7 @@
     "sleep": "Sleep Rate",
     "glucose": "Glucose",
     "overview": "overview",
-    "log-meals": "log meals"
+    "log-meals": "log meals",
+    "detail": "detail"
   }
 }

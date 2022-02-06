@@ -59,7 +59,14 @@ const QuickAccessLogMeal: FC = () => {
         />
       ))}
 
-      <Button variant="text" className="qa-log-meal__button" size="sm">
+      <Button
+        variant="text"
+        className="qa-log-meal__button"
+        size="sm"
+        onClick={() =>
+          setRoute(quickAccessRoutes.ADD_FOOD, { parentRoute: 'log-meal' })
+        }
+      >
         {t('quickaccess:log-meal.add-new')}
       </Button>
     </Styles>
