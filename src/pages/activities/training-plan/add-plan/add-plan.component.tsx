@@ -76,6 +76,11 @@ const validationSchema = yup.object().shape({
       )
     })
   )
+  // days: yup.array().of(
+  //   yup.object().shape({
+  //     name: yup.string().required()
+  //   })
+  // )
 })
 
 const defaultValues: any = {

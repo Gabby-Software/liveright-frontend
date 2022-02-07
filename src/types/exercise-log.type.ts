@@ -7,4 +7,5 @@ export type ExerciseLogType = {
   cardio: number
   duration: number
   intensity: number
+  type: 'cardio' | 'strength'
 }

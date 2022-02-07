@@ -40,7 +40,7 @@ export default function Excercise() {
     return {
       detail: rows,
       row: rows[0],
-      isCardio: exercise?.info?.cardio ? true : false
+      isCardio: exercise?.info?.type === 'cardio'
     }
   }, [exercise, params])
 

@@ -1,6 +1,6 @@
 import { FormikProvider, useFormik } from 'formik'
 import moment from 'moment'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import { SearchIcon } from '../../../../assets/media/icons'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'

@@ -21,7 +21,7 @@ export default function MacronutrientComparison(
       if (amount < target) {
         return (
           <>
-            <ArrowDownIcon style={{ color: '#90BF45' }} />   
+            <ArrowDownIcon style={{ color: '#90BF45' }} />
             <span style={{ color: '#90BF45' }}>{`${Math.abs(
               amount - target
             )}g`}</span>
