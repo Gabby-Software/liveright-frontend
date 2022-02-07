@@ -79,7 +79,10 @@ export default function Superset({
       return
     }
 
-    exercisesArray.move(result.source.index, (result.destination as any).index)
+    console.log(result)
+
+    exercisesArray.swap(result.source.index, (result.destination as any).index)
+    setTimeout(resetPrefixValues, 10)
   }
 
   const resetPrefixValues = () => {

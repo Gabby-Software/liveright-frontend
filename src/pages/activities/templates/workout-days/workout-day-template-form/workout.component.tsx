@@ -31,7 +31,11 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise(isSuperset: boolean | number, cardio: boolean) {
+function createExercise(
+  exerciseNo: number,
+  isSuperset: boolean | number,
+  cardio: boolean
+) {
   const ex = cardio
     ? {
         name: '',
@@ -42,7 +46,7 @@ function createExercise(isSuperset: boolean | number, cardio: boolean) {
         }
       }
     : {
-        name: isSuperset ? `${isSuperset}A--` : '',
+        name: `${exerciseNo}${isSuperset ? 'A' : ''}--`,
         link: '',
         info: {
           sets: '',
@@ -84,14 +88,22 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
     exercisesArray.move(result.source.index, (result.destination as any).index)
   }
 
-  const handleExerciseAdd = (isSuperset: boolean | number, cardio = false) => {
-    exercisesArray.append(createExercise(isSuperset, cardio))
+  const handleExerciseAdd = (
+    exerciseNo: number,
+    isSuperset: boolean | number,
+    cardio = false
+  ) => {
+    exercisesArray.append(createExercise(exerciseNo, isSuperset, cardio))
     methods.clearErrors(`${name}.items`)
   }
 
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
   }
+
+  const exerciseIndexes = exercisesArray.fields
+    .map((row: any, index) => (!row.is_superset ? index : null))
+    .filter((row) => row !== null)
 
   const supersetIndexes = exercisesArray.fields
     .map((row: any, index) => (row.is_superset ? index : null))
@@ -219,7 +231,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => handleExerciseAdd(false)}
+          onClick={() => handleExerciseAdd(exerciseIndexes.length + 1, false)}
         >
           <AddIcon />
           Add Exercise
@@ -229,7 +241,7 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => handleExerciseAdd(supersetIndexes.length + 1)}
+          onClick={() => handleExerciseAdd(supersetIndexes.length + 1, true)}
         >
           <AddIcon />
           Add Superset
@@ -239,7 +251,9 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
           variant="text"
           size="sm"
           className="Workout__action-btn"
-          onClick={() => handleExerciseAdd(false, true)}
+          onClick={() =>
+            handleExerciseAdd(exerciseIndexes.length + 1, false, true)
+          }
         >
           <AddIcon />
           Add Cardio

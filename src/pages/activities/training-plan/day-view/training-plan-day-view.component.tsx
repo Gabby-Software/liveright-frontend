@@ -30,7 +30,7 @@ export default function TrainingPlanDayView({
   onEdit
 }: TrainingPlanDayViewProps) {
   const isMobile = useIsMobile()
-  const [scheduleView, setScheduleView] = useState(false)
+  const [scheduleView] = useState(false)
 
   const params = useParams<any>()
 

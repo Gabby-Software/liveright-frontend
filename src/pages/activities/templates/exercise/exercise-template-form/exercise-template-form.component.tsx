@@ -61,18 +61,8 @@ export default function ExerciseTemplateForm({ isCardio, onClose }: IProps) {
   useEffect(() => {
     if (exercise._id) {
       methods.setValue('name', exercise.name)
-      if (exercise?.info?.cardio) {
-        methods.setValue(`info.cardio`, true)
-        methods.setValue(`info.duration`, exercise.info.duration)
-        methods.setValue(`info.intensity`, exercise.info.intensity)
-        methods.unregister()
-      } else {
-        methods.setValue(`info.sets`, exercise.info.sets)
-        methods.setValue(`info.reps`, exercise.info.reps)
-        methods.setValue(`info.tempo`, exercise.info.tempo)
-        methods.setValue(`info.rest_interval`, exercise.info.rest_interval)
-        methods.setValue(`link`, exercise.link)
-      }
+      methods.setValue(`info`, exercise?.info || {})
+      methods.setValue(`link`, exercise.link)
     }
   }, [exercise._id])
 
