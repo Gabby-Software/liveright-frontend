@@ -100,16 +100,6 @@ function createWorkout(workoutIndex: number) {
   }
 }
 
-<<<<<<< HEAD
-=======
-// function updateDay(name: string, activities: Array<any>) {
-//   return {
-//     name,
-//     activities
-//   }
-// }
-
->>>>>>> 42e4737e (rest interval mask input - exercise numbering)
 export default function AddTrainingPlan({
   editWorkout,
   onClose,
@@ -166,10 +156,6 @@ export default function AddTrainingPlan({
       methods.setValue('account_id', revision.account_id)
       methods.setValue('scheduled_start_on', revision.scheduled_start_on)
       methods.setValue('scheduled_end_on', revision.scheduled_end_on)
-<<<<<<< HEAD
-=======
-      methods.setValue('days', revision.days)
->>>>>>> 42e4737e (rest interval mask input - exercise numbering)
       methods.setValue('activities', revision.activities)
     }
   }, [revision._id])
@@ -229,32 +215,6 @@ export default function AddTrainingPlan({
     methods.setValue(name, value, { shouldValidate: true })
   }
 
-<<<<<<< HEAD
-=======
-  // useEffect(() => {
-  //   const days = methods.getValues('days')
-  //   for (let i = 0; i < days.length; i++) {
-  //     if (days[i]?.activities) {
-  //       if (days[i].name) {
-  //         if (days[i].name.indexOf('Workout day ') < 0) {
-  //           daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
-  //         } else {
-  //           daysArray.update(
-  //             i,
-  //             updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-  //           )
-  //         }
-  //       } else {
-  //         daysArray.update(
-  //           i,
-  //           updateDay(`Workout day ${i + 1}`, days[i]?.activities)
-  //         )
-  //       }
-  //     }
-  //   }
-  // }, [dayIndex])
-
->>>>>>> 42e4737e (rest interval mask input - exercise numbering)
   const onGoBack = () => {
     if (isDirty) {
       setOpenConfirm(true)
