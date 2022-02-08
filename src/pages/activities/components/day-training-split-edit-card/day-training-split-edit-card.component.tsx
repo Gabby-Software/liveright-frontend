@@ -79,14 +79,11 @@ export default function DayTrainingSplitEditCard(
   const methods = useFormContext()
   const data = methods.watch(name)
 
-  console.log('data', data)
-
   const workouts = useFieldArray({
     control: methods.control,
     name: `${name}.training_plan_activities`
   })
 
-  console.log('workouts', workouts)
   const items = useFieldArray({
     control: methods.control,
     name: `${name}.items`
@@ -116,13 +113,6 @@ export default function DayTrainingSplitEditCard(
                 : undefined
             }
           />
-          {/* <ListWorkoutItem
-            color={getColorCarry('orange_50')}
-            title="Workouts"
-            content={data?.training_plan_activities?.map((t: any) => t.name)}
-            icon={<WorkoutIcon />}
-            onClick={undefined}
-          /> */}
           <ListItem
             color={getColorCarry('primary_v2')}
             title="Meal Plan Day"
@@ -205,7 +195,7 @@ function ListWorkoutItem({
                   className="DayTrainingSplitCard__li-btn"
                   onClick={onClick}
                 >
-                  {/* {edit ? <EditIcon /> : <AddIcon />} */}
+                  {edit ? <EditIcon /> : <AddIcon />}
                 </IconButton>
               )}
             </p>
