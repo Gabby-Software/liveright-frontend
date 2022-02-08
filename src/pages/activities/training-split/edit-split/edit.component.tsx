@@ -139,20 +139,20 @@ export default function EditTrainingSplit() {
   startDate.setDate(startDate.getDate() - 1)
 
   useEffect(() => {
-    // if (daysArray.fields.length > 0) {
-    //   for (let i = 0; i < daysArray.fields.length; i++) {
-    //     daysArray.remove(0)
-    //   }
-    // }
-    // const dpDays = dpRev.days
-    // const tpActivities = tpRev.activities
+    if (daysArray.fields.length > 0) {
+      for (let i = 0; i < daysArray.fields.length; i++) {
+        daysArray.remove(0)
+      }
+    }
+    const dpDays = dpRev.days
+    const tpActivities = tpRev.activities
 
-    // for (let i = 0; i < (isNaN(diff) ? dayCount : diff); i++) {
-    //   daysArray.append(
-    //     createDay((i % dayCount) + 1, tpActivities, dpDays?.[i % dpDays.length])
-    //   )
-    // }
-  }, [dayCount, tpRev._id, dpRev._id, diff])
+    for (let i = 0; i < dayCount; i++) {
+      daysArray.append(
+        createDay((i % dayCount) + 1, tpActivities, dpDays?.[i % dpDays.length])
+      )
+    }
+  }, [dayCount, tpRev._id, dpRev._id])
 
   useEffect(() => {
     if (revision._id) {
