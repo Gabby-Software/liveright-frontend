@@ -16,7 +16,7 @@ import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
 interface DayTrainingSplitCardProps {
   name: string
-  tpDays: any[]
+  tpActivities: any[]
   dpDays: any[]
   day?: string
   onWorkout: (id: string) => void
@@ -66,7 +66,7 @@ export default function DayTrainingSplitEditCard(
 ) {
   const {
     name,
-    tpDays,
+    tpActivities,
     dpDays,
     day,
     edit,
@@ -79,6 +79,14 @@ export default function DayTrainingSplitEditCard(
   const methods = useFormContext()
   const data = methods.watch(name)
 
+  console.log('data', data)
+
+  const workouts = useFieldArray({
+    control: methods.control,
+    name: `${name}.training_plan_activities`
+  })
+
+  console.log('workouts', workouts)
   const items = useFieldArray({
     control: methods.control,
     name: `${name}.items`
@@ -91,29 +99,30 @@ export default function DayTrainingSplitEditCard(
       subtitle={subtitle === 'Invalid date' ? '' : subtitle}
       content={
         <Styles>
-          <ListItem
+          <ListWorkoutItem
             color={getColorCarry('orange_50')}
             title="Workouts"
-            content={data?.training_plan_day?.name || ''}
-            name={`${name}.training_plan_day`}
+            content={workouts.fields.map((t: any) => t.name)}
+            name={`${name}.training_plan_activities`}
             selectOptions={
-              tpDays?.map((d) => ({ label: d.name, value: d._id })) || []
+              tpActivities?.map((d) => ({ label: d.name, value: d })) || []
             }
             icon={<WorkoutIcon />}
             edit={edit}
-            onSelection={(name, value) =>
-              methods.setValue(
-                name,
-                cloneDeep(tpDays.find((d) => d._id === value)),
-                { shouldValidate: true }
-              )
-            }
+            onSelection={(name, value) => workouts.append(value)}
             onClick={
               onWorkout
-                ? () => onWorkout(`${name}.training_plan_day` || '')
+                ? () => onWorkout(`${name}.training_plan_activities` || '')
                 : undefined
             }
           />
+          {/* <ListWorkoutItem
+            color={getColorCarry('orange_50')}
+            title="Workouts"
+            content={data?.training_plan_activities?.map((t: any) => t.name)}
+            icon={<WorkoutIcon />}
+            onClick={undefined}
+          /> */}
           <ListItem
             color={getColorCarry('primary_v2')}
             title="Meal Plan Day"
@@ -152,6 +161,68 @@ export default function DayTrainingSplitEditCard(
         </Styles>
       }
     />
+  )
+}
+
+interface ListWorkoutItemProps {
+  color: string
+  title: string
+  icon: ReactNode
+  content: string[]
+  name: string
+  selectOptions: { label: string; value: string }[]
+  edit?: boolean
+  onClick?: (id: string) => void
+  onSelection: (name: string, value: string) => void
+}
+
+function ListWorkoutItem({
+  color,
+  title,
+  content,
+  name,
+  selectOptions,
+  icon,
+  edit,
+  onClick,
+  onSelection
+}: ListWorkoutItemProps) {
+  return (
+    <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
+      <div className="DayTrainingSplitCard__li-icon">{icon}</div>
+
+      <div className="DayTrainingSplitCard__li-content">
+        <p className="DayTrainingSplitCard__li-title">{title}</p>
+
+        <div>
+          {content.map((text, index) => (
+            <p className="DayTrainingSplitCard__li-subtitle" key={index}>
+              <span>{text}</span>
+
+              {onClick && (
+                <IconButton
+                  size="sm"
+                  className="DayTrainingSplitCard__li-btn"
+                  onClick={onClick}
+                >
+                  {/* {edit ? <EditIcon /> : <AddIcon />} */}
+                </IconButton>
+              )}
+            </p>
+          ))}
+          <div className="DaySplitEditCard__control">
+            <Select
+              id="DaySplitEditCard-training-plan"
+              placeholder="Search training plan"
+              options={selectOptions}
+              onChange={(value) => {
+                onSelection(name, value)
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </ListItemStyles>
   )
 }
 
