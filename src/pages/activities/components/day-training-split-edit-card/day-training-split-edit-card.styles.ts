@@ -64,6 +64,25 @@ export const ListItemStyles = styled.div<any>`
       &:last-child {
         margin-bottom: 0;
       }
+
+      &-newField {
+        display: flex;
+      }
+
+      &-input {
+        width: 100%;
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      &-checkBtn {
+        padding: 10px;
+        display: inline-block;
+
+        svg {
+          width: 80%;
+        }
+      }
     }
   }
 `

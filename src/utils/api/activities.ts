@@ -173,6 +173,8 @@ export function formatSplitData(data: any) {
     delete dataClone.account_id
   }
 
+  console.log(dataClone.days)
+
   dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
@@ -182,7 +184,7 @@ export function formatSplitData(data: any) {
             name: activity.name,
             time: activity.time,
             sort_order: index,
-            items: activity.items.map((item: any, index: number) => {
+            items: activity.items?.map((item: any, index: number) => {
               return {
                 sort_order: index,
                 ...(typeof item.is_superset === 'boolean' && {
@@ -197,9 +199,7 @@ export function formatSplitData(data: any) {
                       info: Object.keys(item.data.info).reduce((acc, cur) => {
                         return {
                           ...acc,
-                          [cur]: isNaN(Number(item.data.info[cur]))
-                            ? item.data.info[cur]
-                            : item.data.info[cur]
+                          [cur]: String(item.data.info[cur])
                         }
                       }, {})
                     }
@@ -211,7 +211,7 @@ export function formatSplitData(data: any) {
                         info: Object.keys(data.info).reduce((acc, cur) => {
                           return {
                             ...acc,
-                            [cur]: data.info[cur]
+                            [cur]: String(data.info[cur])
                           }
                         }, {})
                       }
