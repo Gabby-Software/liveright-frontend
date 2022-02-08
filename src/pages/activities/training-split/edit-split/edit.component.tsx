@@ -55,9 +55,7 @@ const defaultValues: any = {
 
 function createDay(
   dayIndex: number,
-  training_plan_day: any = {
-    name: ''
-  },
+  training_plan_activities: any[],
   diet_plan_day: any = {
     name: ''
   }
@@ -65,7 +63,7 @@ function createDay(
   return {
     name: `Day ${dayIndex}`,
     items: [],
-    training_plan_day,
+    training_plan_activities: [],
     diet_plan_day
   }
 }
@@ -141,23 +139,19 @@ export default function EditTrainingSplit() {
   startDate.setDate(startDate.getDate() - 1)
 
   useEffect(() => {
-    if (daysArray.fields.length > 0) {
-      for (let i = 0; i < daysArray.fields.length; i++) {
-        daysArray.remove(0)
-      }
-    }
-    const dpDays = dpRev.days
-    const tpDays = tpRev.days
+    // if (daysArray.fields.length > 0) {
+    //   for (let i = 0; i < daysArray.fields.length; i++) {
+    //     daysArray.remove(0)
+    //   }
+    // }
+    // const dpDays = dpRev.days
+    // const tpActivities = tpRev.activities
 
-    for (let i = 0; i < (isNaN(diff) ? dayCount : diff); i++) {
-      daysArray.append(
-        createDay(
-          (i % dayCount) + 1,
-          tpDays?.[i % tpDays.length],
-          dpDays?.[i % dpDays.length]
-        )
-      )
-    }
+    // for (let i = 0; i < (isNaN(diff) ? dayCount : diff); i++) {
+    //   daysArray.append(
+    //     createDay((i % dayCount) + 1, tpActivities, dpDays?.[i % dpDays.length])
+    //   )
+    // }
   }, [dayCount, tpRev._id, dpRev._id, diff])
 
   useEffect(() => {
@@ -187,6 +181,7 @@ export default function EditTrainingSplit() {
   }, [revision._id, trainingSplit._id])
 
   const handleSubmit = (values: any) => {
+    console.log('values', values)
     if (trainingSplit._id && revision._id) {
       onEdit(trainingSplit._id, revision._id, values, null)
     } else {
@@ -460,7 +455,7 @@ export default function EditTrainingSplit() {
             {dayView ? (
               <DaySplitEditFocusView
                 maxDays={dayCount}
-                tpDays={tpRev.days}
+                tpActivities={tpRev.activities}
                 dpDays={dpRev.days}
                 handleDayAdd={handleDayAdd}
               />
@@ -471,7 +466,7 @@ export default function EditTrainingSplit() {
                     <DayTrainingSplitEditCard
                       key={day.id}
                       name={`days.${i}`}
-                      tpDays={tpRev.days}
+                      tpActivities={tpRev.activities}
                       dpDays={dpRev.days}
                       day={`Day ${i + 1}`}
                       edit

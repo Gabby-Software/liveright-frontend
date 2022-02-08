@@ -21,14 +21,14 @@ import { Styles } from './day-split-edit-focus-view.styles'
 
 interface IProp {
   maxDays: number
-  tpDays: any[]
+  tpActivities: any[]
   dpDays: any[]
   handleDayAdd: () => void
 }
 
 export default function DaySplitEditFocusView({
   maxDays,
-  tpDays,
+  tpActivities,
   dpDays,
   handleDayAdd
 }: IProp) {
@@ -92,8 +92,8 @@ export default function DaySplitEditFocusView({
           icon={<WorkoutIcon />}
           content={
             <WorkoutDayForm
-              key={`days.${index}.training_plan_day.activities`}
-              name={`days.${index}.training_plan_day.activities`}
+              key={`days.${index}.training_plan_activities`}
+              name={`days.${index}.training_plan_activities`}
             />
           }
           control={
@@ -105,7 +105,7 @@ export default function DaySplitEditFocusView({
                   placeholder="Search training plan"
                   value={value?._id || ''}
                   options={
-                    tpDays?.map((d) => ({
+                    tpActivities?.map((d) => ({
                       label: d.name,
                       value: d._id
                     })) || []
@@ -113,7 +113,7 @@ export default function DaySplitEditFocusView({
                   onChange={(value) =>
                     methods.setValue(
                       name,
-                      cloneDeep(tpDays.find((d) => d._id === value)),
+                      cloneDeep(tpActivities.find((d) => d._id === value)),
                       { shouldValidate: true }
                     )
                   }

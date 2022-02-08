@@ -386,7 +386,7 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
             {dayView ? (
               <DaySplitEditFocusView
                 maxDays={dayCount}
-                tpDays={tpRev.days}
+                tpActivities={tpRev.days}
                 dpDays={dpRev.days}
                 handleDayAdd={handleDayAdd}
               />
@@ -397,7 +397,7 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                     <DayTrainingSplitEditCard
                       key={day.id}
                       name={`days.${i}`}
-                      tpDays={tpRev.days}
+                      tpActivities={tpRev.days}
                       dpDays={dpRev.days}
                       day={`Day ${i + 1}`}
                       edit
