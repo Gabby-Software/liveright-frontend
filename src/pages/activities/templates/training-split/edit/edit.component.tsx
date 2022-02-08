@@ -397,7 +397,7 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                     <DayTrainingSplitEditCard
                       key={day.id}
                       name={`days.${i}`}
-                      tpActivities={tpRev.days}
+                      tpWorkouts={tpRev.days}
                       dpDays={dpRev.days}
                       day={`Day ${i + 1}`}
                       edit

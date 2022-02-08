@@ -27,6 +27,8 @@ import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
+import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -55,7 +57,7 @@ const defaultValues: any = {
 
 function createDay(
   dayIndex: number,
-  training_plan_activities: any[],
+  training_plan_activities: any[] = [],
   diet_plan_day: any = {
     name: ''
   }
@@ -63,7 +65,7 @@ function createDay(
   return {
     name: `Day ${dayIndex}`,
     items: [],
-    training_plan_activities: [],
+    training_plan_activities,
     diet_plan_day
   }
 }
@@ -76,12 +78,17 @@ export default function EditTrainingSplit() {
   const { type: userType } = useAuth()
   const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [dayCount, setDayCount] = useState(0)
 
   const [editMealPlan, setEditMealPlan] = useState('')
   const [editWorkout, setEditWorkout] = useState('')
-  const [selectedTP, setSelectedTP] = useState('')
-  const [selectedDP, setSelectedDP] = useState('')
+  const [selectedTP, setSelectedTP] = useState<{ id: string; revId: string }>({
+    id: '',
+    revId: ''
+  })
+  const [selectedDP, setSelectedDP] = useState<{ id: string; revId: string }>({
+    id: '',
+    revId: ''
+  })
 
   const methods = useForm<any>({
     defaultValues
@@ -100,16 +107,13 @@ export default function EditTrainingSplit() {
   const { dietPlans } = useDietPlans({ clientId: clientId })
 
   const { revision: tpRev } = useTrainingPlan({
-    id: selectedTP,
-    revisionId: getActiveOrLatestRev(
-      trainingPlans.find((tp) => tp._id === selectedTP) || { revisions: [] }
-    )?._id
+    id: selectedTP.id,
+    revisionId: selectedTP.revId
   })
+
   const { revision: dpRev } = useDietPlan({
-    id: selectedDP,
-    revisionId: getActiveOrLatestRev(
-      dietPlans.find((dp) => dp._id === selectedDP) || { revisions: [] }
-    )?._id
+    id: selectedDP.id,
+    revisionId: selectedDP.revId
   })
 
   const { trainingSplit, revision, onAdd, onEdit } = useTrainingSplit({
@@ -117,6 +121,9 @@ export default function EditTrainingSplit() {
     id: params.id,
     revisionId: params.revisionId
   })
+
+  const { workouts: templateWorkouts } = useTemplateWorkouts({ clientId })
+  const { mealPlans: templateMealPlans } = useTemplateMealPlans({ clientId })
 
   const [scheduled_start_on, name] = useWatch({
     control: methods.control,
@@ -134,25 +141,9 @@ export default function EditTrainingSplit() {
       ? ''
       : methods.getValues('scheduled_end_on')
   )
-  const diff = moment(endDate).diff(startDate, 'days') + 1
+  const diff = moment(endDate).diff(startDate, 'days')
 
   startDate.setDate(startDate.getDate() - 1)
-
-  useEffect(() => {
-    if (daysArray.fields.length > 0) {
-      for (let i = 0; i < daysArray.fields.length; i++) {
-        daysArray.remove(0)
-      }
-    }
-    const dpDays = dpRev.days
-    const tpActivities = tpRev.activities
-
-    for (let i = 0; i < dayCount; i++) {
-      daysArray.append(
-        createDay((i % dayCount) + 1, tpActivities, dpDays?.[i % dpDays.length])
-      )
-    }
-  }, [dayCount, tpRev._id, dpRev._id])
 
   useEffect(() => {
     if (revision._id) {
@@ -170,7 +161,6 @@ export default function EditTrainingSplit() {
           .reduce((acc, v, i) => [...acc, i], [])
       )
       daysArray.append(revision.days)
-      setDayCount(revision.days_count)
       setSelectedTP(revision.training_plan?._id || '')
       setSelectedDP(revision.diet_plan?._id || '')
     }
@@ -198,9 +188,17 @@ export default function EditTrainingSplit() {
   }
 
   const handleDayAdd = () => {
-    if (dayCount < diff || isNaN(diff)) {
-      setDayCount(dayCount + 1)
+    if (diff) {
+      if (daysArray.fields.length < diff) {
+        daysArray.append(createDay(daysArray.fields.length + 1))
+      }
+    } else {
+      daysArray.append(createDay(daysArray.fields.length + 1))
     }
+  }
+
+  const handleDayRemove = (index: number) => {
+    daysArray.remove(index)
   }
 
   const onChange = (name: string, value: any) => {
@@ -213,6 +211,27 @@ export default function EditTrainingSplit() {
 
   const handleWorkout = (name: string) => {
     setEditWorkout(name)
+  }
+
+  const onTPChange = (value: string) => {
+    const revId =
+      getActiveOrLatestRev(trainingPlans.find((tp) => tp._id === value))?._id ||
+      ''
+    setSelectedTP({
+      id: value,
+      revId
+    })
+    methods.setValue('training_plan_revision_id', revId)
+  }
+
+  const onDPChange = (value: string) => {
+    const revId =
+      getActiveOrLatestRev(dietPlans.find((dp) => dp._id === value))?._id || ''
+    setSelectedDP({
+      id: value,
+      revId
+    })
+    methods.setValue('diet_plan_revision_id', revId)
   }
 
   const tpOptions = useMemo(() => {
@@ -233,6 +252,14 @@ export default function EditTrainingSplit() {
     return options
   }, [dietPlans])
 
+  const tpWorkoutOptions = useMemo(() => {
+    return [...(tpRev.activities || []), ...templateWorkouts].filter((w) => !!w)
+  }, [tpRev._id, templateWorkouts])
+
+  const dpMealsOptions = useMemo(() => {
+    return [...(dpRev.days || []), ...templateMealPlans].filter((m) => !!m)
+  }, [dpRev._id, templateMealPlans])
+
   const address = !revision._id
     ? getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })
     : getRoute(Routes.ACTIVITIES_TS_ID, {
@@ -240,6 +267,8 @@ export default function EditTrainingSplit() {
         id: params.id,
         revisionId: params.revisionId
       })
+
+  console.log(daysArray.fields.length, diff)
 
   const content = (
     <>
@@ -325,9 +354,12 @@ export default function EditTrainingSplit() {
 
             <div className="AddTrainingSplit__info-controls">
               <Counter
+                disableInputChange
                 maxValue={diff}
-                value={dayCount}
-                onChange={(value) => setDayCount(value)}
+                value={daysArray.fields.length}
+                onChange={() => {}}
+                onIncrease={() => handleDayAdd()}
+                onDecrease={() => handleDayRemove(daysArray.fields.length - 1)}
               />
 
               <Controller
@@ -355,7 +387,7 @@ export default function EditTrainingSplit() {
                     disabledDate={(date) =>
                       date <
                       moment(methods.getValues('scheduled_start_on')).add(
-                        Math.max(dayCount - 1, 0),
+                        Math.max(daysArray.fields.length, 0),
                         'days'
                       )
                     }
@@ -400,32 +432,16 @@ export default function EditTrainingSplit() {
                 id="add-split-Diet-plan"
                 label="Diet plan"
                 placeholder="Select diet plan"
-                value={selectedDP}
-                onChange={(value) => {
-                  setSelectedDP(value)
-                  methods.setValue(
-                    'diet_plan_revision_id',
-                    getActiveOrLatestRev(
-                      dietPlans.find((dp) => dp._id === value)
-                    )?._id
-                  )
-                }}
+                value={selectedDP.id}
+                onChange={onDPChange}
                 options={dpOptions}
               />
               <Select
                 id="add-split-Training-plan"
                 label="Training plan"
                 placeholder="Select training plan"
-                value={selectedTP}
-                onChange={(value) => {
-                  setSelectedTP(value)
-                  methods.setValue(
-                    'training_plan_revision_id',
-                    getActiveOrLatestRev(
-                      trainingPlans.find((tp) => tp._id === value)
-                    )?._id
-                  )
-                }}
+                value={selectedTP.id}
+                onChange={onTPChange}
                 options={tpOptions}
               />
             </div>
@@ -454,8 +470,8 @@ export default function EditTrainingSplit() {
 
             {dayView ? (
               <DaySplitEditFocusView
-                maxDays={dayCount}
                 tpActivities={tpRev.activities}
+                maxDays={daysArray.fields.length}
                 dpDays={dpRev.days}
                 handleDayAdd={handleDayAdd}
               />
@@ -466,16 +482,20 @@ export default function EditTrainingSplit() {
                     <DayTrainingSplitEditCard
                       key={day.id}
                       name={`days.${i}`}
-                      tpActivities={tpRev.activities}
-                      dpDays={dpRev.days}
+                      tpWorkouts={tpWorkoutOptions}
+                      dpDays={dpMealsOptions}
                       day={`Day ${i + 1}`}
                       edit
                       onWorkout={handleWorkout}
                       onMealPlan={handleMealPlan}
                       onCardio={() => {}}
-                      subtitle={moment(
-                        startDate.setDate(startDate.getDate() + 1)
-                      ).format('dddd')}
+                      subtitle={
+                        scheduled_start_on
+                          ? moment(scheduled_start_on)
+                              .add(i, 'days')
+                              .format('dddd')
+                          : ''
+                      }
                     />
                   ))}
 

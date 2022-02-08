@@ -1,14 +1,16 @@
 import cloneDeep from 'lodash.clonedeep'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
-import { AddIcon, EditIcon } from '../../../../assets/media/icons'
+import { AddIcon, CheckIcon, EditIcon } from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
   WorkoutIcon
 } from '../../../../assets/media/icons/activities'
+import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
+import Input from '../../../../components/form/input/input.component'
 import Select from '../../../../components/form/select/select.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import DayCard from '../day-card/day-card.component'
@@ -16,7 +18,7 @@ import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
 interface DayTrainingSplitCardProps {
   name: string
-  tpActivities: any[]
+  tpWorkouts: any[]
   dpDays: any[]
   day?: string
   onWorkout: (id: string) => void
@@ -66,7 +68,7 @@ export default function DayTrainingSplitEditCard(
 ) {
   const {
     name,
-    tpActivities,
+    tpWorkouts,
     dpDays,
     day,
     edit,
@@ -79,15 +81,47 @@ export default function DayTrainingSplitEditCard(
   const methods = useFormContext()
   const data = methods.watch(name)
 
-  const workouts = useFieldArray({
-    control: methods.control,
-    name: `${name}.training_plan_activities`
-  })
-
   const items = useFieldArray({
     control: methods.control,
     name: `${name}.items`
   })
+
+  const onTPSelection = (name: string, value: string, isNew = false) => {
+    if (isNew) {
+      methods.setValue(
+        name,
+        [...data?.training_plan_activities, { name: value }],
+        {
+          shouldValidate: true
+        }
+      )
+      return
+    }
+    methods.setValue(
+      name,
+      [
+        ...data?.training_plan_activities,
+        cloneDeep(tpWorkouts.find((w) => w._id === value))
+      ],
+      { shouldValidate: true }
+    )
+  }
+
+  const onDPSelection = (name: string, value: string, isNew = false) => {
+    if (isNew) {
+      methods.setValue(
+        name,
+        { name: value },
+        {
+          shouldValidate: true
+        }
+      )
+      return
+    }
+    methods.setValue(name, cloneDeep(dpDays.find((d) => d._id === value)), {
+      shouldValidate: true
+    })
+  }
 
   return (
     <DayCard
@@ -96,17 +130,20 @@ export default function DayTrainingSplitEditCard(
       subtitle={subtitle === 'Invalid date' ? '' : subtitle}
       content={
         <Styles>
-          <ListWorkoutItem
+          <ListItem
             color={getColorCarry('orange_50')}
             title="Workouts"
-            content={workouts.fields.map((t: any) => t.name)}
+            type="workout"
+            content={
+              data?.training_plan_activities?.map((a: any) => a.name) || []
+            }
             name={`${name}.training_plan_activities`}
             selectOptions={
-              tpActivities?.map((d) => ({ label: d.name, value: d })) || []
+              tpWorkouts?.map((w) => ({ label: w.name, value: w._id })) || []
             }
             icon={<WorkoutIcon />}
             edit={edit}
-            onSelection={(name, value) => workouts.append(value)}
+            onSelection={onTPSelection}
             onClick={
               onWorkout
                 ? () => onWorkout(`${name}.training_plan_activities` || '')
@@ -116,20 +153,17 @@ export default function DayTrainingSplitEditCard(
           <ListItem
             color={getColorCarry('primary_v2')}
             title="Meal Plan Day"
-            content={data?.diet_plan_day?.name || ''}
+            type="mealPlan"
+            content={
+              data?.diet_plan_day?.name ? [data?.diet_plan_day?.name] : []
+            }
             name={`${name}.diet_plan_day`}
             selectOptions={
               dpDays?.map((d) => ({ label: d.name, value: d._id })) || []
             }
             icon={<FoodIcon />}
             edit={edit}
-            onSelection={(name, value) =>
-              methods.setValue(
-                name,
-                cloneDeep(dpDays.find((d) => d._id === value)),
-                { shouldValidate: true }
-              )
-            }
+            onSelection={onDPSelection}
             onClick={
               onMealPlan
                 ? () => onMealPlan(`${name}.diet_plan_day` || '')
@@ -154,83 +188,23 @@ export default function DayTrainingSplitEditCard(
   )
 }
 
-interface ListWorkoutItemProps {
+interface ListItemProps {
   color: string
   title: string
+  type: 'mealPlan' | 'workout'
   icon: ReactNode
   content: string[]
   name: string
   selectOptions: { label: string; value: string }[]
   edit?: boolean
   onClick?: (id: string) => void
-  onSelection: (name: string, value: string) => void
-}
-
-function ListWorkoutItem({
-  color,
-  title,
-  content,
-  name,
-  selectOptions,
-  icon,
-  edit,
-  onClick,
-  onSelection
-}: ListWorkoutItemProps) {
-  return (
-    <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
-      <div className="DayTrainingSplitCard__li-icon">{icon}</div>
-
-      <div className="DayTrainingSplitCard__li-content">
-        <p className="DayTrainingSplitCard__li-title">{title}</p>
-
-        <div>
-          {content.map((text, index) => (
-            <p className="DayTrainingSplitCard__li-subtitle" key={index}>
-              <span>{text}</span>
-
-              {onClick && (
-                <IconButton
-                  size="sm"
-                  className="DayTrainingSplitCard__li-btn"
-                  onClick={onClick}
-                >
-                  {edit ? <EditIcon /> : <AddIcon />}
-                </IconButton>
-              )}
-            </p>
-          ))}
-          <div className="DaySplitEditCard__control">
-            <Select
-              id="DaySplitEditCard-training-plan"
-              placeholder="Search training plan"
-              options={selectOptions}
-              onChange={(value) => {
-                onSelection(name, value)
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    </ListItemStyles>
-  )
-}
-
-interface ListItemProps {
-  color: string
-  title: string
-  icon: ReactNode
-  content: string
-  name: string
-  selectOptions: { label: string; value: string }[]
-  edit?: boolean
-  onClick?: (id: string) => void
-  onSelection: (name: string, value: string) => void
+  onSelection: (name: string, value: string, isNew?: boolean) => void
 }
 
 function ListItem({
   color,
   title,
+  type,
   content,
   name,
   selectOptions,
@@ -239,6 +213,23 @@ function ListItem({
   onClick,
   onSelection
 }: ListItemProps) {
+  const [addNew, setAddNew] = useState(false)
+  const [newName, setNewName] = useState('')
+
+  const onChange = (value: string) => {
+    if (value === 'add-new') {
+      setAddNew(true)
+      return
+    }
+    onSelection(name, value)
+  }
+
+  const onNewSave = () => {
+    onSelection(name, newName, true)
+    setAddNew(false)
+    setNewName('')
+  }
+
   return (
     <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
       <div className="DayTrainingSplitCard__li-icon">{icon}</div>
@@ -246,33 +237,55 @@ function ListItem({
       <div className="DayTrainingSplitCard__li-content">
         <p className="DayTrainingSplitCard__li-title">{title}</p>
 
-        {content ? (
-          <div>
-            <p className="DayTrainingSplitCard__li-subtitle">
-              <span>{content}</span>
+        {!!content.length &&
+          content.map((c, i) => (
+            <div key={c + i}>
+              <p className="DayTrainingSplitCard__li-subtitle">
+                <span>{c}</span>
 
-              <IconButton
-                size="sm"
-                className="DayTrainingSplitCard__li-btn"
-                onClick={onClick}
-              >
-                {edit ? <EditIcon /> : <AddIcon />}
-              </IconButton>
-            </p>
-          </div>
-        ) : (
+                <IconButton
+                  size="sm"
+                  className="DayTrainingSplitCard__li-btn"
+                  onClick={onClick}
+                >
+                  {edit ? <EditIcon /> : <AddIcon />}
+                </IconButton>
+              </p>
+            </div>
+          ))}
+        {(type !== 'mealPlan' || !content[0]) && (
           <div className="DaySplitEditCard__control">
             <Controller
               name={name}
-              render={({ field: { value, name } }) => (
-                <Select
-                  id="DaySplitEditCard-training-plan"
-                  placeholder="Search training plan"
-                  value={value?.name || ''}
-                  options={selectOptions}
-                  onChange={(value) => onSelection?.(name, value)}
-                />
-              )}
+              render={({ field: { value } }) =>
+                addNew ? (
+                  <div className="DaySplitEditCard__control-newField">
+                    <Input
+                      className="DaySplitEditCard__control-input"
+                      id="new-input"
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                    />
+                    <Button
+                      className="DaySplitEditCard__control-checkBtn"
+                      onClick={onNewSave}
+                    >
+                      <CheckIcon />
+                    </Button>
+                  </div>
+                ) : (
+                  <Select
+                    id="DaySplitEditCard-training-plan"
+                    placeholder="Search training plan"
+                    value={value?.name || ''}
+                    options={[
+                      ...selectOptions,
+                      { label: 'Create New', value: 'add-new' }
+                    ]}
+                    onChange={onChange}
+                  />
+                )
+              }
             />
           </div>
         )}
@@ -280,7 +293,6 @@ function ListItem({
     </ListItemStyles>
   )
 }
-
 interface ListOtherProps {
   color: string
   title: string
