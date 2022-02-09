@@ -39,6 +39,7 @@ export type QuickAccessContextType = {
   mealsData: any[]
   workoutProgress: number
   setWorkoutProgress: Dispatch<number>
+  clientId: number
 }
 
 // Dummy data
@@ -182,6 +183,10 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
   )
   const [workoutProgress, setWorkoutProgress] = useState(0)
 
+  const { accounts } = useAuth()
+  const clientId =
+    accounts.find((account) => account.type === 'client')?.id || 0
+
   const setRoute = (
     route: quickAccessRoutes,
     params?: { [key: string]: string }
@@ -241,7 +246,8 @@ export const QuickAccessProvider: FC<{ initialOpen?: boolean }> = ({
         workoutsData,
         mealsData,
         workoutProgress,
-        setWorkoutProgress
+        setWorkoutProgress,
+        clientId
       }}
     >
       {children}

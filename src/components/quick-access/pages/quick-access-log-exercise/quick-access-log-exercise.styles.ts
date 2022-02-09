@@ -17,5 +17,10 @@ export default styled.div`
       margin: 1.25rem auto 0 auto;
       padding: 0 !important;
     }
+
+    &__loading {
+      margin-top: 20px;
+      text-align: center;
+    }
   }
 `
