@@ -52,8 +52,16 @@ export const ListItemStyles = styled.div<any>`
       flex: 1;
     }
 
+    &-btns {
+      display: flex;
+    }
+
     &-btn {
       color: ${getColorCarry('neutral_70')};
+
+      svg {
+        width: 16px;
+      }
     }
   }
 

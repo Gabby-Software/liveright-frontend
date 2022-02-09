@@ -32,6 +32,7 @@ interface MealProps {
   index: number
   data?: any
   onRemove: any
+  fromTSDayOverview?: boolean
 }
 
 function createFood() {
@@ -69,7 +70,8 @@ export default function Meal({
   draggableProps,
   dropId,
   name,
-  onRemove
+  onRemove,
+  fromTSDayOverview
 }: MealProps) {
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
@@ -214,9 +216,11 @@ export default function Meal({
       <div className="Meal__header">
         <div className="subtitle">{mealName}</div>
 
-        <IconButton className="Meal__delete-btn" onClick={onRemove}>
-          <DeleteOutlinedIcon />
-        </IconButton>
+        {!fromTSDayOverview && (
+          <IconButton className="Meal__delete-btn" onClick={onRemove}>
+            <DeleteOutlinedIcon />
+          </IconButton>
+        )}
       </div>
       <div className="Meal__name">
         <Controller
@@ -231,6 +235,7 @@ export default function Meal({
               onSelect={onMealSelected}
               options={nameOptions}
               className={get(errors, name) ? 'invalid-field' : ''}
+              disabled={fromTSDayOverview}
             />
           )}
         />
@@ -272,18 +277,20 @@ export default function Meal({
         ))}
       </div>
 
-      <Controller
-        render={({ field: { value, name } }) => (
-          <div className="Meal__checkbox-container">
-            <Checkbox
-              checked={value}
-              onChange={(e) => methods.setValue(name, e.target.checked)}
-            />
-            <Label className="Meal__checkbox">Save Meal as template</Label>
-          </div>
-        )}
-        name={`${name}.save_as_template`}
-      />
+      {!fromTSDayOverview && (
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="Meal__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => methods.setValue(name, e.target.checked)}
+              />
+              <Label className="Meal__checkbox">Save Meal as template</Label>
+            </div>
+          )}
+          name={`${name}.save_as_template`}
+        />
+      )}
 
       <MealSubtitle>Food</MealSubtitle>
 
@@ -306,6 +313,7 @@ export default function Meal({
                         isDragging={snapshot.isDragging}
                         name={`${name}.items.${[index]}.data`}
                         onRemove={() => handleFoodRemove(index)}
+                        readOnlyForm={fromTSDayOverview}
                       />
                     )}
                   </Draggable>
@@ -324,10 +332,12 @@ export default function Meal({
 
       <div className="Meal__divider" />
 
-      <p className="Meal__add-btn" onClick={handleFoodAdd}>
-        <AddIcon />
-        Add Food
-      </p>
+      {!fromTSDayOverview && (
+        <p className="Meal__add-btn" onClick={handleFoodAdd}>
+          <AddIcon />
+          Add Food
+        </p>
+      )}
     </Styles>
   )
 }

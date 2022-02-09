@@ -2,7 +2,12 @@ import cloneDeep from 'lodash.clonedeep'
 import { ReactNode, useState } from 'react'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
-import { AddIcon, CheckIcon, EditIcon } from '../../../../assets/media/icons'
+import {
+  AddIcon,
+  CheckIcon,
+  CrossIcon,
+  EditIcon
+} from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
@@ -71,7 +76,6 @@ export default function DayTrainingSplitEditCard(
     tpWorkouts,
     dpDays,
     day,
-    edit,
     onWorkout,
     onMealPlan,
     onCardio,
@@ -86,41 +90,37 @@ export default function DayTrainingSplitEditCard(
     name: `${name}.items`
   })
 
+  const onChangeValue = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
   const onTPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      methods.setValue(
-        name,
-        [...data?.training_plan_activities, { name: value }],
-        {
-          shouldValidate: true
-        }
-      )
+      onChangeValue(name, [...data?.training_plan_activities, { name: value }])
       return
     }
-    methods.setValue(
-      name,
-      [
-        ...data?.training_plan_activities,
-        cloneDeep(tpWorkouts.find((w) => w._id === value))
-      ],
-      { shouldValidate: true }
-    )
+    onChangeValue(name, [
+      ...data?.training_plan_activities,
+      cloneDeep(tpWorkouts.find((w) => w._id === value))
+    ])
   }
 
   const onDPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      methods.setValue(
-        name,
-        { name: value },
-        {
-          shouldValidate: true
-        }
-      )
+      onChangeValue(name, { name: value })
       return
     }
-    methods.setValue(name, cloneDeep(dpDays.find((d) => d._id === value)), {
-      shouldValidate: true
-    })
+    onChangeValue(name, cloneDeep(dpDays.find((d) => d._id === value)))
+  }
+
+  const onTPRevome = (name: string, index: number) => {
+    const workouts = [...data.training_plan_activities]
+    workouts.splice(index, 1)
+    onChangeValue(name, [...workouts])
+  }
+
+  const onDPRevome = (name: string) => {
+    onChangeValue(name, { name: '' })
   }
 
   return (
@@ -142,16 +142,13 @@ export default function DayTrainingSplitEditCard(
               tpWorkouts?.map((w) => ({ label: w.name, value: w._id })) || []
             }
             icon={<WorkoutIcon />}
-            edit={edit}
             onSelection={onTPSelection}
-            onClick={
-              onWorkout
-                ? () => onWorkout(`${name}.training_plan_activities` || '')
-                : undefined
-            }
+            onEdit={() => onWorkout(`${name}.training_plan_activities` || '')}
+            onRemove={onTPRevome}
           />
           <ListItem
             color={getColorCarry('primary_v2')}
+            icon={<FoodIcon />}
             title="Meal Plan Day"
             type="mealPlan"
             content={
@@ -161,14 +158,9 @@ export default function DayTrainingSplitEditCard(
             selectOptions={
               dpDays?.map((d) => ({ label: d.name, value: d._id })) || []
             }
-            icon={<FoodIcon />}
-            edit={edit}
             onSelection={onDPSelection}
-            onClick={
-              onMealPlan
-                ? () => onMealPlan(`${name}.diet_plan_day` || '')
-                : undefined
-            }
+            onEdit={() => onMealPlan(`${name}.diet_plan_day` || '')}
+            onRemove={onDPRevome}
           />
           <ListOther
             color={getColorCarry('red')}
@@ -196,8 +188,8 @@ interface ListItemProps {
   content: string[]
   name: string
   selectOptions: { label: string; value: string }[]
-  edit?: boolean
-  onClick?: (id: string) => void
+  onEdit: (id: string) => void
+  onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
 }
 
@@ -209,8 +201,8 @@ function ListItem({
   name,
   selectOptions,
   icon,
-  edit,
-  onClick,
+  onEdit,
+  onRemove,
   onSelection
 }: ListItemProps) {
   const [addNew, setAddNew] = useState(false)
@@ -243,13 +235,22 @@ function ListItem({
               <p className="DayTrainingSplitCard__li-subtitle">
                 <span>{c}</span>
 
-                <IconButton
-                  size="sm"
-                  className="DayTrainingSplitCard__li-btn"
-                  onClick={onClick}
-                >
-                  {edit ? <EditIcon /> : <AddIcon />}
-                </IconButton>
+                <div className="DayTrainingSplitCard__li-btns">
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={onEdit}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={() => onRemove(name, i)}
+                  >
+                    <CrossIcon />
+                  </IconButton>
+                </div>
               </p>
             </div>
           ))}

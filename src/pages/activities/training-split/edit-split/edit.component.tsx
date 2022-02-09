@@ -17,7 +17,6 @@ import DatePicker from '../../../../components/form/date-picker/date-picker.comp
 import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
-import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
@@ -37,7 +36,6 @@ import { getActiveOrLatestRev } from '../../../../utils/api/activities'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Counter from '../../components/counter/counter.component'
-import DaySplitEditFocusView from '../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitEditCard from '../../components/day-training-split-edit-card/day-training-split-edit-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
@@ -76,7 +74,7 @@ export default function EditTrainingSplit() {
   const { clientId } = params
   const isMobile = useIsMobile()
   const { type: userType } = useAuth()
-  const [dayView, setDayView] = useState(false)
+  // const [dayView, setDayView] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
 
   const [editMealPlan, setEditMealPlan] = useState('')
@@ -268,8 +266,6 @@ export default function EditTrainingSplit() {
         revisionId: params.revisionId
       })
 
-  console.log(daysArray.fields.length, diff)
-
   const content = (
     <>
       <FormProvider {...methods}>
@@ -453,7 +449,7 @@ export default function EditTrainingSplit() {
                 {revision._id ? 'Edit your split' : 'Build your split'}
               </Subtitle>
 
-              <div className="AddTrainingSplit__cards-toggle-container">
+              {/* <div className="AddTrainingSplit__cards-toggle-container">
                 <p className="AddTrainingSplit__cards-toggle-label">
                   All Day View
                 </p>
@@ -465,10 +461,10 @@ export default function EditTrainingSplit() {
                 <p className="AddTrainingSplit__cards-toggle-label">
                   Focused Day View
                 </p>
-              </div>
+              </div> */}
             </div>
 
-            {dayView ? (
+            {/* {dayView ? (
               <DaySplitEditFocusView
                 tpActivities={tpRev.activities}
                 maxDays={daysArray.fields.length}
@@ -476,39 +472,37 @@ export default function EditTrainingSplit() {
                 handleDayAdd={handleDayAdd}
               />
             ) : (
-              <>
-                <div className="AddTrainingSplit__cards">
-                  {daysArray.fields.map((day, i) => (
-                    <DayTrainingSplitEditCard
-                      key={day.id}
-                      name={`days.${i}`}
-                      tpWorkouts={tpWorkoutOptions}
-                      dpDays={dpMealsOptions}
-                      day={`Day ${i + 1}`}
-                      edit
-                      onWorkout={handleWorkout}
-                      onMealPlan={handleMealPlan}
-                      onCardio={() => {}}
-                      subtitle={
-                        scheduled_start_on
-                          ? moment(scheduled_start_on)
-                              .add(i, 'days')
-                              .format('dddd')
-                          : ''
-                      }
-                    />
-                  ))}
+              <> */}
+            <div className="AddTrainingSplit__cards">
+              {daysArray.fields.map((day, i) => (
+                <DayTrainingSplitEditCard
+                  key={day.id}
+                  name={`days.${i}`}
+                  tpWorkouts={tpWorkoutOptions}
+                  dpDays={dpMealsOptions}
+                  day={`Day ${i + 1}`}
+                  edit
+                  onWorkout={handleWorkout}
+                  onMealPlan={handleMealPlan}
+                  onCardio={() => {}}
+                  subtitle={
+                    scheduled_start_on
+                      ? moment(scheduled_start_on).add(i, 'days').format('dddd')
+                      : ''
+                  }
+                />
+              ))}
 
-                  <div
-                    className="AddTrainingSplit__card-add"
-                    onClick={handleDayAdd}
-                  >
-                    <AddIcon />
-                    Add More Days
-                  </div>
-                </div>
-              </>
-            )}
+              <div
+                className="AddTrainingSplit__card-add"
+                onClick={handleDayAdd}
+              >
+                <AddIcon />
+                Add More Days
+              </div>
+            </div>
+            {/* </>
+            )} */}
           </Card>
         </Styles>
 

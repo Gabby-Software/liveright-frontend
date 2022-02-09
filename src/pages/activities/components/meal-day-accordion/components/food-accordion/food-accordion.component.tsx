@@ -17,13 +17,15 @@ interface FoodAccordionProps {
   draggableProps: any
   name: string
   onRemove: any
+  readOnlyForm?: boolean
 }
 export default function FoodAccordion({
   dragHandleProps,
   innerRef,
   draggableProps,
   name,
-  onRemove
+  onRemove,
+  readOnlyForm
 }: FoodAccordionProps) {
   const methods = useFormContext()
 
@@ -60,7 +62,7 @@ export default function FoodAccordion({
       <SubItemAccordion
         dragHandleProps={dragHandleProps}
         title={foodName}
-        onRemove={onRemove}
+        onRemove={!readOnlyForm ? onRemove : undefined}
         content={
           <Styles>
             <Controller
@@ -81,6 +83,7 @@ export default function FoodAccordion({
                       : 'FoodAccordion__control'
                   }
                   shouldScrollTo={get(errors, name)}
+                  disabled={readOnlyForm}
                 />
               )}
               name={`${name}.name`}
@@ -100,6 +103,7 @@ export default function FoodAccordion({
                     format={formatter().number().min(0).max(10000)}
                     className={get(errors, name) ? 'invalid-field' : ''}
                     shouldScrollTo={get(errors, name)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.grams`}
@@ -117,6 +121,7 @@ export default function FoodAccordion({
                     format={formatter().number().min(0).max(10000)}
                     className={get(errors, name) ? 'invalid-field' : ''}
                     shouldScrollTo={get(errors, name)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.proteins`}
@@ -134,6 +139,7 @@ export default function FoodAccordion({
                     format={formatter().number().min(0).max(10000)}
                     className={get(errors, name) ? 'invalid-field' : ''}
                     shouldScrollTo={get(errors, name)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.fat`}
@@ -151,6 +157,7 @@ export default function FoodAccordion({
                     format={formatter().number().min(0).max(10000)}
                     className={get(errors, name) ? 'invalid-field' : ''}
                     shouldScrollTo={get(errors, name)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.net_carbs`}
@@ -166,6 +173,7 @@ export default function FoodAccordion({
                     error={get(errors, name)}
                     ErrorProps={{ size: 'sm' }}
                     format={formatter().number().min(0).max(10000)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.sugar`}
@@ -181,6 +189,7 @@ export default function FoodAccordion({
                     error={get(errors, name)}
                     ErrorProps={{ size: 'sm' }}
                     format={formatter().number().min(0).max(10000)}
+                    disabled={readOnlyForm}
                   />
                 )}
                 name={`${name}.info.fiber`}
@@ -219,20 +228,22 @@ export default function FoodAccordion({
               />
             </div>
 
-            <Controller
-              render={({ field: { value, name } }) => (
-                <div className="FoodAccordion__checkbox-container">
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => onChange(name, e.target.checked)}
-                  />
-                  <Label className="FoodAccordion__checkbox">
-                    Save Food as template
-                  </Label>
-                </div>
-              )}
-              name={`${name}.save_as_template`}
-            />
+            {!readOnlyForm && (
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="FoodAccordion__checkbox-container">
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => onChange(name, e.target.checked)}
+                    />
+                    <Label className="FoodAccordion__checkbox">
+                      Save Food as template
+                    </Label>
+                  </div>
+                )}
+                name={`${name}.save_as_template`}
+              />
+            )}
           </Styles>
         }
       />

@@ -3,7 +3,6 @@ import { Controller, FormProvider, useFormContext } from 'react-hook-form'
 
 import Button from '../../../../../components/buttons/button/button.component'
 import Input from '../../../../../components/form/input/input.component'
-import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import Macronutrient from '../../macronutrient/macronutrient.component'
 import MealDayForm from '../../meal-day-form/meal-day-form.component'
@@ -26,7 +25,6 @@ interface MealPlanEditProps {
 }
 const MealPlanEdit = ({ name, onClose }: MealPlanEditProps) => {
   const isMobile = useIsMobile()
-  const [dayView, setDayView] = useState(false)
   const [useDayData, setUseDayData] = useState<any[]>([])
 
   const methods = useFormContext()
@@ -75,6 +73,7 @@ const MealPlanEdit = ({ name, onClose }: MealPlanEditProps) => {
                 className="EditPlan__input"
                 value={value}
                 onChange={(e: any) => methods.setValue(name, e.target.value)}
+                disabled
               />
             )}
           />
@@ -90,16 +89,16 @@ const MealPlanEdit = ({ name, onClose }: MealPlanEditProps) => {
         </section>
 
         <section className="TSPlanDayEdit__block">
-          <section className="TSPlanDayEdit__flex">
+          {/* <section className="TSPlanDayEdit__flex">
             <FormToggleUI
               value={dayView}
               onUpdate={() => setDayView(!dayView)}
               className="toggle"
             />
             <p>Day Target</p>
-          </section>
+          </section> */}
 
-          {dayView ? (
+          {/* {dayView ? (
             <section className="TSPlanDayEdit__flex-wrap">
               {Object.entries(nutrients).map(([label, key], i) => (
                 <Controller
@@ -120,27 +119,27 @@ const MealPlanEdit = ({ name, onClose }: MealPlanEditProps) => {
                 />
               ))}
             </section>
-          ) : (
-            <>
-              <section className="TSPlanDayEdit__flex">
-                {Object.keys(nutrients).map((k) => (
-                  <Macronutrient
-                    key={k}
-                    title={k}
-                    amount={methods.getValues(
-                      `${name}.total_target.${(nutrients as any)[k]}`
-                    )}
-                  />
-                ))}
-              </section>
+          ) : ( */}
+          <>
+            <section className="TSPlanDayEdit__flex">
+              {Object.keys(nutrients).map((k) => (
+                <Macronutrient
+                  key={k}
+                  title={k}
+                  amount={methods.getValues(
+                    `${name}.total_target.${(nutrients as any)[k]}`
+                  )}
+                />
+              ))}
+            </section>
 
-              <p className="subtitle">List meals of this diet plan</p>
+            <p className="subtitle">List meals of this diet plan</p>
 
-              <div className="TSPlanDayEdit__meals">
-                <MealDayForm name={`${name}.activities`} />
-              </div>
-            </>
-          )}
+            <div className="TSPlanDayEdit__meals">
+              <MealDayForm name={`${name}.activities`} fromTSDayOverview />
+            </div>
+          </>
+          {/* )} */}
 
           {isMobile || (
             <div className="TSPlanDayEdit__actions">
