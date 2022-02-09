@@ -1,19 +1,22 @@
 import { get } from 'lodash'
-import { Controller, useFormContext } from 'react-hook-form'
+import { useMemo } from 'react'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { useParams } from 'react-router'
 
-// import { useParams } from 'react-router'
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
 import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
-// import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
+import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../../components/form/TimeInput/time-input.component'
-// import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
+import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
+import useTemplateExercises from '../../../../../../hooks/api/templates/useTemplateExercises'
 import formatter from '../../../../../../managers/formatter.manager'
+import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './exercise.styles'
 
@@ -41,7 +44,7 @@ export default function Exercise({
   fromTemplate = false
 }: ExerciseProps) {
   const methods = useFormContext()
-  // const params = useParams<any>()
+  const params = useParams<any>()
   const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -51,22 +54,24 @@ export default function Exercise({
 
   // Use these function when implementing exercise template suggestions
 
-  // const { exercises } = useTrainingPlanExercises({
-  //   // id: params.id,
-  //   // revisionId: params.revisionId
-  // })
+  const { exercises } = useTrainingPlanExercises({
+    id: params.id,
+    revisionId: params.revisionId
+  })
 
-  // const onPreviousExerciseSelect = (value: string) => {
-  //   const exercise = exercises.find((e: any) => e.name === value)
-  //   if (!exercise) {
-  //     return
-  //   }
-  //   methods.setValue(`${name}.info.sets`, exercise.info.sets)
-  //   methods.setValue(`${name}.info.reps`, exercise.info.reps)
-  //   methods.setValue(`${name}.info.tempo`, exercise.info.tempo)
-  //   methods.setValue(`${name}.info.rest_interval`, exercise.info.rest_interval)
-  //   methods.setValue(`${name}.link`, exercise.info.link)
-  // }
+  const { exercises: exercisesTemplate } = useTemplateExercises()
+
+  const onPreviousExerciseSelect = (value: string) => {
+    const exercise = exercises.find((e: any) => e.name === value)
+    if (!exercise) {
+      return
+    }
+    methods.setValue(`${name}.info.sets`, exercise.info.sets)
+    methods.setValue(`${name}.info.reps`, exercise.info.reps)
+    methods.setValue(`${name}.info.tempo`, exercise.info.tempo)
+    methods.setValue(`${name}.info.rest_interval`, exercise.info.rest_interval)
+    methods.setValue(`${name}.link`, exercise.info.link)
+  }
 
   // const renderExersiceAutoComplete = (name: string, value: string) => {
   //     return (
@@ -89,6 +94,49 @@ export default function Exercise({
   //     )
   //   }
   // }
+
+  const exerciseName = useWatch({
+    name: `${name}.name`,
+    control: methods.control
+  })
+
+  const nameOptions = useMemo(() => {
+    const planOptions = exercises
+      ?.filter((w: any) =>
+        w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase())
+      )
+      ?.map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const templateOptions = exercisesTemplate
+      ?.filter((w: any) =>
+        w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase())
+      )
+      .map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const options = []
+
+    if (planOptions.length) {
+      options.push({
+        label: 'From this Training Plan',
+        options: getUniqueItemsByProperties(planOptions, ['label'])
+      })
+    }
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [exercises, exercisesTemplate, exerciseName])
 
   return (
     <Styles
@@ -113,11 +161,11 @@ export default function Exercise({
       <Controller
         name={`${name}.name`}
         render={({ field: { name, value } }) => {
-          const [prefix, val] = String(value).split('--')
+          // const [prefix, val] = String(value).split('--')
           return (
             <div className="exercise-input">
-              <p className="exercise-input__prefix">{prefix}--</p>
-              <Input
+              {/* <p className="exercise-input__prefix">{prefix}--</p> */}
+              {/* <Input
                 id="Exercise-name"
                 label="Exercise name"
                 placeholder="Exersice"
@@ -125,6 +173,17 @@ export default function Exercise({
                 onChange={(e) => {
                   onChange(name, `${prefix}--${e.target.value}`)
                 }}
+                error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
+              /> */}
+              <AutoCompleteInput
+                id="Exercise-name"
+                label={`${isCardio ? 'Cardio' : 'Exercise'} name`}
+                placeholder={isCardio ? 'Cardio' : 'Exercise'}
+                value={value === '' ? null : value}
+                onChange={(value) => methods.setValue(name, value)}
+                options={nameOptions}
+                onSelect={onPreviousExerciseSelect}
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
               />
