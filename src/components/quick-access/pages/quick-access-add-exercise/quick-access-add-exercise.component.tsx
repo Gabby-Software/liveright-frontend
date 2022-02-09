@@ -156,6 +156,7 @@ const QuickAccessAddExercise: FC = () => {
                   name="time"
                   value={formik.values.time}
                   placeholder="-"
+                  format="mm:ss"
                   allowClear={false}
                   onChange={(value, dateStr) =>
                     formik.setFieldValue('time', dateStr)

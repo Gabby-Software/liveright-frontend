@@ -6,6 +6,13 @@ import { getColorCarry } from '../../../../../pipes/theme-color.pipe'
 
 export default styled.div<{ mode: 'exercise' | 'superset' }>`
   .qa-workout-overview-add-exercise {
+    &__radio-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
     &__header {
       display: flex;
       justify-content: space-between;
@@ -63,6 +70,7 @@ export default styled.div<{ mode: 'exercise' | 'superset' }>`
 
     &__input-group-item {
       max-width: ${({ mode }) => (mode === 'exercise' ? '158px' : '146px')};
+      flex-grow: 1;
     }
 
     &__add-superset-exercise-btn {

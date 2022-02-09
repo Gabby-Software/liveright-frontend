@@ -5,9 +5,27 @@ import { AddIcon, SearchIcon } from '../../../../../assets/media/icons'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import Button from '../../../../buttons/button/button.component'
 import Input from '../../../../form/input/input.component'
+import RadioInput from '../../../../form/radio-input/radio-input.component'
+import Select from '../../../../form/select/select.component'
+import TimePicker from '../../../../form/time-picker/time-picker.component'
 import QuickAccessBack from '../../../components/quick-access-back/quick-access-back.component'
 import { quickAccessRoutes } from '../../../quick-access.routes'
 import Styles from './workout-overview-add-exercise.styles'
+
+const intensityOptions = [
+  {
+    label: 'Low',
+    value: 'low'
+  },
+  {
+    label: 'Moderate',
+    value: 'moderate'
+  },
+  {
+    label: 'High',
+    value: 'high'
+  }
+]
 
 const WorkoutOverviewAddExercise: FC = () => {
   const { t } = useTranslation()
@@ -16,6 +34,8 @@ const WorkoutOverviewAddExercise: FC = () => {
       exercise: '',
       sets: '',
       reps: '',
+      time: '',
+      intensity: '',
       tempo: '',
       restInterval: ''
     },
@@ -26,6 +46,9 @@ const WorkoutOverviewAddExercise: FC = () => {
     }
   })
 
+  const [exerciseType, setExerciseType] = useState<
+    'strength' | 'cardio' | string
+  >('strength')
   const [mode, setMode] = useState<'exercise' | 'superset'>('exercise')
 
   return (
@@ -35,20 +58,43 @@ const WorkoutOverviewAddExercise: FC = () => {
         route={quickAccessRoutes.WORKOUT_OVERVIEW}
       />
 
+      {mode === 'exercise' && (
+        <div className="qa-workout-overview-add-exercise__radio-group">
+          <RadioInput
+            name="exercise-type"
+            label={t('quickaccess:add-exercise.label-strength')}
+            value="strength"
+            isChecked={exerciseType === 'strength'}
+            handleChange={(value) => setExerciseType(value)}
+          />
+          <RadioInput
+            name="exercise-type"
+            label={t('quickaccess:add-exercise.label-cardio')}
+            value="cardio"
+            isChecked={exerciseType === 'cardio'}
+            handleChange={(value) => setExerciseType(value)}
+          />
+        </div>
+      )}
+
       <div className="qa-workout-overview-add-exercise__header">
         <h2>
           {t(`quickaccess:workout-overview.add-exercise.heading-${mode}`)}
         </h2>
-        <Button
-          variant="text"
-          onClick={() => setMode(mode === 'exercise' ? 'superset' : 'exercise')}
-        >
-          {t(
-            `quickaccess:workout-overview.add-exercise.switch-mode-${
-              mode === 'exercise' ? 'superset' : 'exercise'
-            }`
-          )}
-        </Button>
+        {exerciseType === 'strength' && (
+          <Button
+            variant="text"
+            onClick={() =>
+              setMode(mode === 'exercise' ? 'superset' : 'exercise')
+            }
+          >
+            {t(
+              `quickaccess:workout-overview.add-exercise.switch-mode-${
+                mode === 'exercise' ? 'superset' : 'exercise'
+              }`
+            )}
+          </Button>
+        )}
       </div>
 
       {mode === 'superset' && (
@@ -77,64 +123,94 @@ const WorkoutOverviewAddExercise: FC = () => {
             />
 
             <div className="qa-workout-overview-add-exercise__input-group">
-              <>
-                <Input
-                  className="qa-workout-overview-add-exercise__input-group-item"
-                  id="qa-workout-overview-add-exercise-sets"
-                  label={t(
-                    'quickaccess:workout-overview.add-exercise.label-sets'
-                  )}
-                  name="sets"
-                  value={formik.values.sets}
-                  placeholder="-"
-                  onChange={(e) =>
-                    !isNaN(+e.target.value) &&
-                    formik.setFieldValue('sets', e.target.value)
-                  }
-                />
-                <Input
-                  className="qa-workout-overview-add-exercise__input-group-item"
-                  id="qa-workout-overview-add-exercise-reps"
-                  label={t(
-                    'quickaccess:workout-overview.add-exercise.label-reps'
-                  )}
-                  name="reps"
-                  value={formik.values.reps}
-                  placeholder="-"
-                  onChange={(e) =>
-                    !isNaN(+e.target.value) &&
-                    formik.setFieldValue('reps', e.target.value)
-                  }
-                />
-                <Input
-                  className="qa-workout-overview-add-exercise__input-group-item"
-                  id="qa-workout-overview-add-exercise-tempo"
-                  label={t(
-                    'quickaccess:workout-overview.add-exercise.label-tempo'
-                  )}
-                  name="tempo"
-                  value={formik.values.tempo}
-                  placeholder="-"
-                  onChange={(e) =>
-                    !isNaN(+e.target.value) &&
-                    formik.setFieldValue('tempo', e.target.value)
-                  }
-                />
-                <Input
-                  className="qa-workout-overview-add-exercise__input-group-item"
-                  id="qa-workout-overview-add-exercise-rest-interval"
-                  label={t(
-                    'quickaccess:workout-overview.add-exercise.label-rest'
-                  )}
-                  name="rest-interval"
-                  value={formik.values.restInterval}
-                  placeholder="-"
-                  onChange={(e) =>
-                    !isNaN(+e.target.value) &&
-                    formik.setFieldValue('restInterval', e.target.value)
-                  }
-                />
-              </>
+              {exerciseType === 'strength' ? (
+                <>
+                  <Input
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-workout-overview-add-exercise-sets"
+                    label={t(
+                      'quickaccess:workout-overview.add-exercise.label-sets'
+                    )}
+                    name="sets"
+                    value={formik.values.sets}
+                    placeholder="-"
+                    onChange={(e) =>
+                      !isNaN(+e.target.value) &&
+                      formik.setFieldValue('sets', e.target.value)
+                    }
+                  />
+                  <Input
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-workout-overview-add-exercise-reps"
+                    label={t(
+                      'quickaccess:workout-overview.add-exercise.label-reps'
+                    )}
+                    name="reps"
+                    value={formik.values.reps}
+                    placeholder="-"
+                    onChange={(e) =>
+                      !isNaN(+e.target.value) &&
+                      formik.setFieldValue('reps', e.target.value)
+                    }
+                  />
+                  <Input
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-workout-overview-add-exercise-tempo"
+                    label={t(
+                      'quickaccess:workout-overview.add-exercise.label-tempo'
+                    )}
+                    name="tempo"
+                    value={formik.values.tempo}
+                    placeholder="-"
+                    onChange={(e) =>
+                      !isNaN(+e.target.value) &&
+                      formik.setFieldValue('tempo', e.target.value)
+                    }
+                  />
+                  <Input
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-workout-overview-add-exercise-rest-interval"
+                    label={t(
+                      'quickaccess:workout-overview.add-exercise.label-rest'
+                    )}
+                    name="rest-interval"
+                    value={formik.values.restInterval}
+                    placeholder="-"
+                    onChange={(e) =>
+                      !isNaN(+e.target.value) &&
+                      formik.setFieldValue('restInterval', e.target.value)
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  <TimePicker
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-add-exercise-time"
+                    label={t('quickaccess:add-exercise.label-time')}
+                    name="time"
+                    value={formik.values.time}
+                    placeholder="-"
+                    format="mm:ss"
+                    allowClear={false}
+                    onChange={(value, dateStr) =>
+                      formik.setFieldValue('time', dateStr)
+                    }
+                  />
+                  <Select
+                    className="qa-workout-overview-add-exercise__input-group-item"
+                    id="qa-add-exercise-intensity"
+                    label={t('quickaccess:add-exercise.label-intensity')}
+                    name="intensity"
+                    value={formik.values.intensity}
+                    placeholder="-"
+                    options={intensityOptions}
+                    onChange={(value) =>
+                      formik.setFieldValue('intensity', value)
+                    }
+                  />
+                </>
+              )}
             </div>
           </div>
 
