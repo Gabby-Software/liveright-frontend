@@ -387,7 +387,7 @@ export default function AddTrainingPlan({
         alert={
           <>
             <div style={{ fontWeight: 600, margin: '0.75rem 0' }}>
-              Read this before activating plan!
+              Read this before updating the plan!
             </div>
             <ul>
               <li>
@@ -395,10 +395,10 @@ export default function AddTrainingPlan({
                 become active. All your workout entires on your calender from
                 this day will be updated.
               </li>
-              <li>
+              {/* <li>
                 This will also make changes to your current training split to
                 use the changes you just made.
-              </li>
+              </li> */}
             </ul>
           </>
         }
