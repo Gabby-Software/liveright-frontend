@@ -85,7 +85,7 @@ const QuickAccessLogExercise: FC = () => {
             }`}
             onClick={() =>
               setRoute(quickAccessRoutes.WORKOUT_OVERVIEW, {
-                id: workout._id,
+                id: '1',
                 name: workout.name
               })
             }

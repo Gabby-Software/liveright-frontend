@@ -23,7 +23,9 @@ interface Props {}
 const QuickAccessWorkoutOverview: FC<Props> = () => {
   const { t } = useTranslation()
   const { routeParams, workoutsData, setRoute } = useQuickAccess()
-  const workout = workoutsData.find((workout) => workout.id === routeParams.id)
+  const workout = workoutsData.find(
+    (workout) => workout.id === Number(routeParams.id)
+  )
 
   const [showVideo, setShowVideo] = useState(false)
 
