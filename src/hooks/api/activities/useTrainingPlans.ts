@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getTrainingPlans } from '../../../services/api/activities'
+import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
+import usePagination, { UsePagination } from '../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/training-plans', {
@@ -15,6 +17,7 @@ interface UseTrainingPlans {
   isLoading: boolean
   trainingPlans: any[]
   mutate: any
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -25,8 +28,12 @@ interface IProps {
 export default function useTrainingPlans({
   clientId,
   status
-}: IProps = {}): UseTrainingPlans {
+}: IProps = {}): UseTrainingPlans & UsePagination {
+  const pagination = usePagination()
+
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       account_id: clientId || '',
       status
@@ -40,9 +47,13 @@ export default function useTrainingPlans({
 
   const isLoading = !data && !error
   const trainingPlans = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
     trainingPlans,
-    mutate
+    mutate,
+    meta,
+    ...pagination
   }
 }

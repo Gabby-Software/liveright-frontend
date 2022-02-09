@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getDietPlans } from '../../../services/api/activities'
+import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
+import usePagination, { UsePagination } from '../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/diet-plans', {
@@ -14,6 +16,7 @@ function getKey(params: any) {
 interface UseDietPlans {
   isLoading: boolean
   dietPlans: any[]
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -24,8 +27,12 @@ interface IProps {
 export default function useDietPlans({
   clientId,
   status
-}: IProps = {}): UseDietPlans {
+}: IProps = {}): UseDietPlans & UsePagination {
+  const pagination = usePagination()
+
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       account_id: clientId,
       status
@@ -36,8 +43,12 @@ export default function useDietPlans({
 
   const isLoading = !data && !error
   const dietPlans = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
-    dietPlans
+    dietPlans,
+    meta,
+    ...pagination
   }
 }

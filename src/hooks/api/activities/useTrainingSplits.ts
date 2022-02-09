@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getTrainingSplits } from '../../../services/api/activities'
+import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
+import usePagination, { UsePagination } from '../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/training-splits', {
@@ -15,6 +17,7 @@ interface UseTrainingSplits {
   isLoading: boolean
   trainingSplits: any[]
   mutate: any
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -25,8 +28,12 @@ interface IProps {
 export default function useTrainingSplits({
   clientId,
   status
-}: IProps = {}): UseTrainingSplits {
+}: IProps = {}): UseTrainingSplits & UsePagination {
+  const pagination = usePagination()
+
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       account_id: clientId || '',
       status
@@ -40,9 +47,13 @@ export default function useTrainingSplits({
 
   const isLoading = !data && !error
   const trainingSplits = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
     trainingSplits,
-    mutate
+    mutate,
+    meta,
+    ...pagination
   }
 }

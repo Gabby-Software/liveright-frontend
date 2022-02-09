@@ -3,6 +3,7 @@ import { Link, useHistory, useParams } from 'react-router-dom'
 
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
+import DataPagination from '../../../../components/data-pagination/data-pagination.component'
 import DataTable from '../../../../components/data-table/data-table.component'
 import ClientSelect from '../../../../components/form/client-select/client-select.component'
 import Select from '../../../../components/form/select/select.component'
@@ -42,7 +43,7 @@ export default function TrainingSplits() {
     sortKey: '',
     sortMethod: 0
   })
-  const { trainingSplits, isLoading } = useTrainingSplits({
+  const { trainingSplits, isLoading, meta, onPage } = useTrainingSplits({
     clientId: clientId,
     status
   })
@@ -213,6 +214,13 @@ export default function TrainingSplits() {
           )}
 
           {!trainingSplits.length && <EmptyPlaceholder spacing />}
+        </div>
+        <div>
+          <DataPagination
+            page={meta.current_page}
+            total={meta.total}
+            setPage={onPage}
+          />
         </div>
       </Card>
     </Styles>
