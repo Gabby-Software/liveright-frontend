@@ -100,6 +100,12 @@ export const Styles = styled.div<any>`
       font-feature-settings: normal;
       font-variant: normal;
     }
+
+    &__group {
+      border-bottom: 2px dashed #eee;
+      padding-bottom: 2px;
+      margin-bottom: 2px;
+    }
   }
 `
 

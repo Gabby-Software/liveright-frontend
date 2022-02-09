@@ -93,4 +93,14 @@ export const ListItemStyles = styled.div<any>`
       }
     }
   }
+
+  .createNew-option {
+    color: ${getColorCarry('link')};
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 4px;
+    }
+  }
 `
