@@ -52,8 +52,16 @@ export const ListItemStyles = styled.div<any>`
       flex: 1;
     }
 
+    &-btns {
+      display: flex;
+    }
+
     &-btn {
       color: ${getColorCarry('neutral_70')};
+
+      svg {
+        width: 16px;
+      }
     }
   }
 
@@ -83,6 +91,16 @@ export const ListItemStyles = styled.div<any>`
           width: 80%;
         }
       }
+    }
+  }
+
+  .createNew-option {
+    color: ${getColorCarry('link')};
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 4px;
     }
   }
 `

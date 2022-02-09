@@ -18,6 +18,7 @@ import { Styles } from './meal-day-form.styles'
 
 interface MealDayFormProps {
   name: string
+  fromTSDayOverview?: boolean
 }
 
 function createMeal(name = '') {
@@ -31,7 +32,10 @@ function createMeal(name = '') {
   }
 }
 
-export default function MealDayForm({ name }: MealDayFormProps) {
+export default function MealDayForm({
+  name,
+  fromTSDayOverview
+}: MealDayFormProps) {
   const [dropId] = useState(uuid())
   const isMobile = useIsMobile()
 
@@ -109,6 +113,7 @@ export default function MealDayForm({ name }: MealDayFormProps) {
                           index={index}
                           name={`${name}.${index}`}
                           onRemove={() => handleDayRemove(index)}
+                          fromTSDayOverview={fromTSDayOverview}
                         />
                       ) : (
                         <Meal
@@ -120,6 +125,7 @@ export default function MealDayForm({ name }: MealDayFormProps) {
                           index={index}
                           name={`${name}.${index}`}
                           onRemove={() => handleDayRemove(index)}
+                          fromTSDayOverview={fromTSDayOverview}
                         />
                       )
                     }
@@ -131,10 +137,12 @@ export default function MealDayForm({ name }: MealDayFormProps) {
         </Droppable>
       </DragDropContext>
 
-      <div className="MealDayForm__add-meal" onClick={() => handleDayAdd()}>
-        <AddIcon />
-        Add Another Meal
-      </div>
+      {!fromTSDayOverview && (
+        <div className="MealDayForm__add-meal" onClick={() => handleDayAdd()}>
+          <AddIcon />
+          Add Another Meal
+        </div>
+      )}
 
       {typeof get(errors, name) === 'object' &&
         !Array.isArray(get(errors, name)) && (

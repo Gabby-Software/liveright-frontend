@@ -1,8 +1,13 @@
 import cloneDeep from 'lodash.clonedeep'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
-import { AddIcon, CheckIcon, EditIcon } from '../../../../assets/media/icons'
+import {
+  AddIcon,
+  CheckIcon,
+  CrossIcon,
+  EditIcon
+} from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
@@ -11,8 +16,11 @@ import {
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
-import Select from '../../../../components/form/select/select.component'
+import Select, {
+  CustomSelect
+} from '../../../../components/form/select/select.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { OptionType } from '../../../../types/option.type'
 import DayCard from '../day-card/day-card.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
@@ -71,7 +79,6 @@ export default function DayTrainingSplitEditCard(
     tpWorkouts,
     dpDays,
     day,
-    edit,
     onWorkout,
     onMealPlan,
     onCardio,
@@ -86,42 +93,90 @@ export default function DayTrainingSplitEditCard(
     name: `${name}.items`
   })
 
+  const onChangeValue = (name: string, value: any) => {
+    methods.setValue(name, value, { shouldValidate: true })
+  }
+
   const onTPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      methods.setValue(
-        name,
-        [...data?.training_plan_activities, { name: value }],
-        {
-          shouldValidate: true
-        }
-      )
+      onChangeValue(name, [...data?.training_plan_activities, { name: value }])
       return
     }
-    methods.setValue(
-      name,
-      [
-        ...data?.training_plan_activities,
-        cloneDeep(tpWorkouts.find((w) => w._id === value))
-      ],
-      { shouldValidate: true }
-    )
+    onChangeValue(name, [
+      ...data?.training_plan_activities,
+      cloneDeep(tpWorkouts.find((w) => w._id === value))
+    ])
   }
 
   const onDPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      methods.setValue(
-        name,
-        { name: value },
-        {
-          shouldValidate: true
-        }
-      )
+      onChangeValue(name, { name: value })
       return
     }
-    methods.setValue(name, cloneDeep(dpDays.find((d) => d._id === value)), {
-      shouldValidate: true
-    })
+    onChangeValue(name, cloneDeep(dpDays.find((d) => d._id === value)))
   }
+
+  const onTPRevome = (name: string, index: number) => {
+    const workouts = [...data.training_plan_activities]
+    workouts.splice(index, 1)
+    onChangeValue(name, [...workouts])
+  }
+
+  const onDPRevome = (name: string) => {
+    onChangeValue(name, { name: '' })
+  }
+
+  const workoutsOptions = useMemo(() => {
+    const optionsFromTP = tpWorkouts
+      .filter((w) => !w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+    const optionsFromTemp = tpWorkouts
+      .filter((w) => w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+
+    const options = []
+    if (optionsFromTP.length) {
+      options.push({
+        label: 'From Training Plan',
+        options: optionsFromTP
+      })
+    }
+
+    if (optionsFromTemp.length) {
+      options.push({
+        label: 'From Templates',
+        options: optionsFromTemp
+      })
+    }
+
+    return options
+  }, [tpWorkouts])
+
+  const mealOptions = useMemo(() => {
+    const optionsFromDP = dpDays
+      .filter((w) => !w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+    const optionsFromTemp = dpDays
+      .filter((w) => w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+
+    const options = []
+    if (optionsFromDP.length) {
+      options.push({
+        label: 'From Diet Plan',
+        options: optionsFromDP
+      })
+    }
+
+    if (optionsFromTemp.length) {
+      options.push({
+        label: 'From Templates',
+        options: optionsFromTemp
+      })
+    }
+
+    return options
+  }, [dpDays])
 
   return (
     <DayCard
@@ -138,37 +193,25 @@ export default function DayTrainingSplitEditCard(
               data?.training_plan_activities?.map((a: any) => a.name) || []
             }
             name={`${name}.training_plan_activities`}
-            selectOptions={
-              tpWorkouts?.map((w) => ({ label: w.name, value: w._id })) || []
-            }
+            selectOptions={workoutsOptions}
             icon={<WorkoutIcon />}
-            edit={edit}
             onSelection={onTPSelection}
-            onClick={
-              onWorkout
-                ? () => onWorkout(`${name}.training_plan_activities` || '')
-                : undefined
-            }
+            onEdit={() => onWorkout(`${name}.training_plan_activities` || '')}
+            onRemove={onTPRevome}
           />
           <ListItem
             color={getColorCarry('primary_v2')}
+            icon={<FoodIcon />}
             title="Meal Plan Day"
             type="mealPlan"
             content={
               data?.diet_plan_day?.name ? [data?.diet_plan_day?.name] : []
             }
             name={`${name}.diet_plan_day`}
-            selectOptions={
-              dpDays?.map((d) => ({ label: d.name, value: d._id })) || []
-            }
-            icon={<FoodIcon />}
-            edit={edit}
+            selectOptions={mealOptions}
             onSelection={onDPSelection}
-            onClick={
-              onMealPlan
-                ? () => onMealPlan(`${name}.diet_plan_day` || '')
-                : undefined
-            }
+            onEdit={() => onMealPlan(`${name}.diet_plan_day` || '')}
+            onRemove={onDPRevome}
           />
           <ListOther
             color={getColorCarry('red')}
@@ -195,9 +238,9 @@ interface ListItemProps {
   icon: ReactNode
   content: string[]
   name: string
-  selectOptions: { label: string; value: string }[]
-  edit?: boolean
-  onClick?: (id: string) => void
+  selectOptions: OptionType[] | { label: string; options: OptionType[] }[]
+  onEdit: (id: string) => void
+  onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
 }
 
@@ -209,8 +252,8 @@ function ListItem({
   name,
   selectOptions,
   icon,
-  edit,
-  onClick,
+  onEdit,
+  onRemove,
   onSelection
 }: ListItemProps) {
   const [addNew, setAddNew] = useState(false)
@@ -230,6 +273,12 @@ function ListItem({
     setNewName('')
   }
 
+  const createNewLabel = (
+    <div className="createNew-option">
+      <AddIcon /> Create New
+    </div>
+  )
+
   return (
     <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
       <div className="DayTrainingSplitCard__li-icon">{icon}</div>
@@ -243,13 +292,22 @@ function ListItem({
               <p className="DayTrainingSplitCard__li-subtitle">
                 <span>{c}</span>
 
-                <IconButton
-                  size="sm"
-                  className="DayTrainingSplitCard__li-btn"
-                  onClick={onClick}
-                >
-                  {edit ? <EditIcon /> : <AddIcon />}
-                </IconButton>
+                <div className="DayTrainingSplitCard__li-btns">
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={onEdit}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={() => onRemove(name, i)}
+                  >
+                    <CrossIcon />
+                  </IconButton>
+                </div>
               </p>
             </div>
           ))}
@@ -274,14 +332,15 @@ function ListItem({
                     </Button>
                   </div>
                 ) : (
-                  <Select
+                  <CustomSelect
                     id="DaySplitEditCard-training-plan"
                     placeholder="Search training plan"
                     value={value?.name || ''}
                     options={[
                       ...selectOptions,
-                      { label: 'Create New', value: 'add-new' }
+                      { label: createNewLabel, value: 'add-new' }
                     ]}
+                    forceDesktop
                     onChange={onChange}
                   />
                 )
