@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
 import {
@@ -16,8 +16,11 @@ import {
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
-import Select from '../../../../components/form/select/select.component'
+import Select, {
+  CustomSelect
+} from '../../../../components/form/select/select.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { OptionType } from '../../../../types/option.type'
 import DayCard from '../day-card/day-card.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
@@ -123,6 +126,58 @@ export default function DayTrainingSplitEditCard(
     onChangeValue(name, { name: '' })
   }
 
+  const workoutsOptions = useMemo(() => {
+    const optionsFromTP = tpWorkouts
+      .filter((w) => !w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+    const optionsFromTemp = tpWorkouts
+      .filter((w) => w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+
+    const options = []
+    if (optionsFromTP.length) {
+      options.push({
+        label: 'From Training Plan',
+        options: optionsFromTP
+      })
+    }
+
+    if (optionsFromTemp.length) {
+      options.push({
+        label: 'From Templates',
+        options: optionsFromTemp
+      })
+    }
+
+    return options
+  }, [tpWorkouts])
+
+  const mealOptions = useMemo(() => {
+    const optionsFromDP = dpDays
+      .filter((w) => !w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+    const optionsFromTemp = dpDays
+      .filter((w) => w.fromTemplate)
+      .map((w: any) => ({ label: w.name, value: w._id }))
+
+    const options = []
+    if (optionsFromDP.length) {
+      options.push({
+        label: 'From Diet Plan',
+        options: optionsFromDP
+      })
+    }
+
+    if (optionsFromTemp.length) {
+      options.push({
+        label: 'From Templates',
+        options: optionsFromTemp
+      })
+    }
+
+    return options
+  }, [dpDays])
+
   return (
     <DayCard
       border="both"
@@ -138,9 +193,7 @@ export default function DayTrainingSplitEditCard(
               data?.training_plan_activities?.map((a: any) => a.name) || []
             }
             name={`${name}.training_plan_activities`}
-            selectOptions={
-              tpWorkouts?.map((w) => ({ label: w.name, value: w._id })) || []
-            }
+            selectOptions={workoutsOptions}
             icon={<WorkoutIcon />}
             onSelection={onTPSelection}
             onEdit={() => onWorkout(`${name}.training_plan_activities` || '')}
@@ -155,9 +208,7 @@ export default function DayTrainingSplitEditCard(
               data?.diet_plan_day?.name ? [data?.diet_plan_day?.name] : []
             }
             name={`${name}.diet_plan_day`}
-            selectOptions={
-              dpDays?.map((d) => ({ label: d.name, value: d._id })) || []
-            }
+            selectOptions={mealOptions}
             onSelection={onDPSelection}
             onEdit={() => onMealPlan(`${name}.diet_plan_day` || '')}
             onRemove={onDPRevome}
@@ -187,7 +238,7 @@ interface ListItemProps {
   icon: ReactNode
   content: string[]
   name: string
-  selectOptions: { label: string; value: string }[]
+  selectOptions: OptionType[] | { label: string; options: OptionType[] }[]
   onEdit: (id: string) => void
   onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
@@ -221,6 +272,12 @@ function ListItem({
     setAddNew(false)
     setNewName('')
   }
+
+  const createNewLabel = (
+    <div className="createNew-option">
+      <AddIcon /> Create New
+    </div>
+  )
 
   return (
     <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
@@ -275,14 +332,15 @@ function ListItem({
                     </Button>
                   </div>
                 ) : (
-                  <Select
+                  <CustomSelect
                     id="DaySplitEditCard-training-plan"
                     placeholder="Search training plan"
                     value={value?.name || ''}
                     options={[
                       ...selectOptions,
-                      { label: 'Create New', value: 'add-new' }
+                      { label: createNewLabel, value: 'add-new' }
                     ]}
+                    forceDesktop
                     onChange={onChange}
                   />
                 )

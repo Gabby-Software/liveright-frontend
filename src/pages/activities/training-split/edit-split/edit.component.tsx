@@ -250,12 +250,18 @@ export default function EditTrainingSplit() {
     return options
   }, [dietPlans])
 
-  const tpWorkoutOptions = useMemo(() => {
-    return [...(tpRev.activities || []), ...templateWorkouts].filter((w) => !!w)
+  const tpWorkout = useMemo(() => {
+    return [
+      ...(tpRev.activities || []),
+      ...templateWorkouts.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((w) => !!w)
   }, [tpRev._id, templateWorkouts])
 
-  const dpMealsOptions = useMemo(() => {
-    return [...(dpRev.days || []), ...templateMealPlans].filter((m) => !!m)
+  const dpMeals = useMemo(() => {
+    return [
+      ...(dpRev.days || []),
+      ...templateMealPlans.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((m) => !!m)
   }, [dpRev._id, templateMealPlans])
 
   const address = !revision._id
@@ -478,8 +484,8 @@ export default function EditTrainingSplit() {
                 <DayTrainingSplitEditCard
                   key={day.id}
                   name={`days.${i}`}
-                  tpWorkouts={tpWorkoutOptions}
-                  dpDays={dpMealsOptions}
+                  tpWorkouts={tpWorkout}
+                  dpDays={dpMeals}
                   day={`Day ${i + 1}`}
                   edit
                   onWorkout={handleWorkout}
