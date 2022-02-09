@@ -326,17 +326,17 @@ export default function TrainingPlan() {
         title={trainingPlan.name}
         alert={
           <>
-            <div className="title">Read this before activating plan!</div>
+            <div className="title">Read this before updating the plan!</div>
             <ul>
               <li>
                 A new revision of your training plan will be created and it will
                 become active. All your workout entires on your calender from
                 this day will be updated.
               </li>
-              <li>
+              {/* <li>
                 This will also make changes to your current training split to
                 use the changes you just made.
-              </li>
+              </li> */}
             </ul>
           </>
         }
