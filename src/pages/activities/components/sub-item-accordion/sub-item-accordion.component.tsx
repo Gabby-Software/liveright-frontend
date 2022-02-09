@@ -39,13 +39,15 @@ export default function SubItemAccordion({
         </div>
 
         <div className="SubItemAccordion__actions">
-          <IconButton
-            size="sm"
-            className="SubItemAccordion__delete"
-            onClick={onRemove}
-          >
-            <DeleteOutlinedIcon />
-          </IconButton>
+          {onRemove && (
+            <IconButton
+              size="sm"
+              className="SubItemAccordion__delete"
+              onClick={onRemove}
+            >
+              <DeleteOutlinedIcon />
+            </IconButton>
+          )}
           <IconButton
             size="sm"
             className="SubItemAccordion__caret"

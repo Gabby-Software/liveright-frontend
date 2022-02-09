@@ -19,6 +19,7 @@ interface FoodProps {
   draggableProps: any
   name: string
   onRemove: any
+  readOnlyForm?: boolean
 }
 
 const options = [
@@ -37,7 +38,8 @@ export default function Food({
   innerRef,
   draggableProps,
   name,
-  onRemove
+  onRemove,
+  readOnlyForm
 }: FoodProps) {
   const methods = useFormContext()
 
@@ -84,6 +86,7 @@ export default function Food({
             // error={get(errors, name)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.name`}
@@ -101,6 +104,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.grams`}
@@ -120,6 +124,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.proteins`}
@@ -139,6 +144,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.fat`}
@@ -158,6 +164,7 @@ export default function Food({
             format={formatter().number().min(0).max(10000)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.net_carbs`}
@@ -173,6 +180,7 @@ export default function Food({
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.sugar`}
@@ -188,6 +196,7 @@ export default function Food({
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
+            disabled={readOnlyForm}
           />
         )}
         name={`${name}.info.fiber`}
@@ -225,24 +234,28 @@ export default function Food({
         name={`${name}.info.calories`}
       />
 
-      <div className="Food__delete">
-        <IconButton className="Food__delete-btn" onClick={onRemove}>
-          <DeleteOutlinedIcon />
-        </IconButton>
-      </div>
+      {!readOnlyForm && (
+        <div className="Food__delete">
+          <IconButton className="Food__delete-btn" onClick={onRemove}>
+            <DeleteOutlinedIcon />
+          </IconButton>
+        </div>
+      )}
 
-      <Controller
-        render={({ field: { value, name } }) => (
-          <div className="Food__checkbox-container">
-            <Checkbox
-              checked={value}
-              onChange={(e) => onChange(name, e.target.checked)}
-            />
-            <Label className="Food__checkbox">Save Food as template</Label>
-          </div>
-        )}
-        name={`${name}.save_as_template`}
-      />
+      {!readOnlyForm && (
+        <Controller
+          render={({ field: { value, name } }) => (
+            <div className="Food__checkbox-container">
+              <Checkbox
+                checked={value}
+                onChange={(e) => onChange(name, e.target.checked)}
+              />
+              <Label className="Food__checkbox">Save Food as template</Label>
+            </div>
+          )}
+          name={`${name}.save_as_template`}
+        />
+      )}
     </Styles>
   )
 }

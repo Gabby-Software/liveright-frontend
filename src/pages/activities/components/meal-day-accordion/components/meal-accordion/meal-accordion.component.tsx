@@ -30,6 +30,7 @@ interface MealAccordionProps {
   name: string
   index: number
   onRemove: any
+  fromTSDayOverview?: boolean
 }
 
 function createFood() {
@@ -67,7 +68,8 @@ export default function MealAccordion({
   draggableProps,
   dropId,
   name,
-  onRemove
+  onRemove,
+  fromTSDayOverview
 }: MealAccordionProps) {
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
@@ -208,7 +210,7 @@ export default function MealAccordion({
     <div ref={innerRef} {...draggableProps}>
       <ItemAccordion
         title={mealName}
-        onRemove={onRemove}
+        onRemove={!fromTSDayOverview ? onRemove : undefined}
         dragHandleProps={dragHandleProps}
         content={
           <Styles>
@@ -224,6 +226,7 @@ export default function MealAccordion({
                     onSelect={onMealSelected}
                     options={nameOptions}
                     className={get(errors, name) ? 'invalid-field' : ''}
+                    disabled={fromTSDayOverview}
                   />
                 )}
                 name={`${name}.name`}
@@ -267,20 +270,22 @@ export default function MealAccordion({
             className="MealAccordion__control"
           /> */}
 
-            <Controller
-              render={({ field: { value, name } }) => (
-                <div className="Meal__checkbox-container">
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => methods.setValue(name, e.target.checked)}
-                  />
-                  <Label className="Meal__checkbox">
-                    Save Meal as template
-                  </Label>
-                </div>
-              )}
-              name={`${name}.save_as_template`}
-            />
+            {!fromTSDayOverview && (
+              <Controller
+                render={({ field: { value, name } }) => (
+                  <div className="Meal__checkbox-container">
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => methods.setValue(name, e.target.checked)}
+                    />
+                    <Label className="Meal__checkbox">
+                      Save Meal as template
+                    </Label>
+                  </div>
+                )}
+                name={`${name}.save_as_template`}
+              />
+            )}
 
             <WorkoutSubtitle>Food</WorkoutSubtitle>
 
@@ -303,6 +308,7 @@ export default function MealAccordion({
                               isDragging={snapshot.isDragging}
                               name={`${name}.items.${[index]}.data`}
                               onRemove={() => handleFoodRemove(index)}
+                              readOnlyForm={fromTSDayOverview}
                             />
                           )}
                         </Draggable>
@@ -322,17 +328,19 @@ export default function MealAccordion({
               )}
             </div>
 
-            <div className="MealAccordion__actions">
-              <Button
-                variant="text"
-                size="sm"
-                className="MealAccordion__action-btn"
-                onClick={handleFoodAdd}
-              >
-                <AddIcon />
-                Add Food
-              </Button>
-            </div>
+            {!fromTSDayOverview && (
+              <div className="MealAccordion__actions">
+                <Button
+                  variant="text"
+                  size="sm"
+                  className="MealAccordion__action-btn"
+                  onClick={handleFoodAdd}
+                >
+                  <AddIcon />
+                  Add Food
+                </Button>
+              </div>
+            )}
           </Styles>
         }
       />
