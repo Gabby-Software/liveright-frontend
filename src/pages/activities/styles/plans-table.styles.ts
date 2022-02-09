@@ -12,6 +12,7 @@ export const Styles = styled.div`
 
   .PlansTable {
     &__card {
+      margin-bottom: 4rem;
       @media ${mediaQueries.TABLET} {
         padding: 0;
         background-color: transparent;
