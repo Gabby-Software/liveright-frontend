@@ -27,7 +27,10 @@ export default function DietPlans() {
   const [name, setName] = useState('')
 
   const { id } = useAuth()
-  const { dietTemplates } = useTemplateDietPlans({ clientId, name })
+  const { dietTemplates, meta, onPage } = useTemplateDietPlans({
+    clientId,
+    name
+  })
   const data = useDataDietPlansConvert(dietTemplates, id)
 
   const onSearch = (value: string) => {
@@ -49,6 +52,8 @@ export default function DietPlans() {
       mobileLabels={MOBILE_LABELS}
       data={data}
       baseLink={Routes.ACTIVITIES_TM_DP}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

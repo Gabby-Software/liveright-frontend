@@ -24,7 +24,10 @@ export default function Workouts() {
   const [client, setClient] = useState('all')
 
   const { id } = useAuth()
-  const { workouts } = useTemplateWorkouts({ name: search, clientId: client })
+  const { workouts, meta, onPage } = useTemplateWorkouts({
+    name: search,
+    clientId: client
+  })
 
   const data = useMemo(() => {
     const rows = workouts.map((item) => ({
@@ -54,6 +57,8 @@ export default function Workouts() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_WO}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

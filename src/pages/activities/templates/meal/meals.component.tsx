@@ -20,7 +20,7 @@ export default function Meals() {
   const [name, setName] = useState('')
 
   const { id } = useAuth()
-  const { meals } = useTemplateMeals({ name, clientId })
+  const { meals, meta, onPage } = useTemplateMeals({ name, clientId })
   console.log(meals)
   const data = useDataFMConvert(meals, id)
 
@@ -42,6 +42,8 @@ export default function Meals() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_ML}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

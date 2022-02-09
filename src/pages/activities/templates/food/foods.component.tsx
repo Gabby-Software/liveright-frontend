@@ -28,7 +28,7 @@ export default function Foods() {
   }
 
   const { id } = useAuth()
-  const { foods } = useTemplateFoods({ name, clientId })
+  const { foods, meta, onPage } = useTemplateFoods({ name, clientId })
   const DATA = useDataFMConvert(foods, id)
 
   return (
@@ -40,6 +40,8 @@ export default function Foods() {
       mobileLabels={MOBILE_LABELS}
       data={DATA}
       baseLink={Routes.ACTIVITIES_TM_FO}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getTemplatesData } from '../../../../services/api/templates'
+import { PaginationMetaType } from '../../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../../utils/obj'
 import { stringifyURL } from '../../../../utils/query'
+import usePagination, { UsePagination } from '../../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/training-split-templates', {
@@ -14,6 +16,7 @@ function getKey(params: any) {
 interface UseTemplateTrainingSplits {
   isLoading: boolean
   trainingSplits: any[]
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -24,8 +27,12 @@ interface IProps {
 export default function useTemplateTrainingSplits({
   clientId,
   name
-}: IProps = {}): UseTemplateTrainingSplits {
+}: IProps = {}): UseTemplateTrainingSplits & UsePagination {
+  const pagination = usePagination()
+
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       account_id: clientId,
       name
@@ -36,8 +43,12 @@ export default function useTemplateTrainingSplits({
 
   const isLoading = !data && !error
   const trainingSplits = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
-    trainingSplits
+    trainingSplits,
+    meta,
+    ...pagination
   }
 }

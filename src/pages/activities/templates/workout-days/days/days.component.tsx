@@ -25,7 +25,7 @@ export default function WorkoutDays() {
   const [search, setSearch] = useState('')
   const [client, setClient] = useState('all')
 
-  const { workoutDays } = useTemplateWorkoutDays({
+  const { workoutDays, meta, onPage } = useTemplateWorkoutDays({
     name: search,
     clientId: client
   })
@@ -57,6 +57,8 @@ export default function WorkoutDays() {
       mobileLabels={MOBILE_LABELS}
       data={data}
       baseLink={Routes.ACTIVITIES_TM_WD}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

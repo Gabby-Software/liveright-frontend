@@ -32,7 +32,7 @@ export default function Excercies() {
   const [search, setSearch] = useState('')
   const [client, setClient] = useState('all')
 
-  const { exercises } = useTemplateExercises({
+  const { exercises, meta, onPage } = useTemplateExercises({
     name: search,
     clientId: client
   })
@@ -65,6 +65,8 @@ export default function Excercies() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_EX}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }
