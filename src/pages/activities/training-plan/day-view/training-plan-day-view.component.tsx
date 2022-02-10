@@ -61,7 +61,7 @@ export default function TrainingPlanDayView({
             <div className="TrainingSplitDayView__title-container">
               <Title>Current Training Plan</Title>
 
-              <Button onClick={onEdit}>Edit Training Split</Button>
+              <Button onClick={onEdit}>Edit Training Plan</Button>
             </div>
 
             <div className="TrainingSplitDayView__divider" />

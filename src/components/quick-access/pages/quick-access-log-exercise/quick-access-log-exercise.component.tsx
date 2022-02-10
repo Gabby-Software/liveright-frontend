@@ -7,7 +7,6 @@ import {
 } from '../../../../assets/media/icons'
 import useTrainingPlan from '../../../../hooks/api/quick-access/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/quick-access/useTrainingPlans'
-import useSearch from '../../../../hooks/ui/useSearch'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
 import Input from '../../../form/input/input.component'

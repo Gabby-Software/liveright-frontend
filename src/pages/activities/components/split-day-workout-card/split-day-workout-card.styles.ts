@@ -119,6 +119,11 @@ export const Styles = styled(Card)`
       width: 100%;
       font-size: 0.875rem;
       font-weight: 400;
+      empty-cells: hide;
+
+      &-indent {
+        text-indent: 2rem;
+      }
 
       & thead tr th {
         padding: 0 0.25rem 1rem 0.25rem;

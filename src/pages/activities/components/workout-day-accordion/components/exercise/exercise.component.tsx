@@ -280,11 +280,13 @@ export default function Exercise({
               <TimeInput
                 id="Exercise-rest-interval"
                 label="Rest Interval"
-                placeholder="HH:mm"
+                placeholder="mm:ss"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
+                format="mm:ss"
+                tooltip="Time duration in minutes and seconds"
               />
             )}
           />

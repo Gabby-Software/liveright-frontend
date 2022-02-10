@@ -30,6 +30,7 @@ export interface TimeInputProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   ErrorProps?: Pick<ErrorProps, 'size'>
   bordered?: boolean
+  format?: 'HH:mm' | 'mm:ss'
 }
 
 const TimeInput = (
@@ -44,6 +45,7 @@ const TimeInput = (
     readOnly,
     maskPlaceholder = null,
     alwaysShowMask,
+    format = 'HH:mm',
     ...otherProps
   } = props
   const [time, setTime] = useState<string>(value || '')
@@ -54,13 +56,11 @@ const TimeInput = (
     onChange?.(e)
   }
 
-  const mask = [
-    /[0-2]/,
-    startsWithTwo ? /[0-3]/ : /[0-9]/,
-    ':',
-    /[0-5]/,
-    /[0-9]/
-  ]
+  const mask =
+    format === 'HH:mm'
+      ? [/[0-2]/, startsWithTwo ? /[0-3]/ : /[0-9]/, ':', /[0-5]/, /[0-9]/]
+      : [/[0-5]/, /[0-9]/, ':', /[0-5]/, /[0-9]/]
+
   return (
     <ReactInputMask
       mask={mask}

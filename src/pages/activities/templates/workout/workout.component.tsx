@@ -1,7 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 
-import { DeleteOutlinedIcon } from '../../../../assets/media/icons'
+import {
+  DeleteOutlinedIcon,
+  VideoOutlinedIcon
+} from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import Dialog from '../../../../components/dialogs/dialog/dialog.component'
@@ -26,10 +29,26 @@ const labels = [
   'Reps',
   'Tempo',
   'Rest Interval',
+  'Duration',
+  'Intensity',
   'Video Link'
 ]
-const keys = ['name', 'sets', 'reps', 'tempo', 'rest_interval', 'video']
+const keys = [
+  'name',
+  'sets',
+  'reps',
+  'tempo',
+  'rest_interval',
+  'duration',
+  'intensity',
+  'video'
+]
 const links = ['video']
+const linkLabels: React.ReactNode[] = [
+  <div key={1}>
+    <VideoOutlinedIcon /> View Video
+  </div>
+]
 
 const tpOptions = [
   { label: 'Lose Weight', value: '123' },
@@ -60,10 +79,13 @@ export default function Workout() {
             const exercises = item.is_superset ? item.data : [item.data]
             return exercises.map((a: any) => ({
               name: a?.name,
-              sets: a?.info?.sets,
-              reps: a?.info?.reps,
-              tempo: a?.info?.tempo,
-              rest_interval: a?.info?.rest_interval,
+              sets: a.info.type === 'strength' ? a?.info?.sets : 'NA',
+              reps: a.info.type === 'strength' ? a?.info?.reps : 'NA',
+              tempo: a.info.type === 'strength' ? a?.info?.tempo : 'NA',
+              rest_interval:
+                a.info.type === 'strength' ? a?.info?.rest_interval : 'NA',
+              duration: a.info.type === 'cardio' ? a?.info?.duration : 'NA',
+              intensity: a.info.type === 'cardio' ? a?.info?.intensity : 'NA',
               video: a?.link
             }))
           })
@@ -87,6 +109,7 @@ export default function Workout() {
               labels={labels}
               keys={keys}
               links={links}
+              linkLabels={linkLabels}
               data={detail}
             />
           )}

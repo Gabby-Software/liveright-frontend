@@ -52,8 +52,8 @@ function createExercise(
       reps: '',
       tempo: '',
       rest_interval: '',
-      duration: '00:10',
-      intensity: 'Moderate'
+      duration: '',
+      intensity: ''
     },
     sort_order: isSuperset && 1
   }
