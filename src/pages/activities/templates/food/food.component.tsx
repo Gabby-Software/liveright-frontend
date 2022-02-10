@@ -37,16 +37,20 @@ export default function Meal() {
     return <FoodTemplateForm onClose={() => setEdit(false)} />
   }
 
+  const getTwoDecimal = (value: any) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100
+  }
+
   const content = (
     <>
       <section className="PlanPage__summary">
-        <p className="label">Micronutrients from this food</p>
+        <p className="label">Macronutrients from this food</p>
         <div className="nutrients">
           {Object.keys(MACROS_KEY_LABEL).map((k) => (
             <Macronutrient
               key={k}
               title={MACROS_KEY_LABEL[k]}
-              amount={`${food?.info?.[k as keyof FoodInfoType]}${
+              amount={`${getTwoDecimal(food?.info?.[k as keyof FoodInfoType])}${
                 k === 'calories' ? 'kcal' : 'g'
               }`}
             />

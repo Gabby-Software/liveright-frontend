@@ -1,13 +1,16 @@
 import { get } from 'lodash'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { FoodIcon } from '../../../../assets/media/icons'
+import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
-import Input from '../../../../components/form/input/input.component'
+// import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
+import { getUniqueItemsByProperties } from '../../../../utils/arrays'
 import FoodDay from '../../components/meal-day-accordion/components/food-day/food-day.component'
 import DayAccordion from '../day-accordion/day-accordion.component'
 import Macronutrient from '../macronutrient/macronutrient.component'
@@ -61,6 +64,10 @@ export default function MealDayAccordion({
     methods.setValue(name, value, { shouldValidate: true })
   }
 
+  const getTwoDecimal = (value: any) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100
+  }
+
   const calculateTotalMacros = () => {
     const activities: any[] = methods.getValues(name)
 
@@ -80,7 +87,7 @@ export default function MealDayAccordion({
       items?.forEach((i: any) => {
         const info = i.data.info
         Object.keys(macros).map((k: string) => {
-          return ((macros as any)[k] += parseInt(info[k] || 0))
+          return ((macros as any)[k] += getTwoDecimal(info[k] || 0))
         })
       })
     })
@@ -91,6 +98,64 @@ export default function MealDayAccordion({
   methods.watch(() => {
     calculateTotalMacros()
   })
+
+  const { mealPlans } = useTemplateMealPlans()
+
+  const mealPlansInDP = useWatch({
+    name: `days`,
+    control: methods.control
+  })
+
+  const mealPlanName = useWatch({
+    control: methods.control,
+    name: `days.${index}.name`
+  })
+
+  const onMealPlanNameSelect = (value: string) => {
+    console.log('onMealPlanNameSelect', value)
+  }
+
+  const mealPlanNameOptions = useMemo(() => {
+    const planOptions = mealPlansInDP
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(mealPlanName?.toLowerCase()) &&
+          w?.name !== mealPlanName
+      )
+      ?.map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const templateOptions = mealPlans
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(mealPlanName?.toLowerCase()) &&
+          w?.name !== mealPlanName
+      )
+      .map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const options = []
+
+    if (planOptions?.length) {
+      options.push({
+        label: 'From this Diet Plan',
+        options: getUniqueItemsByProperties(planOptions, ['label'])
+      })
+    }
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [mealPlansInDP, mealPlans, mealPlanName])
 
   return (
     <DayAccordion
@@ -106,14 +171,25 @@ export default function MealDayAccordion({
           <Controller
             name={`days.${index}.name`}
             render={({ field: { name, value } }) => (
-              <Input
+              // <Input
+              //   id="MealDayAccordion-name"
+              //   label="Meal Plan name"
+              //   placeholder="Name"
+              //   value={value}
+              //   onChange={(e) => onChange(name, e.target.value)}
+              //   // error={get(errors, name)}
+              //   className={get(errors, name) ? 'invalid-field' : ''}
+              //   shouldScrollTo={get(errors, name)}
+              // />
+              <AutoCompleteInput
                 id="MealDayAccordion-name"
                 label="Meal Plan name"
                 placeholder="Name"
                 value={value}
-                onChange={(e) => onChange(name, e.target.value)}
-                // error={get(errors, name)}
+                onChange={(value) => methods.setValue(name, value)}
                 className={get(errors, name) ? 'invalid-field' : ''}
+                options={mealPlanNameOptions}
+                onSelect={onMealPlanNameSelect}
                 shouldScrollTo={get(errors, name)}
               />
             )}

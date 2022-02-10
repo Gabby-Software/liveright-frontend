@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
@@ -9,7 +9,9 @@ import AutoCompleteInput from '../../../../../../components/form/autoCompleteInp
 import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
+import useTemplateFoods from '../../../../../../hooks/api/templates/useTemplateFoods'
 import formatter from '../../../../../../managers/formatter.manager'
+import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import { Styles } from './food.styles'
 
 interface FoodProps {
@@ -22,15 +24,15 @@ interface FoodProps {
   readOnlyForm?: boolean
 }
 
-const options = [
-  { value: 'Chicken Brest Tender', label: 'Chicken Brest Tender' },
-  { value: 'Brown Rice', label: 'Brown Rice' },
-  { value: 'Red Apple', label: 'Red Apple' },
-  { value: 'Food 1', label: 'Food 1' },
-  { value: 'Food 2', label: 'Food 2' },
-  { value: 'Food 4', label: 'Food 4' },
-  { value: 'Food 3', label: 'Food 3' }
-]
+// const options = [
+//   { value: 'Chicken Brest Tender', label: 'Chicken Brest Tender' },
+//   { value: 'Brown Rice', label: 'Brown Rice' },
+//   { value: 'Red Apple', label: 'Red Apple' },
+//   { value: 'Food 1', label: 'Food 1' },
+//   { value: 'Food 2', label: 'Food 2' },
+//   { value: 'Food 4', label: 'Food 4' },
+//   { value: 'Food 3', label: 'Food 3' }
+// ]
 
 export default function Food({
   dragHandleProps,
@@ -42,6 +44,15 @@ export default function Food({
   readOnlyForm
 }: FoodProps) {
   const methods = useFormContext()
+  const [macros, setMacros] = useState<any>({
+    proteins: 0,
+    fat: 0,
+    net_carbs: 0,
+    sugar: 0,
+    fiber: 0,
+    total_carbs: 0,
+    calories: 0
+  })
 
   const info = useWatch({
     control: methods.control,
@@ -55,16 +66,165 @@ export default function Food({
   useEffect(() => {
     onChange(
       `${name}.info.calories`,
-      (info.proteins || 0) * 4 + (info.net_carbs || 0) * 4 + (info.fat || 0) * 9
+      getTwoDecimal(
+        (info.proteins || 0) * 4 +
+          (info.net_carbs || 0) * 4 +
+          (info.fat || 0) * 9
+      )
     )
 
     onChange(
       `${name}.info.total_carbs`,
-      (+info.net_carbs || 0) + (+info.fiber || 0)
+      getTwoDecimal((+info.net_carbs || 0) + (+info.fiber || 0))
     )
   }, [info.proteins, info.net_carbs, info.fat, info.fiber])
 
   const { errors } = methods.formState
+
+  const { foods } = useTemplateFoods()
+
+  const days = useWatch({
+    name: `days`,
+    control: methods.control
+  })
+
+  const [foodName] = useWatch({
+    control: methods.control,
+    name: [`${name}.name`]
+  })
+
+  const getTwoDecimal = (value: any) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100
+  }
+
+  const multiPlyMacros = (grams: any) => {
+    methods.setValue(
+      `${name}.info.proteins`,
+      getTwoDecimal(macros.proteins * grams || 0)
+    )
+    methods.setValue(`${name}.info.fat`, getTwoDecimal(macros.fat * grams || 0))
+    methods.setValue(
+      `${name}.info.net_carbs`,
+      getTwoDecimal(macros.net_carbs * grams || 0)
+    )
+    methods.setValue(
+      `${name}.info.sugar`,
+      getTwoDecimal(macros.sugar * grams || 0)
+    )
+    methods.setValue(
+      `${name}.info.fiber`,
+      getTwoDecimal(macros.fiber * grams || 0)
+    )
+  }
+
+  const onFoodSelected = (value: string) => {
+    // find in templates
+    let food = foods.find((m: any) => m.name === value)
+
+    if (!food) {
+      // else not found, check in current DP
+      const mealsOfPlan = days?.reduce(
+        (acc: any[], d: any) => [
+          ...acc,
+          ...(d.activities || d.diet_plan_day.activities || [])
+        ],
+        []
+      )
+
+      const foodsOfPlan = mealsOfPlan?.reduce(
+        (item: any[], acc: any) => [...item, ...(acc.items || [])],
+        []
+      )
+      food = foodsOfPlan.find((m: any) => m?.data?.name === value)
+      console.log(foodsOfPlan)
+    }
+
+    if (food) {
+      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`${name}.name`, food?.name || food?.data?.name || '')
+      methods.setValue(`${name}.info.grams`, 1)
+      methods.setValue(
+        `${name}.info.proteins`,
+        getTwoDecimal(food?.info?.proteins || 0)
+      )
+      methods.setValue(`${name}.info.fat`, getTwoDecimal(food?.info?.fat || 0))
+      methods.setValue(
+        `${name}.info.net_carbs`,
+        getTwoDecimal(food?.info?.net_carbs || 0)
+      )
+      methods.setValue(
+        `${name}.info.sugar`,
+        getTwoDecimal(food?.info?.sugar || 0)
+      )
+      methods.setValue(
+        `${name}.info.fiber`,
+        getTwoDecimal(food?.info?.fiber || 0)
+      )
+
+      setMacros({
+        proteins: food?.info?.proteins || 0,
+        fat: food?.info?.fat || 0,
+        net_carbs: food?.info?.net_carbs || 0,
+        sugar: food?.info?.sugar || 0,
+        fiber: food?.info?.fiber || 0
+      })
+    }
+  }
+
+  const nameOptions = useMemo(() => {
+    const mealsOfPlan = days?.reduce(
+      (acc: any[], d: any) => [
+        ...acc,
+        ...(d.activities || d.diet_plan_day.activities || [])
+      ],
+      []
+    )
+
+    const foodsOfPlan = mealsOfPlan?.reduce(
+      (item: any[], acc: any) => [...item, ...(acc.items || [])],
+      []
+    )
+
+    const planOptions = foodsOfPlan
+      ?.filter(
+        (w: any) =>
+          w?.data?.name?.toLowerCase()?.includes(foodName?.toLowerCase()) &&
+          w?.data?.name !== foodName
+      )
+      ?.map((m: any) => ({
+        label: m?.data?.name,
+        value: m?.data?.name
+      }))
+
+    const templateOptions = foods
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(foodName?.toLowerCase()) &&
+          w?.name !== foodName
+      )
+      ?.map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const options = []
+
+    if (planOptions.length) {
+      options.push({
+        label: 'From this Diet Plan',
+        options: getUniqueItemsByProperties(planOptions, ['label'])
+      })
+    }
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [days, foods, foodName])
 
   return (
     <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
@@ -80,9 +240,10 @@ export default function Food({
             id="Food-name"
             label="Food name"
             placeholder="-"
-            options={options}
             value={value}
-            onChange={(e) => onChange(name, e)}
+            onChange={(value) => methods.setValue(name, value)}
+            onSelect={onFoodSelected}
+            options={nameOptions}
             // error={get(errors, name)}
             className={get(errors, name) ? 'invalid-field' : ''}
             shouldScrollTo={get(errors, name)}
@@ -98,7 +259,10 @@ export default function Food({
             label="Qty(gr)"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => {
+              onChange(name, e.target.value)
+              multiPlyMacros(e.target.value)
+            }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}

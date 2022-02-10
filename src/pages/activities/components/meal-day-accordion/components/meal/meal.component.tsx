@@ -114,6 +114,10 @@ export default function Meal({
     foodsArray.remove(index)
   }
 
+  const getTwoDecimal = (value: any) => {
+    return Math.round((value + Number.EPSILON) * 100) / 100
+  }
+
   const calculateTotalMacros = () => {
     const items: any[] = methods.getValues(`${name}.items`)
 
@@ -131,7 +135,7 @@ export default function Meal({
     items?.forEach((i) => {
       const info = i.data.info
       Object.keys(macros).map((k: string) => {
-        return ((macros as any)[k] += parseInt(info[k] || 0))
+        return ((macros as any)[k] += getTwoDecimal(info[k] || 0))
       })
     })
 
@@ -156,7 +160,6 @@ export default function Meal({
         []
       )
       meal = mealsOfPlan.find((m: any) => m.name === value)
-      console.log(mealsOfPlan)
     }
 
     if (meal) {
@@ -181,16 +184,26 @@ export default function Meal({
       []
     )
     const planOptions = mealsOfPlan
-      ?.filter((m: any) => m.name)
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(mealName?.toLowerCase()) &&
+          w?.name !== mealName
+      )
       ?.map((m: any) => ({
         label: m.name,
         value: m.name
       }))
 
-    const templateOptions = meals.map((w: any) => ({
-      label: w.name,
-      value: w.name
-    }))
+    const templateOptions = meals
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(mealName?.toLowerCase()) &&
+          w?.name !== mealName
+      )
+      ?.map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
 
     const options = []
 
@@ -209,7 +222,7 @@ export default function Meal({
     }
 
     return options.length ? options : []
-  }, [days])
+  }, [days, mealName])
 
   return (
     <Styles ref={innerRef} {...draggableProps} {...dragHandleProps}>
