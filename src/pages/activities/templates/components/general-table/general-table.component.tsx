@@ -8,12 +8,13 @@ interface GeneralTableProps {
   keys: string[]
   labels: string[]
   links: string[]
+  linkLabels?: any[]
   data: { [key: string]: any }[]
   onClick?: (item: any) => void
 }
 
 export const GeneralTable = (props: GeneralTableProps) => {
-  const { keys, labels, links, data, onClick } = props
+  const { keys, labels, links, linkLabels, data, onClick } = props
   const { t } = useTranslation()
 
   return (
@@ -47,7 +48,7 @@ export const GeneralTable = (props: GeneralTableProps) => {
                       className="general-table__link"
                       rel="noreferrer"
                     >
-                      {item[key]}
+                      {linkLabels?.[links.indexOf(key)] || item[key]}
                     </a>
                   ) : (
                     <>{item[key] ? item[key] : 'ND'}</>

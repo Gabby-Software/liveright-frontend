@@ -7,6 +7,7 @@ import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+import TimeInput from '../../../../../../components/form/TimeInput/time-input.component'
 import SubItemAccordion from '../../../sub-item-accordion/sub-item-accordion.component'
 import { WorkoutSubtitle } from '../workout/workout.styles'
 import { Styles } from './exercise-accrdion.styles'
@@ -188,14 +189,15 @@ export default function ExerciseAccordion({
                   <Controller
                     name={`${name}.info.rest_interval`}
                     render={({ field: { name, value } }) => (
-                      <Input
+                      <TimeInput
                         id="Exercise-rest-interval"
                         label="Rest Interval"
-                        placeholder="10"
+                        placeholder="mm:ss"
                         value={value}
                         onChange={(e) => onChange(name, e.target.value)}
                         error={get(errors, name)}
                         ErrorProps={{ size: 'sm' }}
+                        format="mm:ss"
                       />
                     )}
                   />
