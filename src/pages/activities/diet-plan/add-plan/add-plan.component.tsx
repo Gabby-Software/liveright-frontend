@@ -75,6 +75,7 @@ const validationSchema = yup.object().shape({
               data: yup.object().shape({
                 name: yup.string().required(),
                 info: yup.object().shape({
+                  grams: yup.string().required(),
                   proteins: yup.string().required(),
                   fat: yup.string().required(),
                   net_carbs: yup.string().required()
