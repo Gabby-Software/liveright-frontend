@@ -2,6 +2,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 
+import { FoodIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
 import Card from '../../../../components/cards/card/card.component'
 import DataPagination from '../../../../components/data-pagination/data-pagination.component'
@@ -29,12 +30,15 @@ import {
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
+import EmptyPlan from '../../components/empty-plan/empty-plan.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
 import { Styles } from '../../styles/plans-table.styles'
 import AddDietPlan from '../add-plan/add-plan.component'
 
 const LABELS = ['Diet Plan Name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
+
+const IS_EMPTY = true
 
 export default function DietPlans() {
   const isMobile = useIsMobile()
@@ -125,179 +129,178 @@ export default function DietPlans() {
     return sortValue
   }
 
-  const content = (
-    // const content = !dietPlans.length ? (
-    //   <Styles>
-    //     <ActivitiesClient
-    //       clientId={clientId}
-    //       viewActivity={false}
-    //       onClientSwitch={(id) => {
-    //         history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
-    //       }}
-    //     />
-    //     <EmptyPlan
-    //       title="Diet Plans"
-    //       text="There is no diet plan yet..."
-    //       Icon={FoodIcon}
-    //       action={<Button onClick={() => setAdd(true)}>Create Diet Plan</Button>}
-    //     />
-    //   </Styles>
-    // ) : (
-    <Styles>
-      {userType !== userTypes.CLIENT && (
-        <ActivitiesClient
-          clientId={clientId}
-          viewActivity={false}
-          onClientSwitch={(id) => {
-            history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
-          }}
+  const content =
+    userType === userTypes.CLIENT && !dietPlans.length ? (
+      <Styles>
+        <EmptyPlan
+          title="Diet Plans"
+          text="There is no diet plan yet..."
+          Icon={FoodIcon}
+          action={
+            <Button onClick={() => setAdd(true)}>Create Diet Plan</Button>
+          }
         />
-      )}
-
-      <Card className="PlansTable__card">
-        {!isMobile && (
-          <>
-            <div className="PlansTable__title-container">
-              <Title>Diet Plans</Title>
-
-              <div>
-                {clientId !== 'all' && (
-                  <Button onClick={() => setAdd(true)}>Create New Plan</Button>
-                )}
-                {clientId === 'all' && (
-                  <Tooltip title="Please select a client before creating a plan">
-                    <Button>Create New Plan</Button>
-                  </Tooltip>
-                )}
-              </div>
-            </div>
-          </>
+      </Styles>
+    ) : (
+      <Styles>
+        {userType !== userTypes.CLIENT && (
+          <ActivitiesClient
+            clientId={clientId}
+            viewActivity={false}
+            onClientSwitch={(id) => {
+              history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+            }}
+          />
         )}
 
-        <div className="PlansTable__filters">
-          {userType !== userTypes.CLIENT && (
-            <ClientSelect
-              id="DietPlans-client"
-              onChange={(e) => {
-                history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
-              }}
-              value={clientId}
-              placeholder="All Client"
-              className="PlansTable__select"
-            />
+        <Card className="PlansTable__card">
+          {!isMobile && (
+            <>
+              <div className="PlansTable__title-container">
+                <Title>Diet Plans</Title>
+
+                <div>
+                  {clientId !== 'all' && (
+                    <Button onClick={() => setAdd(true)}>
+                      Create New Plan
+                    </Button>
+                  )}
+                  {clientId === 'all' && (
+                    <Tooltip title="Please select a client before creating a plan">
+                      <Button>Create New Plan</Button>
+                    </Tooltip>
+                  )}
+                </div>
+              </div>
+            </>
           )}
 
-          <Select
-            id="DietPlans-statuses"
-            options={[
-              { label: 'Any Status', value: '' },
-              { label: 'Active', value: 'active' },
-              { label: 'Scheduled', value: 'scheduled' },
-              { label: 'Inactive', value: 'inactive' }
-            ]}
-            value={status}
-            onChange={(value) => setStatus(value)}
-            placeholder="Any Status"
-            className="PlansTable__select"
-          />
-        </div>
+          <div className="PlansTable__filters">
+            {userType !== userTypes.CLIENT && (
+              <ClientSelect
+                id="DietPlans-client"
+                onChange={(e) => {
+                  history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
+                }}
+                value={clientId}
+                placeholder="All Client"
+                className="PlansTable__select"
+              />
+            )}
 
-        <div>
-          {isMobile ? (
-            <>
-              {dietPlans.map((row, index) => (
-                <PlanCard
-                  plan={row}
-                  key={index}
-                  to={getRoute(Routes.ACTIVITIES_DP_ID, {
-                    clientId: row.account_id || clientId,
-                    id: row._id,
-                    revisionId: getActiveOrLatestRev(row)?._id
-                  })}
-                />
-              ))}
-            </>
-          ) : (
-            <DataTable
-              labels={LABELS}
-              data={dietPlans.sort(sortLogic)}
-              keys={KEYS}
-              sort={sorting}
-              setSort={setSorting}
-              round="10px"
-              render={{
-                name: (row) => (
-                  <Link
-                    className="PlansTable__table-link"
+            <Select
+              id="DietPlans-statuses"
+              options={[
+                { label: 'Any Status', value: '' },
+                { label: 'Active', value: 'active' },
+                { label: 'Scheduled', value: 'scheduled' },
+                { label: 'Inactive', value: 'inactive' }
+              ]}
+              value={status}
+              onChange={(value) => setStatus(value)}
+              placeholder="Any Status"
+              className="PlansTable__select"
+            />
+          </div>
+
+          <div>
+            {isMobile ? (
+              <>
+                {dietPlans.map((row, index) => (
+                  <PlanCard
+                    plan={row}
+                    key={index}
                     to={getRoute(Routes.ACTIVITIES_DP_ID, {
                       clientId: row.account_id || clientId,
                       id: row._id,
                       revisionId: getActiveOrLatestRev(row)?._id
                     })}
-                  >
-                    <span>{row.name}</span>
-                  </Link>
-                ),
-                client: (row) => (
-                  <span>
-                    {row.account
-                      ? [
-                          row.account?.user?.first_name,
-                          row.account?.user?.last_name
-                        ]
-                          .filter(Boolean)
-                          .join(' ') || '-'
-                      : '-'}
-                  </span>
-                ),
-                days: (row) => (
-                  <span>{getActiveOrLatestRev(row)?.days_count}</span>
-                ),
-                start: (row) => (
-                  <span>
-                    {getActiveOrLatestRev(row)?.scheduled_start_on
-                      ? moment(
-                          new Date(
-                            getActiveOrLatestRev(row)?.scheduled_start_on
-                          )
-                        ).format(DATE_RENDER_FORMAT)
-                      : '-'}
-                  </span>
-                ),
-                end: (row) => (
-                  <span>
-                    {getActiveOrLatestRev(row)?.scheduled_end_on
-                      ? moment(
-                          new Date(getActiveOrLatestRev(row)?.scheduled_end_on)
-                        ).format(DATE_RENDER_FORMAT)
-                      : '-'}
-                  </span>
-                ),
-                status: (row) => (
-                  <StatusBadge
-                    status={getStatus(row)?.toLowerCase()}
-                    className="PlansTable__table-status"
-                  >
-                    {capitalize(getStatus(row))}
-                  </StatusBadge>
-                )
-              }}
-            />
-          )}
+                  />
+                ))}
+              </>
+            ) : (
+              <DataTable
+                labels={LABELS}
+                data={dietPlans.sort(sortLogic)}
+                keys={KEYS}
+                sort={sorting}
+                setSort={setSorting}
+                round="10px"
+                render={{
+                  name: (row) => (
+                    <Link
+                      className="PlansTable__table-link"
+                      to={getRoute(Routes.ACTIVITIES_DP_ID, {
+                        clientId: row.account_id || clientId,
+                        id: row._id,
+                        revisionId: getActiveOrLatestRev(row)?._id
+                      })}
+                    >
+                      <span>{row.name}</span>
+                    </Link>
+                  ),
+                  client: (row) => (
+                    <span>
+                      {row.account
+                        ? [
+                            row.account?.user?.first_name,
+                            row.account?.user?.last_name
+                          ]
+                            .filter(Boolean)
+                            .join(' ') || '-'
+                        : '-'}
+                    </span>
+                  ),
+                  days: (row) => (
+                    <span>{getActiveOrLatestRev(row)?.days_count}</span>
+                  ),
+                  start: (row) => (
+                    <span>
+                      {getActiveOrLatestRev(row)?.scheduled_start_on
+                        ? moment(
+                            new Date(
+                              getActiveOrLatestRev(row)?.scheduled_start_on
+                            )
+                          ).format(DATE_RENDER_FORMAT)
+                        : '-'}
+                    </span>
+                  ),
+                  end: (row) => (
+                    <span>
+                      {getActiveOrLatestRev(row)?.scheduled_end_on
+                        ? moment(
+                            new Date(
+                              getActiveOrLatestRev(row)?.scheduled_end_on
+                            )
+                          ).format(DATE_RENDER_FORMAT)
+                        : '-'}
+                    </span>
+                  ),
+                  status: (row) => (
+                    <StatusBadge
+                      status={getStatus(row)?.toLowerCase()}
+                      className="PlansTable__table-status"
+                    >
+                      {capitalize(getStatus(row))}
+                    </StatusBadge>
+                  )
+                }}
+              />
+            )}
 
-          {isLoading && <LoadingPlaceholder spacing />}
-          {!dietPlans.length && !isLoading && <EmptyPlaceholder spacing />}
-        </div>
-        <div>
-          <DataPagination
-            page={meta.current_page}
-            total={meta.total}
-            setPage={onPage}
-          />
-        </div>
-      </Card>
-    </Styles>
-  )
+            {isLoading && <LoadingPlaceholder spacing />}
+            {!dietPlans.length && !isLoading && <EmptyPlaceholder spacing />}
+          </div>
+          <div>
+            <DataPagination
+              page={meta.current_page}
+              total={meta.total}
+              setPage={onPage}
+            />
+          </div>
+        </Card>
+      </Styles>
+    )
 
   return isMobile ? (
     <MobilePage
