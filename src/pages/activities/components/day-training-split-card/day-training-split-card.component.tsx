@@ -24,6 +24,15 @@ export default function DayTrainingSplitCard(
   props: Pick<DayCardProps, 'onExpand'> & DayTrainingSplitCardProps
 ) {
   const { data, onWorkout, onMealPlan, onCardio, day, subtitle } = props
+
+  const onWorkoutClicked = (content: string) => {
+    if (onWorkout && data.training_plan_activities.length) {
+      onWorkout(
+        data.training_plan_activities.find((w: any) => w.name === content)
+      )
+    }
+  }
+
   return (
     <DayCard
       border="both"
@@ -37,11 +46,7 @@ export default function DayTrainingSplitCard(
             title="Workouts"
             content={data.training_plan_activities.map((t: any) => t.name)}
             icon={<WorkoutIcon />}
-            onClick={
-              onWorkout && data.training_plan_activities.name
-                ? () => onWorkout(data.training_plan_activities)
-                : undefined
-            }
+            onClick={onWorkoutClicked}
           />
           <ListItem
             color={getColorCarry('primary_v2')}
@@ -72,7 +77,7 @@ interface ListItemProps {
   title: string
   icon: ReactNode
   content: string[]
-  onClick?: (id: string) => void
+  onClick?: (content: string) => void
 }
 
 function ListItem({ color, title, content, icon, onClick }: ListItemProps) {
@@ -92,7 +97,7 @@ function ListItem({ color, title, content, icon, onClick }: ListItemProps) {
                 <IconButton
                   size="sm"
                   className="DayTrainingSplitCard__li-btn"
-                  onClick={onClick}
+                  onClick={() => onClick(text)}
                 >
                   <AddIcon />
                 </IconButton>

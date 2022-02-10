@@ -159,8 +159,14 @@ export default function EditTrainingSplit() {
           .reduce((acc, v, i) => [...acc, i], [])
       )
       daysArray.append(revision.days)
-      setSelectedTP(revision.training_plan?._id || '')
-      setSelectedDP(revision.diet_plan?._id || '')
+      setSelectedTP({
+        id: revision.training_plan._id,
+        revId: revision.training_plan_revision_id
+      })
+      setSelectedDP({
+        id: revision.diet_plan._id,
+        revId: revision.diet_plan_revision_id
+      })
     }
 
     if (trainingSplit._id) {
