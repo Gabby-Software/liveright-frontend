@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getTemplatesData } from '../../../services/api/templates'
+import { PaginationMetaType } from '../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../utils/obj'
 import { stringifyURL } from '../../../utils/query'
+import usePagination, { UsePagination } from '../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/meal-plans', {
@@ -14,6 +16,7 @@ function getKey(params: any) {
 interface UseTemplateMealPlans {
   isLoading: boolean
   mealPlans: any[]
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -24,8 +27,11 @@ interface IProps {
 export default function useTemplateMealPlans({
   clientId,
   name
-}: IProps = {}): UseTemplateMealPlans {
+}: IProps = {}): UseTemplateMealPlans & UsePagination {
+  const pagination = usePagination()
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       account_id: clientId,
       name
@@ -36,8 +42,12 @@ export default function useTemplateMealPlans({
 
   const isLoading = !data && !error
   const mealPlans = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
-    mealPlans
+    mealPlans,
+    meta,
+    ...pagination
   }
 }

@@ -27,7 +27,7 @@ export default function MealPlans() {
   const [name, setName] = useState('')
 
   const { id } = useAuth()
-  const { mealPlans } = useTemplateMealPlans({ clientId, name })
+  const { mealPlans, meta, onPage } = useTemplateMealPlans({ clientId, name })
   const data = useDataMealPlansConvert(mealPlans, id)
   console.log(data, mealPlans)
 
@@ -49,6 +49,8 @@ export default function MealPlans() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_MP}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

@@ -1,8 +1,10 @@
 import useSWR from 'swr'
 
 import { getTemplatesTrainingPlans } from '../../../../services/api/templates'
+import { PaginationMetaType } from '../../../../types/pagination-meta.type'
 import { omitEmpty } from '../../../../utils/obj'
 import { stringifyURL } from '../../../../utils/query'
+import usePagination, { UsePagination } from '../../../ui/usePagination'
 
 function getKey(params: any) {
   return stringifyURL('/training-plan-templates', {
@@ -14,6 +16,7 @@ function getKey(params: any) {
 interface useTemplateTrainingPlans {
   isLoading: boolean
   trainingPlans: any[]
+  meta: PaginationMetaType
 }
 
 interface IProps {
@@ -24,8 +27,11 @@ interface IProps {
 export default function useTemplateTrainingPlans({
   name,
   clientId
-}: IProps = {}): useTemplateTrainingPlans {
+}: IProps = {}): useTemplateTrainingPlans & UsePagination {
+  const pagination = usePagination()
   const params = {
+    page: pagination.page,
+    per_page: 10,
     filter: {
       name: name,
       account_id: clientId
@@ -39,8 +45,12 @@ export default function useTemplateTrainingPlans({
 
   const isLoading = !data && !error
   const trainingPlans = data?.data || []
+  const meta = data?.meta || {}
+
   return {
     isLoading,
-    trainingPlans
+    trainingPlans,
+    meta,
+    ...pagination
   }
 }

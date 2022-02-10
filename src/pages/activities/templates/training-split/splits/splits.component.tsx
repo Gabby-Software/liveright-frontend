@@ -23,7 +23,7 @@ const MOBILE_LABELS: { [key: string]: string } = getObjectFromArrays(
 
 export default function TrainingSplits() {
   const [clientId, setClientId] = useState('all')
-  const { trainingSplits } = useTemplateTrainingSplits({
+  const { trainingSplits, meta, onPage } = useTemplateTrainingSplits({
     clientId: clientId
   })
   console.log(trainingSplits)
@@ -46,6 +46,8 @@ export default function TrainingSplits() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_TS}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }

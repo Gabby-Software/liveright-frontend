@@ -32,7 +32,7 @@ export default function TrainingPlans() {
   const [search, setSearch] = useState('')
   const [client, setClient] = useState('all')
 
-  const { trainingPlans } = useTemplateTrainingPlans({
+  const { trainingPlans, meta, onPage } = useTemplateTrainingPlans({
     name: search,
     clientId: client
   })
@@ -66,6 +66,8 @@ export default function TrainingPlans() {
       data={data}
       mobileLabels={MOBILE_LABELS}
       baseLink={Routes.ACTIVITIES_TM_TP}
+      meta={meta}
+      onPage={onPage}
     />
   )
 }
