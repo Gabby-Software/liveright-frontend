@@ -46,7 +46,7 @@ export default function MealPlan() {
   const content = (
     <>
       <section className="PlanPage__summary">
-        <p className="label">Total micronutrients from this meal plan</p>
+        <p className="label">Total macronutrients from this meal plan</p>
         <div className="nutrients">
           {Object.keys(MACROS_KEY_LABEL).map((k) => (
             <Macronutrient

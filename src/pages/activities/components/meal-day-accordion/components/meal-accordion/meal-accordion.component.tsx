@@ -233,7 +233,7 @@ export default function MealAccordion({
               />
             </div>
 
-            <Label>Micronutrients</Label>
+            <Label>Macronutrients</Label>
             <div className="MealAccordion__macronutrients">
               {Object.keys(MACROS_LABEL_KEY_MAP).map((row) => (
                 <div key={row} className="MealAccordion__macronutrient">

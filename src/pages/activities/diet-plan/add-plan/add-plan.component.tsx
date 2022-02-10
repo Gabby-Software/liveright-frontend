@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { get } from 'lodash'
 import { Moment } from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
@@ -16,20 +16,23 @@ import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
+import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../components/form/error/error.component'
-import Input from '../../../../components/form/input/input.component'
+// import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
+import useTemplateDietPlans from '../../../../hooks/api/templates/diet-plan/useTemplateDietPlans'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
+import { getUniqueItemsByProperties } from '../../../../utils/arrays'
 import {
   getItemFromLocalStorage,
   removeItemFromLocalStorage
@@ -282,6 +285,41 @@ export default function AddDietPlan({
 
   const { errors } = methods.formState
 
+  const { dietTemplates } = useTemplateDietPlans()
+
+  const dietPlanName = useWatch({
+    control: methods.control,
+    name: 'name'
+  })
+
+  const onDietPlanNameSelect = (value: string) => {
+    console.log('onDietPlanNameSelect', value)
+  }
+
+  const nameOptions = useMemo(() => {
+    const templateOptions = dietTemplates
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(dietPlanName?.toLowerCase()) &&
+          w?.name !== dietPlanName
+      )
+      .map((w: any) => ({
+        label: w.name,
+        value: w.name
+      }))
+
+    const options = []
+
+    if (templateOptions.length) {
+      options.push({
+        label: 'From Templates',
+        options: getUniqueItemsByProperties(templateOptions, ['label'])
+      })
+    }
+
+    return options.length ? options : []
+  }, [dietTemplates, dietPlanName])
+
   const content = (
     <>
       <FormProvider {...methods}>
@@ -323,16 +361,29 @@ export default function AddDietPlan({
               <Controller
                 name="name"
                 render={({ field: { value, name } }) => (
-                  <Input
+                  // <Input
+                  //   id="edit-training-plan-name"
+                  //   label="Diet Plan name"
+                  //   placeholder="Name"
+                  //   className={`EditPlan__input ${
+                  //     get(errors, name) ? 'invalid-field' : ''
+                  //   }`}
+                  //   value={value}
+                  //   onChange={(e) => onChange(name, e.target.value)}
+                  //   // error={errors.name}
+                  //   shouldScrollTo={get(errors, name)}
+                  // />
+                  <AutoCompleteInput
                     id="edit-training-plan-name"
                     label="Diet Plan name"
                     placeholder="Name"
+                    value={value}
                     className={`EditPlan__input ${
                       get(errors, name) ? 'invalid-field' : ''
                     }`}
-                    value={value}
-                    onChange={(e) => onChange(name, e.target.value)}
-                    // error={errors.name}
+                    onChange={(value) => methods.setValue(name, value)}
+                    options={nameOptions}
+                    onSelect={onDietPlanNameSelect}
                     shouldScrollTo={get(errors, name)}
                   />
                 )}

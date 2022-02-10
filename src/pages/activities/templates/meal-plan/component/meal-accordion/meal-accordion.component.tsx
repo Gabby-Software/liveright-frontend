@@ -232,7 +232,7 @@ export default function MealAccordion({
             />
           </div>
 
-          <Label>Micronutrients</Label>
+          <Label>Macronutrients</Label>
           <div className="MealAccordion__macronutrients">
             {['Calories', 'Carbs', 'Fat', 'Proteins'].map((row) => (
               <div key={row} className="MealAccordion__macronutrient">

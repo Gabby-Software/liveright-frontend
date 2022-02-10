@@ -36,14 +36,16 @@ export default function Food({ name }: FoodProps) {
   useEffect(() => {
     onChange(
       `${name}.info.calories`,
-      (info.proteins || 0) * 4 + (info.net_carbs || 0) * 4 + (info.fat || 0) * 9
+      (info?.proteins || 0) * 4 +
+        (info?.net_carbs || 0) * 4 +
+        (info?.fat || 0) * 9
     )
 
     onChange(
       `${name}.info.total_carbs`,
-      (+info.net_carbs || 0) + (+info.fiber || 0)
+      (+info?.net_carbs || 0) + (+info?.fiber || 0)
     )
-  }, [info.proteins, info.net_carbs, info.fat, info.fiber])
+  }, [info?.proteins, info?.net_carbs, info?.fat, info?.fiber])
 
   const { errors } = methods.formState
 
