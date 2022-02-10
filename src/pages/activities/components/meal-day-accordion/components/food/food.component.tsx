@@ -53,6 +53,7 @@ export default function Food({
     total_carbs: 0,
     calories: 0
   })
+  const [fromTemplate, setFromTemplate] = useState<boolean>(false)
 
   const info = useWatch({
     control: methods.control,
@@ -136,7 +137,9 @@ export default function Food({
         []
       )
       food = foodsOfPlan.find((m: any) => m?.data?.name === value)
-      console.log(foodsOfPlan)
+      setFromTemplate(false)
+    } else {
+      setFromTemplate(true)
     }
 
     if (food) {
@@ -241,7 +244,10 @@ export default function Food({
             label="Food name"
             placeholder="-"
             value={value}
-            onChange={(value) => methods.setValue(name, value)}
+            onChange={(value) => {
+              methods.setValue(name, value)
+              setFromTemplate(false)
+            }}
             onSelect={onFoodSelected}
             options={nameOptions}
             // error={get(errors, name)}
@@ -261,7 +267,7 @@ export default function Food({
             value={value}
             onChange={(e) => {
               onChange(name, e.target.value)
-              multiPlyMacros(e.target.value)
+              fromTemplate && multiPlyMacros(e.target.value)
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
