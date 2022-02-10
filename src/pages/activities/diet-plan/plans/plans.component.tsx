@@ -38,8 +38,6 @@ import AddDietPlan from '../add-plan/add-plan.component'
 const LABELS = ['Diet Plan Name', 'Client', 'Days', 'Start', 'End', 'Status']
 const KEYS = ['name', 'client', 'days', 'start', 'end', 'status']
 
-const IS_EMPTY = true
-
 export default function DietPlans() {
   const isMobile = useIsMobile()
   const { clientId } = useParams<{ clientId: any }>()
