@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { FoodIcon } from '../../../../assets/media/icons/activities'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import Macronutrient from '../macronutrient/macronutrient.component'
@@ -31,6 +33,8 @@ export default function SplitDayDietCard(props: IProps) {
     mode = 'normal'
   } = props
 
+  const [show, setShow] = useState(false)
+
   const targets = mode === 'normal' ? data.total_targets : data.custom_target
 
   return (
@@ -43,20 +47,21 @@ export default function SplitDayDietCard(props: IProps) {
       contentClass={contentClass}
       content={
         <div>
-          <div className="SplitDayCard__macronutrients">
-            {Object.keys(MACROS_KEY_LABEL).map((k) => (
-              <Macronutrient
-                key={k}
-                title={MACROS_KEY_LABEL[k]}
-                amount={`${targets?.[k] ? targets?.[k] : 0}${
-                  k === 'calories' ? 'kcal' : 'g'
-                }`}
-              />
-            ))}
-          </div>
-
+          {scheduleTime && !show && (
+            <div className="SplitDayCard__macronutrients">
+              {Object.keys(MACROS_KEY_LABEL).map((k) => (
+                <Macronutrient
+                  key={k}
+                  title={MACROS_KEY_LABEL[k]}
+                  amount={`${targets?.[k] ? targets?.[k] : 0}${
+                    k === 'calories' ? 'kcal' : 'g'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
           {data.activities?.map((a: any, i: number) => (
-            <SplitDayMealCard key={i} data={a} />
+            <SplitDayMealCard key={i} data={a} onShow={(s) => setShow(s)} />
           ))}
         </div>
       }
