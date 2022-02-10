@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { FoodIcon } from '../../../../assets/media/icons/activities'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import Macronutrient from '../macronutrient/macronutrient.component'
@@ -31,9 +33,9 @@ export default function SplitDayDietCard(props: IProps) {
     mode = 'normal'
   } = props
 
-  const targets = mode === 'normal' ? data.total_targets : data.custom_target
+  const [show, setShow] = useState(false)
 
-  console.log('scheduleTime', scheduleTime)
+  const targets = mode === 'normal' ? data.total_targets : data.custom_target
 
   return (
     <SplitDayCard
@@ -45,7 +47,7 @@ export default function SplitDayDietCard(props: IProps) {
       contentClass={contentClass}
       content={
         <div>
-          {scheduleTime && (
+          {scheduleTime && !show && (
             <div className="SplitDayCard__macronutrients">
               {Object.keys(MACROS_KEY_LABEL).map((k) => (
                 <Macronutrient
@@ -59,7 +61,7 @@ export default function SplitDayDietCard(props: IProps) {
             </div>
           )}
           {data.activities?.map((a: any, i: number) => (
-            <SplitDayMealCard key={i} data={a} />
+            <SplitDayMealCard key={i} data={a} onShow={(s) => setShow(s)} />
           ))}
         </div>
       }

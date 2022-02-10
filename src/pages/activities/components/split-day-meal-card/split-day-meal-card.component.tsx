@@ -7,6 +7,7 @@ import { Styles } from './split-day-meal-card.styles'
 
 interface IProps {
   data: any
+  onShow?: (s: any) => void
 }
 
 const MACROS_KEY_LABEL: { [key: string]: string } = {
@@ -19,7 +20,7 @@ const MACROS_KEY_LABEL: { [key: string]: string } = {
   calories: 'Calories'
 }
 
-export default function SplitDayMealCard({ data }: IProps) {
+export default function SplitDayMealCard({ data, onShow }: IProps) {
   const [show, setShow] = useState(false)
   return (
     <Styles>
@@ -43,7 +44,10 @@ export default function SplitDayMealCard({ data }: IProps) {
               size="sm"
               variant="text"
               className="SplitDayMealCard__content-toggle"
-              onClick={() => setShow(!show)}
+              onClick={() => {
+                setShow(!show)
+                onShow && onShow(!show)
+              }}
             >
               <CaretDownIcon />
               {show ? 'Hide' : 'Show'} macronutrients
