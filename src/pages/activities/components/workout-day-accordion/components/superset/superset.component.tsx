@@ -56,9 +56,10 @@ export default function Superset({
   const handleAddExercise = () => {
     exercisesArray.append(
       createExercise(
-        `${labelIndex}${String.fromCharCode(
-          65 + exercisesArray.fields.length
-        )}--`,
+        // `${labelIndex}${String.fromCharCode(
+        //   65 + exercisesArray.fields.length
+        // )}--`,
+        '',
         exercisesArray.fields.length
       )
     )
@@ -120,6 +121,8 @@ export default function Superset({
                       draggableProps={provided.draggableProps}
                       isDragging={snapshot.isDragging}
                       fromSuperset
+                      labelIndex={labelIndex}
+                      supersetPrefix={String.fromCharCode(65 + index)}
                     />
                   )}
                 </Draggable>

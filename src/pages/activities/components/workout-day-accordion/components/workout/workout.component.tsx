@@ -44,7 +44,7 @@ function createExercise(
   cardio: boolean
 ) {
   const ex = {
-    name: `${exerciseNo}${isSuperset ? 'A' : ''}--`,
+    name: '',
     link: '',
     info: {
       type: cardio ? 'cardio' : 'strength',
@@ -52,8 +52,8 @@ function createExercise(
       reps: '',
       tempo: '',
       rest_interval: '',
-      duration: '00:10',
-      intensity: 'Moderate'
+      duration: '',
+      intensity: ''
     },
     sort_order: isSuperset && 1
   }
@@ -110,7 +110,7 @@ export default function Workout({ name }: WorkoutProps) {
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
     // wait for removal to finish
-    setTimeout(resetPrefixValues, 10)
+    // setTimeout(resetPrefixValues, 10)
   }
 
   const resetPrefixValues = () => {
@@ -119,15 +119,16 @@ export default function Workout({ name }: WorkoutProps) {
     values.forEach((v, i) => {
       if (v.is_superset) {
         v.data.forEach((v: any, idx: number) => {
-          const suf = String(v.name).split('--')[1]
+          // const suf = String(v.name).split('--')[1]
           methods.setValue(
             `${name}.${i}.data.${idx}.name`,
-            `${i + 1}${String.fromCharCode(65 + idx)}--${suf}`
+            // `${i + 1}${String.fromCharCode(65 + idx)}--${suf}`
+            ''
           )
         })
       } else {
-        const suf = String(v.data.name).split('--')[1]
-        methods.setValue(`${name}.${i}.data.name`, `${i + 1}--${suf || ''}`)
+        // const suf = String(v.data.name).split('--')[1]
+        methods.setValue(`${name}.${i}.data.name`, '')
       }
     })
   }
@@ -317,6 +318,7 @@ export default function Workout({ name }: WorkoutProps) {
                                 !!(exercisesArray.fields as any)[index - 1]
                                   ?.is_superset
                               }
+                              labelIndex={index + 1}
                             />
                           )
                         }

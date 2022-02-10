@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { VideoOutlinedIcon } from '../../../../../assets/media/icons'
 import { Styles } from '../split-day-workout-card.styles'
 
 const EXERCISE_INFO_KEY_LABEL: { [key: string]: string } = {
@@ -7,6 +8,11 @@ const EXERCISE_INFO_KEY_LABEL: { [key: string]: string } = {
   reps: 'Reps',
   tempo: 'Tempo',
   rest_interval: 'Rest Interval'
+}
+
+const CARDIO_INFO_KEY_LABEL: { [key: string]: string } = {
+  duration: 'Duration',
+  intensity: 'Intensity'
 }
 
 interface IProps {
@@ -29,15 +35,19 @@ const ExerciseMobileCards = ({ data }: IProps) => {
 export default ExerciseMobileCards
 
 export const ExerciseMobileCard = ({ data }: IProps) => {
+  const KEY_LABELS =
+    data.info.type === 'cardio'
+      ? CARDIO_INFO_KEY_LABEL
+      : EXERCISE_INFO_KEY_LABEL
   return (
     <Styles className="SplitDayWorkoutCard__content-card">
       <p className="SplitDayWorkoutCard__content-card-title">{data.name}</p>
 
       <div className="SplitDayWorkoutCard__content-card-cols">
-        {Object.keys(EXERCISE_INFO_KEY_LABEL).map((k) => (
+        {Object.keys(KEY_LABELS).map((k) => (
           <div className="SplitDayWorkoutCard__content-card-col" key={k}>
             <p className="SplitDayWorkoutCard__content-card-col-name">
-              {EXERCISE_INFO_KEY_LABEL[k]}
+              {KEY_LABELS[k]}
             </p>
             <p>{data.info?.[k]}</p>
           </div>
@@ -48,12 +58,16 @@ export const ExerciseMobileCard = ({ data }: IProps) => {
           </p>
           {data.link ? (
             <a
-              href={data.link}
+              href={
+                /^https?:\/\//i.test(data.link)
+                  ? data.link
+                  : `https://${data.link}`
+              }
               target="_blank"
               rel="noreferrer"
               className="SplitDayWorkoutCard__content-card-col-link"
             >
-              {data.link}
+              <VideoOutlinedIcon /> View Video
             </a>
           ) : (
             <p>ND</p>

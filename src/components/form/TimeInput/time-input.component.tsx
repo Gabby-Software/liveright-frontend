@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactInputMask, { Props } from 'react-input-mask'
 
 import { ErrorProps } from '../error/error.component'
@@ -30,6 +30,7 @@ export interface TimeInputProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   ErrorProps?: Pick<ErrorProps, 'size'>
   bordered?: boolean
+  format?: 'HH:mm' | 'mm:ss'
 }
 
 const TimeInput = (
@@ -44,9 +45,15 @@ const TimeInput = (
     readOnly,
     maskPlaceholder = null,
     alwaysShowMask,
+    format = 'HH:mm',
     ...otherProps
   } = props
   const [time, setTime] = useState<string>(value || '')
+
+  useEffect(() => {
+    setTime(value || '')
+  }, [value])
+
   const startsWithTwo = time[0] === '2'
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +61,11 @@ const TimeInput = (
     onChange?.(e)
   }
 
-  const mask = [
-    /[0-2]/,
-    startsWithTwo ? /[0-3]/ : /[0-9]/,
-    ':',
-    /[0-5]/,
-    /[0-9]/
-  ]
+  const mask =
+    format === 'HH:mm'
+      ? [/[0-2]/, startsWithTwo ? /[0-3]/ : /[0-9]/, ':', /[0-5]/, /[0-9]/]
+      : [/[0-5]/, /[0-9]/, ':', /[0-5]/, /[0-9]/]
+
   return (
     <ReactInputMask
       mask={mask}

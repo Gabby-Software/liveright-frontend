@@ -94,8 +94,8 @@ function createExercise(
       reps: '',
       tempo: '',
       rest_interval: '',
-      duration: '00:10',
-      intensity: 'Moderate'
+      duration: '',
+      intensity: ''
     },
     sort_order: isSuperset && 1
   }
@@ -212,7 +212,7 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
     cardio = false
   ) => {
     exercisesArray.append(createExercise(exerciseNo, isSuperset, cardio))
-    methods.clearErrors(`${name}.items`)
+    methods.clearErrors(`items`)
   }
 
   const handleExerciseRemove = (index: number) => {

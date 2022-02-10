@@ -30,6 +30,8 @@ interface ExerciseProps {
   prefix?: boolean
   fromSuperset?: boolean
   fromTemplate?: boolean
+  labelIndex?: number
+  supersetPrefix?: string
 }
 
 export default function Exercise({
@@ -41,7 +43,9 @@ export default function Exercise({
   prefix,
   onRemove,
   fromSuperset,
-  fromTemplate = false
+  fromTemplate = false,
+  labelIndex,
+  supersetPrefix = ''
 }: ExerciseProps) {
   const methods = useFormContext()
   const params = useParams<any>()
@@ -62,15 +66,26 @@ export default function Exercise({
   const { exercises: exercisesTemplate } = useTemplateExercises()
 
   const onPreviousExerciseSelect = (value: string) => {
-    const exercise = exercises.find((e: any) => e.name === value)
+    const exercise = exercises
+      .concat(exercisesTemplate)
+      .find((e: any) => e.name === value)
     if (!exercise) {
       return
     }
-    methods.setValue(`${name}.info.sets`, exercise.info.sets)
-    methods.setValue(`${name}.info.reps`, exercise.info.reps)
-    methods.setValue(`${name}.info.tempo`, exercise.info.tempo)
-    methods.setValue(`${name}.info.rest_interval`, exercise.info.rest_interval)
-    methods.setValue(`${name}.link`, exercise.info.link)
+    methods.setValue(`${name}.info.sets`, exercise?.info?.sets)
+    methods.setValue(`${name}.info.reps`, exercise?.info?.reps)
+    methods.setValue(`${name}.info.tempo`, exercise?.info?.tempo)
+    methods.setValue(
+      `${name}.info.rest_interval`,
+      exercise?.info?.rest_interval,
+      {
+        shouldValidate: true
+      }
+    )
+    methods.setValue(
+      `${name}.link`,
+      exercise?.link ? exercise?.link : exercise?.info?.link
+    )
   }
 
   // const renderExersiceAutoComplete = (name: string, value: string) => {
@@ -161,10 +176,9 @@ export default function Exercise({
       <Controller
         name={`${name}.name`}
         render={({ field: { name, value } }) => {
-          // const [prefix, val] = String(value).split('--')
           return (
             <div className="exercise-input">
-              {/* <p className="exercise-input__prefix">{prefix}--</p> */}
+              <p className="exercise-input__prefix">{`${labelIndex}${supersetPrefix}--`}</p>
               {/* <Input
                 id="Exercise-name"
                 label="Exercise name"
@@ -180,7 +194,7 @@ export default function Exercise({
                 id="Exercise-name"
                 label={`${isCardio ? 'Cardio' : 'Exercise'} name`}
                 placeholder={isCardio ? 'Cardio' : 'Exercise'}
-                value={value === '' ? null : value}
+                value={value}
                 onChange={(value) => methods.setValue(name, value)}
                 options={nameOptions}
                 onSelect={onPreviousExerciseSelect}
@@ -280,11 +294,13 @@ export default function Exercise({
               <TimeInput
                 id="Exercise-rest-interval"
                 label="Rest Interval"
-                placeholder="HH:mm"
+                placeholder="mm:ss"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
+                format="mm:ss"
+                tooltip="Time duration in minutes and seconds"
               />
             )}
           />
