@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { useMemo, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
 
 import { CaretLeftIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
@@ -8,9 +9,14 @@ import IconButton from '../../../../../components/buttons/icon-button/icon-butto
 import Card from '../../../../../components/cards/card/card.component'
 import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../../components/typography'
+import { Routes } from '../../../../../enums/routes.enum'
+import userTypes from '../../../../../enums/user-types.enum'
+import { useAuth } from '../../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
+import { getRoute } from '../../../../../utils/routes'
+import ActivitiesClient from '../../../components/activities-client/activities-client.component'
 import SplitDayDietCard from '../../../components/split-day-card/split-day-diet-card.component'
 import SplitDayOtherCard from '../../../components/split-day-card/split-day-other-card.component'
 import SplitDayTrainingCard from '../../../components/split-day-card/split-day-training-card.component'
@@ -31,6 +37,9 @@ export default function TrainingSplitDayView({
 }: TrainingSplitDayViewProps) {
   const isMobile = useIsMobile()
   const [scheduleView, setScheduleView] = useState(false)
+  const { clientId } = useParams<{ clientId: any }>()
+  const history = useHistory()
+  const { type: userType } = useAuth()
 
   const { day, activities } = useMemo(() => {
     const day = revision?.days?.[index]
@@ -78,6 +87,15 @@ export default function TrainingSplitDayView({
 
   const content = (
     <Styles>
+      {userType !== userTypes.CLIENT && (
+        <ActivitiesClient
+          clientId={clientId}
+          viewActivity={false}
+          onClientSwitch={(id) => {
+            history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: id }))
+          }}
+        />
+      )}
       <Card className="TrainingSplitDayView__card">
         {!isMobile && (
           <>
