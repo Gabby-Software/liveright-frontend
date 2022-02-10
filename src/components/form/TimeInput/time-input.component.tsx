@@ -56,6 +56,10 @@ const TimeInput = (
 
   const startsWithTwo = time[0] === '2'
 
+  useEffect(() => {
+    setTime(value || '')
+  }, [value])
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(e.target.value)
     onChange?.(e)

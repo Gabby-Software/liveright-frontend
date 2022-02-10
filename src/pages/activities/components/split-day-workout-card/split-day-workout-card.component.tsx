@@ -70,7 +70,7 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                     ? [getDummySupersetRow(`${i + 1} - Superset`), ...item.data]
                     : [item.data]
                   return exercises.map((e: any, idx: number) => (
-                    <tr key={i}>
+                    <tr key={idx}>
                       <td
                         className={
                           item.is_superset &&

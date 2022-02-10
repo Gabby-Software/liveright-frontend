@@ -38,7 +38,7 @@ export default function TrainingSplit() {
   const [scheduleView, setScheduleView] = useState(false)
   const [confirmDialog, setConfirmDialog] = useState(false)
   const [mealPlanDay, setMealPlanDay] = useState<DayDialogState | null>(null)
-  const [workoutPlanDay, setWorkoutPlanDay] = useState<DayDialogState | null>(
+  const [selectedWorkout, setSelectedWorkout] = useState<DayDialogState | null>(
     null
   )
   const [activationDate, setActivationDate] = useState<string>(
@@ -99,13 +99,15 @@ export default function TrainingSplit() {
     })
   }
 
-  const onWorkoutPlanDayHandler = (day: any, idx: number) => {
-    setWorkoutPlanDay({
+  const onWorkoutPlanDayHandler = (workout: any, idx: number) => {
+    setSelectedWorkout({
       day: `Day ${idx + 1}`,
       subtitle: moment(revision.scheduled_start_on)
         .add(idx, 'days')
         .format('dddd'),
-      data: day
+      data: {
+        ...workout
+      }
     })
   }
 
@@ -361,13 +363,12 @@ export default function TrainingSplit() {
         />
       )}
 
-      {!!workoutPlanDay && (
+      {!!selectedWorkout && (
         <WorkoutPlanDayDialog
-          open={!!workoutPlanDay}
-          onClose={() => setWorkoutPlanDay(null)}
-          data={workoutPlanDay.data}
-          title={workoutPlanDay.day}
-          subtitle={workoutPlanDay.subtitle}
+          open={!!selectedWorkout}
+          onClose={() => setSelectedWorkout(null)}
+          data={selectedWorkout.data}
+          title={selectedWorkout.day}
           toLink={`${getRoute(Routes.ACTIVITIES_TP_ID, {
             clientId: params.clientId,
             id: revision.training_plan?._id,
