@@ -122,7 +122,7 @@ export const Styles = styled(Card)`
       border-radius: 10px;
       background-color: ${getColorCarry('neutral_100')};
       color: #fff;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 400;
       min-width: 100px;
       margin: 0.25rem;
