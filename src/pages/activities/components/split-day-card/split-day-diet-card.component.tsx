@@ -43,18 +43,6 @@ export default function SplitDayDietCard(props: IProps) {
       contentClass={contentClass}
       content={
         <div>
-          <div className="SplitDayCard__macronutrients">
-            {Object.keys(MACROS_KEY_LABEL).map((k) => (
-              <Macronutrient
-                key={k}
-                title={MACROS_KEY_LABEL[k]}
-                amount={`${targets?.[k] ? targets?.[k] : 0}${
-                  k === 'calories' ? 'kcal' : 'g'
-                }`}
-              />
-            ))}
-          </div>
-
           {data.activities?.map((a: any, i: number) => (
             <SplitDayMealCard key={i} data={a} />
           ))}
