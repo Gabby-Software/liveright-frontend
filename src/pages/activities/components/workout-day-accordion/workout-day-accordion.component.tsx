@@ -6,14 +6,14 @@ import {
   useFormContext,
   useWatch
 } from 'react-hook-form'
-import { useParams } from 'react-router'
 
+// import { useParams } from 'react-router'
 import { WorkoutIcon } from '../../../../assets/media/icons/activities'
 import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 // import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
-import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
+// import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getUniqueItemsByProperties } from '../../../../utils/arrays'
@@ -33,7 +33,7 @@ export default function WorkoutDayAccordion({
   onRemove,
   defaultOpened
 }: WorkoutDayAccordionProps) {
-  const { clientId, id, revisionId } = useParams<any>()
+  // const { clientId, id, revisionId } = useParams<any>()
   const methods = useFormContext()
 
   // const exercisesArray = useFieldArray({
@@ -46,16 +46,16 @@ export default function WorkoutDayAccordion({
   //   control: methods.control
   // })
 
-  // const activities = useWatch({
-  //   name: `activities`,
-  //   control: methods.control
-  // })
-
-  const { revision } = useTrainingPlan({
-    clientId,
-    id: id,
-    revisionId
+  const activities = useWatch({
+    name: `activities`,
+    control: methods.control
   })
+
+  // const { revision } = useTrainingPlan({
+  //   clientId,
+  //   id: id,
+  //   revisionId
+  // })
 
   const { workouts } = useTemplateWorkouts()
 
@@ -77,9 +77,11 @@ export default function WorkoutDayAccordion({
   }
 
   const nameOptions = useMemo(() => {
-    const planOptions = revision?.activities
-      ?.filter((w: any) =>
-        w?.name?.toLowerCase()?.includes(workoutName?.toLowerCase())
+    const planOptions = activities
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(workoutName?.toLowerCase()) &&
+          w?.name !== workoutName
       )
       ?.map((w: any) => ({
         label: w.name,
@@ -112,7 +114,7 @@ export default function WorkoutDayAccordion({
     }
 
     return options.length ? options : []
-  }, [revision, workoutName])
+  }, [activities, workoutName])
 
   return (
     <DayAccordion

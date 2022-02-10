@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactInputMask, { Props } from 'react-input-mask'
 
 import { ErrorProps } from '../error/error.component'
@@ -47,6 +47,11 @@ const TimeInput = (
     ...otherProps
   } = props
   const [time, setTime] = useState<string>(value || '')
+
+  useEffect(() => {
+    setTime(value || '')
+  }, [value])
+
   const startsWithTwo = time[0] === '2'
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
