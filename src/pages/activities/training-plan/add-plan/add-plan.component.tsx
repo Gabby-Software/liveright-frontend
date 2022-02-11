@@ -162,7 +162,6 @@ export default function AddTrainingPlan({
 
   const handleSubmit = (values: any) => {
     if (editId && revisionId) {
-      console.log('values', values)
       onEdit(editId, revisionId, values, () => {
         onUnlock()
         onClose()
@@ -179,6 +178,26 @@ export default function AddTrainingPlan({
 
   const handleSave = async () => {
     const isValid = await methods.trigger()
+    if (scheduled_start_on && scheduled_end_on) {
+      const diffTime =
+        new Date(String(scheduled_end_on)).getTime() -
+        new Date(String(scheduled_start_on)).getTime()
+      if (diffTime < 0) {
+        methods.setError('scheduled_start_on', {
+          type: 'manual',
+          message: ''
+        })
+        methods.setError('scheduled_end_on', {
+          type: 'manual',
+          message: ''
+        })
+        toast.show({
+          type: 'error',
+          msg: 'Start date cannot be earlier than End date'
+        })
+        return
+      }
+    }
     if (!isValid) {
       toast.show({
         type: 'error',
@@ -223,9 +242,9 @@ export default function AddTrainingPlan({
     }
   }
 
-  const [name, scheduled_start_on] = useWatch({
+  const [name, scheduled_start_on, scheduled_end_on] = useWatch({
     control: methods.control,
-    name: ['name', 'scheduled_start_on']
+    name: ['name', 'scheduled_start_on', 'scheduled_end_on']
   })
 
   const content = (
@@ -290,7 +309,9 @@ export default function AddTrainingPlan({
                     id="add-training-plan-start"
                     placeholder="Pick start date"
                     label="Start date"
-                    className="EditPlan__input"
+                    className={`EditPlan__input ${
+                      errors.scheduled_start_on ? 'EditPlan__invalid' : ''
+                    }`}
                     disabledPast
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
@@ -304,7 +325,9 @@ export default function AddTrainingPlan({
                   <DatePicker
                     id="add-training-plan-end"
                     placeholder="Pick end date"
-                    className="EditPlan__input"
+                    className={`EditPlan__input ${
+                      errors.scheduled_end_on ? 'EditPlan__invalid' : ''
+                    }`}
                     label="End date"
                     value={value}
                     onChange={(e, date) => onChange(name, date)}

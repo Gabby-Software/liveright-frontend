@@ -51,6 +51,12 @@ export const Styles = styled.div`
       }
     }
 
+    &__invalid {
+      & .ant-picker {
+        border: 1px solid red;
+      }
+    }
+
     &__add-new-day {
       margin: 0 2rem;
       padding: 1rem;
