@@ -54,6 +54,8 @@ export const Styles = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 1.25rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: inherit;
 
         @media ${mediaQueries.TABLET} {
           flex-direction: column;
@@ -118,10 +120,13 @@ export const Styles = styled.div`
 
       &-columns {
         width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr minmax(auto, 150px);
-        gap: 1rem;
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 2rem;
+
+        & .border-side {
+          border-right: 1px solid #e0e0e0;
+        }
 
         @media ${mediaQueries.TABLET} {
           grid-template-columns: 1fr;
@@ -161,6 +166,9 @@ export const Styles = styled.div`
 
       &-badge-container {
         display: flex;
+        & .no-border {
+          border: none;
+        }
       }
     }
 

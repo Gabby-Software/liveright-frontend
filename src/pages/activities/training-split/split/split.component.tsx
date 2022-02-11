@@ -224,110 +224,114 @@ export default function TrainingSplit() {
 
           {!isMobile && <div className="TrainingSplits__divider" />}
 
-          <div className="TrainingSplits__filters-container">
-            <div className="TrainingSplits__filters-title-container">
-              <Subtitle>{trainingSplit.name}</Subtitle>
-
-              {isMobile && (
-                <Button
-                  size="sm"
-                  variant="text"
-                  to={getRoute(Routes.ACTIVITIES_TS, {
-                    clientId: params.clientId
-                  })}
-                >
-                  Other Splits
-                </Button>
-              )}
-            </div>
-
-            <div className="TrainingSplits__filters-actions">
-              <Select
-                className="TrainingSplits__filters-control"
-                id="TrainingSplits-version"
-                options={versionOptions}
-                value={versionOptions.find(
-                  (o: any) => o.value === revision._id
-                )}
-                onChange={(e, o) => {
-                  history.push(
-                    getRoute(Routes.ACTIVITIES_TS_ID, {
-                      id: params.id,
-                      clientId: params.clientId,
-                      revisionId: o.value
-                    })
-                  )
-                }}
-              />
-
-              {revision.status !== 'active' && (
-                <Button
-                  className="TrainingSplits__filters-make-active-btn"
-                  onClick={() => setConfirmDialog(true)}
-                >
-                  Make active
-                </Button>
-              )}
-            </div>
-          </div>
-
           <Card className="TrainingSplits__info-container">
+            <div className="TrainingSplits__filters-container">
+              <div className="TrainingSplits__filters-title-container">
+                <Subtitle>{trainingSplit.name}</Subtitle>
+
+                {isMobile && (
+                  <Button
+                    size="sm"
+                    variant="text"
+                    to={getRoute(Routes.ACTIVITIES_TS, {
+                      clientId: params.clientId
+                    })}
+                  >
+                    Other Splits
+                  </Button>
+                )}
+              </div>
+
+              <div className="TrainingSplits__filters-actions">
+                <Select
+                  className="TrainingSplits__filters-control"
+                  id="TrainingSplits-version"
+                  options={versionOptions}
+                  value={versionOptions.find(
+                    (o: any) => o.value === revision._id
+                  )}
+                  onChange={(e, o) => {
+                    history.push(
+                      getRoute(Routes.ACTIVITIES_TS_ID, {
+                        id: params.id,
+                        clientId: params.clientId,
+                        revisionId: o.value
+                      })
+                    )
+                  }}
+                />
+
+                {revision.status !== 'active' && (
+                  <Button
+                    className="TrainingSplits__filters-make-active-btn"
+                    onClick={() => setConfirmDialog(true)}
+                  >
+                    Make active
+                  </Button>
+                )}
+              </div>
+            </div>
             <div className="TrainingSplits__info-columns">
               <div className="TrainingSplits__info-column">
+                <p className="TrainingSplits__info-title">Status</p>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={revision.status}>
+                    {capitalize(revision.status)}
+                  </StatusBadge>
+                </div>
+              </div>
+              <div className="TrainingSplits__info-column border-side"></div>
+              <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
-                <p className="TrainingSplits__info-value">
-                  {revision.diet_plan?.name}
-                </p>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={'info'} className="no-border">
+                    {revision.diet_plan?.name}
+                  </StatusBadge>
+                </div>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">
                   Chosen Training Plan
                 </p>
-                <p className="TrainingSplits__info-value">
-                  {revision.training_plan?.name}
-                </p>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={'info'} className="no-border">
+                    {revision.training_plan?.name}
+                  </StatusBadge>
+                </div>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Number of Days</p>
-                <p className="TrainingSplits__info-value">
-                  {revision.days_count}
-                </p>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={'info'} className="no-border">
+                    {`${revision.days_count} Days`}
+                  </StatusBadge>
+                </div>
               </div>
+              <div className="TrainingSplits__info-column border-side"></div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Started on</p>
-                <p className="TrainingSplits__info-value">
-                  {revision.scheduled_start_on
-                    ? moment(revision.scheduled_start_on).format(
-                        DATE_RENDER_FORMAT
-                      )
-                    : '-'}
-                </p>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={'info'} className="no-border">
+                    {revision.scheduled_start_on
+                      ? moment(revision.scheduled_start_on).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </StatusBadge>
+                </div>
               </div>
               <div className="TrainingSplits__info-column">
                 <p className="TrainingSplits__info-title">Ends on</p>
-                <p className="TrainingSplits__info-value">
-                  {revision.scheduled_end_on
-                    ? moment(revision.scheduled_end_on).format(
-                        DATE_RENDER_FORMAT
-                      )
-                    : '-'}
-                </p>
-              </div>
-
-              {isMobile ? (
-                <div className="TrainingSplits__info-column">
-                  <p className="TrainingSplits__info-title">Status</p>
-                  <div className="TrainingSplits__info-badge-container">
-                    <StatusBadge status={revision.status}>
-                      {capitalize(revision.status)}
-                    </StatusBadge>
-                  </div>
+                <div className="TrainingSplits__info-badge-container">
+                  <StatusBadge status={'info'} className="no-border">
+                    {revision.scheduled_end_on
+                      ? moment(revision.scheduled_end_on).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </StatusBadge>
                 </div>
-              ) : (
-                <StatusBadge status={revision.status}>
-                  {capitalize(revision.status)}
-                </StatusBadge>
-              )}
+              </div>
             </div>
 
             {!isMobile && scheduleToggle}
