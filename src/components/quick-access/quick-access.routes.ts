@@ -2,6 +2,7 @@ export enum quickAccessRoutes {
   LOG,
   ADD,
   ADD_EXERCISE,
+  ADD_WORKOUT,
   ADD_MEAL,
   ADD_FOOD,
   ADD_SCHEDULE,

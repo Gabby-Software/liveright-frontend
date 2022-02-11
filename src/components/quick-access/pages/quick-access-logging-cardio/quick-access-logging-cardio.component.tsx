@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import { useTimer } from 'react-timer-hook'
 
+import { TimerIcon } from '../../../../assets/media/icons'
 import VideoImg from '../../../../assets/media/quick-access-video.png'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
@@ -94,11 +95,11 @@ const QuickAccessLoggingCardio: FC<Props> = () => {
             style={{ marginTop: '35px', width: '100%' }}
           />
         </QuickAccessModal>
-        <div>
+        <div className="qa-logging-cardio__timer-background">
           <span className="qa-logging-cardio__timer">
             {formatTime(hours, minutes, seconds)}
+            <TimerIcon />
           </span>
-          <div className="qa-logging-cardio__timer-background" />
         </div>
 
         <div className="qa-logging-cardio__intensity">

@@ -44,62 +44,76 @@ export default styled.div`
 
     &__timer {
       position: absolute;
-      top: 43%;
-      left: 20%;
+      top: 48%;
+      left: 32.5%;
       display: block;
-      text-align: center;
+      // text-align: center;
       font-style: normal;
       font-weight: bold;
-      font-size: 56px;
-      line-height: 56px;
+      font-size: 32px;
+      line-height: 38px;
       color: white;
       z-index: 1;
+
+      svg {
+        color: ${getColorCarry('primary')};
+        position: absolute;
+        top: -122px;
+        left: -47px;
+      }
     }
 
     &__timer-background {
-      position: absolute;
-      width: 206px;
-      height: 240px;
-      top: 33%;
-      left: 24%;
-      background: linear-gradient(
-        181.63deg,
-        #35373a -25%,
-        rgba(53, 55, 58, 0) 98.62%
-      );
-      border-radius: 26px;
-      transform: rotate(30deg);
+      // position: absolute;
+      // width: 206px;
+      // height: 240px;
+      // top: 33%;
+      // left: 24%;
+      // background: linear-gradient(
+      //   181.63deg,
+      //   #35373a -25%,
+      //   rgba(53, 55, 58, 0) 98.62%
+      // );
+      // border-radius: 26px;
+      // transform: rotate(30deg);
 
-      &::before {
-        content: '';
-        position: absolute;
-        width: 206px;
-        height: 240px;
-        background: linear-gradient(
-          160.35deg,
-          #393d45 6.89%,
-          rgba(53, 55, 58, 0) 84.46%
-        );
-        border-radius: 26px;
-        transform: rotate(30deg);
-        top: -6px;
-      }
+      // &::before {
+      //   content: '';
+      //   position: absolute;
+      //   width: 206px;
+      //   height: 240px;
+      //   background: linear-gradient(
+      //     160.35deg,
+      //     #393d45 6.89%,
+      //     rgba(53, 55, 58, 0) 84.46%
+      //   );
+      //   border-radius: 26px;
+      //   transform: rotate(30deg);
+      //   top: -6px;
+      // }
 
-      &::after {
-        content: '';
-        position: absolute;
-        width: 206px;
-        height: 284px;
-        background: linear-gradient(
-          158.72deg,
-          #3d4047 7.37%,
-          rgba(53, 55, 58, 0) 96.67%
-        );
-        border-radius: 26px;
-        transform: rotate(60deg);
-        top: -28px;
-        left: -6px;
-      }
+      // &::after {
+      //   content: '';
+      //   position: absolute;
+      //   width: 206px;
+      //   height: 284px;
+      //   background: linear-gradient(
+      //     158.72deg,
+      //     #3d4047 7.37%,
+      //     rgba(53, 55, 58, 0) 96.67%
+      //   );
+      //   border-radius: 26px;
+      //   transform: rotate(60deg);
+      //   top: -28px;
+      //   left: -6px;
+      // }
+
+      // svg {
+      //   color: ${getColorCarry('primary')};
+      //   position: absolute;
+      //   top: 32%;
+      //   left: 20.5%;
+      // }
     }
 
     &__intensity {

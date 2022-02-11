@@ -1,15 +1,16 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 
 import {
   // BikeIcon,
-  SearchIcon,
+  // SearchIcon,
   WorkoutIconV1
 } from '../../../../assets/media/icons'
 import useTrainingPlan from '../../../../hooks/api/quick-access/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/quick-access/useTrainingPlans'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
-import Input from '../../../form/input/input.component'
+import AutoCompleteInput from '../../../form/autoCompleteInput/autoCompleteInput.component'
+// import Input from '../../../form/input/input.component'
 import QuickAccessBack from '../../components/quick-access-back/quick-access-back.component'
 import WorkoutItem from '../../components/quick-access-log-item/quick-access-log-item.component'
 import { useQuickAccess } from '../../quick-access.context'
@@ -37,19 +38,33 @@ const QuickAccessLogExercise: FC = () => {
     revisionId: activeRevisionId
   })
   const workouts = revision?.activities || []
+  const options = useMemo(() => {
+    return (
+      workouts
+        ?.filter((workout: any) =>
+          workout.name.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((workout: any) => ({
+          value: workout.name,
+          label: workout.name
+        })) || []
+    )
+  }, [search])
 
-  const filterWorkouts = (items: any[], searchField: string, text: string) => {
-    const _text = text.split(' ')
-    return items.filter(function (item) {
-      return _text.every(function (el) {
-        return item[searchField].toLowerCase().indexOf(el) > -1
-      })
-    })
-  }
+  // const filterWorkouts = (items: any[], searchField: string, text: string) => {
+  //   const _text = text.split(' ')
+  //   return items.filter(function (item) {
+  //     return _text.every(function (el) {
+  //       return item[searchField].toLowerCase().indexOf(el) > -1
+  //     })
+  //   })
+  // }
 
-  const filteredworkouts = filterWorkouts(workouts, 'name', search) || []
-
-  console.log('filtered workouts', filterWorkouts(workouts, 'name', 'work'))
+  const filteredworkouts = search
+    ? workouts?.filter((workout: any) =>
+        workout.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : workouts
 
   return (
     <Styles>
@@ -57,13 +72,14 @@ const QuickAccessLogExercise: FC = () => {
 
       <h3>{t('quickaccess:log-exercise.title')}</h3>
 
-      <Input
+      <AutoCompleteInput
         id="exercises-search"
         placeholder={t('quickaccess:log-exercise.search-placeholder')}
         className="qa-log-exercise__search"
-        prefix={<SearchIcon />}
+        options={options}
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(value) => setSearch(value)}
+        onSelect={() => console.log('onSelect')}
       />
 
       <h4>{t('quickaccess:log-exercise.today-exercises')}</h4>
@@ -92,7 +108,12 @@ const QuickAccessLogExercise: FC = () => {
         ))
       )}
 
-      <Button variant="text" className="qa-log-exercise__button" size="sm">
+      <Button
+        variant="text"
+        className="qa-log-exercise__button"
+        size="sm"
+        onClick={() => setRoute(quickAccessRoutes.ADD_WORKOUT)}
+      >
         {t('quickaccess:log-exercise.add-new')}
       </Button>
     </Styles>

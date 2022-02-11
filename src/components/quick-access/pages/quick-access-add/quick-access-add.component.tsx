@@ -3,7 +3,8 @@ import React, { FC, useMemo } from 'react'
 import {
   ExerciseIconV2,
   FoodIconV2,
-  MealIconV2
+  MealIconV2,
+  WorkoutIconV2
 } from '../../../../assets/media/icons'
 import userTypes from '../../../../enums/user-types.enum'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -25,16 +26,22 @@ const QuickAccessAdd: FC<Props> = ({}) => {
         color: '#D70004'
       },
       {
-        icon: MealIconV2,
-        route: quickAccessRoutes.ADD_MEAL,
-        label: 'meal',
-        color: '#00B334'
+        icon: WorkoutIconV2,
+        route: quickAccessRoutes.ADD_WORKOUT,
+        label: 'workout',
+        color: '#E49A0A'
       },
       {
         icon: FoodIconV2,
         route: quickAccessRoutes.ADD_FOOD,
         label: 'food',
         color: '#D77200'
+      },
+      {
+        icon: MealIconV2,
+        route: quickAccessRoutes.ADD_MEAL,
+        label: 'meal',
+        color: '#00B334'
       }
     ]
     return type === userTypes.CLIENT ? clientOptions : trainerOptions
