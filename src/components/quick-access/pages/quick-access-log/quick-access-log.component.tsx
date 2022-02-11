@@ -37,7 +37,7 @@ const QuickAccessLog: FC<Props> = ({}) => {
       {
         icon: MealIconV2,
         route: quickAccessRoutes.LOG_MEAL,
-        label: 'meal',
+        label: 'food',
         color: '#00B334'
       },
       {

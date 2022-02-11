@@ -1,9 +1,12 @@
-import { FC } from 'react'
+import { FC, useMemo, useState } from 'react'
 
-import { MealIconV1, SearchIcon } from '../../../../assets/media/icons'
+import {
+  MealIconV1
+  // SearchIcon
+} from '../../../../assets/media/icons'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
-import Input from '../../../form/input/input.component'
+import AutoCompleteInput from '../../../form/autoCompleteInput/autoCompleteInput.component'
 import QuickAccessBack from '../../components/quick-access-back/quick-access-back.component'
 import MealItem from '../../components/quick-access-log-item/quick-access-log-item.component'
 import { useQuickAccess } from '../../quick-access.context'
@@ -31,17 +34,32 @@ const QuickAccessLogMeal: FC = () => {
   const { t } = useTranslation()
   const { setRoute } = useQuickAccess()
 
+  const [search, setSearch] = useState('')
+
+  const options = useMemo(() => {
+    return (
+      [
+        { value: 'Lunch', label: 'Lunch' },
+        { value: 'Dinner', label: 'Dinner' }
+      ].filter((meal: any) =>
+        meal.label.toLowerCase().includes(search.toLowerCase())
+      ) || []
+    )
+  }, [search])
+
   return (
     <Styles>
       <QuickAccessBack label={'log'} route={quickAccessRoutes.LOG} />
 
       <h3>{t('quickaccess:log-meal.title')}</h3>
 
-      <Input
-        id="exercises-search"
+      <AutoCompleteInput
+        id="meals-search"
         placeholder={t('quickaccess:log-meal.search-placeholder')}
-        prefix={<SearchIcon />}
-        onChange={() => null}
+        // prefix={<SearchIcon />}
+        options={options}
+        value={search}
+        onChange={(value) => setSearch(value)}
         className="qa-log-meal__search"
       />
 

@@ -1,10 +1,11 @@
 import { FormikProvider, useFormik } from 'formik'
 import moment from 'moment'
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 
-import { SearchIcon } from '../../../../assets/media/icons'
+// import { SearchIcon } from '../../../../assets/media/icons'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
+import AutoCompleteInput from '../../../form/autoCompleteInput/autoCompleteInput.component'
 import DatePicker from '../../../form/date-picker/date-picker.component'
 import Input from '../../../form/input/input.component'
 import RadioInput from '../../../form/radio-input/radio-input.component'
@@ -51,6 +52,19 @@ const QuickAccessAddExercise: FC = () => {
 
   const [exerciseType, setExerciseType] = useState('strength')
 
+  const options = useMemo(() => {
+    return (
+      [
+        { value: 'Pushups', label: 'Pushups' },
+        { value: 'Bench press', label: 'Bench press' }
+      ].filter((exercise: any) =>
+        exercise.label
+          .toLowerCase()
+          .includes(formik.values.exercise.toLowerCase())
+      ) || []
+    )
+  }, [formik.values.exercise])
+
   return (
     <Styles>
       <QuickAccessBack label={'add'} route={quickAccessRoutes.ADD} />
@@ -84,15 +98,15 @@ const QuickAccessAddExercise: FC = () => {
             value={formik.values.date}
             onChange={(value, dateStr) => formik.setFieldValue('date', dateStr)}
           />
-          <Input
+          <AutoCompleteInput
             className="qa-add-exercise__exercise"
             id="qa-add-exercise-exercise"
             label={t('quickaccess:add-exercise.label-exercises')}
             name="exercises"
             placeholder={t('quickaccess:add-exercise.placeholder-exercises')}
             value={formik.values.exercise}
-            suffix={<SearchIcon />}
-            onChange={(e) => formik.setFieldValue('exercise', e.target.value)}
+            onChange={(value) => formik.setFieldValue('exercise', value)}
+            options={options}
           />
 
           <div className="qa-add-exercise__input-group">

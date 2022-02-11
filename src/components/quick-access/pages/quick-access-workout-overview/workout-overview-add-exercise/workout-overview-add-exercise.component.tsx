@@ -1,9 +1,13 @@
 import { FormikProvider, useFormik } from 'formik'
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 
-import { AddIcon, SearchIcon } from '../../../../../assets/media/icons'
+import {
+  AddIcon
+  // SearchIcon
+} from '../../../../../assets/media/icons'
 import { useTranslation } from '../../../../../modules/i18n/i18n.hook'
 import Button from '../../../../buttons/button/button.component'
+import AutoCompleteInput from '../../../../form/autoCompleteInput/autoCompleteInput.component'
 import Input from '../../../../form/input/input.component'
 import RadioInput from '../../../../form/radio-input/radio-input.component'
 import Select from '../../../../form/select/select.component'
@@ -50,6 +54,19 @@ const WorkoutOverviewAddExercise: FC = () => {
     'strength' | 'cardio' | string
   >('strength')
   const [mode, setMode] = useState<'exercise' | 'superset'>('exercise')
+
+  const options = useMemo(() => {
+    return (
+      [
+        { value: 'Pushups', label: 'Pushups' },
+        { value: 'Bench press', label: 'Bench press' }
+      ].filter((exercise: any) =>
+        exercise.label
+          .toLowerCase()
+          .includes(formik.values.exercise.toLowerCase())
+      ) || []
+    )
+  }, [formik.values.exercise])
 
   return (
     <Styles mode={mode}>
@@ -107,7 +124,7 @@ const WorkoutOverviewAddExercise: FC = () => {
       <FormikProvider value={formik}>
         <form onSubmit={formik.handleSubmit}>
           <div className="qa-workout-overview-add-exercise__form-container">
-            <Input
+            <AutoCompleteInput
               className="qa-workout-overview-add-exercise__exercise"
               id="qa-workout-overview-add-exercise-exercise"
               label={t(
@@ -118,8 +135,9 @@ const WorkoutOverviewAddExercise: FC = () => {
                 'quickaccess:workout-overview.add-exercise.placeholder-exercises'
               )}
               value={formik.values.exercise}
-              suffix={<SearchIcon />}
-              onChange={(e) => formik.setFieldValue('exercise', e.target.value)}
+              // suffix={<SearchIcon />}
+              onChange={(value) => formik.setFieldValue('exercise', value)}
+              options={options}
             />
 
             <div className="qa-workout-overview-add-exercise__input-group">

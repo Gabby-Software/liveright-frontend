@@ -1,10 +1,11 @@
 import { FormikProvider, useFormik } from 'formik'
 import moment from 'moment'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 
-import { SearchIcon } from '../../../../assets/media/icons'
+// import { SearchIcon } from '../../../../assets/media/icons'
 import { useTranslation } from '../../../../modules/i18n/i18n.hook'
 import Button from '../../../buttons/button/button.component'
+import AutoCompleteInput from '../../../form/autoCompleteInput/autoCompleteInput.component'
 import DatePicker from '../../../form/date-picker/date-picker.component'
 import Input from '../../../form/input/input.component'
 import QuickAccessBack from '../../components/quick-access-back/quick-access-back.component'
@@ -58,14 +59,25 @@ const QuickAccessAddExercise: FC = () => {
     }
   })
 
+  const options = useMemo(() => {
+    return (
+      [
+        { value: 'Grilled Chicken', label: 'Grilled Chicken' },
+        { value: 'Beef Stake', label: 'Beef Stake' }
+      ].filter((exercise: any) =>
+        exercise.label.toLowerCase().includes(formik.values.food.toLowerCase())
+      ) || []
+    )
+  }, [formik.values.food])
+
   return (
     <Styles>
       <QuickAccessBack
-        label={routeParams?.parentRoute === 'meal-overview' ? 'detail' : 'log'}
+        label={routeParams?.parentRoute === 'meal-overview' ? 'detail' : 'add'}
         route={
           routeParams?.parentRoute === 'meal-overview'
             ? quickAccessRoutes.MEAL_OVERVIEW
-            : quickAccessRoutes.LOG_MEAL
+            : quickAccessRoutes.ADD
         }
       />
 
@@ -89,15 +101,16 @@ const QuickAccessAddExercise: FC = () => {
             )}
 
             <div className="qa-add-food__input-group">
-              <Input
+              <AutoCompleteInput
                 className="qa-add-food__input-food"
                 id="qa-add-food-food"
                 label={t('quickaccess:add-food.label-food')}
                 name="food"
                 placeholder={t('quickaccess:add-food.placeholder-food')}
                 value={formik.values.food}
-                suffix={<SearchIcon />}
-                onChange={(e) => formik.setFieldValue('food', e.target.value)}
+                // suffix={<SearchIcon />}
+                options={options}
+                onChange={(value) => formik.setFieldValue('food', value)}
               />
 
               <Input

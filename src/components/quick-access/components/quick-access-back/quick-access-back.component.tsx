@@ -17,7 +17,7 @@ const QuickAccessBack: FC<Props> = ({ label, color, route }) => {
   return (
     <Styles color={color} onClick={() => setRoute(route)}>
       <BackArrow />
-      <span>Back to {t(`quickaccess:menu.${label}`).toLowerCase()}</span>
+      <span>Back to {t(`quickaccess:menu.${label}`)}</span>
     </Styles>
   )
 }
