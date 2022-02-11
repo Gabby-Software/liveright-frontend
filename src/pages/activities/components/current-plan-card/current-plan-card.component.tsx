@@ -1,51 +1,54 @@
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 
 import { CheckIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
+import { DATA } from '../../current-plan/current-active-split.component'
 import { Styles } from './current-plan-card.styles'
 
 interface CurrentPlanCardProps {
-  icon: ReactNode
-  time: string
-  title: string
-  color: string
-  action: string
-  actionText?: string
-  content: string[]
+  data: any
+  scheduleTime: string
+  type: any
 }
 
 export default function CurrentPlanCard({
-  icon,
-  time,
-  title,
-  color,
-  action,
-  actionText,
-  content
+  data,
+  scheduleTime,
+  type
 }: CurrentPlanCardProps) {
   const [open, setOpen] = useState(false)
+
+  const getData = (key: keyof typeof DATA) => {
+    return DATA[key]
+  }
+
   return (
-    <Styles $color={color}>
+    <Styles $color={getData(type).color}>
       <div className="CurrentPlanCard__summary">
         <div className="CurrentPlanCard__summary-content">
-          <div className="CurrentPlanCard__summary-icon">{icon}</div>
+          <div className="CurrentPlanCard__summary-icon">
+            {getData(type).icon}
+          </div>
 
-          <p className="CurrentPlanCard__summary-time">{time}</p>
+          <p className="CurrentPlanCard__summary-time">{scheduleTime}</p>
 
           <div>
-            <p className="CurrentPlanCard__summary-title">{title}</p>
+            <p className="CurrentPlanCard__summary-title">{data?.name}</p>
 
             <div className="CurrentPlanCard__summary-btn-container">
-              {actionText && (
-                <span className="CurrentPlanCard__summary-btn-text">
-                  {actionText}
-                </span>
-              )}
               <button
                 className="CurrentPlanCard__summary-btn"
                 onClick={() => setOpen(!open)}
               >
-                {action}
+                {String(
+                  (type === 'workout'
+                    ? data?.items?.length
+                    : type === 'meal'
+                    ? data?.total_target?.calories
+                    : '') ?? ''
+                ) +
+                  ' ' +
+                  getData(type).action}
               </button>
             </div>
           </div>
@@ -58,9 +61,9 @@ export default function CurrentPlanCard({
 
       {open && (
         <div className="CurrentPlanCard__content">
-          {content.map((text, index) => (
+          {data?.items?.map((row: any, index: number) => (
             <p key={index} className="CurrentPlanCard__content-item">
-              <span>{text}</span>
+              <span>{row.data.name}</span>
 
               <CheckIcon />
             </p>
