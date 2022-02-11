@@ -113,12 +113,12 @@ function createDay(dayIndex: number) {
   }
 }
 
-function updateDay(name: string, activities: Array<any>) {
-  return {
-    name,
-    activities
-  }
-}
+// function updateDay(name: string, activities: Array<any>) {
+//   return {
+//     name,
+//     activities
+//   }
+// }
 
 export default function AddDietPlan({
   editDay,
@@ -149,9 +149,9 @@ export default function AddDietPlan({
     mode: 'onChange'
   })
 
-  const [scheduled_start_on, name] = useWatch({
+  const [name, scheduled_start_on, scheduled_end_on] = useWatch({
     control: methods.control,
-    name: ['scheduled_start_on', 'name']
+    name: ['name', 'scheduled_start_on', 'scheduled_end_on']
   })
 
   const daysArray = useFieldArray({
@@ -175,22 +175,22 @@ export default function AddDietPlan({
     setDayIndex(dayIndex - 1)
   }
 
-  useEffect(() => {
-    const days = methods.getValues('days')
-    for (let i = 0; i < days.length; i++) {
-      if (days[i]?.activities) {
-        if (days[i].name) {
-          if (days[i].name.indexOf('Day ') < 0) {
-            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
-          } else {
-            daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
-          }
-        } else {
-          daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
-        }
-      }
-    }
-  }, [dayIndex])
+  // useEffect(() => {
+  //   const days = methods.getValues('days')
+  //   for (let i = 0; i < days.length; i++) {
+  //     if (days[i]?.activities) {
+  //       if (days[i].name) {
+  //         if (days[i].name.indexOf('Day ') < 0) {
+  //           daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
+  //         } else {
+  //           daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
+  //         }
+  //       } else {
+  //         daysArray.update(i, updateDay(`Day ${i + 1}`, days[i]?.activities))
+  //       }
+  //     }
+  //   }
+  // }, [dayIndex])
 
   useEffect(() => {
     if (revision._id) {
@@ -222,7 +222,6 @@ export default function AddDietPlan({
       const days = JSON.parse(getItemFromLocalStorage(loadDaysFromls) || 'null')
 
       if (days) {
-        console.log(days)
         daysArray.remove(
           Array(daysArray.fields.length)
             .fill(1)
@@ -240,8 +239,6 @@ export default function AddDietPlan({
   }, [location.search])
 
   const handleSubmit = (values: any) => {
-    console.log(values)
-    console.log('errors', errors)
     if (editId && revisionId) {
       onEdit(editId, revisionId, values, onClose)
     } else {
@@ -257,16 +254,35 @@ export default function AddDietPlan({
   }
 
   const handleSave = async () => {
-    if (editId) {
-      const response = await methods.trigger()
-      console.log('response', response)
-      if (!response) {
+    const valid = await methods.trigger()
+    if (scheduled_start_on && scheduled_end_on) {
+      const diffTime =
+        new Date(String(scheduled_end_on)).getTime() -
+        new Date(String(scheduled_start_on)).getTime()
+      if (diffTime < 0) {
+        methods.setError('scheduled_start_on', {
+          type: 'manual',
+          message: ''
+        })
+        methods.setError('scheduled_end_on', {
+          type: 'manual',
+          message: ''
+        })
         toast.show({
           type: 'error',
-          msg: 'Please fill out all the required fields'
+          msg: 'Start date cannot be earlier than End date'
         })
         return
       }
+    }
+    if (!valid) {
+      toast.show({
+        type: 'error',
+        msg: 'Please fill out all the required fields'
+      })
+      return
+    }
+    if (editId) {
       setShowConfirm(true)
     } else {
       methods.handleSubmit(handleSubmit, handleError)()
@@ -275,7 +291,7 @@ export default function AddDietPlan({
 
   const handleDayAdd = () => {
     const newDayIndex = dayIndex + 1
-    daysArray.append(createDay(newDayIndex))
+    daysArray.append(createDay(newDayIndex || 1))
     methods.clearErrors('days')
     setDayIndex(newDayIndex)
   }
@@ -397,7 +413,9 @@ export default function AddDietPlan({
                     id="add-training-plan-start"
                     placeholder="Pick start date"
                     label="Start date"
-                    className="EditPlan__input"
+                    className={`EditPlan__input ${
+                      errors.scheduled_start_on ? 'EditPlan__invalid' : ''
+                    }`}
                     disabledPast
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
@@ -412,7 +430,9 @@ export default function AddDietPlan({
                   <DatePicker
                     id="add-training-plan-end"
                     placeholder="Pick end date"
-                    className="EditPlan__input"
+                    className={`EditPlan__input ${
+                      errors.scheduled_end_on ? 'EditPlan__invalid' : ''
+                    }`}
                     label="End date"
                     value={value}
                     onChange={(e, date) => onChange(name, date)}
