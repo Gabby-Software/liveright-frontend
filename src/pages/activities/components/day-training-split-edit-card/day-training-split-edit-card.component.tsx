@@ -123,7 +123,7 @@ export default function DayTrainingSplitEditCard(
   }
 
   const onDPRevome = (name: string) => {
-    onChangeValue(name, { name: '' })
+    onChangeValue(name, null)
   }
 
   const workoutsOptions = useMemo(() => {

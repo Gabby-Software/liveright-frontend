@@ -56,9 +56,7 @@ const defaultValues: any = {
 function createDay(
   dayIndex: number,
   training_plan_activities: any[] = [],
-  diet_plan_day: any = {
-    name: ''
-  }
+  diet_plan_day: any = null
 ) {
   return {
     name: `Day ${dayIndex}`,
@@ -160,12 +158,12 @@ export default function EditTrainingSplit() {
       )
       daysArray.append(revision.days)
       setSelectedTP({
-        id: revision.training_plan._id,
-        revId: revision.training_plan_revision_id
+        id: revision.training_plan?._id || '',
+        revId: revision.training_plan_revision_id || ''
       })
       setSelectedDP({
-        id: revision.diet_plan._id,
-        revId: revision.diet_plan_revision_id
+        id: revision.diet_plan?._id || '',
+        revId: revision.diet_plan_revision_id || ''
       })
     }
 
@@ -564,7 +562,7 @@ export default function EditTrainingSplit() {
         alert={
           <ul>
             <li>
-              A new revision of your training plan will be created. You can, at
+              A new revision of your training split will be created. You can, at
               all times, go back to old revisions, such as the one you just
               edited, and re-activate it.
             </li>

@@ -38,7 +38,7 @@ export default function ExerciseAccordion({
 }: ExerciseAccordionProps) {
   const methods = useFormContext()
   const exerciseName = methods.getValues(`${name}.name`)
-  const isCardio = methods.getValues(`${name}.info.cardio`)
+  const isCardio = methods.getValues(`${name}.info.type`) === 'cardio'
 
   const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
