@@ -173,65 +173,25 @@ export function formatSplitData(data: any) {
     delete dataClone.account_id
   }
 
-  console.log(dataClone.days)
+  if (!data.diet_plan_revision_id) {
+    delete dataClone.diet_plan_revision_id
+  }
+
+  if (!data.training_plan_revision_id) {
+    delete dataClone.training_plan_revision_id
+  }
 
   dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
-      training_plan_activities: day.training_plan_activities?.map(
-        (activity: any, index: number) => {
-          return {
-            name: activity.name,
-            time: activity.time,
-            sort_order: index,
-            items: activity.items?.map((item: any, index: number) => {
-              return {
-                sort_order: index,
-                ...(typeof item.is_superset === 'boolean' && {
-                  is_superset: item.is_superset
-                }),
-                data: !item.is_superset
-                  ? {
-                      name: item.data.name,
-                      ...(typeof item.data.link === 'string' && {
-                        link: item.data.link
-                      }),
-                      info: Object.keys(item.data.info).reduce((acc, cur) => {
-                        return {
-                          ...acc,
-                          [cur]: String(item.data.info[cur])
-                        }
-                      }, {})
-                    }
-                  : item.data.map((data: any, index: number) => {
-                      return {
-                        sort_order: index,
-                        name: data.name,
-                        link: data.link,
-                        info: Object.keys(data.info).reduce((acc, cur) => {
-                          return {
-                            ...acc,
-                            [cur]: String(data.info[cur])
-                          }
-                        }, {})
-                      }
-                    })
-              }
-            })
-          }
-        }
-      ),
-      diet_plan_day: {
-        ...(typeof day.diet_plan_day.name === 'string' && {
-          name: day.diet_plan_day.name
-        }),
-        activities: day.diet_plan_day.activities?.map(
-          (activity: any, index: number) => {
+      training_plan_activities: day.training_plan_activities?.length
+        ? day.training_plan_activities?.map((activity: any, index: number) => {
             return {
+              ...(activity._id && { _id: activity._id }),
               name: activity.name,
               time: activity.time,
               sort_order: index,
-              items: activity.items.map((item: any, index: number) => {
+              items: activity.items?.map((item: any, index: number) => {
                 return {
                   sort_order: index,
                   ...(typeof item.is_superset === 'boolean' && {
@@ -246,9 +206,7 @@ export function formatSplitData(data: any) {
                         info: Object.keys(item.data.info).reduce((acc, cur) => {
                           return {
                             ...acc,
-                            [cur]: isNaN(Number(item.data.info[cur]))
-                              ? item.data.info[cur]
-                              : Number(item.data.info[cur])
+                            [cur]: String(item.data.info[cur] || '')
                           }
                         }, {})
                       }
@@ -260,7 +218,7 @@ export function formatSplitData(data: any) {
                           info: Object.keys(data.info).reduce((acc, cur) => {
                             return {
                               ...acc,
-                              [cur]: Number(data.info[cur])
+                              [cur]: String(data.info[cur] || '')
                             }
                           }, {})
                         }
@@ -268,9 +226,67 @@ export function formatSplitData(data: any) {
                 }
               })
             }
+          })
+        : null,
+      diet_plan_day: day.diet_plan_day
+        ? {
+            ...(typeof day.diet_plan_day?.name === 'string' && {
+              name: day.diet_plan_day.name
+            }),
+            ...(day.diet_plan_day._id && { _id: day.diet_plan_day._id }),
+            activities: day.diet_plan_day?.activities?.map(
+              (activity: any, index: number) => {
+                return {
+                  name: activity.name,
+                  time: activity.time,
+                  sort_order: index,
+                  items: activity.items.map((item: any, index: number) => {
+                    return {
+                      sort_order: index,
+                      ...(typeof item.is_superset === 'boolean' && {
+                        is_superset: item.is_superset
+                      }),
+                      data: !item.is_superset
+                        ? {
+                            name: item.data.name,
+                            ...(typeof item.data.link === 'string' && {
+                              link: item.data.link
+                            }),
+                            info: Object.keys(item.data.info).reduce(
+                              (acc, cur) => {
+                                return {
+                                  ...acc,
+                                  [cur]: isNaN(Number(item.data.info[cur]))
+                                    ? item.data.info[cur]
+                                    : Number(item.data.info[cur])
+                                }
+                              },
+                              {}
+                            )
+                          }
+                        : item.data.map((data: any, index: number) => {
+                            return {
+                              sort_order: index,
+                              name: data.name,
+                              link: data.link,
+                              info: Object.keys(data.info).reduce(
+                                (acc, cur) => {
+                                  return {
+                                    ...acc,
+                                    [cur]: Number(data.info[cur])
+                                  }
+                                },
+                                {}
+                              )
+                            }
+                          })
+                    }
+                  })
+                }
+              }
+            )
           }
-        )
-      },
+        : null,
       items: day.items.map((item: any, index: number) => {
         return {
           sort_order: index,

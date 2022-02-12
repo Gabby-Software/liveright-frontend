@@ -35,25 +35,20 @@ interface WorkoutAccordionProps {
 }
 
 function createExercise(isSuperset: boolean | number, cardio: boolean) {
-  const ex = cardio
-    ? {
-        name: '',
-        info: {
-          cardio: true,
-          duration: '00:10',
-          intensity: 'Moderate'
-        }
-      }
-    : {
-        name: isSuperset ? `${isSuperset}A--` : '',
-        link: '',
-        info: {
-          sets: '',
-          reps: '',
-          tempo: '',
-          rest_interval: ''
-        }
-      }
+  const ex = {
+    name: '',
+    link: '',
+    info: {
+      type: cardio ? 'cardio' : 'strength',
+      sets: '',
+      reps: '',
+      tempo: '',
+      rest_interval: '',
+      duration: '',
+      intensity: ''
+    },
+    sort_order: isSuperset && 1
+  }
   return {
     is_superset: isSuperset && true,
     save_as_template: false,
