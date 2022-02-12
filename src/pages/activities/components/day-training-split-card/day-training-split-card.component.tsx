@@ -26,6 +26,7 @@ export default function DayTrainingSplitCard(
   const { data, onWorkout, onMealPlan, onCardio, day, subtitle } = props
 
   const onWorkoutClicked = (content: string) => {
+    console.log('data', data.training_plan_activities)
     if (onWorkout && data.training_plan_activities.length) {
       onWorkout(
         data.training_plan_activities.find((w: any) => w.name === content)

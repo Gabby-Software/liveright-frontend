@@ -86,6 +86,11 @@ export const Styles = styled.div`
       margin-bottom: 1.5rem;
     }
 
+    &__no-activity {
+      margin: 5rem 0;
+      text-align: center;
+    }
+
     &__log-text {
       font-size: 1rem;
       font-weight: 400;

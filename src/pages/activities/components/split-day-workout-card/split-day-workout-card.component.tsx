@@ -37,6 +37,8 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
     }
   })
 
+  console.log('data', data)
+
   return (
     <Styles>
       {/* <div className="SplitDayWorkoutCard__card">
@@ -69,6 +71,7 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                   const exercises = item.is_superset
                     ? [getDummySupersetRow(`${i + 1} - Superset`), ...item.data]
                     : [item.data]
+                  console.log('exercises', exercises)
                   return exercises.map((e: any, idx: number) => (
                     <tr key={idx}>
                       <td
@@ -81,33 +84,37 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                         {e?.name}
                       </td>
                       <td>
-                        {e?.info?.type === 'strength'
-                          ? e?.info?.sets || '-'
+                        {e?.info?.type === 'strength' || !e?.info?.type
+                          ? e?.info?.sets || e?.data?.info?.sets || '-'
                           : ''}
                       </td>
                       <td>
-                        {e?.info?.type === 'strength'
-                          ? e?.info?.reps || '-'
+                        {e?.info?.type === 'strength' || !e?.info?.type
+                          ? e?.info?.reps || e?.data?.info?.reps || '-'
                           : ''}
                       </td>
                       <td>
-                        {e?.info?.type === 'strength'
-                          ? e?.info?.tempo || '-'
+                        {e?.info?.type === 'strength' || !e?.info?.type
+                          ? e?.info?.tempo || e?.data?.info?.tempo || '-'
                           : ''}
                       </td>
                       <td>
-                        {e?.info?.type === 'strength'
-                          ? e?.info?.rest_interval || '-'
+                        {e?.info?.type === 'strength' || !e?.info?.type
+                          ? e?.info?.rest_interval ||
+                            e?.data?.info?.rest_interval ||
+                            '-'
                           : ''}
                       </td>
                       <td>
                         {e?.info?.type === 'cardio'
-                          ? e?.info?.duration || '-'
+                          ? e?.info?.duration || e?.data?.info?.duration || '-'
                           : ''}
                       </td>
                       <td>
                         {e?.info?.type === 'cardio'
-                          ? e?.info?.intensity || '-'
+                          ? e?.info?.intensity ||
+                            e?.data?.info?.intensity ||
+                            '-'
                           : ''}
                       </td>
                       <td>{getLink(e.link)}</td>
