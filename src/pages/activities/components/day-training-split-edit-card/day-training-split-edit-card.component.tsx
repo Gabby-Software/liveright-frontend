@@ -113,7 +113,10 @@ export default function DayTrainingSplitEditCard(
 
   const onDPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      onChangeValue(name, { name: value })
+      const newMeal = dpDays.find((m) => m.name === value) || {
+        name: value
+      }
+      onChangeValue(name, newMeal)
       return
     }
     onChangeValue(name, cloneDeep(dpDays.find((d) => d._id === value)))
