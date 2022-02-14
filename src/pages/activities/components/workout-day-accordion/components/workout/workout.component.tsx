@@ -89,13 +89,13 @@ export default function Workout({ name }: WorkoutProps) {
   const { errors } = methods.formState
 
   const onDragEnd = (result: DropResult) => {
-    console.log(result)
+    console.log('result', result)
     if (!result.destination) {
       return
     }
 
     exercisesArray.swap(result.source.index, (result.destination as any).index)
-    setTimeout(resetPrefixValues, 10)
+    // setTimeout(resetPrefixValues, 10)
   }
 
   const handleExerciseAdd = (
@@ -113,25 +113,25 @@ export default function Workout({ name }: WorkoutProps) {
     // setTimeout(resetPrefixValues, 10)
   }
 
-  const resetPrefixValues = () => {
-    const values: any[] = methods.getValues(name)
-    // get values and re-order the prefix values i.e 1A, 1B etc.
-    values.forEach((v, i) => {
-      if (v.is_superset) {
-        v.data.forEach((v: any, idx: number) => {
-          // const suf = String(v.name).split('--')[1]
-          methods.setValue(
-            `${name}.${i}.data.${idx}.name`,
-            // `${i + 1}${String.fromCharCode(65 + idx)}--${suf}`
-            ''
-          )
-        })
-      } else {
-        // const suf = String(v.data.name).split('--')[1]
-        methods.setValue(`${name}.${i}.data.name`, '')
-      }
-    })
-  }
+  // const resetPrefixValues = () => {
+  //   const values: any[] = methods.getValues(name)
+  //   // get values and re-order the prefix values i.e 1A, 1B etc.
+  //   values.forEach((v, i) => {
+  //     if (v.is_superset) {
+  //       v.data.forEach((v: any, idx: number) => {
+  //         // const suf = String(v.name).split('--')[1]
+  //         methods.setValue(
+  //           `${name}.${i}.data.${idx}.name`,
+  //           // `${i + 1}${String.fromCharCode(65 + idx)}--${suf}`
+  //           ''
+  //         )
+  //       })
+  //     } else {
+  //       // const suf = String(v.data.name).split('--')[1]
+  //       methods.setValue(`${name}.${i}.data.name`, '')
+  //     }
+  //   })
+  // }
 
   // const onWorkoutNameSelected = (value: string) => {
   //   // find in templates
@@ -280,7 +280,12 @@ export default function Workout({ name }: WorkoutProps) {
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {!exercisesArray.fields.length ? (
-                  <div>
+                  <div
+                    className="Workout__exercises__addExercise"
+                    onClick={() =>
+                      handleExerciseAdd(exercisesArray.fields.length + 1, false)
+                    }
+                  >
                     <EmptyPlaceholder text="Add your exercises" spacing />
                   </div>
                 ) : (

@@ -74,6 +74,10 @@ export const Styles = styled(Card)`
 
     &__exercises {
       margin-bottom: 1.5rem;
+
+      &__addExercise {
+        cursor: pointer;
+      }
     }
 
     &__template {

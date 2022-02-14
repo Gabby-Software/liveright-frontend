@@ -250,52 +250,56 @@ export default function DietPlan() {
               </div>
 
               <div className="PlanPage__badge">
-                <p className="PlanPage__badge-title">Start date</p>
+                <p className="PlanPage__badge-title">Start and end dates</p>
                 <p className="PlanPage__badge-text">
-                  {revision.scheduled_start_on
-                    ? moment(revision.scheduled_start_on).format(
-                        DATE_RENDER_FORMAT
-                      )
-                    : '-'}
+                  {!revision.scheduled_start_on &&
+                    !revision.scheduled_end_on &&
+                    'No dates are selected for the Diet plan'}
+                  {revision.scheduled_start_on || revision.scheduled_start_on
+                    ? `${
+                        revision.scheduled_start_on ||
+                        (revision.scheduled_end_on &&
+                          revision.scheduled_start_on)
+                          ? moment(
+                              new Date(revision.scheduled_start_on)
+                            ).format(DATE_RENDER_FORMAT)
+                          : '...'
+                      } — 
+                  ${
+                    revision.scheduled_end_on
+                      ? moment(new Date(revision.scheduled_end_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '...'
+                  }`
+                    : ''}
                 </p>
               </div>
 
-              <div className="PlanPage__badge">
-                <p className="PlanPage__badge-title">End date</p>
-                <p className="PlanPage__badge-text">
-                  {revision.scheduled_end_on
-                    ? moment(revision.scheduled_end_on).format(
-                        DATE_RENDER_FORMAT
-                      )
-                    : '-'}
-                </p>
-              </div>
+              {/* {revision.status === 'active' && (
+                <div className="PlanPage__badge">
+                  <p className="PlanPage__badge-title">Start and end dates</p>
+                  <p className="PlanPage__badge-text">
+                    The start and end dates of this training plan are tied to
+                    the active Training Split
+                  </p>
+                </div>
+              )}
+              {revision.status === 'scheduled' && (
+                <div className="PlanPage__badge">
+                  <p className="PlanPage__badge-title">Starting on</p>
+                  <p className="PlanPage__badge-text">
+                    {revision.scheduled_start_on
+                      ? moment(new Date(revision.scheduled_start_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '-'}
+                  </p>
+                </div>
+              )} */}
             </div>
           </div>
 
-          {revision.status === 'active' && revision.training_split?._id && (
-            <div className="PlanPage__badge">
-              <p className="PlanPage__badge-title">Start and end dates</p>
-              <p className="PlanPage__badge-text">
-                The start and end dates of this training plan are tied to the
-                active Training Split
-              </p>
-            </div>
-          )}
-
-          {revision.status === 'scheduled' && (
-            <div className="PlanPage__badge">
-              <p className="PlanPage__badge-title">Starting on</p>
-              <p className="PlanPage__badge-text">
-                {revision.scheduled_start_on
-                  ? moment(new Date(revision.scheduled_start_on)).format(
-                      DATE_RENDER_FORMAT
-                    )
-                  : '-'}
-              </p>
-            </div>
-          )}
-          <br />
           {!isMobile && (
             <div className="PlanPage__cards">
               {revision.days?.map((row: any, index: number) => (

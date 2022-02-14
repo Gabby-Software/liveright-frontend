@@ -6,7 +6,7 @@ import Checkbox from '../../../../../../components/form/checkbox/checkbox.compon
 import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
-import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+// import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../../components/form/TimeInput/time-input.component'
 import SubItemAccordion from '../../../sub-item-accordion/sub-item-accordion.component'
 import { WorkoutSubtitle } from '../workout/workout.styles'
@@ -110,15 +110,26 @@ export default function ExerciseAccordion({
                 <Controller
                   name={`${name}.info.duration`}
                   render={({ field: { name, value } }) => (
-                    <TimePicker
+                    // <TimePicker
+                    //   id="cardio-duration"
+                    //   label="Duration"
+                    //   placeholder="00:30"
+                    //   value={value}
+                    //   onChange={(e, date) => {
+                    //     methods.setValue(name, date)
+                    //   }}
+                    //   error={get(errors, name)}
+                    // />
+                    <TimeInput
                       id="cardio-duration"
                       label="Duration"
-                      placeholder="00:30"
+                      placeholder="hh:mm"
                       value={value}
-                      onChange={(e, date) => {
-                        methods.setValue(name, date)
-                      }}
+                      onChange={(e) => onChange(name, e.target.value)}
                       error={get(errors, name)}
+                      ErrorProps={{ size: 'sm' }}
+                      format="HH:mm"
+                      tooltip="Cardio duration in hours and minutes"
                     />
                   )}
                 />

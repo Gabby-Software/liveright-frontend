@@ -11,7 +11,7 @@ import Checkbox from '../../../../../../components/form/checkbox/checkbox.compon
 import Input from '../../../../../../components/form/input/input.component'
 import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
-import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
+// import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../../components/form/TimeInput/time-input.component'
 import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
 import useTemplateExercises from '../../../../../../hooks/api/templates/useTemplateExercises'
@@ -183,9 +183,9 @@ export default function Exercise({
                 id="Exercise-name"
                 label="Exercise name"
                 placeholder="Exersice"
-                value={val}
+                value={value}
                 onChange={(e) => {
-                  onChange(name, `${prefix}--${e.target.value}`)
+                  onChange(name, e.target.value)
                 }}
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
@@ -195,7 +195,7 @@ export default function Exercise({
                 label={`${isCardio ? 'Cardio' : 'Exercise'} name`}
                 placeholder={isCardio ? 'Cardio' : 'Exercise'}
                 value={value}
-                onChange={(value) => methods.setValue(name, value)}
+                onChange={(value) => onChange(name, value)}
                 options={nameOptions}
                 onSelect={onPreviousExerciseSelect}
                 error={get(errors, name)}
@@ -211,15 +211,26 @@ export default function Exercise({
           <Controller
             name={`${name}.info.duration`}
             render={({ field: { name, value } }) => (
-              <TimePicker
+              // <TimePicker
+              //   id="cardio-duration"
+              //   label="Duration"
+              //   placeholder="00:30"
+              //   value={value}
+              //   onChange={(e, date) => {
+              //     methods.setValue(name, date)
+              //   }}
+              //   error={get(errors, name)}
+              // />
+              <TimeInput
                 id="cardio-duration"
                 label="Duration"
-                placeholder="00:30"
+                placeholder="hh:mm"
                 value={value}
-                onChange={(e, date) => {
-                  methods.setValue(name, date)
-                }}
+                onChange={(e) => onChange(name, e.target.value)}
                 error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
+                format="HH:mm"
+                tooltip="Cardio duration in hours and minutes"
               />
             )}
           />
