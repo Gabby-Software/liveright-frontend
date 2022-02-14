@@ -16,19 +16,23 @@ interface Props {
 }
 
 const QuickAccessFoodItem: FC<Props> = ({ name, macronutrients }) => {
-  const [showMacronutreients, setShowMacronutrients] = useState(true)
+  const [showMacronutreients, setShowMacronutrients] = useState(false)
 
   return (
     <Styles>
-      <div className="qa-food-item__card">
+      <div
+        className="qa-food-item__card"
+        style={{
+          // paddingRight: showMacronutreients ? '50px' : ''
+          width: showMacronutreients ? '' : 'calc(100% + 80px)'
+        }}
+      >
         <div className="qa-food-item__card-header">
           <h2>{name}</h2>
-          <span>
-            <DeleteOutlinedIcon />
-          </span>
         </div>
 
         <button
+          className="qa-food-item__card-macronutrients-button"
           onClick={() => setShowMacronutrients((prevState) => !prevState)}
         >
           {showMacronutreients ? (
@@ -52,7 +56,10 @@ const QuickAccessFoodItem: FC<Props> = ({ name, macronutrients }) => {
           </div>
         )}
 
-        <div className="qa-food-item__card-input-group">
+        <div
+          className="qa-food-item__card-input-group"
+          style={{ maxWidth: showMacronutreients ? 'calc(100% - 430px)' : '' }}
+        >
           <Input
             id="qa-food-item-quantity"
             label="Quantity (gram)"
@@ -67,6 +74,10 @@ const QuickAccessFoodItem: FC<Props> = ({ name, macronutrients }) => {
             value={200}
           />
         </div>
+
+        <button className="qa-food-item__card-delete-button">
+          <DeleteOutlinedIcon />
+        </button>
       </div>
     </Styles>
   )
