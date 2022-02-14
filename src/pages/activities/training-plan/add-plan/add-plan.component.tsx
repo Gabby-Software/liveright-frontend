@@ -144,6 +144,8 @@ export default function AddTrainingPlan({
     name: 'activities'
   })
 
+  console.log({ errors })
+
   useEffect(() => {
     if (clientId) {
       methods.setValue('account_id', parseInt(clientId))
@@ -182,6 +184,7 @@ export default function AddTrainingPlan({
 
   const handleSave = async () => {
     const isValid = await methods.trigger()
+    console.log(isValid)
     if (scheduled_start_on && scheduled_end_on) {
       const diffTime =
         new Date(String(scheduled_end_on)).getTime() -

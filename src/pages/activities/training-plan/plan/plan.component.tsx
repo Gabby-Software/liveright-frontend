@@ -12,13 +12,14 @@ import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
+import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
 import { getVersionOptions } from '../../../../utils/api/activities'
-import { DATE_RENDER_FORMAT } from '../../../../utils/date'
+import { DATE_PRETTY_FORMAT, DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Alert from '../../components/alert/alert.component'
@@ -45,6 +46,7 @@ export default function TrainingPlan() {
   const history = useHistory()
   const queryParams = new URLSearchParams(location.search)
   const { type: userType } = useAuth()
+  const { user: client } = useClientAccount(params.clientId)
 
   useEffect(() => {
     if (queryParams.get('edit')) {
@@ -352,22 +354,12 @@ export default function TrainingPlan() {
         name="Make Active Training Plan"
         description="You're about to make the following training plan the active one"
         title={trainingPlan.name}
-        alert={
-          <>
-            <div className="title">Read this before updating the plan!</div>
-            <ul>
-              <li>
-                A new revision of your training plan will be created and it will
-                become active. All your workout entires on your calender from
-                this day will be updated.
-              </li>
-              {/* <li>
-                This will also make changes to your current training split to
-                use the changes you just made.
-              </li> */}
-            </ul>
-          </>
-        }
+        alert={`This will make “${trainingPlan.name}” ${client.full_name}’s ${
+          moment(activationDate).isAfter() ? 'scheduled' : 'active'
+        } training plan starting from ${moment(activationDate).format(
+          DATE_PRETTY_FORMAT
+        )}. This means the training split will also be changed to reference this training plan.
+         You can revert it at any point by re-activating previous training plan as the active training plan.`}
         date={{
           label:
             'From when should we apply this change? Selecting a future date will schdule the training plan.',
