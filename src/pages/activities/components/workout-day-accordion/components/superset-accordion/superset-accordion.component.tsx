@@ -120,7 +120,7 @@ export default function SupersetAccordion({
                           isDragging={snapshot.isDragging}
                           name={`${name}.data.${index}`}
                           onRemove={() => handleRemoveExercise(index)}
-                          fromSuperset
+                          // fromSuperset
                         />
                       )}
                     </Draggable>

@@ -71,7 +71,7 @@ export default function Superset({
     } else {
       exercisesArray.remove(index)
       // wait for removal to finish
-      setTimeout(resetPrefixValues, 10)
+      // setTimeout(resetPrefixValues, 10)
     }
   }
 
@@ -83,20 +83,20 @@ export default function Superset({
     console.log(result)
 
     exercisesArray.swap(result.source.index, (result.destination as any).index)
-    setTimeout(resetPrefixValues, 10)
+    // setTimeout(resetPrefixValues, 10)
   }
 
-  const resetPrefixValues = () => {
-    const values: any[] = methods.getValues(name).data
-    // get values and re-order the prefix values i.e 1A, 1B etc.
-    values.forEach((v, i) => {
-      const suf = String(v.name).split('--')[1]
-      methods.setValue(
-        `${name}.data.${i}.name`,
-        `${labelIndex}${String.fromCharCode(65 + i)}--${suf}`
-      )
-    })
-  }
+  // const resetPrefixValues = () => {
+  //   const values: any[] = methods.getValues(name).data
+  //   // get values and re-order the prefix values i.e 1A, 1B etc.
+  //   values.forEach((v, i) => {
+  //     const suf = String(v.name).split('--')[1]
+  //     methods.setValue(
+  //       `${name}.data.${i}.name`,
+  //       `${labelIndex}${String.fromCharCode(65 + i)}--${suf}`
+  //     )
+  //   })
+  // }
 
   return (
     <Styles ref={innerRef} {...draggableProps} {...dragHandleProps}>
@@ -120,7 +120,7 @@ export default function Superset({
                       dragHandleProps={provided.dragHandleProps}
                       draggableProps={provided.draggableProps}
                       isDragging={snapshot.isDragging}
-                      fromSuperset
+                      // fromSuperset
                       labelIndex={labelIndex}
                       supersetPrefix={String.fromCharCode(65 + index)}
                     />

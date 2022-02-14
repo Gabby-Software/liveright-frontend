@@ -248,7 +248,7 @@ export default function WorkoutAccordion({
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {!exercisesArray.fields.length ? (
-                    <div>
+                    <div onClick={() => handleExerciseAdd(false)}>
                       <EmptyPlaceholder text="Add your exercises" spacing />
                     </div>
                   ) : (

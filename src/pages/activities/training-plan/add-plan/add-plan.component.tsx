@@ -51,7 +51,7 @@ interface AddTrainingPlanProps {
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
-  scheduled_start_on: yup.string().nullable(),
+  // scheduled_start_on: yup.string().nullable(),
   activities: yup.array().of(
     yup.object().shape({
       name: yup.string(),
@@ -94,7 +94,7 @@ const defaultValues: any = {
 
 function createWorkout(workoutIndex: number) {
   return {
-    name: `Workout ${workoutIndex}`,
+    name: `Workout ${workoutIndex || 1}`,
     save_as_template: false,
     items: []
   }
@@ -149,6 +149,10 @@ export default function AddTrainingPlan({
       methods.setValue('account_id', parseInt(clientId))
     }
   }, [clientId])
+
+  useEffect(() => {
+    setWorkoutIndex(activitiesArray?.fields?.length)
+  }, [activitiesArray?.fields?.length])
 
   useEffect(() => {
     if (revision._id) {

@@ -247,7 +247,34 @@ export default function DietPlan() {
                 </StatusBadge>
               </div>
 
-              {revision.status === 'active' && (
+              <div className="PlanPage__badge">
+                <p className="PlanPage__badge-title">Start and end dates</p>
+                <p className="PlanPage__badge-text">
+                  {!revision.scheduled_start_on &&
+                    !revision.scheduled_end_on &&
+                    'No dates are selected for the Diet plan'}
+                  {revision.scheduled_start_on || revision.scheduled_start_on
+                    ? `${
+                        revision.scheduled_start_on ||
+                        (revision.scheduled_end_on &&
+                          revision.scheduled_start_on)
+                          ? moment(
+                              new Date(revision.scheduled_start_on)
+                            ).format(DATE_RENDER_FORMAT)
+                          : '...'
+                      } — 
+                  ${
+                    revision.scheduled_end_on
+                      ? moment(new Date(revision.scheduled_end_on)).format(
+                          DATE_RENDER_FORMAT
+                        )
+                      : '...'
+                  }`
+                    : ''}
+                </p>
+              </div>
+
+              {/* {revision.status === 'active' && (
                 <div className="PlanPage__badge">
                   <p className="PlanPage__badge-title">Start and end dates</p>
                   <p className="PlanPage__badge-text">
@@ -267,7 +294,7 @@ export default function DietPlan() {
                       : '-'}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
 
