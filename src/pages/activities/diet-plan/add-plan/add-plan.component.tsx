@@ -531,7 +531,7 @@ export default function AddDietPlan({
         name="Delete Confirmation"
         title="Are you sure you want to delete the meal day?"
         separator={false}
-        body="This will delete the workout day which potentially has meals"
+        body="This will delete the meal plan day which potentially has meals."
         actions={{
           yes: 'Cancel',
           cancel: 'Delete',
