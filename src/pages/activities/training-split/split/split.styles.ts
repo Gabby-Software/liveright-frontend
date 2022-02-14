@@ -109,6 +109,10 @@ export const Styles = styled.div`
     }
 
     &__info {
+      &-row {
+        display: flex;
+        justify-content: space-between;
+      }
       &-container {
         background-color: ${getColorCarry('neutral_10')};
         margin-bottom: 1.25rem;
@@ -165,8 +169,10 @@ export const Styles = styled.div`
       }
 
       &-badge-container {
+        width: 100%;
         display: flex;
         & .no-border {
+          width: 100%;
           border: none;
         }
       }

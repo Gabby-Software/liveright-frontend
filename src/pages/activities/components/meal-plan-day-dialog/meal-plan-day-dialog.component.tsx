@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 
 import { CrossIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import SplitDayDietCard from '../split-day-card/split-day-diet-card.component'
 import Styles, { DialogStyles } from './meal-plan-day-dialog.styles'
 
@@ -22,6 +23,7 @@ const MealPlanDayDialog = ({
   subtitle,
   toLink
 }: IProps) => {
+  const isMobile = useIsMobile()
   const modifiedData = useMemo(() => {
     if (data?.is_day_target) {
       return {
@@ -37,7 +39,7 @@ const MealPlanDayDialog = ({
     <DialogStyles
       visible={open}
       onCancel={onClose}
-      width={1000}
+      width={isMobile ? '' : 1000}
       footer={false}
       closeIcon={<CrossIcon />}
       centered

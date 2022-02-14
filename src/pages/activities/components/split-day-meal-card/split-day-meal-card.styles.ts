@@ -46,6 +46,7 @@ export const Styles = styled(Card)`
     }
 
     &__card {
+      min-width: 100%;
       &:first-child {
         padding-right: 2rem;
         border-right: 1px solid ${getColorCarry('inputBorder_v2')};

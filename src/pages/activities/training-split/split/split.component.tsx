@@ -271,68 +271,137 @@ export default function TrainingSplit() {
                 )}
               </div>
             </div>
-            <div className="TrainingSplits__info-columns">
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">Status</p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={revision.status}>
-                    {capitalize(revision.status)}
-                  </StatusBadge>
+            {isMobile ? (
+              <div className="TrainingSplits__info">
+                <div className="TrainingSplits__info-row">
+                  <div className="TrainingSplits__info-column">
+                    <p className="TrainingSplits__info-title">Status</p>
+                    <div className="TrainingSplits__info-badge-container">
+                      <StatusBadge status={revision.status}>
+                        {capitalize(revision.status)}
+                      </StatusBadge>
+                    </div>
+                  </div>
+
+                  <div className="TrainingSplits__info-column">
+                    <p className="TrainingSplits__info-title">Started on</p>
+                    <div className="TrainingSplits__info-badge-container">
+                      <StatusBadge status={'info'} className="no-border">
+                        {revision.scheduled_start_on
+                          ? moment(revision.scheduled_start_on).format(
+                              DATE_RENDER_FORMAT
+                            )
+                          : '-'}
+                      </StatusBadge>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Ends on</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.scheduled_end_on
+                        ? moment(revision.scheduled_end_on).format(
+                            DATE_RENDER_FORMAT
+                          )
+                        : '-'}
+                    </StatusBadge>
+                  </div>
+                </div>
+
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.diet_plan?.name}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">
+                    Chosen Training Plan
+                  </p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.training_plan?.name}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Number of Days</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {`${revision.days_count} Days`}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column border-side"></div>
+              </div>
+            ) : (
+              <div className="TrainingSplits__info-columns">
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Status</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={revision.status}>
+                      {capitalize(revision.status)}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column border-side"></div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.diet_plan?.name}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">
+                    Chosen Training Plan
+                  </p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.training_plan?.name}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Number of Days</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {`${revision.days_count} Days`}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column border-side"></div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Started on</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.scheduled_start_on
+                        ? moment(revision.scheduled_start_on).format(
+                            DATE_RENDER_FORMAT
+                          )
+                        : '-'}
+                    </StatusBadge>
+                  </div>
+                </div>
+                <div className="TrainingSplits__info-column">
+                  <p className="TrainingSplits__info-title">Ends on</p>
+                  <div className="TrainingSplits__info-badge-container">
+                    <StatusBadge status={'info'} className="no-border">
+                      {revision.scheduled_end_on
+                        ? moment(revision.scheduled_end_on).format(
+                            DATE_RENDER_FORMAT
+                          )
+                        : '-'}
+                    </StatusBadge>
+                  </div>
                 </div>
               </div>
-              <div className="TrainingSplits__info-column border-side"></div>
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">Chosen Diet Plan</p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={'info'} className="no-border">
-                    {revision.diet_plan?.name}
-                  </StatusBadge>
-                </div>
-              </div>
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">
-                  Chosen Training Plan
-                </p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={'info'} className="no-border">
-                    {revision.training_plan?.name}
-                  </StatusBadge>
-                </div>
-              </div>
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">Number of Days</p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={'info'} className="no-border">
-                    {`${revision.days_count} Days`}
-                  </StatusBadge>
-                </div>
-              </div>
-              <div className="TrainingSplits__info-column border-side"></div>
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">Started on</p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={'info'} className="no-border">
-                    {revision.scheduled_start_on
-                      ? moment(revision.scheduled_start_on).format(
-                          DATE_RENDER_FORMAT
-                        )
-                      : '-'}
-                  </StatusBadge>
-                </div>
-              </div>
-              <div className="TrainingSplits__info-column">
-                <p className="TrainingSplits__info-title">Ends on</p>
-                <div className="TrainingSplits__info-badge-container">
-                  <StatusBadge status={'info'} className="no-border">
-                    {revision.scheduled_end_on
-                      ? moment(revision.scheduled_end_on).format(
-                          DATE_RENDER_FORMAT
-                        )
-                      : '-'}
-                  </StatusBadge>
-                </div>
-              </div>
-            </div>
+            )}
 
             {!isMobile && scheduleToggle}
           </Card>
