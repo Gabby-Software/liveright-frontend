@@ -47,7 +47,7 @@ export default function SplitDayDietCard(props: IProps) {
       contentClass={contentClass}
       content={
         <div>
-          {scheduleTime && !show && (
+          {/* {scheduleTime && !show && (
             <div className="SplitDayCard__macronutrients">
               {Object.keys(MACROS_KEY_LABEL).map((k) => (
                 <Macronutrient
@@ -59,7 +59,7 @@ export default function SplitDayDietCard(props: IProps) {
                 />
               ))}
             </div>
-          )}
+          )} */}
           {data.activities?.map((a: any, i: number) => (
             <SplitDayMealCard key={i} data={a} onShow={(s) => setShow(s)} />
           ))}
