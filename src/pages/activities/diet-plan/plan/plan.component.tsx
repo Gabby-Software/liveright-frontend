@@ -119,6 +119,7 @@ export default function DietPlan() {
     return (
       <AddDietPlan
         editDay={typeof edit === 'number' ? edit : undefined}
+        edit={typeof edit === 'boolean' ? edit : undefined}
         editId={params.id}
         revisionId={params.revisionId}
         onClose={() => setEdit(false)}
