@@ -16,13 +16,17 @@ export function ConfirmModal({
   onExitWithoutSave,
   onUnlock,
   open,
-  setOpen
+  setOpen,
+  onRedirectTo
 }: ConfirmModalProps) {
   return (
     <DialogStyles
       title="Confirmation"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false)
+        onRedirectTo('')
+      }}
     >
       <Card className="confirmation-dialog__container">
         <p className="confirmation-dialog__title">

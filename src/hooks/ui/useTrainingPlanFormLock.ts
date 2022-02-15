@@ -2,15 +2,15 @@ import { useEffect, useRef } from 'react'
 import { useFormState } from 'react-hook-form'
 import { useHistory } from 'react-router'
 
-interface UseTraningPlanFormLock {
+interface UseFormLock {
   onUnlock: () => void
 }
 
-export default function useTraningPlanFormLock(
+export default function useFormLock(
   control: any,
   onOpenDialog: any,
   onRedirectTo: any
-): UseTraningPlanFormLock {
+): UseFormLock {
   const { isDirty } = useFormState({ control })
   const history = useHistory()
   const unblock = useRef<any>()
