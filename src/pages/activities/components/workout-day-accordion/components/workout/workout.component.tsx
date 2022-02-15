@@ -74,6 +74,7 @@ export default function Workout({ name }: WorkoutProps) {
     name: `${name}`
   })
 
+  console.log('exercisesArray', exercisesArray)
   // const workoutName = useWatch({
   //   name: `${name}.name`,
   //   control: methods.control
@@ -294,7 +295,7 @@ export default function Workout({ name }: WorkoutProps) {
                       <Draggable
                         key={row.id}
                         draggableId={`${row.id}`}
-                        isDragDisabled={row.is_superset}
+                        // isDragDisabled={row.is_superset}
                         index={index}
                       >
                         {(provided, snapshot) =>
