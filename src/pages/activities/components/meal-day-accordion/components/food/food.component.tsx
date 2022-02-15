@@ -78,7 +78,17 @@ export default function Food({
       `${name}.info.total_carbs`,
       getTwoDecimal((+info.net_carbs || 0) + (+info.fiber || 0))
     )
-  }, [info.proteins, info.net_carbs, info.fat, info.fiber])
+
+    onChange(`${name}.info.proteins`, getTwoDecimal(+info.proteins || 0))
+
+    onChange(`${name}.info.net_carbs`, getTwoDecimal(+info.net_carbs || 0))
+
+    onChange(`${name}.info.fat`, getTwoDecimal(+info.fat || 0))
+
+    onChange(`${name}.info.fiber`, getTwoDecimal(+info.fiber || 0))
+
+    onChange(`${name}.info.sugar`, getTwoDecimal(+info.sugar || 0))
+  }, [info.proteins, info.net_carbs, info.fat, info.fiber, info.sugar])
 
   const { errors } = methods.formState
 
