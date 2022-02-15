@@ -1,8 +1,13 @@
 import cloneDeep from 'lodash.clonedeep'
 import { ReactNode, useMemo, useState } from 'react'
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 
-import { AddIcon, CheckIcon, CrossIcon } from '../../../../assets/media/icons'
+import {
+  AddIcon,
+  CheckIcon,
+  CrossIcon,
+  EditIcon
+} from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
@@ -11,12 +16,11 @@ import {
 import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
-import Select, {
-  CustomSelect
-} from '../../../../components/form/select/select.component'
+import { CustomSelect } from '../../../../components/form/select/select.component'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { OptionType } from '../../../../types/option.type'
 import DayCard from '../day-card/day-card.component'
+import CardioEditDialog from '../edit-dialog/cardio/cardio-edit-dialog.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
 
 interface DayTrainingSplitCardProps {
@@ -24,47 +28,13 @@ interface DayTrainingSplitCardProps {
   tpWorkouts: any[]
   dpDays: any[]
   day?: string
+  cardios: any[]
   onWorkout: (id: string) => void
   onMealPlan: (id: string) => void
   onCardio: (id: string) => void
   edit?: boolean
   subtitle: string
 }
-
-const tempItemsOptions = [
-  {
-    label: 'Hello',
-    value: {
-      is_superset: false,
-      data: {
-        name: 'Hello',
-        link: '',
-        info: {
-          sets: '10',
-          reps: '10',
-          tempo: '10',
-          rest_interval: '10'
-        }
-      }
-    }
-  },
-  {
-    label: 'World',
-    value: {
-      is_superset: false,
-      data: {
-        name: 'World',
-        link: '',
-        info: {
-          sets: '',
-          reps: '',
-          tempo: '',
-          rest_interval: ''
-        }
-      }
-    }
-  }
-]
 
 export default function DayTrainingSplitEditCard(
   props: DayTrainingSplitCardProps
@@ -74,6 +44,7 @@ export default function DayTrainingSplitEditCard(
     tpWorkouts,
     dpDays,
     day,
+    cardios,
     onWorkout,
     onMealPlan,
     onCardio,
@@ -82,11 +53,6 @@ export default function DayTrainingSplitEditCard(
 
   const methods = useFormContext()
   const data = methods.watch(name)
-
-  const items = useFieldArray({
-    control: methods.control,
-    name: `${name}.items`
-  })
 
   const onChangeValue = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
@@ -103,6 +69,18 @@ export default function DayTrainingSplitEditCard(
     onChangeValue(name, [
       ...data?.training_plan_activities,
       cloneDeep(tpWorkouts.find((w) => w._id === value))
+    ])
+  }
+
+  const onCardioSelection = (name: string, value: string, isNew = false) => {
+    console.log('onCardioSelection', isNew, value)
+    if (isNew) {
+      onChangeValue(name, [...data?.items, { data: value }])
+      return
+    }
+    onChangeValue(name, [
+      ...data?.items,
+      cloneDeep(cardios.find((w) => w._id === value))
     ])
   }
 
@@ -138,6 +116,12 @@ export default function DayTrainingSplitEditCard(
       ...newData,
       diet_plan_day: null
     })
+  }
+
+  const onCardioRemove = (name: string, index: number) => {
+    const m_cardios = [...data.items]
+    m_cardios.splice(index, 1)
+    onChangeValue(name, [...m_cardios])
   }
 
   const workoutsOptions = useMemo(() => {
@@ -192,6 +176,24 @@ export default function DayTrainingSplitEditCard(
     return options
   }, [dpDays])
 
+  const cardiosOptions = useMemo(() => {
+    const optionsFromTemp = cardios.map((w: any) => ({
+      label: w.name,
+      value: w._id
+    }))
+
+    const options = []
+
+    if (optionsFromTemp.length) {
+      options.push({
+        label: 'From Templates',
+        options: optionsFromTemp
+      })
+    }
+
+    return options
+  }, [cardios])
+
   return (
     <DayCard
       border="both"
@@ -228,14 +230,15 @@ export default function DayTrainingSplitEditCard(
           <ListOther
             color={getColorCarry('red')}
             title="Other Exercises"
-            content={items.fields}
+            type="cardio"
+            content={data?.items?.map((a: any) => a?.data.name) || []}
             name={`${name}.items`}
-            selectOptions={tempItemsOptions}
+            selectOptions={cardiosOptions}
             icon={<ExerciseIcon />}
-            onSelection={(name, value) => {
-              items.append(value)
-            }}
-            onClick={onCardio ? () => onCardio('') : undefined}
+            onSelection={onCardioSelection}
+            onEdit={() => onCardio(`${name}.items` || '')}
+            onRemove={onCardioRemove}
+            onCreate={() => onCardio(`${name}.items` || '')}
           />
         </Styles>
       }
@@ -246,7 +249,7 @@ export default function DayTrainingSplitEditCard(
 interface ListItemProps {
   color: string
   title: string
-  type: 'mealPlan' | 'workout'
+  type: 'mealPlan' | 'workout' | 'cardio'
   icon: ReactNode
   content: string[]
   name: string
@@ -254,6 +257,7 @@ interface ListItemProps {
   onEdit: (id: string) => void
   onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
+  onCreate?: () => void
 }
 
 function ListItem({
@@ -363,59 +367,96 @@ function ListItem({
     </ListItemStyles>
   )
 }
-interface ListOtherProps {
-  color: string
-  title: string
-  icon: ReactNode
-  content: any[]
-  name: string
-  selectOptions: { label: string; value: any }[]
-  onClick?: (id: string) => void
-  onSelection: (name: string, value: any) => void
-}
 
 function ListOther({
   color,
   title,
+  type,
   content,
   name,
   selectOptions,
   icon,
-  onClick,
+  onEdit,
+  onRemove,
   onSelection
-}: ListOtherProps) {
+}: ListItemProps) {
+  const [editCardio, setEditCardio] = useState('')
+
+  const onChange = (value: string) => {
+    if (value === 'add-new') {
+      setEditCardio('cardio')
+      return
+    }
+    onSelection(name, value)
+  }
+
+  const createNewLabel = (
+    <div className="createNew-option">
+      <AddIcon /> Create New
+    </div>
+  )
+
   return (
     <ListItemStyles className="DayTrainingSplitCard__li" $color={color}>
       <div className="DayTrainingSplitCard__li-icon">{icon}</div>
-
+      {editCardio && (
+        <CardioEditDialog
+          open={!!editCardio}
+          onClose={(result) => {
+            setEditCardio('')
+            result && onSelection(name, result, true)
+          }}
+          name={editCardio}
+        />
+      )}
       <div className="DayTrainingSplitCard__li-content">
         <p className="DayTrainingSplitCard__li-title">{title}</p>
 
-        {content.map((ctn, i) => (
-          <div key={i}>
-            <p className="DayTrainingSplitCard__li-subtitle">
-              <span>{ctn?.data.name}</span>
+        {!!content.length &&
+          content.map((c, i) => (
+            <div key={c + i}>
+              <p className="DayTrainingSplitCard__li-subtitle">
+                <span>{c}</span>
 
-              <IconButton
-                size="sm"
-                className="DayTrainingSplitCard__li-btn"
-                onClick={onClick}
-              >
-                <AddIcon />
-              </IconButton>
-            </p>
+                <div className="DayTrainingSplitCard__li-btns">
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={onEdit}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    size="sm"
+                    className="DayTrainingSplitCard__li-btn"
+                    onClick={() => onRemove(name, i)}
+                  >
+                    <CrossIcon />
+                  </IconButton>
+                </div>
+              </p>
+            </div>
+          ))}
+        {(type !== 'mealPlan' || !content[0]) && (
+          <div className="DaySplitEditCard__control">
+            <Controller
+              name={name}
+              render={({ field: { value } }) => (
+                <CustomSelect
+                  id="DaySplitEditCard-training-plan"
+                  placeholder="Search training plan"
+                  value={value?.name || ''}
+                  options={[
+                    ...selectOptions,
+                    { label: createNewLabel, value: 'add-new' }
+                  ]}
+                  forceDesktop
+                  onChange={onChange}
+                />
+              )}
+            />
           </div>
-        ))}
-        <div className="DaySplitEditCard__control">
-          <Select
-            id="DaySplitEditCard-training-plan"
-            placeholder="Search training plan"
-            options={selectOptions}
-            onChange={(value) => {
-              onSelection(name, value)
-            }}
-          />
-        </div>
+        )}
       </div>
     </ListItemStyles>
   )
