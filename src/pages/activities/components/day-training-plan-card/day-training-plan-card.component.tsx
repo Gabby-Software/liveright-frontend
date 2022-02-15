@@ -61,7 +61,7 @@ function countExercise(items: any[]): string {
 function formatExercise(data: any): string {
   const ex = data.data ?? data
   let result = ''
-  if (ex.info?.cardio) {
+  if (ex.info?.cardio || ex.info?.type === 'cardio') {
     if (ex.info?.duration) {
       const times = ex.info.duration.split(':')
       if (times.length === 2) {

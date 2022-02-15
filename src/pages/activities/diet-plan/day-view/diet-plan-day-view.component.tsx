@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
 import { CaretLeftIcon } from '../../../../assets/media/icons'
@@ -7,7 +7,7 @@ import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Card from '../../../../components/cards/card/card.component'
-import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+// import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import useDietPlan from '../../../../hooks/api/activities/useDietPlan'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
@@ -30,7 +30,7 @@ export default function DietPlanDayView({
   onEdit
 }: DietPlanDayViewProps) {
   const isMobile = useIsMobile()
-  const [scheduleView, setScheduleView] = useState(false)
+  // const [scheduleView, setScheduleView] = useState(false)
 
   const params = useParams<any>()
 
@@ -40,28 +40,28 @@ export default function DietPlanDayView({
     revisionId: params.revisionId
   })
 
-  const { day, activites: activities } = useMemo(() => {
+  const { day } = useMemo(() => {
     const day = revision?.days?.[index]
-    const activites: any[] =
-      day?.activities?.map((a: any) => ({
-        day: {
-          activities: [a],
-          name: a.name,
-          total_target: a.total_target
-        },
-        time: moment('1970/01/01 ' + a.time).format('HH:mm'),
-        type: 'meal'
-      })) || []
+    // const activites: any[] =
+    //   day?.activities?.map((a: any) => ({
+    //     day: {
+    //       activities: [a],
+    //       name: a.name,
+    //       total_target: a.total_target
+    //     },
+    //     time: moment('1970/01/01 ' + a.time).format('HH:mm'),
+    //     type: 'meal'
+    //   })) || []
 
-    activites.sort(
-      (a, b) =>
-        Date.parse('1970/01/01 ' + a.time || '00:00') -
-        Date.parse('1970/01/01 ' + b.time || '00:00')
-    )
+    // activites.sort(
+    //   (a, b) =>
+    //     Date.parse('1970/01/01 ' + a.time || '00:00') -
+    //     Date.parse('1970/01/01 ' + b.time || '00:00')
+    // )
 
     return {
-      day,
-      activites
+      day
+      // activites
     }
   }, [index, revision])
 
@@ -77,7 +77,7 @@ export default function DietPlanDayView({
             <div className="TrainingSplitDayView__title-container">
               <Title>Current Diet Plan</Title>
 
-              <Button onClick={onEdit}>Edit Diet Split</Button>
+              <Button onClick={onEdit}>Edit Diet Plan</Button>
             </div>
 
             <div className="TrainingSplitDayView__divider" />
@@ -119,7 +119,7 @@ export default function DietPlanDayView({
               .format('dddd')}
           </p>
 
-          {!day.is_day_target && (
+          {/* {!day.is_day_target && (
             <div className="TrainingSplitDayView__day-toggle">
               <FormToggleUI
                 value={scheduleView}
@@ -130,13 +130,17 @@ export default function DietPlanDayView({
                 See with schedule view
               </p>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="TrainingSplitDayView__divider" />
 
         <div className="TrainingSplitDayView__cards">
-          {!scheduleView ? (
+          <SplitDayDietCard
+            data={day}
+            mode={day.is_day_target ? 'dayTarget' : 'normal'}
+          />
+          {/* {!scheduleView ? (
             <SplitDayDietCard
               data={day}
               mode={day.is_day_target ? 'dayTarget' : 'normal'}
@@ -149,7 +153,7 @@ export default function DietPlanDayView({
                 scheduleTime={a.time || 'Not Set'}
               />
             ))
-          )}
+          )} */}
         </div>
       </Card>
     </Styles>
