@@ -399,6 +399,7 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                       name={`days.${i}`}
                       tpWorkouts={tpRev.days}
                       dpDays={dpRev.days}
+                      cardios={tpRev.days}
                       day={`Day ${i + 1}`}
                       edit
                       onWorkout={handleWorkout}

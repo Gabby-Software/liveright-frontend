@@ -181,6 +181,7 @@ export function formatSplitData(data: any) {
     delete dataClone.training_plan_revision_id
   }
 
+  console.log('formart split data', dataClone)
   dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
@@ -290,16 +291,16 @@ export function formatSplitData(data: any) {
       items: day.items.map((item: any, index: number) => {
         return {
           sort_order: index,
-          ...(typeof item.is_superset === 'boolean' && {
+          ...(typeof item?.is_superset === 'boolean' && {
             is_superset: item.is_superset
           }),
-          data: !item.is_superset
+          data: !item?.is_superset
             ? {
                 name: item.data.name,
                 ...(typeof item.data.link === 'string' && {
                   link: item.data.link
                 }),
-                info: Object.keys(item.data.info).reduce((acc, cur) => {
+                info: Object.keys(item.data?.info ?? {}).reduce((acc, cur) => {
                   return {
                     ...acc,
                     [cur]: isNaN(Number(item.data.info[cur]))

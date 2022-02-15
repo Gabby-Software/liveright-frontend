@@ -26,6 +26,7 @@ import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import useTemplateExercises from '../../../../hooks/api/templates/useTemplateExercises'
 import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useAuth } from '../../../../hooks/auth.hook'
@@ -39,6 +40,7 @@ import ActivitiesClient from '../../components/activities-client/activities-clie
 import Counter from '../../components/counter/counter.component'
 import DayTrainingSplitEditCard from '../../components/day-training-split-edit-card/day-training-split-edit-card.component'
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
+import CardioEditDialog from '../../components/edit-dialog/cardio/cardio-edit-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import { ConfirmModal } from '../../training-plan/components/confimation-modal/confirmation-modal.component'
@@ -79,6 +81,7 @@ export default function EditTrainingSplit() {
 
   const [editMealPlan, setEditMealPlan] = useState('')
   const [editWorkout, setEditWorkout] = useState('')
+  const [editCardio, setEditCardio] = useState('')
   const [selectedTP, setSelectedTP] = useState<{ id: string; revId: string }>({
     id: '',
     revId: ''
@@ -124,6 +127,10 @@ export default function EditTrainingSplit() {
 
   const { workouts: templateWorkouts } = useTemplateWorkouts({ clientId })
   const { mealPlans: templateMealPlans } = useTemplateMealPlans({ clientId })
+  const { exercises: templateCardios } = useTemplateExercises({
+    clientId,
+    type: 'cardio'
+  })
 
   const [scheduled_start_on, name] = useWatch({
     control: methods.control,
@@ -231,6 +238,10 @@ export default function EditTrainingSplit() {
     setEditWorkout(name)
   }
 
+  const handleCardio = (name: string) => {
+    setEditCardio(name)
+  }
+
   const onTPChange = (value: string) => {
     const revId =
       getActiveOrLatestRev(trainingPlans.find((tp) => tp._id === value))?._id ||
@@ -302,6 +313,15 @@ export default function EditTrainingSplit() {
       onClose()
     }
   }
+  const cardios = useMemo(() => {
+    return [
+      ...templateCardios.map((tw) => ({
+        ...tw,
+        fromTemplate: true,
+        data: tw
+      }))
+    ].filter((m) => !!m)
+  }, [templateCardios])
 
   const content = (
     <>
@@ -517,11 +537,12 @@ export default function EditTrainingSplit() {
                   name={`days.${i}`}
                   tpWorkouts={tpWorkout}
                   dpDays={dpMeals}
+                  cardios={cardios}
                   day={`Day ${i + 1}`}
                   edit
                   onWorkout={handleWorkout}
                   onMealPlan={handleMealPlan}
-                  onCardio={() => {}}
+                  onCardio={handleCardio}
                   subtitle={
                     scheduled_start_on
                       ? moment(scheduled_start_on).add(i, 'days').format('dddd')
@@ -568,6 +589,14 @@ export default function EditTrainingSplit() {
             open={!!editMealPlan}
             onClose={() => setEditMealPlan('')}
             name={editMealPlan}
+          />
+        )}
+
+        {editCardio && (
+          <CardioEditDialog
+            open={!!editCardio}
+            onClose={() => setEditCardio('')}
+            name={editCardio}
           />
         )}
       </FormProvider>

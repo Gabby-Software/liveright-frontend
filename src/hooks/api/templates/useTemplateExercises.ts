@@ -22,11 +22,13 @@ interface useTemplateExercises {
 interface IProps {
   name?: string
   clientId?: string
+  type?: string
 }
 
 export default function useTemplateExercises({
   name,
-  clientId
+  clientId,
+  type
 }: IProps = {}): useTemplateExercises & UsePagination {
   const pagination = usePagination()
   const params = {
@@ -34,7 +36,8 @@ export default function useTemplateExercises({
     per_page: 10,
     filter: {
       name: name,
-      account_id: clientId
+      account_id: clientId,
+      'info.type': type
     }
   }
 
