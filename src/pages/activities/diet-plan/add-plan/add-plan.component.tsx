@@ -46,6 +46,7 @@ import { Styles } from '../../styles/edit-plan.styles'
 
 interface AddDietPlanProps {
   editDay?: number
+  edit?: boolean
   onClose: () => void
   editId?: string
   revisionId?: string
@@ -122,6 +123,7 @@ function createDay(dayIndex: number) {
 
 export default function AddDietPlan({
   editDay,
+  edit,
   onClose,
   editId,
   revisionId
@@ -365,7 +367,7 @@ export default function AddDietPlan({
                 </GoBack>
 
                 <div className="EditPlan__header">
-                  <Title>Add Diet Plan</Title>
+                  <Title>{edit ? 'Edit ' : 'Add '}Diet Plan</Title>
 
                   <div>
                     <Button onClick={handleSave}>Save</Button>
@@ -544,7 +546,7 @@ export default function AddDietPlan({
 
   return isMobile ? (
     <MobilePage
-      title="Add Diet Plan"
+      title={`${edit ? 'Edit' : 'Add'} Diet Plan`}
       headerSpacing={20}
       headerTopComponent={
         <HeaderLink onClick={onClose}>
