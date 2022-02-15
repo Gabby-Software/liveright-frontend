@@ -2,12 +2,7 @@ import cloneDeep from 'lodash.clonedeep'
 import { ReactNode, useMemo, useState } from 'react'
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form'
 
-import {
-  AddIcon,
-  CheckIcon,
-  CrossIcon,
-  EditIcon
-} from '../../../../assets/media/icons'
+import { AddIcon, CheckIcon, CrossIcon } from '../../../../assets/media/icons'
 import {
   ExerciseIcon,
   FoodIcon,
@@ -269,7 +264,6 @@ function ListItem({
   name,
   selectOptions,
   icon,
-  onEdit,
   onRemove,
   onSelection
 }: ListItemProps) {
@@ -310,13 +304,13 @@ function ListItem({
                 <span>{c}</span>
 
                 <div className="DayTrainingSplitCard__li-btns">
-                  <IconButton
+                  {/* <IconButton
                     size="sm"
                     className="DayTrainingSplitCard__li-btn"
                     onClick={onEdit}
                   >
                     <EditIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton
                     size="sm"
                     className="DayTrainingSplitCard__li-btn"
