@@ -48,7 +48,7 @@ export default function ClientProfileDesktop() {
   const params = useParams<any>()
   const [edit, setEdit] = useState(false)
   const { isLoading, error, user, profile, address } = useClientAccount(
-    params.clientId
+    params.id
   )
   const statistic = useStatistic({ account_id: params.clientId })
   const upcomingSessions = useSessions(getSessionsConfig(params.clientId))
