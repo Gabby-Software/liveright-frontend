@@ -12,12 +12,13 @@ import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
+import useClientAccount from '../../../../hooks/api/accounts/useClientAccount'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getVersionOptions } from '../../../../utils/api/activities'
-import { DATE_PRETTY_FORMAT, DATE_RENDER_FORMAT } from '../../../../utils/date'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import DayTrainingScheduleCard from '../../components/day-training-schedule-card/day-training-schedule-card.component'
@@ -50,6 +51,7 @@ export default function TrainingSplit() {
 
   const history = useHistory()
   const params = useParams<any>()
+  const { user: client } = useClientAccount(params.clientId)
 
   const { trainingSplit, revision, onEdit } = useTrainingSplit({
     clientId: params.clientId,
@@ -451,7 +453,7 @@ export default function TrainingSplit() {
       )}
 
       {/* active condition */}
-      <ConfirmDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, activate it',
           cancel: 'Cancel',
@@ -497,10 +499,10 @@ export default function TrainingSplit() {
             title: d.diet_plan_day.name
           }))
         }}
-      />
+      /> */}
 
       {/* not scheduled  */}
-      <ConfirmDialog
+      {/* <ConfirmDialog
         actions={{
           yes: 'Looks good, save it',
           cancel: 'Cancel',
@@ -543,52 +545,39 @@ export default function TrainingSplit() {
             title: d.diet_plan_day.name
           }))
         }}
-      />
+      /> */}
 
       {/* make it active */}
-      {/* <ConfirmDialog
+      <ConfirmDialog
         actions={{
-          yes: 'Looks good, schedule it',
+          yes: 'Confirm Changes',
           cancel: 'Cancel',
-          onYes: () => setConfirmDialog(false),
-          onCancel: () => setConfirmDialog(false),
-          layout: 'between'
+          onYes: onMakeActive,
+          onCancel: () => {
+            setConfirmDialog(false)
+            setActivationDate(new Date().toISOString())
+          }
         }}
         open={confirmDialog}
         onClose={() => setConfirmDialog(false)}
-        name="Create Training Split"
-        description="You’re about to create a new training split"
-        title="Training Split Created on Nov 01"
-        titleNote="It has 03 days and is scheduled to become active on 10th November 2021."
-        alertTitle='Read this slowly and carefully!'
-        alert={
-          <ul>
-            <li>
-              Your current Training Split <b>“My Split”</b> will be replaced with
-              this new one. You can always go back to the Training SPlit list
-              and re-activate <b>“My Split”</b>.
-            </li>
-            <li>
-              Your current active Diet Plan will be replaced with the one you
-              created or edited as part of this training split.
-            </li>
-            <li>
-              Your cuurent Traning Plan will be replaced with the one you
-              created or edited as part of this training split.
-            </li>
-          </ul>
-        }
-        plans={{
-          trainings: [
-            { id: '00', title: 'High Intensity Training' },
-            { id: '01', title: 'Low Intensity Training' }
-          ],
-          meals: [
-            { id: '00', title: 'High Carbs Day' },
-            { id: '01', title: 'Low Carbs Day' }
-          ]
+        name="Make Active Split"
+        description="You are about to make the following Training Split the active one:"
+        title={trainingSplit.name}
+        alert={`This will make ${
+          client.full_name
+        }’s active training split this one (${
+          trainingSplit.name
+        }) starting from ${moment(activationDate).format(DATE_RENDER_FORMAT)}.
+          You can make any changes to the training split after you schedule these changes. Additionally you can revert
+          it at any point re-activating previous training split as the active split.`}
+        date={{
+          label: 'From when should we apply this change?',
+          value: activationDate,
+          disabledDate: (date: Moment) => date.isBefore(),
+          onChange: (date: any) =>
+            setActivationDate(date ? new Date(date).toISOString() : '')
         }}
-      /> */}
+      />
 
       {/* other condition */}
       {/* <ConfirmDialog
