@@ -358,7 +358,7 @@ export default function DietPlan() {
           value: activationDate,
           disabledDate: (date: Moment) => date.isBefore(),
           onChange: (date: any) =>
-            setActivationDate(new Date(date).toISOString())
+            setActivationDate(date ? new Date(date).toISOString() : '')
         }}
         open={confirmDialog}
         onClose={() => setConfirmDialog(false)}
