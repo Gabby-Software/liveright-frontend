@@ -231,14 +231,13 @@ export default function DayTrainingSplitEditCard(
             color={getColorCarry('red')}
             title="Other Exercises"
             type="cardio"
-            content={data?.items?.map((a: any) => a?.data.name) || []}
+            content={data?.items || []}
             name={`${name}.items`}
             selectOptions={cardiosOptions}
             icon={<ExerciseIcon />}
             onSelection={onCardioSelection}
-            onEdit={() => onCardio(`${name}.items` || '')}
+            onEdit={(idx) => onCardio(`${name}.items[${idx}].data` || '')}
             onRemove={onCardioRemove}
-            onCreate={() => onCardio(`${name}.items` || '')}
           />
         </Styles>
       }
@@ -251,13 +250,12 @@ interface ListItemProps {
   title: string
   type: 'mealPlan' | 'workout' | 'cardio'
   icon: ReactNode
-  content: string[]
+  content: any[]
   name: string
   selectOptions: OptionType[] | { label: string; options: OptionType[] }[]
-  onEdit: (id: string) => void
+  onEdit: (idx: number) => void
   onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
-  onCreate?: () => void
 }
 
 function ListItem({
@@ -414,15 +412,15 @@ function ListOther({
 
         {!!content.length &&
           content.map((c, i) => (
-            <div key={c + i}>
+            <div key={i}>
               <p className="DayTrainingSplitCard__li-subtitle">
-                <span>{c}</span>
+                <span>{c?.data.name}</span>
 
                 <div className="DayTrainingSplitCard__li-btns">
                   <IconButton
                     size="sm"
                     className="DayTrainingSplitCard__li-btn"
-                    onClick={onEdit}
+                    onClick={() => onEdit?.(i)}
                   >
                     <EditIcon />
                   </IconButton>

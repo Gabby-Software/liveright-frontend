@@ -22,8 +22,6 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
 
   const result = useWatch({ name, control: methods.control })
 
-  console.log('result', result)
-
   const { errors } = methods.formState
 
   return (
@@ -117,7 +115,13 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
       </section>
 
       <section className="save-action">
-        <Button onClick={() => onClose?.(result)} className="action">
+        <Button
+          onClick={() => {
+            onClose?.(result)
+            methods.setValue(name, {})
+          }}
+          className="action"
+        >
           Save
         </Button>
       </section>

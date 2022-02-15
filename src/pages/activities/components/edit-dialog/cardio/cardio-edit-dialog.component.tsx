@@ -30,7 +30,7 @@ const CardioEditDialog = (props: CardioEditDialogProps) => {
   if (isMobile) {
     return (
       <MobileFullScreenDialog
-        title="Edit Training Plan Day"
+        title="Edit Cardio"
         headerTopComponent={
           <HeaderLink onClick={onDropDownClose}>Go Back</HeaderLink>
         }
