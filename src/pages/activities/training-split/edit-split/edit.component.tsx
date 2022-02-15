@@ -11,13 +11,13 @@ import { useHistory, useParams } from 'react-router-dom'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
-import MobileBack from '../../../../components/mobile-back/mobile-back.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -30,6 +30,7 @@ import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMea
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
+import useFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getActiveOrLatestRev } from '../../../../utils/api/activities'
@@ -40,6 +41,7 @@ import DayTrainingSplitEditCard from '../../components/day-training-split-edit-c
 import ConfirmDialog from '../../components/dialog/confirm-dialog/confirm-dialog.component'
 import MealPlanEditDialog from '../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
+import { ConfirmModal } from '../../training-plan/components/confimation-modal/confirmation-modal.component'
 import { Styles } from './edit-split.styles'
 
 const defaultValues: any = {
@@ -85,6 +87,8 @@ export default function EditTrainingSplit() {
     id: '',
     revId: ''
   })
+  const [redirectTo, setRedirectTo] = useState('')
+  const [openConfirm, setOpenConfirm] = useState(false)
 
   const methods = useForm<any>({
     defaultValues
@@ -125,6 +129,12 @@ export default function EditTrainingSplit() {
     control: methods.control,
     name: ['scheduled_start_on', 'name']
   })
+
+  const { onUnlock } = useFormLock(
+    methods.control,
+    () => setOpenConfirm(true),
+    setRedirectTo
+  )
 
   const startOnDate = methods.getValues('scheduled_start_on')
   const startDate =
@@ -175,9 +185,15 @@ export default function EditTrainingSplit() {
   const handleSubmit = (values: any) => {
     console.log('values', values)
     if (trainingSplit._id && revision._id) {
-      onEdit(trainingSplit._id, revision._id, values, null)
+      onEdit(trainingSplit._id, revision._id, values, () => {
+        onUnlock()
+        redirectTo && history.push(redirectTo)
+      })
     } else {
-      onAdd(values, null)
+      onAdd(values, () => {
+        onUnlock()
+        redirectTo && history.push(redirectTo)
+      })
     }
   }
 
@@ -268,13 +284,24 @@ export default function EditTrainingSplit() {
     ].filter((m) => !!m)
   }, [dpRev._id, templateMealPlans])
 
-  const address = !revision._id
-    ? getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })
-    : getRoute(Routes.ACTIVITIES_TS_ID, {
-        clientId: clientId,
-        id: params.id,
-        revisionId: params.revisionId
-      })
+  const onClose = () => {
+    const address = !revision._id
+      ? getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })
+      : getRoute(Routes.ACTIVITIES_TS_ID, {
+          clientId: clientId,
+          id: params.id,
+          revisionId: params.revisionId
+        })
+    history.push(address)
+  }
+
+  const onGoBack = () => {
+    if (methods.formState.isDirty) {
+      setOpenConfirm(true)
+    } else {
+      onClose()
+    }
+  }
 
   const content = (
     <>
@@ -316,12 +343,9 @@ export default function EditTrainingSplit() {
           <Card className="AddTrainingSplit__card">
             {isMobile || (
               <>
-                <MobileBack
-                  alias={
-                    revision._id ? 'training-split' : 'training-split-overview'
-                  }
-                  to={address}
-                />
+                <GoBack onClick={onGoBack}>
+                  {revision._id ? 'Back to Split Overview' : 'Back to Splits'}
+                </GoBack>
                 <div className="AddTrainingSplit__title-container">
                   <Title>
                     {revision._id
@@ -517,6 +541,18 @@ export default function EditTrainingSplit() {
             {/* </>
             )} */}
           </Card>
+
+          <ConfirmModal
+            onExitWithoutSave={() => {
+              onClose()
+              redirectTo && history.push(redirectTo)
+            }}
+            onRedirectTo={setRedirectTo}
+            onUnlock={onUnlock}
+            onSave={handleSave}
+            open={openConfirm}
+            setOpen={setOpenConfirm}
+          />
         </Styles>
 
         {editWorkout && (
@@ -590,7 +626,7 @@ export default function EditTrainingSplit() {
       }
       headerSpacing={20}
       headerTopComponent={
-        <HeaderLink to={address}>
+        <HeaderLink onClick={onGoBack}>
           {revision._id ? 'Back to Split Overview' : 'Back to Splits'}
         </HeaderLink>
       }
