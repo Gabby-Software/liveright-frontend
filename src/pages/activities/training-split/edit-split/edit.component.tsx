@@ -377,7 +377,10 @@ export default function EditTrainingSplit() {
                     label="Start date"
                     disabledPast
                     value={value}
-                    onChange={(e, date) => onChange(name, date)}
+                    onChange={(e, date) => {
+                      onChange(name, date)
+                      console.log(e, date)
+                    }}
                     error={errors.scheduled_start_on}
                   />
                 )}
