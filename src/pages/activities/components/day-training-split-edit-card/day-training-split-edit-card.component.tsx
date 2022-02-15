@@ -99,7 +99,10 @@ export default function DayTrainingSplitEditCard(
 
   const onTPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      onChangeValue(name, [...data?.training_plan_activities, { name: value }])
+      const newWorkout = tpWorkouts.find((w) => w.name === value) || {
+        name: value
+      }
+      onChangeValue(name, [...data?.training_plan_activities, newWorkout])
       return
     }
     onChangeValue(name, [
@@ -110,7 +113,10 @@ export default function DayTrainingSplitEditCard(
 
   const onDPSelection = (name: string, value: string, isNew = false) => {
     if (isNew) {
-      onChangeValue(name, { name: value })
+      const newMeal = dpDays.find((m) => m.name === value) || {
+        name: value
+      }
+      onChangeValue(name, newMeal)
       return
     }
     onChangeValue(name, cloneDeep(dpDays.find((d) => d._id === value)))
@@ -123,7 +129,20 @@ export default function DayTrainingSplitEditCard(
   }
 
   const onDPRevome = (name: string) => {
-    onChangeValue(name, null)
+    /**
+     * TODO
+     * The meal plan was not removing correctly on very first delete
+     * when editing. It was changing the value correctly but was not
+     * re-rendering. For some reason the `data` object above was refering
+     * to same object in memory after removal, thus no re-render. This is
+     * just a hack/workouk around for this because of time constraints,so
+     * if anyone finds a real solution to this, please fix it.
+     */
+    const newData = cloneDeep(data)
+    onChangeValue(name.substring(0, name.lastIndexOf('.')), {
+      ...newData,
+      diet_plan_day: null
+    })
   }
 
   const workoutsOptions = useMemo(() => {
@@ -204,9 +223,7 @@ export default function DayTrainingSplitEditCard(
             icon={<FoodIcon />}
             title="Meal Plan Day"
             type="mealPlan"
-            content={
-              data?.diet_plan_day?.name ? [data?.diet_plan_day?.name] : []
-            }
+            content={[data?.diet_plan_day?.name].filter((d) => !!d)}
             name={`${name}.diet_plan_day`}
             selectOptions={mealOptions}
             onSelection={onDPSelection}
