@@ -12,7 +12,7 @@ interface CardioEditDialogProps {
   data?: any
   name: string
   open: boolean
-  onClose?: (result?: any) => void
+  onClose?: () => void
 }
 const CardioEditDialog = (props: CardioEditDialogProps) => {
   const { data, name, open, onClose } = props

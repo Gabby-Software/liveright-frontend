@@ -190,7 +190,6 @@ export default function EditTrainingSplit() {
   }, [revision._id, trainingSplit._id])
 
   const handleSubmit = (values: any) => {
-    console.log('values', values)
     if (trainingSplit._id && revision._id) {
       onEdit(trainingSplit._id, revision._id, values, () => {
         onUnlock()

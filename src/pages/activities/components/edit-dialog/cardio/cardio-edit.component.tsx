@@ -1,5 +1,5 @@
 import { get } from 'lodash'
-import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { Controller, useFormContext } from 'react-hook-form'
 
 import Button from '../../../../../components/buttons/button/button.component'
 import Input from '../../../../../components/form/input/input.component'
@@ -11,7 +11,7 @@ import { Styles } from './cardio-edit.styles'
 interface CardioEditProps {
   data: any
   name: string
-  onClose?: (result?: any) => void
+  onClose?: () => void
 }
 const CardioEdit = ({ name, onClose }: CardioEditProps) => {
   const methods = useFormContext()
@@ -19,8 +19,6 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
   const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
-
-  const result = useWatch({ name, control: methods.control })
 
   const { errors } = methods.formState
 
@@ -115,13 +113,7 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
       </section>
 
       <section className="save-action">
-        <Button
-          onClick={() => {
-            onClose?.(result)
-            methods.setValue(name, {})
-          }}
-          className="action"
-        >
+        <Button onClick={onClose} className="action">
           Save
         </Button>
       </section>

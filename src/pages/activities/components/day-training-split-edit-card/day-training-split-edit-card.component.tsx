@@ -382,7 +382,7 @@ function ListOther({
 
   const onChange = (value: string) => {
     if (value === 'add-new') {
-      setEditCardio('cardio')
+      setEditCardio(`${name}.[${content?.length || 0}].data`)
       return
     }
     onSelection(name, value)
@@ -400,9 +400,8 @@ function ListOther({
       {editCardio && (
         <CardioEditDialog
           open={!!editCardio}
-          onClose={(result) => {
+          onClose={() => {
             setEditCardio('')
-            result && onSelection(name, result, true)
           }}
           name={editCardio}
         />

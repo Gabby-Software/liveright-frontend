@@ -181,7 +181,6 @@ export function formatSplitData(data: any) {
     delete dataClone.training_plan_revision_id
   }
 
-  console.log('formart split data', dataClone)
   dataClone.days = dataClone.days?.map((day: any) => {
     return {
       ...(typeof day.name === 'string' && { name: day.name }),
