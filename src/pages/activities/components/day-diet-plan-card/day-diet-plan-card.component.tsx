@@ -23,11 +23,11 @@ export default function DayDietPlanCard({
   return (
     <DayCard
       title={day?.name}
-      onExpand={!day.is_day_target ? onExpand : false}
+      onExpand={!day?.is_day_target ? onExpand : false}
       border={border}
       content={
         <Styles>
-          {!day.is_day_target ? (
+          {!day?.is_day_target ? (
             day?.activities?.map((row: any) => (
               <div className="DayDietPlanCard__content" key={row._id}>
                 <div className="DayDietPlanCard__name-container">
