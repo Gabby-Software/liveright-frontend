@@ -395,9 +395,9 @@ export default function TrainingSplit() {
                   <div className="TrainingSplits__info-badge-container">
                     <StatusBadge status={'info'} className="no-border">
                       {revision.scheduled_end_on
-                        ? moment(revision.scheduled_end_on)
-                            .utc()
-                            .format(DATE_RENDER_FORMAT)
+                        ? moment(revision.scheduled_end_on).format(
+                            DATE_RENDER_FORMAT
+                          )
                         : '-'}
                     </StatusBadge>
                   </div>

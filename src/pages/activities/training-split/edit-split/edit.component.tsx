@@ -31,7 +31,7 @@ import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMea
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
-import useFormLock from '../../../../hooks/ui/useTrainingPlanFormLock'
+import useFormLock from '../../../../hooks/ui/useFormLock'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getActiveOrLatestRev } from '../../../../utils/api/activities'
@@ -95,6 +95,7 @@ export default function EditTrainingSplit() {
 
   const methods = useForm<any>({
     defaultValues
+    // mode: 'onChange'
   })
 
   const daysArray = useFieldArray({
@@ -190,14 +191,14 @@ export default function EditTrainingSplit() {
   }, [revision._id, trainingSplit._id])
 
   const handleSubmit = (values: any) => {
+    // unlocking the form before saving.
+    onUnlock()
     if (trainingSplit._id && revision._id) {
       onEdit(trainingSplit._id, revision._id, values, () => {
-        onUnlock()
         redirectTo && history.push(redirectTo)
       })
     } else {
       onAdd(values, () => {
-        onUnlock()
         redirectTo && history.push(redirectTo)
       })
     }
