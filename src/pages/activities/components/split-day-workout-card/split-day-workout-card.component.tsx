@@ -61,6 +61,7 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                   <th>Reps</th>
                   <th>Tempo</th>
                   <th>Rest Interval</th>
+                  <th>Avg heart rate</th>
                   <th>Duration</th>
                   <th>Intensity</th>
                   <th>Video/Link</th>
@@ -102,6 +103,13 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                         {e?.info?.type === 'strength' || !e?.info?.type
                           ? e?.info?.rest_interval ||
                             e?.data?.info?.rest_interval ||
+                            '-'
+                          : ''}
+                      </td>
+                      <td>
+                        {e?.info?.type === 'cardio' || !e?.info?.type
+                          ? e?.info?.avg_heart_rate ||
+                            e?.data?.info?.avg_heart_rate ||
                             '-'
                           : ''}
                       </td>

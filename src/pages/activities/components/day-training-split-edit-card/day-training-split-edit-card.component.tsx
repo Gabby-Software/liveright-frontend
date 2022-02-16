@@ -54,10 +54,10 @@ export default function DayTrainingSplitEditCard(
     onAddNewActivity,
     subtitle
   } = props
-  console.log({newActivities})
+  console.log({ newActivities })
   const methods = useFormContext()
   const data = methods.watch(name)
-  
+
   const onChangeValue = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -81,7 +81,7 @@ export default function DayTrainingSplitEditCard(
   }
 
   const onCardioSelection = (name: string, value: string, Canceled = false) => {
-    console.log({name})
+    console.log({ name })
     if (Canceled) {
       onCardioRemove(name, data?.items.length - 1 || 0)
       return
