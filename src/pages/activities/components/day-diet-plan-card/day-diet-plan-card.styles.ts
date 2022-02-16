@@ -14,6 +14,8 @@ export const Styles = styled.div`
     }
 
     &__name {
+      display: flex;
+      justify-content: space-between;
       font-size: 1.125rem;
       font-weight: 700;
       color: ${getColorCarry('primaryDark_v2')};
@@ -25,6 +27,7 @@ export const Styles = styled.div`
       &-container {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         margin-bottom: 1.25rem;
 
         @media ${mediaQueries.TABLET} {

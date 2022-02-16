@@ -36,7 +36,7 @@ export default function DietPlan() {
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
-  const [selectedFood, setSelectedFood] = useState<any>(null)
+  const [selectedMeal, setSelectedMeal] = useState<any>(null)
   const [confirmDialog, setConfirmDialog] = useState(false)
   const isMobile = useIsMobile()
   const params = useParams<any>()
@@ -98,21 +98,8 @@ export default function DietPlan() {
     [dietPlan]
   )
 
-  const onFoodPlusClicked = (food: any) => {
-    /**
-     * The plus button is place on food item, so when clicked, we get
-     * food item. But the UI to display it was decied to be the one
-     * that shows a meal as a whole. So here he need to disguise out food item
-     * as a meal, so that it can be used properly in the meal component.
-     */
-
-    console.log(food)
-
-    setSelectedFood({
-      name: food.data.name,
-      items: [food],
-      total_target: food.data?.info || {}
-    })
+  const onMealPlusClicked = (meal: any) => {
+    setSelectedMeal(meal)
   }
 
   if (edit || typeof edit === 'number') {
@@ -307,7 +294,7 @@ export default function DietPlan() {
                 <DayDietPlanCard
                   key={row._id}
                   onExpand={() => setExpandedDayIndex(index)}
-                  onFoodClick={onFoodPlusClicked}
+                  onMealClick={onMealPlusClicked}
                   day={row}
                 />
               ))}
@@ -322,7 +309,7 @@ export default function DietPlan() {
             {revision.days?.map((row: any, index: number) => (
               <DayDietPlanCard
                 onExpand={() => setExpandedDayIndex(index)}
-                onFoodClick={onFoodPlusClicked}
+                onMealClick={onMealPlusClicked}
                 day={row}
                 key={row._id}
               />
@@ -331,12 +318,12 @@ export default function DietPlan() {
         )}
 
         <Dialog
-          open={!!selectedFood}
-          onClose={() => setSelectedFood(null)}
-          title="Food Detail"
+          open={!!selectedMeal}
+          onClose={() => setSelectedMeal(null)}
+          title="Meal Detail"
           extended
         >
-          <SplitDayMealCard data={selectedFood} />
+          <SplitDayMealCard data={selectedMeal} />
         </Dialog>
 
         {isMobile && (
