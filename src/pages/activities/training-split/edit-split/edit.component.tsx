@@ -93,6 +93,13 @@ export default function EditTrainingSplit() {
   const [redirectTo, setRedirectTo] = useState('')
   const [openConfirm, setOpenConfirm] = useState(false)
 
+  const [newActivities, setNewActivities] = useState<
+    {
+      name: string
+      type: 'TP' | 'DP' | 'cardio'
+    }[]
+  >([])
+
   const methods = useForm<any>({
     defaultValues
     // mode: 'onChange'
@@ -209,6 +216,7 @@ export default function EditTrainingSplit() {
       setShowConfirm(true)
       return
     }
+    setNewActivities([])
     methods.handleSubmit(handleSubmit)()
   }
 
@@ -538,11 +546,15 @@ export default function EditTrainingSplit() {
                   tpWorkouts={tpWorkout}
                   dpDays={dpMeals}
                   cardios={cardios}
+                  newActivities={newActivities}
                   day={`Day ${i + 1}`}
                   edit
                   onWorkout={handleWorkout}
                   onMealPlan={handleMealPlan}
                   onCardio={handleCardio}
+                  onAddNewActivity={(name, type) =>
+                    setNewActivities([...newActivities, { name, type }])
+                  }
                   subtitle={
                     scheduled_start_on
                       ? moment(scheduled_start_on).add(i, 'days').format('dddd')

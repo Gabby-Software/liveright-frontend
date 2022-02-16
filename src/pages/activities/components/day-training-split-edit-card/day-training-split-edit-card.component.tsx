@@ -32,8 +32,10 @@ interface DayTrainingSplitCardProps {
   onWorkout: (id: string) => void
   onMealPlan: (id: string) => void
   onCardio: (id: string) => void
+  onAddNewActivity?: (name: string, type: 'TP' | 'DP' | 'cardio') => void
   edit?: boolean
   subtitle: string
+  newActivities?: { name: string; type: 'TP' | 'DP' | 'cardio' }[]
 }
 
 export default function DayTrainingSplitEditCard(
@@ -45,15 +47,17 @@ export default function DayTrainingSplitEditCard(
     dpDays,
     day,
     cardios,
+    newActivities,
     onWorkout,
     onMealPlan,
     onCardio,
+    onAddNewActivity,
     subtitle
   } = props
-
+  console.log({newActivities})
   const methods = useFormContext()
   const data = methods.watch(name)
-
+  
   const onChangeValue = (name: string, value: any) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -63,20 +67,26 @@ export default function DayTrainingSplitEditCard(
       const newWorkout = tpWorkouts.find((w) => w.name === value) || {
         name: value
       }
+      onAddNewActivity?.(newWorkout.name, 'TP')
       onChangeValue(name, [...data?.training_plan_activities, newWorkout])
       return
     }
+
     onChangeValue(name, [
       ...data?.training_plan_activities,
-      cloneDeep(tpWorkouts.find((w) => w._id === value))
+      tpWorkouts.find((w) => w._id === value)
+        ? cloneDeep(tpWorkouts.find((w) => w._id === value))
+        : { name: value }
     ])
   }
 
   const onCardioSelection = (name: string, value: string, Canceled = false) => {
+    console.log({name})
     if (Canceled) {
       onCardioRemove(name, data?.items.length - 1 || 0)
       return
     }
+    onAddNewActivity?.(value, 'cardio')
     onChangeValue(name, [
       ...data?.items,
       cloneDeep(cardios.find((w) => w._id === value))
@@ -88,10 +98,16 @@ export default function DayTrainingSplitEditCard(
       const newMeal = dpDays.find((m) => m.name === value) || {
         name: value
       }
+      onAddNewActivity?.(newMeal.name, 'DP')
       onChangeValue(name, newMeal)
       return
     }
-    onChangeValue(name, cloneDeep(dpDays.find((d) => d._id === value)))
+    onChangeValue(
+      name,
+      dpDays.find((d) => d._id === value)
+        ? cloneDeep(dpDays.find((d) => d._id === value))
+        : { name: value }
+    )
   }
 
   const onTPRevome = (name: string, index: number) => {
@@ -130,8 +146,23 @@ export default function DayTrainingSplitEditCard(
     const optionsFromTemp = tpWorkouts
       .filter((w) => w.fromTemplate)
       .map((w: any) => ({ label: w.name, value: w._id }))
+    const newOptions =
+      newActivities
+        ?.filter((a) => a.type === 'TP')
+        .map((a) => ({
+          label: a.name,
+          value: a.name
+        })) || []
 
     const options = []
+
+    if (newOptions.length) {
+      options.push({
+        label: 'New',
+        options: newOptions
+      })
+    }
+
     if (optionsFromTP.length) {
       options.push({
         label: 'From Training Plan',
@@ -147,7 +178,7 @@ export default function DayTrainingSplitEditCard(
     }
 
     return options
-  }, [tpWorkouts])
+  }, [tpWorkouts, newActivities])
 
   const mealOptions = useMemo(() => {
     const optionsFromDP = dpDays
@@ -156,8 +187,23 @@ export default function DayTrainingSplitEditCard(
     const optionsFromTemp = dpDays
       .filter((w) => w.fromTemplate)
       .map((w: any) => ({ label: w.name, value: w._id }))
+    const newOptions =
+      newActivities
+        ?.filter((a) => a.type === 'DP')
+        .map((a) => ({
+          label: a.name,
+          value: a.name
+        })) || []
 
     const options = []
+
+    if (newOptions.length) {
+      options.push({
+        label: 'New',
+        options: newOptions
+      })
+    }
+
     if (optionsFromDP.length) {
       options.push({
         label: 'From Diet Plan',
@@ -173,15 +219,29 @@ export default function DayTrainingSplitEditCard(
     }
 
     return options
-  }, [dpDays])
+  }, [dpDays, newActivities])
 
   const cardiosOptions = useMemo(() => {
     const optionsFromTemp = cardios.map((w: any) => ({
       label: w.name,
       value: w._id
     }))
+    const newOptions =
+      newActivities
+        ?.filter((a) => a.type === 'cardio')
+        .map((a) => ({
+          label: a.name,
+          value: a.name
+        })) || []
 
     const options = []
+
+    if (newOptions.length) {
+      options.push({
+        label: 'New',
+        options: newOptions
+      })
+    }
 
     if (optionsFromTemp.length) {
       options.push({
@@ -191,7 +251,7 @@ export default function DayTrainingSplitEditCard(
     }
 
     return options
-  }, [cardios])
+  }, [cardios, newActivities])
 
   return (
     <DayCard
@@ -276,6 +336,7 @@ function ListItem({
       setAddNew(true)
       return
     }
+    console.log({ name, value })
     onSelection(name, value)
   }
 
