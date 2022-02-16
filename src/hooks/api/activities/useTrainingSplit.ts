@@ -50,7 +50,6 @@ export default function useTrainingSplit(
       if (!data.scheduled_start_on) delete data.scheduled_start_on
       if (!data.scheduled_end_on) delete data.scheduled_end_on
       config.clientId && (data.account_id = config.clientId)
-      console.log(formatSplitData(data))
       const response = await addTrainingSplit(formatSplitData(data))
       toast.show({
         type: 'success',
@@ -124,6 +123,12 @@ export default function useTrainingSplit(
 }
 
 function normalizeRevision(revision: any) {
+  if (revision.scheduled_end_on) {
+    const endDate = new Date(revision.scheduled_end_on)
+    endDate.setUTCHours(0, 0, 0, 0)
+    revision.scheduled_end_on = endDate.toISOString()
+  }
+
   if (revision?.days && Array.isArray(revision.days)) {
     revision.days.forEach((day: any, idx: number) => {
       if (!day.day) {
