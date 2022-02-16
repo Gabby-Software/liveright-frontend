@@ -12,7 +12,7 @@ interface CardioEditDialogProps {
   data?: any
   name: string
   open: boolean
-  onClose?: () => void
+  onClose?: (result: boolean) => void
 }
 const CardioEditDialog = (props: CardioEditDialogProps) => {
   const { data, name, open, onClose } = props
@@ -24,7 +24,7 @@ const CardioEditDialog = (props: CardioEditDialogProps) => {
 
   const onDropDownClose = () => {
     methods.setValue(name, tpPrevData)
-    onClose?.()
+    onClose?.(tpPrevData === undefined)
   }
 
   if (isMobile) {
@@ -35,14 +35,14 @@ const CardioEditDialog = (props: CardioEditDialogProps) => {
           <HeaderLink onClick={onDropDownClose}>Go Back</HeaderLink>
         }
       >
-        <CardioEdit data={data} name={name} onClose={onClose} />
+        <CardioEdit data={data} name={name} onClose={() => onClose?.(false)} />
       </MobileFullScreenDialog>
     )
   }
 
   return (
     <Dialog title="Edit Cardio" extended open={open} onClose={onDropDownClose}>
-      <CardioEdit data={data} name={name} onClose={onClose} />
+      <CardioEdit data={data} name={name} onClose={() => onClose?.(false)} />
     </Dialog>
   )
 }
