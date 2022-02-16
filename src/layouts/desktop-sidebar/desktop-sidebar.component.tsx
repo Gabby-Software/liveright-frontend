@@ -64,10 +64,6 @@ const trainerMenuItems: MenuItemType[] = [
     Icon: DocumentTrainerIcon,
     submenu: [
       {
-        name: 'Your Plan',
-        url: Routes.ACTIVITIES_CURR_PLAN
-      },
-      {
         name: 'Training Plans',
         url: getRoute(Routes.ACTIVITIES_TP, { clientId: 'all' }),
         matchUrl: Routes.ACTIVITIES_TP
