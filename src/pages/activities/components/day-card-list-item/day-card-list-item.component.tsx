@@ -1,5 +1,3 @@
-import { AddIcon } from '../../../../assets/media/icons'
-import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import { Styles } from './day-card-list-item.styles'
 
 interface DayCardListItemProps {
@@ -7,17 +5,10 @@ interface DayCardListItemProps {
   onClick?: () => void
 }
 
-export default function DayCardListItem({
-  title,
-  onClick
-}: DayCardListItemProps) {
+export default function DayCardListItem({ title }: DayCardListItemProps) {
   return (
     <Styles>
       <span>{title}</span>
-
-      <IconButton size="sm" onClick={onClick}>
-        <AddIcon />
-      </IconButton>
     </Styles>
   )
 }

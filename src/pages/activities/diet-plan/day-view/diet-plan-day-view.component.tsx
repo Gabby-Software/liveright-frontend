@@ -114,9 +114,10 @@ export default function DietPlanDayView({
 
         <div className="TrainingSplitDayView__day-subtitle-container">
           <p className="TrainingSplitDayView__day-subtitle">
-            {moment(revision.scheduled_start_on)
-              .add(index, 'day')
-              .format('dddd')}
+            {revision.scheduled_start_on &&
+              moment(revision.scheduled_start_on)
+                .add(index, 'day')
+                .format('dddd')}
           </p>
 
           {/* {!day.is_day_target && (
