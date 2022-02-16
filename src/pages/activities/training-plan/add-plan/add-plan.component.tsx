@@ -67,7 +67,12 @@ const validationSchema = yup.object().shape({
                   .matches(/^$|^([0-9x]){4}$/, {
                     message: 'Only 4 digits with x allowed'
                   })
-                  .nullable()
+                  .nullable(),
+                avg_heart_rate: yup
+                  .number()
+                  .typeError('')
+                  .max(300, 'Please confirm if Avg Hearth Rate is correct')
+                  .nullable(true)
               })
             })
             return is_superset ? yup.array().of(basicSchema) : basicSchema

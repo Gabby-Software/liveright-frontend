@@ -261,7 +261,7 @@ export default function Exercise({
                 placeholder="90"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                format={formatter().number().min(10).max(300)}
+                format={formatter().number().min(0).max(999)}
                 error={get(errors, name)}
                 ErrorProps={{ size: 'sm' }}
               />
