@@ -6,7 +6,7 @@ export const Styles = styled.div<any>`
   display: grid;
   grid-template-columns: ${(props) =>
     props.cardio
-      ? '46px 1fr 1fr 1fr 46px'
+      ? '46px 2fr 1fr 1fr 1fr 46px'
       : '46px 2fr 1fr 1fr 1fr 1fr 3fr 46px'};
   gap: 1rem;
   padding: 0.75rem 0 0.75rem 0;
