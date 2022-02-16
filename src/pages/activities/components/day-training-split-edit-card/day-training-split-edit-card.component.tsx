@@ -72,10 +72,9 @@ export default function DayTrainingSplitEditCard(
     ])
   }
 
-  const onCardioSelection = (name: string, value: string, isNew = false) => {
-    console.log('onCardioSelection', isNew, value)
-    if (isNew) {
-      onChangeValue(name, [...data?.items, { data: value }])
+  const onCardioSelection = (name: string, value: string, Canceled = false) => {
+    if (Canceled) {
+      onCardioRemove(name, data?.items.length - 1 || 0)
       return
     }
     onChangeValue(name, [
@@ -400,7 +399,8 @@ function ListOther({
       {editCardio && (
         <CardioEditDialog
           open={!!editCardio}
-          onClose={() => {
+          onClose={(result) => {
+            if (result) onSelection(name, '', true)
             setEditCardio('')
           }}
           name={editCardio}
@@ -413,7 +413,7 @@ function ListOther({
           content.map((c, i) => (
             <div key={i}>
               <p className="DayTrainingSplitCard__li-subtitle">
-                <span>{c?.data.name}</span>
+                <span>{c?.data?.name}</span>
 
                 <div className="DayTrainingSplitCard__li-btns">
                   <IconButton
@@ -442,7 +442,7 @@ function ListOther({
                 <CustomSelect
                   id="DaySplitEditCard-training-plan"
                   placeholder="Search training plan"
-                  value={value?.name || ''}
+                  value={value}
                   options={[
                     ...selectOptions,
                     { label: createNewLabel, value: 'add-new' }
