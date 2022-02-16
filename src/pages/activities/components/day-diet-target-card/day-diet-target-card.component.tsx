@@ -4,11 +4,6 @@ interface DayDietTargetCardProps {
   data: any
 }
 
-// proteins: food?.info?.proteins || 0,
-//         fat: food?.info?.fat || 0,
-//         net_carbs: food?.info?.net_carbs || 0,
-//         sugar: food?.info?.sugar || 0,
-//         fiber: food?.info?.fiber || 0
 export default function DayDietTargetCard({ data }: DayDietTargetCardProps) {
   const total =
     data &&
