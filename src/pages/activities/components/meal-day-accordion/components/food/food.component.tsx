@@ -1,6 +1,7 @@
 import { get } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { useParams } from 'react-router'
 
 import { DeleteOutlinedIcon } from '../../../../../../assets/media/icons'
 import { DragIcon } from '../../../../../../assets/media/icons/activities'
@@ -24,16 +25,6 @@ interface FoodProps {
   readOnlyForm?: boolean
 }
 
-// const options = [
-//   { value: 'Chicken Brest Tender', label: 'Chicken Brest Tender' },
-//   { value: 'Brown Rice', label: 'Brown Rice' },
-//   { value: 'Red Apple', label: 'Red Apple' },
-//   { value: 'Food 1', label: 'Food 1' },
-//   { value: 'Food 2', label: 'Food 2' },
-//   { value: 'Food 4', label: 'Food 4' },
-//   { value: 'Food 3', label: 'Food 3' }
-// ]
-
 export default function Food({
   dragHandleProps,
   isDragging,
@@ -53,7 +44,8 @@ export default function Food({
     total_carbs: 0,
     calories: 0
   })
-  const [fromTemplate, setFromTemplate] = useState<boolean>(false)
+  const [selectedTemplate, setSelectedTemplate] = useState<any>(null)
+  const { clientId } = useParams<any>()
 
   const info = useWatch({
     control: methods.control,
@@ -73,26 +65,20 @@ export default function Food({
           (info.fat || 0) * 9
       )
     )
-
     onChange(
       `${name}.info.total_carbs`,
       getTwoDecimal((+info.net_carbs || 0) + (+info.fiber || 0))
     )
-
     onChange(`${name}.info.proteins`, getTwoDecimal(+info.proteins || 0))
-
     onChange(`${name}.info.net_carbs`, getTwoDecimal(+info.net_carbs || 0))
-
     onChange(`${name}.info.fat`, getTwoDecimal(+info.fat || 0))
-
     onChange(`${name}.info.fiber`, getTwoDecimal(+info.fiber || 0))
-
     onChange(`${name}.info.sugar`, getTwoDecimal(+info.sugar || 0))
   }, [info.proteins, info.net_carbs, info.fat, info.fiber, info.sugar])
 
   const { errors } = methods.formState
 
-  const { foods } = useTemplateFoods()
+  const { foods } = useTemplateFoods({ clientId: 'all' })
 
   const days = useWatch({
     name: `days`,
@@ -108,7 +94,7 @@ export default function Food({
     return Math.round((value + Number.EPSILON) * 100) / 100
   }
 
-  const multiPlyMacros = (grams: any) => {
+  const multiplyMacros = (grams: any) => {
     methods.setValue(
       `${name}.info.proteins`,
       getTwoDecimal(macros.proteins * grams || 0)
@@ -146,32 +132,34 @@ export default function Food({
         (item: any[], acc: any) => [...item, ...(acc.items || [])],
         []
       )
-      food = foodsOfPlan.find((m: any) => m?.data?.name === value)
-      setFromTemplate(false)
+      food = foodsOfPlan.find((m: any) => m?.data?.name === value)?.data
+      setSelectedTemplate(null)
     } else {
-      setFromTemplate(true)
+      // found in template
+      setSelectedTemplate(food)
+      methods.setValue(`${name}.fromTemplate`, true)
     }
 
     if (food) {
-      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
-      methods.setValue(`${name}.name`, food?.name || food?.data?.name || '')
-      methods.setValue(`${name}.info.grams`, 1)
+      // // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`${name}.name`, food.name || '')
+      methods.setValue(`${name}.info.grams`, food.info.grams)
       methods.setValue(
         `${name}.info.proteins`,
-        getTwoDecimal(food?.info?.proteins || 0)
+        getTwoDecimal(food.info?.proteins || 0)
       )
-      methods.setValue(`${name}.info.fat`, getTwoDecimal(food?.info?.fat || 0))
+      methods.setValue(`${name}.info.fat`, getTwoDecimal(food.info?.fat || 0))
       methods.setValue(
         `${name}.info.net_carbs`,
-        getTwoDecimal(food?.info?.net_carbs || 0)
+        getTwoDecimal(food.info?.net_carbs || 0)
       )
       methods.setValue(
         `${name}.info.sugar`,
-        getTwoDecimal(food?.info?.sugar || 0)
+        getTwoDecimal(food.info?.sugar || 0)
       )
       methods.setValue(
         `${name}.info.fiber`,
-        getTwoDecimal(food?.info?.fiber || 0)
+        getTwoDecimal(food.info?.fiber || 0)
       )
 
       setMacros({
@@ -202,7 +190,8 @@ export default function Food({
       ?.filter(
         (w: any) =>
           w?.data?.name?.toLowerCase()?.includes(foodName?.toLowerCase()) &&
-          w?.data?.name !== foodName
+          w?.data?.name !== foodName &&
+          !w.data.fromTemplate
       )
       ?.map((m: any) => ({
         label: m?.data?.name,
@@ -237,7 +226,9 @@ export default function Food({
     }
 
     return options.length ? options : []
-  }, [days, foods, foodName])
+  }, [days, foods])
+
+  console.log(selectedTemplate)
 
   return (
     <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
@@ -256,7 +247,7 @@ export default function Food({
             value={value}
             onChange={(value) => {
               methods.setValue(name, value)
-              setFromTemplate(false)
+              setSelectedTemplate(null)
             }}
             onSelect={onFoodSelected}
             options={nameOptions}
@@ -277,7 +268,7 @@ export default function Food({
             value={value}
             onChange={(e) => {
               onChange(name, e.target.value)
-              fromTemplate && multiPlyMacros(e.target.value)
+              selectedTemplate && multiplyMacros(e.target.value)
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -430,7 +421,11 @@ export default function Food({
                 checked={value}
                 onChange={(e) => onChange(name, e.target.checked)}
               />
-              <Label className="Food__checkbox">Save Food as template</Label>
+              <Label className="Food__checkbox">
+                {selectedTemplate?.account_id === +clientId
+                  ? 'Update template'
+                  : 'Save Food as template'}
+              </Label>
             </div>
           )}
           name={`${name}.save_as_template`}
