@@ -251,6 +251,22 @@ export default function Exercise({
               />
             )}
           />
+
+          <Controller
+            name={`${name}.info.avg_heart_rate`}
+            render={({ field: { value, name } }) => (
+              <Input
+                id="cardio-avg_heart_rate"
+                label="Avg heart rate"
+                placeholder="90"
+                value={value}
+                onChange={(e) => onChange(name, e.target.value)}
+                format={formatter().number().min(10).max(300)}
+                error={get(errors, name)}
+                ErrorProps={{ size: 'sm' }}
+              />
+            )}
+          />
         </>
       ) : (
         <>
