@@ -530,7 +530,7 @@ function ListOther({
               render={({ field: { value } }) => (
                 <CustomSelect
                   id="DaySplitEditCard-training-plan"
-                  placeholder="Search training plan"
+                  placeholder="Search cardio exercise"
                   value={value}
                   options={[
                     ...selectOptions,
