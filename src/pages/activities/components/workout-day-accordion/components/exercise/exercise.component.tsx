@@ -258,7 +258,7 @@ export default function Exercise({
             render={({ field: { value, name } }) => (
               <Input
                 id="cardio-avg_heart_rate"
-                label="bpm"
+                label="Avg heart rate (bpm)"
                 placeholder="90"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}

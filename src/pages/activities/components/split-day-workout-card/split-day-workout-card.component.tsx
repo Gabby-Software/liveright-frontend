@@ -61,7 +61,7 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                   <th>Reps</th>
                   <th>Tempo</th>
                   <th>Rest Interval</th>
-                  <th>bpm</th>
+                  <th>Avg heart rate (bpm)</th>
                   <th>Duration</th>
                   <th>Intensity</th>
                   <th>Video/Link</th>
