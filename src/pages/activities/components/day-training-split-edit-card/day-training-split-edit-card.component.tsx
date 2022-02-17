@@ -32,10 +32,18 @@ interface DayTrainingSplitCardProps {
   onWorkout: (id: string) => void
   onMealPlan: (id: string) => void
   onCardio: (id: string) => void
-  onAddNewActivity?: (name: string, type: 'TP' | 'DP' | 'cardio') => void
+  onAddNewActivity?: (
+    name: string,
+    type: 'TP' | 'DP' | 'cardio',
+    cardioItem?: any
+  ) => void
   edit?: boolean
   subtitle: string
-  newActivities?: { name: string; type: 'TP' | 'DP' | 'cardio' }[]
+  newActivities?: {
+    name: string
+    type: 'TP' | 'DP' | 'cardio'
+    cardioItem?: any
+  }[]
 }
 
 export default function DayTrainingSplitEditCard(
@@ -81,7 +89,16 @@ export default function DayTrainingSplitEditCard(
   }
 
   const onCardioSelection = (name: string, value: string, Canceled = false) => {
-    console.log({ name })
+    if (newActivities?.find((a) => a.name === value && a.cardioItem)) {
+      onChangeValue(name, [
+        ...data?.items,
+        {
+          data: newActivities?.find((a) => a.name === value && a.cardioItem)
+            ?.cardioItem
+        }
+      ])
+      return
+    }
     if (Canceled) {
       onCardioRemove(name, data?.items.length - 1 || 0)
       return
@@ -297,6 +314,9 @@ export default function DayTrainingSplitEditCard(
             onSelection={onCardioSelection}
             onEdit={(idx) => onCardio(`${name}.items[${idx}].data` || '')}
             onRemove={onCardioRemove}
+            onAddCardio={(data) =>
+              onAddNewActivity?.(data.name, 'cardio', data)
+            }
           />
         </Styles>
       }
@@ -315,6 +335,7 @@ interface ListItemProps {
   onEdit: (idx: number) => void
   onRemove: (name: string, idx: number) => void
   onSelection: (name: string, value: string, isNew?: boolean) => void
+  onAddCardio?: (data: any) => void
 }
 
 function ListItem({
@@ -336,7 +357,7 @@ function ListItem({
       setAddNew(true)
       return
     }
-    console.log({ name, value })
+
     onSelection(name, value)
   }
 
@@ -436,9 +457,12 @@ function ListOther({
   icon,
   onEdit,
   onRemove,
-  onSelection
+  onSelection,
+  onAddCardio
 }: ListItemProps) {
   const [editCardio, setEditCardio] = useState('')
+
+  const methods = useFormContext()
 
   const onChange = (value: string) => {
     if (value === 'add-new') {
@@ -461,7 +485,11 @@ function ListOther({
         <CardioEditDialog
           open={!!editCardio}
           onClose={(result) => {
-            if (result) onSelection(name, '', true)
+            if (result) {
+              onSelection(name, '', true)
+            } else {
+              onAddCardio?.(methods.getValues(editCardio))
+            }
             setEditCardio('')
           }}
           name={editCardio}

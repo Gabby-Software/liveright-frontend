@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import Button from '../../../../../components/buttons/button/button.component'
 import Input from '../../../../../components/form/input/input.component'
 import Select from '../../../../../components/form/select/select.component'
-import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
+// import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../components/form/TimeInput/time-input.component'
 import { Styles } from './cardio-edit.styles'
 
@@ -97,16 +97,15 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
         <Controller
           name={`${name}.schedule`}
           render={({ field: { name, value } }) => (
-            <TimePicker
+            <TimeInput
               id="Workout-time"
               label="Schedule"
               placeholder="08:00"
               value={value}
               className="schedule-time-picker"
-              minuteStep={15}
-              onChange={(e, date) => {
-                methods.setValue(name, date)
-              }}
+              // minuteStep={15}
+              format="HH:mm"
+              onChange={(e) => onChange(name, e.target.value)}
             />
           )}
         />

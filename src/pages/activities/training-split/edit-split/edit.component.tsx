@@ -97,6 +97,7 @@ export default function EditTrainingSplit() {
     {
       name: string
       type: 'TP' | 'DP' | 'cardio'
+      cardioItem?: any
     }[]
   >([])
 
@@ -248,6 +249,22 @@ export default function EditTrainingSplit() {
 
   const handleCardio = (name: string) => {
     setEditCardio(name)
+  }
+
+  const handleAddNewActivity = (
+    name: string,
+    type: 'TP' | 'DP' | 'cardio',
+    cardioItem?: any
+  ) => {
+    if (newActivities.find((a) => a.name === name)) {
+      return
+    }
+
+    if (type === 'cardio' && cardioItem) {
+      setNewActivities([...newActivities, { name, type, cardioItem }])
+    } else {
+      setNewActivities([...newActivities, { name, type }])
+    }
   }
 
   const onTPChange = (value: string) => {
@@ -552,8 +569,8 @@ export default function EditTrainingSplit() {
                   onWorkout={handleWorkout}
                   onMealPlan={handleMealPlan}
                   onCardio={handleCardio}
-                  onAddNewActivity={(name, type) =>
-                    setNewActivities([...newActivities, { name, type }])
+                  onAddNewActivity={(name, type, cardioItem) =>
+                    handleAddNewActivity(name, type, cardioItem)
                   }
                   subtitle={
                     scheduled_start_on
