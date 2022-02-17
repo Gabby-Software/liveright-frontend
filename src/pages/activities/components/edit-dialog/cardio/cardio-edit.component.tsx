@@ -103,7 +103,6 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
               placeholder="--:--"
               value={value}
               className="schedule-time-picker"
-              // minuteStep={15}
               format="HH:mm"
               onChange={(e) => onChange(name, e.target.value)}
             />
