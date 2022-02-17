@@ -39,7 +39,6 @@ export default function CurrentPlan() {
     id: 'current',
     revisionId: 'current'
   })
-  console.log('TS', TP)
 
   const TABS = [
     {
