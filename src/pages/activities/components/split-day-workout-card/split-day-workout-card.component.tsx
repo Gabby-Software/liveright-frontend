@@ -25,17 +25,17 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
     )
   }
 
-  const getDummySupersetRow = (name: string) => ({
-    name: name,
-    info: {
-      sets: ' ',
-      reps: ' ',
-      tempo: ' ',
-      rest_interval: ' ',
-      duration: ' ',
-      intensity: ' '
-    }
-  })
+  // const getDummySupersetRow = (name: string) => ({
+  //   name: name,
+  //   info: {
+  //     sets: ' ',
+  //     reps: ' ',
+  //     tempo: ' ',
+  //     rest_interval: ' ',
+  //     duration: ' ',
+  //     intensity: ' '
+  //   }
+  // })
 
   console.log('data', data)
 
@@ -61,18 +61,17 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
                   <th>Reps</th>
                   <th>Tempo</th>
                   <th>Rest Interval</th>
-                  <th>Avg heart rate</th>
+                  <th>bpm</th>
                   <th>Duration</th>
                   <th>Intensity</th>
                   <th>Video/Link</th>
                 </tr>
               </thead>
               <tbody>
-                {data.items?.map((item: any, i: number) => {
+                {data.items?.map((item: any) => {
                   const exercises = item.is_superset
-                    ? [getDummySupersetRow(`${i + 1} - Superset`), ...item.data]
+                    ? [...item.data]
                     : [item.data]
-                  console.log('exercises', exercises)
                   return exercises.map((e: any, idx: number) => (
                     <tr key={idx}>
                       <td
