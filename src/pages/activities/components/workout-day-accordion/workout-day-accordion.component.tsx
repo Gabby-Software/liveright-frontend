@@ -13,6 +13,7 @@ import AutoCompleteInput from '../../../../components/form/autoCompleteInput/aut
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 // import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
+import TimePicker from '../../../../components/form/time-picker/time-picker.component'
 // import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
@@ -126,31 +127,48 @@ export default function WorkoutDayAccordion({
       defaultOpen={defaultOpened}
     >
       <Styles>
-        <Controller
-          name={`activities.${index}.name`}
-          render={({ field: { name, value } }) => (
-            // <Input
-            //   id="WorkoutDayAccordion-name"
-            //   label="Workout Name"
-            //   placeholder="Name"
-            //   className="WorkoutDayAccordion__name-input"
-            //   value={value}
-            //   onChange={(e) => onChange(name, e.target.value)}
-            //   error={get(errors, name)}
-            // />
-            <AutoCompleteInput
-              id="WorkoutDayAccordion-name"
-              label="Workout Name"
-              placeholder="Name"
-              className="WorkoutDayAccordion__name-input"
-              value={value === '' ? null : value}
-              onChange={(value) => methods.setValue(name, value)}
-              onSelect={onWorkoutNameSelected}
-              options={nameOptions}
-              error={get(errors, name)}
-            />
-          )}
-        />
+        <div className="WorkoutDayAccordion__header">
+          <Controller
+            name={`activities.${index}.name`}
+            render={({ field: { name, value } }) => (
+              // <Input
+              //   id="WorkoutDayAccordion-name"
+              //   label="Workout Name"
+              //   placeholder="Name"
+              //   className="WorkoutDayAccordion__name-input"
+              //   value={value}
+              //   onChange={(e) => onChange(name, e.target.value)}
+              //   error={get(errors, name)}
+              // />
+              <AutoCompleteInput
+                id="WorkoutDayAccordion-name"
+                label="Workout Name"
+                placeholder="Name"
+                value={value === '' ? null : value}
+                onChange={(value) => methods.setValue(name, value)}
+                onSelect={onWorkoutNameSelected}
+                options={nameOptions}
+                error={get(errors, name)}
+              />
+            )}
+          />
+
+          <Controller
+            name={`activities.${index}.time`}
+            render={({ field: { name, value } }) => (
+              <TimePicker
+                id="Workout-time"
+                label="Schedule"
+                placeholder="08:00"
+                value={value}
+                error={get(errors, name)}
+                onChange={(e, date) => {
+                  methods.setValue(name, date)
+                }}
+              />
+            )}
+          />
+        </div>
 
         <Controller
           render={({ field: { value, name } }) => (

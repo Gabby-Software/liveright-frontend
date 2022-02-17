@@ -13,6 +13,14 @@ export const Styles = styled(Card)<any>`
   }
 
   .WorkoutDayAccordion {
+    &__header {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 1.25rem;
+      align-items: flex-end;
+      margin-bottom: 1.25rem;
+    }
+
     &__name-input {
       margin-bottom: 0.5rem;
     }
