@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import moment, { Moment } from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import {
@@ -8,6 +9,7 @@ import {
   useWatch
 } from 'react-hook-form'
 import { useHistory, useParams } from 'react-router-dom'
+import * as yup from 'yup'
 
 import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
@@ -18,6 +20,7 @@ import DatePicker from '../../../../components/form/date-picker/date-picker.comp
 import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
+import { toast } from '../../../../components/toast/toast.component'
 import { Subtitle, Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
@@ -35,6 +38,7 @@ import useFormLock from '../../../../hooks/ui/useFormLock'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
 import { getActiveOrLatestRev } from '../../../../utils/api/activities'
+import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import Counter from '../../components/counter/counter.component'
@@ -52,10 +56,20 @@ const defaultValues: any = {
   training_plan_revision_id: '',
   diet_plan_revision_id: '',
   account_id: null,
-  scheduled_start_on: '',
-  scheduled_end_on: '',
+  scheduled_start_on: null,
+  scheduled_end_on: null,
   days: []
 }
+
+const validationSchema = yup.object().shape({
+  name: yup.string().required(),
+  scheduled_start_on: yup.date().nullable(),
+  scheduled_end_on: yup
+    .date()
+    .min(yup.ref('scheduled_start_on'), "End date can't be before start date")
+    .nullable()
+  // days: yup.array().min(1)
+})
 
 function createDay(
   dayIndex: number,
@@ -102,8 +116,10 @@ export default function EditTrainingSplit() {
   >([])
 
   const methods = useForm<any>({
-    defaultValues
-    // mode: 'onChange'
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange'
   })
 
   const daysArray = useFieldArray({
@@ -141,9 +157,9 @@ export default function EditTrainingSplit() {
     type: 'cardio'
   })
 
-  const [scheduled_start_on, name] = useWatch({
+  const [scheduled_start_on, scheduled_end_on, name] = useWatch({
     control: methods.control,
-    name: ['scheduled_start_on', 'name']
+    name: ['scheduled_start_on', 'scheduled_end_on', 'name']
   })
 
   const { onUnlock } = useFormLock(
@@ -212,7 +228,15 @@ export default function EditTrainingSplit() {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const isValid = await methods.trigger()
+    if (!isValid) {
+      toast.show({
+        type: 'error',
+        msg: 'Please fill out all the required fields'
+      })
+      return
+    }
     if (revision._id) {
       setShowConfirm(true)
       return
@@ -445,10 +469,9 @@ export default function EditTrainingSplit() {
                     placeholder="Pick start date"
                     label="Start date"
                     disabledPast
-                    value={value}
+                    value={value || ''}
                     onChange={(e, date) => {
-                      onChange(name, date)
-                      console.log(e, date)
+                      onChange(name, date === '' ? null : date)
                     }}
                     error={errors.scheduled_start_on}
                   />
@@ -469,9 +492,15 @@ export default function EditTrainingSplit() {
                         'days'
                       )
                     }
-                    value={value}
-                    onChange={(e, date) => onChange(name, date)}
-                    error={errors.scheduled_start_on}
+                    value={value || ''}
+                    onChange={(e, date) =>
+                      onChange(name, date === '' ? null : date)
+                    }
+                    error={errors.scheduled_end_on}
+                    disabled={
+                      !scheduled_start_on ||
+                      !methods.getValues('scheduled_start_on')
+                    }
                   />
                 )}
               />
@@ -667,10 +696,22 @@ export default function EditTrainingSplit() {
               Any changes you made to training and diet plans will be applied to
               respective meal/training plans. A new revision will be created.
             </li>
-            <li>
-              The version you just edited will become active and applied to any
-              future dates on your calendar.
-            </li>
+            {scheduled_start_on && (
+              <li>
+                {moment(scheduled_start_on).isAfter()
+                  ? `The version you just edited will be saved as scheduled 
+              and will become active on ${moment(scheduled_start_on).format(
+                DATE_RENDER_FORMAT
+              )}${
+                      scheduled_end_on
+                        ? ` and will remain active until ${moment(
+                            scheduled_start_on
+                          ).format(DATE_RENDER_FORMAT)}`
+                        : ''
+                    }.`
+                  : `The version you just edited will become active and applied to any future dates on your calendar.`}
+              </li>
+            )}
           </ul>
         }
       />

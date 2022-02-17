@@ -57,7 +57,6 @@ export default function Exercise({
   const isCardio = methods.getValues(`${name}.info.type`) === 'cardio'
 
   // Use these function when implementing exercise template suggestions
-
   const { exercises } = useTrainingPlanExercises({
     id: params.id,
     revisionId: params.revisionId
@@ -72,17 +71,14 @@ export default function Exercise({
     if (!exercise) {
       return
     }
-    methods.setValue(`${name}.info.sets`, exercise?.info?.sets)
-    methods.setValue(`${name}.info.reps`, exercise?.info?.reps)
-    methods.setValue(`${name}.info.tempo`, exercise?.info?.tempo)
-    methods.setValue(
-      `${name}.info.rest_interval`,
-      exercise?.info?.rest_interval,
-      {
-        shouldValidate: true
-      }
-    )
-    methods.setValue(
+    onChange(`${name}.info.sets`, exercise?.info?.sets)
+    onChange(`${name}.info.reps`, exercise?.info?.reps)
+    onChange(`${name}.info.tempo`, exercise?.info?.tempo)
+    onChange(`${name}.info.rest_interval`, exercise?.info?.rest_interval)
+    onChange(`${name}.info.duration`, exercise?.info?.duration)
+    onChange(`${name}.info.intensity`, exercise?.info?.intensity)
+    onChange(`${name}.info.avg_heart_rate`, exercise?.info?.avg_heart_rate)
+    onChange(
       `${name}.link`,
       exercise?.link ? exercise?.link : exercise?.info?.link
     )
@@ -116,9 +112,12 @@ export default function Exercise({
   })
 
   const nameOptions = useMemo(() => {
+    const exType = methods.getValues(`${name}.info.type`)
     const planOptions = exercises
-      ?.filter((w: any) =>
-        w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase())
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase()) &&
+          w.info.type === exType
       )
       ?.map((w: any) => ({
         label: w.name,
@@ -126,8 +125,10 @@ export default function Exercise({
       }))
 
     const templateOptions = exercisesTemplate
-      ?.filter((w: any) =>
-        w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase())
+      ?.filter(
+        (w: any) =>
+          w?.name?.toLowerCase()?.includes(exerciseName?.toLowerCase()) &&
+          w.info.type === exType
       )
       .map((w: any) => ({
         label: w.name,

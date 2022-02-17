@@ -17,7 +17,11 @@ import useTrainingSplits from '../../../../hooks/api/activities/useTrainingSplit
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { getActiveOrLatestRev } from '../../../../utils/api/activities'
+import { capitalize } from '../../../../pipes/capitalize.pipe'
+import {
+  getActiveOrLatestRev,
+  getStatus
+} from '../../../../utils/api/activities'
 import { getRoute } from '../../../../utils/routes'
 import ActivitiesClient from '../../components/activities-client/activities-client.component'
 import PlanCard from '../../components/plan-card/plan-card.component'
@@ -200,10 +204,10 @@ export default function TrainingSplits() {
                 training_plan: (row) => row.training_plan?.name || '',
                 status: (row) => (
                   <StatusBadge
-                    status={row.status.toLowerCase()}
+                    status={getStatus(row)?.toLowerCase()}
                     className="PlansTable__table-status"
                   >
-                    {row.status}
+                    {capitalize(getStatus(row))}
                   </StatusBadge>
                 ),
                 client: (row) =>

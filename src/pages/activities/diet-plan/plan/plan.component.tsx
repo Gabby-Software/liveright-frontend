@@ -339,8 +339,8 @@ export default function DietPlan() {
           moment(activationDate).isAfter() ? 'scheduled' : 'active'
         } diet plan starting from ${moment(activationDate).format(
           DATE_PRETTY_FORMAT
-        )}. This means the training split will also be changed to reference this diet plan.
-         You can revert it at any point by re-activating previous diet plan as the active diet plan.`}
+        )}. This means that the active training split (if any) will also be changed to reference this diet plan.
+        You can revert the change at any point by making your previous diet plan active.`}
         date={{
           label: 'From when should we apply this change?',
           value: activationDate,
