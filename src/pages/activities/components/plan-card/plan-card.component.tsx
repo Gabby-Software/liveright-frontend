@@ -2,7 +2,10 @@ import moment from 'moment'
 
 import StatusBadge from '../../../../components/status-badge/status-badge.component'
 import { capitalize } from '../../../../pipes/capitalize.pipe'
-import { getActiveOrLatestRev } from '../../../../utils/api/activities'
+import {
+  getActiveOrLatestRev,
+  getStatus
+} from '../../../../utils/api/activities'
 import { DATE_RENDER_FORMAT } from '../../../../utils/date'
 import { Styles } from './plan-card.styles'
 
@@ -13,7 +16,7 @@ interface PlanCardProps {
 
 export default function PlanCard({ plan, to }: PlanCardProps) {
   const latestRev = getActiveOrLatestRev(plan)
-  const status = latestRev?.status
+  const status = getStatus(plan)
   const scheduled =
     status === 'scheduled' || status === 'active' || status === 'inactive'
 

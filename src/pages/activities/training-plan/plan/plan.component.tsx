@@ -358,8 +358,8 @@ export default function TrainingPlan() {
           moment(activationDate).isAfter() ? 'scheduled' : 'active'
         } training plan starting from ${moment(activationDate).format(
           DATE_PRETTY_FORMAT
-        )}. This means the training split will also be changed to reference this training plan.
-         You can revert it at any point by re-activating previous training plan as the active training plan.`}
+        )}. This means that the active training split (if any) will also be changed to reference this training plan.
+        You can revert the change at any point by making your previous training plan active.`}
         date={{
           label:
             'From when should we apply this change? Selecting a future date will schdule the training plan.',
