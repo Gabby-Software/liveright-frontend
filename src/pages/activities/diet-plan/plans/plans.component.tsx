@@ -130,6 +130,33 @@ export default function DietPlans() {
   const content =
     userType === userTypes.CLIENT && !dietPlans.length ? (
       <Styles>
+        <div className="PlansTable__filters">
+          {userType !== userTypes.CLIENT && (
+            <ClientSelect
+              id="DietPlans-client"
+              onChange={(e) => {
+                history.push(getRoute(Routes.ACTIVITIES_DP, { clientId: e }))
+              }}
+              value={clientId}
+              placeholder="All Client"
+              className="PlansTable__select"
+            />
+          )}
+
+          <Select
+            id="DietPlans-statuses"
+            options={[
+              { label: 'Any Status', value: '' },
+              { label: 'Active', value: 'active' },
+              { label: 'Scheduled', value: 'scheduled' },
+              { label: 'Inactive', value: 'inactive' }
+            ]}
+            value={status}
+            onChange={(value) => setStatus(value)}
+            placeholder="Any Status"
+            className="PlansTable__select"
+          />
+        </div>
         <EmptyPlan
           title="Diet Plans"
           text="There is no diet plan yet..."
@@ -303,7 +330,7 @@ export default function DietPlans() {
   return isMobile ? (
     <MobilePage
       title="Diet Plans"
-      headerSpacing={20}
+      headerSpacing={userType === userTypes.CLIENT ? 5 : 20}
       headerNavChat
       actionComponent={
         clientId === 'all' ? (

@@ -136,6 +136,33 @@ export default function TrainingPlans() {
   const content =
     userType === userTypes.CLIENT && !trainingPlans.length ? (
       <Styles>
+        <div className="PlansTable__filters">
+          {userType !== userTypes.CLIENT && (
+            <ClientSelect
+              value={clientId}
+              id="training-plans-client"
+              onChange={(e) =>
+                history.push(getRoute(Routes.ACTIVITIES_TP, { clientId: e }))
+              }
+              placeholder="All Client"
+              className="PlansTable__select"
+            />
+          )}
+
+          <Select
+            id="training-plans-statuses"
+            options={[
+              { label: 'Any Status', value: '' },
+              { label: 'Active', value: 'active' },
+              { label: 'Scheduled', value: 'scheduled' },
+              { label: 'Inactive', value: 'inactive' }
+            ]}
+            value={status}
+            onChange={(value) => setStatus(value)}
+            placeholder="All Status"
+            className="PlansTable__select"
+          />
+        </div>
         <EmptyPlan
           title="Training Plans"
           text="There is no training plan yet..."
@@ -329,7 +356,7 @@ export default function TrainingPlans() {
   return isMobile ? (
     <MobilePage
       title="Current Training Plans"
-      headerSpacing={20}
+      headerSpacing={userType === userTypes.CLIENT ? 5 : 20}
       headerNavChat
       actionComponent={
         clientId === 'all' ? (

@@ -233,7 +233,7 @@ export default function TrainingSplits() {
   return isMobile ? (
     <MobilePage
       title="Training Splits"
-      headerSpacing={20}
+      headerSpacing={userType === userTypes.CLIENT ? 5 : 20}
       headerNavChat
       actionComponent={
         clientId === 'all' ? (

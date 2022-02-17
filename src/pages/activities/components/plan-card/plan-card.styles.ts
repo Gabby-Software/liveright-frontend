@@ -47,7 +47,9 @@ export const Styles = styled(Link)`
     &__info {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      // justify-content: space-between;
+      justify-content: flex-start;
+      gap: 60px;
       margin-bottom: 16px;
       &:last-child {
         margin-bottom: 0;

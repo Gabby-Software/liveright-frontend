@@ -138,6 +138,10 @@ export const Styles = styled.div`
         }
       }
 
+      &-column {
+        margin-top: 10px;
+      }
+
       &-toggle {
         & .toggle__body {
           margin-left: 0;

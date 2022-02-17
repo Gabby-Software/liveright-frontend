@@ -230,18 +230,6 @@ export default function TrainingSplit() {
             <div className="TrainingSplits__filters-container">
               <div className="TrainingSplits__filters-title-container">
                 <Subtitle>{trainingSplit.name}</Subtitle>
-
-                {isMobile && (
-                  <Button
-                    size="sm"
-                    variant="text"
-                    to={getRoute(Routes.ACTIVITIES_TS, {
-                      clientId: params.clientId
-                    })}
-                  >
-                    Other Splits
-                  </Button>
-                )}
               </div>
 
               <div className="TrainingSplits__filters-actions">
@@ -264,12 +252,26 @@ export default function TrainingSplit() {
                 />
 
                 {revision.status !== 'active' && (
-                  <Button
-                    className="TrainingSplits__filters-make-active-btn"
-                    onClick={() => setConfirmDialog(true)}
-                  >
-                    Make active
-                  </Button>
+                  <>
+                    <Button
+                      className="TrainingSplits__filters-make-active-btn"
+                      onClick={() => setConfirmDialog(true)}
+                    >
+                      Make active
+                    </Button>
+
+                    {isMobile && (
+                      <Button
+                        size="sm"
+                        variant="text"
+                        to={getRoute(Routes.ACTIVITIES_TS, {
+                          clientId: params.clientId
+                        })}
+                      >
+                        See All Training Splits
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -285,6 +287,23 @@ export default function TrainingSplit() {
                     </div>
                   </div>
 
+                  {!isMobile && (
+                    <div className="TrainingSplits__info-column">
+                      <p className="TrainingSplits__info-title">Started on</p>
+                      <div className="TrainingSplits__info-badge-container">
+                        <StatusBadge status={'info'} className="no-border">
+                          {revision.scheduled_start_on
+                            ? moment(revision.scheduled_start_on).format(
+                                DATE_RENDER_FORMAT
+                              )
+                            : '-'}
+                        </StatusBadge>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {isMobile && (
                   <div className="TrainingSplits__info-column">
                     <p className="TrainingSplits__info-title">Started on</p>
                     <div className="TrainingSplits__info-badge-container">
@@ -297,7 +316,7 @@ export default function TrainingSplit() {
                       </StatusBadge>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <div className="TrainingSplits__info-column">
                   <p className="TrainingSplits__info-title">Ends on</p>
