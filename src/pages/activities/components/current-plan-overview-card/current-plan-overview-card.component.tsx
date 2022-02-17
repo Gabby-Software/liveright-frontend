@@ -37,7 +37,7 @@ export default function CurrentPlanOverviewCard({
       {isMobile ? <div>{content}</div> : content}
 
       <Link to={link} className="CurrentPlanOverviewCard__action">
-        {noName ? 'Edit' : 'Create Plan'}
+        {noName ? 'Create Plan' : 'Edit'}
       </Link>
     </Styles>
   )
