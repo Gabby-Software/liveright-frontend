@@ -62,7 +62,6 @@ export default function DayTrainingSplitEditCard(
     onAddNewActivity,
     subtitle
   } = props
-  console.log({ newActivities })
   const methods = useFormContext()
   const data = methods.watch(name)
 
@@ -103,7 +102,6 @@ export default function DayTrainingSplitEditCard(
       onCardioRemove(name, data?.items.length - 1 || 0)
       return
     }
-    onAddNewActivity?.(value, 'cardio')
     onChangeValue(name, [
       ...data?.items,
       cloneDeep(cardios.find((w) => w._id === value))
@@ -314,9 +312,10 @@ export default function DayTrainingSplitEditCard(
             onSelection={onCardioSelection}
             onEdit={(idx) => onCardio(`${name}.items[${idx}].data` || '')}
             onRemove={onCardioRemove}
-            onAddCardio={(data) =>
+            onAddCardio={(data) => {
+              console.log('add', data)
               onAddNewActivity?.(data.name, 'cardio', data)
-            }
+            }}
           />
         </Styles>
       }
