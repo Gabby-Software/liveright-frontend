@@ -31,7 +31,7 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
             <Input
               id="cardio-name"
               label="Cardio name"
-              placeholder="Exersice"
+              placeholder="-"
               value={value}
               onChange={(e) => {
                 onChange(name, e.target.value)
@@ -48,7 +48,7 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
             <TimeInput
               id="cardio-duration"
               label="Duration"
-              placeholder="hh:mm"
+              placeholder="--:--"
               value={value}
               onChange={(e) => onChange(name, e.target.value)}
               error={get(errors, name)}
@@ -82,8 +82,8 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
             <Input
               id="Avg-heart-rate"
               type="number"
-              label="Average Heart Rate"
-              placeholder="Heart Rate"
+              label="Average heart rate (bpm)"
+              placeholder="-"
               value={value}
               onChange={(e) => {
                 onChange(name, e.target.value)
@@ -100,10 +100,9 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
             <TimeInput
               id="Workout-time"
               label="Schedule"
-              placeholder="08:00"
+              placeholder="--:--"
               value={value}
               className="schedule-time-picker"
-              // minuteStep={15}
               format="HH:mm"
               onChange={(e) => onChange(name, e.target.value)}
             />

@@ -280,6 +280,7 @@ export default function EditTrainingSplit() {
     type: 'TP' | 'DP' | 'cardio',
     cardioItem?: any
   ) => {
+    console.log('handleAddNewActivity', name, type, cardioItem)
     if (newActivities.find((a) => a.name === name)) {
       return
     }

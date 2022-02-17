@@ -13,6 +13,7 @@ export default function DayTrainingPlanCard({
   onExpand,
   border = 'desktop'
 }: DayTrainingPlanCardProps) {
+  console.log('day acti', activity)
   return (
     <DayCard
       title={activity.name}
@@ -70,6 +71,9 @@ function formatExercise(data: any): string {
     }
     if (ex.info?.intensity) {
       result += `Intensity: ${ex.info.intensity}; `
+    }
+    if (ex.info?.avg_heart_rate) {
+      result += `Avg heart rate (bpm): ${ex.info.avg_heart_rate}; `
     }
   } else {
     if (ex.info?.sets) {
