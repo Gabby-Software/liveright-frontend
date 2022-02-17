@@ -100,6 +100,7 @@ const defaultValues: any = {
 function createWorkout(workoutIndex: number) {
   return {
     name: `Workout ${workoutIndex || 1}`,
+    time: '',
     save_as_template: false,
     items: []
   }
