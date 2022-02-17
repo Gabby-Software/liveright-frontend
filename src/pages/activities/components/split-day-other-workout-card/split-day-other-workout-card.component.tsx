@@ -42,7 +42,10 @@ export default function SplitDayOtherWorkoutCard({ data }: IProps) {
               <tr>
                 <th>Exercise</th>
                 <th>Duration</th>
-                <th>Video/Link</th>
+                <th>Intensity</th>
+                <th>Heart Rate</th>
+                <th>Schedule</th>
+                {/* <th>Video/Link</th> */}
               </tr>
             </thead>
             <tbody>
@@ -51,8 +54,11 @@ export default function SplitDayOtherWorkoutCard({ data }: IProps) {
                 return exercises.map((e: any) => (
                   <tr key={i}>
                     <td>{e?.name}</td>
-                    <td>{e?.info?.sets}</td>
-                    <td>{e?.link || 'ND'}</td>
+                    <td>{e?.info?.duration}</td>
+                    <td>{e?.info?.intensity}</td>
+                    <td>{e?.info?.avg_heart_rate}</td>
+                    <td>{e?.info?.schedule}</td>
+                    {/* <td>{e?.link || 'ND'}</td> */}
                   </tr>
                 ))
               })}

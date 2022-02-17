@@ -95,7 +95,7 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
         />
 
         <Controller
-          name={`${name}.schedule`}
+          name={`${name}.info.schedule`}
           render={({ field: { name, value } }) => (
             <TimeInput
               id="Workout-time"
