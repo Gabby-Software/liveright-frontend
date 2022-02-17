@@ -18,6 +18,7 @@ import Checkbox from '../../../../../../components/form/checkbox/checkbox.compon
 import Label from '../../../../../../components/form/label/label.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
+import Macronutrient from '../../../../../../components/quick-access/components/quick-access-macronutrient/quick-access-macronutrient.component'
 import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import Food from '../food/food.component'
@@ -54,14 +55,14 @@ function createFood() {
   }
 }
 
-const MACROS_LABEL_KEY_MAP = {
-  Proteins: 'proteins',
-  Fat: 'fat',
-  'Net Carbs': 'net_carbs',
-  Sugar: 'sugar',
-  Fiber: 'fiber',
-  'Total Carbs': 'total_carbs',
-  Calories: 'calories'
+const MACROS_LABEL_KEY_MAP: { [k: string]: string } = {
+  proteins: 'Proteins',
+  fat: 'Fat',
+  net_carbs: 'Net Carbs',
+  sugar: 'Sugar',
+  fiber: 'Fiber',
+  total_carbs: 'Total Carbs',
+  calories: 'Calories'
 }
 
 export default function Meal({
@@ -279,14 +280,13 @@ export default function Meal({
       </div>
 
       <div className="Meal__macronutrients">
-        {Object.keys(MACROS_LABEL_KEY_MAP).map((row) => (
-          <div key={row} className="Meal__macronutrient">
-            <p className="Meal__macronutrient-title">{row}</p>
-            <p className="Meal__macronutrient-value">
-              {(totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]}
-              {row === 'Calories' ? 'KCal' : 'g'}
-            </p>
-          </div>
+        {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
+          <Macronutrient
+            key={k}
+            title={MACROS_LABEL_KEY_MAP[k]}
+            amount={`${getTwoDecimal((totalMacros as any)[k])}
+                ${k === 'calories' ? 'KCal' : 'g'}`}
+          />
         ))}
       </div>
 

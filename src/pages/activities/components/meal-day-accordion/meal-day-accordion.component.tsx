@@ -24,14 +24,14 @@ interface MealDayAccordionProps {
   defaultOpened?: boolean
 }
 
-const MACROS_LABEL_KEY_MAP = {
-  Proteins: 'proteins',
-  Fat: 'fat',
-  'Net Carbs': 'net_carbs',
-  Sugar: 'sugar',
-  Fiber: 'fiber',
-  'Total Carbs': 'total_carbs',
-  Calories: 'calories'
+const MACROS_LABEL_KEY_MAP: { [k: string]: string } = {
+  proteins: 'Proteins',
+  fat: 'Fat',
+  net_carbs: 'Net Carbs',
+  sugar: 'Sugar',
+  fiber: 'Fiber',
+  total_carbs: 'Total Carbs',
+  calories: 'Calories'
 }
 
 export default function MealDayAccordion({
@@ -87,7 +87,7 @@ export default function MealDayAccordion({
       items?.forEach((i: any) => {
         const info = i.data.info
         Object.keys(macros).map((k: string) => {
-          return ((macros as any)[k] += getTwoDecimal(info[k] || 0))
+          return ((macros as any)[k] += info[k] || 0)
         })
       })
     })
@@ -227,22 +227,12 @@ export default function MealDayAccordion({
         {!isDayTarget ? (
           <>
             <div className="MealDayAccordion__macronutrients">
-              {[
-                'Proteins',
-                'Fat',
-                'Net Carbs',
-                'Sugar',
-                'Fiber',
-                'Total Carbs',
-                'Calories'
-              ].map((row) => (
+              {Object.keys(MACROS_LABEL_KEY_MAP).map((k) => (
                 <Macronutrient
-                  key={row}
-                  title={row}
-                  amount={`${
-                    (totalMacros as any)[(MACROS_LABEL_KEY_MAP as any)[row]]
-                  }
-                ${row === 'Calories' ? 'KCal' : 'g'}`}
+                  key={k}
+                  title={MACROS_LABEL_KEY_MAP[k]}
+                  amount={`${getTwoDecimal((totalMacros as any)[k])}
+                ${k === 'calories' ? 'KCal' : 'g'}`}
                 />
               ))}
             </div>

@@ -69,12 +69,7 @@ export default function Food({
       `${name}.info.total_carbs`,
       getTwoDecimal((+info.net_carbs || 0) + (+info.fiber || 0))
     )
-    onChange(`${name}.info.proteins`, getTwoDecimal(+info.proteins || 0))
-    onChange(`${name}.info.net_carbs`, getTwoDecimal(+info.net_carbs || 0))
-    onChange(`${name}.info.fat`, getTwoDecimal(+info.fat || 0))
-    onChange(`${name}.info.fiber`, getTwoDecimal(+info.fiber || 0))
-    onChange(`${name}.info.sugar`, getTwoDecimal(+info.sugar || 0))
-  }, [info.proteins, info.net_carbs, info.fat, info.fiber, info.sugar])
+  }, [info.proteins, info.net_carbs, info.fat, info.fiber])
 
   const { errors } = methods.formState
 
@@ -114,24 +109,31 @@ export default function Food({
     )
   }
 
+  const getFoodsOfPlan = () => {
+    const mealsOfPlan = days?.reduce(
+      (acc: any[], d: any) => [
+        ...acc,
+        ...(d.activities || d.diet_plan_day.activities || [])
+      ],
+      []
+    )
+
+    const foodsOfPlan: any[] = mealsOfPlan?.reduce(
+      (item: any[], acc: any) => [...item, ...(acc.items || [])],
+      []
+    )
+
+    return foodsOfPlan.filter((f) => !f.data.fromTemplate)
+  }
+
   const onFoodSelected = (value: string) => {
     // find in templates
-    let food = foods.find((m: any) => m.name === value)
+    console.log(value)
+    let food = foods.find((m: any) => m._id === value)
 
     if (!food) {
       // else not found, check in current DP
-      const mealsOfPlan = days?.reduce(
-        (acc: any[], d: any) => [
-          ...acc,
-          ...(d.activities || d.diet_plan_day.activities || [])
-        ],
-        []
-      )
-
-      const foodsOfPlan = mealsOfPlan?.reduce(
-        (item: any[], acc: any) => [...item, ...(acc.items || [])],
-        []
-      )
+      const foodsOfPlan = getFoodsOfPlan()
       food = foodsOfPlan.find((m: any) => m?.data?.name === value)?.data
       setSelectedTemplate(null)
     } else {
@@ -173,25 +175,13 @@ export default function Food({
   }
 
   const nameOptions = useMemo(() => {
-    const mealsOfPlan = days?.reduce(
-      (acc: any[], d: any) => [
-        ...acc,
-        ...(d.activities || d.diet_plan_day.activities || [])
-      ],
-      []
-    )
-
-    const foodsOfPlan = mealsOfPlan?.reduce(
-      (item: any[], acc: any) => [...item, ...(acc.items || [])],
-      []
-    )
+    const foodsOfPlan = getFoodsOfPlan()
 
     const planOptions = foodsOfPlan
       ?.filter(
         (w: any) =>
           w?.data?.name?.toLowerCase()?.includes(foodName?.toLowerCase()) &&
-          w?.data?.name !== foodName &&
-          !w.data.fromTemplate
+          w?.data?.name !== foodName
       )
       ?.map((m: any) => ({
         label: m?.data?.name,
@@ -206,7 +196,7 @@ export default function Food({
       )
       ?.map((w: any) => ({
         label: w.name,
-        value: w.name
+        value: w._id
       }))
 
     const options = []
@@ -227,8 +217,6 @@ export default function Food({
 
     return options.length ? options : []
   }, [days, foods])
-
-  console.log(selectedTemplate)
 
   return (
     <Styles $isDragging={isDragging} ref={innerRef} {...draggableProps}>
@@ -288,7 +276,7 @@ export default function Food({
             placeholder="-"
             value={value}
             onChange={(e) => {
-              onChange(name, e.target.value)
+              onChange(name, getTwoDecimal(+e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -308,7 +296,7 @@ export default function Food({
             placeholder="-"
             value={value}
             onChange={(e) => {
-              onChange(name, e.target.value)
+              onChange(name, getTwoDecimal(+e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -328,7 +316,7 @@ export default function Food({
             placeholder="-"
             value={value}
             onChange={(e) => {
-              onChange(name, e.target.value)
+              onChange(name, getTwoDecimal(+e.target.value))
             }}
             // error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
@@ -347,7 +335,7 @@ export default function Food({
             label="Sugar"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => onChange(name, getTwoDecimal(+e.target.value))}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
@@ -363,7 +351,7 @@ export default function Food({
             label="Fiber"
             placeholder="-"
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => onChange(name, getTwoDecimal(+e.target.value))}
             error={get(errors, name)}
             ErrorProps={{ size: 'sm' }}
             format={formatter().number().min(0).max(10000)}
