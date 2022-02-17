@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { CheckIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { DATA } from '../../current-plan/current-active-split.component'
 import { Styles } from './current-plan-card.styles'
 
@@ -9,12 +11,14 @@ interface CurrentPlanCardProps {
   data: any
   scheduleTime: string
   type: any
+  showCalendar?: boolean
 }
 
 export default function CurrentPlanCard({
   data,
   scheduleTime,
-  type
+  type,
+  showCalendar = true
 }: CurrentPlanCardProps) {
   const [open, setOpen] = useState(false)
 
@@ -53,10 +57,13 @@ export default function CurrentPlanCard({
             </div>
           </div>
         </div>
+        <div className="CurrentPlanCard__summary-flex">
+          {showCalendar && <Link to={Routes.CALENDAR}>+ Add to Calendar</Link>}
 
-        <Button variant="secondary" size="sm">
-          Log This
-        </Button>
+          <Button variant="secondary" size="sm">
+            Log This
+          </Button>
+        </div>
       </div>
 
       {open && (

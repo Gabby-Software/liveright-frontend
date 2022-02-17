@@ -83,15 +83,12 @@ export default function CurrentPlan() {
                 justify={isMobile ? 'between' : undefined}
               />
             ) : (
-              <>
-                <CurrentActiveSplit revision={TS} />
-
-                <p className="CurrentPlan__log-text">
-                  Doing or eating something else today?{' '}
-                  <span>Log Additional Activity</span>
-                </p>
-              </>
+              <CurrentActiveSplit revision={TS} />
             )}
+            <p className="CurrentPlan__log-text">
+              Doing or eating something else today?{' '}
+              <span>Log Additional Activity</span>
+            </p>
           </>
         )}
       </Card>

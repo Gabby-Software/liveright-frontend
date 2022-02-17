@@ -101,7 +101,6 @@ export default function CurrentActiveSplit({
     }
   }, [date, revision])
 
-  console.log('diff', day)
   const calendarToggle = (
     <div className="CurrentPlan__picker-btn-container">
       <IconButton
@@ -180,6 +179,7 @@ export default function CurrentActiveSplit({
               data={row.day}
               type={row.type}
               scheduleTime={row.time || 'Not Set'}
+              showCalendar={false}
             />
           ) : (
             <CurrentPlanCard
@@ -187,6 +187,7 @@ export default function CurrentActiveSplit({
               data={row.day}
               type={row.type}
               scheduleTime={row.time?.slice(0, 5) || 'Not Set'}
+              showCalendar={false}
             />
           )
         )

@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { CheckIcon } from '../../../../assets/media/icons/activities'
 import Button from '../../../../components/buttons/button/button.component'
+import { Routes } from '../../../../enums/routes.enum'
 import { DATA } from '../../current-plan/current-active-split.component'
 import { Styles } from './current-plan-accordion.styles'
 
@@ -9,12 +11,14 @@ interface CurrentPlanAccordionProps {
   data: any
   scheduleTime: string
   type: any
+  showCalendar?: boolean
 }
 
 export default function CurrentPlanAccordion({
   data,
   scheduleTime,
-  type
+  type,
+  showCalendar = true
 }: CurrentPlanAccordionProps) {
   const [open, setOpen] = useState(false)
 
@@ -49,10 +53,14 @@ export default function CurrentPlanAccordion({
 
         <div className="CurrentPlanAccordion__cta">
           <span className="CurrentPlanAccordion__time">{scheduleTime}</span>
-
-          <Button variant="secondary" size="sm">
-            Log This
-          </Button>
+          <div className="CurrentPlanAccordion__flex">
+            {showCalendar && (
+              <Link to={Routes.CALENDAR}>+ Add to Calendar</Link>
+            )}
+            <Button variant="secondary" size="sm">
+              Log This
+            </Button>
+          </div>
         </div>
       </div>
 
