@@ -67,7 +67,7 @@ export default function TrainingSplitDayView({
     const exerciseActivities: any[] =
       day?.items?.map((a: any) => ({
         day: [a],
-        time: a.time,
+        time: a.data.info.schedule,
         type: 'other'
       })) || []
 
