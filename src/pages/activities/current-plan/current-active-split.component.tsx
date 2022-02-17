@@ -43,10 +43,20 @@ export default function CurrentActiveSplit({
   revision
 }: CurrentActiveSplitProps) {
   const isMobile = useIsMobile()
-  const [index, setIndex] = useState<number>(0)
+  const [date, setDate] = useState<Date>(new Date())
 
-  const { activities } = useMemo(() => {
-    const day = revision?.days?.[index]
+  console.log('revision days', revision)
+
+  function addDays(days: number) {
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    setDate(result)
+  }
+
+  const { day, activities } = useMemo(() => {
+    const diff = moment(date).diff(moment(revision?.scheduled_start_on), 'days')
+
+    const day = revision?.days?.[diff]
     const workoutActivites: any[] =
       day?.training_plan_activities?.map((a: any) => ({
         day: {
@@ -89,23 +99,21 @@ export default function CurrentActiveSplit({
       day,
       activities
     }
-  }, [index, revision])
+  }, [date, revision])
 
   const calendarToggle = (
     <div className="CurrentPlan__picker-btn-container">
       <IconButton
         size="sm"
         className="CurrentPlan__picker-btn"
-        onClick={() =>
-          setIndex((index - 1 + revision.days_count) % revision.days_count)
-        }
+        onClick={() => addDays(-1)}
       >
         <CaretLeftIcon />
       </IconButton>
       <IconButton
         size="sm"
         className="CurrentPlan__picker-btn"
-        onClick={() => setIndex((index + 1) % revision.days_count)}
+        onClick={() => addDays(1)}
       >
         <CaretLeftIcon />
       </IconButton>
@@ -121,15 +129,11 @@ export default function CurrentActiveSplit({
     </Link>
   )
 
-  const dateString1 = moment(revision.scheduled_start_on, 'DD-MM-YYYY')
-    .add(index, 'days')
-    .isSame(moment(new Date().toISOString(), 'DD-MM-YYYY'), 'date')
+  const dateString1 = moment(date).isSame(moment(new Date()), 'date')
     ? 'Today'
-    : `Day ${index + 1}`
+    : day?.day || 'Not Set'
 
-  const dateString2 = moment(revision.scheduled_start_on)
-    .add(index, 'day')
-    .format('MMM DD')
+  const dateString2 = moment(date).format('MMM DD')
 
   return (
     <>
@@ -175,6 +179,7 @@ export default function CurrentActiveSplit({
               data={row.day}
               type={row.type}
               scheduleTime={row.time || 'Not Set'}
+              showCalendar={false}
             />
           ) : (
             <CurrentPlanCard
@@ -182,6 +187,7 @@ export default function CurrentActiveSplit({
               data={row.day}
               type={row.type}
               scheduleTime={row.time?.slice(0, 5) || 'Not Set'}
+              showCalendar={false}
             />
           )
         )

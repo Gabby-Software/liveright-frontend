@@ -15,6 +15,12 @@ export const Styles = styled(Card)<any>`
       justify-content: space-between;
       padding: 1.25rem 1.5rem;
 
+      &-flex {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
       &-content {
         display: flex;
         align-items: flex-start;

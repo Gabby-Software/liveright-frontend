@@ -10,6 +10,12 @@ export const Styles = styled(Card)<any>`
   margin-bottom: 1.25rem;
 
   .CurrentPlanAccordion {
+    &__flex {
+      display: flex;
+      gap: 0.5rem;
+      flex-direction: column;
+      align-items: center;
+    }
     &__summary {
       padding: 1.25rem 1rem;
       cursor: pointer;
@@ -70,6 +76,7 @@ export const Styles = styled(Card)<any>`
     &__cta {
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
 
     &__time {
