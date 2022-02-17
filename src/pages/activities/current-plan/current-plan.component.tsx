@@ -34,12 +34,12 @@ export default function CurrentPlan() {
     id: 'current',
     revisionId: 'current'
   })
-
   const { revision: DP } = useDietPlan({
     clientId: String(userId),
     id: 'current',
     revisionId: 'current'
   })
+  console.log('TS', TP)
 
   const TABS = [
     {
@@ -108,19 +108,43 @@ export default function CurrentPlan() {
               title="Training Split"
               noName={!TS?._id}
               name={TS?.main?.name}
-              link={getRoute(Routes.ACTIVITIES_TS, { clientId: userId })}
+              link={
+                !!TS?.main?._id && !!TS?._id
+                  ? getRoute(Routes.ACTIVITIES_TS_EDIT, {
+                      clientId: userId,
+                      id: TS?.main?._id,
+                      revisionId: TS?._id
+                    })
+                  : getRoute(Routes.ACTIVITIES_TS, { clientId: userId })
+              }
             />
             <CurrentPlanOverviewCard
               title="Diet Plan"
               noName={!DP?._id}
               name={DP?.main?.name}
-              link={getRoute(Routes.ACTIVITIES_DP, { clientId: userId })}
+              link={
+                !!DP?.main?._id && !!DP?._id
+                  ? getRoute(Routes.ACTIVITIES_DP_ID, {
+                      clientId: userId,
+                      id: DP?.main?._id,
+                      revisionId: DP?._id
+                    })
+                  : getRoute(Routes.ACTIVITIES_DP, { clientId: userId })
+              }
             />
             <CurrentPlanOverviewCard
               title="Training Plan"
               noName={!TP?._id}
               name={TP?.main?.name}
-              link={getRoute(Routes.ACTIVITIES_TP, { clientId: userId })}
+              link={
+                !!TP?.main?._id && !!TP?._id
+                  ? getRoute(Routes.ACTIVITIES_TP_ID, {
+                      clientId: userId,
+                      id: TP?.main?._id,
+                      revisionId: TP?._id
+                    })
+                  : getRoute(Routes.ACTIVITIES_TP, { clientId: userId })
+              }
             />
           </div>
         </Card>
