@@ -38,6 +38,9 @@ export default function SplitDayWorkoutCard({ data }: IProps) {
   // })
 
   console.log('data', data)
+  if (isMobile && !data.items?.length) {
+    return null
+  }
 
   return (
     <Styles>

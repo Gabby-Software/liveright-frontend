@@ -12,11 +12,14 @@ const EXERCISE_INFO_KEY_LABEL: { [key: string]: string } = {
 
 const CARDIO_INFO_KEY_LABEL: { [key: string]: string } = {
   duration: 'Duration',
-  intensity: 'Intensity'
+  intensity: 'Intensity',
+  avg_heart_rate: 'Heart Rate',
+  schedule: 'Schedule'
 }
 
 interface IProps {
   data: any
+  type?: 'strength' | 'cardio'
 }
 
 const ExerciseMobileCards = ({ data }: IProps) => {
@@ -34,9 +37,9 @@ const ExerciseMobileCards = ({ data }: IProps) => {
 
 export default ExerciseMobileCards
 
-export const ExerciseMobileCard = ({ data }: IProps) => {
+export const ExerciseMobileCard = ({ data, type }: IProps) => {
   const KEY_LABELS =
-    data.info.type === 'cardio'
+    data.info?.type === 'cardio' || type === 'cardio'
       ? CARDIO_INFO_KEY_LABEL
       : EXERCISE_INFO_KEY_LABEL
   return (

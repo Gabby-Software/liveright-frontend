@@ -2,6 +2,7 @@ import React from 'react'
 
 import { CrossIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import SplitDayTrainingCard from '../split-day-card/split-day-training-card.component'
 import Styles, { DialogStyles } from './workout-plan-day-dialog.styles'
 
@@ -22,11 +23,13 @@ const WorkoutPlanDayDialog = ({
   subtitle,
   toLink
 }: IProps) => {
+  const isMobile = useIsMobile()
+
   return (
     <DialogStyles
       visible={open}
       onCancel={onClose}
-      width={1000}
+      width={isMobile ? '' : 1000}
       footer={false}
       closeIcon={<CrossIcon />}
       centered

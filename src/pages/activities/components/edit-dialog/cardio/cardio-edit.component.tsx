@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import { useCallback, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import Button from '../../../../../components/buttons/button/button.component'
@@ -6,6 +7,7 @@ import Input from '../../../../../components/form/input/input.component'
 import Select from '../../../../../components/form/select/select.component'
 // import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../components/form/TimeInput/time-input.component'
+import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import { Styles } from './cardio-edit.styles'
 
 interface CardioEditProps {
@@ -16,11 +18,18 @@ interface CardioEditProps {
 const CardioEdit = ({ name, onClose }: CardioEditProps) => {
   const methods = useFormContext()
 
+  const isMobile = useIsMobile()
+
   const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
 
   const { errors } = methods.formState
+
+  const [, updateState] = useState<any>()
+  const forceUpdate = useCallback(() => updateState({}), [])
+
+  console.log('getValues', methods.getValues())
 
   return (
     <Styles>
@@ -66,7 +75,11 @@ const CardioEdit = ({ name, onClose }: CardioEditProps) => {
               label="Intensity"
               id="cardio-intensity"
               value={value}
-              onChange={(value) => methods.setValue(name, value)}
+              onChange={(value) => {
+                // Workaround to update selected value on mobile
+                isMobile && forceUpdate()
+                methods.setValue(name, value)
+              }}
               options={[
                 { label: 'Relaxed', value: 'Relaxed' },
                 { label: 'Moderate', value: 'Moderate' },

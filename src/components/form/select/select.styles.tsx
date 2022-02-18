@@ -2,6 +2,7 @@ import { components } from 'react-select'
 import styled from 'styled-components'
 
 import { CaretDownIcon, SearchIcon } from '../../../assets/media/icons'
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import { getHeight } from '../utils.styles'
 
@@ -99,6 +100,10 @@ export const Styles = styled.div<any>`
       color: ${getColorCarry('secondary2_v2')};
       font-feature-settings: normal;
       font-variant: normal;
+      @media ${mediaQueries.TABLET} {
+        font-size: 12px;
+        line-height: 12px;
+      }
     }
 
     &__group {

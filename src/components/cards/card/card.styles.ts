@@ -11,7 +11,7 @@ export const Styles = styled.div`
   padding: 1.5rem 1.75rem;
 
   @media ${mediaQueries.TABLET} {
-    padding: 1.5rem 1.25rem;
+    padding: 1.5rem 1.1rem;
   }
 
   .f-overview__graph {

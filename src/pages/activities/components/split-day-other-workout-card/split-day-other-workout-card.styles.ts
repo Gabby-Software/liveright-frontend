@@ -5,7 +5,8 @@ import { mediaQueries } from '../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 
 export const Styles = styled(Card)`
-  padding: 1.5rem 1.875rem;
+  // padding: 1.5rem 1.875rem;
+  padding: 0;
   border-radius: 10px;
   background-color: ${getColorCarry('neutral_10')};
   margin-bottom: 1rem;

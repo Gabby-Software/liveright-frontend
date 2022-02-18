@@ -23,6 +23,10 @@ export const Styles = styled.div<any>`
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1rem;
+      label {
+        font-size: 12px;
+        white-space: nowrap;
+      }
     }
 
     &__checkbox {

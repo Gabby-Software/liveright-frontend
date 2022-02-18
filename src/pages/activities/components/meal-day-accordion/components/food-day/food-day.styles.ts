@@ -1,15 +1,20 @@
 import styled, { css } from 'styled-components'
 
+import { mediaQueries } from '../../../../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../../../../pipes/theme-color.pipe'
 
 export const Styles = styled.div<any>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
-  padding: 0.75rem 0 0.75rem 0;
+  padding: 0.75rem;
   background-color: ${getColorCarry('neutral_10')};
   border-radius: 15px;
   margin: 10px 0;
+
+  @media ${mediaQueries.TABLET} {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 
   .invalid-field .ant-select-selector,
   .invalid-field .input__input,

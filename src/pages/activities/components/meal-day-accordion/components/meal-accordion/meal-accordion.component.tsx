@@ -219,7 +219,7 @@ export default function MealAccordion({
                 render={({ field: { name, value } }) => (
                   <AutoCompleteInput
                     id="Meal-title"
-                    label="Title of workout"
+                    label="Meal Name"
                     placeholder="Title"
                     value={value}
                     onChange={(value) => methods.setValue(name, value)}
