@@ -430,6 +430,7 @@ function ListItem({
                     placeholder="Search training plan"
                     value={value?.name || ''}
                     options={[
+                      { label: '', value: '' },
                       ...selectOptions,
                       { label: createNewLabel, value: 'add-new' }
                     ]}
