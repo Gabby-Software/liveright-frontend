@@ -74,7 +74,6 @@ export default function Workout({ name }: WorkoutProps) {
     name: `${name}`
   })
 
-  console.log('exercisesArray', exercisesArray)
   // const workoutName = useWatch({
   //   name: `${name}.name`,
   //   control: methods.control
