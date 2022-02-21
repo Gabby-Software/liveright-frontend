@@ -26,7 +26,7 @@ export default styled.div<any>`
         height: 100%;
         width: 100%;
         padding: 10px 0;
-        line-height: 45px;
+        line-height: 22px;
       }
 
       &::-webkit-input-placeholder {
