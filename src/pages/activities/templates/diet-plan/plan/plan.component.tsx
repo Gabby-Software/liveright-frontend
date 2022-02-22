@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { DeleteOutlinedIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import Card from '../../../../../components/cards/card/card.component'
+import Dialog from '../../../../../components/dialogs/dialog/dialog.component'
 import MobileBack from '../../../../../components/mobile-back/mobile-back.component'
 import { Title } from '../../../../../components/typography'
 import { Routes } from '../../../../../enums/routes.enum'
@@ -12,6 +13,7 @@ import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import DayDietPlanCard from '../../../components/day-diet-plan-card/day-diet-plan-card.component'
 import SplitTemplateDialog from '../../../components/dialog/use-template-dialog/use-template-dialog.component'
 import TemplateLayout from '../../../components/layout/layout.component'
+import SplitDayMealCard from '../../../components/split-day-meal-card/split-day-meal-card.component'
 import { Styles } from '../../../styles/plan.styles'
 import TemplateMobilePage from '../../components/template-mobile-page/template-mobile-page.component'
 import DietPlanTemplateDayView from '../components/diet-plan-day-template-view'
@@ -23,11 +25,17 @@ export default function DietPlan() {
   const [expandedDayIndex, setExpandedDayIndex] = useState<boolean | number>(
     false
   )
+  const [selectedMeal, setSelectedMeal] = useState<any>(null)
+
   const isMobile = useIsMobile()
   const { id } = useParams<any>()
   const { dietTemplate } = useTemplateDietPlan({ id })
   console.log(dietTemplate)
   const onDelete = () => {}
+
+  const onMealPlusClicked = (meal: any) => {
+    setSelectedMeal(meal)
+  }
 
   const content = (
     <>
@@ -36,12 +44,22 @@ export default function DietPlan() {
           <DayDietPlanCard
             day={item}
             onExpand={() => setExpandedDayIndex(index)}
-            onMealClick={() => {}}
+            onMealClick={onMealPlusClicked}
             key={item._id}
             border="both"
           />
         ))}
       </div>
+
+      <Dialog
+        open={!!selectedMeal}
+        onClose={() => setSelectedMeal(null)}
+        title="Meal Detail"
+        extended
+      >
+        <SplitDayMealCard data={selectedMeal} />
+      </Dialog>
+
       <SplitTemplateDialog
         name="Use diet plan template"
         title="Diet Plan From Nov 1"

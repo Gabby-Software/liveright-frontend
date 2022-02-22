@@ -6,6 +6,7 @@ import {
   editTemplatesTrainingSplit,
   getTemplatesData
 } from '../../../../services/api/templates'
+import { formatSplitData } from '../../../../utils/api/activities'
 
 interface UseTemplateTrainingSplit {
   isLoading: boolean
@@ -28,7 +29,7 @@ export default function useTemplateTrainingSplit({
 
   const onEdit = async (id: string, data: any, onSuccess?: () => void) => {
     try {
-      await editTemplatesTrainingSplit(id, data)
+      await editTemplatesTrainingSplit(id, formatSplitData(data))
       toast.show({
         type: 'success',
         msg: 'Training Split Template successfully updated'

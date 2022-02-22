@@ -22,8 +22,8 @@ import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
 import ActivitiesDialog from '../../../components/dialog/activities-dialog.component'
-import WorkoutDayAccordion from '../../../components/workout-day-accordion/workout-day-accordion.component'
 import { Styles } from '../../../styles/edit-plan.styles'
+import WorkoutDayAccordion from '../../components/workout-day-accordion/workout-day-accordion.component'
 
 interface TrainingPlanTemplateFormProps {
   onClose: () => void
@@ -97,6 +97,10 @@ export default function TrainingPlanTemplateForm({
 
   const { id } = useParams<any>()
   const { trainingPlan, onEdit } = useTemplateTrainingPlan(id)
+
+  useEffect(() => {
+    setWorkoutIndex(activitiesArray?.fields?.length)
+  }, [activitiesArray?.fields?.length])
 
   useEffect(() => {
     if (trainingPlan._id) {

@@ -39,6 +39,10 @@ export default function TrainingSplit() {
         onClose={() => setDay(null)}
         setIndex={setDay}
         revision={trainingSplit}
+        onEdit={() => {
+          setDay(null)
+          setEdit(true)
+        }}
       />
     )
   }
@@ -172,8 +176,9 @@ export default function TrainingSplit() {
               ) : (
                 <div className="TSTemplates__card-container" key={row.day}>
                   <DayTrainingSplitCard
+                    subtitle=""
+                    day={`Day ${idx + 1}`}
                     data={row}
-                    subtitle="web"
                     onExpand={() => setDay(idx + 1)}
                   />
                 </div>

@@ -10,7 +10,7 @@ import Button from '../../../../../components/buttons/button/button.component'
 import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import Input from '../../../../../components/form/input/input.component'
 import Select from '../../../../../components/form/select/select.component'
-import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
+import TimeInput from '../../../../../components/form/TimeInput/time-input.component'
 import useTemplateExercise from '../../../../../hooks/api/templates/useTemplateExercise'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -118,19 +118,29 @@ export default function ExerciseTemplateForm({ isCardio, onClose }: IProps) {
               <Controller
                 name={`info.duration`}
                 render={({ field: { name, value } }) => (
-                  <TimePicker
+                  // <TimePicker
+                  //   id="cardio-duration"
+                  //   label="Duration"
+                  //   placeholder="00:30"
+                  //   value={value}
+                  //   onChange={(e, date) => {
+                  //     methods.setValue(name, date)
+                  //   }}
+                  //   error={get(errors, name)}
+                  // />
+                  <TimeInput
                     id="cardio-duration"
                     label="Duration"
-                    placeholder="00:30"
+                    placeholder="hh:mm"
                     value={value}
-                    onChange={(e, date) => {
-                      methods.setValue(name, date)
-                    }}
+                    onChange={(e) => onChange(name, e.target.value)}
                     error={get(errors, name)}
+                    ErrorProps={{ size: 'sm' }}
+                    format="HH:mm"
+                    tooltip="Cardio duration in hours and minutes"
                   />
                 )}
               />
-
               <Controller
                 name={`info.intensity`}
                 render={({ field: { value, name } }) => (
@@ -144,6 +154,22 @@ export default function ExerciseTemplateForm({ isCardio, onClose }: IProps) {
                       { label: 'Moderate', value: 'Moderate' },
                       { label: 'Intense', value: 'Intense' }
                     ]}
+                  />
+                )}
+              />
+
+              <Controller
+                name={`info.avg_heart_rate`}
+                render={({ field: { value, name } }) => (
+                  <Input
+                    id="cardio-avg_heart_rate"
+                    label="Avg heart rate (bpm)"
+                    placeholder="90"
+                    value={value}
+                    onChange={(e) => onChange(name, e.target.value)}
+                    format={formatter().number().min(0).max(999)}
+                    error={get(errors, name)}
+                    ErrorProps={{ size: 'sm' }}
                   />
                 )}
               />

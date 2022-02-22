@@ -1,36 +1,33 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm
+  useForm,
+  useWatch
 } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import * as yup from 'yup'
 
 import { AddIcon, FoodIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../../components/cards/card/card.component'
-import Checkbox from '../../../../../components/form/checkbox/checkbox.component'
-import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
 import Input from '../../../../../components/form/input/input.component'
-import Label from '../../../../../components/form/label/label.component'
-import Select from '../../../../../components/form/select/select.component'
-import { FormToggleUI } from '../../../../../components/forms/form-toggle/form-toggle.component'
+import { toast } from '../../../../../components/toast/toast.component'
 import { Subtitle } from '../../../../../components/typography'
-import useDietPlan from '../../../../../hooks/api/activities/useDietPlan'
-import useDietPlans from '../../../../../hooks/api/activities/useDietPlans'
-import useTrainingPlan from '../../../../../hooks/api/activities/useTrainingPlan'
-import useTrainingPlans from '../../../../../hooks/api/activities/useTrainingPlans'
 import useTemplateTrainingSplit from '../../../../../hooks/api/templates/training-splits/useTemplateTrainingSplit'
+import useTemplateExercises from '../../../../../hooks/api/templates/useTemplateExercises'
+import useTemplateMealPlans from '../../../../../hooks/api/templates/useTemplateMealPlans'
+import useTemplateWorkouts from '../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
-import { getActiveOrLatestRev } from '../../../../../utils/api/activities'
 import Counter from '../../../components/counter/counter.component'
-import DaySplitEditFocusView from '../../../components/day-split-edit-focus-view/day-split-edit-focus-view.component'
 import DayTrainingSplitEditCard from '../../../components/day-training-split-edit-card/day-training-split-edit-card.component'
+import CardioEditDialog from '../../../components/edit-dialog/cardio/cardio-edit-dialog.component'
 import MealPlanEditDialog from '../../../components/edit-dialog/mealplan/mealplanday-edit-dialog.component'
 import WorkoutEditDialog from '../../../components/edit-dialog/workoutday/workoutday-edit-dialog.component'
 import MainStyles, {
@@ -44,44 +41,50 @@ interface EditTrainingSplitProps {
 
 const defaultValues: any = {
   name: '',
-  save_as_template: true,
+  save_as_template: false,
   account_id: null,
-  scheduled_start_on: '',
-  scheduled_end_on: '',
+  scheduled_start_on: null,
+  scheduled_end_on: null,
   days: []
 }
 
+const validationSchema = yup.object().shape({
+  name: yup.string().required(),
+  scheduled_start_on: yup.date().nullable(),
+  scheduled_end_on: yup
+    .date()
+    .min(yup.ref('scheduled_start_on'), "End date can't be before start date")
+    .nullable()
+  // days: yup.array().min(1)
+})
+
 function createDay(
   dayIndex: number,
-  training_plan_day: any = {
-    name: ''
-  },
-  diet_plan_day: any = {
-    name: ''
-  }
+  training_plan_activities: any[] = [],
+  diet_plan_day: any = null
 ) {
   return {
     name: `Day ${dayIndex}`,
     items: [],
-    training_plan_day,
+    training_plan_activities,
     diet_plan_day
   }
 }
 
 export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
   const params = useParams<any>()
-  const { clientId } = params
+  // const { clientId } = params
   const isMobile = useIsMobile()
-  const [dayView, setDayView] = useState(false)
-  const [dayCount, setDayCount] = useState(0)
 
   const [editMealPlan, setEditMealPlan] = useState('')
   const [editWorkout, setEditWorkout] = useState('')
-  const [selectedTP, setSelectedTP] = useState('')
-  const [selectedDP, setSelectedDP] = useState('')
+  const [editCardio, setEditCardio] = useState('')
 
   const methods = useForm<any>({
-    defaultValues
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+    reValidateMode: 'onChange',
+    mode: 'onChange'
   })
 
   const daysArray = useFieldArray({
@@ -92,25 +95,28 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
 
   const { errors } = methods.formState
 
-  const { trainingPlans } = useTrainingPlans({ clientId: clientId })
+  // const { trainingPlans } = useTrainingPlans({ clientId: clientId })
 
-  const { dietPlans } = useDietPlans({ clientId: clientId })
-
-  const { revision: tpRev } = useTrainingPlan({
-    id: selectedTP,
-    revisionId: getActiveOrLatestRev(
-      trainingPlans.find((tp) => tp._id === selectedTP) || { revisions: [] }
-    )?._id
-  })
-  const { revision: dpRev } = useDietPlan({
-    id: selectedDP,
-    revisionId: getActiveOrLatestRev(
-      dietPlans.find((dp) => dp._id === selectedDP) || { revisions: [] }
-    )?._id
-  })
+  // const { dietPlans } = useDietPlans({ clientId: clientId })
 
   const { trainingSplit, onEdit } = useTemplateTrainingSplit({
     id: params.id
+  })
+
+  const { workouts: templateWorkouts } = useTemplateWorkouts({
+    clientId: 'all'
+  })
+  const { mealPlans: templateMealPlans } = useTemplateMealPlans({
+    clientId: 'all'
+  })
+  const { exercises: templateCardios } = useTemplateExercises({
+    clientId: 'all',
+    type: 'cardio'
+  })
+
+  const [scheduled_start_on] = useWatch({
+    control: methods.control,
+    name: ['scheduled_start_on']
   })
 
   const startOnDate = methods.getValues('scheduled_start_on')
@@ -129,59 +135,49 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
   startDate.setDate(startDate.getDate() - 1)
 
   useEffect(() => {
-    if (daysArray.fields.length > 0) {
-      for (let i = 0; i < daysArray.fields.length; i++) {
-        daysArray.remove(0)
-      }
-    }
-    const dpDays = dpRev.days
-    const tpDays = tpRev.days
-
-    for (let i = 0; i < (isNaN(diff) ? dayCount : diff); i++) {
-      daysArray.append(
-        createDay(
-          (i % dayCount) + 1,
-          tpDays?.[i % tpDays.length],
-          dpDays?.[i % dpDays.length]
-        )
-      )
-    }
-  }, [dayCount, tpRev._id, dpRev._id, diff])
-
-  useEffect(() => {
     if (trainingSplit._id) {
+      methods.setValue('name', trainingSplit.name)
       methods.setValue('account_id', trainingSplit.account_id)
-      methods.setValue(
-        'scheduled_start_on',
-        trainingSplit.scheduled_start_on || ''
-      )
-      methods.setValue('scheduled_end_on', trainingSplit.scheduled_end_on || '')
+      // methods.setValue(
+      //   'scheduled_start_on',
+      //   trainingSplit.scheduled_start_on || ''
+      // )
+      // methods.setValue('scheduled_end_on', trainingSplit.scheduled_end_on || '')
       daysArray.remove(
         Array(daysArray.fields.length)
           .fill(1)
           .reduce((acc, v, i) => [...acc, i], [])
       )
       daysArray.append(trainingSplit.days)
-      setDayCount(trainingSplit.days_count)
-      setSelectedTP(trainingSplit.training_plan?._id || '')
-      setSelectedDP(trainingSplit.diet_plan?._id || '')
     }
+  }, [trainingSplit._id])
 
-    if (trainingSplit._id) {
-      methods.setValue('name', trainingSplit.name)
+  const handleSave = async () => {
+    const isValid = await methods.trigger()
+    if (!isValid) {
+      toast.show({
+        type: 'error',
+        msg: 'Please fill out all the required fields'
+      })
+      return
     }
-  }, [trainingSplit._id, trainingSplit._id])
-
-  const handleSave = () => {
     methods.handleSubmit((values) =>
       onEdit(params.id, values, () => onClose())
     )()
   }
 
   const handleDayAdd = () => {
-    if (dayCount < diff || isNaN(diff)) {
-      setDayCount(dayCount + 1)
+    if (diff) {
+      if (daysArray.fields.length < diff) {
+        daysArray.append(createDay(daysArray.fields.length + 1))
+      }
+    } else {
+      daysArray.append(createDay(daysArray.fields.length + 1))
     }
+  }
+
+  const handleDayRemove = (index: number) => {
+    daysArray.remove(index)
   }
 
   const onChange = (name: string, value: any) => {
@@ -196,23 +192,49 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
     setEditWorkout(name)
   }
 
-  const tpOptions = useMemo(() => {
-    const options = trainingPlans.map((tp) => ({
-      label: tp.name,
-      value: tp._id
-    }))
-    options.unshift({ label: 'No Select', value: '' })
-    return options
-  }, [trainingPlans])
+  const handleCardio = (name: string) => {
+    setEditCardio(name)
+  }
 
-  const dpOptions = useMemo(() => {
-    const options = dietPlans.map((dp) => ({
-      label: dp.name,
-      value: dp._id
-    }))
-    options.unshift({ label: 'No Select', value: '' })
-    return options
-  }, [dietPlans])
+  // const tpOptions = useMemo(() => {
+  //   const options = trainingPlans.map((tp) => ({
+  //     label: tp.name,
+  //     value: tp._id
+  //   }))
+  //   options.unshift({ label: 'No Select', value: '' })
+  //   return options
+  // }, [trainingPlans])
+
+  // const dpOptions = useMemo(() => {
+  //   const options = dietPlans.map((dp) => ({
+  //     label: dp.name,
+  //     value: dp._id
+  //   }))
+  //   options.unshift({ label: 'No Select', value: '' })
+  //   return options
+  // }, [dietPlans])
+
+  const tpWorkout = useMemo(() => {
+    return [
+      ...templateWorkouts.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((w) => !!w)
+  }, [templateWorkouts])
+
+  const dpMeals = useMemo(() => {
+    return [
+      ...templateMealPlans.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((m) => !!m)
+  }, [templateMealPlans])
+
+  const cardios = useMemo(() => {
+    return [
+      ...templateCardios.map((tw) => ({
+        ...tw,
+        fromTemplate: true,
+        data: tw
+      }))
+    ].filter((m) => !!m)
+  }, [templateCardios])
 
   const content = (
     <>
@@ -256,12 +278,15 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
 
             <div className="AddTrainingSplit__info-controls">
               <Counter
+                disableInputChange
                 maxValue={diff}
-                value={dayCount}
-                onChange={(value) => setDayCount(value)}
+                value={daysArray.fields.length}
+                onChange={() => {}}
+                onIncrease={() => handleDayAdd()}
+                onDecrease={() => handleDayRemove(daysArray.fields.length - 1)}
               />
 
-              <Controller
+              {/* <Controller
                 name="scheduled_start_on"
                 render={({ field: { value, name } }) => (
                   <DatePicker
@@ -269,8 +294,10 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                     placeholder="Pick start date"
                     label="Start date"
                     disabledPast
-                    value={value}
-                    onChange={(e, date) => onChange(name, date)}
+                    value={value || ''}
+                    onChange={(e, date) =>
+                      onChange(name, date === '' ? null : date)
+                    }
                     error={errors.scheduled_start_on}
                   />
                 )}
@@ -286,36 +313,26 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                     disabledDate={(date) =>
                       date <
                       moment(methods.getValues('scheduled_start_on')).add(
-                        Math.max(dayCount - 1, 0),
+                        Math.max(daysArray.fields.length, 0),
                         'days'
                       )
                     }
-                    value={value}
-                    onChange={(e, date) => onChange(name, date)}
-                    error={errors.scheduled_start_on}
+                    value={value || ''}
+                    onChange={(e, date) =>
+                      onChange(name, date === '' ? null : date)
+                    }
+                    error={errors.scheduled_end_on}
+                    disabled={
+                      !scheduled_start_on ||
+                      !methods.getValues('scheduled_start_on')
+                    }
                   />
                 )}
-              />
-
-              <Controller
-                render={({ field: { value, name } }) => (
-                  <div className="AddTrainingSplit__cards-checkbox-container">
-                    <Checkbox
-                      className="AddTrainingSplit__cards-checkbox"
-                      checked={value}
-                      onChange={(e) => methods.setValue(name, e.target.checked)}
-                    />
-                    <Label className="AddTrainingSplit__cards-checkbox-label">
-                      Save Training Split as template
-                    </Label>
-                  </div>
-                )}
-                name={`save_as_template`}
-              />
+              /> */}
             </div>
           </Card>
 
-          <Card className="AddTrainingSplit__card">
+          {/* <Card className="AddTrainingSplit__card">
             <Subtitle className="AddTrainingSplit__link-title">
               Link your existing training plan and diet plan (Optional)
             </Subtitle>
@@ -331,36 +348,20 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                 id="add-split-Diet-plan"
                 label="Diet plan"
                 placeholder="Select diet plan"
-                value={selectedDP}
-                onChange={(value) => {
-                  setSelectedDP(value)
-                  methods.setValue(
-                    'diet_plan_revision_id',
-                    getActiveOrLatestRev(
-                      dietPlans.find((dp) => dp._id === value)
-                    )?._id
-                  )
-                }}
+                value={selectedDP.id}
+                onChange={onDPChange}
                 options={dpOptions}
               />
               <Select
                 id="add-split-Training-plan"
                 label="Training plan"
                 placeholder="Select training plan"
-                value={selectedTP}
-                onChange={(value) => {
-                  setSelectedTP(value)
-                  methods.setValue(
-                    'training_plan_revision_id',
-                    getActiveOrLatestRev(
-                      trainingPlans.find((tp) => tp._id === value)
-                    )?._id
-                  )
-                }}
+                value={selectedTP.id}
+                onChange={onTPChange}
                 options={tpOptions}
               />
             </div>
-          </Card>
+          </Card> */}
 
           <Card className="AddTrainingSplit__card">
             <div className="AddTrainingSplit__cards-title-container">
@@ -368,7 +369,7 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                 Edit your split
               </Subtitle>
 
-              <div className="AddTrainingSplit__cards-toggle-container">
+              {/* <div className="AddTrainingSplit__cards-toggle-container">
                 <p className="AddTrainingSplit__cards-toggle-label">
                   All Day View
                 </p>
@@ -380,10 +381,10 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                 <p className="AddTrainingSplit__cards-toggle-label">
                   Focused Day View
                 </p>
-              </div>
+              </div> */}
             </div>
 
-            {dayView ? (
+            {/* {dayView ? (
               <DaySplitEditFocusView
                 maxDays={dayCount}
                 tpActivities={tpRev.days}
@@ -391,36 +392,38 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
                 handleDayAdd={handleDayAdd}
               />
             ) : (
-              <>
-                <div className="AddTrainingSplit__cards">
-                  {daysArray.fields.map((day, i) => (
-                    <DayTrainingSplitEditCard
-                      key={day.id}
-                      name={`days.${i}`}
-                      tpWorkouts={tpRev.days}
-                      dpDays={dpRev.days}
-                      cardios={tpRev.days}
-                      day={`Day ${i + 1}`}
-                      edit
-                      onWorkout={handleWorkout}
-                      onMealPlan={handleMealPlan}
-                      onCardio={() => {}}
-                      subtitle={moment(
-                        startDate.setDate(startDate.getDate() + 1)
-                      ).format('dddd')}
-                    />
-                  ))}
+              <> */}
+            <div className="AddTrainingSplit__cards">
+              {daysArray.fields.map((day, i) => (
+                <DayTrainingSplitEditCard
+                  key={day.id}
+                  name={`days.${i}`}
+                  tpWorkouts={tpWorkout}
+                  dpDays={dpMeals}
+                  cardios={cardios}
+                  day={`Day ${i + 1}`}
+                  edit
+                  onWorkout={handleWorkout}
+                  onMealPlan={handleMealPlan}
+                  onCardio={handleCardio}
+                  subtitle={
+                    scheduled_start_on
+                      ? moment(scheduled_start_on).add(i, 'days').format('dddd')
+                      : ''
+                  }
+                />
+              ))}
 
-                  <div
-                    className="AddTrainingSplit__card-add"
-                    onClick={handleDayAdd}
-                  >
-                    <AddIcon />
-                    Add More Days
-                  </div>
-                </div>
-              </>
-            )}
+              <div
+                className="AddTrainingSplit__card-add"
+                onClick={handleDayAdd}
+              >
+                <AddIcon />
+                Add More Days
+              </div>
+            </div>
+            {/* </>
+            )} */}
           </Card>
         </Styles>
 
@@ -437,6 +440,14 @@ export default function EditTrainingSplit({ onClose }: EditTrainingSplitProps) {
             open={!!editMealPlan}
             onClose={() => setEditMealPlan('')}
             name={editMealPlan}
+          />
+        )}
+
+        {editCardio && (
+          <CardioEditDialog
+            open={!!editCardio}
+            onClose={() => setEditCardio('')}
+            name={editCardio}
           />
         )}
       </FormProvider>

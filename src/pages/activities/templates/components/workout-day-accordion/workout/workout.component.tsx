@@ -6,27 +6,12 @@ import {
   Droppable,
   DropResult
 } from 'react-beautiful-dnd'
-import {
-  // Controller,
-  useFieldArray,
-  useFormContext
-  // useWatch
-} from 'react-hook-form'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import {
-  AddIcon
-  // DeleteOutlinedIcon
-} from '../../../../../../assets/media/icons'
+import { AddIcon } from '../../../../../../assets/media/icons'
 import Button from '../../../../../../components/buttons/button/button.component'
-// import IconButton from '../../../../../../components/buttons/icon-button/icon-button.component'
-// import AutoCompleteInput from '../../../../../../components/form/autoCompleteInput/autoCompleteInput.component'
-// import Checkbox from '../../../../../../components/form/checkbox/checkbox.component'
 import Error from '../../../../../../components/form/error/error.component'
-// import Label from '../../../../../../components/form/label/label.component'
-// import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
-// import useTemplateWorkouts from '../../../../../../hooks/api/templates/workouts/useTemplateWorkouts'
-// import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import Exercise from '../exercise/exercise.component'
 import Superset from '../superset/superset.component'
 import { Styles } from './workout.styles'
@@ -38,11 +23,7 @@ interface WorkoutProps {
   onRemove: any
 }
 
-function createExercise(
-  exerciseNo: number,
-  isSuperset: boolean | number,
-  cardio: boolean
-) {
+function createExercise(isSuperset: boolean | number, cardio: boolean) {
   const ex = {
     name: '',
     link: '',
@@ -74,18 +55,6 @@ export default function Workout({ name }: WorkoutProps) {
     name: `${name}`
   })
 
-  // const workoutName = useWatch({
-  //   name: `${name}.name`,
-  //   control: methods.control
-  // })
-
-  // const days = useWatch({
-  //   name: `days`,
-  //   control: methods.control
-  // })
-
-  // const { workouts } = useTemplateWorkouts()
-
   const { errors } = methods.formState
 
   const onDragEnd = (result: DropResult) => {
@@ -95,7 +64,6 @@ export default function Workout({ name }: WorkoutProps) {
     }
 
     exercisesArray.swap(result.source.index, (result.destination as any).index)
-    // setTimeout(resetPrefixValues, 10)
   }
 
   const handleExerciseAdd = (
@@ -103,14 +71,12 @@ export default function Workout({ name }: WorkoutProps) {
     isSuperset: boolean | number,
     cardio = false
   ) => {
-    exercisesArray.append(createExercise(exerciseNo, isSuperset, cardio))
+    exercisesArray.append(createExercise(isSuperset, cardio))
     methods.clearErrors(`${name}.items`)
   }
 
   const handleExerciseRemove = (index: number) => {
     exercisesArray.remove(index)
-    // wait for removal to finish
-    // setTimeout(resetPrefixValues, 10)
   }
 
   // const resetPrefixValues = () => {
@@ -132,73 +98,6 @@ export default function Workout({ name }: WorkoutProps) {
   //     }
   //   })
   // }
-
-  // const onWorkoutNameSelected = (value: string) => {
-  //   // find in templates
-  //   let workout = workouts.find((w: any) => w.name === value)
-  //   if (!workout) {
-  //     // else not found, check in current TP
-  //     const workoutsOfPlan = days?.reduce(
-  //       (acc: any[], d: any) => [
-  //         ...acc,
-  //         ...(d.activities || d.training_plan_day.activities || [])
-  //       ],
-  //       []
-  //     )
-  //     workout = workoutsOfPlan.find((w: any) => w.name === value)
-  //   }
-
-  //   if (workout) {
-  //     // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
-  //     methods.setValue(`${name}.name`, workout.name)
-  //     methods.setValue(`${name}.time`, workout.time)
-  //     exercisesArray.remove(
-  //       Array(exercisesArray.fields.length)
-  //         .fill(0)
-  //         .reduce((acc, v, i) => [...acc, i], [])
-  //     )
-  //     exercisesArray.append(workout.items)
-  //   }
-  // }
-
-  // const nameOptions = useMemo(() => {
-  //   const workoutsOfPlan = days?.reduce(
-  //     (acc: any[], d: any) => [
-  //       ...acc,
-  //       ...(d.activities || d.training_plan_day.activities || [])
-  //     ],
-  //     []
-  //   )
-  //   const planOptions = workoutsOfPlan
-  //     ?.filter((w: any) => w.name)
-  //     ?.map((w: any) => ({
-  //       label: w.name,
-  //       value: w.name
-  //     }))
-
-  //   const templateOptions = workouts.map((w: any) => ({
-  //     label: w.name,
-  //     value: w.name
-  //   }))
-
-  //   const options = []
-
-  //   if (planOptions.length) {
-  //     options.push({
-  //       label: 'From this Training Plan',
-  //       options: getUniqueItemsByProperties(planOptions, ['label'])
-  //     })
-  //   }
-
-  //   if (templateOptions.length) {
-  //     options.push({
-  //       label: 'From Templates',
-  //       options: getUniqueItemsByProperties(templateOptions, ['label'])
-  //     })
-  //   }
-
-  //   return options.length ? options : []
-  // }, [days])
 
   return (
     <Styles>

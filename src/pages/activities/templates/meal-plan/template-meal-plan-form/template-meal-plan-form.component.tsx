@@ -13,10 +13,10 @@ import HeaderLink from '../../../../../layouts/mobile-page/components/header-lin
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
 import { Styles } from '../../../components/edit-dialog/shared/planday-edit.styles'
 import Macronutrient from '../../../components/macronutrient/macronutrient.component'
+import MealDayForm from '../../components/meal-day-form/meal-day-form.component'
 import MainStyles, {
   MealStyles
 } from '../../meal/template-meal-form/template-meal-form'
-import MealDayForm from '../component/meal-day-form/meal-day-form.component'
 
 const nutrients = {
   Proteins: 'proteins',
