@@ -27,10 +27,12 @@ interface TrainingSplitDayViewProps {
   index: number
   setIndex: (i: number) => void
   revision?: any
+  onEdit: () => void
 }
 
 export default function TrainingSplitDayView({
   onClose,
+  onEdit,
   index,
   setIndex,
   revision
@@ -100,13 +102,13 @@ export default function TrainingSplitDayView({
         {!isMobile && (
           <>
             <GoBack spacing={4} onClick={onClose}>
-              Go Back to Training Split Overview
+              Go Back to Training Split Template Overview
             </GoBack>
 
             <div className="TrainingSplitDayView__title-container">
-              <Title>Current Training Split</Title>
+              <Title>{revision.name}</Title>
 
-              <Button>Edit Training Split</Button>
+              <Button onClick={onEdit}>Edit Training Split</Button>
             </div>
 
             <div className="TrainingSplitDayView__divider" />
@@ -114,9 +116,9 @@ export default function TrainingSplitDayView({
         )}
 
         <div>
-          <Subtitle>{revision.name}</Subtitle>
+          <Subtitle>Current Training Split</Subtitle>
           <br />
-          <div className="TrainingSplitDayView__badges">
+          {/* <div className="TrainingSplitDayView__badges">
             <div className="TrainingSplitDayView__badge">
               <p className="TrainingSplitDayView__badge-name">
                 Chosen Diet Plan
@@ -135,7 +137,7 @@ export default function TrainingSplitDayView({
                 {revision.training_plan?.name}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </Card>
 

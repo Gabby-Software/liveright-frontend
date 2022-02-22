@@ -25,8 +25,8 @@ import useTemplateMeal from '../../../../../hooks/api/templates/meals/useTemplat
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
-import Food from '../../../components/meal-day-accordion/components/food/food.component'
-import FoodAccordion from '../../../components/meal-day-accordion/components/food-accordion/food-accordion.component'
+import Food from '../../components/meal-day-accordion/food/food.component'
+import FoodAccordion from '../../components/meal-day-accordion/food-accordion/food-accordion.component'
 import Styles, { MealStyles, MealSubtitle } from './template-meal-form'
 
 interface IProps {

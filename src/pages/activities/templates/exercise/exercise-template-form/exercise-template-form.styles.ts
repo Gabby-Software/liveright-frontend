@@ -149,7 +149,7 @@ export const ExerciseStyles = styled(Card)`
 export const ExerciseFormStyles = styled.div<any>`
   display: grid;
   grid-template-columns: ${(props) =>
-    props.cardio ? '4fr 4fr 4fr' : '4fr 2fr 2fr 2fr 2fr 4fr'};
+    props.cardio ? '3fr 3fr 3fr 3fr' : '4fr 2fr 2fr 2fr 2fr 4fr'};
   gap: 1rem;
   padding: 0.75rem 0 0.75rem 0;
   background-color: ${getColorCarry('neutral_10')};

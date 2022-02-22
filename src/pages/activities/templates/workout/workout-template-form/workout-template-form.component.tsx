@@ -29,10 +29,10 @@ import useTemplateWorkout from '../../../../../hooks/api/templates/workouts/useT
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../../layouts/mobile-page/mobile-page.component'
-import Exercise from '../../../components/workout-day-accordion/components/exercise/exercise.component'
-import ExerciseAccordion from '../../../components/workout-day-accordion/components/exercise-accordion/exercise-accordion.component'
-import Superset from '../../../components/workout-day-accordion/components/superset/superset.component'
-import SupersetAccordion from '../../../components/workout-day-accordion/components/superset-accordion/superset-accordion.component'
+import Exercise from '../../components/workout-day-accordion/exercise/exercise.component'
+import ExerciseAccordion from '../../components/workout-day-accordion/exercise-accordion/exercise-accordion.component'
+import Superset from '../../components/workout-day-accordion/superset/superset.component'
+import SupersetAccordion from '../../components/workout-day-accordion/superset-accordion/superset-accordion.component'
 import Styles, { WorkoutStyles } from './workout-template-form.styles'
 
 interface IProps {
@@ -80,13 +80,9 @@ const validationSchema = yup.object().shape({
   )
 })
 
-function createExercise(
-  exerciseNo: number,
-  isSuperset: boolean | number,
-  cardio: boolean
-) {
+function createExercise(isSuperset: boolean | number, cardio: boolean) {
   const ex = {
-    name: `${exerciseNo}${isSuperset ? 'A' : ''}--`,
+    name: '',
     link: '',
     info: {
       type: cardio ? 'cardio' : 'strength',
@@ -97,7 +93,7 @@ function createExercise(
       duration: '',
       intensity: ''
     },
-    sort_order: isSuperset && 1
+    ...(isSuperset ? { sort_order: 1 } : {})
   }
   return {
     is_superset: isSuperset && true,
@@ -211,7 +207,7 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
     isSuperset: boolean | number,
     cardio = false
   ) => {
-    exercisesArray.append(createExercise(exerciseNo, isSuperset, cardio))
+    exercisesArray.append(createExercise(isSuperset, cardio))
     methods.clearErrors(`items`)
   }
 
@@ -321,6 +317,7 @@ export default function WorkoutTemplateForm({ onClose }: IProps) {
                                   !!(exercisesArray.fields as any)[index - 1]
                                     ?.is_superset
                                 }
+                                labelIndex={index + 1}
                               />
                             )
                           }

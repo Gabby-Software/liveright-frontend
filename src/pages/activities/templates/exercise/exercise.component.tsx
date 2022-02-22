@@ -20,8 +20,8 @@ const labels = ['Sets', 'Reps', 'Tempo', 'Rest Interval', 'Video Link']
 const keys = ['sets', 'reps', 'tempo', 'rest_interval', 'video']
 const links = ['video']
 
-const cardio_labels = ['Duration', 'Intensity']
-const cardio_keys = ['duration', 'intensity']
+const cardio_labels = ['Duration', 'Intensity', 'Avg Heart Rate (bpm)']
+const cardio_keys = ['duration', 'intensity', 'avg_heart_rate']
 
 export default function Excercise() {
   const [edit, setEdit] = useState(false)

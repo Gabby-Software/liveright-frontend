@@ -5,8 +5,7 @@ import {
   Controller,
   FormProvider,
   useFieldArray,
-  useForm,
-  useWatch
+  useForm
 } from 'react-hook-form'
 import { useParams } from 'react-router'
 import * as yup from 'yup'
@@ -15,11 +14,8 @@ import { AddIcon, FoodIcon } from '../../../../../assets/media/icons'
 import Button from '../../../../../components/buttons/button/button.component'
 import GoBack from '../../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../../components/cards/card/card.component'
-import Checkbox from '../../../../../components/form/checkbox/checkbox.component'
-import DatePicker from '../../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../../components/form/error/error.component'
 import Input from '../../../../../components/form/input/input.component'
-import Label from '../../../../../components/form/label/label.component'
 import useTemplateDietPlan from '../../../../../hooks/api/templates/diet-plan/useTemplateDietPlan'
 import { useIsMobile } from '../../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../../layouts/mobile-page/components/header-link/header-link.component'
@@ -28,8 +24,8 @@ import {
   getItemFromLocalStorage,
   removeItemFromLocalStorage
 } from '../../../../../utils/localStorage'
-import MealDayAccordion from '../../../components/meal-day-accordion/meal-day-accordion.component'
 import { Styles } from '../../../styles/edit-plan.styles'
+import MealDayAccordion from '../../components/meal-day-accordion/meal-day-accordion.component'
 import MainStyles, {
   MealStyles
 } from '../../meal/template-meal-form/template-meal-form'
@@ -83,13 +79,6 @@ function createDay(dayIndex: number) {
   }
 }
 
-function updateDay(name: string, activities: Array<any>) {
-  return {
-    name,
-    activities
-  }
-}
-
 export default function EditDietPlan({ onClose, editDay }: EditDietPlanProps) {
   const [dayIndex, setDayIndex] = useState(0)
   const { clientId, id } = useParams<any>()
@@ -107,11 +96,6 @@ export default function EditDietPlan({ onClose, editDay }: EditDietPlanProps) {
     mode: 'onChange'
   })
 
-  const [scheduled_start_on] = useWatch({
-    control: methods.control,
-    name: ['scheduled_start_on', 'name']
-  })
-
   const daysArray = useFieldArray({
     control: methods.control,
     name: 'days'
@@ -126,29 +110,6 @@ export default function EditDietPlan({ onClose, editDay }: EditDietPlanProps) {
   const handleDayRemove = (index: number) => {
     setDelIdx(index)
   }
-
-  useEffect(() => {
-    const days = methods.getValues('days')
-    for (let i = 0; i < days.length; i++) {
-      if (days[i]?.activities) {
-        if (days[i].name) {
-          if (days[i].name.indexOf('Meals day ') < 0) {
-            daysArray.update(i, updateDay(days[i].name, days[i]?.activities))
-          } else {
-            daysArray.update(
-              i,
-              updateDay(`Meals day ${i + 1}`, days[i]?.activities)
-            )
-          }
-        } else {
-          daysArray.update(
-            i,
-            updateDay(`Meals day ${i + 1}`, days[i]?.activities)
-          )
-        }
-      }
-    }
-  }, [dayIndex])
 
   useEffect(() => {
     if (dietTemplate._id) {
@@ -238,7 +199,7 @@ export default function EditDietPlan({ onClose, editDay }: EditDietPlanProps) {
                 )}
               />
 
-              <Controller
+              {/* <Controller
                 name="scheduled_start_on"
                 render={({ field: { name, value } }) => (
                   <DatePicker
@@ -271,22 +232,7 @@ export default function EditDietPlan({ onClose, editDay }: EditDietPlanProps) {
                     }
                   />
                 )}
-              />
-
-              <Controller
-                render={({ field: { value, name } }) => (
-                  <div className="EditPlan__checkbox-container">
-                    <Checkbox
-                      checked={value}
-                      onChange={(e) => methods.setValue(name, e.target.checked)}
-                    />
-                    <Label className="EditPlan__checkbox">
-                      Save Diet Plan as template
-                    </Label>
-                  </div>
-                )}
-                name={`save_as_template`}
-              />
+              /> */}
             </div>
           </Card>
 
