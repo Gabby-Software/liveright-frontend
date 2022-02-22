@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { mediaQueries } from '../../../enums/screen-sizes.enum'
 import { getColorCarry } from '../../../pipes/theme-color.pipe'
 import { getHeight } from '../utils.styles'
 
@@ -41,5 +42,18 @@ export default styled.div<any>`
   & .ant-picker-clear {
     right: 3rem;
     opacity: 1;
+
+    @media ${mediaQueries.MOBILE} {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      top: 0;
+      right: 3rem;
+      right: -5px;
+      opacity: 1;
+      transform: none;
+      width: 35px;
+    }
   }
 `
