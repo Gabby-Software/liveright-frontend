@@ -49,8 +49,7 @@ export default styled.div<any>`
       justify-content: center;
       height: 100%;
       top: 0;
-      right: 3rem;
-      right: -5px;
+      right: calc(3rem - 5px);
       opacity: 1;
       transform: none;
       width: 35px;
