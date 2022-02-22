@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 
 import Tabs from '../../../components/tabs/tabs.component'
 import { Title } from '../../../components/typography'
-import userTypes from '../../../enums/user-types.enum'
-import { useAuth } from '../../../hooks/auth.hook'
 import { useIsMobile } from '../../../hooks/is-mobile.hook'
 import MobilePage from '../../../layouts/mobile-page/mobile-page.component'
 import TemplateLayout from '../components/layout/layout.component'
@@ -61,13 +59,11 @@ const tabs = [
 ]
 export default function Templates() {
   const [activeTab, setActiveTab] = useState('split')
-  const { type } = useAuth()
   const isMobile = useIsMobile()
 
   return isMobile ? (
     <MobilePage
       title="Templates"
-      headerSpacing={type === userTypes.TRAINER ? 14 : 0}
       headerNavChat
       headerComponent={
         <HeaderSubTitle>

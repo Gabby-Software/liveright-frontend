@@ -61,7 +61,6 @@ const TemplateMobilePage: React.FC<IProps> = ({
   return (
     <MobilePage
       title={pageTitle}
-      headerSpacing={16}
       actionComponent={actionComponent}
       headerNavChat
     >
