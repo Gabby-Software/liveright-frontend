@@ -1,6 +1,7 @@
 import { get } from 'lodash'
 import { useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { useParams } from 'react-router'
 
 import { FoodIcon } from '../../../../assets/media/icons'
 import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
@@ -8,7 +9,9 @@ import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 // import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import { FormToggleUI } from '../../../../components/forms/form-toggle/form-toggle.component'
+import userTypes from '../../../../enums/user-types.enum'
 import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getUniqueItemsByProperties } from '../../../../utils/arrays'
 import FoodDay from '../../components/meal-day-accordion/components/food-day/food-day.component'
@@ -40,6 +43,9 @@ export default function MealDayAccordion({
   defaultOpened
 }: MealDayAccordionProps) {
   const methods = useFormContext()
+  const { clientId } = useParams<any>()
+  const { type: userType } = useAuth()
+
   // const [dayTarget, setDayTarget] = useState(false)
   const [totalMacros, setTotalMacros] = useState({
     grams: 0,
@@ -56,6 +62,10 @@ export default function MealDayAccordion({
   const [dayName, isDayTarget] = useWatch({
     name: [`days.${index}.name`, `days.${index}.is_day_target`],
     control: methods.control
+  })
+
+  const { mealPlans } = useTemplateMealPlans({
+    clientId: userTypes.TRAINER === userType ? 'all' : clientId
   })
 
   const name = `days.${index}.activities`
@@ -99,24 +109,41 @@ export default function MealDayAccordion({
     calculateTotalMacros()
   })
 
-  const { mealPlans } = useTemplateMealPlans()
-
-  const mealPlansInDP = useWatch({
-    name: `days`,
+  const [mealPlansInDP, mealPlanName, fromTemplate] = useWatch({
+    name: [`days`, `days.${index}.name`, `days.${index}.fromTemplate`],
     control: methods.control
   })
 
-  const mealPlanName = useWatch({
-    control: methods.control,
-    name: `days.${index}.name`
-  })
+  const getMealPlansOfDP = () => {
+    return mealPlansInDP?.filter((w: any) => !w.fromTemplate)
+  }
 
   const onMealPlanNameSelect = (value: string) => {
-    console.log('onMealPlanNameSelect', value)
+    // find in templates
+    let mealPlan = mealPlans.find((w: any) => w._id === value)
+
+    if (!mealPlan) {
+      // else not found, check in current DP
+      const mealPlanOfDP = getMealPlansOfDP()
+      mealPlan = mealPlanOfDP.find((w: any) => w.name === value)
+    } else {
+      // found in template
+      methods.setValue(`days.${index}.fromTemplate`, true)
+      methods.setValue(`days.${index}._id`, mealPlan._id)
+    }
+
+    if (mealPlan) {
+      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`days.${index}.name`, mealPlan.name || '')
+      methods.setValue(`days.${index}.activities`, mealPlan.activities, {
+        shouldValidate: true
+      })
+    }
   }
 
   const mealPlanNameOptions = useMemo(() => {
-    const planOptions = mealPlansInDP
+    const mealPlanOfDP = getMealPlansOfDP()
+    const planOptions = mealPlanOfDP
       ?.filter(
         (w: any) =>
           w?.name?.toLowerCase()?.includes(mealPlanName?.toLowerCase()) &&
@@ -135,7 +162,7 @@ export default function MealDayAccordion({
       )
       .map((w: any) => ({
         label: w.name,
-        value: w.name
+        value: w._id
       }))
 
     const options = []
@@ -217,7 +244,9 @@ export default function MealDayAccordion({
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
               <Label className="MealDayAccordion__checkbox">
-                Save Meal Plan as template
+                {fromTemplate
+                  ? 'Update Diet Plan Template'
+                  : 'Save Diet Plan as template'}
               </Label>
             </div>
           )}

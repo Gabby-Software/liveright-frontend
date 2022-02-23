@@ -92,20 +92,20 @@ export default function Food({
   const multiplyMacros = (grams: any) => {
     methods.setValue(
       `${name}.info.proteins`,
-      getTwoDecimal(macros.proteins * grams || 0)
+      getTwoDecimal(macros.proteins * (grams / 100) || 0)
     )
     methods.setValue(`${name}.info.fat`, getTwoDecimal(macros.fat * grams || 0))
     methods.setValue(
       `${name}.info.net_carbs`,
-      getTwoDecimal(macros.net_carbs * grams || 0)
+      getTwoDecimal(macros.net_carbs * (grams / 100) || 0)
     )
     methods.setValue(
       `${name}.info.sugar`,
-      getTwoDecimal(macros.sugar * grams || 0)
+      getTwoDecimal(macros.sugar * (grams / 100) || 0)
     )
     methods.setValue(
       `${name}.info.fiber`,
-      getTwoDecimal(macros.fiber * grams || 0)
+      getTwoDecimal(macros.fiber * (grams / 100) || 0)
     )
   }
 
@@ -138,7 +138,14 @@ export default function Food({
     } else {
       // found in template
       setSelectedTemplate(food)
-      methods.setValue(`${name}.fromTemplate`, true)
+      methods.setValue(
+        `${name.substring(0, name.lastIndexOf('.'))}.fromTemplate`,
+        true
+      )
+      methods.setValue(
+        `${name.substring(0, name.lastIndexOf('.'))}._id`,
+        food._id
+      )
     }
 
     if (food) {
