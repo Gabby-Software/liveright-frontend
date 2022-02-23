@@ -1,7 +1,7 @@
 // import { yupResolver } from '@hookform/resolvers/yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Moment } from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   FormProvider,
@@ -17,16 +17,17 @@ import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
+import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
 import Error from '../../../../components/form/error/error.component'
-import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import { toast } from '../../../../components/toast/toast.component'
 import { Title } from '../../../../components/typography'
 import { Routes } from '../../../../enums/routes.enum'
 import userTypes from '../../../../enums/user-types.enum'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
+import useTemplateTrainingPlans from '../../../../hooks/api/templates/training-plans/useTemplateTrainingPlans'
 import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import useFormLock from '../../../../hooks/ui/useFormLock'
@@ -128,6 +129,10 @@ export default function AddTrainingPlan({
     revisionId
   })
 
+  const { trainingPlans: templateTPs } = useTemplateTrainingPlans({
+    clientId: userTypes.TRAINER === userType ? 'all' : clientId
+  })
+
   const methods = useForm<any>({
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -150,7 +155,10 @@ export default function AddTrainingPlan({
     name: 'activities'
   })
 
-  console.log({ errors })
+  const [name, scheduled_start_on, scheduled_end_on, fromTemplate] = useWatch({
+    control: methods.control,
+    name: ['name', 'scheduled_start_on', 'scheduled_end_on', 'fromTemplate']
+  })
 
   useEffect(() => {
     if (clientId) {
@@ -186,6 +194,35 @@ export default function AddTrainingPlan({
         redirectTo && history.push(redirectTo)
       })
     }
+  }
+
+  const tempTPOptions = useMemo(() => {
+    const options = templateTPs.map((ts) => ({
+      label: ts.name,
+      value: ts._id
+    }))
+
+    return options.length
+      ? [
+          {
+            label: 'From Templates',
+            options
+          }
+        ]
+      : []
+  }, [templateTPs])
+
+  const onTemplatePlanSelection = (value: string) => {
+    const tp = templateTPs.find((tp) => tp._id === value)
+    activitiesArray.remove(
+      Array(activitiesArray.fields.length)
+        .fill(1)
+        .reduce((acc, v, i) => [...acc, i], [])
+    )
+    activitiesArray.append(tp?.activities || {})
+    methods.setValue('name', tp.name)
+    methods.setValue('fromTemplate', true)
+    methods.setValue('_id', tp._id)
   }
 
   const handleSave = async () => {
@@ -255,10 +292,7 @@ export default function AddTrainingPlan({
     }
   }
 
-  const [name, scheduled_start_on, scheduled_end_on] = useWatch({
-    control: methods.control,
-    name: ['name', 'scheduled_start_on', 'scheduled_end_on']
-  })
+  console.log(methods.getValues())
 
   const content = (
     <>
@@ -303,13 +337,15 @@ export default function AddTrainingPlan({
               <Controller
                 name="name"
                 render={({ field: { value, name } }) => (
-                  <Input
+                  <AutoCompleteInput
                     id="add-training-plan-name"
                     label="Training Plan Name"
                     placeholder="Name"
                     className="EditPlan__input"
                     value={value}
-                    onChange={(e) => onChange(name, e.target.value)}
+                    onChange={(value) => onChange(name, value)}
+                    options={tempTPOptions}
+                    onSelect={onTemplatePlanSelection}
                     error={errors.name}
                   />
                 )}
@@ -363,7 +399,9 @@ export default function AddTrainingPlan({
                       onChange={(e) => methods.setValue(name, e.target.checked)}
                     />
                     <Label className="EditPlan__checkbox">
-                      Save Training Plan as template
+                      {fromTemplate
+                        ? 'Update Training Plan template'
+                        : 'Save Training Plan as template'}
                     </Label>
                   </div>
                 )}

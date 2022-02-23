@@ -13,8 +13,10 @@ import Label from '../../../../../../components/form/label/label.component'
 import Select from '../../../../../../components/form/select/select.component'
 // import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import TimeInput from '../../../../../../components/form/TimeInput/time-input.component'
+import userTypes from '../../../../../../enums/user-types.enum'
 import useTrainingPlanExercises from '../../../../../../hooks/api/activities/useTrainingPlanExercises'
 import useTemplateExercises from '../../../../../../hooks/api/templates/useTemplateExercises'
+import { useAuth } from '../../../../../../hooks/auth.hook'
 import formatter from '../../../../../../managers/formatter.manager'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import { WorkoutSubtitle } from '../workout/workout.styles'
@@ -29,7 +31,6 @@ interface ExerciseProps {
   onRemove: any
   prefix?: boolean
   fromSuperset?: boolean
-  fromTemplate?: boolean
   labelIndex?: number
   supersetPrefix?: string
 }
@@ -43,12 +44,13 @@ export default function Exercise({
   prefix,
   onRemove,
   fromSuperset,
-  fromTemplate = false,
   labelIndex,
   supersetPrefix = ''
 }: ExerciseProps) {
-  const methods = useFormContext()
   const params = useParams<any>()
+  const { type: userType } = useAuth()
+  const methods = useFormContext()
+
   const onChange = (name: string, value: string | boolean) => {
     methods.setValue(name, value, { shouldValidate: true })
   }
@@ -56,32 +58,48 @@ export default function Exercise({
   const { errors } = methods.formState
   const isCardio = methods.getValues(`${name}.info.type`) === 'cardio'
 
+  const [fromTemplate] = useWatch({
+    control: methods.control,
+    name: [`${name}.fromTemplate`]
+  })
+
   // Use these function when implementing exercise template suggestions
   const { exercises } = useTrainingPlanExercises({
     id: params.id,
     revisionId: params.revisionId
   })
 
-  const { exercises: exercisesTemplate } = useTemplateExercises()
+  const { exercises: exercisesTemplate } = useTemplateExercises({
+    clientId: userTypes.TRAINER === userType ? 'all' : params.clientId
+  })
 
   const onPreviousExerciseSelect = (value: string) => {
-    const exercise = exercises
-      .concat(exercisesTemplate)
-      .find((e: any) => e.name === value)
-    if (!exercise) {
-      return
+    // find in templates
+    let ex = exercisesTemplate.find((e: any) => e._id === value)
+
+    if (!ex) {
+      // else not found, check in current TP
+      ex = exercises.find((e: any) => e.name === value)
+    } else {
+      // found in template
+      methods.setValue(`${name}.fromTemplate`, true)
+      methods.setValue(
+        `${name.substring(0, name.lastIndexOf('.'))}._id`,
+        ex._id
+      )
     }
-    onChange(`${name}.info.sets`, exercise?.info?.sets)
-    onChange(`${name}.info.reps`, exercise?.info?.reps)
-    onChange(`${name}.info.tempo`, exercise?.info?.tempo)
-    onChange(`${name}.info.rest_interval`, exercise?.info?.rest_interval)
-    onChange(`${name}.info.duration`, exercise?.info?.duration)
-    onChange(`${name}.info.intensity`, exercise?.info?.intensity)
-    onChange(`${name}.info.avg_heart_rate`, exercise?.info?.avg_heart_rate)
-    onChange(
-      `${name}.link`,
-      exercise?.link ? exercise?.link : exercise?.info?.link
-    )
+
+    if (ex) {
+      onChange(`${name}.name`, ex?.name)
+      onChange(`${name}.info.sets`, ex?.info?.sets)
+      onChange(`${name}.info.reps`, ex?.info?.reps)
+      onChange(`${name}.info.tempo`, ex?.info?.tempo)
+      onChange(`${name}.info.rest_interval`, ex?.info?.rest_interval)
+      onChange(`${name}.info.duration`, ex?.info?.duration)
+      onChange(`${name}.info.intensity`, ex?.info?.intensity)
+      onChange(`${name}.info.avg_heart_rate`, ex?.info?.avg_heart_rate)
+      onChange(`${name}.link`, ex?.link ? ex?.link : ex?.info?.link)
+    }
   }
 
   // const renderExersiceAutoComplete = (name: string, value: string) => {
@@ -132,7 +150,7 @@ export default function Exercise({
       )
       .map((w: any) => ({
         label: w.name,
-        value: w.name
+        value: w._id
       }))
 
     const options = []
@@ -355,7 +373,7 @@ export default function Exercise({
         </IconButton>
       </div>
 
-      {!fromSuperset && !fromTemplate && (
+      {!fromSuperset && (
         <Controller
           render={({ field: { value, name } }) => (
             <div className="Exercise__checkbox-container">
@@ -364,7 +382,9 @@ export default function Exercise({
                 onChange={(e) => onChange(name, e.target.checked)}
               />
               <Label className="Exercise__checkbox">
-                Save Exercise as template
+                {fromTemplate
+                  ? 'Update Training Plan template'
+                  : 'Save Training Plan as template'}
               </Label>
             </div>
           )}

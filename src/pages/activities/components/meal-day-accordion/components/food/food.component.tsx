@@ -128,7 +128,6 @@ export default function Food({
 
   const onFoodSelected = (value: string) => {
     // find in templates
-    console.log(value)
     let food = foods.find((m: any) => m._id === value)
 
     if (!food) {
