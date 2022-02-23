@@ -21,7 +21,9 @@ import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { OptionType } from '../../../../types/option.type'
 import DayCard from '../day-card/day-card.component'
 import CardioEditDialog from '../edit-dialog/cardio/cardio-edit-dialog.component'
+import { DayTrainingSplitEditCardAddDialog } from './day-training-split-edit-card-add-dialog.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
+import {useIsMobile} from "../../../../hooks/is-mobile.hook";
 
 interface DayTrainingSplitCardProps {
   name: string
@@ -351,8 +353,11 @@ function ListItem({
   const [addNew, setAddNew] = useState(false)
   const [newName, setNewName] = useState('')
 
+  const isMobile = useIsMobile()
+
   const onChange = (value: string) => {
     if (value === 'add-new') {
+      console.log('add-new')
       setAddNew(true)
       return
     }
@@ -406,10 +411,17 @@ function ListItem({
           ))}
         {(type !== 'mealPlan' || !content[0]) && (
           <div className="DaySplitEditCard__control">
+            {addNew && isMobile ? <DayTrainingSplitEditCardAddDialog
+              newName={newName}
+              setNewName={setNewName}
+              onSave={onNewSave}
+              open={addNew}
+              setOpen={setAddNew}
+            /> : ''}
             <Controller
               name={name}
               render={({ field: { value } }) =>
-                addNew ? (
+                addNew && !isMobile ? (
                   <div className="DaySplitEditCard__control-newField">
                     <Input
                       className="DaySplitEditCard__control-input"
