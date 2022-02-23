@@ -17,13 +17,13 @@ import Button from '../../../../components/buttons/button/button.component'
 import IconButton from '../../../../components/buttons/icon-button/icon-button.component'
 import Input from '../../../../components/form/input/input.component'
 import { CustomSelect } from '../../../../components/form/select/select.component'
+import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { OptionType } from '../../../../types/option.type'
 import DayCard from '../day-card/day-card.component'
 import CardioEditDialog from '../edit-dialog/cardio/cardio-edit-dialog.component'
-import { DayTrainingSplitEditCardAddDialog } from './day-training-split-edit-card-add-dialog.component'
 import { ListItemStyles, Styles } from './day-training-split-edit-card.styles'
-import {useIsMobile} from "../../../../hooks/is-mobile.hook";
+import { DayTrainingSplitEditCardAddDialog } from './day-training-split-edit-card-add-dialog.component'
 
 interface DayTrainingSplitCardProps {
   name: string
@@ -411,13 +411,17 @@ function ListItem({
           ))}
         {(type !== 'mealPlan' || !content[0]) && (
           <div className="DaySplitEditCard__control">
-            {addNew && isMobile ? <DayTrainingSplitEditCardAddDialog
-              newName={newName}
-              setNewName={setNewName}
-              onSave={onNewSave}
-              open={addNew}
-              setOpen={setAddNew}
-            /> : ''}
+            {addNew && isMobile ? (
+              <DayTrainingSplitEditCardAddDialog
+                newName={newName}
+                setNewName={setNewName}
+                onSave={onNewSave}
+                open={addNew}
+                setOpen={setAddNew}
+              />
+            ) : (
+              ''
+            )}
             <Controller
               name={name}
               render={({ field: { value } }) =>
