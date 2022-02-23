@@ -20,8 +20,8 @@ import AutoCompleteInput from '../../../../../components/form/autoCompleteInput/
 import Error from '../../../../../components/form/error/error.component'
 import TimePicker from '../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../components/placeholders'
-import Exercise from '../../../components/workout-day-accordion/components/exercise/exercise.component'
-import Superset from '../../../components/workout-day-accordion/components/superset/superset.component'
+import Exercise from '../../components/workout-day-accordion/exercise/exercise.component'
+import Superset from '../../components/workout-day-accordion/superset/superset.component'
 import { Styles } from './workout.styles'
 
 interface WorkoutProps {
@@ -211,7 +211,6 @@ export default function Workout({ name, onRemove, index }: WorkoutProps) {
                                 !!(exercisesArray.fields as any)[index - 1]
                                   ?.is_superset
                               }
-                              fromTemplate={true}
                             />
                           )
                         }

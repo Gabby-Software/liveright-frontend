@@ -6,6 +6,7 @@ import {
   useFormContext,
   useWatch
 } from 'react-hook-form'
+import { useParams } from 'react-router'
 
 // import { useParams } from 'react-router'
 import { WorkoutIcon } from '../../../../assets/media/icons/activities'
@@ -14,8 +15,10 @@ import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 // import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import TimePicker from '../../../../components/form/time-picker/time-picker.component'
+import userTypes from '../../../../enums/user-types.enum'
 // import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
+import { useAuth } from '../../../../hooks/auth.hook'
 import { getColorCarry } from '../../../../pipes/theme-color.pipe'
 import { getUniqueItemsByProperties } from '../../../../utils/arrays'
 import DayAccordion from '../day-accordion/day-accordion.component'
@@ -34,7 +37,8 @@ export default function WorkoutDayAccordion({
   onRemove,
   defaultOpened
 }: WorkoutDayAccordionProps) {
-  // const { clientId, id, revisionId } = useParams<any>()
+  const { clientId } = useParams<any>()
+  const { type: userType } = useAuth()
   const methods = useFormContext()
 
   // const exercisesArray = useFieldArray({
@@ -47,8 +51,8 @@ export default function WorkoutDayAccordion({
   //   control: methods.control
   // })
 
-  const activities = useWatch({
-    name: `activities`,
+  const [activities, workout] = useWatch({
+    name: [`activities`, `activities.${index}`],
     control: methods.control
   })
 
@@ -58,7 +62,9 @@ export default function WorkoutDayAccordion({
   //   revisionId
   // })
 
-  const { workouts } = useTemplateWorkouts()
+  const { workouts } = useTemplateWorkouts({
+    clientId: userTypes.TRAINER === userType ? 'all' : clientId
+  })
 
   const { errors } = methods.formState
 
@@ -73,12 +79,37 @@ export default function WorkoutDayAccordion({
   //   methods.setValue(name, value, { shouldValidate: true })
   // }
 
+  const getWorkoutsOfPlan = () => {
+    return activities?.filter((w: any) => !w.fromTemplate) || []
+  }
+
   const onWorkoutNameSelected = (value: string) => {
-    console.log('onWorkoutNameSelected', value)
+    // find in templates
+    let workout = workouts.find((w: any) => w._id === value)
+
+    if (!workout) {
+      // else not found, check in current DP
+      const workoutsOfPlan = getWorkoutsOfPlan()
+      workout = workoutsOfPlan.find((w: any) => w.name === value)
+    } else {
+      // found in template
+      methods.setValue(`activities.${index}.fromTemplate`, true)
+      methods.setValue(`activities.${index}._id`, workout._id)
+    }
+
+    if (workout) {
+      // if you just try to set workout as a whole, exercise fields i.e. exerciseArray would not update.
+      methods.setValue(`activities.${index}.name`, workout.name || '')
+      methods.setValue(`activities.${index}.time`, workout.time || '')
+      methods.setValue(`activities.${index}.items`, workout.items, {
+        shouldValidate: true
+      })
+    }
   }
 
   const nameOptions = useMemo(() => {
-    const planOptions = activities
+    const workoutsOfPlan = getWorkoutsOfPlan()
+    const planOptions = workoutsOfPlan
       ?.filter(
         (w: any) =>
           w?.name?.toLowerCase()?.includes(workoutName?.toLowerCase()) &&
@@ -95,7 +126,7 @@ export default function WorkoutDayAccordion({
       )
       .map((w: any) => ({
         label: w.name,
-        value: w.name
+        value: w._id
       }))
 
     const options = []
@@ -115,7 +146,7 @@ export default function WorkoutDayAccordion({
     }
 
     return options.length ? options : []
-  }, [activities, workoutName])
+  }, [activities.length, workoutName])
 
   return (
     <DayAccordion
@@ -178,7 +209,9 @@ export default function WorkoutDayAccordion({
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
               <Label className="WorkoutDayAccordion__checkbox">
-                Save Workout as template
+                {workout.fromTemplate
+                  ? 'Update Training Plan template'
+                  : 'Save Training Plan as template'}
               </Label>
             </div>
           )}
