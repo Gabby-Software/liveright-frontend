@@ -15,9 +15,9 @@ import { AddIcon } from '../../../../assets/media/icons'
 import Button from '../../../../components/buttons/button/button.component'
 import GoBack from '../../../../components/buttons/go-back/go-back.component'
 import Card from '../../../../components/cards/card/card.component'
+import AutoCompleteInput from '../../../../components/form/autoCompleteInput/autoCompleteInput.component'
 import Checkbox from '../../../../components/form/checkbox/checkbox.component'
 import DatePicker from '../../../../components/form/date-picker/date-picker.component'
-import Input from '../../../../components/form/input/input.component'
 import Label from '../../../../components/form/label/label.component'
 import Select from '../../../../components/form/select/select.component'
 import { toast } from '../../../../components/toast/toast.component'
@@ -29,6 +29,7 @@ import useDietPlans from '../../../../hooks/api/activities/useDietPlans'
 import useTrainingPlan from '../../../../hooks/api/activities/useTrainingPlan'
 import useTrainingPlans from '../../../../hooks/api/activities/useTrainingPlans'
 import useTrainingSplit from '../../../../hooks/api/activities/useTrainingSplit'
+import useTemplateTrainingSplits from '../../../../hooks/api/templates/training-splits/useTemplateTrainingSplits'
 import useTemplateExercises from '../../../../hooks/api/templates/useTemplateExercises'
 import useTemplateMealPlans from '../../../../hooks/api/templates/useTemplateMealPlans'
 import useTemplateWorkouts from '../../../../hooks/api/templates/workouts/useTemplateWorkouts'
@@ -150,16 +151,25 @@ export default function EditTrainingSplit() {
     revisionId: params.revisionId
   })
 
-  const { workouts: templateWorkouts } = useTemplateWorkouts({ clientId })
-  const { mealPlans: templateMealPlans } = useTemplateMealPlans({ clientId })
+  const templateClientId = userTypes.TRAINER === userType ? 'all' : clientId
+
+  const { trainingSplits: templateSplits } = useTemplateTrainingSplits({
+    clientId: templateClientId
+  })
+  const { workouts: templateWorkouts } = useTemplateWorkouts({
+    clientId: templateClientId
+  })
+  const { mealPlans: templateMealPlans } = useTemplateMealPlans({
+    clientId: templateClientId
+  })
   const { exercises: templateCardios } = useTemplateExercises({
-    clientId,
+    clientId: templateClientId,
     type: 'cardio'
   })
 
-  const [scheduled_start_on, scheduled_end_on, name] = useWatch({
+  const [scheduled_start_on, scheduled_end_on, name, fromTemplate] = useWatch({
     control: methods.control,
-    name: ['scheduled_start_on', 'scheduled_end_on', 'name']
+    name: ['scheduled_start_on', 'scheduled_end_on', 'name', 'fromTemplate']
   })
 
   const { onUnlock } = useFormLock(
@@ -213,6 +223,77 @@ export default function EditTrainingSplit() {
       methods.setValue('name', trainingSplit.name)
     }
   }, [revision._id, trainingSplit._id])
+
+  const tpOptions = useMemo(() => {
+    const options = trainingPlans.map((tp) => ({
+      label: tp.name,
+      value: tp._id
+    }))
+    options.unshift({ label: 'No Select', value: '' })
+    return options
+  }, [trainingPlans])
+
+  const dpOptions = useMemo(() => {
+    const options = dietPlans.map((dp) => ({
+      label: dp.name,
+      value: dp._id
+    }))
+    options.unshift({ label: 'No Select', value: '' })
+    return options
+  }, [dietPlans])
+
+  const tpWorkout = useMemo(() => {
+    return [
+      ...(tpRev.activities || []),
+      ...templateWorkouts.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((w) => !!w)
+  }, [tpRev._id, templateWorkouts])
+
+  const dpMeals = useMemo(() => {
+    return [
+      ...(dpRev.days || []),
+      ...templateMealPlans.map((tw) => ({ ...tw, fromTemplate: true }))
+    ].filter((m) => !!m)
+  }, [dpRev._id, templateMealPlans])
+
+  const cardios = useMemo(() => {
+    return [
+      ...templateCardios.map((tw) => ({
+        ...tw,
+        fromTemplate: true,
+        data: tw
+      }))
+    ].filter((m) => !!m)
+  }, [templateCardios])
+
+  const tempSplitOptions = useMemo(() => {
+    const options = templateSplits.map((ts) => ({
+      label: ts.name,
+      value: ts._id
+    }))
+
+    return options.length
+      ? [
+          {
+            label: 'From Templates',
+            options
+          }
+        ]
+      : []
+  }, [templateSplits])
+
+  const onTemplateSplitSelection = (value: string) => {
+    const ts = templateSplits.find((ts) => ts._id === value)
+    daysArray.remove(
+      Array(daysArray.fields.length)
+        .fill(1)
+        .reduce((acc, v, i) => [...acc, i], [])
+    )
+    daysArray.append(ts?.days || {})
+    methods.setValue('name', ts.name)
+    methods.setValue('fromTemplate', true)
+    methods.setValue('_id', ts._id)
+  }
 
   const handleSubmit = (values: any) => {
     // unlocking the form before saving.
@@ -313,38 +394,6 @@ export default function EditTrainingSplit() {
     methods.setValue('diet_plan_revision_id', revId)
   }
 
-  const tpOptions = useMemo(() => {
-    const options = trainingPlans.map((tp) => ({
-      label: tp.name,
-      value: tp._id
-    }))
-    options.unshift({ label: 'No Select', value: '' })
-    return options
-  }, [trainingPlans])
-
-  const dpOptions = useMemo(() => {
-    const options = dietPlans.map((dp) => ({
-      label: dp.name,
-      value: dp._id
-    }))
-    options.unshift({ label: 'No Select', value: '' })
-    return options
-  }, [dietPlans])
-
-  const tpWorkout = useMemo(() => {
-    return [
-      ...(tpRev.activities || []),
-      ...templateWorkouts.map((tw) => ({ ...tw, fromTemplate: true }))
-    ].filter((w) => !!w)
-  }, [tpRev._id, templateWorkouts])
-
-  const dpMeals = useMemo(() => {
-    return [
-      ...(dpRev.days || []),
-      ...templateMealPlans.map((tw) => ({ ...tw, fromTemplate: true }))
-    ].filter((m) => !!m)
-  }, [dpRev._id, templateMealPlans])
-
   const onClose = () => {
     const address = !revision._id
       ? getRoute(Routes.ACTIVITIES_TS, { clientId: clientId })
@@ -363,15 +412,6 @@ export default function EditTrainingSplit() {
       onClose()
     }
   }
-  const cardios = useMemo(() => {
-    return [
-      ...templateCardios.map((tw) => ({
-        ...tw,
-        fromTemplate: true,
-        data: tw
-      }))
-    ].filter((m) => !!m)
-  }, [templateCardios])
 
   const content = (
     <>
@@ -440,12 +480,14 @@ export default function EditTrainingSplit() {
               <Controller
                 name="name"
                 render={({ field: { value, name } }) => (
-                  <Input
+                  <AutoCompleteInput
                     id="add-split-name"
                     label="Name your training split"
                     placeholder="Training Split Created 2021"
                     value={value}
-                    onChange={(e) => onChange(name, e.target.value)}
+                    onChange={(value) => onChange(name, value)}
+                    options={tempSplitOptions}
+                    onSelect={onTemplateSplitSelection}
                     error={errors.name}
                   />
                 )}
@@ -515,7 +557,9 @@ export default function EditTrainingSplit() {
                       onChange={(e) => methods.setValue(name, e.target.checked)}
                     />
                     <Label className="AddTrainingSplit__cards-checkbox-label">
-                      Save Training Split as template
+                      {fromTemplate
+                        ? 'Update Training Split Template'
+                        : 'Save Training Split as template'}
                     </Label>
                   </div>
                 )}
