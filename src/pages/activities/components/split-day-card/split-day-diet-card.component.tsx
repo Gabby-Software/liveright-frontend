@@ -40,7 +40,7 @@ export default function SplitDayDietCard(props: IProps) {
   return (
     <SplitDayCard
       scheduleTime={scheduleTime}
-      title={data.name}
+      title={data?.name}
       color={getColorCarry('primary_v2')}
       icon={<FoodIcon />}
       actionComponent={actionComponent}
@@ -60,7 +60,7 @@ export default function SplitDayDietCard(props: IProps) {
               ))}
             </div>
           )} */}
-          {data.activities?.map((a: any, i: number) => (
+          {data?.activities?.map((a: any, i: number) => (
             <SplitDayMealCard key={i} data={a} onShow={() => {}} />
           ))}
         </div>
