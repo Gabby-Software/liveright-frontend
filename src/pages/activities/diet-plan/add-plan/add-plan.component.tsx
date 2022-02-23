@@ -32,7 +32,6 @@ import { useAuth } from '../../../../hooks/auth.hook'
 import { useIsMobile } from '../../../../hooks/is-mobile.hook'
 import HeaderLink from '../../../../layouts/mobile-page/components/header-link/header-link.component'
 import MobilePage from '../../../../layouts/mobile-page/mobile-page.component'
-import { getUniqueItemsByProperties } from '../../../../utils/arrays'
 import {
   getItemFromLocalStorage,
   removeItemFromLocalStorage
@@ -144,6 +143,10 @@ export default function AddDietPlan({
     revisionId
   })
 
+  const { dietTemplates } = useTemplateDietPlans({
+    clientId: userTypes.TRAINER === userType ? 'all' : clientId
+  })
+
   const methods = useForm<any>({
     defaultValues,
     resolver: yupResolver(validationSchema),
@@ -151,9 +154,9 @@ export default function AddDietPlan({
     mode: 'onChange'
   })
 
-  const [name, scheduled_start_on, scheduled_end_on] = useWatch({
+  const [name, scheduled_start_on, scheduled_end_on, fromTemplate] = useWatch({
     control: methods.control,
-    name: ['name', 'scheduled_start_on', 'scheduled_end_on']
+    name: ['name', 'scheduled_start_on', 'scheduled_end_on', 'fromTemplate']
   })
 
   const daysArray = useFieldArray({
@@ -304,40 +307,34 @@ export default function AddDietPlan({
 
   const { errors } = methods.formState
 
-  const { dietTemplates } = useTemplateDietPlans()
-
-  const dietPlanName = useWatch({
-    control: methods.control,
-    name: 'name'
-  })
-
   const onDietPlanNameSelect = (value: string) => {
-    console.log('onDietPlanNameSelect', value)
+    const dp = dietTemplates.find((tp) => tp._id === value)
+    daysArray.remove(
+      Array(daysArray.fields.length)
+        .fill(1)
+        .reduce((acc, v, i) => [...acc, i], [])
+    )
+    daysArray.append(dp?.days || {})
+    methods.setValue('name', dp.name)
+    methods.setValue('fromTemplate', true)
+    methods.setValue('_id', dp._id)
   }
 
   const nameOptions = useMemo(() => {
-    const templateOptions = dietTemplates
-      ?.filter(
-        (w: any) =>
-          w?.name?.toLowerCase()?.includes(dietPlanName?.toLowerCase()) &&
-          w?.name !== dietPlanName
-      )
-      .map((w: any) => ({
-        label: w.name,
-        value: w.name
-      }))
+    const options = dietTemplates.map((ts) => ({
+      label: ts.name,
+      value: ts._id
+    }))
 
-    const options = []
-
-    if (templateOptions.length) {
-      options.push({
-        label: 'From Templates',
-        options: getUniqueItemsByProperties(templateOptions, ['label'])
-      })
-    }
-
-    return options.length ? options : []
-  }, [dietTemplates, dietPlanName])
+    return options.length
+      ? [
+          {
+            label: 'From Templates',
+            options
+          }
+        ]
+      : []
+  }, [dietTemplates])
 
   const content = (
     <>
@@ -455,7 +452,9 @@ export default function AddDietPlan({
                       onChange={(e) => methods.setValue(name, e.target.checked)}
                     />
                     <Label className="EditPlan__checkbox">
-                      Save Diet Plan as template
+                      {fromTemplate
+                        ? 'Update Diet Plan Template'
+                        : 'Save Diet Plan as template'}
                     </Label>
                   </div>
                 )}

@@ -7,6 +7,7 @@ import {
   useFormContext,
   useWatch
 } from 'react-hook-form'
+import { useParams } from 'react-router'
 
 import {
   AddIcon,
@@ -19,7 +20,9 @@ import Label from '../../../../../../components/form/label/label.component'
 import TimePicker from '../../../../../../components/form/time-picker/time-picker.component'
 import { EmptyPlaceholder } from '../../../../../../components/placeholders'
 import Macronutrient from '../../../../../../components/quick-access/components/quick-access-macronutrient/quick-access-macronutrient.component'
+import userTypes from '../../../../../../enums/user-types.enum'
 import useTemplateMeals from '../../../../../../hooks/api/templates/meals/useTemplateMeals'
+import { useAuth } from '../../../../../../hooks/auth.hook'
 import { getUniqueItemsByProperties } from '../../../../../../utils/arrays'
 import Food from '../food/food.component'
 import { MealSubtitle, Styles } from './meal.styles'
@@ -87,22 +90,22 @@ export default function Meal({
 
   const methods = useFormContext()
 
+  const { clientId } = useParams<any>()
+  const { type: userType } = useAuth()
+
   const foodsArray = useFieldArray({
     control: methods.control,
     name: `${name}.items`
   })
 
-  const [mealName] = useWatch({
+  const [days, mealName, fromTemplate] = useWatch({
     control: methods.control,
-    name: [`${name}.name`]
+    name: [`days`, `${name}.name`, `${name}.fromTemplate`]
   })
 
-  const days = useWatch({
-    name: `days`,
-    control: methods.control
+  const { meals: mealTemplates } = useTemplateMeals({
+    clientId: userTypes.TRAINER === userType ? 'all' : clientId
   })
-
-  const { meals } = useTemplateMeals()
 
   const { errors } = methods.formState
 
@@ -147,20 +150,30 @@ export default function Meal({
     calculateTotalMacros()
   })
 
+  const getMealOfPlan = () => {
+    const mealsOfPlan = days?.reduce(
+      (acc: any[], d: any) => [
+        ...acc,
+        ...(d.activities || d.diet_plan_day.activities || [])
+      ],
+      []
+    )
+
+    return mealsOfPlan.filter((m: any) => !m.fromTemplate)
+  }
+
   const onMealSelected = (value: string) => {
     // find in templates
-    let meal = meals.find((m: any) => m.name === value)
+    let meal = mealTemplates.find((m: any) => m._id === value)
 
     if (!meal) {
       // else not found, check in current DP
-      const mealsOfPlan = days?.reduce(
-        (acc: any[], d: any) => [
-          ...acc,
-          ...(d.activities || d.diet_plan_day.activities || [])
-        ],
-        []
-      )
+      const mealsOfPlan = getMealOfPlan()
       meal = mealsOfPlan.find((m: any) => m.name === value)
+    } else {
+      // found in template
+      methods.setValue(`${name}.fromTemplate`, true)
+      methods.setValue(`${name}._id`, meal._id)
     }
 
     if (meal) {
@@ -177,13 +190,7 @@ export default function Meal({
   }
 
   const nameOptions = useMemo(() => {
-    const mealsOfPlan = days?.reduce(
-      (acc: any[], d: any) => [
-        ...acc,
-        ...(d.activities || d.diet_plan_day.activities || [])
-      ],
-      []
-    )
+    const mealsOfPlan = getMealOfPlan()
     const planOptions = mealsOfPlan
       ?.filter(
         (w: any) =>
@@ -195,7 +202,7 @@ export default function Meal({
         value: m.name
       }))
 
-    const templateOptions = meals
+    const templateOptions = mealTemplates
       ?.filter(
         (w: any) =>
           w?.name?.toLowerCase()?.includes(mealName?.toLowerCase()) &&
@@ -203,7 +210,7 @@ export default function Meal({
       )
       ?.map((w: any) => ({
         label: w.name,
-        value: w.name
+        value: w._id
       }))
 
     const options = []
@@ -298,7 +305,11 @@ export default function Meal({
                 checked={value}
                 onChange={(e) => methods.setValue(name, e.target.checked)}
               />
-              <Label className="Meal__checkbox">Save Meal as template</Label>
+              <Label className="Meal__checkbox">
+                {fromTemplate
+                  ? 'Update Diet Plan Template'
+                  : 'Save Diet Plan as template'}
+              </Label>
             </div>
           )}
           name={`${name}.save_as_template`}
