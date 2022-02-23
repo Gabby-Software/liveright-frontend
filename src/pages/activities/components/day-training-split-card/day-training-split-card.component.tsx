@@ -26,7 +26,6 @@ export default function DayTrainingSplitCard(
   const { data, onWorkout, onMealPlan, onCardio, day, subtitle } = props
 
   const onWorkoutClicked = (content: string) => {
-    console.log('data', data.training_plan_activities)
     if (onWorkout && data.training_plan_activities.length) {
       onWorkout(
         data.training_plan_activities.find((w: any) => w.name === content)
@@ -52,10 +51,10 @@ export default function DayTrainingSplitCard(
           <ListItem
             color={getColorCarry('primary_v2')}
             title="Meal Plan Day"
-            content={[data.diet_plan_day.name]}
+            content={[data?.diet_plan_day?.name]}
             icon={<FoodIcon />}
             onClick={
-              onMealPlan && data.diet_plan_day.name
+              onMealPlan && data?.diet_plan_day?.name
                 ? () => onMealPlan(data.diet_plan_day)
                 : undefined
             }
